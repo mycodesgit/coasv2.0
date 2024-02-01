@@ -1,0 +1,57 @@
+<div class="modal fade" id="modal-setconf">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus"></i> Add New
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+               <form class="form-horizontal" action="{{ route('setconfCreate') }}" method="post" id="adSetConf">  
+                    @csrf
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">School Year:</span></label>
+                                <select class="form-control form-control-sm" id="schlyear" name="syear"></select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Semester:</span></label>
+                                <select class="form-control  form-control-sm" name="semester">
+                                    <option disabled selected>---Select---</option>
+                                    <option value="1">First Semester</option>
+                                    <option value="2">Second Semester</option>
+                                    <option value="3">Summer</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>   
+                </form>
+            </div>
+            
+            <div class="modal-footer justify-content-between">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+@php
+    $curr_route = request()->route()->getName();
+
+    $searchStudActive = in_array($curr_route, ['searchStud', 'searchStudEnroll']) ? 'active' : '';
+    $gradeStudActive = in_array($curr_route, ['studgrade_search', 'studgrade_searchlist', 'geneStudent1']) ? 'active' : '';
+    $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
+
+    
+
+@endphp
+
+<div class="ml-2 mr-2 mt-3 mb-3">
+    <ul class="list-group">
+        <a href="{{ route('searchStud') }}" class="list-group-item {{ $searchStudActive }}">Enroll Student</a>  
+        <a href="" class="list-group-item">Edit Enrollment</a>
+        <a href="" class="list-group-item">Enrollment History</a>
+        <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
+        <a href="" class="list-group-item">Subjects</a>
+    </ul>
+</div>
+
+
+<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
+    <h5>Reports</h5>
+</div>
+<div class="ml-2 mr-2 mt-3 mb-3">
+    <ul class="list-group">
+        <a href="" class="list-group-item">Confirmed / Unconfirm</a>
+        <a href="{{ route('studInfo') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
+        <a href="" class="list-group-item">Students Report Card</a>
+        <a href="" class="list-group-item">Students Per Curriculum</a>
+        <a href="" class="list-group-item">Number of Enrollees</a>
+        <a href="" class="list-group-item">Transcript</a>
+    </ul>
+</div>
