@@ -80,9 +80,9 @@
                                     {{ "Start Time: " . $startTime->format('g:i A') }}
                                     {{ "End Time: " . $endTime->format('g:i A') }} --}}
 
-                                    @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+                                    {{-- @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
                                         <img src="{{ asset('template/img/limit-has-been-reached.jpg') }}" width="100%" class="img-responsive">
-                                    @else
+                                    @else --}}
 
                                     <div>
                                         <form method="post" action="{{ route('post_admission_apply') }}" enctype="multipart/form-data" id="admissionApply">
@@ -96,23 +96,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-2">
                                                         <label><span class="badge badge-secondary">Admission No.</span></label>
-                                                        {{-- @php
-                                                            $currentYear = now()->year;
-                                                            $latestApplicant = App\Models\AdmissionDB\Applicant::latest('created_at')->first();
-
-                                                            if (empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $currentYear) {
-                                                                $latestId = 0; 
-                                                            } else {
-                                                                $latestId = substr($latestApplicant->admission_id, -4);
-                                                            }
-
-                                                            $newId = $latestId + 1;
-                                                            $paddedValue = str_pad($newId, 4, '0', STR_PAD_LEFT);
-                                                        @endphp --}}
-
                                                         <input type="text" class="form-control form-control-sm" name="" placeholder="Auto-generated" readonly>
-
-
                                                     </div>
 
                                                     <div class="col-md-2">
@@ -356,19 +340,8 @@
 
                                                     <div class="col-md-6">
                                                         <div class="">
-                                                            <div class="container" onclick="uploadFile()">
-                                                                <div class="upload-container">
-                                                                    <div class="border-container">
-                                                                        <div class="icons fa-4x">
-                                                                            <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
-                                                                        </div>
-                                                                        <p align="center">Drag and drop files here, or
-                                                                            browse your computer.
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <input type="file" name="doc_image" id="fileInput" style="display: none;" accept="image/*" onchange="handleFileUpload()">
+                                                            <label><span class="badge badge-secondary">Upload</span></label>
+                                                            <input type="file" name="doc_image" class="form-control form-control-sm" id="fileInput" accept="image/*" onchange="handleFileUpload()">
                                                         </div>
                                                         <div class="uploaded" id="uploadedFile" style="display: none;">
                                                             <i class="far fa-file-image"></i>
@@ -406,7 +379,7 @@
                                         </form>
                                     </div>
 
-                                    @endif
+                                    {{-- @endif --}}
                                     
                                 </div>
                             </div>
@@ -451,11 +424,11 @@
         }
     </script>
 
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         setTimeout(function () {
             $("#alert").delay(4500).fadeOut(5000);
         }, 0); 
-    </script>
+    </script> --}}
 
     <script>
         function uploadFile() {

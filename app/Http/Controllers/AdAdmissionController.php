@@ -228,11 +228,16 @@ class AdAdmissionController extends Controller
                 ->get();
 
         $docs = ApplicantDocs::where('admission_id', '=', $applicant->admission_id)->get();
-        foreach ($docs as $doc) {
-            if ($doc->doc_image) {
+        if ($doc->doc_image) {
                 $imagePath = public_path('storage/' . $doc->doc_image);
-                $size = File::size($imagePath);
-                $doc->formattedSize = $this->formatSizeUnits($size);
+        
+                if (file_exists($imagePath)) {
+                    $size = File::size($imagePath);
+                    $doc->formattedSize = $this->formatSizeUnits($size);
+                } else {
+                    // Display "No file" if the file is not found
+                    $doc->formattedSize = "No file";
+                }
             }
         }
         return view('admission.applicant.edit')

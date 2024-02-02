@@ -311,7 +311,7 @@ COAS - V1.0 || Applicant Edit
                                             <div class="mailbox-attachment-info">
                                                 <div class="mailbox-attachment-name"><i class="fas fa-image"></i> {{ basename($doc->doc_image) }}</div>
                                                 <span class="mailbox-attachment-size clearfix mt-1">
-                                                    <span>{{ $doc->formattedSize }}</span>
+                                                    <span></span>
                                                     <a href="{{ asset('storage/' . $doc->doc_image) }}" data-lightbox="photos" class="btn btn-default btn-sm float-right"><i class="fas fa-eye"></i></a>
                                                 </span>
                                             </div>

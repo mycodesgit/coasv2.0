@@ -41,7 +41,6 @@ class PortalController extends Controller
     public function post_admission_apply(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            // 'admissionid' => 'required|unique:ad_applicant_admission,admission_id|numeric',
             'type' => 'required',
             'campus' => 'required',
             'lastname' => 'required|max:191',
@@ -63,24 +62,28 @@ class PortalController extends Controller
             if ($todayRegistrations >= 500) {
                 return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Daily registration limit reached!');
             }
+            
+            $campus = $request->input('campus');
+            $year = Carbon::now()->format('Y');
+            $admissionid = '';
 
-            do {
-                $currentYear = now()->year;
-                $latestApplicant = Applicant::latest('created_at')->first();
+            $latestApplicant = Applicant::where('campus', $campus)->latest('created_at')->first();
 
-                if (empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $currentYear) {
-                    $latestId = 0; 
-                } else {
-                    $latestId = substr($latestApplicant->admission_id, -4);
-                }
+            if (empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $year) {
+                $latestId = 0;
+            } else {
+                $latestId = (int)substr($latestApplicant->admission_id, -4);
+            }
 
-                $newId = $latestId + 1;
-                $paddedValue = str_pad($newId, 4, '0', STR_PAD_LEFT);
-                $admissionid = $currentYear.$paddedValue;
+            $newId = $latestId + 1;
+            $paddedValue = str_pad($newId, 4, '0', STR_PAD_LEFT);
+            $admissionid = $year . $paddedValue;
 
-                $existingAdID = Applicant::where('admission_id', $admissionid)->first();
-    
-            } while ($existingAdID);
+            $existingAdID = Applicant::where('admission_id', $admissionid)->where('campus', $campus)->first();
+
+            if ($existingAdID) {
+                return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Admission ID already exists for this campus!');
+            }
 
             $existingApplicant = Applicant::where('admission_id', $request->input('admissionid'))
                 ->orWhere(function ($query) use ($request) {
@@ -141,7 +144,7 @@ class PortalController extends Controller
                 $docs->created_at = $dt;
                 if ($request->hasFile('doc_image')) {
                     $file = $request->file('doc_image');
-                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
                     $path = $file->storeAs('doc_images', $filename, 'public');
                     $docs->doc_image = $path;
                 }
