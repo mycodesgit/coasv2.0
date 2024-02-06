@@ -12,7 +12,14 @@ class ExamineeResult extends Model
     protected $table = 'ad_examinee_result';
 
     protected $fillable = [
-        'row_score', 'percentile', 'rating', 'interviewed_by','approval',
+        'app_id',
+        'camp',
+        'admission_id',
+        'row_score', 
+        'percentile', 
+        'rating', '
+        interviewed_by',
+        'approval',
     ];
 
     public function user()

@@ -51,7 +51,7 @@ COAS - V1.0 || Applicant List
                                             @elseif(Auth::user()->campus == 'HinC') Hinobaan 
                                         @endif
                                     </option>
-                                    @if (Auth::user()->isAdmin == 0)
+                                    @if (Auth::user()->isAdmin == 0 || Auth::user()->isAdmin == 1)
                                         <option value="MC">Main</option>
                                         <option value="VC">Victorias</option>
                                         <option value="SCC">San Carlos</option>
@@ -100,7 +100,7 @@ COAS - V1.0 || Applicant List
         </div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="" class="table table-hover">
                     <thead>
                         <tr>
                             <th>#</th>

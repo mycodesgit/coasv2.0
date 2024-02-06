@@ -71,12 +71,15 @@
                                             {{ csrf_field() }}
                                             <div class="form-group">
                                                 <div class="form-row">
-                                                    <div class="col-md-8">
-                                                        <input type="text" name="admission_id" placeholder="Enter Applicant ID" class="form-control">
+                                                    <div class="col-md-5">
+                                                        <input type="text" name="lname" placeholder="Enter Last Name" class="form-control">
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input type="text" name="fname" placeholder="Enter First Name" class="form-control">
                                                     </div>
 
-                                                    <div class="col-md-4">
-                                                        <button type="submit" class="btn btn-primary">
+                                                    <div class="col-md-2">
+                                                        <button type="submit" class="btn btn-primary form-control form-control-md">
                                                             Search
                                                         </button>
                                                     </div>

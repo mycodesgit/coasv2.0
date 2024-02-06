@@ -70,12 +70,15 @@
                                         <form class="mt-2" style="margin-bottom: -8px;">
                                             <div class="form-group">
                                                 <div class="form-row">
-                                                    <div class="col-md-8">
-                                                        <input type="text" name="admission_id" placeholder="Enter Applicant ID" class="form-control">
+                                                    <div class="col-md-5">
+                                                        <input type="text" name="lname" placeholder="Enter Last Name" class="form-control">
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input type="text" name="fname" placeholder="Enter First Name" class="form-control">
                                                     </div>
 
-                                                    <div class="col-md-4">
-                                                        <button type="submit" name="btn-submit" class="btn btn-primary">
+                                                    <div class="col-md-2">
+                                                        <button type="submit" class="btn btn-primary form-control form-control-md">
                                                             Search
                                                         </button>
                                                     </div>
@@ -96,7 +99,19 @@
                                                             @foreach ($data as $applicant)
                                                                 <h4>Admission ID: {{ $applicant->admission_id }}<span id="p1"></span></h4>
                                                                 <h6><b>Name:</b> {{ $applicant->fname }} {{ substr($applicant->mname,0,1) }}. {{ $applicant->lname }}</h6>
-                                                                <h6><b>Preferred Campus:</b> @if ($applicant->campus == 'MC') Main @elseif($applicant->campus == 'SCC') San Carlos @elseif($applicant->campus == 'VC') Victorias @elseif($applicant->campus == 'HC') Hinigaran @elseif($applicant->campus == 'MP') Moises Padilla @elseif($applicant->campus == 'HinC') Hinobaan @elseif($applicant->campus == 'SC') Sipalay @elseif($applicant->campus == 'IC') Ilog @elseif($applicant->campus == 'CC') Cauayan @endif</h6>
+                                                                <h6><b>Preferred Campus:</b> 
+                                                                    @if ($applicant->campus == 'MC') Main 
+                                                                    @elseif($applicant->campus == 'VC') Victorias 
+                                                                    @elseif($applicant->campus == 'SCC') San Carlos 
+                                                                    @elseif($applicant->campus == 'MP') Moises Padilla 
+                                                                    @elseif($applicant->campus == 'HC') Hinigaran 
+                                                                    @elseif($applicant->campus == 'IC') Ilog 
+                                                                    @elseif($applicant->campus == 'CA') Candoni 
+                                                                    @elseif($applicant->campus == 'CC') Cauayan 
+                                                                    @elseif($applicant->campus == 'SC') Sipalay 
+                                                                    @elseif($applicant->campus == 'HinC') Hinobaan 
+                                                                    @endif
+                                                                </h6>
                                                                 <h6><b>Date of Birth:</b> {{ \Carbon\Carbon::parse($applicant->bday)->format('F d, Y') }}</h6>
                                                                 <h6><b>Email Address:</b> {{ $applicant->email }}</h6>
                                                                 <h6><b>Contact:</b> {{ $applicant->contact }}</h6>
@@ -149,8 +164,8 @@
                                                                         <div class="timeline-title">
                                                                             <h4>Examination Schedule</h4>
                                                                             <h6>Exam Schedule set!<br> 
-                                                                                <b>Date</b>: {{ $applicant->d_admission }}, <br>
-                                                                                <b>Time</b>: {{ Carbon\Carbon::parse($applicant->time)->format('h:i A') }}, <br>
+                                                                                <b>Date</b>: {{ Carbon\Carbon::parse($applicant->d_admission)->format('F d, Y') }} <br>
+                                                                                <b>Time</b>: {{ Carbon\Carbon::parse($applicant->time)->format('h:i A') }} <br>
                                                                                 <b>Venue</b>: {{ $applicant->venue }}
                                                                             </h6>
                                                                             @if ($applicant->p_status == 2 || $applicant->p_status == 3 || $applicant->p_status == 4 || $applicant->p_status == 5)

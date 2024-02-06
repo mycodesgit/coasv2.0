@@ -12,6 +12,8 @@ class ApplicantDocs extends Model
     protected $table = 'ad_applicant_docs';
 
     protected $fillable = [
+        'app_id',
+        'camp',
         'admission_id', 
         'r_card', 
         'g_moral',

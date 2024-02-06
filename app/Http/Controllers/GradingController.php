@@ -119,7 +119,13 @@ class GradingController extends Controller
                         ->where('coasv2_db_enrollment.studgrades.subjID', $subjID)
                         ->orderBy('coasv2_db_enrollment.students.lname', 'ASC')
                         ->get();
-        $grdCode = GradeCode::all();
+
+        $grdpercentage = range(44, 79);
+
+        $grdCode = GradeCode::whereIn('id', $grdpercentage)
+                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
+                ->get();
+
 
         $totalSearchResults = count($gradeviewData);
 

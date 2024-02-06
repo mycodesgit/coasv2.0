@@ -161,7 +161,12 @@ class AdAdmissionController extends Controller
             $applicant->save();
 
             if ($applicant->save()){
+                $appid = $applicant->id; 
+                $camp = $applicant->campus; 
+
                 $docs = new ApplicantDocs;
+                $docs->app_id = $appid;
+                $docs->camp = $camp;
                 $docs->admission_id = $admissionid;
                 $docs->r_card = $request->input('r_card');
                 $docs->g_moral = $request->input('g_moral');
@@ -173,6 +178,8 @@ class AdAdmissionController extends Controller
                 $docs->save();
 
                 $examinee = new ExamineeResult;
+                $examinee->app_id = $appid;
+                $examinee->camp = $camp;
                 $examinee->admission_id =  $admissionid;
                 $examinee->raw_score = $request->input('raw_score');
                 $examinee->percentile = $request->input('percentile');
@@ -180,6 +187,8 @@ class AdAdmissionController extends Controller
                 $examinee->save();
 
                 $examinee = new DeptRating;
+                $examinee->app_id = $appid;
+                $examinee->camp = $camp;
                 $examinee->admission_id =  $admissionid;
                 $examinee->created_at = $dt;
                 $examinee->save();
@@ -227,17 +236,19 @@ class AdAdmissionController extends Controller
                 ->whereYear('created_at', $currentYear)
                 ->get();
 
-        $docs = ApplicantDocs::where('admission_id', '=', $applicant->admission_id)->get();
-        if ($doc->doc_image) {
+        $docs = ApplicantDocs::where('app_id', '=', $appID)->get();
+        foreach ($docs as $doc) {
+            if ($doc->doc_image) {
                 $imagePath = public_path('storage/' . $doc->doc_image);
-        
+
                 if (file_exists($imagePath)) {
                     $size = File::size($imagePath);
                     $doc->formattedSize = $this->formatSizeUnits($size);
                 } else {
-                    // Display "No file" if the file is not found
-                    $doc->formattedSize = "No file";
+                    // Handle the case where the file doesn't exist
+                    $doc->formattedSize = 'File not found';
                 }
+
             }
         }
         return view('admission.applicant.edit')
@@ -295,7 +306,7 @@ class AdAdmissionController extends Controller
         // $applicant->venue = $request->input('venue');
         $applicant->update($data);
 
-        $docs = ApplicantDocs::where('admission_id', $applicant->admission_id)
+        $docs = ApplicantDocs::where('app_id', $applicant->id)
         ->update([
             'r_card' => $request->input('r_card'), 
             'g_moral' => $request->input('g_moral'),
@@ -319,7 +330,7 @@ class AdAdmissionController extends Controller
     {
         $applicant = Applicant::findOrFail($id);
 
-        if ($applicant->d_admission == null && $applicant->time == null)
+        if ($applicant->d_admission == null && $applicant->time == '00:00:00')
         {
             return Redirect::route('applicant_edit', encrypt($id))->with('fail','Please assign schedule and time for examination before pushing to examination list');
         }
@@ -332,6 +343,21 @@ class AdAdmissionController extends Controller
             return Redirect::route('examinee_edit', encrypt($id))->with('success','Applicant data has been updated'); 
         }
         
+    }
+
+    public function applicant_schedule($id)
+    {
+        $applicant = Applicant::find($id);
+        $docs = ApplicantDocs::where('app_id', '=', $applicant)->get();
+        $date = AdmissionDate::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
+        $time = Time::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
+        $venue = Venue::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
+        return view('admission.applicant.schedule')
+        ->with('applicant', $applicant)
+        ->with('docs', $docs)
+        ->with('date', $date)
+        ->with('time', $time)
+        ->with('venue', $venue);
     }
 
     public function applicant_schedule_save(Request $request, $id)

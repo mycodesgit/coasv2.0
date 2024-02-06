@@ -51,7 +51,7 @@ COAS - V1.0 || Examinee Search List
                                             @elseif(Auth::user()->campus == 'HinC') Hinobaan 
                                         @endif
                                     </option>
-                                    @if (Auth::user()->isAdmin == 0)
+                                    @if (Auth::user()->isAdmin == 0 || Auth::user()->isAdmin == 1)
                                         <option value="MC">Main</option>
                                         <option value="VC">Victorias</option>
                                         <option value="SCC">San Carlos</option>
@@ -119,7 +119,9 @@ COAS - V1.0 || Examinee Search List
                             <th>Contact No.</th>
                             <th>Exam Sched</th>
                             <th>Campus</th>
+                            @if (Auth::user()->campus == request('campus'))
                             <th>Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -147,13 +149,15 @@ COAS - V1.0 || Examinee Search List
                                     @endif
                                 </td>
                                 <td>{{ $applicant->contact }}</td>
-                                <td>{{ \Carbon\Carbon::parse($applicant->date. ' ' . $applicant->time)->format('M. d, Y g:i A') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($applicant->d_admission. ' ' . $applicant->time)->format('M. d, Y g:i A') }}</td>
                                 <td>{{ $applicant->campus }}</td>
+                                @if (Auth::user()->campus == request('campus'))
                                 <td style="text-align:center;">
                                     <a href="{{  route('examinee_edit', encrypt($applicant->id ))}}" type="button" class="btn btn-primary">
                                         <i class="fas fa-cog"></i>
                                     </a>
                                 </td>
+                                @endif
                             </tr>
                             @else
                             @endif

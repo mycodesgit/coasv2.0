@@ -110,7 +110,7 @@
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label><span class="badge badge-secondary">Preffered Campus</span></label>
+                                                        <label><span class="badge badge-secondary">Preferred Campus</span></label>
                                                         <select class="form-control form-control-sm" name="campus">
                                                             <option disabled selected>Select</option>
                                                             <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} @endif>Main</option>
@@ -119,7 +119,7 @@
                                                             <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} @endif>Moises Padilla</option>
                                                             <option value="HC" @if (old('type') == 'HC') {{ 'selected' }} @endif>Hinigaran</option>
                                                             <option value="IC" @if (old('type') == 'IC') {{ 'selected' }} @endif>Ilog</option>
-                                                            <option value="IC" @if (old('type') == 'CA') {{ 'selected' }} @endif>Candoni</option>
+                                                            <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} @endif>Candoni</option>
                                                             <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} @endif>Cauayan</option>
                                                             <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} @endif>Sipalay</option>
                                                             <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} @endif>Hinobaan</option>
@@ -390,7 +390,7 @@
         </div>
         <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
             <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
+            <i class="text-light">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
     @include('portal.modal-terms')

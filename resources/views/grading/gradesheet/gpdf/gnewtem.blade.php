@@ -129,7 +129,34 @@
 				</tr>
 			</thead>
 			<tbody>
-				@php $rowCount = 30; @endphp
+				@php 
+					$rowCount = 30; 
+					function getEquivalentGrade($grade) {
+					    if ($grade >= 97) {
+					        return ['gpa' => '1.00', 'status' => 'Passed'];
+					    } elseif ($grade >= 94) {
+					        return ['gpa' => '1.25', 'status' => 'Passed'];
+					    } elseif ($grade >= 91) {
+					        return ['gpa' => '1.50', 'status' => 'Passed'];
+					    } elseif ($grade >= 88) {
+					        return ['gpa' => '1.75', 'status' => 'Passed'];
+					    } elseif ($grade >= 85) {
+					        return ['gpa' => '2.00', 'status' => 'Passed'];
+					    } elseif ($grade >= 82) {
+					        return ['gpa' => '2.25', 'status' => 'Passed'];
+					    } elseif ($grade >= 79) {
+					        return ['gpa' => '2.50', 'status' => 'Passed'];
+					    } elseif ($grade >= 76) {
+					        return ['gpa' => '2.75', 'status' => 'Passed'];
+					    } elseif ($grade >= 75) {
+					        return ['gpa' => '3.00', 'status' => 'Passed'];
+					    } elseif ($grade >= 70) {
+					        return ['gpa' => '4.00', 'status' => 'Conditional'];
+					    } else {
+					        return ['gpa' => '5.00', 'status' => 'Failure'];
+					    }
+					}
+				@endphp
 		        @for ($i = 0; $i < $rowCount; $i++) {
 					<tr>
 						@if(isset($gradeviewData[$i]))
@@ -148,10 +175,26 @@
 							<td></td>
 							<td></td>
 							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td align="center" style="font-size: 9pt; color: @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade) && (getEquivalentGrade($studgrade->subjFgrade)['status'] === 'Conditional' || getEquivalentGrade($studgrade->subjFgrade)['status'] === 'Failure')){{ 'red' }}@endif">
+								@if($studgrade->gstat == 2 || empty($studgrade->subjFgrade))
+										<span>{{ $studgrade->subjFgrade }}</span>
+								@endif
+							</td>
+							<td align="center" style="font-size: 9pt; font-weight: bold; color: @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade)){{ getEquivalentGrade($studgrade->subjFgrade)['status'] === 'Conditional' || getEquivalentGrade($studgrade->subjFgrade)['status'] === 'Failure' ? 'red' : '' }}@endif">
+					            @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade))
+					                <span>{{ getEquivalentGrade($studgrade->subjFgrade)['gpa'] }}</span>
+					            @endif
+					        </td>
+							<td align="center" style="font-size: 9pt; font-weight: bold;">
+								@if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade))
+					                <span>{{ $studgrade->creditEarned }}</span>
+					            @endif
+							</td>
+							<td align="center" style="font-size: 9pt; font-style: italic; color: @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade)){{ getEquivalentGrade($studgrade->subjFgrade)['status'] === 'Conditional' || getEquivalentGrade($studgrade->subjFgrade)['status'] === 'Failure' ? 'red' : '' }}@endif">
+					            @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade))
+					                <span>{{ getEquivalentGrade($studgrade->subjFgrade)['status'] }}</span>
+					            @endif
+					        </td>
 							<td style="font-size: 9pt; text-align: center;">{{ $i + 1 }}</td>
 						@else
 							<td style="font-size: 9pt; text-align: center;">{{ $i + 1 }}</td>

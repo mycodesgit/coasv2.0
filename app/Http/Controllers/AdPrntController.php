@@ -23,19 +23,18 @@ use PDF;
 
 class AdPrntController extends Controller
 {
-    public function applicant_genPDF(Request $request, $id)
-    {
-        $applicant = Applicant::findOrFail($id); 
-        view()->share('applicant',$applicant);
-        $pdf = PDF::loadView('admission.applicant.print');
-        return $pdf->stream();
-        // return view('admission.applicant.printView')->with('applicant', $applicant);
-    }
-
     public function applicant_print(Request $request, $id)
     {
         $applicant = Applicant::findOrFail($id);
         return view('admission.applicant.printView')->with('applicant', $applicant);
+    }
+
+    public function applicant_genPDF(Request $request, $id)
+    {
+        $applicant = Applicant::find($id); 
+        view()->share('applicant',$applicant);
+        $pdf = PDF::loadView('admission.applicant.print');
+        return $pdf->stream();
     }
 
     public function applicant_permit(Request $request, $id)

@@ -59,14 +59,15 @@ use App\Models\AdmissionDB\AdmissionDate;
                                     </option>
                                     @if (Auth::user()->isAdmin == 0)
                                         <option value="MC">Main</option>
-                                        <option value="SCC">San Carlos</option>
                                         <option value="VC">Victorias</option>
+                                        <option value="SCC">San Carlos</option>
                                         <option value="HC">Hinigaran</option>
                                         <option value="MP">Moises Padilla</option>
-                                        <option value="HinC">Hinobaan</option>
-                                        <option value="SC">Sipalay</option>
                                         <option value="IC">Ilog</option>
+                                        <option value="CA">Candoni</option>
                                         <option value="CC">Cauayan</option>
+                                        <option value="SC">Sipalay</option>
+                                        <option value="HinC">Hinobaan</option>
                                     @else
                                     @endif
                                 </select>

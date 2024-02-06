@@ -220,7 +220,7 @@
 				<p class="address-txt">Kabankalan City, Negros Occidental</p>
 			</div>
 			<div class="picture-header">
-				<img src="storage/capture_images/{{$applicant->image}}" style="width: 130px;height: 120px" alt="">
+				<img src="{{ asset('template/img/CPSU_L.png') }}" style="width: 130px;height: 120px" alt="">
 			</div>
 			<p class="slip-txt">ADMISSION SLIP</p>
 			<div class="container-info">
@@ -261,9 +261,9 @@
 							<div class="name-p-c-signatories"></div>
 							<p style="margin-left: 430px;margin-top: 65px;font-style: italic;">Signature over Printed Name</p>
 							<div class="name-p-bday">Date of Admission Test:</div>
-							<div class="name-p-c-d_test">{{ \Carbon\Carbon::parse($applicant->date)->format('M d, Y') }}</div>
+							<div class="name-p-c-d_test">{{ $applicant->d_admission ? \Carbon\Carbon::parse($applicant->d_admission)->format('M d, Y') : '' }}</div>
 							<div class="name-p-bday">Time:</div>
-							<div class="name-p-c-time">@if ($applicant->time == NULL) @else {{\Carbon\Carbon::createFromFormat('H:i:s',$applicant->time)->format('h:i A')}}@endif</div>
+							<div class="name-p-c-time">{{ $applicant->time && $applicant->time !== '00:00:00' ? $applicant->time : '' }}</div>
 							<div class="name-p-bday">Venue:</div>
 							<div class="name-p-c-venue">{{$applicant->venue }}</div>
 							<div class="name-p-c-guidance">SUNE S. QUINTAB</div>
@@ -271,9 +271,9 @@
 							<div class="name-p-c-brokenline"></div>
 							<p style="text-align: center;font-style: bold;margin-top: -10px;margin-bottom: 30px;">ADMISSION TEST PERMIT</p>
 							<div class="name-p-bday">Date of Admission Test:</div>
-							<div class="name-p-c-d_test">{{ \Carbon\Carbon::parse($applicant->date)->format('M d, Y') }}</div>
+							<div class="name-p-c-d_test">{{ $applicant->d_admission ? \Carbon\Carbon::parse($applicant->d_admission)->format('M d, Y') : '' }}</div>
 							<div class="name-p-bday">Time:</div>
-							<div class="name-p-c-time">@if ($applicant->time == NULL) @else {{\Carbon\Carbon::createFromFormat('H:i:s',$applicant->time)->format('h:i A')}}@endif</div>
+							<div class="name-p-c-time">{{ $applicant->time && $applicant->time !== '00:00:00' ? $applicant->time : '' }}</div>
 							<div class="name-p-bday">Venue:</div>
 							<div class="name-p-c-venue" tyle="text-transform: uppercase;">{{$applicant->venue }}</div>
 							<div class="name-p-c-guidance">SUNE S. QUINTAB</div>

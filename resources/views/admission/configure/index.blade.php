@@ -178,7 +178,7 @@ COAS - V1.0 || Configure Admission
                                                                 $allowedCampuses = ['MC', 'VC', 'SCC', 'MP', 'HC', 'IC', 'CA', 'CC', 'SC', 'HinC']; 
                                                             @endphp
 
-                                                            @if(in_array($programs->campus, $allowedCampuses) && $programs->campus == Auth::user()->campus)
+                                                            @if(in_array($strand->campus, $allowedCampuses) && $strand->campus == Auth::user()->campus)
                                                                 <a class="dropdown-item" href="{{ route('edit_strand', ['id' => encrypt($strand->id)]) }}">
                                                                     <i class="fas fa-pen"></i> Edit
                                                                 </a>
@@ -241,7 +241,19 @@ COAS - V1.0 || Configure Admission
                                         <tbody>
                                             @foreach ($date as $date)
                                                 <tr>
-                                                    <td>@if ($date->campus == 'MC') Main @elseif($date->campus == 'SCC') San Carlos @elseif($date->campus == 'VC') Victorias @elseif($date->campus == 'HC') Hinigaran @elseif($date->campus == 'MP') Moises Padilla @elseif($date->campus == 'HinC') Hinobaan @elseif($date->campus == 'SC') Sipalay @elseif($date->campus == 'IC') Ilog @elseif($date->campus == 'CC') Cauayan @endif</td>
+                                                    <td>
+                                                        @if ($date->campus == 'MC') Main 
+                                                        @elseif($date->campus == 'VC') Victorias 
+                                                        @elseif($date->campus == 'SCC') San Carlos 
+                                                        @elseif($date->campus == 'HC') Hinigaran 
+                                                        @elseif($date->campus == 'MP') Moises Padilla 
+                                                        @elseif($date->campus == 'IC') Ilog 
+                                                        @elseif($date->campus == 'CA') Candoni
+                                                        @elseif($date->campus == 'CC') Cauayan 
+                                                        @elseif($date->campus == 'SC') Sipalay 
+                                                        @elseif($date->campus == 'HinC') Hinobaan 
+                                                        @endif
+                                                    </td>
                                                     <td>{{ \Carbon\Carbon::parse($date->date)->format('F d, Y') }}</td>
                                                     <td style="text-align:center;">
                                                         <div class="btn-group">
@@ -253,7 +265,7 @@ COAS - V1.0 || Configure Admission
                                                                 $allowedCampuses = ['MC', 'VC', 'SCC', 'MP', 'HC', 'IC', 'CA', 'CC', 'SC', 'HinC']; 
                                                             @endphp
 
-                                                            @if(in_array($programs->campus, $allowedCampuses) && $programs->campus == Auth::user()->campus)
+                                                            @if(in_array($date->campus, $allowedCampuses) && $date->campus == Auth::user()->campus)
                                                                 <a class="dropdown-item" href="{{ route('edit_date', ['id' => encrypt($date->id)]) }}">
                                                                     <i class="fas fa-pen"></i> Edit
                                                                 </a>
@@ -335,7 +347,19 @@ COAS - V1.0 || Configure Admission
                                         <tbody>
                                             @foreach ($time as $time)
                                             <tr>
-                                                <td>@if ($time->campus == 'MC') Main @elseif($time->campus == 'SCC') San Carlos @elseif($time->campus == 'VC') Victorias @elseif($time->campus == 'HC') Hinigaran @elseif($time->campus == 'MP') Moises Padilla @elseif($time->campus == 'HinC') Hinobaan @elseif($time->campus == 'SC') Sipalay @elseif($time->campus == 'IC') Ilog @elseif($time->campus == 'CC') Cauayan @endif</td>
+                                                <td>
+                                                    @if ($time->campus == 'MC') Main 
+                                                    @elseif($time->campus == 'VC') Victorias 
+                                                    @elseif($time->campus == 'SCC') San Carlos 
+                                                    @elseif($time->campus == 'HC') Hinigaran 
+                                                    @elseif($time->campus == 'MP') Moises Padilla 
+                                                    @elseif($time->campus == 'IC') Ilog 
+                                                    @elseif($time->campus == 'CA') Candoni
+                                                    @elseif($time->campus == 'CC') Cauayan 
+                                                    @elseif($time->campus == 'SC') Sipalay 
+                                                    @elseif($time->campus == 'HinC') Hinobaan 
+                                                    @endif
+                                                </td>
                                                 <td>{{ \Carbon\Carbon::parse($time->date)->format('F d, Y') }}</td>
                                                 <td>@if ($time->time == NULL) @else {{\Carbon\Carbon::createFromFormat('H:i:s',$time->time)->format('h:i A')}}@endif</td>
                                                 <td>{{ $time->slots }}</td>
@@ -349,7 +373,7 @@ COAS - V1.0 || Configure Admission
                                                             $allowedCampuses = ['MC', 'VC', 'SCC', 'MP', 'HC', 'IC', 'CA', 'CC', 'SC', 'HinC']; 
                                                         @endphp
 
-                                                        @if(in_array($programs->campus, $allowedCampuses) && $programs->campus == Auth::user()->campus)
+                                                        @if(in_array($time->campus, $allowedCampuses) && $time->campus == Auth::user()->campus)
                                                             <a class="dropdown-item" href="{{ route('edit_time', ['id' => encrypt($time->id)]) }}">
                                                                 <i class="fas fa-pen"></i> Edit
                                                             </a>
@@ -412,7 +436,19 @@ COAS - V1.0 || Configure Admission
                                         <tbody>
                                             @foreach ($venue as $venue)
                                                 <tr>
-                                                    <td>@if ($venue->campus == 'MC') Main @elseif($venue->campus == 'SCC') San Carlos @elseif($venue->campus == 'VC') Victorias @elseif($venue->campus == 'HC') Hinigaran @elseif($venue->campus == 'MP') Moises Padilla @elseif($venue->campus == 'HinC') Hinobaan @elseif($venue->campus == 'SC') Sipalay @elseif($venue->campus == 'IC') Ilog @elseif($venue->campus == 'CC') Cauayan @endif</td>
+                                                    <td>
+                                                        @if ($venue->campus == 'MC') Main 
+                                                        @elseif($venue->campus == 'VC') Victorias 
+                                                        @elseif($venue->campus == 'SCC') San Carlos 
+                                                        @elseif($venue->campus == 'HC') Hinigaran 
+                                                        @elseif($venue->campus == 'MP') Moises Padilla 
+                                                        @elseif($venue->campus == 'IC') Ilog 
+                                                        @elseif($venue->campus == 'CA') Candoni 
+                                                        @elseif($venue->campus == 'CC') Cauayan 
+                                                        @elseif($venue->campus == 'SC') Sipalay 
+                                                        @elseif($venue->campus == 'HinC') Hinobaan 
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $venue->venue }}</td>
                                                     <td style="text-align:center;">
                                                         <div class="btn-group">
@@ -424,7 +460,7 @@ COAS - V1.0 || Configure Admission
                                                                 $allowedCampuses = ['MC', 'VC', 'SCC', 'MP', 'HC', 'IC', 'CA', 'CC', 'SC', 'HinC']; 
                                                             @endphp
 
-                                                            @if(in_array($programs->campus, $allowedCampuses) && $programs->campus == Auth::user()->campus)
+                                                            @if(in_array($venue->campus, $allowedCampuses) && $venue->campus == Auth::user()->campus)
                                                                 <a class="dropdown-item" href="{{ route('edit_venue', ['id' => encrypt($venue->id)]) }}">
                                                                     <i class="fas fa-pen"></i> Edit
                                                                 </a>

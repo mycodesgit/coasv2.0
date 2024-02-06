@@ -277,6 +277,33 @@ COAS - V1.0 || Applicant Edit
                     </div>
 
                     <div class="tab-pane fade" id="vert-tabs-right-two" role="tabpanel" aria-labelledby="vert-tabs-right-two-tab">
+                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
+                            <h4>Uploaded Documents</h4>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            @foreach($docs as $doc)
+                                @if($doc->doc_image)
+                                    <div class="card-body box-profile">
+                                        <div class="text-center">
+                                            <img class="profile-user-img img-fluid img-square" src="{{ asset('storage/' . $doc->doc_image) }}" alt="Image">
+                                        </div>
+                                        <h3 class="profile-username text-center">{{ basename($doc->doc_image) }}</h3>
+
+                                        <div class="col-md-2 mx-auto">
+                                            <a href="{{ asset('storage/' . $doc->doc_image) }}" class="btn btn-primary btn-block" data-lightbox="photos">
+                                                <b>View Image</b>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @else
+                                    {{-- <p>No image uploaded</p> --}}
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="vert-tabs-right-three" role="tabpanel" aria-labelledby="vert-tabs-right-three-tab">
                         <form method="post" action="{{ route('examinee_result_save_nd', $applicant->id) }}" enctype="multipart/form-data" id="admissionApply">
                             @csrf
                             @method('PUT')
@@ -314,14 +341,14 @@ COAS - V1.0 || Applicant Edit
                         </form>
                     </div>
 
-                    <div class="tab-pane fade" id="vert-tabs-right-three" role="tabpanel" aria-labelledby="vert-tabs-right-three-tab">
+                    <div class="tab-pane fade" id="vert-tabs-right-four" role="tabpanel" aria-labelledby="vert-tabs-right-four-tab">
                         <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>Print / Download Data</h4>
                         </div>
                         <iframe src="{{ route('applicant_genPDF', $applicant->id) }}" width="100%" height="800" class="mt-3"></iframe>
                     </div>
 
-                    <div class="tab-pane fade" id="vert-tabs-right-four" role="tabpanel" aria-labelledby="vert-tabs-right-four-tab">
+                    <div class="tab-pane fade" id="vert-tabs-right-five" role="tabpanel" aria-labelledby="vert-tabs-right-five-tab">
                         <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>Capture Image</h4>
                         </div>
@@ -355,7 +382,7 @@ COAS - V1.0 || Applicant Edit
                         </form>
                     </div>
 
-                    <div class="tab-pane fade" id="vert-tabs-right-five" role="tabpanel" aria-labelledby="vert-tabs-right-five-tab">
+                    <div class="tab-pane fade" id="vert-tabs-right-six" role="tabpanel" aria-labelledby="vert-tabs-right-six-tab">
                         <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>Push Result</h4>
                         </div>
@@ -385,10 +412,11 @@ COAS - V1.0 || Applicant Edit
                         <div class="mt-3" style="font-size: 13pt;">
                             <div class="nav flex-column nav-pills nav-stacked nav-tabs-right h-100" id="vert-tabs-right-tab" role="tablist" aria-orientation="vertical">
                                 <a class="nav-link active" id="vert-tabs-right-one-tab" data-toggle="pill" href="#vert-tabs-right-one" role="tab" aria-controls="vert-tabs-right-one" aria-selected="true">Information</a>
-                                <a class="nav-link" id="vert-tabs-right-two-tab" data-toggle="pill" href="#vert-tabs-right-two" role="tab" aria-controls="vert-tabs-right-two" aria-selected="false">Test Result</a>
-                                <a class="nav-link" id="vert-tabs-right-three-tab" data-toggle="pill" href="#vert-tabs-right-three" role="tab" aria-controls="vert-tabs-right-three" aria-selected="false">View Print</a>
-                                <a class="nav-link" id="vert-tabs-right-four-tab" data-toggle="pill" href="#vert-tabs-right-four" role="tab" aria-controls="vert-tabs-right-four" aria-selected="false">Capture Image</a>
-                                <a class="nav-link" id="vert-tabs-right-five-tab" data-toggle="pill" href="#vert-tabs-right-five" role="tab" aria-controls="vert-tabs-right-five" aria-selected="false">Push to Result</a>
+                                <a class="nav-link" id="vert-tabs-right-two-tab" data-toggle="pill" href="#vert-tabs-right-two" role="tab" aria-controls="vert-tabs-right-two" aria-selected="false">Uploaded Docs</a>
+                                <a class="nav-link" id="vert-tabs-right-three-tab" data-toggle="pill" href="#vert-tabs-right-three" role="tab" aria-controls="vert-tabs-right-three" aria-selected="false">Test Result</a>
+                                <a class="nav-link" id="vert-tabs-right-four-tab" data-toggle="pill" href="#vert-tabs-right-four" role="tab" aria-controls="vert-tabs-right-four" aria-selected="false">View Print</a>
+                                <a class="nav-link" id="vert-tabs-right-five-tab" data-toggle="pill" href="#vert-tabs-right-five" role="tab" aria-controls="vert-tabs-right-five" aria-selected="false">Capture Image</a>
+                                <a class="nav-link" id="vert-tabs-right-six-tab" data-toggle="pill" href="#vert-tabs-right-six" role="tab" aria-controls="vert-tabs-right-six" aria-selected="false">Push to Result</a>
                             </div>
                             </div>
                     </div>

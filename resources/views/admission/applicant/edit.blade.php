@@ -302,21 +302,22 @@ COAS - V1.0 || Applicant Edit
                         <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>Uploaded Documents</h4>
                         </div>
+
                         <div class="d-flex justify-content-center">
                             @foreach($docs as $doc)
                                 @if($doc->doc_image)
-                                    <ul class="mailbox-attachments d-flex align-items-stretch clearfix mt-3">
-                                        <li>
-                                            <span class="mailbox-attachment-icon has-img"><img src="{{ asset('storage/' . $doc->doc_image) }}" alt="Attachment" width="65%"></span>
-                                            <div class="mailbox-attachment-info">
-                                                <div class="mailbox-attachment-name"><i class="fas fa-image"></i> {{ basename($doc->doc_image) }}</div>
-                                                <span class="mailbox-attachment-size clearfix mt-1">
-                                                    <span></span>
-                                                    <a href="{{ asset('storage/' . $doc->doc_image) }}" data-lightbox="photos" class="btn btn-default btn-sm float-right"><i class="fas fa-eye"></i></a>
-                                                </span>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    <div class="card-body box-profile">
+                                        <div class="text-center">
+                                            <img class="profile-user-img img-fluid img-square" src="{{ asset('storage/' . $doc->doc_image) }}" alt="Image">
+                                        </div>
+                                        <h3 class="profile-username text-center">{{ basename($doc->doc_image) }}</h3>
+
+                                        <div class="col-md-2 mx-auto">
+                                            <a href="{{ asset('storage/' . $doc->doc_image) }}" class="btn btn-primary btn-block" data-lightbox="photos">
+                                                <b>View Image</b>
+                                            </a>
+                                        </div>
+                                    </div>
                                 @else
                                     <p>No image uploaded</p>
                                 @endif

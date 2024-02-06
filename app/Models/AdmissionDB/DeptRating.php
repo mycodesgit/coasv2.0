@@ -12,6 +12,8 @@ class DeptRating extends Model
     protected $table = 'ad_applicant_dept_rating';
 
     protected $fillable = [
+        'app_id',
+        'camp',
         'admission_id', 
         'interviewer',
         'rating', 

@@ -54,7 +54,7 @@ class AdExamineeController extends Controller
         $selectedPreference2 = $applicant->preference_2;
 
         $year = Carbon::now()->format('Y');
-        $docs = ApplicantDocs::where('admission_id', '=', $applicant->admission_id)->get();
+        $docs = ApplicantDocs::where('app_id', '=', $appID)->get();
         $program = Programs::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
         $strand = Strands::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
         $date = AdmissionDate::select('date', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('date')->get();

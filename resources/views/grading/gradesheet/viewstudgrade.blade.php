@@ -67,17 +67,16 @@ COAS - V1.0 || Grading Student
         </div>
         <div class="tab-content" id="custom-tabs-two-tabContent">
             <div class="tab-pane fade show active" id="custom-tabs-one" role="tabpanel" aria-labelledby="custom-tabs-one-tab">
-                <div class="col-md-2 float-right mt-1 mb-3">
-                    <form method="POST" action="{{ route('updateStatus_gradessubmit', ['subjID' => $gradeviewData->first()->subjID]) }}" id="confirmationForm">
-                        @csrf
-                        <input type="hidden" name="subjID[]" value="{{ $gradeviewData->first()->subjID }}">
-                        <button type="button" class="btn btn-primary btn-sm btn-block" id="submitgradeid" data-toggle="modal" data-target="#submitgrades" @if($grade == 0) disabled @endif>Submit Grades</button>
-                    </form>
-                </div>
+                <div class="col-md-12 mt-2">
+                    <div class="col-md-2 float-right mt-1 mb-3">
+                        <form method="POST" action="{{ route('updateStatus_gradessubmit', ['subjID' => $gradeviewData->first()->subjID]) }}" id="confirmationForm">
+                            @csrf
+                            <input type="hidden" name="subjID[]" value="{{ $gradeviewData->first()->subjID }}">
+                            <button type="button" class="btn btn-primary btn-sm btn-block" id="submitgradeid" data-toggle="modal" data-target="#submitgrades" @if($grade == 0) disabled @endif>Submit Grades</button>
+                        </form>
+                    </div>
 
                 @include('modal.submitgrades')
-
-                <div class="col-md-12 mt-2">
                     <div class="card-body table-responsive p-0" style="height: 400px;">
                         <table id="" class="table table-bordered table-striped table-head-fixed text-nowrap">
                             <thead>
