@@ -49,9 +49,10 @@ COAS - V1.0 || Applicant List
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
                                             @elseif(Auth::user()->campus == 'SC') Sipalay 
                                             @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                            @elseif(Auth::user()->campus == 'VE') Valladolid 
                                         @endif
                                     </option>
-                                    @if (Auth::user()->isAdmin == 0 || Auth::user()->isAdmin == 1)
+                                    @if(Auth::user()->isAdmin == 0 || (Auth::user()->campus == 'MC' && Auth::user()->isAdmin == 1))
                                         <option value="MC">Main</option>
                                         <option value="VC">Victorias</option>
                                         <option value="SCC">San Carlos</option>
@@ -62,6 +63,7 @@ COAS - V1.0 || Applicant List
                                         <option value="CC">Cauayan</option>
                                         <option value="SC">Sipalay</option>
                                         <option value="HinC">Hinobaan</option>
+                                        <option value="VE">Valladolid</option>
                                     @else
                                     @endif
                                 </select>

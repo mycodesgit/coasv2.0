@@ -19,6 +19,7 @@ class Grade extends Model
         'subjComp',
         'creditEarned',
         'status',
+        'compstat',
         'postedBy',
     ];
 }

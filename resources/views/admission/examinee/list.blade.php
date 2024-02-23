@@ -49,6 +49,7 @@ COAS - V1.0 || Examinee List
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
                                             @elseif(Auth::user()->campus == 'SC') Sipalay 
                                             @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                            @elseif(Auth::user()->campus == 'VE') Valladolid
                                         @endif
                                     </option>
                                     @if (Auth::user()->isAdmin == 0 || Auth::user()->isAdmin == 1)
@@ -62,6 +63,7 @@ COAS - V1.0 || Examinee List
                                         <option value="CC">Cauayan</option>
                                         <option value="SC">Sipalay</option>
                                         <option value="HinC">Hinobaan</option>
+                                        <option value="VE">Valladolid</option>
                                     @else
                                     @endif
                                 </select>

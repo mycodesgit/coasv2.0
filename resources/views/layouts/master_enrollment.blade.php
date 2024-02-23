@@ -31,6 +31,20 @@
         input[readonly] {
             background-color: #fff !important;
         }
+        #liveSearchResultsContainer {
+            max-height: 200px; /* Adjust the max height as needed */
+            overflow-y: auto;
+        }
+
+        .live-search-result {
+            cursor: pointer;
+            padding: 8px;
+            border-bottom: 1px solid #eee; /* Add border between results for better separation */
+        }
+
+        .live-search-result:hover {
+            background-color: #f0f0f0; /* Add a subtle background color on hover */
+        }
     </style>
     
 </head>
@@ -118,7 +132,7 @@
         </div>
         <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
             <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
+            <i class="text-light">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
 
@@ -206,6 +220,86 @@
             });
         });
     </script>
+
+
+    <script>
+    $(document).ready(function() {
+    // Function to perform the live search
+    function performLiveSearch() {
+        var searchValue = $('#liveSearchInput').val();
+        var studentType = $('#studentType').val();
+
+        $.ajax({
+            url: '{{ route("liveSearchStudent") }}',
+            type: 'GET',
+            data: { search: searchValue, en_status: studentType },
+            success: function(response) {
+                displayLiveSearchResults(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
+    // Initial setup
+    $('#liveSearchInput').on('input', function() {
+        performLiveSearch();
+    });
+
+    // Trigger live search when changing the student type
+    $('#studentType').on('change', function() {
+        // Clear the selected student info
+        $('#selectedStudentInfo').val('');
+
+        // Clear and hide the live search results container
+        var resultsContainer = $('#liveSearchResultsContainer');
+        resultsContainer.empty().hide();
+
+        // Trigger live search
+        performLiveSearch();
+    });
+
+    // Function to display live search results
+    function displayLiveSearchResults(students) {
+        var selectedStudentDropdown = $('#selectedStudentInfo');
+        selectedStudentDropdown.empty().append('<option></option>');
+
+        var resultsContainer = $('#liveSearchResultsContainer');
+        resultsContainer.empty();
+
+        if (students.length > 0) {
+            $.each(students, function(index, student) {
+                resultsContainer.append('<div class="live-search-result" data-student-id="' + student.id + '">' + student.stud_id + ' - ' + student.lname + ' ' + student.mname + '. ' + student.fname + '</div>');
+                selectedStudentDropdown.append('<option value="' + student.id + '">' + student.stud_id + ' - ' + student.lname + ' ' + student.mname + '. ' + student.fname + '</option>');
+            });
+
+            // Show the live search results container
+            resultsContainer.show();
+        } else {
+            resultsContainer.html('<p>No results found</p>');
+        }
+    }
+
+    // Handle click on live search result
+    $(document).on('click', '.live-search-result', function() {
+        var selectedStudentId = $(this).data('student-id');
+        var selectedStudentInfo = $(this).text();
+
+        $('#selectedStudentInfo').val(selectedStudentId);
+
+        // Clear and hide the live search results container
+        var resultsContainer = $('#liveSearchResultsContainer');
+        resultsContainer.empty().hide();
+
+        // Clear the search input
+        $('#liveSearchInput').val('');
+
+        console.log(selectedStudentId);
+    });
+});
+
+</script>
     
 </body>
 </html>

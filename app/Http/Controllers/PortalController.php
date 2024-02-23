@@ -38,6 +38,15 @@ class PortalController extends Controller
         //->with('todayRegistrations', $todayRegistrations);
     }
 
+    public function getProgramsByCampus(Request $request)
+    {
+        $selectedCampus = $request->input('campus');
+
+        $programs = Programs::whereRaw("FIND_IN_SET('$selectedCampus', REPLACE(campus, ' ', '')) > 0")->get(['code', 'program']);
+
+        return response()->json(['programs' => $programs]);
+    }
+
     public function post_admission_apply(Request $request)
     {
         $validator = Validator::make($request->all(), [

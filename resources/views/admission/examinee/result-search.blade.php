@@ -48,7 +48,8 @@ COAS - V1.0 || Examinee Search List Result
                                             @elseif(Auth::user()->campus == 'CA') Candoni 
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
                                             @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan
+                                            @elseif(Auth::user()->campus == 'VE') Valladolid 
                                         @endif
                                     </option>
                                     @if (Auth::user()->isAdmin == 0)
@@ -62,6 +63,7 @@ COAS - V1.0 || Examinee Search List Result
                                         <option value="CC">Cauayan</option>
                                         <option value="SC">Sipalay</option>
                                         <option value="HinC">Hinobaan</option>
+                                        <option value="VE">Valladolid</option>
                                     @else
                                     @endif
                                 </select>
@@ -149,7 +151,7 @@ COAS - V1.0 || Examinee Search List Result
                                 </td>
                                 <td>{{ $applicant->result->raw_score }}</td>
                                 <td>{{ $applicant->result->percentile }}</td>
-                                <td>{{ \Carbon\Carbon::parse($applicant->date. ' ' . $applicant->time)->format('M. d, Y g:i A') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($applicant->d_admission. ' ' . $applicant->time)->format('M. d, Y g:i A') }}</td>
                                 <td>{{ $applicant->campus }}</td>
                                 <td style="text-align:center;">
                                     <a data-toggle="tooltip" data-placement="bottom" class="btn btn-primary info_applicant" title="Process Applicant"><i id="{{ encrypt($applicant->id) }}" data-toggle="modal" data-target="#info_results" class="fas fa-server"></i></a>

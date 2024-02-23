@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let i = academicYearStart; i <= academicYearEnd; i++) {
         let nextYear = i + 1;
         let academicYear = i + '-' + nextYear;
-        let selected = (i === selectedYear ? ' selected' : '');
+        let lastYear = parseInt(academicYear.split('-')[1]); // Extract the last year after the hyphen
+        let selected = (lastYear === selectedYear ? ' selected' : '');
         option += `<option value="${academicYear}"${selected}>${academicYear}</option>`;
     }
 
@@ -20,3 +21,4 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+

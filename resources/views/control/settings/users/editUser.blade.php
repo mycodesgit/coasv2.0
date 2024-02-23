@@ -70,10 +70,12 @@ COAS - V1.0 || Edit User
                                                 <option value="VC" @if (old('campus') == 'VC' || $user->campus == 'VC') {{ 'selected' }} @endif>Victorias</option>
                                                 <option value="HC" @if (old('campus') == 'HC' || $user->campus == 'HC') {{ 'selected' }} @endif>Hinigaran</option>
                                                 <option value="MP" @if (old('campus') == 'MP' || $user->campus == 'MP') {{ 'selected' }} @endif>Moises Padilla</option>
-                                                <option value="HinC" @if (old('campus') == 'HinC' || $user->campus == 'HinC') {{ 'selected' }} @endif>Hinobaan</option>
-                                                <option value="SC" @if (old('campus') == 'SC' || $user->campus == 'SC') {{ 'selected' }} @endif>Sipalay</option>
                                                 <option value="IC" @if (old('campus') == 'IC' || $user->campus == 'IC') {{ 'selected' }} @endif>Ilog</option>
+                                                <option value="MP" @if (old('campus') == 'CA' || $user->campus == 'CA') {{ 'selected' }} @endif>Candoni</option>
                                                 <option value="CC" @if (old('campus') == 'CC' || $user->campus == 'CC') {{ 'selected' }} @endif>Cauayan</option>
+                                                <option value="SC" @if (old('campus') == 'SC' || $user->campus == 'SC') {{ 'selected' }} @endif>Sipalay</option>
+                                                <option value="HinC" @if (old('campus') == 'HinC' || $user->campus == 'HinC') {{ 'selected' }} @endif>Hinobaan</option>
+                                                <option value="VE" @if (old('campus') == 'VE' || $user->campus == 'VE') {{ 'selected' }} @endif>Valladolid</option>
                                             </select>
                                         </div>
                                     </div>

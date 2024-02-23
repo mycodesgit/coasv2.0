@@ -116,7 +116,7 @@
         </div>
         <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
             <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
+            <i class="text-light">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
     @include('portal.modal-terms')
@@ -154,12 +154,52 @@
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <script src="{{ asset('js/validation/schedule/classenrollValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/schedule/facdegValidation.js') }}"></script>
 
     <script type="text/javascript">
         setTimeout(function () {
             $("#alert").delay(2500).fadeOut(5000);
         }, 0); 
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#programSelect').on('change', function() {
+                var selectedProgramCode = $(this).val();
+
+                $.ajax({
+                    url: '{{ route("getProgramId", ["code" => "__code__"]) }}'.replace('__code__', selectedProgramCode),
+                    type: 'GET',
+                    success: function(response) {
+                        $('#selectedProgramId').val(response.id);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.btn-edit').click(function () {
+                var facName = $(this).data('facname');
+                var facDept = $(this).data('facdept');
+                var designation = $(this).data('designation');
+                var rankcomma = $(this).data('rankcomma');
+
+                $('#editFacName').val(facName);
+                $('#editFacDept').val(facDept);
+                $('#editDesignation').val(designation);
+                $('#editAddresse').val(rankcomma);
+            });
+            window.updateData = function () {
+                $('#editModal').modal('hide');
+            };
+        });
+    </script>
+
 
 </body>
 </html>

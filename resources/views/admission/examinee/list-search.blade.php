@@ -128,7 +128,7 @@ COAS - V1.0 || Examinee Search List
                         @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status == 2)
-                            <tr>
+                            <tr id="tr-{{ $applicant->id }}">
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $applicant->admission_id }}</td>
                                 <td style="text-transform: uppercase;">
@@ -153,9 +153,20 @@ COAS - V1.0 || Examinee Search List
                                 <td>{{ $applicant->campus }}</td>
                                 @if (Auth::user()->campus == request('campus'))
                                 <td style="text-align:center;">
-                                    <a href="{{  route('examinee_edit', encrypt($applicant->id ))}}" type="button" class="btn btn-primary">
-                                        <i class="fas fa-cog"></i>
-                                    </a>
+                                    <div class="btn-group">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a href="{{  route('examinee_edit', encrypt($applicant->id ))}}" class="dropdown-item btn-edit">
+                                                    <i class="fas fa-eye"></i> View
+                                                </a>
+                                                <button value="{{ $applicant->id }}" class="dropdown-item examinee-delete">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 @endif
                             </tr>

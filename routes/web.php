@@ -46,6 +46,7 @@ Route::get('/linkstorage', function () {
 Route::prefix('/portal')->group(function () {
     Route::get('/',[PortalController::class,'index'])->name('admission-portal');
     Route::get('/apply', [PortalController::class, 'admission_apply'])->name('admission-apply');
+    Route::get('/getProgramsByCampus', [PortalController::class, 'getProgramsByCampus'])->name('getProgramsByCampus');
     Route::post('/post_admission_apply', [PortalController::class, 'post_admission_apply'])->name('post_admission_apply');
     Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
     Route::get('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
@@ -73,7 +74,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/search/edit/{id}', [AdAdmissionController::class, 'applicant_edit'])->name('applicant_edit');
             Route::put('/list/search/update/{id}', [AdAdmissionController::class, 'applicant_update'])->name('applicant_update');
             Route::get('/{id}/schedule', [AdAdmissionController::class, 'applicant_schedule'])->name('applicant_schedule');
-            Route::get('/{id}/delete', [AdAdmissionController::class, 'applicant_delete'])->name('applicant_delete');
+            Route::get('/delete/{id}', [AdAdmissionController::class, 'applicant_delete'])->name('applicant_delete');
             Route::get('/{id}/confirm', [AdAdmissionController::class, 'applicant_confirm'])->name('applicant_confirm');
             Route::get('/slots', [AdAdmissionController::class, 'slots'])->name('slots'); 
             Route::get('/slots/search', [AdAdmissionController::class, 'slots_search'])->name('slots_search');
@@ -91,7 +92,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/examineeList', [AdExamineeController::class, 'examinee_list'])->name('examinee-list');
             Route::get('/list/srchexamineeList', [AdExamineeController::class, 'srchexamineeList'])->name('srchexamineeList');
             Route::get('/{id}/edit', [AdExamineeController::class, 'examinee_edit'])->name('examinee_edit');
-            Route::get('/{id}/delete', [AdExamineeController::class, 'examinee_delete'])->name('examinee_delete');
+            Route::get('/delete/{id}', [AdExamineeController::class, 'examinee_delete'])->name('examinee_delete');
             Route::get('/{id}/assignresult', [AdExamineeController::class, 'assignresult'])->name('assignresult');
             Route::put('/result/{id}/save', [AdExamineeController::class, 'examinee_result_save'])->name('examinee_result_save');
             Route::put('/result/{id}/save', [AdExamineeController::class, 'examinee_result_save_nd'])->name('examinee_result_save_nd');
@@ -178,7 +179,9 @@ Route::group(['middleware'=>['login_auth']],function(){
 
         Route::prefix('search')->group(function () {
             Route::get('/student', [EnrollmentController::class, 'searchStud'])->name('searchStud');
+            Route::get('/liveSearchStudent', [EnrollmentController::class, 'liveSearchStudent'])->name('liveSearchStudent');
             Route::get('/student/enroll', [EnrollmentController::class, 'searchStudEnroll'])->name('searchStudEnroll');
+            Route::get('/student/enroll/rf', [EnrollmentController::class, 'studrf_print'])->name('studrf_print');
         });
 
         Route::prefix('gradesheet')->group(function () {
@@ -214,6 +217,14 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/flist/search', [SchedClassEnrollController::class, 'faculty_listsearch'])->name('faculty_listsearch');
         });
 
+        Route::prefix('designation')->group(function () {
+            Route::get('/list', [SchedClassEnrollController::class, 'faculty_design'])->name('faculty_design');
+            Route::get('/fdlist/search', [SchedClassEnrollController::class, 'faculty_design_search'])->name('faculty_design_search');
+            Route::post('/fdlist/Add', [SchedClassEnrollController::class, 'faculty_designdAdd'])->name('faculty_designdAdd');
+            Route::get('/fdlist/edit/{id}', [SchedClassEnrollController::class, 'facdegEdit'])->name('facdegEdit');
+            Route::get('/getProgramId/{code}', [SchedClassEnrollController::class, 'getProgramId'])->name('getProgramId');
+        });
+
         Route::prefix('reports')->group(function () {
             Route::get('/list/subjects', [SchedReportsController::class, 'subjectsRead'])->name('subjectsRead');
             Route::get('/list/facultyload', [SchedReportsController::class, 'facultyloadRead'])->name('facultyloadRead');
@@ -244,6 +255,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/view/studgrde/{subjID}', [GradingController::class, 'gradesstud'])->name('gradesstud');
             Route::get('/list/viewsearch', [GradingController::class, 'gradesstud_search'])->name('gradesstud_search');
             Route::post('/list/view/studgrde/save', [GradingController::class, 'save_grades'])->name('save_grades');
+            Route::post('/list/view/studgrdeComp/save', [GradingController::class, 'save_gradesComp'])->name('save_gradesComp');
             Route::post('/list/view/studgrde/submit/{subjID}', [GradingController::class, 'updateStatus_gradessubmit'])->name('updateStatus_gradessubmit');
             Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
         });

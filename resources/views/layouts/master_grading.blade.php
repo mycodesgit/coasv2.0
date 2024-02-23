@@ -147,7 +147,7 @@
         </div>
         <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
             <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
+            <i class="text-light">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
     @include('portal.modal-terms')
@@ -206,6 +206,27 @@
         function updateGrade(id, grade){
              $.ajax({
                 url: '{{ route('save_grades') }}',
+                method: 'POST',
+                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
+                success: function (data) {
+                    console.log(data.gradeCount);
+                    if(data.gradeCount > 0){
+                        $('#submitgradeid').prop('disabled', false);
+                    }else{
+                        $('#submitgradeid').prop('disabled', true);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+        function updateGradeComp(id, grade){
+             $.ajax({
+                url: '{{ route('save_gradesComp') }}',
                 method: 'POST',
                 data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
                 success: function (data) {

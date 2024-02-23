@@ -24,9 +24,61 @@ use App\Models\ScheduleDB\Faculty;
 
 class AdAdmissionController extends Controller
 {
+    public function countApplicantsByCampus()
+    {
+        $campuses = ['MC', 'VC', 'SCC', 'MP', 'HC', 'IC', 'CA', 'CC', 'SC', 'HinC'];
+
+        $counts = [];
+        $totalCount = 0;
+
+        foreach ($campuses as $campus) {
+            $count = Applicant::where('campus', $campus)->count();
+            $counts[$campus] = $count;
+            $totalCount += $count;
+        }
+
+        $counts['total'] = $totalCount;
+        return $counts;
+    }
+
+    private function shareCounts()
+    {
+        $MainRegCount = Applicant::where('campus', 'MC')->where('p_status', 1)->count();
+        $MainSchedCount = Applicant::where('campus', 'MC')->where('p_status', 2)->count();
+
+
+        $IlogRegCount = Applicant::where('campus', 'IC')->where('p_status', '1')->count();
+        $IlogSchedCount = Applicant::where('campus', 'IC')->where('p_status', '2')->count();
+
+        $CauayanRegCount = Applicant::where('campus', 'CC')->where('p_status', '1')->count();
+        $CauayanSchedCount = Applicant::where('campus', 'CC')->where('p_status', '2')->count();
+
+        $SipalayRegCount = Applicant::where('campus', 'SC')->where('p_status', '1')->count();
+        $SipalaySchedCount = Applicant::where('campus', 'SC')->where('p_status', '2')->count();
+
+        $HinobaanRegCount = Applicant::where('campus', 'HinC')->where('p_status', '1')->count();
+        $HinobaanSchedCount = Applicant::where('campus', 'HinC')->where('p_status', '2')->count();
+
+        $HinigaranRegCount = Applicant::where('campus', 'HC')->where('p_status', '1')->count();
+        $HinigaranSchedCount = Applicant::where('campus', 'HC')->where('p_status', '2')->count();
+
+        $MoisesRegCount = Applicant::where('campus', 'MP')->where('p_status', '1')->count();
+        $MoisesSchedCount = Applicant::where('campus', 'MP')->where('p_status', '2')->count();
+
+        $SancarlosRegCount = Applicant::where('campus', 'SCC')->where('p_status', '1')->count();
+        $SancarlosSchedCount = Applicant::where('campus', 'SCC')->where('p_status', '2')->count();
+
+        $VictoriasRegCount = Applicant::where('campus', 'VC')->where('p_status', '1')->count();
+        $VictoriasSchedCount = Applicant::where('campus', 'VC')->where('p_status', '2')->count();
+
+        view()->share(compact('MainRegCount', 'MainSchedCount', 'IlogRegCount', 'IlogSchedCount', 'CauayanRegCount', 'CauayanSchedCount', 'SipalayRegCount', 'SipalaySchedCount', 'HinobaanRegCount', 'HinobaanSchedCount', 'HinigaranRegCount', 'HinigaranSchedCount', 'MoisesRegCount', 'MoisesSchedCount', 'SancarlosRegCount', 'SancarlosSchedCount', 'VictoriasRegCount', 'VictoriasSchedCount'));
+    }
+
     public function index()
     {
-        return view('admission.index');
+        $this->shareCounts();
+        $applicantCounts = $this->countApplicantsByCampus();
+        return view('admission.index', compact('applicantCounts'));
     }
 
     public function applicant_add()
@@ -319,11 +371,21 @@ class AdAdmissionController extends Controller
         return Redirect::route('applicant_edit', encrypt($id))->with('success','Applicant data has been updated');
     }
 
-    public function applicant_delete($id)
-    {
-        $applicant = Applicant::findOrFail($id);
-        if ($applicant == null){return redirect('admission/')->with('fail', 'The Applicant does not exist.');}
-        if ($applicant->delete()){$docts = ApplicantDocs::where('admission_id','=', $applicant->admission_id)->delete();return back()->with('success', 'The Applicant was successfully deleted.');}else{return back()->with('fail', 'An error was occured while deleting the data.');}
+    // public function applicant_delete($id)
+    // {
+    //     $applicant = Applicant::findOrFail($id);
+    //     if ($applicant == null){return redirect('admission/')->with('fail', 'The Applicant does not exist.');}
+    //     if ($applicant->delete()){$docts = ApplicantDocs::where('admission_id','=', $applicant->admission_id)->delete();return back()->with('success', 'The Applicant was successfully deleted.');}else{return back()->with('fail', 'An error was occured while deleting the data.');}
+    // }
+
+    public function applicant_delete($id){
+        $applicant = Applicant::find($id);
+        $applicant->fill(['p_status' => 7])->save();
+
+        return response()->json([
+            'status'=>200,
+            'message'=>'Updated Successfully',
+        ]);
     }
     
     public function applicant_confirm($id)
@@ -368,7 +430,8 @@ class AdAdmissionController extends Controller
         $applicant->time = $request->input('time');
         $applicant->venue = $request->input('venue');
         $applicant->update();
-        return Redirect::route('applicant_edit', encrypt($id))->with('success','Applicant schedule has been saved');
+        return redirect()->back()->with('success', 'Applicant schedule has been saved');
+
     }
     
     public function slots()

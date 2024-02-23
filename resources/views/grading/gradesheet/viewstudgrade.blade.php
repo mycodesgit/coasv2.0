@@ -125,7 +125,21 @@ COAS - V1.0 || Grading Student
 
                                             
                                         </td>
-                                        <td><strong>{{ $studgrade->subjComp }}</strong></td>
+                                        <td>
+                                            @if ($studgrade->gstat == 2 && $studgrade->compstat != 2 && $studgrade->subjFgrade === 'INC')
+                                                <select class="form-control form-control-sm" name="subjComp" id="{{ $studgrade->sgid }}" onchange="updateGradeComp(this.id, this.value)">
+                                                    <option></option>
+                                                    @foreach ($grdCodeComp as $grdCodesc)
+                                                        <option value="{{ $grdCodesc->grade }}" {{ $grdCodesc->grade == $studgrade->subjComp ? 'selected' : '' }}>
+                                                            {{ $grdCodesc->grade }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            @elseif ($studgrade->compstat == 2 && $studgrade->subjFgrade === 'INC')
+                                                <strong>{{ $studgrade->subjComp }}</strong>
+                                            @endif
+                                        </td>
+
                                         <td><strong>{{ $studgrade->creditEarned }}</strong></td>
                                     </tr>
                                     @endforeach

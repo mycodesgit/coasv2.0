@@ -1,4 +1,4 @@
-@extends('layouts.master')
+    @extends('layouts.master')
 
 @section('title')
 COAS - V1.0 || Home
@@ -10,7 +10,7 @@ COAS - V1.0 || Home
 
 @section('sidemenu')
 <div style="padding: 10px; font-family: 'Oxygen', sans-serif;;">
-    <h3  style="text-align: center;">VISON</h3>
+    <h3  style="text-align: center;">VISION</h3>
     <p style="text-align: center;">CPSU as the leading technology-driven multi-disciplinary University by 2030.</p>
 
     <h3  style="text-align: center;">MISSION</h3>

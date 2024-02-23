@@ -79,16 +79,16 @@ COAS - V1.0 || Enroll Student
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Course</span></label>
                                                 <select class="form-control form-control-sm" name="course">
-                                                    <option disabled selected>Select</option>
-                                                    @foreach ($program as $programsItem)
-                                                    <option value="{{ $programsItem->code }}" {{ $programsItem->code == $selectedProgram ? 'selected' : '' }}>{{ $programsItem->code }}</option>
+                                                    @foreach ($program as $progItem)
+                                                    <option value="{{ $progItem->code }}" {{ $progItem->code == $selectedProgram ? 'selected' : '' }}>
+                                                        {{ $progItem->code }}
+                                                    </option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Year&Section</span></label>
                                                 <select class="form-control form-control-sm" name="yrsection">
-                                                    <option disabled selected>Select</option>
                                                     @foreach ($yrSections as $yrSection)
                                                         <option value="{{ $yrSection }}">{{ $yrSection }}</option>
                                                     @endforeach
@@ -137,12 +137,19 @@ COAS - V1.0 || Enroll Student
                             </form>
                         </div>
                     </div>
+                    <div class="card" style="background-color: #e9ecef">
+                        <div class="body pr-2 pl-2 pt-2">
+                        </div>
+                    </div>
                 </div>
+
                 <div class="col-md-2">
                     <div class="card mt-2" style="background-color: #e9ecef">
                         <div class="card-body">
                             <a href="{{ route('searchStud') }}" class="form-control form-control-sm btn btn-success btn-sm">Enroll New</a>
-                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Print RF</a>
+                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" data-toggle="modal" data-target="#modal-studrf">
+                                Print RF
+                            </button>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a>
                         </div>
@@ -150,8 +157,9 @@ COAS - V1.0 || Enroll Student
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
+
+@include('enrollment.studenroll.modalrf')
 
 @endsection

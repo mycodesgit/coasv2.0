@@ -53,9 +53,9 @@
     <div class="titletext">
         <p>List of Applicants Schedule in 
             @foreach($data as $applicant)
-                @if ($applicant->p_status = [1,2])
+                @if ($applicant->p_status == 1 || $applicant->p_status == 2)
                     {{ Carbon\Carbon::parse($applicant->date . ' ' . $applicant->time)->format('F j, Y g:i A') }}
-                @else
+                    @break
                 @endif
             @endforeach
         </p>    

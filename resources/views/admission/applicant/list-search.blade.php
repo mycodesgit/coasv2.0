@@ -49,6 +49,7 @@ COAS - V1.0 || Applicant Search List
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
                                             @elseif(Auth::user()->campus == 'SC') Sipalay  
                                             @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                            @elseif(Auth::user()->campus == 'VE') Valladolid 
                                         @endif
                                     </option>
                                     @if (Auth::user()->isAdmin == 0 || Auth::user()->isAdmin == 1)
@@ -62,6 +63,7 @@ COAS - V1.0 || Applicant Search List
                                         <option value="CC">Cauayan</option>
                                         <option value="SC">Sipalay</option>
                                         <option value="HinC">Hinobaan</option>
+                                        <option value="VE">Valladolid</option>
                                     @else
                                     @endif
                                 </select>
@@ -128,7 +130,7 @@ COAS - V1.0 || Applicant Search List
                         @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status == 1)
-                            <tr>
+                            <tr id="tr-{{ $applicant->id }}">
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $applicant->admission_id }}</td>
                                 <td style="text-transform: uppercase;">
@@ -153,9 +155,20 @@ COAS - V1.0 || Applicant Search List
                                 <td>{{ $applicant->campus }}</td>
                                 @if (Auth::user()->campus == request('campus'))
                                 <td style="text-align:center;">
-                                    <a href="{{  route('applicant_edit', encrypt($applicant->id ))}}" type="button" class="btn btn-primary">
-                                        <i class="fas fa-cog"></i>
-                                    </a>
+                                    <div class="btn-group">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a href="{{  route('applicant_edit', encrypt($applicant->id ))}}" class="dropdown-item btn-edit">
+                                                    <i class="fas fa-eye"></i> View
+                                                </a>
+                                                <button value="{{ $applicant->id }}" class="dropdown-item examinee-delete">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 @endif
                             </tr>

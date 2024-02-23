@@ -86,16 +86,18 @@ COAS - V1.0 || Classes Enrolled
 
                             <div class="mt-2 col-md-12">
                                 <label><span class="badge badge-secondary">Programs</span></label>
-                                <select class="form-control form-control-sm" name="class">
+                                <select class="form-control form-control-sm" name="class" id="programSelect">
                                     <option disabled selected>Select</option>
                                     @foreach ($program as $programs)
-                                    <option value="{{ $programs->code }}" @if (old('course') == "{{ $programs->code }}") {{ 'selected' }} @endif>
-                                        {{ $programs->code }}
-                                    </option>
+                                        <option value="{{ $programs->code }}" @if (old('course') == $programs->id) {{ 'selected' }} @endif>
+                                            {{ $programs->code }}
+                                        </option>
                                     @endforeach
-                                    </select>
+                                </select>
                             </div>
 
+                            <input type="hidden" name="prog_id" id="selectedProgramId">
+                            
                             <div class="mt-2 col-md-12">
                                 <label><span class="badge badge-secondary">Year & Section</span></label>
                                 <input type="text" name="class_section" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">

@@ -39,15 +39,15 @@
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <p class="lead" alt="First slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="First slide">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="First slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
                                         <p class="lead" alt="Second slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Second slide">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="Second slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
                                         <p class="lead" alt="Third slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Third slide">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="Third slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                 </div>
                             </div>

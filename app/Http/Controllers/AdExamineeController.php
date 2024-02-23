@@ -45,13 +45,15 @@ class AdExamineeController extends Controller
         $appID = decrypt($id);
         $applicant = Applicant::find($appID);
 
-        $selectedDate = $applicant->d_admission;
+        $selectedDate = $applicant->dateID;
         $selectedTime = $applicant->time;
         $selectedVenue = $applicant->venue;
         $selectedStrand = $applicant->strand;
         $selectedProgram = $applicant->course;
         $selectedPreference1 = $applicant->preference_1;
         $selectedPreference2 = $applicant->preference_2;
+
+        $currentYear = now()->year;
 
         $year = Carbon::now()->format('Y');
         $docs = ApplicantDocs::where('app_id', '=', $appID)->get();
@@ -60,6 +62,18 @@ class AdExamineeController extends Controller
         $date = AdmissionDate::select('date', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('date')->get();
         $time = Time::select('time', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('time')->get();
         $venue = Venue::select('venue', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('venue')->get();
+
+        $time1 = Time::select('ad_time.*')
+                ->where('campus', '=', Auth::user()->campus)
+                ->whereYear('created_at', $currentYear)
+                ->get();
+
+        $venue1 = Venue::select('venue', DB::raw('count(*) as total'))
+                ->where('campus', '=', Auth::user()->campus)
+                ->groupBy('venue')
+                ->whereYear('created_at', $currentYear)
+                ->get();
+
         return view('admission.examinee.edit')
         ->with('applicant', $applicant)
         ->with('docs', $docs)
@@ -68,38 +82,48 @@ class AdExamineeController extends Controller
         ->with('date', $date)
         ->with('time', $time)
         ->with('venue', $venue)
-        ->with('d_admission', $selectedDate)
-        ->with('selectedTime', $selectedTime)
-        ->with('selectedVenue', $selectedVenue)
+        ->with('time1', $time1)
+        ->with('venue1', $venue1)
+        ->with('selectedDate', $selectedDate)
+        ->with('time', $selectedTime)
+        ->with('venue', $selectedVenue)
         ->with('selectedStrand', $selectedStrand)
         ->with('selectedProgram', $selectedProgram)
         ->with('selectedPreference1', $selectedPreference1)
         ->with('selectedPreference2', $selectedPreference2);
     }
 
-    public function examinee_delete($id)
-    {
-        $examinee = Applicant::findOrFail($id);
-        if ($examinee == null){return redirect('admission/')->with('fail', 'The Applicant does not exist.');}
-        if ($examinee->delete())
-        {
-            $docts = ApplicantDocs::where('admission_id','=', $examinee->admission_id)->delete();
+    // public function examinee_delete($id)
+    // {
+    //     $appID = decrypt($id);
+    //     $examinee = Applicant::findOrFail($appID);
 
-            $docts = ExamineeResult::where('admission_id','=', $examinee->admission_id)->delete();
+    //     if ($examinee == null) {
+    //         return redirect()->back()->with('fail', 'The Applicant does not exist.');
+    //     }
+    //     $examinee->update(['p_status' => 0]);
 
-            return back()->with('success', 'The Applicant was successfully deleted.');}
-            else{
+    //     return redirect()->back()->with('success', 'Applicant status Deleted Successfully.');
+    // }
 
-            return back()->with('fail', 'An error was occured while deleting the data.');
-        }
+    public function examinee_delete($id){
+        $examinee = Applicant::find($id);
+        $examinee->fill(['p_status' => 7])->save();
+
+        return response()->json([
+            'status'=>200,
+            'message'=>'Updated Successfully',
+        ]);
     }
+
+
 
     public function assignresult($id)
     {
         $appID = decrypt($id);
         $assignresult = Applicant::findOrFail($appID);
-        $assign = ExamineeResult::where('admission_id', '=', $assignresult->admission_id)->get();
-        $per = ExamineeResult::where('admission_id', '=', $assignresult->admission_id)->get();
+        $assign = ExamineeResult::where('app_id', '=', $assignresult->id)->get();
+        $per = ExamineeResult::where('app_id', '=', $assignresult->id)->get();
         return view('admission.examinee.result-assign')->with('assignresult',$assignresult )->with('assign',$assign)->with('per',$per);
     }
 
@@ -137,7 +161,7 @@ class AdExamineeController extends Controller
         else
         {
             $examinee = Applicant::findOrFail($id);
-            $assign = ExamineeResult::where('admission_id', $examinee->admission_id)
+            $assign = ExamineeResult::where('app_id', $examinee->id)
             ->update([
                 'raw_score' => $request->input('raw_score'), 
                 'percentile' => $request->input('percentile'),
@@ -159,7 +183,7 @@ class AdExamineeController extends Controller
             $dt = Carbon::now();  
             $examinee->updated_at = $dt;
             $examinee->update();
-            return Redirect::back()->with('success','Examinee result has been updated'); 
+            return Redirect::back()->with('success','Examinee has been push to Examination Results'); 
         }
 
     }

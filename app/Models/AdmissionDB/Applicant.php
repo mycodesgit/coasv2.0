@@ -14,6 +14,7 @@ class Applicant extends Model
     protected $fillable = [
         'year',
         'en_status',
+        'p_status',
         'campus',
         'admission_id',
         'type',
@@ -49,7 +50,7 @@ class Applicant extends Model
 
     public function result()
     {
-        return $this->hasOne('App\Models\AdmissionDB\ExamineeResult', 'admission_id','admission_id');
+        return $this->hasOne('App\Models\AdmissionDB\ExamineeResult', 'app_id','id');
     }
 
     public function interview()

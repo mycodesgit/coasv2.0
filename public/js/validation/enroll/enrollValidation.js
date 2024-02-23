@@ -25,7 +25,7 @@ $(function () {
         errorElement: 'span',
         errorPlacement: function (error, element) {
             error.addClass('invalid-feedback');
-            element.closest('.col-md-2, .col-md-5, .col-md-3').append(error);        
+            element.closest('.col-md-2, .col-md-5, .col-md-12').append(error);        
         },
         highlight: function (element, errorClass, validClass) {
             $(element).addClass('is-invalid');

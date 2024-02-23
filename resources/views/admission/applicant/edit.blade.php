@@ -75,8 +75,20 @@ COAS - V1.0 || Applicant Edit
                                     <div class="col-md-2">
                                         <label><span class="badge badge-secondary">Preffered Campus</span></label>
                                         <select class="form-control form-control-sm" name="campus">
-                                            <option value="">Select</option>
-                                            <option value="MC" {{ $applicant->campus == 'MC' ? 'selected' : '' }}>Main</option>
+                                            <option value="{{Auth::user()->campus}}">
+                                                @if (Auth::user()->campus == 'MC') Main 
+                                                    @elseif(Auth::user()->campus == 'VC') Victorias 
+                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos 
+                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran 
+                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla 
+                                                    @elseif(Auth::user()->campus == 'IC') Ilog 
+                                                    @elseif(Auth::user()->campus == 'CA') Candoni 
+                                                    @elseif(Auth::user()->campus == 'CC') Cauayan 
+                                                    @elseif(Auth::user()->campus == 'SC') Sipalay 
+                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                                    @elseif(Auth::user()->campus == 'VE') Valladolid 
+                                                @endif
+                                            </option>
                                         </select>
                                     </div>
 

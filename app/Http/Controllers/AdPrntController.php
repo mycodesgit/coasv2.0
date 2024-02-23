@@ -137,12 +137,19 @@ class AdPrntController extends Controller
     {
         $repdates = AdmissionDate::orderBy('date', 'desc')->where('campus', '=', Auth::user()->campus)->groupBy('date')->pluck('date');
         $time = Time::all();
-
+        $sortedTime = $time
+            ->where('campus', '=', Auth::user()->campus)
+            ->filter(function ($data) {
+                return Carbon::parse($data->date . ' ' . $data->time)->isCurrentYear();
+        })
+        ->sortBy(function ($data) {
+            return Carbon::parse($data->date . ' ' . $data->time)->format('YmH:i');
+        });
         $strand = Strands::orderBy('id', 'asc')->get();
         $date = AdmissionDate::select('date', DB::raw('count(*) as total'))->groupBy('date')->get();
         $venue = Venue::select('venue', DB::raw('count(*) as total'))->groupBy('venue')->get();
         
-        return view('admission.reports.schedules', compact('strand', 'date', 'time', 'venue', 'repdates'));
+        return view('admission.reports.schedules', compact('strand', 'date', 'time', 'sortedTime', 'venue', 'repdates'));
     }
 
 
@@ -162,11 +169,11 @@ class AdPrntController extends Controller
         $selectedDates = is_array($selectedDates) ? $selectedDates : [$selectedDates];
 
         $data = Applicant::select('ad_applicant_admission.*', 'ad_time.*')
-                        ->join('ad_time', 'ad_applicant_admission.d_admission', '=', 'ad_time.id')
+                        ->join('ad_time', 'ad_applicant_admission.d_admission', '=', 'ad_time.date')
                         ->whereIn('ad_applicant_admission.year', $selectedYear)
                         ->whereIn('ad_applicant_admission.campus', $selectedCampus)
                         ->whereIn('ad_time.id', $selectedDates)
-                        ->where('p_status', [1, 2])
+                        ->whereIn('p_status', [1, 2])
                         ->get();
 
         $totalSearchResults = count($data);
@@ -190,11 +197,11 @@ class AdPrntController extends Controller
         $selectedDates = is_array($selectedDates) ? $selectedDates : [$selectedDates];
 
         $data = Applicant::select('ad_applicant_admission.*', 'ad_time.*')
-                        ->join('ad_time', 'ad_applicant_admission.d_admission', '=', 'ad_time.id')
+                        ->join('ad_time', 'ad_applicant_admission.d_admission', '=', 'ad_time.date')
                         ->whereIn('ad_applicant_admission.year', $selectedYear)
                         ->whereIn('ad_applicant_admission.campus', $selectedCampus)
                         ->whereIn('ad_time.id', $selectedDates)
-                        ->where('p_status', [1, 2])
+                        ->whereIn('p_status', [1, 2])
                         ->get();
 
         $totalSearchResults = count($data);

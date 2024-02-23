@@ -76,7 +76,7 @@ class SettingController extends Controller
 
                 return redirect()->route('usersRead')->with('success', 'User stored successfully!');
             } catch (\Exception $e) {
-                return redirect()->route('usersRead')->with('error', 'Failed to store user!');
+                return redirect()->route('usersRead')->with('fail', 'Failed to store user!');
             }
         }
     }

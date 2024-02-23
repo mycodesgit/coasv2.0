@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Rules\UniqueStudentID;
 
-
+use PDF;
 use Storage;
 use Carbon\Carbon;
 use App\Models\EnrollmentDB\Student;
@@ -29,9 +30,27 @@ class EnrollmentController extends Controller
 
     public function searchStud()
     {   
-        $data = Student::where('status', '=', 1)->get();
-        return view('enrollment.studenroll.index', compact('data'));
+        return view('enrollment.studenroll.index');
     }
+
+    public function liveSearchStudent(Request $request)
+    {
+        $search = $request->input('search');
+        $enStatus = $request->input('en_status');
+
+        $students = Student::where('status', 1)
+            ->where('campus', '=', Auth::user()->campus)
+            ->where('en_status', $enStatus) // Filter by en_status
+            ->where(function ($query) use ($search) {
+                $query->where('stud_id', 'LIKE', '%' . $search . '%')
+                    ->orWhere('lname', 'LIKE', '%' . $search . '%')
+                    ->orWhere('mname', 'LIKE', '%' . $search . '%')
+                    ->orWhere('fname', 'LIKE', '%' . $search . '%');
+            })
+            ->get();
+        return response()->json($students);
+    }
+
 
     public function searchStudEnroll(Request $request)
     {
@@ -61,5 +80,13 @@ class EnrollmentController extends Controller
         $yrSections = $classEnrolls->pluck('class_section')->unique();
     
         return view('enrollment.studenroll.enrollStudent', compact('data', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'selectedProgram', 'yrSections'));
+    }
+
+    public function studrf_print()
+    {
+        // $applicant = Applicant::find($id); 
+        // view()->share('applicant',$applicant);
+        $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRF')->setPaper('Legal', 'portrait');
+        return $pdf->stream();
     }
 }

@@ -75,8 +75,20 @@ COAS - V1.0 || Applicant Edit
                                     <div class="col-md-2">
                                         <label><span class="badge badge-secondary">Preffered Campus</span></label>
                                         <select class="form-control form-control-sm" name="campus">
-                                            <option value="">Select</option>
-                                            <option value="MC" {{ $applicant->campus == 'MC' ? 'selected' : '' }}>Main</option>
+                                            <option value="{{Auth::user()->campus}}">
+                                                @if (Auth::user()->campus == 'MC') Main 
+                                                    @elseif(Auth::user()->campus == 'VC') Victorias 
+                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos 
+                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran 
+                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla 
+                                                    @elseif(Auth::user()->campus == 'IC') Ilog 
+                                                    @elseif(Auth::user()->campus == 'CA') Candoni 
+                                                    @elseif(Auth::user()->campus == 'CC') Cauayan 
+                                                    @elseif(Auth::user()->campus == 'SC') Sipalay 
+                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                                    @elseif(Auth::user()->campus == 'VE') Valladolid 
+                                                @endif
+                                            </option>
                                         </select>
                                     </div>
 
@@ -304,6 +316,60 @@ COAS - V1.0 || Applicant Edit
                     </div>
 
                     <div class="tab-pane fade" id="vert-tabs-right-three" role="tabpanel" aria-labelledby="vert-tabs-right-three-tab">
+                        <form method="post" action="{{ route('applicant_schedule_save', $applicant->id) }}" enctype="multipart/form-data" id="admissionApply">
+                            @csrf
+
+                            <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
+                                <h4>Schedule Examination</h4>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <label><span class="badge badge-secondary">Date of Admission Test</span></label>
+                                        <select class="form-control form-control-md" name="dateID" style="text-transform: uppercase;" onchange="updateDateTime()">
+                                            <option disabled selected> ---Select--- </option>
+                                            @foreach ($time1 as $dateItem)
+                                                <option value="{{ $dateItem->id }}" {{ $dateItem->id == $selectedDate ? 'selected' : '' }}>
+                                                    {{ Carbon\Carbon::parse($dateItem->date . ' ' . $dateItem->time)->format('F j Y g:i A') }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <input type="hidden" id="selectedDate" name="d_admission" class="form-control form-control-md" placeholder="Selected Date">
+                                    <input type="hidden" id="selectedTime" name="time" class="form-control form-control-md" placeholder="Selected Time">
+
+
+                                    <div class="col-md-6">
+                                        <label><span class="badge badge-secondary">Venue</span></label>
+                                        <select class="form-control form-control-md" name="venue" style="text-transform: uppercase;">
+                                            <option disabled selected> ---Select--- </option>
+                                            @foreach ($venue1 as $venueItem)
+                                                <option value="{{ $venueItem->venue }}" {{ $venueItem->venue == $venue ? 'selected' : '' }}>
+                                                    {{ $venueItem->venue }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5 mb-3">
+                                <div class="col-md-12 col-6 d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary btn-md">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    &nbsp;&nbsp;
+                                    <button type="reset" class="btn btn-danger btn-md">
+                                        <i class="fas fa-refresh"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="vert-tabs-right-four" role="tabpanel" aria-labelledby="vert-tabs-right-four-tab">
                         <form method="post" action="{{ route('examinee_result_save_nd', $applicant->id) }}" enctype="multipart/form-data" id="admissionApply">
                             @csrf
                             @method('PUT')
@@ -341,14 +407,14 @@ COAS - V1.0 || Applicant Edit
                         </form>
                     </div>
 
-                    <div class="tab-pane fade" id="vert-tabs-right-four" role="tabpanel" aria-labelledby="vert-tabs-right-four-tab">
+                    <div class="tab-pane fade" id="vert-tabs-right-five" role="tabpanel" aria-labelledby="vert-tabs-right-five-tab">
                         <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>Print / Download Data</h4>
                         </div>
                         <iframe src="{{ route('applicant_genPDF', $applicant->id) }}" width="100%" height="800" class="mt-3"></iframe>
                     </div>
 
-                    <div class="tab-pane fade" id="vert-tabs-right-five" role="tabpanel" aria-labelledby="vert-tabs-right-five-tab">
+                    <div class="tab-pane fade" id="vert-tabs-right-six" role="tabpanel" aria-labelledby="vert-tabs-right-six-tab">
                         <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>Capture Image</h4>
                         </div>
@@ -382,7 +448,7 @@ COAS - V1.0 || Applicant Edit
                         </form>
                     </div>
 
-                    <div class="tab-pane fade" id="vert-tabs-right-six" role="tabpanel" aria-labelledby="vert-tabs-right-six-tab">
+                    <div class="tab-pane fade" id="vert-tabs-right-seven" role="tabpanel" aria-labelledby="vert-tabs-right-seven-tab">
                         <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>Push Result</h4>
                         </div>
@@ -413,10 +479,11 @@ COAS - V1.0 || Applicant Edit
                             <div class="nav flex-column nav-pills nav-stacked nav-tabs-right h-100" id="vert-tabs-right-tab" role="tablist" aria-orientation="vertical">
                                 <a class="nav-link active" id="vert-tabs-right-one-tab" data-toggle="pill" href="#vert-tabs-right-one" role="tab" aria-controls="vert-tabs-right-one" aria-selected="true">Information</a>
                                 <a class="nav-link" id="vert-tabs-right-two-tab" data-toggle="pill" href="#vert-tabs-right-two" role="tab" aria-controls="vert-tabs-right-two" aria-selected="false">Uploaded Docs</a>
-                                <a class="nav-link" id="vert-tabs-right-three-tab" data-toggle="pill" href="#vert-tabs-right-three" role="tab" aria-controls="vert-tabs-right-three" aria-selected="false">Test Result</a>
-                                <a class="nav-link" id="vert-tabs-right-four-tab" data-toggle="pill" href="#vert-tabs-right-four" role="tab" aria-controls="vert-tabs-right-four" aria-selected="false">View Print</a>
-                                <a class="nav-link" id="vert-tabs-right-five-tab" data-toggle="pill" href="#vert-tabs-right-five" role="tab" aria-controls="vert-tabs-right-five" aria-selected="false">Capture Image</a>
-                                <a class="nav-link" id="vert-tabs-right-six-tab" data-toggle="pill" href="#vert-tabs-right-six" role="tab" aria-controls="vert-tabs-right-six" aria-selected="false">Push to Result</a>
+                                <a class="nav-link" id="vert-tabs-right-three-tab" data-toggle="pill" href="#vert-tabs-right-three" role="tab" aria-controls="vert-tabs-right-three" aria-selected="false">Schedule</a>
+                                <a class="nav-link" id="vert-tabs-right-four-tab" data-toggle="pill" href="#vert-tabs-right-four" role="tab" aria-controls="vert-tabs-right-four" aria-selected="false">Test Result</a>
+                                <a class="nav-link" id="vert-tabs-right-five-tab" data-toggle="pill" href="#vert-tabs-right-five" role="tab" aria-controls="vert-tabs-right-five" aria-selected="false">View Print</a>
+                                <a class="nav-link" id="vert-tabs-right-six-tab" data-toggle="pill" href="#vert-tabs-right-six" role="tab" aria-controls="vert-tabs-right-six" aria-selected="false">Capture Image</a>
+                                <a class="nav-link" id="vert-tabs-right-seven-tab" data-toggle="pill" href="#vert-tabs-right-seven" role="tab" aria-controls="vert-tabs-right-seven" aria-selected="false">Push to Result</a>
                             </div>
                             </div>
                     </div>

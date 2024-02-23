@@ -49,6 +49,7 @@ COAS - V1.0 || Examinee Results
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
                                             @elseif(Auth::user()->campus == 'SC') Sipalay 
                                             @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                            @elseif(Auth::user()->campus == 'VE') Valladolid 
                                         @endif
                                     </option>
                                     @if (Auth::user()->isAdmin == 0)
@@ -62,6 +63,7 @@ COAS - V1.0 || Examinee Results
                                         <option value="CC">Cauayan</option>
                                         <option value="SC">Sipalay</option>
                                         <option value="HinC">Hinobaan</option>
+                                        <option value="VE">Valladolid</option>
                                     @else
                                     @endif
                                 </select>
@@ -100,7 +102,7 @@ COAS - V1.0 || Examinee Results
         </div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="" class="table table-hover">
                     <thead>
                         <tr>
                             <th>#</th>

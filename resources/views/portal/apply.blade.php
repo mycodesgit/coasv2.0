@@ -111,7 +111,7 @@
 
                                                     <div class="col-md-2">
                                                         <label><span class="badge badge-secondary">Preferred Campus</span></label>
-                                                        <select class="form-control form-control-sm" name="campus">
+                                                        <select class="form-control form-control-sm" name="campus" id="campus">
                                                             <option disabled selected>Select</option>
                                                             <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} @endif>Main</option>
                                                             <option value="VC" @if (old('type') == 'VC') {{ 'selected' }} @endif>Victorias</option>
@@ -123,6 +123,7 @@
                                                             <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} @endif>Cauayan</option>
                                                             <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} @endif>Sipalay</option>
                                                             <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} @endif>Hinobaan</option>
+                                                            <option value="VE" @if (old('type') == 'VE') {{ 'selected' }} @endif>Valladolid</option>
                                                         </select>
                                                     </div>
 
@@ -274,9 +275,7 @@
                                                         <label><span class="badge badge-secondary">Course Preference 1</span></label>
                                                         <select class="form-control form-control-sm" name="preference_1" style="text-transform: uppercase;">
                                                             <option value="">Select Course Preference</option>
-                                                            @foreach ($program as $programs)
-                                                            <option value="{{ $programs->code }}">{{ $programs->program }}</option>
-                                                            @endforeach
+                                                            
                                                         </select>
                                                     </div>
 
@@ -284,9 +283,6 @@
                                                         <label><span class="badge badge-secondary">Course Preference 2</span></label>
                                                         <select class="form-control form-control-sm" name="preference_2" style="text-transform: uppercase;">
                                                             <option value="">Select Course Preference</option>
-                                                            @foreach ($program as $programs)
-                                                            <option value="{{ $programs->code }}">{{ $programs->program }}</option>
-                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -422,6 +418,35 @@
 
             document.getElementById('age').value = age;
         }
+    </script>
+
+    <script>
+        const programsRoute = '{{ route('getProgramsByCampus') }}';
+        function updateCoursePreferences(campus) {
+            $.ajax({
+                url: programsRoute + '?campus=' + campus,
+                type: 'GET',
+                success: function (data) {
+                    updateOptions('preference_1', data.programs);
+                    updateOptions('preference_2', data.programs);
+                },
+                error: function () {
+                    console.error('Error fetching programs');
+                }
+            });
+        }
+        function updateOptions(selectName, options) {
+            const select = $('select[name=' + selectName + ']');
+            select.empty();
+            select.append('<option value="">Select Course Preference</option>');
+            $.each(options, function (key, value) {
+                select.append('<option value="' + value.code + '">' + value.program + '</option>');
+            });
+        }
+        $('#campus').change(function () {
+            const selectedCampus = $(this).val();
+            updateCoursePreferences(selectedCampus);
+        });
     </script>
 
     {{-- <script type="text/javascript">

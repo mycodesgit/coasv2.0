@@ -69,15 +69,13 @@ COAS - V1.0 || Admission Schedules
                                 <label><span class="badge badge-secondary">Admission Date</span></label>
                                 <select class="form-control form-control-sm select2bs4" name="date">
                                     <option disabled selected> --- Select --- </option>
-                                    @foreach($repdates as $date)
-                                        @foreach($time as $data)
-                                            @if($data->date == $date)
-                                                <option value="{{ $data->id }}">
-                                                    {{ Carbon\Carbon::parse($date . ' ' . $data->time)->format('F j, Y g:i A') }}
-                                                </option>
-                                            @endif
+                                    @auth
+                                        @foreach($sortedTime as $data)
+                                            <option value="{{ $data->id }}">
+                                                {{ Carbon\Carbon::parse($data->date . ' ' . $data->time)->format('F j, Y g:i A') }}
+                                            </option>
                                         @endforeach
-                                    @endforeach
+                                    @endauth
                                 </select>
                             </div>
 

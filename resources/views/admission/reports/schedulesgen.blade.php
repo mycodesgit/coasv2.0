@@ -61,7 +61,18 @@ COAS - V1.0 || Admission Schedules
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
-                        Datetime-<b>{{ request('date') }}</b>,
+                        Datetime-<b>
+                            @php
+                                $dateID = request('date');
+                                $adTime = \App\Models\AdmissionDB\Time::where('id', $dateID)->first();
+
+                                if ($adTime) {
+                                    echo $adTime->date;
+                                } else {
+                                    echo 'Date not found in ad_time table';
+                                }
+                            @endphp
+                        </b>,
                     </i>
                 </small>
             </h5>

@@ -74,6 +74,7 @@
                                     <option value="CC" @if (old('campus') == 'CC') {{ 'selected' }} @endif>Cauayan</option>
                                     <option value="SC" @if (old('campus') == 'SC') {{ 'selected' }} @endif>Sipalay</option>
                                     <option value="HinC" @if (old('campus') == 'HinC') {{ 'selected' }} @endif>Hinobaan</option>
+                                    <option value="VE" @if (old('campus') == 'VE') {{ 'selected' }} @endif>Valladolid</option>
                                 </select>
                             </div>
 

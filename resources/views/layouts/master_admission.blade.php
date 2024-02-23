@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
@@ -94,14 +98,62 @@
                                             <li class="breadcrumb-item active mt-1">Admission</li>
                                         </ol>
                                         <div class="workspace-top" style="text-align: center;">
-                                            <h1 class="fas fa-mug-hot fa-7x" style="color: #04401f"></h1>
-                                            <h1><span style="color:#ffff66;font-size: 70px;">Eey!</span> Grab a coffee before doing something.</h1>
-                                            <p>  <i class="fas fa-quote-left fa-2x fa-pull-left"></i>
-                                                Gatsby believed in the green light, the orgastic future that year by year recedes before us.
-                                                It eluded us then, but that’s no matter — tomorrow we will run faster, stretch our arms further...
-                                                And one fine morning — So we beat on, boats against the current, borne back ceaselessly into the past.
-                                            </p>
-                                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                                            @php $curr_route = request()->route()->getName(); @endphp
+                                            @if($curr_route == 'admission-index')
+                                            <div class="">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Bar Chart All Extension Campuses</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="chart">
+                                                        <div class="position-relative mb-4">
+                                                            <canvas id="sales-chart"
+                                                                    data-main="{!! $MainRegCount !!}"
+                                                                    data-main-sched="{!! $MainSchedCount !!}"
+                                                                    data-ilog="{!! $IlogRegCount !!}"
+                                                                    data-ilog-sched="{!! $IlogSchedCount !!}" 
+                                                                    data-cauayan="{!! $CauayanRegCount !!}"
+                                                                    data-cauayan-sched="{!! $CauayanSchedCount !!}" 
+                                                                    data-siplay="{!! $SipalayRegCount !!}"
+                                                                    data-siplay-sched="{!! $SipalaySchedCount !!}" 
+                                                                    data-hinobaan="{!! $HinobaanRegCount !!}"
+                                                                    data-hinobaan-sched="{!! $HinobaanSchedCount !!}" 
+                                                                    data-hinigaran="{!! $HinigaranRegCount !!}"
+                                                                    data-hinigaran-sched="{!! $HinigaranSchedCount !!}" 
+                                                                    data-moises="{!! $MoisesRegCount !!}"
+                                                                    data-moises-sched="{!! $MoisesSchedCount !!}" 
+                                                                    data-sancarlos="{!! $SancarlosRegCount !!}"
+                                                                    data-sancarlos-sched="{!! $SancarlosSchedCount !!}" 
+                                                                    data-victorias="{!! $VictoriasRegCount !!}"
+                                                                    data-victorias-sched="{!! $VictoriasSchedCount !!}" 
+                                                                    height="200">
+                                                            </canvas>
+                                                        </div>
+                                                        <div class="d-flex flex-row justify-content-end">
+                                                            <span class="mr-2">
+                                                                <i class="fas fa-square" style="color: #90ee90"></i> Applicant Registered
+                                                            </span>
+
+                                                            <span class="mr-2">
+                                                                <i class="fas fa-square" style="color: #00a65a"></i> Applicant Scheduled
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-4 col-md-2">
+                                                    <div class="info-box">
+                                                        <div class="info-box-content">
+                                                            <span class="info-box-text">CPU Traffic</span>
+                                                            <span class="info-box-number">
+                                                                10
+                                                                <small>%</small>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +165,7 @@
         </div>
         <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
             <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
+            <i class="text-light">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
     @include('modal.examinee-modal')
@@ -147,6 +199,11 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}"></script>
@@ -155,6 +212,12 @@
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
+    @php $curr_route = request()->route()->getName(); @endphp
+    @if($curr_route == 'admission-index')
+    <!-- ChartJS -->
+    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('js/chart/dashall.js') }}"></script>
+    @endif
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
@@ -174,6 +237,9 @@
             $("#alert").delay(4500).fadeOut(5000);
         }, 0); 
     </script>
+
+    @include('script.examineeDelete')
+    @include('script.applicantDelete')
  
 
 </body>
