@@ -12,7 +12,8 @@
     $confActive = in_array($curr_route, ['configure_admission', 'edit_program', 'edit_strand', 'edit_date', 'edit_time', 'edit_venue']) ? 'active' : '';
 
     $appsreportActive = in_array($curr_route, ['applicant_printing', 'applicant_reports']) ? 'active' : '';
-    $schedreportActive = in_array($curr_route, ['schedules_printing', 'schedules_reports']) ? 'active' : '';   
+    $schedreportActive = in_array($curr_route, ['schedules_printing', 'schedules_reports']) ? 'active' : '';
+    $noschedreportActive = in_array($curr_route, ['nosched_printing', 'nosched_reports']) ? 'active' : '';   
     $examreportActive = in_array($curr_route, ['examination_printing', 'examination_reports']) ? 'active' : '';  
     $qualreportActive = in_array($curr_route, ['qualified_printing']) ? 'active' : '';    
 @endphp
@@ -41,6 +42,7 @@
     <ul class="list-group">
         <a href="{{ route('applicant_printing') }}" class="list-group-item {{ $appsreportActive }}">Applicants</a>
         <a href="{{ route('schedules_printing') }}" class="list-group-item {{ $schedreportActive }}">Admission Schedules</a>
+        <a href="{{ route('nosched_printing') }}" class="list-group-item {{ $noschedreportActive}}">Applicants No Sched</a>
         <a href="{{ route('examination_printing') }}" class="list-group-item {{ $examreportActive }}">Examination Results</a>
         <a href="{{ route('qualified_printing') }}" class="list-group-item {{ $qualreportActive }}">Qualified Applicants</a>
         <a href="" class="list-group-item">Confirmed Applicants</a> 

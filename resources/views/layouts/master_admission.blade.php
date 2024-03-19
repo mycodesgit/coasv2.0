@@ -32,6 +32,11 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <style>
+        .toast-top-right {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
@@ -212,6 +217,9 @@
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
+    <!-- Ajax -->
+    <script src="{{ asset('js/ajax/examineeajax/examineeSerialize.js') }}"></script>
+
     @php $curr_route = request()->route()->getName(); @endphp
     @if($curr_route == 'admission-index')
     <!-- ChartJS -->
@@ -223,6 +231,7 @@
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <script src="{{ asset('js/validation/apply/applyValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/applicant/applicantValidation.js') }}"></script>
     <script src="{{ asset('js/validation/configureAd/progCon.js') }}"></script>
     <script src="{{ asset('js/validation/configureAd/strandCon.js') }}"></script>
     <script src="{{ asset('js/validation/configureAd/dateCon.js') }}"></script>

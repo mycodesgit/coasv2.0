@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\Faculty;
 use App\Models\ScheduleDB\FacDesignation;
+use App\Models\ScheduleDB\Room;
+use App\Models\ScheduleDB\College;
 use App\Models\ScheduleDB\FacultyLoad;
 use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
@@ -86,6 +88,25 @@ class SchedClassEnrollController extends Controller
         return redirect()->back()->with('success','The Course and Section successfully saved in this semester');
     }
 
+    public function classEnrolledUpdate(Request $request)
+    {
+        // Add validation if needed
+
+        $id = $request->input('edit_id');
+        $class = $request->input('edit_class');
+        $class_section = $request->input('edit_class_section');
+        $progid = $request->input('prog_id');
+
+        $classEnroll = ClassEnroll::find($id);
+        $classEnroll->class = $class;
+        $classEnroll->class_section = $class_section;
+        $classEnroll->prog_id = $progid;
+        $classEnroll->save();
+
+        return redirect()->back()->with('success', 'The Course and Section successfully updated.');
+    }
+
+
     public function subjectsOffered() 
     {
         return view('scheduler.subOff.list_subOff');
@@ -143,7 +164,7 @@ class SchedClassEnrollController extends Controller
 
         $faclist = Faculty::all();
 
-        $data = FacDesignation::select('fac_designation.*', 'faculty.*')
+        $data = FacDesignation::select('fac_designation.*', 'faculty.*', 'fac_designation.id as fcdid')
                         ->join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
                         ->where('fac_designation.schlyear', $schlyear)
                         ->where('fac_designation.semester', $semester)
@@ -190,10 +211,37 @@ class SchedClassEnrollController extends Controller
         return redirect()->back()->with('success','Faculty Designation successfully saved in this semester');
     }
 
+    public function faculty_designdUpdate(Request $request)
+    {
+        $id = $request->input('edit_id');
+        $facdept = $request->input('edit_facdept');
+        $fac_id = $request->input('edit_fac_id');
+        $designation = $request->input('edit_designation');
+        $dunit = $request->input('edit_dunit');
+
+        $facDesig = FacDesignation::find($id);
+        $facDesig->facdept = $facdept;
+        $facDesig->fac_id = $fac_id;
+        $facDesig->designation = $designation;
+        $facDesig->dunit = $dunit;
+
+        $facDesig->save();
+
+        return redirect()->back()->with('success', 'Faculty Designation successfully updated.');
+    }
+
+
     public function getProgramId($code)
     {
         $program = Programs::where('code', $code)->first();
         return response()->json(['id' => $program->id]);
+    }
+
+    public function rooms() 
+    {
+        $rdata = Room::join('college', 'rooms.college_room', 'college.id')
+                ->where('campus', '=', Auth::user()->campus)->get();
+        return view('scheduler.room.rlist', compact('rdata'));
     }
 }
 

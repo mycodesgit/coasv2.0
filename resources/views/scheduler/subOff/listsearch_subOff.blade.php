@@ -5,7 +5,7 @@ COAS - V1.0 || Subject Offered
 @endsection
 
 @section('sideheader')
-<h4>Scheduler</h4>
+<h4>Option</h4>
 @endsection
 
 @yield('sidemenu')
@@ -20,6 +20,7 @@ COAS - V1.0 || Subject Offered
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Scheduler</li>
+            <li class="breadcrumb-item active mt-1">Option</li>
             <li class="breadcrumb-item active mt-1">Subject Offered</li>
         </ol>
 

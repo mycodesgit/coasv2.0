@@ -19,7 +19,11 @@ use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnreportsController;
 
 use App\Http\Controllers\SchedClassEnrollController;
+use App\Http\Controllers\SchedClassController;
 use App\Http\Controllers\SchedReportsController;
+
+use App\Http\Controllers\StudFundAssessmentController;
+use App\Http\Controllers\StudFeeAssessmentController;
 
 use App\Http\Controllers\ScholarshipController;
 
@@ -160,6 +164,10 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/schedulesReports', [AdPrntController::class, 'schedules_reports'])->name('schedules_reports');
             Route::get('/schedulesReports/PDF', [AdPrntController::class, 'schedulesPDF_reports'])->name('schedulesPDF_reports');
 
+            Route::get('/no/sched', [AdPrntController::class, 'nosched_printing'])->name('nosched_printing');
+            Route::post('/no/sched/reports', [AdPrntController::class, 'nosched_reports'])->name('nosched_reports');
+            Route::get('/no/sched/PDF', [AdPrntController::class, 'noschedPDF_reports'])->name('noschedPDF_reports');
+
             Route::get('/examination', [AdPrntController::class, 'examination_printing'])->name('examination_printing');
             Route::get('/examinationReports', [AdPrntController::class, 'examination_reports'])->name('examination_reports');
             Route::get('/examinationReports/PDF', [AdPrntController::class, 'examinationPDF_reports'])->name('examinationPDF_reports');
@@ -207,6 +215,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list', [SchedClassEnrollController::class, 'courseEnroll_list'])->name('courseEnroll_list');
             Route::get('/list/search', [SchedClassEnrollController::class, 'courseEnroll_list_search'])->name('courseEnroll_list_search');
             Route::post('/list/Add', [SchedClassEnrollController::class, 'classEnrolledAdd'])->name('classEnrolledAdd');
+            Route::post('/list/update', [SchedClassEnrollController::class, 'classEnrolledUpdate'])->name('classEnrolledUpdate');
 
             Route::get('/list/subjectOff', [SchedClassEnrollController::class, 'subjectsOffered'])->name('subjectsOffered');
             Route::get('/list/subjectOff/search', [SchedClassEnrollController::class, 'subjectsOffered_search'])->name('subjectsOffered_search');
@@ -221,8 +230,18 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list', [SchedClassEnrollController::class, 'faculty_design'])->name('faculty_design');
             Route::get('/fdlist/search', [SchedClassEnrollController::class, 'faculty_design_search'])->name('faculty_design_search');
             Route::post('/fdlist/Add', [SchedClassEnrollController::class, 'faculty_designdAdd'])->name('faculty_designdAdd');
-            Route::get('/fdlist/edit/{id}', [SchedClassEnrollController::class, 'facdegEdit'])->name('facdegEdit');
+            Route::post('/fdlist/update', [SchedClassEnrollController::class, 'faculty_designdUpdate'])->name('faculty_designdUpdate');
             Route::get('/getProgramId/{code}', [SchedClassEnrollController::class, 'getProgramId'])->name('getProgramId');
+        });
+
+        Route::prefix('rooms')->group(function () {
+            Route::get('/listr', [SchedClassEnrollController::class, 'rooms'])->name('rooms');
+        });
+
+        Route::prefix('schedule')->group(function () {
+            Route::get('/class', [SchedClassController::class, 'classSchedRead'])->name('classSchedRead');
+            Route::get('/faculty', [SchedClassController::class, 'facultySchedRead'])->name('facultySchedRead');
+            Route::get('/room', [SchedClassController::class, 'roomSchedRead'])->name('roomSchedRead');
         });
 
         Route::prefix('reports')->group(function () {
@@ -232,6 +251,35 @@ Route::group(['middleware'=>['login_auth']],function(){
         });
 
     });
+
+    Route::prefix('emp/assessment')->group(function () {
+        
+        Route::get('/', [StudFundAssessmentController::class, 'index'])->name('assessment-index');
+
+        Route::prefix('funds')->group(function () {
+            Route::get('/list', [StudFundAssessmentController::class, 'fundsRead'])->name('fundsRead');
+            Route::get('/list/ajaxfund', [StudFundAssessmentController::class, 'getfundsRead'])->name('getfundsRead');
+            Route::post('/list/add', [StudFundAssessmentController::class, 'fundCreate'])->name('fundCreate');
+            Route::post('/list/fund/update', [StudFundAssessmentController::class, 'fundUpdate'])->name('fundUpdate');
+            Route::get('/list/fund/delete{id}', [StudFundAssessmentController::class, 'fundDelete'])->name('fundDelete');
+
+            Route::get('/list/coa', [StudFundAssessmentController::class, 'accountCOARead'])->name('accountCOARead');
+            Route::get('/list/ajaxcoa', [StudFundAssessmentController::class, 'getaccountCOARead'])->name('getaccountCOARead');
+            Route::post('/list/add/coa', [StudFundAssessmentController::class, 'accountCOACreate'])->name('accountCOACreate');
+            Route::post('/list/coa/update', [StudFundAssessmentController::class, 'accountCOAUpdate'])->name('accountCOAUpdate');
+            Route::get('/list/coa/delete{id}', [StudFundAssessmentController::class, 'accountCOADelete'])->name('accountCOADelete');
+
+            Route::get('/list/accounts/appraisal', [StudFundAssessmentController::class, 'accountAppraisalRead'])->name('accountAppraisalRead');
+            Route::get('/list/ajaxaccnt', [StudFundAssessmentController::class, 'getaccountAppraisalRead'])->name('getaccountAppraisalRead');
+            Route::post('/list/add/accntapp', [StudFundAssessmentController::class, 'accountAppraisalCreate'])->name('accountAppraisalCreate');
+            Route::post('/list/accounts/appraisal/update', [StudFundAssessmentController::class, 'accountAppraisalUpdate'])->name('accountAppraisalUpdate');
+        });
+
+        Route::prefix('studfee')->group(function () {
+            Route::get('/search', [StudFeeAssessmentController::class, 'searchStudfee'])->name('searchStudfee');
+            Route::get('/search/list', [StudFeeAssessmentController::class, 'list_searchStudfee'])->name('list_searchStudfee');
+        });
+    }); 
 
     Route::prefix('emp/scholarship')->group(function () {
         

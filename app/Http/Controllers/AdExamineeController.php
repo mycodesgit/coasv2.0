@@ -156,7 +156,8 @@ class AdExamineeController extends Controller
         
         if($validator->fails())
         {
-            return Redirect::back()->withErrors($validator)->withInput()->with('fail', 'Error in saving data. Please check the inputs!');
+            //return Redirect::back()->withErrors($validator)->withInput()->with('fail', 'Error in saving data. Please check the inputs!');
+            //return response()->json(['error' => true, 'message' => 'Error in saving data. Please check the inputs'], 422);
         }
         else
         {
@@ -166,7 +167,9 @@ class AdExamineeController extends Controller
                 'raw_score' => $request->input('raw_score'), 
                 'percentile' => $request->input('percentile'),
             ]);
-            return Redirect::back()->with('success','The examinee result has been updated');
+            //return Redirect::back()->with('success','The examinee result has been updated');
+            return response()->json(['success' => true, 'message' => 'The examinee saved Successfully'], 200);
+            
         }
     }
 

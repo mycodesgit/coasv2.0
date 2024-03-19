@@ -316,7 +316,7 @@ COAS - V1.0 || Applicant Edit
                     </div>
 
                     <div class="tab-pane fade" id="vert-tabs-right-three" role="tabpanel" aria-labelledby="vert-tabs-right-three-tab">
-                        <form method="post" action="{{ route('applicant_schedule_save', $applicant->id) }}" enctype="multipart/form-data" id="admissionApply">
+                        <form method="post" action="{{ route('applicant_schedule_save', $applicant->id) }}" enctype="multipart/form-data" id="admissionAssignSchedule">
                             @csrf
 
                             <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
@@ -370,7 +370,7 @@ COAS - V1.0 || Applicant Edit
                     </div>
 
                     <div class="tab-pane fade" id="vert-tabs-right-four" role="tabpanel" aria-labelledby="vert-tabs-right-four-tab">
-                        <form method="post" action="{{ route('examinee_result_save_nd', $applicant->id) }}" enctype="multipart/form-data" id="admissionApply">
+                        <form method="post" action="{{ route('examinee_result_save_nd', $applicant->id) }}" enctype="multipart/form-data" id="admissionAssignResult">
                             @csrf
                             @method('PUT')
 
@@ -525,4 +525,10 @@ COAS - V1.0 || Applicant Edit
         document.getElementById('age').value = age;
     }
 </script>
+
+<script>
+    var assignSchedRoute = "{{ route('applicant_schedule_save', $applicant->id) }}";
+    var assignResultRoute = "{{ route('examinee_result_save_nd', $applicant->id) }}";
+</script>
+
 @endsection

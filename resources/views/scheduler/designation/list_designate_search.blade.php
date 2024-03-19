@@ -1,11 +1,11 @@
 @extends('layouts.master_classScheduler')
 
 @section('title')
-COAS - V1.0 || Classes Enrolled
+COAS - V1.0 || Faculty Designation
 @endsection
 
 @section('sideheader')
-<h4>Scheduler</h4>
+<h4>Option</h4>
 @endsection
 
 @yield('sidemenu')
@@ -20,6 +20,7 @@ COAS - V1.0 || Classes Enrolled
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Scheduler</li>
+            <li class="breadcrumb-item active mt-1">Option</li>
             <li class="breadcrumb-item active mt-1">Faculty Designation</li>
         </ol>
 
@@ -150,7 +151,7 @@ COAS - V1.0 || Classes Enrolled
                         @foreach($data as $facdesig)
                             <tr>
                                 <td>{{ $no++ }}</td>
-                                <td>{{ $facdesig->lname }} {{ $facdesig->fname }}</td>
+                                <td>{{ $facdesig->lname }}</td>
                                 <td>{{ $facdesig->facdept }}</td>
                                 <td>{{ $facdesig->designation }}</td>
                                 <td>{{ $facdesig->rankcomma }}</td>
@@ -160,11 +161,14 @@ COAS - V1.0 || Classes Enrolled
                                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-sm" data-toggle="dropdown">
                                             </button>
                                             <div class="dropdown-menu">
-                                                <button type="button" class="dropdown-item btn-edit" data-toggle="modal" data-target="#editModal"
-                                                    data-facname="{{ $facdesig->lname }} {{ $facdesig->fname }}"
+                                                <button class="dropdown-item btn-edit-facdesig" data-toggle="modal" data-target="#editFacDesigModal"
+                                                    data-toggle="modal"
+                                                    data-target="#editFacDesigModal"
+                                                    data-id="{{ $facdesig->fcdid }}"
                                                     data-facdept="{{ $facdesig->facdept }}"
+                                                    data-fac_id="{{ $facdesig->fac_id }}"
                                                     data-designation="{{ $facdesig->designation }}"
-                                                    data-rankcomma="{{ $facdesig->rankcomma }}">
+                                                    data-dunit="{{ $facdesig->dunit }}">
                                                     <i class="fas fa-edit"></i>
                                                     Edit
                                                 </button>
@@ -182,46 +186,70 @@ COAS - V1.0 || Classes Enrolled
     </div>
 </div>
 
-<!-- Modal for Edit -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="editFacDesigModal" tabindex="-1" role="dialog" aria-labelledby="editFacDesigModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Faculty Designation</h5>
+                <h5 class="modal-title" id="editFacDesigModalLabel">Edit Faculty Designation</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editForm">
+                <form method="post" action="{{ route('faculty_designdUpdate') }}" enctype="multipart/form-data" id="editFacDesigForm">
+                    @csrf
+                    <input type="hidden" name="edit_id" id="edit_id">
+
                     <div class="form-group">
-                        <label for="editFacName">Faculty Name:</label>
-                        <input type="text" class="form-control" id="editFacName" name="editFacName" readonly>
+                        <label for="edit_facdept">Department</label>
+                        <select class="form-control" name="edit_facdept" id="edit_facdept">
+                            <option disabled>Select</option>
+                            <option value="CAF" {{ (old('edit_facdept') == 'CAF') ? 'selected' : '' }}>CAF</option>
+                            <option value="CAS" {{ (old('edit_facdept') == 'CAS') ? 'selected' : '' }}>CAS</option>
+                            <option value="CBM" {{ (old('edit_facdept') == 'CBM') ? 'selected' : '' }}>CBM</option>
+                            <option value="CCS" {{ (old('edit_facdept') == 'CCS') ? 'selected' : '' }}>CCS</option>
+                            <option value="CCJE" {{ (old('edit_facdept') == 'CCJE') ? 'selected' : '' }}>CCJE</option>
+                            <option value="COE" {{ (old('edit_facdept') == 'COE') ? 'selected' : '' }}>COE</option>
+                            <option value="COTED" {{ (old('edit_facdept') == 'COTED') ? 'selected' : '' }}>COTED</option>
+                            <option value="REG" {{ (old('edit_facdept') == 'REG') ? 'selected' : '' }}>REGISTRAR</option>
+                        </select>
+
+
                     </div>
+
+
                     <div class="form-group">
-                        <label for="editFacDept">Department:</label>
-                        <input type="text" class="form-control" id="editFacDept" name="editFacDept" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="editDesignation">Designation:</label>
-                        <select class="form-control" id="editDesignation" name="editDesignation">
-                            <option value="Dean">Dean</option>
-                            <option value="Registrar">Registrar</option>
-                            <!-- Add more options as needed -->
+                        <label for="edit_fac_id">Faculty</label>
+                        <select class="form-control" name="edit_fac_id" id="edit_fac_id">
+                            @foreach($faclist as $itemfac)
+                                <option value="{{ $itemfac->id }}">{{ $itemfac->lname }}, {{ $itemfac->fname }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="editAddresse">Addresse:</label>
-                        <input type="text" class="form-control" id="editAddresse" name="editAddresse">
+                        <label for="edit_designation">Designation</label>
+                        <select class="form-control" name="edit_designation" id="edit_designation">
+                            <option value="Dean" {{ (old('edit_designation', $facdesig->designation) == 'Dean') ? 'selected' : '' }}>Dean</option>
+                            <option value="Registrar" {{ (old('edit_designation', $facdesig->designation) == 'Registrar') ? 'selected' : '' }}>Registrar</option>
+                        </select>
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="updateData()">Update</button>
+
+                    <div class="form-group">
+                        <label for="edit_dunit">Unit</label>
+                        <input type="number" name="edit_dunit" id="edit_dunit" class="form-control">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 @endsection
 

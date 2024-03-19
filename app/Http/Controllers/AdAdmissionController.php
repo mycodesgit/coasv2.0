@@ -423,15 +423,24 @@ class AdAdmissionController extends Controller
     }
 
     public function applicant_schedule_save(Request $request, $id)
-    {
+    {   
+        $dateID = $request->input('dateID');
+        $d_admission = $request->input('d_admission');
+        $time = $request->input('time');
+        $venue = $request->input('venue');
+
+        if(empty($dateID) || empty($d_admission) || empty($time) || empty($venue)) {
+            return response()->json(['error' => true, 'message' => 'Please fill in all required fields.'], 422);
+        }
+    
         $applicant = Applicant::findOrFail($id);
         $applicant->dateID = $request->input('dateID');
         $applicant->d_admission = $request->input('d_admission');
         $applicant->time = $request->input('time');
         $applicant->venue = $request->input('venue');
         $applicant->update();
-        return redirect()->back()->with('success', 'Applicant schedule has been saved');
-
+        //return redirect()->back()->with('success', 'Applicant schedule has been saved');
+        return response()->json(['success' => true, 'message' => 'Applicant schedule has been saved'], 200);
     }
     
     public function slots()

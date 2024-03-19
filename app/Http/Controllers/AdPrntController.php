@@ -210,6 +210,58 @@ class AdPrntController extends Controller
         return $pdf->stream();
     }
 
+    public function nosched_printing()
+    {
+        $repdates = AdmissionDate::groupBy('date')->pluck('date');
+        $time = Time::all();
+        return view('admission.reports.nosched', compact('repdates', 'time'));
+    }
+
+    public function nosched_reports(Request $request)
+    {
+        $data = Applicant::whereNull('dateID')->whereNull('d_admission')->where('campus', '=', Auth::user()->campus);
+
+        if ($request->year) {
+            $data = $data->where('year', $request->year);
+        }
+
+        if ($request->campus) {
+            $data = $data->where('campus', $request->campus);
+        }
+
+        $data = $data->get();
+
+        $request->session()->put('recent_search', $data);
+        $totalSearchResults = count($data);
+        
+        return view('admission.reports.noschedgen', compact('totalSearchResults', 'data'));
+    }
+
+    public function noschedPDF_reports(Request $request)
+    {
+        try {
+            $selectedYear = $request->query('year', []);
+            $selectedCampus = $request->query('campus', []);
+
+            $selectedYear = is_array($selectedYear) ? $selectedYear : [$selectedYear];
+            $selectedCampus = is_array($selectedCampus) ? $selectedCampus : [$selectedCampus];
+
+            $query = Applicant::select('ad_applicant_admission.*')
+                            ->whereIn('ad_applicant_admission.year', $selectedYear)
+                            ->whereIn('ad_applicant_admission.campus', $selectedCampus);
+
+            $data = $query->whereNull('dateID')->whereNull('d_admission')->where('campus', '=', Auth::user()->campus)->orderBy('admission_id','ASC')->get();
+
+            $totalSearchResults = count($data);
+
+            $pdf = PDF::loadView('admission.reports.pdf.noschedPDF', ['data' => $data, 'totalSearchResults' => $totalSearchResults])->setPaper('Legal', 'landscape');
+            return $pdf->stream();
+        } catch (\Exception $e) {
+            \Log::error('Error in applicantPDF_reports: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
     public function examination_printing()
     {  
         $strand = Strands::orderBy('id', 'asc')->get();

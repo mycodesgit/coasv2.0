@@ -338,7 +338,7 @@ COAS - V1.0 || Applicant Edit
                     </div>
 
                     <div class="tab-pane fade" id="vert-tabs-right-three" role="tabpanel" aria-labelledby="vert-tabs-right-three-tab">
-                        <form method="post" action="{{ route('applicant_schedule_save', $applicant->id) }}" enctype="multipart/form-data" id="admissionApply">
+                        <form method="post" action="{{ route('applicant_schedule_save', $applicant->id) }}" enctype="multipart/form-data" id="admissionAssignSchedule">
                             @csrf
 
                             <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
@@ -468,7 +468,7 @@ COAS - V1.0 || Applicant Edit
                                 <a class="nav-link" id="vert-tabs-right-five-tab" data-toggle="pill" href="#vert-tabs-right-five" role="tab" aria-controls="vert-tabs-right-five" aria-selected="false">Capture Image</a>
                                 <a class="nav-link" id="vert-tabs-right-six-tab" data-toggle="pill" href="#vert-tabs-right-six" role="tab" aria-controls="vert-tabs-right-six" aria-selected="false">Push Examinee</a>
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -508,4 +508,9 @@ COAS - V1.0 || Applicant Edit
         document.getElementById('age').value = age;
     }
 </script>
+
+<script>
+    var assignSchedRoute = "{{ route('applicant_schedule_save', $applicant->id) }}";
+</script>
+
 @endsection

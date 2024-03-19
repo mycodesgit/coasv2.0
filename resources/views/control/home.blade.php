@@ -1,4 +1,4 @@
-    @extends('layouts.master')
+@extends('layouts.master')
 
 @section('title')
 COAS - V1.0 || Home

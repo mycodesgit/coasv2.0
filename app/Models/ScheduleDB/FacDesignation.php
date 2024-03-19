@@ -17,6 +17,7 @@ class FacDesignation extends Model
         'campus',
         'facdept',
         'fac_id',
+        'facname',
         'designation',
         'rankcomma', 
         'dunit', 

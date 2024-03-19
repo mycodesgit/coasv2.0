@@ -5,7 +5,7 @@ COAS - V1.0 || Classes Enrolled
 @endsection
 
 @section('sideheader')
-<h4>Scheduler</h4>
+<h4>Option</h4>
 @endsection
 
 @yield('sidemenu')
@@ -20,6 +20,7 @@ COAS - V1.0 || Classes Enrolled
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Scheduler</li>
+            <li class="breadcrumb-item active mt-1">Option</li>
             <li class="breadcrumb-item active mt-1">Classes Enrolled</li>
         </ol>
 
@@ -134,7 +135,12 @@ COAS - V1.0 || Classes Enrolled
                                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-sm" data-toggle="dropdown">
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a href="" class="dropdown-item btn-edit" href="#"><i class="fas fa-exclamation-circle"></i> Edit</a>
+                                                <button class="dropdown-item btn-editclassenroll" data-toggle="modal" data-target="#editModal" 
+                                                        data-id="{{ $class->id }}" data-class="{{ $class->class }}" 
+                                                        data-class-section="{{ $class->class_section }}" data-program-code="{{ $class->prog_id }}">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </button>
+
                                                 <button value="" class="dropdown-item purchase-delete" href="#"><i class="fas fa-trash"></i> Delete</button>
                                             </div>
                                         </div>
@@ -148,6 +154,50 @@ COAS - V1.0 || Classes Enrolled
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editForm" method="post" action="{{ route('classEnrolledUpdate') }}">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="edit_id" id="edit_id" value="">
+
+                    <div class="form-group">
+                        <label for="edit_program">Program</label>
+                        <select class="form-control form-control-sm" name="edit_class" id="edit_class" onchange="editClassenrol(this.value)">
+                            <option disabled>Select</option>
+                            @foreach ($program as $programs)
+                                <option value="{{ $programs->code }}" @if ($class->prog_id == $programs->id) {{ 'selected' }} @endif>
+                                    {{ $programs->code }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="prog_id" id="selectedProgramIdEdit">
+
+                    <div class="form-group">
+                        <label for="edit_class_section">Class Section</label>
+                        <input type="text" class="form-control" id="edit_class_section" name="edit_class_section" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 

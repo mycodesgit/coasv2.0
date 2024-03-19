@@ -182,21 +182,54 @@
     </script>
 
     <script>
-        $(document).ready(function () {
-            $('.btn-edit').click(function () {
-                var facName = $(this).data('facname');
-                var facDept = $(this).data('facdept');
-                var designation = $(this).data('designation');
-                var rankcomma = $(this).data('rankcomma');
+        function editClassenrol(val){
+            var selectedProgramCode = val;
 
-                $('#editFacName').val(facName);
-                $('#editFacDept').val(facDept);
-                $('#editDesignation').val(designation);
-                $('#editAddresse').val(rankcomma);
+            $.ajax({
+                url: '{{ route("getProgramId", ["code" => "__code__"]) }}'.replace('__code__', selectedProgramCode),
+                type: 'GET',
+                success: function(response) {
+                    $('#selectedProgramIdEdit').val(response.id);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
             });
-            window.updateData = function () {
-                $('#editModal').modal('hide');
-            };
+        }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.btn-editclassenroll').click(function() {
+                var id = $(this).data('id');
+                var classVal = $(this).data('class');
+                var classSection = $(this).data('class-section');
+                var programID = $(this).data('program-code');
+
+                $('#edit_id').val(id);
+                $('#edit_class').val(classVal);
+                $('#edit_class_section').val(classSection);
+                $('#selectedProgramIdEdit').val(programID);
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.btn-edit-facdesig').click(function() {
+                var id = $(this).data('id');
+                var facdept = $(this).data('facdept');
+                var fac_id = $(this).data('fac_id');
+                var designation = $(this).data('designation');
+                var dunit = $(this).data('dunit');
+
+                // Populate the modal form fields with the retrieved data
+                $('#editFacDesigModal #edit_id').val(id);
+                $('#editFacDesigModal #edit_facdept').val(facdept);
+                $('#editFacDesigModal #edit_fac_id').val(fac_id);
+                $('#editFacDesigModal #edit_designation').val(designation);
+                $('#editFacDesigModal #edit_dunit').val(dunit);
+            });
         });
     </script>
 

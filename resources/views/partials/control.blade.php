@@ -17,7 +17,7 @@
                 <i class="fas fa-calendar-alt"></i> Scheduling
             </a>
            
-            <a href="" class="btn btn-app @if(in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 5, 6, 8])) disabled @endif ">
+            <a href="{{ route('assessment-index') }}" class="btn btn-app @if(in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 5, 6, 8])) disabled @endif ">
                 <i class="fas fa-scale-balanced"></i> Assessment
             </a>
 

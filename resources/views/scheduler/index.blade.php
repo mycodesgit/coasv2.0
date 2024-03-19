@@ -5,7 +5,7 @@ COAS - V1.0 || Scheduler
 @endsection
 
 @section('sideheader')
-<h4>Scheduler</h4>
+<h4>Option</h4>
 @endsection
 
 @yield('sidemenu')
