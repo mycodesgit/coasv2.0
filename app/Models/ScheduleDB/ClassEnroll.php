@@ -13,11 +13,12 @@ class ClassEnroll extends Model
     protected $table = 'class_enroll';
 
     protected $fillable = [
-        'prog_id',
         'schlyear', 
         'semester', 
         'campus',
-        'class', 
-        'class_section', 
+        'progCode',
+        'classSection', 
+        'classno', 
+        'remember_token'
     ];
 }

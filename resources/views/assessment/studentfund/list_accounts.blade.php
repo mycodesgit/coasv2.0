@@ -115,7 +115,14 @@ COAS - V1.0 || Fund
                     <input type="hidden" name="id" id="editaccntAppId">
                     <div class="form-group">
                         <label for="editaccntFundId">Funds</label>
-                        <select class="form-control form-control-sm" id="editaccntFundId" name="fund_id"></select>
+                        <select class="form-control form-control-sm" id="editaccntFundId" name="fund_id">
+                            <option disabled selected>Select</option>
+                            @foreach ($funds as $fund)
+                                <option value="{{ $fund->fund_name }}">
+                                    {{ $fund->fund_name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="editaccntCOAname">Account Name</label>
@@ -123,7 +130,12 @@ COAS - V1.0 || Fund
                     </div>
                     <div class="form-group">
                         <label for="editaccntCOAid">COA Account</label>
-                        <select class="form-control form-control-sm" id="editaccntCOAid" name="coa_id"></select>
+                        <select class="form-control form-control-sm" id="editaccntCOAid" name="coa_id">
+                            <option disabled selected>Select</option>
+                            @foreach($accntsCOA as $accntcoa)
+                                <option value="{{ $accntcoa->accountcoa_code}}">{{ $accntcoa->accountcoa_code}} - {{ $accntcoa->accountcoa_name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -139,34 +151,8 @@ COAS - V1.0 || Fund
 <script>
     var accntApprslReadRoute = "{{ route('getaccountAppraisalRead') }}";
     var accntApprslCreateRoute = "{{ route('accountAppraisalCreate') }}";
-    var accntApprslUpdateRoute = "{{ route('accountAppraisalUpdate', ['id' => ':id']) }}";
-</script>
-
-<script>
-    function populateFundsDropdown(selectedFundId) {
-        $('#editaccntFundId').empty();
-        $('#editaccntFundId').append('<option disabled selected> ---Select--- </option>');
-        @foreach($funds as $fund)
-            var option = $('<option></option>').attr('value', '{{ $fund->id }}').text('{{ $fund->fund_name }}');
-            if ('{{ $fund->id }}' == selectedFundId) {
-                option.attr('selected', 'selected');
-            }
-            $('#editaccntFundId').append(option);
-        @endforeach
-    }
-
-    function populateCoaDropdown(selectedCoaId) {
-        $('#editaccntCOAid').empty();
-        $('#editaccntCOAid').append('<option disabled selected> ---Select--- </option>');
-        @foreach($accntsCOA as $accntcoa)
-            var option = $('<option></option>').attr('value', '{{ $accntcoa->id }}').text('{{ $accntcoa->accountcoa_code }} - {{ $accntcoa->accountcoa_name }}');
-            if ('{{ $accntcoa->id }}' == selectedCoaId) {
-                option.attr('selected', 'selected');
-            }
-            $('#editaccntCOAid').append(option);
-        @endforeach
-    }
-
+    var accntApprslUpdateRoute = "{{ route('accountAppraisalUpdate', ['id' => ':acntid']) }}";
+    var accntApprslDeleteRoute = "{{ route('accountAppraisalDelete', ['id' => ':acntid']) }}";
 </script>
 
 

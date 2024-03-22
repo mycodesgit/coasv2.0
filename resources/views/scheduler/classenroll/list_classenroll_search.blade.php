@@ -65,7 +65,7 @@ COAS - V1.0 || Classes Enrolled
 
         <div class="mt-3 row">
             <div class="col-md-3 mt-3 card" style="">
-                <form method="post" action="{{ route('classEnrolledAdd') }}" enctype="multipart/form-data" id="classEnrollAdd">
+                <form method="post" action="{{ route('classEnrollCreate') }}"  id="classEnrollAdd">
                     @csrf
                     <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                         <h5>Add</h5>
@@ -77,31 +77,34 @@ COAS - V1.0 || Classes Enrolled
                         <div class="form-row">
                             <div class="col-md-12">
                                 <label><span class="badge badge-secondary">Academic Year</span></label>
-                                <input type="text" name="schlyear" class="form-control  form-control-sm" value="{{ request('schlyear') }}">
+                                <input type="text" name="schlyear" class="form-control  form-control-sm" value="{{ request('schlyear') }}" readonly>
                             </div>
 
                             <div class="mt-2 col-md-12">
                                 <label><span class="badge badge-secondary">Semester</span></label>
-                                <input type="text" name="semester" class="form-control  form-control-sm" value="{{ request('semester') }}" readonly>
+                                <input type="text" name="semester" class="form-control form-control-sm" value="{{ request('semester') }}" readonly>
                             </div>
 
                             <div class="mt-2 col-md-12">
                                 <label><span class="badge badge-secondary">Programs</span></label>
-                                <select class="form-control form-control-sm" name="class" id="programSelect">
+                                <select class="form-control form-control-sm" name="progCode" id="">
                                     <option disabled selected>Select</option>
                                     @foreach ($program as $programs)
-                                        <option value="{{ $programs->code }}" @if (old('course') == $programs->id) {{ 'selected' }} @endif>
-                                            {{ $programs->code }}
+                                        <option value="{{ $programs->progCod }}">
+                                            {{ $programs->progAcronym }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-
-                            <input type="hidden" name="prog_id" id="selectedProgramId">
                             
                             <div class="mt-2 col-md-12">
                                 <label><span class="badge badge-secondary">Year & Section</span></label>
-                                <input type="text" name="class_section" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                <input type="text" name="classSection" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+
+                            <div class="mt-2 col-md-12">
+                                <label><span class="badge badge-secondary">Est. Number of Student</span></label>
+                                <input type="number" name="classno" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
                             </div>
 
                             <div class="col-md-12">
@@ -113,41 +116,17 @@ COAS - V1.0 || Classes Enrolled
                 </form>
             </div>
             <div class="col-md-9 mt-3 pl-3 pr-3 pt-3">
-                <table id="example1" class="table table-hover">
+                <table id="classEn" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Program</th>
                             <th>Year&Section</th>
-                            <th width="60">Action</th>
+                            <th>Est. No. of Student</th>
+                            <th width="10%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
-                        @foreach($data as $class)
-                            <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $class->class }}</td>
-                                <td>{{ $class->class_section }}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-sm" data-toggle="dropdown">
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <button class="dropdown-item btn-editclassenroll" data-toggle="modal" data-target="#editModal" 
-                                                        data-id="{{ $class->id }}" data-class="{{ $class->class }}" 
-                                                        data-class-section="{{ $class->class_section }}" data-program-code="{{ $class->prog_id }}">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </button>
-
-                                                <button value="" class="dropdown-item purchase-delete" href="#"><i class="fas fa-trash"></i> Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                        
                     </tbody>
                 </table>
             </div>
@@ -155,38 +134,36 @@ COAS - V1.0 || Classes Enrolled
     </div>
 </div>
 
-
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="editClassEnModal" tabindex="-1" role="dialog" aria-labelledby="editStudFeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Class</h5>
+                <h5 class="modal-title" id="editFundModalLabel">Edit</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editForm" method="post" action="{{ route('classEnrolledUpdate') }}">
-                @csrf
+            <form id="editClassEnForm">
                 <div class="modal-body">
-                    <input type="hidden" name="edit_id" id="edit_id" value="">
-
+                    <input type="hidden" name="id" id="editclassenId">
                     <div class="form-group">
-                        <label for="edit_program">Program</label>
-                        <select class="form-control form-control-sm" name="edit_class" id="edit_class" onchange="editClassenrol(this.value)">
-                            <option disabled>Select</option>
+                        <label for="editclassen">Program</label>
+                        <select class="form-control form-control-sm" id="editclassen" name="progCode">
+                            <option disabled selected>Select</option>
                             @foreach ($program as $programs)
-                                <option value="{{ $programs->code }}" @if ($class->prog_id == $programs->id) {{ 'selected' }} @endif>
-                                    {{ $programs->code }}
+                                <option value="{{ $programs->progCod }}">
+                                    {{ $programs->progAcronym }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
-
-                    <input type="hidden" name="prog_id" id="selectedProgramIdEdit">
-
                     <div class="form-group">
-                        <label for="edit_class_section">Class Section</label>
-                        <input type="text" class="form-control" id="edit_class_section" name="edit_class_section" required>
+                        <label for="editsection">Year & Section</label>
+                        <input type="text" class="form-control" id="editsection" name="classSection">
+                    </div>
+                    <div class="form-group">
+                        <label for="editclassno">Est. No. of Student</label>
+                        <input type="number" class="form-control" id="editclassno" name="classno">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -197,6 +174,12 @@ COAS - V1.0 || Classes Enrolled
         </div>
     </div>
 </div>
+
+<script>
+    var classEnReadRoute = "{{ route('getclassEnRead') }}";
+    var classEnCreateRoute = "{{ route('classEnrollCreate') }}";
+</script>
+
 
 
 @endsection

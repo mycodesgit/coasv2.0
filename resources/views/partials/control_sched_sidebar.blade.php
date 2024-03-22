@@ -1,11 +1,12 @@
 @php
     $curr_route = request()->route()->getName();
 
+    $classProgActive = in_array($curr_route, ['programsRead']) ? 'active' : '';
+    $roomActive = in_array($curr_route, ['roomsRead']) ? 'active' : '';
     $classEnrollActive = in_array($curr_route, ['courseEnroll_list', 'courseEnroll_list_search']) ? 'active' : '';
     $suboffActive = in_array($curr_route, ['subjectsOffered', 'subjectsOffered_search']) ? 'active' : '';
     $facultyActive = in_array($curr_route, ['faculty_list', 'faculty_listsearch']) ? 'active' : '';
     $facDesigActive = in_array($curr_route, ['faculty_design', 'faculty_design_search']) ? 'active' : '';
-    $roomActive = in_array($curr_route, ['rooms']) ? 'active' : '';
     $classSchedActive = in_array($curr_route, ['classSchedRead']) ? 'active' : '';
     $facultySchedActive = in_array($curr_route, ['facultySchedRead']) ? 'active' : '';
     $roomSchedActive = in_array($curr_route, ['roomSchedRead']) ? 'active' : '';
@@ -17,10 +18,11 @@
 
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
+        <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
+        <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
         <a href="{{ route('courseEnroll_list') }}" class="list-group-item {{ $classEnrollActive }}">Classes Enrolled</a>  
         <a href="{{ route('faculty_list') }}" class="list-group-item {{ $facultyActive }}">Faculty</a>
         <a href="{{ route('faculty_design') }}" class="list-group-item {{ $facDesigActive }}">Designation</a>
-        <a href="{{ route('rooms') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
         <a href="{{ route('subjectsOffered') }}" class="list-group-item {{ $suboffActive }}">Subject Offered</a>
     </ul>
 </div>

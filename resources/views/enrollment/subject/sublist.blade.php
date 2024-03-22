@@ -1,11 +1,11 @@
-@extends('layouts.master_classScheduler')
+@extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V1.0 || Rooms
+COAS - V1.0 || Subjects
 @endsection
 
 @section('sideheader')
-<h4>Option</h4>
+<h4>Enrollment</h4>
 @endsection
 
 @yield('sidemenu')
@@ -19,21 +19,12 @@ COAS - V1.0 || Rooms
                     <i class="fas fa-home"></i>
                 </a>
             </li>
-            <li class="breadcrumb-item mt-1">Scheduler</li>
-            <li class="breadcrumb-item active mt-1">Option</li>
-            <li class="breadcrumb-item active mt-1">Rooms</li>
+            <li class="breadcrumb-item mt-1">Enrollment</li>
+            <li class="breadcrumb-item active mt-1">Subjects</li>
         </ol>
 
-        <p>
-            @if(Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success')}}</div>
-            @elseif (Session::has('fail'))
-                <div class="alert alert-danger">{{Session::get('fail')}}</div>
-            @endif
-        </p>
-
         <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <h4>Rooms</h4>
+            <h4>Subjects</h4>
         </div>
 
         <p>
@@ -46,13 +37,13 @@ COAS - V1.0 || Rooms
 
         <div class="mt-1 row">
             <div class="col-md-12">
-                <table id="classRooms" class="table table-hover">
+                <table id="listsub" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>College</th>
-                            <th>Room Name</th>
-                            <th>Room Capacity</th>
-                            <th>Campus</th>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th>Description</th>
+                            <th>Unit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,7 +56,9 @@ COAS - V1.0 || Rooms
 </div>
 
 <script>
-    var roomsReadRoute = "{{ route('getroomsRead') }}";
+    var subjectReadRoute = "{{ route('getsubjectsRead') }}";
 </script>
 
 @endsection
+
+@section('script')

@@ -179,9 +179,9 @@ class StudFundAssessmentController extends Controller
 
     public function getaccountAppraisalRead() 
     {
-        $data = AccountAppraisal::join('funds', 'accounts.fund_id', '=', 'funds.id')
-                ->join('coa_accounts', 'accounts.coa_id', '=', 'coa_accounts.id')
-                ->orderBy('accounts.id', 'ASC')
+        $data = AccountAppraisal::leftJoin('coa_accounts', 'accounts.coa_id', '=', 'coa_accounts.accountcoa_code')
+                ->select('accounts.id as acntid', 'accounts.*', 'coa_accounts.*')
+                ->orderBy('accounts.account_name', 'ASC')
                 ->get();
 
         return response()->json(['data' => $data]);
@@ -199,7 +199,7 @@ class StudFundAssessmentController extends Controller
             $fundidName = $request->input('fund_id'); 
             $accntappName = $request->input('account_name'); 
             $coaidName = $request->input('coa_id'); 
-            $existingAccntApp = AccountAppraisal::where('fund_id', $fundidName)->where('account_name', $accntappName)->where('coa_id', $coaidName)->first();
+            $existingAccntApp = AccountAppraisal::where('fund_id', $fundidName)->where('account_name', $accntappName)->first();
 
             if ($existingAccntApp) {
                 return response()->json(['error' => true, 'message' => 'Account already exists'], 404);
@@ -249,5 +249,13 @@ class StudFundAssessmentController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => true, 'message' => 'Failed to store Account'], 404);
         }
+    }
+
+    public function accountAppraisalDelete($id) 
+    {
+        $accntsApp = AccountAppraisal::find($id);
+        $accntsApp->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 }

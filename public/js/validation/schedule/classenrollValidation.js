@@ -48,10 +48,13 @@ $(function () {
             campus: {
                 required: true,
             },
-            class: {
+            progCode: {
                 required: true,
             },
-            class_section: {
+            classSection: {
+                required: true,
+            },
+            classno: {
                 required: true,
             },
         },
@@ -65,11 +68,14 @@ $(function () {
             campus: {
                 required: "Select Preffered Campus",
             },
-            class: {
-                required: "Select Preffered Program",
+            progCode: {
+                required: "Select Course",
             },
-            class_section: {
-                required: "Enter Year & Section",
+            classSection: {
+                required: "Please Enter Year&Section",
+            },
+            classno: {
+                required: "Please Enter Est. No. of Students",
             },
         },
         errorElement: 'span',

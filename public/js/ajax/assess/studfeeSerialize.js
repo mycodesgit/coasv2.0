@@ -4,22 +4,20 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#adAccntApp').submit(function(event) {
+    $('#studFeeAssess').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: accntApprslCreateRoute,
+            url: studfeeCreateRoute,
             type: "POST",
             data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('accntsAppAdded');
-                    $('input[name="fund_id"]').val('');
-                    $('input[name="account_name"]').val('');
-                    $('input[name="coa_id"]').val('');
+                    $(document).trigger('studFeeAdded');
+                    $('input[name="amountFee"]').val('');
                 } else {
                     toastr.error(response.message);
                     console.log(response);
@@ -32,30 +30,49 @@ $(document).ready(function() {
         });
     });
 
-    var dataTable = $('#accntApp').DataTable({
+    var urlParams = new URLSearchParams(window.location.search);
+    var campus = urlParams.get('campus') || ''; 
+    var progCode = urlParams.get('prog_Code') || ''; 
+    var yrlevel = urlParams.get('yrlevel') || ''; 
+    var schlyear = urlParams.get('schlyear') || ''; 
+    var semester = urlParams.get('semester') || '';
+    var dataTable = $('#studentFees').DataTable({
         "ajax": {
-            "url": accntApprslReadRoute,
+            "url": studfeeReadRoute,
             "type": "GET",
+            "data": { 
+                "campus": campus,
+                "prog_Code": progCode,
+                "yrlevel": yrlevel,
+                "schlyear": schlyear,
+                "semester": semester
+            }
         },
+        info: false,
         responsive: true,
-        lengthChange: true,
-        searching: true,
-        paging: true,
+        lengthChange: false,
+        searching: false,
+        paging: false,
         "columns": [
-            {data: 'fund_id'},
-            {data: 'accountcoa_name'},
-            {data: 'account_name'},
+            {data: 'fundname_code'},
+            {data: 'accountName'},
             {
-                data: 'acntid',
+                data: 'amountFee',
+                render: function (data, type, row) {
+                    return '<strong>' + parseFloat(data).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</strong>';
+                }
+            },
+            {
+                data: 'id',
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-AccntsApp" data-id="' + row.acntid + '" data-fnd="' + row.fund_id + '" data-accntname="' + row.account_name + '" data-accntcoaid="' + row.accountcoa_code + '">' +
+                            '<a href="#" class="dropdown-item btn-studfee" data-id="' + row.id + '" data-fundcode="' + row.fundname_code + '" data-fundstudname="' + row.accountName + '" data-fundstudamount="' + row.amountFee + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item accountsApp-delete">' +
+                            '<button type="button" value="' + data + '" class="dropdown-item studfees-delete">' +
                             '<i class="fas fa-trash"></i> Delete' +
                             '</button>' +
                             '</div>' +
@@ -67,37 +84,41 @@ $(document).ready(function() {
                 },
             },
         ],
+        "footerCallback": function (row, data, start, end, display) {
+            var api = this.api();
+            grandTotal = api.column(2, {page: 'current'}).data().reduce(function (a, b) {
+                return parseFloat(a) + parseFloat(b);
+            }, 0);
+            $(api.column(2).footer()).html(parseFloat(grandTotal).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#grandTotal').text(parseFloat(grandTotal).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        },
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.acntid); 
+            $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('accntsAppAdded', function() {
+    $(document).on('studFeeAdded', function() {
         dataTable.ajax.reload();
     });
 });
 
-$(document).on('click', '.btn-AccntsApp', function() {
-    console.log('Button clicked');
+$(document).on('click', '.btn-studfee', function() {
     var id = $(this).data('id');
-    var accntFundId = $(this).data('fnd');
-    var accntName = $(this).data('accntname');
-    var accntCoaId = $(this).data('accntcoaid');
-
-    $('#editaccntFundId').attr('id', 'editaccntFundId');
-
-    $('#editaccntAppId').val(id);
-    $('#editaccntFundId').val(accntFundId);
-    $('#editaccntCOAname').val(accntName);
-    $('#editaccntCOAid').val(accntCoaId);
-    $('#editAppraisalAccntModal').modal('show');
+    var fundStudfee = $(this).data('fundcode');
+    var acountStud = $(this).data('fundstudname');
+    var amountStud = $(this).data('fundstudamount');
+    $('#editStudFeeId').val(id);
+    $('#editstudfeeFund').val(fundStudfee);
+    $('#editstudfeeaccountName').val(acountStud);
+    $('#editstudfeeamountFee').val(amountStud);
+    $('#editStudFeeModal').modal('show');
 });
 
-$('#editAppraisalAccnForm').submit(function(event) {
+$('#editStudFeeForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
     $.ajax({
-        url: accntApprslUpdateRoute,
+        url: studfeeUpdateRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -106,8 +127,8 @@ $('#editAppraisalAccnForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#editAppraisalAccntModal').modal('hide');
-                $(document).trigger('accntsAppAdded');
+                $('#editStudFeeModal').modal('hide');
+                $(document).trigger('studFeeAdded');
             } else {
                 toastr.error(response.message);
             }
@@ -119,7 +140,7 @@ $('#editAppraisalAccnForm').submit(function(event) {
     });
 });
 
-$(document).on('click', '.accountsApp-delete', function(e) {
+$(document).on('click', '.studfees-delete', function(e) {
     var id = $(this).val();
     $.ajaxSetup({
         headers: {
@@ -138,7 +159,7 @@ $(document).on('click', '.accountsApp-delete', function(e) {
         if (result.isConfirmed) {
             $.ajax({
                 type: "GET",
-                url: accntApprslDeleteRoute.replace(':acntid', id),
+                url: studfeeDeleteRoute.replace(':id', id),
                 success: function(response) {
                     $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({
@@ -148,6 +169,7 @@ $(document).on('click', '.accountsApp-delete', function(e) {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    $(document).trigger('studFeeAdded');
                     if(response.success) {
                         toastr.success(response.message);
                         console.log(response);

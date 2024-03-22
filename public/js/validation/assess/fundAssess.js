@@ -93,3 +93,41 @@ $(function () {
         },
     });
 });
+
+$(function () {
+    $('#studFeeAssess').validate({
+        rules: {
+            fundname_code: {
+                required: true,
+            },
+            accountName: {
+                required: true,
+            },
+            amountFee: {
+                required: true,
+            },
+        },
+        messages: {
+            fundname_code: {
+                required: "Select Fund Account",
+            },
+            accountName: {
+                required: "Please Enter Account",
+            },
+            amountFee: {
+                required: "Enter Amount",
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.col-md-12').append(error);        
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+    });
+});

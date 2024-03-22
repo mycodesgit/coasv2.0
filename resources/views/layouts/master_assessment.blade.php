@@ -171,6 +171,9 @@
     @if(request()->routeIs('accountAppraisalRead'))
         <script src="{{ asset('js/ajax/assess/accountsappraisalSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('list_searchStudfee'))
+        <script src="{{ asset('js/ajax/assess/studfeeSerialize.js') }}"></script>
+    @endif
 
 
 
@@ -186,6 +189,7 @@
             $("#alert").delay(2500).fadeOut(5000);
         }, 0); 
     </script>
+
 
 
 </body>

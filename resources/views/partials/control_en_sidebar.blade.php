@@ -3,6 +3,7 @@
 
     $searchStudActive = in_array($curr_route, ['searchStud', 'searchStudEnroll']) ? 'active' : '';
     $gradeStudActive = in_array($curr_route, ['studgrade_search', 'studgrade_searchlist', 'geneStudent1']) ? 'active' : '';
+    $subjectAllActive = in_array($curr_route, ['subjectsRead']) ? 'active' : '';
     $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
 
     
@@ -15,7 +16,7 @@
         <a href="" class="list-group-item">Edit Enrollment</a>
         <a href="" class="list-group-item">Enrollment History</a>
         <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
-        <a href="" class="list-group-item">Subjects</a>
+        <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
     </ul>
 </div>
 

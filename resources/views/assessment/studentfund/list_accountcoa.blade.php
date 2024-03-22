@@ -100,7 +100,7 @@ COAS - V1.0 || Fund
                     <input type="hidden" name="id" id="editcoaId">
                     <div class="form-group">
                         <label for="editcoaCode">COA Account Code</label>
-                        <input type="number" class="form-control" id="editcoaCode" name="accountcoa_code">
+                        <input type="text" class="form-control" id="editcoaCode" name="accountcoa_code">
                     </div>
                     <div class="form-group">
                         <label for="editcoaName">COA Account Name</label>

@@ -31,58 +31,83 @@ COAS - V1.0 || Student Fee
             @endif
         </p>
 
-        <div class="page-header">
-            <form method="GET" action="{{ route('list_searchStudfee') }}" id="classEnroll">
-                {{ csrf_field() }}
+        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
 
-                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                    <h4>Student Fee</h4>
-                </div>
-
-                <div class="container mt-1">
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Academic Year</span></label>
-                                <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+        <div class="mt-3 row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="GET" action="{{route('list_searchStudfee')}}" id="">
+                            @csrf
+                            <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                                <h5>Student Fee</h5>
                             </div>
 
-                            <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Semester</span></label>
-                                <select class="form-control  form-control-sm" name="semester">
-                                    <option disabled selected>---Select---</option>
-                                    <option value="1">First Semester</option>
-                                    <option value="2">Second Semester</option>
-                                    <option value="3">Summer</option>
-                                </select>
-                            </div>
+                            <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
 
-                            <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Campus</span></label>
-                                <select class="form-control form-control-sm" name="campus">
-                                    <option value="{{Auth::user()->campus}}">
-                                        @if (Auth::user()->campus == 'MC') Main 
-                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                            @elseif(Auth::user()->campus == 'VC') Victorias 
-                                            @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                            @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                            @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                            @elseif(Auth::user()->campus == 'IC') Ilog 
-                                            @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                        @endif
-                                    </option>
-                                </select>
-                            </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Course</span></label>
+                                        <select class="form-control  form-control-sm" name="prog_Code">
+                                            <option disabled selected> ---Select---</option>
+                                            @foreach($programsEn as $prog)
+                                                <option value="{{ $prog->progCod }}">{{ $prog->progAcronym }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                            <div class="col-md-2">
-                                <label>&nbsp;</label>
-                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Year Level</span></label>
+                                        <select class="form-control form-control-sm" name="yrlevel">
+                                            <option disabled selected>---Select---</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">School Year</span></label>
+                                        <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Semester</span></label>
+                                        <select class="form-control form-control-sm" name="semester">
+                                            <option disabled selected>---Select---</option>
+                                            <option value="1">First Semester</option>
+                                            <option value="2">Second Semester</option>
+                                            <option value="3">Summer</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Search</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="col-md-8">
+                <table id="coa" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Fund</th>
+                            <th>Account Name</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

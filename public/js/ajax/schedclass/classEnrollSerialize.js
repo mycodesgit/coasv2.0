@@ -4,22 +4,21 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#adAccntApp').submit(function(event) {
+    $('#classEnrollAdd').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: accntApprslCreateRoute,
+            url: classEnCreateRoute,
             type: "POST",
             data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('accntsAppAdded');
-                    $('input[name="fund_id"]').val('');
-                    $('input[name="account_name"]').val('');
-                    $('input[name="coa_id"]').val('');
+                    $(document).trigger('classEnAdded');
+                    $('input[name="classSection"]').val('');
+                    $('input[name="classno"]').val('');
                 } else {
                     toastr.error(response.message);
                     console.log(response);
@@ -32,30 +31,41 @@ $(document).ready(function() {
         });
     });
 
-    var dataTable = $('#accntApp').DataTable({
+    var urlParams = new URLSearchParams(window.location.search);
+    var schlyear = urlParams.get('schlyear') || ''; 
+    var semester = urlParams.get('semester') || '';
+    var campus = urlParams.get('campus') || ''; 
+
+    var dataTable = $('#classEn').DataTable({
         "ajax": {
-            "url": accntApprslReadRoute,
+            "url": classEnReadRoute,
             "type": "GET",
+            "data": { 
+                "schlyear": schlyear,
+                "semester": semester,
+                "campus": campus
+            }
         },
+        info: true,
         responsive: true,
         lengthChange: true,
         searching: true,
         paging: true,
         "columns": [
-            {data: 'fund_id'},
-            {data: 'accountcoa_name'},
-            {data: 'account_name'},
+            {data: 'progAcronym'},
+            {data: 'classSection'},
+            {data: 'classno'},
             {
-                data: 'acntid',
+                data: 'id',
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-AccntsApp" data-id="' + row.acntid + '" data-fnd="' + row.fund_id + '" data-accntname="' + row.account_name + '" data-accntcoaid="' + row.accountcoa_code + '">' +
+                            '<a href="#" class="dropdown-item btn-classEn" data-id="' + row.id + '" data-class="' + row.progCode + '" data-section="' + row.classSection + '" data-classno="' + row.classno + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item accountsApp-delete">' +
+                            '<button type="button" value="' + data + '" class="dropdown-item studfees-delete">' +
                             '<i class="fas fa-trash"></i> Delete' +
                             '</button>' +
                             '</div>' +
@@ -68,36 +78,36 @@ $(document).ready(function() {
             },
         ],
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.acntid); 
+            $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('accntsAppAdded', function() {
+    $(document).on('classEnAdded', function() {
         dataTable.ajax.reload();
     });
 });
 
-$(document).on('click', '.btn-AccntsApp', function() {
-    console.log('Button clicked');
+$(document).on('click', '.btn-classEn', function() {
     var id = $(this).data('id');
-    var accntFundId = $(this).data('fnd');
-    var accntName = $(this).data('accntname');
-    var accntCoaId = $(this).data('accntcoaid');
-
-    $('#editaccntFundId').attr('id', 'editaccntFundId');
-
-    $('#editaccntAppId').val(id);
-    $('#editaccntFundId').val(accntFundId);
-    $('#editaccntCOAname').val(accntName);
-    $('#editaccntCOAid').val(accntCoaId);
-    $('#editAppraisalAccntModal').modal('show');
+    var classEn = $(this).data('class');
+    var section = $(this).data('section');
+    var classno = $(this).data('classno');
+    
+    $('#editclassen').attr('id', 'editclassen');
+    
+    $('#editclassenId').val(id);
+    $('#editclassen').val(classEn);
+    $('#editsection').val(section);
+    $('#editclassno').val(classno);
+    $('#editClassEnModal').modal('show');
 });
 
-$('#editAppraisalAccnForm').submit(function(event) {
+
+$('#editClassEnForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
     $.ajax({
-        url: accntApprslUpdateRoute,
+        url: studfeeUpdateRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -106,8 +116,8 @@ $('#editAppraisalAccnForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#editAppraisalAccntModal').modal('hide');
-                $(document).trigger('accntsAppAdded');
+                $('#editStudFeeModal').modal('hide');
+                $(document).trigger('classEnAdded');
             } else {
                 toastr.error(response.message);
             }
@@ -119,7 +129,7 @@ $('#editAppraisalAccnForm').submit(function(event) {
     });
 });
 
-$(document).on('click', '.accountsApp-delete', function(e) {
+$(document).on('click', '.studfees-delete', function(e) {
     var id = $(this).val();
     $.ajaxSetup({
         headers: {
@@ -138,7 +148,7 @@ $(document).on('click', '.accountsApp-delete', function(e) {
         if (result.isConfirmed) {
             $.ajax({
                 type: "GET",
-                url: accntApprslDeleteRoute.replace(':acntid', id),
+                url: studfeeDeleteRoute.replace(':id', id),
                 success: function(response) {
                     $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({
@@ -148,6 +158,7 @@ $(document).on('click', '.accountsApp-delete', function(e) {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    $(document).trigger('studFeeAdded');
                     if(response.success) {
                         toastr.success(response.message);
                         console.log(response);

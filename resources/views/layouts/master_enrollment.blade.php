@@ -166,6 +166,11 @@
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
+    <!-- Ajax -->
+    @if(request()->routeIs('subjectsRead'))
+        <script src="{{ asset('js/ajax/enrolment/subjectSerialize.js') }}"></script>
+    @endif
+
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>

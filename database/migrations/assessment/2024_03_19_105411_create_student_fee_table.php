@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('student_fee', function (Blueprint $table) {
             $table->id();
-            $table->integer('prog_id')->nullable();
+            $table->integer('prog_Code')->nullable();
+            $table->string('yrlevel')->nullable();
             $table->string('schlyear')->nullable();
             $table->integer('semester')->nullable();
             $table->string('campus')->nullable();
-            $table->string('class')->nullable();
+            $table->integer('fundname_code')->nullable();
+            $table->string('amountFee')->nullable();
+            $table->string('amountName')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

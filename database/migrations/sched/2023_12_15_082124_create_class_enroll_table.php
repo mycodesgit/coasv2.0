@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('class_enroll', function (Blueprint $table) {
             $table->id();
-            $table->integer('prog_id')->nullable();
             $table->string('schlyear')->nullable();
             $table->integer('semester')->nullable();
             $table->string('campus')->nullable();
-            $table->string('class')->nullable();
-            $table->string('class_section')->nullable();
+            $table->integer('progCode')->nullable();
+            $table->string('classSection')->nullable();
+            $table->string('classno')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

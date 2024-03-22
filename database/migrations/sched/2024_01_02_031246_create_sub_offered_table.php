@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('lecUnit')->nullable();
             $table->string('maxstud')->nullable();
             $table->string('isOJT')->nullable();
+            $table->string('isTemp')->nullable();
             $table->string('fund')->nullable();
             $table->string('fundAccount')->nullable();
             $table->timestamps();

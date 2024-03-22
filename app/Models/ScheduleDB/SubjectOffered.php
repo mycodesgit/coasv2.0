@@ -25,6 +25,7 @@ class SubjectOffered extends Model
         'lecUnit',
         'maxstud',
         'isOJT',
+        'isTemp',
         'fund',
         'fundAccount',
     ];
