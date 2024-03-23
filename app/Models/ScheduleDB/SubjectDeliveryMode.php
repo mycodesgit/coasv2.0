@@ -5,17 +5,15 @@ namespace App\Models\ScheduleDB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class DeliveryMode extends Model
 {
     use HasFactory;
 
     protected $connection = 'schedule';
-    protected $table = 'subjects';
+    protected $table = 'subjectdelmode';
 
     protected $fillable = [
-        'sub_code',
-        'sub_name', 
-        'sub_title', 
-        'sub_unit',
+        'delmode', 
+        'remember_token',
     ];
 }

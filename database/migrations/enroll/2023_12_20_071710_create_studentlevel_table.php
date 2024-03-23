@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('studentlevel', function (Blueprint $table) {
             $table->id();
             $table->string('studLevel')->nullable();
+            $table->string('subletter')->nullable();
             $table->timestamps();
         });
 

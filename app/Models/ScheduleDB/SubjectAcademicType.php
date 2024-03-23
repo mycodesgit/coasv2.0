@@ -5,17 +5,15 @@ namespace App\Models\ScheduleDB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class SubjectAcademicType extends Model
 {
     use HasFactory;
-
+    
     protected $connection = 'schedule';
-    protected $table = 'subjects';
+    protected $table = 'subjectacadtype';
 
     protected $fillable = [
-        'sub_code',
-        'sub_name', 
-        'sub_title', 
-        'sub_unit',
+        'acadtype_name', 
+        'remember_token',
     ];
 }

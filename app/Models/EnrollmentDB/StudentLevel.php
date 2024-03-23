@@ -13,5 +13,6 @@ class StudentLevel extends Model
 
     protected $fillable = [
         'studLevel'
+        'subletter'
     ];
 }

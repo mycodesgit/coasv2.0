@@ -11,7 +11,7 @@ $(document).ready(function() {
         "columns": [
             {data: 'sub_code'},
             {data: 'sub_name'},
-            {data: 'sub_desc'},
+            {data: 'sub_title'},
             {data: 'sub_unit'},
         ],
         "createdRow": function (row, data, index) {
