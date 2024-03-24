@@ -171,6 +171,9 @@
     @if(request()->routeIs('courseEnroll_list_search'))
         <script src="{{ asset('js/ajax/schedclass/classEnrollSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('subjectsOffered_search'))
+        <script src="{{ asset('js/ajax/schedclass/subjectOfferedSerialize.js') }}"></script>
+    @endif
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>

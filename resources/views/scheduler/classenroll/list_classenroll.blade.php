@@ -57,25 +57,7 @@ COAS - V1.0 || Class Enroll
                                     <option value="3">Summer</option>
                                 </select>
                             </div>
-
-                            <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Campus</span></label>
-                                <select class="form-control form-control-sm" name="campus">
-                                    <option value="{{Auth::user()->campus}}">
-                                        @if (Auth::user()->campus == 'MC') Main 
-                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                            @elseif(Auth::user()->campus == 'VC') Victorias 
-                                            @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                            @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                            @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                            @elseif(Auth::user()->campus == 'IC') Ilog 
-                                            @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                        @endif
-                                    </option>
-                                </select>
-                            </div>
-
+                            
                             <div class="col-md-2">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>

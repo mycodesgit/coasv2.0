@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('subCode')->nullable();
             $table->string('subSec')->nullable();
-            $table->string('syear')->nullable();
+            $table->string('schlyear')->nullable();
             $table->string('semester')->nullable();
             $table->string('lecFee')->nullable();
             $table->string('labFee')->nullable();

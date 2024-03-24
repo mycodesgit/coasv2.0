@@ -25,27 +25,55 @@ class SchedSubOfferController extends Controller
     public function subjectsOffered_search(Request $request) 
     {
         $campus = Auth::guard('web')->user()->campus;
-        $syear = $request->query('syear');
+        $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
 
         $campus = is_array($campus) ? $campus : [$campus];
-        $syear = is_array($syear) ? $syear : [$syear];
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
         $semester = is_array($semester) ? $semester : [$semester];
 
         $data = SubjectOffered::select('sub_offered.*', 'subjects.*')
                         ->join('subjects', 'sub_offered.subcode', '=', 'subjects.sub_code')
-                        ->whereIn('sub_offered.syear', $syear)
+                        ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->whereIn('sub_offered.campus', $campus)
                         ->get();
+
         $totalSearchResults = count($data);
 
-        return view('scheduler.subOff.listsearch_subOff', compact('data', 'totalSearchResults'));
+        $subjects = Subject::all();
+
+        $class = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                ->select('class_enroll.*', 'programs.*' )
+                ->where('class_enroll.schlyear', $schlyear)
+                ->where('class_enroll.semester', $semester)
+                ->where('class_enroll.campus', $campus)
+                ->orderBy('programs.progAcronym', 'ASC')
+                ->orderBy('class_enroll.classSection', 'ASC')
+                ->get();
+
+        return view('scheduler.subOff.listsearch_subOff', compact('data', 'totalSearchResults', 'subjects', 'class'));
     }
 
-    public function subjectsRead() 
+    public function getsubjectsOfferedRead(Request $request) 
     {
-        $subject = Subject::all();
-        return view('scheduler.reports.subjects', compact('subject'));
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+    
+        $data = SubjectOffered::select('sub_offered.*', 'subjects.*')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
+                        ->where('sub_offered.campus', $campus)
+                        ->get();
+
+        return response()->json(['data' => $data]);
     }
+
+    // public function subjectsRead() 
+    // {
+    //     $subject = Subject::all();
+    //     return view('scheduler.reports.subjects', compact('subject'));
+    // }
 }

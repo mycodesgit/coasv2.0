@@ -14,7 +14,7 @@ class SubjectOffered extends Model
     protected $fillable = [
         'subCode',
         'subSec', 
-        'syear', 
+        'schlyear', 
         'semester',
         'campus',
         'lecFee',

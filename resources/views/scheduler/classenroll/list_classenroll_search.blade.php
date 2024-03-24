@@ -39,7 +39,18 @@ COAS - V1.0 || Classes Enrolled
                                     <small>
                                         <i>Year-<b>{{ request('schlyear') }}</b>,
                                             Semester-<b>{{ request('semester') }}</b>,
-                                            Campus-<b>{{ request('campus') }}</b>,
+                                            Campus-<b>
+                                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
+                                                    @elseif(Auth::guard('web')->user()->campus == 'SCC') San Carlos 
+                                                    @elseif(Auth::guard('web')->user()->campus == 'VC') Victorias 
+                                                    @elseif(Auth::guard('web')->user()->campus == 'HC') Hinigaran 
+                                                    @elseif(Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
+                                                    @elseif(Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                                    @elseif(Auth::guard('web')->user()->campus == 'SC') Sipalay 
+                                                    @elseif(Auth::guard('web')->user()->campus == 'IC') Ilog 
+                                                    @elseif(Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                                @endif
+                                            </b>,
                                         </i>
                                     </small>
                                 </h5>

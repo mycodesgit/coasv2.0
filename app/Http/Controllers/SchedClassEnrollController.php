@@ -32,7 +32,7 @@ class SchedClassEnrollController extends Controller
             $data->where('semester', $request->semester);
         }
         if ($request->campus) {
-            $data->where('campus', $request->campus);
+            $data->where('campus', Auth::guard('web')->user()->campus);
         }
         $data = $data->get();
 
@@ -46,7 +46,7 @@ class SchedClassEnrollController extends Controller
     {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = $request->query('campus');
+        $campus = Auth::guard('web')->user()->campus;
     
         $data = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->select('class_enroll.*', 'programs.progAcronym')
