@@ -151,7 +151,7 @@ class AdExamineeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'raw_score' => 'required|numeric',
-            'percentile' => 'required|numeric',
+            'percentile' => 'required',
         ]);
         
         if($validator->fails())

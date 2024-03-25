@@ -88,7 +88,7 @@ COAS - V1.0 || Student Fee
 
                                     <div class="col-md-12">
                                         <label>&nbsp;</label>
-                                        <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Search</button>
+                                        <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Add</button>
                                     </div>
                                 </div>
                             </div>

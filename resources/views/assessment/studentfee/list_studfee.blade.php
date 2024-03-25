@@ -37,7 +37,7 @@ COAS - V1.0 || Student Fee
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <form method="GET" action="{{route('list_searchStudfee')}}" id="">
+                        <form method="GET" action="{{route('list_searchStudfee')}}" id="studFee">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                 <h5>Student Fee</h5>

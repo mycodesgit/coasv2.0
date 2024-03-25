@@ -131,3 +131,47 @@ $(function () {
         },
     });
 });
+
+$(function () {
+    $('#studFee').validate({
+        rules: {
+            prog_Code: {
+                required: true,
+            },
+            yrlevel: {
+                required: true,
+            },
+            schlyear: {
+                required: true,
+            },
+            semester: {
+                required: true,
+            },
+        },
+        messages: {
+            prog_Code: {
+                required: "Select Course",
+            },
+            yrlevel: {
+                required: "Select Year Level",
+            },
+            schlyear: {
+                required: "Select School Year",
+            },
+            semester: {
+                semester: "Select Semester",
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.col-md-12').append(error);        
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+    });
+});
