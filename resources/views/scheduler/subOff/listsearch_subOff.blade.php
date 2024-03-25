@@ -122,22 +122,22 @@ COAS - V1.0 || Subject Offered
                             </table>
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">                            
-                            <form method="GET" action="" id="classEnroll">
+                            <form method="POST" action="{{ route('subjectsOfferedCreate') }}" id="subjOffer">
 
                                 {{ csrf_field() }}
 
-                                <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" readonly="">
-                                <input type="hidden" value="{{ request('semester') }}" name="semester" readonly="">
-                                <input type="hidden" value="{{ Auth::guard('web')->user()->campus }}" name="campus" readonly="">
-                                <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly="">
-                                <input type="hidden" value="{{ \Carbon\Carbon::now() }}" name="datePosted" readonly="">
+                                <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" readonly>
+                                <input type="hidden" value="{{ request('semester') }}" name="semester" readonly>
+                                <input type="hidden" value="{{ Auth::guard('web')->user()->campus }}" name="campus" readonly>
+                                <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
+                                <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="datePosted" readonly>
 
                                 <div class="container mt-1">
                                     <div class="form-group">
                                         <div class="form-row">
                                             <div class="col-md-8">
                                                 <label><span class="badge badge-secondary">Subject Name</span></label>
-                                                <select class="form-control form-control-sm select2bs4" name="subCode" id="subCode">
+                                                <select class="form-control form-control-sm select2bs4" id="subCode">
                                                     <option disabled selected>---Select---</option>
                                                     @foreach($subjects as $sub)
                                                         <option value="{{ $sub->sub_code }}" data-sub-code="{{ $sub->sub_code }}" data-lec-unit="{{ $sub->sublecredit }}" data-lab-unit="{{ $sub->sublabcredit }}">{{ $sub->sub_name }} - {{ $sub->sub_title }}</option>
@@ -147,7 +147,7 @@ COAS - V1.0 || Subject Offered
 
                                             <div class="col-md-4">
                                                 <label><span class="badge badge-secondary">Subject Code</span></label>
-                                                <input type="text" name="" id="subcode" class="form-control form-control-sm" readonly="">
+                                                <input type="text" name="subCode" id="subcode" class="form-control form-control-sm" readonly="">
                                             </div>
 
                                             <div class="col-md-4 mt-2">
@@ -185,12 +185,12 @@ COAS - V1.0 || Subject Offered
                                                 <input type="number" name="labFee" class="form-control form-control-sm" value="0" min="0">
                                             </div>
 
-                                            <div class="col-md-3 mt-2">
+                                            <div class="col-md-2 mt-2">
                                                 <label><span class="badge badge-secondary">Max Student</span></label>
                                                 <input type="number" name="maxstud" class="form-control form-control-sm" value="0" min="0">
                                             </div>
 
-                                            <div class="col-md-3 mt-2">
+                                            <div class="col-md-2 mt-2">
                                                 <label><span class="badge badge-secondary">Template</span></label>
                                                 <select class="form-control form-control-sm" name="isTemp">
                                                     <option value="Yes">Yes</option>
@@ -198,7 +198,7 @@ COAS - V1.0 || Subject Offered
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-3 mt-2">
+                                            <div class="col-md-2 mt-2">
                                                 <label><span class="badge badge-secondary">OJT</span></label>
                                                 <select class="form-control form-control-sm" name="isOJT">
                                                     <option value="No">No</option>
@@ -206,14 +206,30 @@ COAS - V1.0 || Subject Offered
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-3 mt-2">
-                                                <label><span class="badge badge-secondary">Fund</span></label>
-                                                <input type="number" name="maxstud" class="form-control form-control-sm" value="0" min="0">
+                                            <div class="col-md-2 mt-2">
+                                                <label><span class="badge badge-secondary">Type</span></label>
+                                                <select class="form-control form-control-sm" name="isType">
+                                                    <option value="No">No</option>
+                                                    <option value="Special">Special Class</option>
+                                                </select>
                                             </div>
+
+                                            <div class="col-md-4 mt-2">
+                                                <label><span class="badge badge-secondary">Fund</span></label>
+                                                <select class="form-control form-control-sm" id="fundSelect">
+                                                    <option value="">No Account</option>
+                                                    @foreach($funds as $fund)
+                                                        <option value="{{ $fund->fund_id }}" data-account-name="{{ $fund->account_name }}">{{ $fund->fund_id }} - {{ $fund->account_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <input type="hidden" id="fundIdInput" name="fund" class="form-control form-control-sm" readonly>
+                                            <input type="hidden" id="accountNameInput" name="fundAccount" class="form-control form-control-sm" readonly>
 
                                             <div class="col-md-2">
                                                 <label>&nbsp;</label>
-                                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Add</button>
                                             </div>
                                         </div>
                                     </div>
@@ -229,6 +245,7 @@ COAS - V1.0 || Subject Offered
 
 <script>
     var subOfferedReadRoute = "{{ route('getsubjectsOfferedRead') }}";
+    var subOfferedCreateRoute = "{{ route('subjectsOfferedCreate') }}";
 </script>
 
 

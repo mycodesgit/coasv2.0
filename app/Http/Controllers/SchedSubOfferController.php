@@ -15,6 +15,8 @@ use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
 use App\Models\ScheduleDB\EnPrograms;
 
+use App\Models\AssessmentDB\AccountAppraisal;
+
 class SchedSubOfferController extends Controller
 {
     public function subjectsOffered() 
@@ -52,7 +54,9 @@ class SchedSubOfferController extends Controller
                 ->orderBy('class_enroll.classSection', 'ASC')
                 ->get();
 
-        return view('scheduler.subOff.listsearch_subOff', compact('data', 'totalSearchResults', 'subjects', 'class'));
+        $funds = AccountAppraisal::whereIn('id', [85, 105])->get();
+
+        return view('scheduler.subOff.listsearch_subOff', compact('data', 'totalSearchResults', 'subjects', 'class', 'funds'));
     }
 
     public function getsubjectsOfferedRead(Request $request) 
@@ -71,9 +75,71 @@ class SchedSubOfferController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    // public function subjectsRead() 
-    // {
-    //     $subject = Subject::all();
-    //     return view('scheduler.reports.subjects', compact('subject'));
-    // }
+    public function subjectsOfferedCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'schlyear' => 'required',
+                'semester' => 'required',
+                'campus' => 'required',
+                'postedBy' => 'required',
+                'datePosted' => 'required',
+                'subCode' => 'required',
+                'lecUnit' => 'required',
+                'labUnit' => 'required',
+                'subUnit' => 'required',
+                'subSec' => 'required',
+                'lecFee' => 'required',
+                'labFee' => 'required',
+                'maxstud' => 'required',
+                'isTemp' => 'required',
+                'isOJT' => 'required',
+                'isType' => 'required',
+            ]);
+
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $request->input('campus');
+            $subSec = $request->input('subSec');
+            $subCode = $request->input('subCode');
+
+            $existingSubjectOff = SubjectOffered::where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', $campus)
+                    ->where('subCode', $subCode)
+                    ->where('subSec', $subSec)
+                    ->first();
+
+            if ($existingSubjectOff) {
+                return response()->json(['error' => true, 'message' => 'Subject already exists'], 404);
+            }
+
+            try {
+                SubjectOffered::create([
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'campus' => $request->input('campus'),
+                    'postedBy' => $request->input('postedBy'),
+                    'datePosted' => $request->input('datePosted'),
+                    'subCode' => $request->input('subCode'),
+                    'lecUnit' => $request->input('lecUnit'),
+                    'labUnit' => $request->input('labUnit'),
+                    'subUnit' => $request->input('subUnit'),
+                    'subSec' => $request->input('subSec'),
+                    'lecFee' => $request->input('lecFee'),
+                    'labFee' => $request->input('labFee'),
+                    'maxstud' => $request->input('maxstud'),
+                    'isTemp' => $request->input('isTemp'),
+                    'isOJT' => $request->input('isOJT'),
+                    'isType' => $request->input('isType'),
+                    'fund' => $request->input('fund'),
+                    'fundAccount' => $request->input('fundAccount'),
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Subject stored successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Subject'], 404);
+            }
+        }
+    }
 }

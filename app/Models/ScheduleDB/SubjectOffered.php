@@ -23,9 +23,11 @@ class SubjectOffered extends Model
         'postedBy',
         'datePosted',
         'lecUnit',
+        'labUnit',
         'maxstud',
         'isOJT',
         'isTemp',
+        'isType',
         'fund',
         'fundAccount',
     ];

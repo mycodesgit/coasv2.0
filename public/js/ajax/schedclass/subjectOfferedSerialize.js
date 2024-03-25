@@ -1,4 +1,34 @@
+toastr.options = {
+    "closeButton": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right"
+};
 $(document).ready(function() {
+    $('#subjOffer').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: subOfferedCreateRoute,
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if(response.success) {
+                    toastr.success(response.message);
+                    console.log(response);
+                    $(document).trigger('subjOffAdded');
+                } else {
+                    toastr.error(response.message);
+                    console.log(response);
+                }
+            },
+            error: function(xhr, status, error, message) {
+                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                toastr.error(errorMessage);
+            }
+        });
+    });
+
     var urlParams = new URLSearchParams(window.location.search);
     var schlyear = urlParams.get('schlyear') || ''; 
     var semester = urlParams.get('semester') || '';
@@ -50,7 +80,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('coaAdded', function() {
+    $(document).on('subjOffAdded', function() {
         dataTable.ajax.reload();
     });
 });
@@ -68,5 +98,17 @@ $(document).ready(function() {
         $('#subUnit').val(lecUnit + labUnit);
     });
 });
+
+$(document).ready(function() {
+    $('#fundSelect').on('change', function() {
+        var selectedOption = $(this).find('option:selected');
+        var fundId = selectedOption.val();
+        var accountName = selectedOption.data('account-name');
+        
+        $('#fundIdInput').val(fundId);
+        $('#accountNameInput').val(accountName);
+    });
+});
+
 
 
