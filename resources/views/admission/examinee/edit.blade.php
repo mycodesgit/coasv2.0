@@ -382,7 +382,7 @@ COAS - V1.0 || Applicant Edit
                                 <div class="form-row">
                                     <div class="col-md-6">
                                         <label><span class="badge badge-secondary">Raw Score</span></label>
-                                        <input type="text" class="form-control" name="raw_score" value="{{$applicant->result->raw_score}}">
+                                        <input type="number" class="form-control" name="raw_score" value="{{$applicant->result->raw_score}}" min="0">
                                     </div>
 
                                     <div class="col-md-6">
