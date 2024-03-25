@@ -388,6 +388,7 @@ COAS - V1.0 || Applicant Edit
                                     <div class="col-md-6">
                                         <label><span class="badge badge-secondary">Percentile</span></label>
                                         <select class="form-control" name="percentile">
+                                            <option value=""> --Select-- </option>
                                             <option value="Qualified">Qualified</option>
                                             <option value="Failed">Failed</option>
                                         </select>
