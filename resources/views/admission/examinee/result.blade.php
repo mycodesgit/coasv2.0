@@ -110,7 +110,7 @@ COAS - V1.0 || Examinee Results
                             <th>Name</th>
                             <th>Type</th>
                             <th>Raw Score</th>
-                            <th>Percentile</th>
+                            <th>Remarks</th>
                             <th>Exam Sched</th>
                             <th>Campus</th>
                         </tr>

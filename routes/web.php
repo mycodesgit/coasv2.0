@@ -57,7 +57,7 @@ Route::prefix('/portal')->group(function () {
     Route::get('/getProgramsByCampus', [PortalController::class, 'getProgramsByCampus'])->name('getProgramsByCampus');
     Route::post('/post_admission_apply', [PortalController::class, 'post_admission_apply'])->name('post_admission_apply');
     Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
-    Route::get('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
+    Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
 });
 
 Route::get('/emp', [LoginController::class, 'login'])->name('login');

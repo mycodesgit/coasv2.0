@@ -382,16 +382,12 @@ COAS - V1.0 || Applicant Edit
                                 <div class="form-row">
                                     <div class="col-md-6">
                                         <label><span class="badge badge-secondary">Raw Score</span></label>
-                                        <input type="number" class="form-control" name="raw_score" value="{{$applicant->result->raw_score}}" min="0">
+                                        <input type="number" class="form-control" name="raw_score" value="{{ $applicant->result->raw_score }}" min="0">
                                     </div>
 
                                     <div class="col-md-6">
                                         <label><span class="badge badge-secondary">Remarks</span></label>
-                                        <select class="form-control" name="percentile">
-                                            <option value=""> --Select-- </option>
-                                            <option value="Qualified" {{ $applicant->result->percentile == 'Qualified' ? 'selected' : '' }}>Qualified</option>
-                                            <option value="Failed" {{ $applicant->result->percentile == 'Failed' ? 'selected' : '' }}>Failed</option>
-                                        </select>
+                                        <input type="text" name="percentile" class="form-control" value="{{ $applicant->result->percentile }}" readonly>
                                     </div>
                                 </div>
                             </div>

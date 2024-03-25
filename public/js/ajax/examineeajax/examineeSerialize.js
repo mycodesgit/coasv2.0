@@ -48,3 +48,21 @@ $(document).ready(function() {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const rawScoreInput = document.querySelector('input[name="raw_score"]');
+    
+    const remarksInput = document.querySelector('input[name="percentile"]');
+    
+    rawScoreInput.addEventListener('input', function() {
+        const rawScoreValue = parseInt(this.value);
+        
+        if (rawScoreValue < 100) {
+            remarksInput.value = 'Failed';
+        } else {
+            remarksInput.value = 'Qualified';
+        }
+        
+    });
+});
+

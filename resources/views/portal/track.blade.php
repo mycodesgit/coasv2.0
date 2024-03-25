@@ -67,15 +67,15 @@
                                     </p>
 
                                     <div class="breadcrumb">
-                                        <form class="mt-2" style="margin-bottom: -8px;" method="GET" action="{{ route('admission_track_status') }}">
+                                        <form class="mt-2" style="margin-bottom: -8px;" method="POST" action="{{ route('admission_track_status') }}">
                                             {{ csrf_field() }}
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-5">
-                                                        <input type="text" name="lname" placeholder="Enter Last Name" class="form-control">
+                                                        <input type="text" name="lname" placeholder="Enter Last Name" class="form-control" oninput="this.value = this.value.toUpperCase()">
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <input type="text" name="fname" placeholder="Enter First Name" class="form-control">
+                                                        <input type="text" name="fname" placeholder="Enter First Name" class="form-control" oninput="this.value = this.value.toUpperCase()">
                                                     </div>
 
                                                     <div class="col-md-2">

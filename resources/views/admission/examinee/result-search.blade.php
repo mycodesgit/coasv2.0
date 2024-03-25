@@ -119,7 +119,7 @@ COAS - V1.0 || Examinee Search List Result
                             <th>Name</th>
                             <th>Type</th>
                             <th>Raw Score</th>
-                            <th>Percentile</th>
+                            <th>Remarks</th>
                             <th>Exam Sched</th>
                             <th>Campus</th>
                             <th>Action</th>

@@ -67,14 +67,14 @@
                                     </p>
 
                                     <div class="breadcrumb">
-                                        <form class="mt-2" style="margin-bottom: -8px;">
+                                        <form class="mt-2" style="margin-bottom: -8px;" method="POST" action="{{ route('admission_track_status') }}">
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-5">
-                                                        <input type="text" name="lname" placeholder="Enter Last Name" class="form-control">
+                                                        <input type="text" name="lname" placeholder="Enter Last Name" class="form-control" oninput="this.value = this.value.toUpperCase()">
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <input type="text" name="fname" placeholder="Enter First Name" class="form-control">
+                                                        <input type="text" name="fname" placeholder="Enter First Name" class="form-control" oninput="this.value = this.value.toUpperCase()">
                                                     </div>
 
                                                     <div class="col-md-2">
@@ -132,7 +132,6 @@
                                                                 <span class="fas fa-check"></span>
                                                             </div>
                                                             <div class="timeline-date">
-                                                                <h5 style="font-size: 10px;">{{  $applicant->created_at->format('M d, Y') }}</h5>
                                                             </div>
                                                             <div class="timeline-panel">
                                                                 <div class="timeline-heading">
@@ -157,7 +156,6 @@
                                                                 </div>
                                                                 
                                                                 <div class="timeline-date">
-                                                                    <h5 style="font-size: 10px;">{{  $applicant->result->created_at->format('M d, Y') }}</h5>
                                                                 </div>
                                                                 <div class="timeline-panel">
                                                                     <div class="timeline-heading">
@@ -214,43 +212,35 @@
                                                                     <span class="fas fa-check"></span>
                                                                 </div>
                                                                 <div class="timeline-date">
-                                                                    <h5 style="font-size: 10px;">{{  $applicant->result->created_at->format('M d, Y') }}</h5>
                                                                 </div>
                                                                 <div class="timeline-panel">
                                                                     <div class="timeline-heading">
                                                                         <div class="timeline-title">
                                                                             <h4>Examination Results</h4>
                                                                             <h6>Result is out!</h6>
-                                                                            <!--<h6 style="text-indent: 50px;"><i><b>Raw Score</b>: {{  $applicant->result->raw_score }}</i></h6>-->
 
                                                                             <h6 style="text-indent: 50px;">
                                                                                 <i>
-                                                                                    <b>Percentile</b>: {{  $applicant->result->percentile }}
-                                                                                </i>
-                                                                            </h6>
-                                                                            <h6 style="text-indent: 50px;">
-                                                                                <i>
                                                                                     <b>Remark</b>: 
-                                                                                    @if ($applicant->result->percentile <= 25)  FAILED 
+                                                                                    @if ($applicant->result->raw_score < 100)  FAILED 
                                                                                         @else PASSED 
                                                                                     @endif
                                                                                 </i>
                                                                             </h6>
                                                                             <h6 style="text-indent: 50px;">
                                                                                 <b>
-                                                                                    @if ($applicant->result->percentile <= 25)  NOT QUALIFIED TO ENROLL 
-                                                                                        @else QUALIFIED TO ENROLL 
+                                                                                    @if ($applicant->result->raw_score < 100)  NOT QUALIFIED FOR SCREENING 
+                                                                                        @else QUALIFIED FOR SCREENING 
                                                                                     @endif
                                                                                 </b>
                                                                             </h6>
                                                                             <h6 style="text-indent: 50px;">
                                                                                 <i>
-                                                                                    @if ($applicant->result->percentile <= 25)  
+                                                                                    @if ($applicant->result->raw_score < 100)  
                                                                                         @else * Subject to College Screening Process 
                                                                                     @endif
                                                                                 </i>
                                                                             </h6>
-                                                                            <h6><i>Status: {{ $applicant->result->created_at->format('F d, Y h:i A') }}</i></h6>
                                                                         </div>
                                                                     </div>
                                                                     <div class="timeline-body">
@@ -282,13 +272,12 @@
                                                         </li>
 
                                                         <li>
-                                                            @if ($applicant->result->percentile > 25) 
+                                                            @if ($applicant->result->percentile == "Qualified") 
                                                                 @if ($applicant->p_status == 4 || $applicant->p_status == 5)
                                                                     <div class="timeline-badge success">
                                                                         <span class="fas fa-check"></span>
                                                                     </div>
                                                                     <div class="timeline-date">
-                                                                        <h5 style="font-size: 10px;">{{  $applicant->updated_at->format('F d, Y') }}</h5>
                                                                     </div>
                                                                     <div class="timeline-panel">
                                                                         <div class="timeline-heading">
@@ -328,13 +317,12 @@
                                                         </li>
 
                                                         <li>
-                                                            @if ($applicant->result->percentile > 25) 
+                                                            @if ($applicant->result->percentile == "Qualified") 
                                                                 @if ($applicant->p_status == 5)
                                                                     <div class="timeline-badge success">
                                                                         <span class="fas fa-check"></span>
                                                                     </div>
                                                                     <div class="timeline-date">
-                                                                        <h5 style="font-size: 10px;">{{ $applicant->interview->created_at->format('F d, Y')}}</h5>
                                                                     </div>
                                                                     <div class="timeline-panel">
                                                                         <div class="timeline-heading">
