@@ -389,8 +389,8 @@ COAS - V1.0 || Applicant Edit
                                         <label><span class="badge badge-secondary">Remarks</span></label>
                                         <select class="form-control" name="percentile">
                                             <option value=""> --Select-- </option>
-                                            <option value="Qualified">Qualified</option>
-                                            <option value="Failed">Failed</option>
+                                            <option value="Qualified" {{ $applicant->result->percentile == 'Qualified' ? 'selected' : '' }}>Qualified</option>
+                                            <option value="Failed" {{ $applicant->result->percentile == 'Failed' ? 'selected' : '' }}>Failed</option>
                                         </select>
                                     </div>
                                 </div>
