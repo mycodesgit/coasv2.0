@@ -15,10 +15,14 @@ use Carbon\Carbon;
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
 use App\Models\EnrollmentDB\GradeCode;
+use App\Models\EnrollmentDB\YearLevel;
+use App\Models\EnrollmentDB\MajorMinor;
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScholarshipDB\Scholar;
 
-use App\Models\AdmissionDB\Programs;
+use App\Models\ScheduleDB\EnPrograms;
+use App\Models\ScheduleDB\SubjectOffered;
+use App\Models\ScheduleDB\ClassesSubjects;
 
 class EnrollmentController extends Controller
 {
@@ -59,27 +63,55 @@ class EnrollmentController extends Controller
 
         $data = Student::where('en_status', '=', 1)->get();
         $id = $request->stud_id;
-        $semester = $request->semester;
-        $schlyear = $request->schlyear;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
         $student = Student::find($id);
         
         $course = $student->course ?? null;
 
         $selectedProgram = $student->course;
 
-        $program = Programs::where('code', $course)
-            ->orWhere('code', $course)
+        $program = EnPrograms::where('progCod', $course)
+            ->orWhere('progCod', $course)
             ->orderBy('id', 'asc')
             ->get();
 
-        $classEnrolls = ClassEnroll::where('class', $selectedProgram)
-        ->where('schlyear', $schlyear)
-        ->where('semester', $semester)
-        ->get();
+        $mamisub = MajorMinor::all();
 
-        $yrSections = $classEnrolls->pluck('class_section')->unique();
+        $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                ->join('coasv2_db_enrollment.yearlevel', function($join) {
+                    $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
+                })
+                ->select('class_enroll.*', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                ->where('schlyear', '=', $schlyear)
+                ->where('semester', '=', $semester)
+                ->where('campus', '=', $campus)
+                ->orderBy('programs.progAcronym', 'ASC')
+                ->orderBy('class_enroll.classSection', 'ASC')
+                ->get();
+
     
-        return view('enrollment.studenroll.enrollStudent', compact('data', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'selectedProgram', 'yrSections'));
+        return view('enrollment.studenroll.enrollStudent', compact('data', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'selectedProgram', 'classEnrolls', 'mamisub'));
+    }
+
+    public function fetchSubjects(Request $request)
+    {
+        $course = $request->input('course');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+        $subjects = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
+                        ->select('subjects.*', 'sub_offered.*')
+                        ->where('subSec', $course)
+                        ->where('isTemp', 'Yes')
+                        ->where('schlyear', $schlyear)
+                        ->where('semester', $semester)
+                        ->where('campus', $campus)
+                        ->orderBy('sub_offered.subCode', 'ASC')
+                        ->get();
+
+        return response()->json($subjects);
     }
 
     public function studrf_print()

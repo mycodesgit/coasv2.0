@@ -5,14 +5,14 @@ namespace App\Models\EnrollmentDB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentLevel extends Model
+class MajorMinor extends Model
 {
     use HasFactory;
     protected $connection = 'enrollment';
-    protected $table = 'studentlevel';
+    protected $table = 'majorminor_subject';
 
     protected $fillable = [
-        'studLevel',
-        'subletter'
+        'submamiID',
+        'submamiName'
     ];
 }

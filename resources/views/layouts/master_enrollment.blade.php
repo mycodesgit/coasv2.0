@@ -170,6 +170,9 @@
     @if(request()->routeIs('subjectsRead'))
         <script src="{{ asset('js/ajax/enrolment/subjectSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('searchStudEnroll'))
+        <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}"></script>
+    @endif
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>

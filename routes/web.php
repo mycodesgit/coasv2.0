@@ -194,6 +194,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/liveSearchStudent', [EnrollmentController::class, 'liveSearchStudent'])->name('liveSearchStudent');
             Route::get('/student/enroll', [EnrollmentController::class, 'searchStudEnroll'])->name('searchStudEnroll');
             Route::get('/student/enroll/rf', [EnrollmentController::class, 'studrf_print'])->name('studrf_print');
+            Route::get('/fetch-subjects', [EnrollmentController::class, 'fetchSubjects'])->name('fetchSubjects');
         });
 
         Route::prefix('gradesheet')->group(function () {
