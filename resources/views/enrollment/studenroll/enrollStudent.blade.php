@@ -45,7 +45,7 @@ COAS - V1.0 || Enroll Student
             </div> --}}
 
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-10 scrolling-column">
                     <div class="card mt-2" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
                             <div class="form-group">
@@ -180,12 +180,12 @@ COAS - V1.0 || Enroll Student
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-2 sticky-column mt-6">
                     <div class="card mt-2" style="background-color: #e9ecef">
                         <div class="card-body">
                             <a href="{{ route('searchStud') }}" class="form-control form-control-sm btn btn-success btn-sm">Enroll New</a>
-                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Show Template</a>
-                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" data-toggle="modal" data-target="#modal-studrf">
+                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
+                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-studrf">
                                 Print RF
                             </button>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
@@ -198,10 +198,84 @@ COAS - V1.0 || Enroll Student
     </div>
 </div>
 
+<div class="modal fade" id="modal-addSub">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">
+                    <i class="fas fa-plus"></i> Add New
+                </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <label>Subjects</label><br>
+                            <select class="form-control form-control-sm select2bs4" name="dd" id="subjectSelect">
+                                <option disabled selected> --Select-- </option>
+                                @foreach($subjOffer as $subs)
+                                    <option value="{{ $subs->sub_name }} {{ $subs->subSec }}" 
+                                            data-sub-code="{{ $subs->sub_code }}"
+                                            data-sub-title="{{ $subs->sub_title }}" 
+                                            data-sub-unit="{{ $subs->subUnit }}" 
+                                            data-lec-fee="{{ $subs->lecFee }}" 
+                                            data-lab-fee="{{ $subs->labFee }}">
+                                        {{ $subs->sub_name }} - {{ $subs->subSec }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>  
+                
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="sub_code" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="sub_title" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="subUnit" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="lecFee" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="addSubjectBtn">
+                    <i class="fas fa-save"></i> Add
+                </button>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <span class="float-right">Total of {{ $subjectCount }} subjects offered this semester</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @include('enrollment.studenroll.modalrf')
 
 <script>
     var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";
+    var getfetchSubjectRoute  = "{{ route('coursefetchSubjects') }}";
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var scrollableColumn = document.querySelector('.scrolling-column');
+        scrollableColumn.addEventListener('scroll', function() {
+        var scrollTop = this.scrollTop;
+        this.scrollTo({
+            top: scrollTop,
+            behavior: 'smooth'
+            });
+        });
+    });
 </script>
 
 @endsection

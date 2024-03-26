@@ -32,19 +32,26 @@
             background-color: #fff !important;
         }
         #liveSearchResultsContainer {
-            max-height: 200px; /* Adjust the max height as needed */
+            max-height: 200px; 
             overflow-y: auto;
         }
-
         .live-search-result {
             cursor: pointer;
             padding: 8px;
-            border-bottom: 1px solid #eee; /* Add border between results for better separation */
+            border-bottom: 1px solid #eee; 
+        }
+        .live-search-result:hover {
+            background-color: #f0f0f0;
+        }
+        .sticky-column {
+          position: sticky;
+          top: 50px;
+          height: 5vh;
+        }
+        .scrolling-column {
+          overflow-y: auto;
         }
 
-        .live-search-result:hover {
-            background-color: #f0f0f0; /* Add a subtle background color on hover */
-        }
     </style>
     
 </head>

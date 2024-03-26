@@ -35,7 +35,7 @@ class SchedSubOfferController extends Controller
         $semester = is_array($semester) ? $semester : [$semester];
 
         $data = SubjectOffered::select('sub_offered.*', 'subjects.*')
-                        ->join('subjects', 'sub_offered.subcode', '=', 'subjects.sub_code')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                         ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->whereIn('sub_offered.campus', $campus)

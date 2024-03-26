@@ -9,6 +9,17 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    $('#subjectSelect').change(function() {
+        var selectedOption = $(this).find(':selected');
+         $('#sub_code').val(selectedOption.data('sub-code'));
+        $('#sub_title').val(selectedOption.data('sub-title'));
+        $('#subUnit').val(selectedOption.data('sub-unit'));
+        $('#lecFee').val(selectedOption.data('lec-fee'));
+        $('#labFee').val(selectedOption.data('lab-fee'));
+    });
+});
+
 document.getElementById('programNameSelect').addEventListener('change', function() {
     var selectedCourse = this.value;
     var schlyear = document.getElementById('schlyearInput').value; 
@@ -42,3 +53,58 @@ document.getElementById('programNameSelect').addEventListener('change', function
     };
     xhr.send();
 });
+
+document.getElementById('addSubjectBtn').addEventListener('click', function() {
+    var selectedSubjectOption = document.querySelector('#subjectSelect option:checked');
+    if (!selectedSubjectOption) {
+        alert('Please select a subject.');
+        return;
+    }
+
+    var selectedSubjectText = selectedSubjectOption.textContent;
+    var sub_name = selectedSubjectText; 
+
+    var selectedSubjectCodeText = document.getElementById('sub_code').value;
+    var selectedSubjectTitleText = document.getElementById('sub_title').value;
+    var selectedSubjectUnitText = document.getElementById('subUnit').value;
+    var selectedSubjectlecFeeText = document.getElementById('lecFee').value;
+    var selectedSubjectlabFeeText = document.getElementById('labFee').value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', getfetchSubjectRoute + '?dd=' + encodeURIComponent(selectedSubjectText), true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var subjectDetails = JSON.parse(xhr.responseText);
+                var subCode = subjectDetails.subCode; 
+                var sub_title = subjectDetails.sub_title;
+                var subUnit = subjectDetails.subUnit;
+                var lecFee = subjectDetails.lecFee;
+                var labFee = subjectDetails.labFee;
+
+                // Add the selected subject to the table
+                var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
+                var row = tableBody.insertRow();
+                row.insertCell(0).textContent = subCode || selectedSubjectCodeText; //
+                row.insertCell(1).textContent = sub_name;
+                row.insertCell(2).textContent = sub_title || selectedSubjectTitleText;
+                row.insertCell(3).textContent = subUnit || selectedSubjectUnitText;
+                row.insertCell(4).textContent = lecFee || selectedSubjectlecFeeText;
+                row.insertCell(5).textContent = labFee || selectedSubjectlabFeeText;
+
+                $('#modal-addSub').modal('hide');
+            } else {
+                alert('Failed to fetch subject details.');
+            }
+        }
+    };
+    xhr.send();
+});
+
+
+
+
+
+
+
+
