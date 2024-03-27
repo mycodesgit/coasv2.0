@@ -12,11 +12,16 @@ use App\Rules\UniqueStudentID;
 use PDF;
 use Storage;
 use Carbon\Carbon;
+
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
 use App\Models\EnrollmentDB\GradeCode;
 use App\Models\EnrollmentDB\YearLevel;
 use App\Models\EnrollmentDB\MajorMinor;
+use App\Models\EnrollmentDB\StudentStatus;
+use App\Models\EnrollmentDB\StudentType;
+use App\Models\EnrollmentDB\StudentShifTrans;
+use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\EnPrograms;
@@ -63,6 +68,9 @@ class EnrollmentController extends Controller
         $studlvl = StudentLevel::all();
         $studscholar = Scholar::all();
         $mamisub = MajorMinor::all();
+        $studstat = StudentStatus::all();
+        $studtype = StudentType::all();
+        $shiftrans = StudentShifTrans::all();
 
         $data = Student::where('en_status', '=', 1)->get();
         $id = $request->stud_id;
@@ -84,7 +92,7 @@ class EnrollmentController extends Controller
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
                     $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
                 })
-                ->select('class_enroll.*', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
                 ->where('schlyear', '=', $schlyear)
                 ->where('semester', '=', $semester)
                 ->where('campus', '=', $campus)
@@ -105,28 +113,27 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.enrollStudent', compact('data', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'selectedProgram', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount'));
+        return view('enrollment.studenroll.enrollStudent', compact('data', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'selectedProgram', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans'));
     }
 
     public function coursefetchSubjects(Request $request)
-{
-    $dd = $request->input('dd');
-    $schlyear = $request->input('schlyear');
-    $semester = $request->input('semester');
-    $campus = Auth::guard('web')->user()->campus;
+    {
+        $dd = $request->input('dd');
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+        $campus = Auth::guard('web')->user()->campus;
 
-    $subjects = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                    ->select('subjects.*', 'sub_offered.*')
-                    ->where('sub_offered.subSec', $dd)
-                    ->where('sub_offered.schlyear', $schlyear)
-                    ->where('sub_offered.semester', $semester)
-                    ->where('sub_offered.campus', $campus)
-                    ->orderBy('sub_offered.subCode', 'ASC')
-                    ->get();
+        $subjects = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->select('subjects.*', 'sub_offered.*')
+                        ->where('sub_offered.subSec', $dd)
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
+                        ->where('sub_offered.campus', $campus)
+                        ->orderBy('sub_offered.subCode', 'ASC')
+                        ->get();
 
-    return response()->json($subjects);
-}
-
+        return response()->json($subjects);
+    }
 
     public function fetchSubjects(Request $request)
     {
@@ -145,6 +152,78 @@ class EnrollmentController extends Controller
                         ->get();
 
         return response()->json($subjects);
+    }
+
+    public function studEnrollmentCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'studentID' => 'required',
+                'schlyear' => 'required',
+                'semester' => 'required',
+                'campus' => 'required',
+                'course' => 'required',
+                'progCod' => 'required',
+                'studMajor' => 'required',
+                'studMinor' => 'required',
+                'studStatus' => 'required',
+                'studSch' => 'required',
+                'studClassID' => 'required',
+                'studType' => 'required',
+                'transferee' => 'required',
+                'fourPs' => 'required',
+            ]);
+
+            // $campus = $request->input('campus');
+            // $schlyear = $request->input('schlyear');
+            // $semester = $request->input('semester');
+            // $progCode = $request->input('prog_Code');
+            // $studentID = $request->input('studentID');
+            // $yrlevel = $request->input('yrlevel');
+
+            // $studentID = $request->input('studentID'); 
+            // $existingStudFee = StudEnrolmentHistory::where('accountName', $studentID)
+            //                 ->where('campus', $campus)
+            //                 ->where('schlyear', $schlyear)
+            //                 ->where('semester', $semester)
+            //                 ->where('prog_Code', $progCode)
+            //                 ->where('yrlevel', $yrlevel)
+            //                 ->first();
+
+            // if ($existingStudFee) {
+            //     return response()->json(['error' => true, 'message' => 'Account Name in Student Fee already exists'], 404);
+            // }
+
+            try {
+                StudEnrolmentHistory::create([
+                    'studentID' => $request->input('studentID'),
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'campus' => $request->input('campus'),
+                    'course' => $request->input('course'),
+                    'progCod' => $request->input('progCod'),
+                    'studMajor' => $request->input('studMajor'),
+                    'studMinor' => $request->input('studMinor'),
+                    'studLevel' => $request->input('studLevel'),
+                    'studYear' => $request->input('studYear'),
+                    'studSec' => $request->input('studSec'),
+                    'studUnit' => $request->input('studUnit'),
+                    'studStatus' => $request->input('studStatus'),
+                    'studSch' => $request->input('studSch'),
+                    'studClassID' => $request->input('studClassID'),
+                    'postedBy' => $request->input('postedBy'),
+                    'confirmBy' => $request->input('confirmBy'),
+                    'postedDate' => $request->input('postedDate'),
+                    'studType' => $request->input('studType'),
+                    'transferee' => $request->input('transferee'),
+                    'fourPs' => $request->input('fourPs'),
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
+            }
+        }
     }
 
     public function studrf_print()

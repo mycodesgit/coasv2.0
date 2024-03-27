@@ -32,16 +32,17 @@ COAS - V1.0 || Student Fee
         </p>
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-            <h5>Search Results: {{ $totalSearchResults }} 
-                <small>
-                    <i>Year-<b>{{ request('schlyear') }}</b>,
-                        Semester-<b>{{ request('semester') }}</b>,
-                        Campus-<b>{{ request('campus') }}</b>,
-                        Course-<b>{{ request('prog_Code') }}</b>,
-                        YrLevel-<b>{{ request('yrlevel') }}</b>,
-                    </i>
-                </small>
-            </h5>
+        <br>
+        <h5>Search Results: {{ $totalSearchResults }} 
+            <small>
+                <i>Year-<b>{{ request('schlyear') }}</b>,
+                    Semester-<b>{{ request('semester') }}</b>,
+                    Campus-<b>{{ request('campus') }}</b>,
+                    Course-<b>{{ request('prog_Code') }}</b>,
+                    YrLevel-<b>{{ request('yrlevel') }}</b>,
+                </i>
+            </small>
+        </h5>
 
         <div class="mt-3 row">
             <div class="col-md-4">

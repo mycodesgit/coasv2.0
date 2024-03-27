@@ -40,16 +40,16 @@ COAS - V1.0 || Enroll Student
                 </div>
             </div>
 
-            {{-- <div class="col-md-2 mt-2 float-right">
-                
-            </div> --}}
-
             <div class="row">
                 <div class="col-md-10 scrolling-column">
                     <div class="card mt-2" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
                             <div class="form-group">
                                 <div class="form-row">
+                                    <div class="col-md-2">
+                                        <label><span class="badge badge-secondary">Student ID</span></label>
+                                        <input type="text" name="" class="form-control form-control-sm" value="{{ $student->stud_id }}" readonly>
+                                    </div>
                                     <div class="col-md-3">
                                         <label><span class="badge badge-secondary">Last Name</span></label>
                                         <input type="text" name="" class="form-control form-control-sm" value="{{ $student->lname }}" readonly>
@@ -62,7 +62,7 @@ COAS - V1.0 || Enroll Student
                                         <label><span class="badge badge-secondary">Middle Name</span></label>
                                         <input type="text" name="" class="form-control form-control-sm" value="{{ $student->mname }}" readonly>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-1">
                                         <label><span class="badge badge-secondary">Ext. Name</span></label>
                                         <input type="text" name="" class="form-control form-control-sm" value="{{ $student->ext }}" readonly>
                                     </div>
@@ -72,11 +72,15 @@ COAS - V1.0 || Enroll Student
                     </div>
                     <div class="card" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
-                            <form method="GET" action="{{ route('courseEnroll_list_search') }}" id="classEnroll">
+                            <form method="GET" action="{{ route('studEnrollmentCreate') }}" id="AddenrollStud">
                                 {{ csrf_field() }}
                                 
                                 <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
                                 <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
+                                <input type="hidden" value="{{ $student->stud_id }}" name="studentID" readonly>
+                                <input type="hidden" value="{{ $student->campus }}" name="campus" readonly>
+                                <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
+                                <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
 
                                 <div class="container">
                                     <div class="form-group">
@@ -89,16 +93,26 @@ COAS - V1.0 || Enroll Student
                                                     @php
                                                         $yearsection = preg_replace('/\D/', '', $class->classSection);
                                                     @endphp
-                                                    <option value="{{ $class->progAcronym }} {{ $class->classSection }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}">
+                                                    <option value="{{ $class->progAcronym }} {{ $class->classSection }}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}">
                                                         {{ $class->progAcronym }} {{ $class->classSection }}
                                                     </option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            
-                                            <div class="col-md-9">
+
+                                            <input type="hidden" id="programIDInput" name="studClassID" class="form-control form-control-sm" readonly>
+                                            <input type="hidden" id="programCodeInput" name="progCod" class="form-control form-control-sm" readonly>
+                                            <input type="hidden" id="numericPart" name="studYear" placeholder="Numeric Part">
+                                            <input type="hidden" id="alphabeticalPart" name="studSec" placeholder="Alphabetical Part">
+
+                                            <div class="col-md-7">
                                                 <label><span class="badge badge-secondary">Program Name</span></label>
-                                                <input type="text" id="programNameInput" name="progName" class="form-control form-control-sm" readonly>
+                                                <input type="text" id="programNameInput" name="" class="form-control form-control-sm" readonly>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label><span class="badge badge-secondary">Total Units</span></label>
+                                                <input type="text" id="totalunitInput" name="studUnit" class="form-control form-control-sm" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -107,16 +121,16 @@ COAS - V1.0 || Enroll Student
                                         <div class="form-row">
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Student Level</span></label>
-                                                <select class="form-control form-control-sm" name="yrsection">
-                                                    <option disabled selected>Select</option>
+                                                <select class="form-control form-control-sm" name="studLevel">
+                                                    <option disabled selected> --Select-- </option>
                                                     @foreach ($studlvl as $data)
-                                                    <option value="{{ $data->studLevel }}">{{ $data->studLevel }}</option>
+                                                    <option value="{{ $data->id }}">{{ $data->studLevel }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-9">
                                                 <label><span class="badge badge-secondary">Year Level</span></label>
-                                                <input type="text" id="yearsectionInput" name="progName" class="form-control form-control-sm" readonly>
+                                                <input type="text" id="yearsectionInput" name="" class="form-control form-control-sm" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -124,9 +138,9 @@ COAS - V1.0 || Enroll Student
                                     <div class="form-group">
                                         <div class="form-row">
                                             <div class="col-md-6">
-                                                <label><span class="badge badge-secondary">Student Level</span></label>
-                                                <select class="form-control form-control-sm" name="studscholar">
-                                                    <option>NO SCHOLARSHIP</option>
+                                                <label><span class="badge badge-secondary">Scholarship</span></label>
+                                                <select class="form-control form-control-sm" name="studSch">
+                                                    <option value="0">NO SCHOLARSHIP</option>
                                                     @foreach ($studscholar as $data)
                                                         <option value="{{ $data->scholar_name }}">{{ $data->scholar_name }}</option>
                                                     @endforeach
@@ -135,7 +149,7 @@ COAS - V1.0 || Enroll Student
 
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Major</span></label>
-                                                <select class="form-control form-control-sm" name="major">
+                                                <select class="form-control form-control-sm" name="studMajor">
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($mamisub as $mamisubjects)
                                                         <option value="{{ $mamisubjects->submamiID }}">{{ $mamisubjects->submamiName }}</option>
@@ -145,11 +159,53 @@ COAS - V1.0 || Enroll Student
 
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Minor</span></label>
-                                                <select class="form-control form-control-sm" name="minor">
+                                                <select class="form-control form-control-sm" name="studMinor">
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($mamisub as $mamisubjects)
                                                         <option value="{{ $mamisubjects->submamiID }}">{{ $mamisubjects->submamiName }}</option>
                                                     @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col-md-3">
+                                                <label><span class="badge badge-secondary">Status</span></label>
+                                                <select class="form-control form-control-sm" name="studStatus">
+                                                    @foreach ($studstat as $data)
+                                                        <option value="{{ $data->id }}">{{ $data->studentStatName }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label><span class="badge badge-secondary">Type</span></label>
+                                                <select class="form-control form-control-sm" name="studType">
+                                                    <option disabled selected> --Select--</option>
+                                                    @foreach ($studtype as $data)
+                                                        <option value="{{ $data->id }}">{{ $data->studentTypeName }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label><span class="badge badge-secondary">Transferee/Shiftee</span></label>
+                                                <select class="form-control form-control-sm" name="transferee">
+                                                    <option disabled selected> --Select--</option>
+                                                    @foreach ($shiftrans as $data)
+                                                        <option value="{{ $data->id }}">{{ $data->studentShiftTransDesc }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label><span class="badge badge-secondary">4P's Beneficiaries</span></label>
+                                                <select class="form-control form-control-sm" name="fourPs">
+                                                    <option disabled selected> --Select--</option>
+                                                    <option value="0">NO</option>
+                                                    <option value="1">YES</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -172,7 +228,7 @@ COAS - V1.0 || Enroll Student
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Fetched subjects will be displayed here -->
+
                             </tbody>
                         </table>
 
@@ -188,8 +244,9 @@ COAS - V1.0 || Enroll Student
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-studrf">
                                 Print RF
                             </button>
-                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
-                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a>
+                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
+                            {{-- <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
+                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}
                         </div>
                     </div>
                 </div>
@@ -265,6 +322,7 @@ COAS - V1.0 || Enroll Student
 <script>
     var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";
     var getfetchSubjectRoute  = "{{ route('coursefetchSubjects') }}";
+    var saveEnrollmentRoute  = "{{ route('studEnrollmentCreate') }}";
 
     document.addEventListener('DOMContentLoaded', function() {
     var scrollableColumn = document.querySelector('.scrolling-column');

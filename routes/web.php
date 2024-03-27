@@ -22,6 +22,8 @@ use App\Http\Controllers\EnreportsController;
 use App\Http\Controllers\SchedClassProgramsController;
 use App\Http\Controllers\SchedClassRoomsController;
 use App\Http\Controllers\SchedClassEnrollController;
+use App\Http\Controllers\SchedFacultyListController;
+use App\Http\Controllers\SchedFacultyDesignationController;
 use App\Http\Controllers\SchedSubOfferController;
 use App\Http\Controllers\SchedClassController;
 use App\Http\Controllers\SchedReportsController;
@@ -196,6 +198,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/student/enroll/rf', [EnrollmentController::class, 'studrf_print'])->name('studrf_print');
             Route::get('/fetch-subjects', [EnrollmentController::class, 'fetchSubjects'])->name('fetchSubjects');
             Route::get('/get-sub-title', [EnrollmentController::class, 'coursefetchSubjects'])->name('coursefetchSubjects');
+            Route::post('/student/enroll/submit', [EnrollmentController::class, 'studEnrollmentCreate'])->name('studEnrollmentCreate');
         });
 
         Route::prefix('gradesheet')->group(function () {
@@ -248,16 +251,16 @@ Route::group(['middleware'=>['login_auth']],function(){
         });
 
         Route::prefix('faculty')->group(function () {
-            Route::get('/list', [SchedClassEnrollController::class, 'faculty_list'])->name('faculty_list');
-            Route::get('/flist/search', [SchedClassEnrollController::class, 'faculty_listsearch'])->name('faculty_listsearch');
+            Route::get('/list', [SchedFacultyListController::class, 'faculty_list'])->name('faculty_list');
+            Route::get('/flist/search', [SchedFacultyListController::class, 'faculty_listsearch'])->name('faculty_listsearch');
         });
 
         Route::prefix('designation')->group(function () {
-            Route::get('/list', [SchedClassEnrollController::class, 'faculty_design'])->name('faculty_design');
-            Route::get('/fdlist/search', [SchedClassEnrollController::class, 'faculty_design_search'])->name('faculty_design_search');
-            Route::post('/fdlist/Add', [SchedClassEnrollController::class, 'faculty_designdAdd'])->name('faculty_designdAdd');
-            Route::post('/fdlist/update', [SchedClassEnrollController::class, 'faculty_designdUpdate'])->name('faculty_designdUpdate');
-            Route::get('/getProgramId/{progAcronym}', [SchedClassEnrollController::class, 'getProgramId'])->name('getProgramId');
+            Route::get('/list', [SchedFacultyDesignationController::class, 'faculty_design'])->name('faculty_design');
+            Route::get('/fdlist/search', [SchedFacultyDesignationController::class, 'faculty_design_search'])->name('faculty_design_search');
+            Route::post('/fdlist/Add', [SchedFacultyDesignationController::class, 'faculty_designdAdd'])->name('faculty_designdAdd');
+            Route::post('/fdlist/update', [SchedFacultyDesignationController::class, 'faculty_designdUpdate'])->name('faculty_designdUpdate');
+            Route::get('/getProgramId/{progAcronym}', [SchedFacultyDesignationController::class, 'getProgramId'])->name('getProgramId');
         });
 
         Route::prefix('schedule')->group(function () {
@@ -267,7 +270,6 @@ Route::group(['middleware'=>['login_auth']],function(){
         });
 
         Route::prefix('reports')->group(function () {
-            // Route::get('/list/subjects', [SchedReportsController::class, 'subjectsRead'])->name('subjectsRead');
             Route::get('/list/facultyload', [SchedReportsController::class, 'facultyloadRead'])->name('facultyloadRead');
             Route::get('/list/facultyload/search', [SchedReportsController::class, 'facultyload_search'])->name('facultyload_search');
         });

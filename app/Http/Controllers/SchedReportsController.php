@@ -36,12 +36,12 @@ class SchedReportsController extends Controller
     {
         $fac = Faculty::all();
 
-        $syear = $request->query('syear');
+        $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = $request->query('campus');
         $facID = $request->query('facID');
 
-        $syear = is_array($syear) ? $syear : [$syear];
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
         $semester = is_array($semester) ? $semester : [$semester];
         $campus = is_array($campus) ? $campus : [$campus];
         $facID = is_array($facID) ? $facID : [$facID];
@@ -49,7 +49,7 @@ class SchedReportsController extends Controller
         $datar = FacultyLoad::select('facultyload.*', 'sub_offered.*', 'subjects.*')
                         ->join('sub_offered', 'facultyload.subjectID', '=', 'sub_offered.id')
                         ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->whereIn('sub_offered.syear', $syear)
+                        ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->whereIn('sub_offered.campus', $campus)
                         ->whereIn('facultyload.facultyID', $facID)

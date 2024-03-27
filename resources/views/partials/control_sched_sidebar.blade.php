@@ -45,7 +45,6 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectActive }}">Subjects</a>
         <a href="{{ route('facultyloadRead') }}" class="list-group-item {{ $facultyloadActive }}">Faculty Load</a>
     </ul>
 </div>

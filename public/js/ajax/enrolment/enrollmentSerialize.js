@@ -1,14 +1,67 @@
+toastr.options = {
+    "closeButton": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right"
+};
+
+//for inserting data to DB  using ajax serialize
 $(document).ready(function() {
-    $('#programNameSelect').on('change', function() {
-        var selectedOption = $(this).find('option:selected');
-        var programName = selectedOption.data('program-name');
-        var yearSec = selectedOption.data('year-section');
-        
-        $('#programNameInput').val(programName);
-        $('#yearsectionInput').val(yearSec);
+    $('#submitButton').click(function(event) {
+        event.preventDefault();
+        var formData = $('#AddenrollStud').serialize();
+
+        $.ajax({
+            url: saveEnrollmentRoute,
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if(response.success) {
+                    toastr.success(response.message);
+                    console.log(response);
+                    $(document).trigger('coaAdded');
+                    $('input[name="accountcoa_code"]').val('');
+                    $('input[name="accountcoa_name"]').val('');
+                } else {
+                    toastr.error(response.message);
+                    console.log(response);
+                }
+            },
+            error: function(xhr, status, error, message) {
+                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                toastr.error(errorMessage);
+            }
+        });
     });
 });
 
+//for auto generate data needed in forms by selecting course
+$(document).ready(function() {
+    $('#programNameSelect').on('change', function() {
+        var selectedOption = $(this).find('option:selected');
+        var programCode = selectedOption.data('program-code');
+        var programID = selectedOption.data('program-classid');
+        var programName = selectedOption.data('program-name');
+        var yearSec = selectedOption.data('year-section');
+        var classSection = selectedOption.data('section');
+
+        var parts = classSection.split('-');
+
+        $('#programCodeInput').val(programCode);
+        $('#programIDInput').val(programID);
+        $('#programNameInput').val(programName);
+        $('#yearsectionInput').val(yearSec);
+
+        if (parts.length === 2) {
+            var numericPart = parts[0];
+            var alphabeticalPart = parts[1];
+            $('#numericPart').val(numericPart);
+            $('#alphabeticalPart').val(alphabeticalPart);
+        }
+
+    });
+});
+
+//for Selecting subject manually in modal 
 $(document).ready(function() {
     $('#subjectSelect').change(function() {
         var selectedOption = $(this).find(':selected');
@@ -20,6 +73,7 @@ $(document).ready(function() {
     });
 });
 
+//for Selecting Course from option to generate subject offer using template
 document.getElementById('programNameSelect').addEventListener('change', function() {
     var selectedCourse = this.value;
     var schlyear = document.getElementById('schlyearInput').value; 
@@ -37,6 +91,7 @@ document.getElementById('programNameSelect').addEventListener('change', function
                 var subjects = JSON.parse(xhr.responseText);
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
                 tableBody.innerHTML = '';
+                var totalUnits = 0;
                 subjects.forEach(function(subject) {
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = subject.subCode;
@@ -45,7 +100,10 @@ document.getElementById('programNameSelect').addEventListener('change', function
                     row.insertCell(3).textContent = subject.subUnit;
                     row.insertCell(4).textContent = subject.lecFee;
                     row.insertCell(5).textContent = subject.labFee;
+
+                    totalUnits += parseInt(subject.subUnit);
                 });
+                document.getElementById('totalunitInput').value = totalUnits;
             } else {
                 alert('Failed to fetch subjects.');
             }
@@ -54,6 +112,7 @@ document.getElementById('programNameSelect').addEventListener('change', function
     xhr.send();
 });
 
+//for Manual Adding of Subject using Modal
 document.getElementById('addSubjectBtn').addEventListener('click', function() {
     var selectedSubjectOption = document.querySelector('#subjectSelect option:checked');
     if (!selectedSubjectOption) {
@@ -82,16 +141,24 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 var lecFee = subjectDetails.lecFee;
                 var labFee = subjectDetails.labFee;
 
-                // Add the selected subject to the table
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
                 var row = tableBody.insertRow();
-                row.insertCell(0).textContent = subCode || selectedSubjectCodeText; //
+                row.insertCell(0).textContent = subCode || selectedSubjectCodeText; 
                 row.insertCell(1).textContent = sub_name;
                 row.insertCell(2).textContent = sub_title || selectedSubjectTitleText;
                 row.insertCell(3).textContent = subUnit || selectedSubjectUnitText;
                 row.insertCell(4).textContent = lecFee || selectedSubjectlecFeeText;
                 row.insertCell(5).textContent = labFee || selectedSubjectlabFeeText;
 
+                var totalUnits = parseInt(selectedSubjectUnitText) || 0;
+                var rows = tableBody.getElementsByTagName('tr');
+                for (var i = 0; i < rows.length - 1; i++) { 
+                    var cell = rows[i].getElementsByTagName('td')[3];
+                    if (cell) {
+                        totalUnits += parseInt(cell.textContent) || 0;
+                    }
+                }
+                document.getElementById('totalunitInput').value = totalUnits;
                 $('#modal-addSub').modal('hide');
             } else {
                 alert('Failed to fetch subject details.');
