@@ -30,6 +30,8 @@ use App\Models\ScheduleDB\ClassesSubjects;
 
 use App\Models\ScholarshipDB\Scholar;
 
+use App\Models\AssessmentDB\StudentFee;
+
 
 class EnrollmentController extends Controller
 {
@@ -152,6 +154,23 @@ class EnrollmentController extends Controller
                         ->get();
 
         return response()->json($subjects);
+    }
+
+    public function fetchFeeSubjects(Request $request)
+    {
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+        $campus = $request->input('campus');
+        $programCode = $request->input('programCode');
+        $numericPart = $request->input('numericPart');
+
+        $data = StudentFee::where('prog_Code', $programCode)
+                    ->where('yrlevel', $numericPart)
+                    ->where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', $campus)
+                    ->get();
+        return response()->json($data);
     }
 
     public function studEnrollmentCreate(Request $request) 

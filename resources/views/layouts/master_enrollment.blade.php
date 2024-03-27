@@ -58,6 +58,19 @@
         .scrolling-column {
           overflow-y: auto;
         }
+        .my-custom-show-animation {
+            animation: myShowAnimation 0.2s ease forwards;
+        }
+        @keyframes myShowAnimation {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
     </style>
     
 </head>

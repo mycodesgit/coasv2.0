@@ -72,13 +72,13 @@ COAS - V1.0 || Enroll Student
                     </div>
                     <div class="card" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
-                            <form method="GET" action="{{ route('studEnrollmentCreate') }}" id="AddenrollStud">
+                            <form method="POST" action="{{ route('studEnrollmentCreate') }}" id="AddenrollStud">
                                 {{ csrf_field() }}
                                 
                                 <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
                                 <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
                                 <input type="hidden" value="{{ $student->stud_id }}" name="studentID" readonly>
-                                <input type="hidden" value="{{ $student->campus }}" name="campus" readonly>
+                                <input type="hidden" value="{{ $student->campus }}" name="campus" id="campusInput" readonly>
                                 <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
                                 <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
 
@@ -217,21 +217,36 @@ COAS - V1.0 || Enroll Student
                     <div class="card" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
                             <table id="subjectTable" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Subject Code</th>
-                                    <th>Subject Name</th>
-                                    <th>Descriptive Title</th>
-                                    <th>Credit</th>
-                                    <th>Lec Fee</th>
-                                    <th>Lab Fee</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                <thead>
+                                    <tr>
+                                        <th>Subject Code</th>
+                                        <th>Subject Name</th>
+                                        <th>Descriptive Title</th>
+                                        <th>Credit</th>
+                                        <th>Lec Fee</th>
+                                        <th>Lab Fee</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card" style="background-color: #e9ecef">
+                        <div class="body pr-2 pl-2 pt-2">
+                            <table id="studFeeTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Fund</th>
+                                        <th>Account</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -241,10 +256,11 @@ COAS - V1.0 || Enroll Student
                         <div class="card-body">
                             <a href="{{ route('searchStud') }}" class="form-control form-control-sm btn btn-success btn-sm">Enroll New</a>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
+                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton">Assess</button>
+                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-studrf">
                                 Print RF
                             </button>
-                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
                             {{-- <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}
                         </div>
@@ -322,6 +338,7 @@ COAS - V1.0 || Enroll Student
 <script>
     var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";
     var getfetchSubjectRoute  = "{{ route('coursefetchSubjects') }}";
+    var fetchFeeDataRoute  = "{{ route('fetchFeeSubjects') }}";
     var saveEnrollmentRoute  = "{{ route('studEnrollmentCreate') }}";
 
     document.addEventListener('DOMContentLoaded', function() {

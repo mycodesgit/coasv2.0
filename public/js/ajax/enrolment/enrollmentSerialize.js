@@ -109,6 +109,8 @@ document.getElementById('programNameSelect').addEventListener('change', function
             }
         }
     };
+    var tableBody = document.getElementById('studFeeTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = '';
     xhr.send();
 });
 
@@ -167,6 +169,71 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
     };
     xhr.send();
 });
+
+//for Assess the fees of subjects
+document.getElementById('assessButton').addEventListener('click', function() {   
+    var schlyear = document.getElementById('schlyearInput').value;
+    var semester = document.getElementById('semesterInput').value;
+    var campus = document.getElementById('campusInput').value;
+    var programCode = document.getElementById('programCodeInput').value;
+    var numericPart = document.getElementById('numericPart').value;
+
+    if (!programCode || !numericPart || !schlyear || !semester || !campus) {
+        alert('Please fill in all fields.');
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', fetchFeeDataRoute + '?programCode=' + encodeURIComponent(programCode) + '&numericPart=' + encodeURIComponent(numericPart) + '&schlyear=' + encodeURIComponent(schlyear) + '&semester=' + encodeURIComponent(semester) + '&campus=' + encodeURIComponent(campus), true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                if (data.length === 0) {
+                    //alert('No fee data found for the given inputs.');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'No Student Fee!',
+                        text: 'Please contact the Assesment Office.',
+                        showClass: {
+                            popup: 'my-custom-show-animation'
+                        },
+                        hideClass: {
+                            popup: ''
+                        }
+                    });
+                    return;
+                }
+
+                var tableBody = document.getElementById('studFeeTable').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = '';
+
+                data.forEach(function(item) {
+                    var row = tableBody.insertRow();
+                    row.insertCell(0).textContent = item.fundname_code;
+                    row.insertCell(1).textContent = item.accountName;
+                    row.insertCell(2).textContent = item.amountFee;
+                });
+            } else {
+                // alert('Failed to fetch fee data. Error: ' + xhr.statusText);
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Failed to fetch Data',
+                    text: 'Error: ' + xhr.statusText,
+                    showClass: {
+                        popup: 'my-custom-show-animation'
+                    },
+                    hideClass: {
+                        popup: ''
+                    }
+                });
+            }
+        }
+    };
+    xhr.send();
+});
+
+
 
 
 

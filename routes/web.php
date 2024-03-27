@@ -198,6 +198,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/student/enroll/rf', [EnrollmentController::class, 'studrf_print'])->name('studrf_print');
             Route::get('/fetch-subjects', [EnrollmentController::class, 'fetchSubjects'])->name('fetchSubjects');
             Route::get('/get-sub-title', [EnrollmentController::class, 'coursefetchSubjects'])->name('coursefetchSubjects');
+            Route::get('/get-sub-fee', [EnrollmentController::class, 'fetchFeeSubjects'])->name('fetchFeeSubjects');
             Route::post('/student/enroll/submit', [EnrollmentController::class, 'studEnrollmentCreate'])->name('studEnrollmentCreate');
         });
 
