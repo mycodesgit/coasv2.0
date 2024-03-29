@@ -31,9 +31,10 @@ class SchedClassEnrollController extends Controller
         if ($request->semester) {
             $data->where('semester', $request->semester);
         }
-        if ($request->campus) {
-            $data->where('campus', Auth::guard('web')->user()->campus);
-        }
+
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
         $data = $data->get();
 
         $request->session()->put('recent_search', $data);
@@ -74,12 +75,12 @@ class SchedClassEnrollController extends Controller
 
             $schlyear = $request->input('schlyear');
             $semester = $request->input('semester');
-            $campus = $request->input('campus');
+            $campus =  $request->input('campus');
             $progCode = $request->input('progCode');
             $classSection = $request->input('classSection');
             $classno = $request->input('classno');
 
-            $existingClassEn = ClassEnroll::where('progCode', $progCode)->where('classSection', $classSection)->first();
+            $existingClassEn = ClassEnroll::where('schlyear', $schlyear)->where('semester', $semester)->where('progCode', $progCode)->where('classSection', $classSection)->first();
 
             if ($existingClassEn) {
                 return response()->json(['error' => true, 'message' => 'Class already exists'], 404);
@@ -105,7 +106,6 @@ class SchedClassEnrollController extends Controller
 
     public function classEnrolledUpdate(Request $request)
     {
-        // Add validation if needed
 
         $id = $request->input('edit_id');
         $class = $request->input('edit_class');

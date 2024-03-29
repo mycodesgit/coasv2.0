@@ -67,12 +67,25 @@ class SchedSubOfferController extends Controller
     
         $data = SubjectOffered::select('sub_offered.*', 'subjects.*')
                         ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid')
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
                         ->get();
 
         return response()->json(['data' => $data]);
+    }
+
+    public function fetchSubjectName(Request $request)
+    {
+        $subCode = $request->input('subCode');
+
+        $subjectName = SubjectOffered::where('sub_offered.subCode', $subCode)
+            ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->select('subjects.sub_name', 'subjects.sub_title')
+            ->first();
+            
+        return response()->json($subjectName);
     }
 
     public function subjectsOfferedCreate(Request $request) 
@@ -140,6 +153,66 @@ class SchedSubOfferController extends Controller
             } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Subject'], 404);
             }
+        }
+    }
+
+    public function subjectsOfferedUpdate(Request $request) 
+    {
+        $request->validate([
+            'postedBy' => 'required',
+            'datePosted' => 'required',
+            'subCode' => 'required',
+            'lecUnit' => 'required',
+            'labUnit' => 'required',
+            'subUnit' => 'required',
+            'subSec' => 'required',
+            'lecFee' => 'required',
+            'labFee' => 'required',
+            'maxstud' => 'required',
+            'isTemp' => 'required',
+            'isOJT' => 'required',
+            'isType' => 'required',
+        ]);
+
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+        $campus = $request->input('campus');
+        $subSec = $request->input('subSec');
+        $subCode = $request->input('subCode');
+
+        try {
+            $existingSubjectOff = SubjectOffered::where('schlyear', $schlyear)
+                            ->where('semester', $semester)
+                            ->where('campus', $campus)
+                            ->where('subCode', $subCode)
+                            ->where('subSec', $subSec)
+                            ->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingSubjectOff) {
+                return response()->json(['error' => true, 'message' => 'Subject already exists'], 404);
+            }
+
+            $studSubOffer = SubjectOffered::findOrFail($request->input('id'));
+            $studSubOffer->update([
+                'postedBy' => $request->input('postedBy'),
+                'datePosted' => $request->input('datePosted'),
+                'subCode' => $request->input('subCode'),
+                'lecUnit' => $request->input('lecUnit'),
+                'labUnit' => $request->input('labUnit'),
+                'subUnit' => $request->input('subUnit'),
+                'subSec' => $request->input('subSec'),
+                'lecFee' => $request->input('lecFee'),
+                'labFee' => $request->input('labFee'),
+                'maxstud' => $request->input('maxstud'),
+                'isTemp' => $request->input('isTemp'),
+                'isOJT' => $request->input('isOJT'),
+                'isType' => $request->input('isType'),
+                'fund' => $request->input('fund'),
+                'fundAccount' => $request->input('fundAccount'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Subject Offer Updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to Update Subject Offer'], 404);
         }
     }
 }

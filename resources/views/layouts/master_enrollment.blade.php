@@ -204,6 +204,9 @@
     @if(request()->routeIs('searchStudEnroll'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('studCurrsearch'))
+        <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
+    @endif
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>

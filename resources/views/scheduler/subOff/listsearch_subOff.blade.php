@@ -114,6 +114,7 @@ COAS - V1.0 || Subject Offered
                                         <th>Units</th>
                                         <th>MaxStud</th>
                                         <th>FundAccount</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -170,7 +171,7 @@ COAS - V1.0 || Subject Offered
                                                 <select class="form-control form-control-sm select2bs4" name="subSec">
                                                     <option disabled selected>---Select---</option>
                                                     @foreach($class as $classes)
-                                                        <option value="{{ $classes->progAcronym }} - {{ $classes->classSection }}">{{ $classes->progAcronym }} - {{ $classes->classSection }}</option>
+                                                        <option value="{{ $classes->progAcronym }} - {{ $classes->classSection }}">{{ $classes->progAcronym }} {{ $classes->classSection }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -224,8 +225,8 @@ COAS - V1.0 || Subject Offered
                                                 </select>
                                             </div>
 
-                                            <input type="hidden" id="fundIdInput" name="fund" class="form-control form-control-sm" readonly>
-                                            <input type="hidden" id="accountNameInput" name="fundAccount" class="form-control form-control-sm" readonly>
+                                            <input type="text" id="fundIdInput" name="fund" class="form-control form-control-sm" readonly>
+                                            <input type="text" id="accountNameInput" name="fundAccount" class="form-control form-control-sm" readonly>
 
                                             <div class="col-md-2">
                                                 <label>&nbsp;</label>
@@ -243,9 +244,147 @@ COAS - V1.0 || Subject Offered
     </div>
 </div>
 
+<div class="modal fade" id="editStudSubOfferModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editFundModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editStudSubOfferForm" action="{{ route('subjectsOfferedUpdate') }}" method="POST">
+                <div class="modal-body">
+                    <input type="text" name="id" id="editSubOfferId">
+                    <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
+                    <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="datePosted" readonly>
+                    <div class="container mt-1">
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-5">
+                                    <label><span class="badge badge-secondary">Subject Name</span></label>
+                                    <select class="form-control form-control-sm select2bs4" id="subCodeEdit">
+                                        <option disabled selected>---Select---</option>
+                                        @foreach($subjects as $sub)
+                                            <option value="{{ $sub->sub_code }}" data-sub-codeedit="{{ $sub->sub_code }}" data-lec-unitedit="{{ $sub->sublecredit }}" data-lab-unitedit="{{ $sub->sublabcredit }}">{{ $sub->sub_name }} - {{ $sub->sub_title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label><span class="badge badge-secondary">Subject Name</span></label>
+                                    <input type="text" id="subnameEdit"  class="form-control form-control-sm" readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label><span class="badge badge-secondary">Subject Code</span></label>
+                                    <input type="text" name="subCode" id="subcodeEdit" class="form-control form-control-sm" readonly>
+                                </div>
+
+                                <div class="col-md-12 mt-2">
+                                    <label><span class="badge badge-secondary">Subject Title</span></label>
+                                    <input type="text" id="subtitleEdit" class="form-control form-control-sm" readonly>
+                                </div>
+
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Lecture Credit</span></label>
+                                    <input type="number" name="lecUnit" id="lecUnitEdit" class="form-control form-control-sm" readonly>
+                                </div>
+
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Laboratory Credit</span></label>
+                                    <input type="number" name="labUnit" id="labUnitEdit" class="form-control form-control-sm" readonly>
+                                </div>
+
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Total Credit</span></label>
+                                    <input type="number" name="subUnit" id="subUnitEdit" class="form-control form-control-sm" readonly>
+                                </div>
+
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Subject Year&Section</span></label>
+                                    <input type="text" name="subSec" id="subsecEdit" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                </div>
+
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Lecture Fee</span></label>
+                                    <input type="number" name="lecFee" id="editlecfee" class="form-control form-control-sm" value="0" min="0">
+                                </div>
+
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Laboratory Fee</span></label>
+                                    <input type="number" name="labFee" id="editlabfee" class="form-control form-control-sm" value="0" min="0">
+                                </div>
+
+                                <div class="col-md-2 mt-2">
+                                    <label><span class="badge badge-secondary">Max Student</span></label>
+                                    <input type="number" name="maxstud" id="editmaxstud" class="form-control form-control-sm" value="0" min="0">
+                                </div>
+
+                                <div class="col-md-2 mt-2">
+                                    <label><span class="badge badge-secondary">Template</span></label>
+                                    <select class="form-control form-control-sm" name="isTemp">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 mt-2">
+                                    <label><span class="badge badge-secondary">OJT</span></label>
+                                    <select class="form-control form-control-sm" name="isOJT">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 mt-2">
+                                    <label><span class="badge badge-secondary">Type</span></label>
+                                    <select class="form-control form-control-sm" name="isType" id="isTypeSelect">
+                                        <option value="No">No</option>
+                                        <option value="Special">Special Class</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Fund</span></label>
+                                    <select class="form-control form-control-sm" id="fundSelectEdit">
+                                        <option disabled selected> --Select-- </option>
+                                        <option value="">No Account</option>
+                                        @foreach($funds as $fund)
+                                            <option value="{{ $fund->fund_id }}" data-account-nameedit="{{ $fund->account_name }}">{{ $fund->fund_id }} - {{ $fund->account_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 mt-2"></div>
+                                <div class="col-md-2 mt-2"></div>
+                                <div class="col-md-2 mt-2"></div>
+                                <div class="col-md-2 mt-2"></div>
+                                <div class="col-md-2 mt-2">
+                                    <input type="text" id="fundEdit" name="fund" class="form-control form-control-sm" readonly>
+                                </div>
+
+                                <div class="col-md-2 mt-2">
+                                    <input type="text" id="fundAccountEdit" name="fundAccount" class="form-control form-control-sm" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var subOfferedReadRoute = "{{ route('getsubjectsOfferedRead') }}";
+    var subOfferedNameReadRoute = "{{ route('fetchSubjectName') }}";
     var subOfferedCreateRoute = "{{ route('subjectsOfferedCreate') }}";
+    var subOfferedUpdateRoute = "{{ route('subjectsOfferedUpdate') }}";
 </script>
 
 

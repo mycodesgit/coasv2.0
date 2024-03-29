@@ -18,6 +18,7 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnSubjectsController;
 use App\Http\Controllers\EnreportsController;
+use App\Http\Controllers\EnStudentPerCurriculumController;
 
 use App\Http\Controllers\SchedClassProgramsController;
 use App\Http\Controllers\SchedClassRoomsController;
@@ -218,6 +219,10 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/info/students', [EnreportsController::class, 'studInfo'])->name('studInfo');
             Route::get('/info/students/searchList', [EnreportsController::class, 'studInfo_search'])->name('studInfo_search');
             Route::get('/info/students/view/{id}', [EnreportsController::class, 'studInfo_view'])->name('studInfo_view');
+
+            Route::get('/info/students/curriculum', [EnStudentPerCurriculumController::class, 'studCurr'])->name('studCurr');
+            Route::get('/info/students/curriculum/search', [EnStudentPerCurriculumController::class, 'studCurrsearch'])->name('studCurrsearch');
+            Route::get('/info/students/curriculum/searchajax', [EnStudentPerCurriculumController::class, 'getstudCurrSearch'])->name('getstudCurrSearch');
         });
 
     });
@@ -248,7 +253,9 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/', [SchedSubOfferController::class, 'subjectsOffered'])->name('subjectsOffered');
             Route::get('/list/search', [SchedSubOfferController::class, 'subjectsOffered_search'])->name('subjectsOffered_search');
             Route::get('/list/search/ajaxsuboff', [SchedSubOfferController::class, 'getsubjectsOfferedRead'])->name('getsubjectsOfferedRead');
+            Route::get('/get-subname-subcode', [SchedSubOfferController::class, 'fetchSubjectName'])->name('fetchSubjectName');
             Route::post('/list/search/add', [SchedSubOfferController::class, 'subjectsOfferedCreate'])->name('subjectsOfferedCreate');
+            Route::post('/list/search/suboff/update', [SchedSubOfferController::class, 'subjectsOfferedUpdate'])->name('subjectsOfferedUpdate');
         });
 
         Route::prefix('faculty')->group(function () {

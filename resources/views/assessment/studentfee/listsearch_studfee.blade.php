@@ -33,7 +33,7 @@ COAS - V1.0 || Student Fee
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
         <br>
-        <h5>Search Results: {{ $totalSearchResults }} 
+        <h5>
             <small>
                 <i>Year-<b>{{ request('schlyear') }}</b>,
                     Semester-<b>{{ request('semester') }}</b>,
@@ -124,7 +124,7 @@ COAS - V1.0 || Student Fee
     </div>
 </div>
 
-<div class="modal fade" id="editStudFeeModal" tabindex="-1" role="dialog" aria-labelledby="editStudFeeModalLabel" aria-hidden="true">
+<div class="modal fade" id="editStudFeeModal" role="dialog" aria-labelledby="editStudFeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -147,7 +147,12 @@ COAS - V1.0 || Student Fee
                     </div>
                     <div class="form-group">
                         <label for="editstudfeeaccountName">Account Name</label>
-                        <input type="text" class="form-control" id="editstudfeeaccountName" name="accountName">
+                        <select class="form-control form-control-sm select2bs4" id="editstudfeeaccountName" name="accountName">
+                            <option disabled selected> ---Select---</option>
+                            @foreach($studAccntap as $studapp)
+                                <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="editstudfeeamountFee">Amount</label>

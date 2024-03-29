@@ -25,6 +25,7 @@ use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\EnPrograms;
+use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
 use App\Models\ScheduleDB\ClassesSubjects;
 
@@ -46,25 +47,6 @@ class EnrollmentController extends Controller
         return view('enrollment.studenroll.index');
     }
 
-    public function liveSearchStudent(Request $request)
-    {
-        $search = $request->input('search');
-        $enStatus = $request->input('en_status');
-
-        $students = Student::where('status', 1)
-            ->where('campus', '=', Auth::user()->campus)
-            ->where('en_status', $enStatus) // Filter by en_status
-            ->where(function ($query) use ($search) {
-                $query->where('stud_id', 'LIKE', '%' . $search . '%')
-                    ->orWhere('lname', 'LIKE', '%' . $search . '%')
-                    ->orWhere('mname', 'LIKE', '%' . $search . '%')
-                    ->orWhere('fname', 'LIKE', '%' . $search . '%');
-            })
-            ->get();
-        return response()->json($students);
-    }
-
-
     public function searchStudEnroll(Request $request)
     {
         $studlvl = StudentLevel::all();
@@ -73,22 +55,14 @@ class EnrollmentController extends Controller
         $studstat = StudentStatus::all();
         $studtype = StudentType::all();
         $shiftrans = StudentShifTrans::all();
+        $program = EnPrograms::all();
 
-        $data = Student::where('en_status', '=', 1)->get();
-        $id = $request->stud_id;
+        $stud_id = $request->stud_id;
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
-        $student = Student::find($id);
-        
-        $course = $student->course ?? null;
-
-        $selectedProgram = $student->course;
-
-        $program = EnPrograms::where('progCod', $course)
-            ->orWhere('progCod', $course)
-            ->orderBy('id', 'asc')
-            ->get();
+        $student = Student::where('stud_id', $stud_id)
+                        ->first();
 
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
@@ -102,9 +76,6 @@ class EnrollmentController extends Controller
                 ->orderBy('class_enroll.classSection', 'ASC')
                 ->get();
         
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
-        $campus = Auth::guard('web')->user()->campus;
         $subjOffer = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
                         ->select('subjects.*', 'sub_offered.*',)
                         ->where('schlyear', $schlyear)
@@ -115,7 +86,7 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.enrollStudent', compact('data', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'selectedProgram', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans'));
+        return view('enrollment.studenroll.enrollStudent', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans'));
     }
 
     public function coursefetchSubjects(Request $request)

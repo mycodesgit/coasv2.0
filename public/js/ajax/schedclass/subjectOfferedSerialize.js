@@ -73,7 +73,28 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     return data ? data : 'No Account';
                 }
-            }
+            },
+            {
+                data: 'soid',
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        var dropdown = '<div class="d-inline-block">' +
+                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<div class="dropdown-menu">' +
+                            '<a href="#" class="dropdown-item btn-studSubOffer" data-id="' + row.soid + '" data-subcode="' + row.subCode + '" data-subsec="' + row.subSec + '" data-lecunit="' + row.lecUnit + '" data-labunit="' + row.labUnit + '" data-subunit="' + row.subUnit + '" data-lecfee="' + row.lecFee + '" data-labfee="' + row.labFee + '" data-maxstud="' + row.maxstud + '" data-fund="' + row.fund + '" data-fundaccount="' + row.fundAccount + '">' +
+                            '<i class="fas fa-pen"></i> Edit' +
+                            '</a>' +
+                            '<button type="button" value="' + data + '" class="dropdown-item studfees-delete">' +
+                            '<i class="fas fa-trash"></i> Delete' +
+                            '</button>' +
+                            '</div>' +
+                            '</div>';
+                        return dropdown;
+                    } else {
+                        return data;
+                    }
+                },
+            },
 
         ],
         "createdRow": function (row, data, index) {
@@ -100,6 +121,20 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+    $('#subCodeEdit').on('change', function() {
+        var selectedOption = $(this).find('option:selected');
+        var subcodeEdit = selectedOption.data('sub-codeedit');
+        var lecUnitEdit = selectedOption.data('lec-unitedit');
+        var labUnitEdit = selectedOption.data('lab-unitedit');
+        
+        $('#subcodeEdit').val(subcodeEdit);
+        $('#lecUnitEdit').val(lecUnitEdit);
+        $('#labUnitEdit').val(labUnitEdit);
+        $('#subUnitEdit').val(lecUnitEdit + labUnitEdit);
+    });
+});
+
+$(document).ready(function() {
     $('#fundSelect').on('change', function() {
         var selectedOption = $(this).find('option:selected');
         var fundId = selectedOption.val();
@@ -107,6 +142,86 @@ $(document).ready(function() {
         
         $('#fundIdInput').val(fundId);
         $('#accountNameInput').val(accountName);
+    });
+});
+
+$(document).ready(function() {
+    $('#fundSelectEdit').on('change', function() {
+        var selectedOption = $(this).find('option:selected');
+        var fundIdEdit = selectedOption.val();
+        var accountNameEdit = selectedOption.data('account-nameedit');
+        
+        $('#fundIdInputEdit').val(fundIdEdit);
+        $('#accountNameInputEdit').val(accountNameEdit);
+    });
+});
+
+$(document).on('click', '.btn-studSubOffer', function() {
+    var id = $(this).data('id');
+    var subofferCode = $(this).data('subcode');
+    var subsec = $(this).data('subsec');
+    var lecUnit = $(this).data('lecunit');
+    var labUnit = $(this).data('labunit');
+    var subUnit = $(this).data('subunit');
+    var lecfee = $(this).data('lecfee');
+    var labfee = $(this).data('labfee');
+    var maxstud = $(this).data('maxstud');
+    var fund = $(this).data('fund');
+    var fundAccount = $(this).data('fundaccount');
+
+    $('#editSubOfferId').val(id);
+    $('#subcodeEdit').val(subofferCode);
+    $('#subsecEdit').val(subsec);
+    $('#lecUnitEdit').val(lecUnit);
+    $('#lecUnitEdit').val(lecUnit);
+    $('#labUnitEdit').val(labUnit);
+    $('#subUnitEdit').val(subUnit);
+    $('#editlecfee').val(lecfee);
+    $('#editlabfee').val(labfee);
+    $('#editmaxstud').val(maxstud);
+    $('#fundEdit').val(fund);
+    $('#fundAccountEdit').val(fundAccount);
+
+    $.ajax({
+        url: subOfferedNameReadRoute, 
+        method: 'GET',
+        data: { subCode: subofferCode },
+        success: function(response) {
+            $('#subnameEdit').val(response.sub_name);
+            $('#subtitleEdit').val(response.sub_title);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+
+    $('#editStudSubOfferModal').modal('show');
+});
+
+$('#editStudSubOfferForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: subOfferedUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#editStudSubOfferModal').modal('hide');
+                $(document).trigger('subjOffAdded');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
     });
 });
 

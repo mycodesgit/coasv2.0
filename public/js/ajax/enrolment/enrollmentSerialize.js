@@ -92,6 +92,8 @@ document.getElementById('programNameSelect').addEventListener('change', function
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
                 tableBody.innerHTML = '';
                 var totalUnits = 0;
+                var totalLecFee = 0;
+                var totalLabFee = 0;
                 subjects.forEach(function(subject) {
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = subject.subCode;
@@ -102,8 +104,19 @@ document.getElementById('programNameSelect').addEventListener('change', function
                     row.insertCell(5).textContent = subject.labFee;
 
                     totalUnits += parseInt(subject.subUnit);
+                    totalLecFee += parseFloat(subject.lecFee);
+                    totalLabFee += parseFloat(subject.labFee);
                 });
+
                 document.getElementById('totalunitInput').value = totalUnits;
+
+                var totalRow = tableBody.insertRow();
+                totalRow.insertCell(0);
+                totalRow.insertCell(1);
+                totalRow.insertCell(2); 
+                totalRow.insertCell(3); 
+                totalRow.insertCell(4).textContent = totalLecFee.toFixed(2);
+                totalRow.insertCell(5).textContent = totalLabFee.toFixed(2);
             } else {
                 alert('Failed to fetch subjects.');
             }
@@ -177,6 +190,8 @@ document.getElementById('assessButton').addEventListener('click', function() {
     var campus = document.getElementById('campusInput').value;
     var programCode = document.getElementById('programCodeInput').value;
     var numericPart = document.getElementById('numericPart').value;
+    var totalLecFee = 0; // Initialize totalLecFee here
+    var totalLabFee = 0;
 
     if (!programCode || !numericPart || !schlyear || !semester || !campus) {
         alert('Please fill in all fields.');
@@ -212,7 +227,18 @@ document.getElementById('assessButton').addEventListener('click', function() {
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = item.fundname_code;
                     row.insertCell(1).textContent = item.accountName;
-                    row.insertCell(2).textContent = item.amountFee;
+                    if (item.accountName === 'TUITION' && item.amountFee === 0) {
+                        row.insertCell(2).textContent = totalLecFee.toFixed(2);
+                    } else if (item.accountName === 'LAB FEE' && item.amountFee === 0) {
+                        row.insertCell(2).textContent = totalLabFee.toFixed(2);
+                    } else {
+                        row.insertCell(2).textContent = item.amountFee;
+                    }
+                    if (item.accountName === 'TUITION') {
+                        totalLecFee += parseFloat(item.amountFee); // Update totalLecFee
+                    } else if (item.accountName === 'LAB FEE') {
+                        totalLabFee += parseFloat(item.amountFee); // Update totalLabFee
+                    }
                 });
             } else {
                 // alert('Failed to fetch fee data. Error: ' + xhr.statusText);

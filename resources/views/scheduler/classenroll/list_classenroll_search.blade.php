@@ -82,7 +82,7 @@ COAS - V1.0 || Classes Enrolled
                         <h5>Add</h5>
                     </div>
 
-                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
+                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ Auth::guard('web')->user()->campus; }}">
 
                     <div class="form-group mt-2">
                         <div class="form-row">
@@ -115,7 +115,7 @@ COAS - V1.0 || Classes Enrolled
 
                             <div class="mt-2 col-md-12">
                                 <label><span class="badge badge-secondary">Est. Number of Student</span></label>
-                                <input type="number" name="classno" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                <input type="number" name="classno" class="form-control form-control-sm" min="0">
                             </div>
 
                             <div class="col-md-12">

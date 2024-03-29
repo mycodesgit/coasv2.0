@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V1.0 || Enroll Student
+COAS - V1.0 || Student List per Curriculum
 @endsection
 
 @section('sideheader')
@@ -20,7 +20,7 @@ COAS - V1.0 || Enroll Student
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Enrollment</li>
-            <li class="breadcrumb-item active mt-1">Enroll Student</li>
+            <li class="breadcrumb-item active mt-1">Student List per Curriculum</li>
         </ol>
 
         <p>
@@ -33,21 +33,16 @@ COAS - V1.0 || Enroll Student
 
         <div>
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Enroll Student</h4>
+                <h4>Student List per Curriculum</h4>
             </div> 
         </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="GET" action="{{ route('searchStudEnroll') }}" enctype="multipart/form-data" id="enrollStud">
+                    <form method="GET" action="{{ route('studCurrsearch') }}" id="enrollStud">
                         @csrf   
 
                         <div class="form-group mt-2" style="padding: 10px">
                             <div class="form-row">
-                                <div class="col-md-3">
-                                    <label><span class="badge badge-secondary">Student ID Number</span></label>
-                                    <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()">
-                                </div>
-
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">School Year</span></label>
                                     <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
@@ -57,9 +52,9 @@ COAS - V1.0 || Enroll Student
                                     <label><span class="badge badge-secondary">Semester</span></label>
                                     <select class="form-control form-control-sm" name="semester">
                                         <option disabled selected>Select</option>
-                                        <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
-                                        <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
-                                        <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
+                                        <option value="1">First Semester</option>
+                                        <option value="2">Second Semester</option>
+                                        <option value="3">Summer</option>
                                     </select>
                                 </div>
 
@@ -76,28 +71,6 @@ COAS - V1.0 || Enroll Student
         
     </div>
 </div>
-
-<script>
-    function formatInput(input) {
-        let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-        
-        if (cleaned.length > 0) {
-            let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
-            input.value = formatted;
-        } else {
-            input.value = '';
-        }
-    }
-
-    function handleDelete(event) {
-        if (event.key === 'Backspace') {
-            let input = event.target;
-            let value = input.value;
-            input.value = value.substring(0, value.length - 1);
-            formatInput(input);
-        }
-    }
-</script>
 
 
 @endsection
