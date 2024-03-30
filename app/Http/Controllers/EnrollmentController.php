@@ -15,6 +15,7 @@ use Carbon\Carbon;
 
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
+use App\Models\EnrollmentDB\Grade;
 use App\Models\EnrollmentDB\GradeCode;
 use App\Models\EnrollmentDB\YearLevel;
 use App\Models\EnrollmentDB\MajorMinor;
@@ -61,8 +62,21 @@ class EnrollmentController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
-        $student = Student::where('stud_id', $stud_id)
-                        ->first();
+
+        $student = Student::where('stud_id', $stud_id)->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+
+        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+            ->where('schlyear', $schlyear)
+            ->where('semester', $semester)
+            ->where('campus', $campus)
+            ->first();
+
+        if ($enrollmentHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
+        }
 
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
@@ -115,7 +129,7 @@ class EnrollmentController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
         $subjects = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
-                        ->select('subjects.*', 'sub_offered.*')
+                        ->select('subjects.*', 'sub_offered.*', 'sub_offered.id as subjID')
                         ->where('subSec', $course)
                         ->where('isTemp', 'Yes')
                         ->where('schlyear', $schlyear)
@@ -156,6 +170,7 @@ class EnrollmentController extends Controller
                 'progCod' => 'required',
                 'studMajor' => 'required',
                 'studMinor' => 'required',
+                'studLevel' => 'required',
                 'studStatus' => 'required',
                 'studSch' => 'required',
                 'studClassID' => 'required',
@@ -164,25 +179,12 @@ class EnrollmentController extends Controller
                 'fourPs' => 'required',
             ]);
 
-            // $campus = $request->input('campus');
-            // $schlyear = $request->input('schlyear');
-            // $semester = $request->input('semester');
-            // $progCode = $request->input('prog_Code');
-            // $studentID = $request->input('studentID');
-            // $yrlevel = $request->input('yrlevel');
+            //$data = json_decode($request->getContent(), true);
 
-            // $studentID = $request->input('studentID'); 
-            // $existingStudFee = StudEnrolmentHistory::where('accountName', $studentID)
-            //                 ->where('campus', $campus)
-            //                 ->where('schlyear', $schlyear)
-            //                 ->where('semester', $semester)
-            //                 ->where('prog_Code', $progCode)
-            //                 ->where('yrlevel', $yrlevel)
-            //                 ->first();
-
-            // if ($existingStudFee) {
-            //     return response()->json(['error' => true, 'message' => 'Account Name in Student Fee already exists'], 404);
-            // }
+            $studentID = $request->input('studentID');
+            if (empty($studentID)) {
+                return response()->json(['error' => true, 'message' => 'Student ID is required'], 400);
+            }   
 
             try {
                 StudEnrolmentHistory::create([
@@ -208,6 +210,15 @@ class EnrollmentController extends Controller
                     'transferee' => $request->input('transferee'),
                     'fourPs' => $request->input('fourPs'),
                 ]);
+
+                $subjIDs = $request->input('subjIDs');
+                foreach ($subjIDs as $subjID) {
+                    Grade::create([
+                        'studID' => $studentID,
+                        'subjID' => $subjID,
+                        'postedBy' => $request->input('postedBy'),
+                    ]);
+                }
 
                 return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
             } catch (\Exception $e) {

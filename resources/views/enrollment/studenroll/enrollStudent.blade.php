@@ -73,11 +73,11 @@ COAS - V1.0 || Enroll Student
                     <div class="card" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
                             <form method="POST" action="{{ route('studEnrollmentCreate') }}" id="AddenrollStud">
-                                {{ csrf_field() }}
+                                @csrf
                                 
                                 <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
                                 <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
-                                <input type="hidden" value="{{ $student->stud_id }}" name="studentID" readonly>
+                                <input type="hidden" value="{{ $student->stud_id }}" name="studentID" id="studentID" readonly>
                                 <input type="hidden" value="{{ $student->campus }}" name="campus" id="campusInput" readonly>
                                 <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
                                 <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
@@ -93,7 +93,7 @@ COAS - V1.0 || Enroll Student
                                                     @php
                                                         $yearsection = preg_replace('/\D/', '', $class->classSection);
                                                     @endphp
-                                                    <option value="{{ $class->progAcronym }} {{ $class->classSection }}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}">
+                                                    <option value="{{ $class->progAcronym }} {{ $class->classSection }}" data-pkey="{{ $class->subjID}}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}">
                                                         {{ $class->progAcronym }} {{ $class->classSection }}
                                                     </option>
                                                     @endforeach
@@ -219,6 +219,7 @@ COAS - V1.0 || Enroll Student
                             <table id="subjectTable" class="table">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>Subject Code</th>
                                         <th>Subject Name</th>
                                         <th>Descriptive Title</th>
@@ -228,7 +229,7 @@ COAS - V1.0 || Enroll Student
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -265,6 +266,22 @@ COAS - V1.0 || Enroll Student
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}
                         </div>
                     </div>
+
+                    <div class="card mt-2" style="background-color: #e9ecef">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        Tuition: <input type="text" id="totalLecFeeInput" class="form-control form-control-sm" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" readonly>
+                                    </div>
+                                </div>
+                            </div>      
+                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -291,7 +308,8 @@ COAS - V1.0 || Enroll Student
                             <select class="form-control form-control-sm select2bs4" name="dd" id="subjectSelect">
                                 <option disabled selected> --Select-- </option>
                                 @foreach($subjOffer as $subs)
-                                    <option value="{{ $subs->sub_name }} {{ $subs->subSec }}" 
+                                    <option value="{{ $subs->sub_name }} {{ $subs->subSec }}"
+                                            data-subp-sid="{{ $subs->id }}" 
                                             data-sub-code="{{ $subs->sub_code }}"
                                             data-sub-title="{{ $subs->sub_title }}" 
                                             data-sub-unit="{{ $subs->subUnit }}" 
@@ -306,7 +324,10 @@ COAS - V1.0 || Enroll Student
                 </div>  
                 
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-control-sm" id="sub_code" readonly>
+                    <input type="text" class="form-control form-control-sm" id="subjecID" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" id="sub_code" readonly>
                 </div>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-sm" id="sub_title" readonly>

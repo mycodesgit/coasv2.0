@@ -10,33 +10,17 @@ $(document).ready(function() {
         event.preventDefault();
         var formData = $('#AddenrollStud').serialize();
 
-        var studentID = $('#studentID').val(); 
-
-        var subjIDs = [];
-        $('input[name="subjIDs"]').each(function() {
-            subjIDs.push($(this).val());
-        });
-
-        formData += '&studentID=' + studentID;
-
-        var subjIDsString = $('#subjIDsInput').val();
-        var subjIDsArray = subjIDsString.split(',');
-
-        subjIDsArray.forEach(function(subjID) {
-            formData += '&subjIDs[]=' + subjID.trim(); 
-        });
-
         $.ajax({
             url: saveEnrollmentRoute,
             type: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: formData, 
+            data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
+                    $(document).trigger('coaAdded');
+                    $('input[name="accountcoa_code"]').val('');
+                    $('input[name="accountcoa_name"]').val('');
                 } else {
                     toastr.error(response.message);
                     console.log(response);
@@ -81,8 +65,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#subjectSelect').change(function() {
         var selectedOption = $(this).find(':selected');
-        $('#subjecID').val(selectedOption.data('subp-sid'));
-        $('#sub_code').val(selectedOption.data('sub-code'));
+         $('#sub_code').val(selectedOption.data('sub-code'));
         $('#sub_title').val(selectedOption.data('sub-title'));
         $('#subUnit').val(selectedOption.data('sub-unit'));
         $('#lecFee').val(selectedOption.data('lec-fee'));
@@ -111,40 +94,29 @@ document.getElementById('programNameSelect').addEventListener('change', function
                 var totalUnits = 0;
                 var totalLecFee = 0;
                 var totalLabFee = 0;
-                var subjIDs = [];
-
                 subjects.forEach(function(subject) {
                     var row = tableBody.insertRow();
-                    row.insertCell(0).textContent = subject.subjID;
-                    row.insertCell(1).textContent = subject.subCode;
-                    row.insertCell(2).textContent = subject.sub_name + ' - ' + subject.subSec;
-                    row.insertCell(3).textContent = subject.sub_title;
-                    row.insertCell(4).textContent = subject.subUnit;
-                    row.insertCell(5).textContent = subject.lecFee;
-                    row.insertCell(6).textContent = subject.labFee;
+                    row.insertCell(0).textContent = subject.subCode;
+                    row.insertCell(1).textContent = subject.sub_name + ' - ' + subject.subSec;
+                    row.insertCell(2).textContent = subject.sub_title;
+                    row.insertCell(3).textContent = subject.subUnit;
+                    row.insertCell(4).textContent = subject.lecFee;
+                    row.insertCell(5).textContent = subject.labFee;
 
                     totalUnits += parseInt(subject.subUnit);
                     totalLecFee += parseFloat(subject.lecFee);
                     totalLabFee += parseFloat(subject.labFee);
-
-                    subjIDs.push(subject.subjID);
                 });
 
                 document.getElementById('totalunitInput').value = totalUnits;
 
-                // var totalRow = tableBody.insertRow();
-                // totalRow.insertCell(0);
-                // totalRow.insertCell(1);
-                // totalRow.insertCell(2); 
-                // totalRow.insertCell(3); 
-                // totalRow.insertCell(4).textContent = totalLecFee.toFixed(2);
-                // totalRow.insertCell(5).textContent = totalLabFee.toFixed(2);
-                document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
-                document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
-
-                var subjIDString = subjIDs.join(',');
-
-                document.getElementById('subjIDsInput').value = subjIDString;
+                var totalRow = tableBody.insertRow();
+                totalRow.insertCell(0);
+                totalRow.insertCell(1);
+                totalRow.insertCell(2); 
+                totalRow.insertCell(3); 
+                totalRow.insertCell(4).textContent = totalLecFee.toFixed(2);
+                totalRow.insertCell(5).textContent = totalLabFee.toFixed(2);
             } else {
                 alert('Failed to fetch subjects.');
             }
@@ -166,18 +138,11 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
     var selectedSubjectText = selectedSubjectOption.textContent;
     var sub_name = selectedSubjectText; 
 
-    var selectedSubjectPkeyText = document.getElementById('subjecID').value;
     var selectedSubjectCodeText = document.getElementById('sub_code').value;
     var selectedSubjectTitleText = document.getElementById('sub_title').value;
     var selectedSubjectUnitText = document.getElementById('subUnit').value;
     var selectedSubjectlecFeeText = document.getElementById('lecFee').value;
     var selectedSubjectlabFeeText = document.getElementById('labFee').value;
-
-    var subjIDInput = document.getElementById('subjIDsInput');
-    var existingIDs = subjIDInput.value.trim(); 
-    var newID = selectedSubjectPkeyText || ''; 
-    var updatedIDs = existingIDs ? existingIDs + ',' + newID : newID; 
-    subjIDInput.value = updatedIDs; 
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', getfetchSubjectRoute + '?dd=' + encodeURIComponent(selectedSubjectText), true);
@@ -185,7 +150,6 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 var subjectDetails = JSON.parse(xhr.responseText);
-                var id = subjectDetails.id; 
                 var subCode = subjectDetails.subCode; 
                 var sub_title = subjectDetails.sub_title;
                 var subUnit = subjectDetails.subUnit;
@@ -194,13 +158,12 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
 
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
                 var row = tableBody.insertRow();
-                row.insertCell(0).textContent = id || selectedSubjectPkeyText;
-                row.insertCell(1).textContent = subCode || selectedSubjectCodeText; 
-                row.insertCell(2).textContent = sub_name;
-                row.insertCell(3).textContent = sub_title || selectedSubjectTitleText;
-                row.insertCell(4).textContent = subUnit || selectedSubjectUnitText;
-                row.insertCell(5).textContent = lecFee || selectedSubjectlecFeeText;
-                row.insertCell(6).textContent = labFee || selectedSubjectlabFeeText;
+                row.insertCell(0).textContent = subCode || selectedSubjectCodeText; 
+                row.insertCell(1).textContent = sub_name;
+                row.insertCell(2).textContent = sub_title || selectedSubjectTitleText;
+                row.insertCell(3).textContent = subUnit || selectedSubjectUnitText;
+                row.insertCell(4).textContent = lecFee || selectedSubjectlecFeeText;
+                row.insertCell(5).textContent = labFee || selectedSubjectlabFeeText;
 
                 var totalUnits = parseInt(selectedSubjectUnitText) || 0;
                 var rows = tableBody.getElementsByTagName('tr');
@@ -211,23 +174,6 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                     }
                 }
                 document.getElementById('totalunitInput').value = totalUnits;
-
-                var totalLecFeeInputs = document.querySelectorAll('#totalLecFeeInput');
-                totalLecFeeInputs.forEach(function(input) {
-                    var previousValue = parseFloat(input.value) || 0;
-                    var currentFee = parseFloat(selectedSubjectlecFeeText) || parseFloat(lecFee);
-                    var newTotal = previousValue + currentFee;
-                    input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
-                });
-
-                var totalLabFeeInputs = document.querySelectorAll('#totalLabFeeInput');
-                totalLabFeeInputs.forEach(function(input) {
-                    var previousValue = parseFloat(input.value) || 0;
-                    var currentFee = parseFloat(selectedSubjectlabFeeText) || 0; 
-                    var newTotal = previousValue + currentFee;
-                    input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
-                });
-
                 $('#modal-addSub').modal('hide');
             } else {
                 alert('Failed to fetch subject details.');

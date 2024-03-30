@@ -263,85 +263,21 @@
         });
     </script>
 
-
     <script>
-    $(document).ready(function() {
-    // Function to perform the live search
-    function performLiveSearch() {
-        var searchValue = $('#liveSearchInput').val();
-        var studentType = $('#studentType').val();
-
-        $.ajax({
-            url: '{{ route("liveSearchStudent") }}',
-            type: 'GET',
-            data: { search: searchValue, en_status: studentType },
-            success: function(response) {
-                displayLiveSearchResults(response);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-    }
-
-    // Initial setup
-    $('#liveSearchInput').on('input', function() {
-        performLiveSearch();
-    });
-
-    // Trigger live search when changing the student type
-    $('#studentType').on('change', function() {
-        // Clear the selected student info
-        $('#selectedStudentInfo').val('');
-
-        // Clear and hide the live search results container
-        var resultsContainer = $('#liveSearchResultsContainer');
-        resultsContainer.empty().hide();
-
-        // Trigger live search
-        performLiveSearch();
-    });
-
-    // Function to display live search results
-    function displayLiveSearchResults(students) {
-        var selectedStudentDropdown = $('#selectedStudentInfo');
-        selectedStudentDropdown.empty().append('<option></option>');
-
-        var resultsContainer = $('#liveSearchResultsContainer');
-        resultsContainer.empty();
-
-        if (students.length > 0) {
-            $.each(students, function(index, student) {
-                resultsContainer.append('<div class="live-search-result" data-student-id="' + student.id + '">' + student.stud_id + ' - ' + student.lname + ' ' + student.mname + '. ' + student.fname + '</div>');
-                selectedStudentDropdown.append('<option value="' + student.id + '">' + student.stud_id + ' - ' + student.lname + ' ' + student.mname + '. ' + student.fname + '</option>');
+        @if(session('error'))
+            Swal.fire({
+                icon: 'warning',
+                title: 'Waring',
+                html: '{!! session('error') !!}',
+                showClass: {
+                    popup: 'my-custom-show-animation'
+                },
+                hideClass: {
+                    popup: ''
+                }
             });
-
-            // Show the live search results container
-            resultsContainer.show();
-        } else {
-            resultsContainer.html('<p>No results found</p>');
-        }
-    }
-
-    // Handle click on live search result
-    $(document).on('click', '.live-search-result', function() {
-        var selectedStudentId = $(this).data('student-id');
-        var selectedStudentInfo = $(this).text();
-
-        $('#selectedStudentInfo').val(selectedStudentId);
-
-        // Clear and hide the live search results container
-        var resultsContainer = $('#liveSearchResultsContainer');
-        resultsContainer.empty().hide();
-
-        // Clear the search input
-        $('#liveSearchInput').val('');
-
-        console.log(selectedStudentId);
-    });
-});
-
-</script>
+        @endif
+    </script>
     
 </body>
 </html>
