@@ -26,6 +26,42 @@ $(document).ready(function() {
             formData += '&subjIDs[]=' + subjID.trim(); 
         });
 
+        var fndCodes = [];
+        $('input[name="fndCodes"]').each(function() {
+            fndCodes.push($(this).val());
+        });
+
+        var fndCodesString = $('#fundnameCodeInput').val();
+        var fndCodesArray = fndCodesString.split(',');
+
+        fndCodesArray.forEach(function(fundID) {
+            formData += '&fndCodes[]=' + fundID.trim(); 
+        });
+
+        var accntNames = [];
+        $('input[name="accntNames"]').each(function() {
+            accntNames.push($(this).val());
+        });
+
+        var accntNamesString = $('#accountNameInput').val();
+        var accntNamesArray = accntNamesString.split(',');
+
+        accntNamesArray.forEach(function(accntNames) {
+            formData += '&accntNames[]=' + accntNames.trim(); 
+        });
+
+        var amntFees = [];
+        $('input[name="amntFees"]').each(function() {
+            amntFees.push($(this).val());
+        });
+
+        var amntFeesString = $('#amountFeeInput').val();
+        var amntFeesArray = amntFeesString.split(',');
+
+        amntFeesArray.forEach(function(amntFees) {
+            formData += '&amntFees[]=' + amntFees.trim(); 
+        });
+
         $.ajax({
             url: saveEnrollmentRoute,
             type: "POST",
@@ -244,7 +280,7 @@ document.getElementById('assessButton').addEventListener('click', function() {
     var campus = document.getElementById('campusInput').value;
     var programCode = document.getElementById('programCodeInput').value;
     var numericPart = document.getElementById('numericPart').value;
-    var totalLecFee = 0; // Initialize totalLecFee here
+    var totalLecFee = 0; 
     var totalLabFee = 0;
 
     if (!programCode || !numericPart || !schlyear || !semester || !campus) {
@@ -259,7 +295,6 @@ document.getElementById('assessButton').addEventListener('click', function() {
             if (xhr.status === 200) {
                 var data = JSON.parse(xhr.responseText);
                 if (data.length === 0) {
-                    //alert('No fee data found for the given inputs.');
                     Swal.fire({
                         icon: 'warning',
                         title: 'No Student Fee!',
@@ -277,25 +312,50 @@ document.getElementById('assessButton').addEventListener('click', function() {
                 var tableBody = document.getElementById('studFeeTable').getElementsByTagName('tbody')[0];
                 tableBody.innerHTML = '';
 
+                var fundnameCodeInput = document.getElementById('fundnameCodeInput');
+                var accountNameInput = document.getElementById('accountNameInput');
+                var amountFeeInput = document.getElementById('amountFeeInput');
+
+                fundnameCodeInput.value = '';
+                accountNameInput.value = '';
+                amountFeeInput.value = '';
+
                 data.forEach(function(item) {
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = item.fundname_code;
                     row.insertCell(1).textContent = item.accountName;
-                    if (item.accountName === 'TUITION' && item.amountFee === 0) {
-                        row.insertCell(2).textContent = totalLecFee.toFixed(2);
-                    } else if (item.accountName === 'LAB FEE' && item.amountFee === 0) {
-                        row.insertCell(2).textContent = totalLabFee.toFixed(2);
+                    //row.insertCell(2).textContent = item.amountFee;
+                    var amount = item.amountFee === '0' ? 
+                        (item.accountName.startsWith('TUITION') ? totalLecFeeInput.value : 
+                        (item.accountName === 'LAB FEE' ? totalLabFeeInput.value : '0')) : item.amountFee;
+                    row.insertCell(2).textContent = amount;
+
+                    if (data.indexOf(item) > 0) {
+                        fundnameCodeInput.value += ', ';
+                        accountNameInput.value += ', ';
+                        amountFeeInput.value += ', ';
+                    }
+
+                    if (item.amountFee !== '0') {
+                        fundnameCodeInput.value += (fundnameCodeInput.value.trim().length > 0 ? ' ' : '') + item.fundname_code;
+                        accountNameInput.value += (accountNameInput.value.trim().length > 0 ? ' ' : '') + item.accountName;
+                        amountFeeInput.value += (amountFeeInput.value.trim().length > 0 ? ' ' : '') + item.amountFee;
                     } else {
-                        row.insertCell(2).textContent = item.amountFee;
+                        if (item.accountName === 'LAB FEE') {
+                            accountNameInput.value += (accountNameInput.value.trim().length > 0 ? ' ' : '') + 'LAB FEE';
+                            amountFeeInput.value += totalLabFeeInput.value;
+                            fundnameCodeInput.value += (fundnameCodeInput.value.trim().length > 0 ? ' ' : '') + item.fundname_code;
+                        } else if (item.accountName.startsWith('TUITION')) {
+                            var tuitionText = item.accountName.split('-')[1].trim();
+                            accountNameInput.value += (accountNameInput.value.trim().length > 0 ? ' ' : '') + 'TUITION - ' + tuitionText;
+                            amountFeeInput.value += totalLecFeeInput.value;
+                            fundnameCodeInput.value += (fundnameCodeInput.value.trim().length > 0 ? ' ' : '') + item.fundname_code;
+                        }
                     }
-                    if (item.accountName === 'TUITION') {
-                        totalLecFee += parseFloat(item.amountFee); // Update totalLecFee
-                    } else if (item.accountName === 'LAB FEE') {
-                        totalLabFee += parseFloat(item.amountFee); // Update totalLabFee
-                    }
+
+
                 });
             } else {
-                // alert('Failed to fetch fee data. Error: ' + xhr.statusText);
                 Swal.fire({
                     icon: 'warning',
                     title: 'Failed to fetch Data',
@@ -311,6 +371,26 @@ document.getElementById('assessButton').addEventListener('click', function() {
         }
     };
     xhr.send();
+});
+
+// Disable save button initially
+document.getElementById('submitButton').disabled = true;
+document.getElementById('addSubjectModalBtn').disabled = true;
+document.getElementById('assessButton').addEventListener('click', function() {
+    document.getElementById('submitButton').disabled = false;
+});
+
+document.getElementById('submitButton').addEventListener('click', function() {
+
+    // Disable all buttons except Enroll New and Print RF
+    // document.querySelectorAll('.btnprim').forEach(function(button) {
+    //     button.disabled = true;
+    // });
+    document.getElementById('addSubjectModalBtn').disabled = false;
+    document.getElementById('addSubjectBtn').disabled = true;
+    if (response && !response.error) {
+        document.getElementById('submitButton').disabled = true;
+    }
 });
 
 

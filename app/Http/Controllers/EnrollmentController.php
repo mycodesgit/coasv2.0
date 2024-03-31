@@ -33,6 +33,7 @@ use App\Models\ScheduleDB\ClassesSubjects;
 use App\Models\ScholarshipDB\Scholar;
 
 use App\Models\AssessmentDB\StudentFee;
+use App\Models\AssessmentDB\StudentAppraisal;
 
 
 class EnrollmentController extends Controller
@@ -179,12 +180,26 @@ class EnrollmentController extends Controller
                 'fourPs' => 'required',
             ]);
 
-            //$data = json_decode($request->getContent(), true);
 
             $studentID = $request->input('studentID');
+
             if (empty($studentID)) {
                 return response()->json(['error' => true, 'message' => 'Student ID is required'], 400);
             }   
+
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $request->input('campus');
+
+            $existingStudEnroll = StudEnrolmentHistory::where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', $campus)
+                    ->where('studentID', $studentID)
+                    ->first();
+
+            if ($existingStudEnroll) {
+                return response()->json(['error' => true, 'message' => 'Enrollment for this Student ID No. already exists this semester'], 404);
+            }
 
             try {
                 StudEnrolmentHistory::create([
@@ -216,6 +231,23 @@ class EnrollmentController extends Controller
                     Grade::create([
                         'studID' => $studentID,
                         'subjID' => $subjID,
+                        'postedBy' => $request->input('postedBy'),
+                    ]);
+                }
+
+                $fndCodes = $request->input('fndCodes');
+                $accntNames = $request->input('accntNames');
+                $amntFees = $request->input('amntFees');
+                foreach ($fndCodes as $key => $fndCode) {
+                    StudentAppraisal::create([
+                        'studID' => $studentID, 
+                        'semester' => $request->input('semester'),
+                        'schlyear' => $request->input('schlyear'),
+                        'campus' => $request->input('campus'),
+                        'fundID' => $fndCode,
+                        'account' => $accntNames[$key], 
+                        'dateAssess' => $request->input('postedDate'),
+                        'amount' => $amntFees[$key], 
                         'postedBy' => $request->input('postedBy'),
                     ]);
                 }

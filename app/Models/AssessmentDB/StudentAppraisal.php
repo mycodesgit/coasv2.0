@@ -10,7 +10,7 @@ class StudentAppraisal extends Model
     use HasFactory;
 
     protected $connection = 'assessment';
-    protected $table = 'accounts';
+    protected $table = 'student_appraisal';
 
     protected $fillable = [
         'studId',
