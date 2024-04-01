@@ -36,7 +36,7 @@
 			margin-left: 76px;
 		}
 		.studinfoenstat {
-			margin-left: 30px;
+			margin-left: 10px;
 		}
 		#table {
             margin-top: 10px;
@@ -153,129 +153,81 @@
     </h3>
 
     <div class="studinfolabel">
-    	<span style="font-weight: bold;">Student ID No.:</span> <span class="studinfoID">2023-0001-K</span>
+    	<span style="font-weight: bold;">Student ID No.:</span> <span class="studinfoID">{{ $student->studentID }}</span>
     </div>
 
     <div class="studinfolabel">
-    	<span style="font-weight: bold;">Name:</span> <span class="studinfoName">JOSHUA KYLE L. DALMACIO</span>
+    	<span style="font-weight: bold;">Name:</span> <span class="studinfoName">{{ $student->fname }} {{ substr($student->mname, 0, 1) }} {{ $student->lname }}</span>
     	<span style="font-weight: bold; text-align: right !important; margin-left: 100px;">Scholarship:</span> <span class="studinfoScholar">None</span>
     </div>
 
     <div class="studinfolabel">
-    	<span style="font-weight: bold;">Curriculum, Yr. & Section:</span> <span class="studinfoCourse">BSIT 1-A</span>
+    	<span style="font-weight: bold;">Curriculum, Yr. & Section:</span> <span class="studinfoCourse">{{ $student->course }}</span>
     </div>
 
     <div class="studinfolabel">
-    	<span style="font-weight: bold;">Academic Year:</span> <span class="studinfoAcadYear">2023-2024</span>
-    	<span style="font-weight: bold; text-align: right !important; margin-left: 110px;">Enrollment Status:</span> <span class="studinfoenstat">Second Semester</span>
+    	<span style="font-weight: bold;">Academic Year:</span> <span class="studinfoAcadYear">{{ $student->schlyear }}</span>
+    	<span style="font-weight: bold; text-align: right !important; margin-left: 110px;">Enrollment Status:</span>
+    	<span class="studinfoenstat">
+    		@if(request('semester') == '1')
+		        First Semester
+		    @elseif(request('semester') == '2')
+		        Second Semester
+		    @elseif(request('semester') == '3')
+		        Summer
+		    @else
+		        Unknown Semester
+		    @endif
+    	</span>
     </div>
 
     <div >
     	<table id="table">
     		<tbody>
     			<tr>
-    				<td rowspan="" width="7%"><img src="{{ asset('template/img/subsec.png') }}" width="50%" style="margin-left: 10px;"></td>
+    				<td rowspan="" width="4%"><img src="{{ asset('template/img/subsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
     				<td>
     					<table id="table-inside">
     						<thead>
     							<tr>
     								<th width="15%">Subj Code</th>
     								<th>Subject Name</th>
-    								<th width="30%">Descriptive Title</th>
-    								<th width="8%">Credit</th>
-    								<th width="8%">Lec Fee</th>
-    								<th width="8%">Lab Fee</th>
+    								<th width="35%" style="padding-left: 10px !important;">Descriptive Title</th>
+    								<th width="7%">Credit</th>
+    								<th width="7%">Lec Fee</th>
+    								<th width="7%">Lab Fee</th>
     							</tr>
     						</thead>
     						<tbody>
+    							@php
+								    $totalLecFee = 0;
+								    $totalLabFee = 0;
+								@endphp
+    							@foreach($studsub as $sub)
+	    							<tr>
+	    								<td style="padding-left: 7px;">{{ $sub->sub_code }}</td>
+	    								<td>{{ $sub->sub_name }}-{{ $sub->subSec }}</td>
+	    								<td>{{ $sub->sub_title }}</td>
+	    								<td class="cred-lec-lab">{{ $sub->subUnit }}</td>
+	    								<td class="cred-lec-lab">{{ $sub->lecFee }}</td>
+	    								<td class="cred-lec-lab">{{ $sub->labFee }}</td>
+	    							</tr>
+	    							@php
+								        $totalLecFee += $sub->lecFee;
+								        $totalLabFee += $sub->labFee;
+								    @endphp
+    							@endforeach
     							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-123</td>
-    								<td>Prof. Ed. 4 - BSED-ENG 1-A</td>
-    								<td>Special Topic 1</td>
-    								<td class="cred-lec-lab">3</td>
-    								<td class="cred-lec-lab">540</td>
-    								<td class="cred-lec-lab">0</td>
-    							</tr>
+								    <td>************</td>
+								    <td>************************</td>
+								    <td>********************************</td>
+								    <td colspan="3" style="padding-left: 15px">*****************</td>
+								</tr>
     							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
-    							<tr>
-    								<td style="padding-left: 10px;">KAB-EDU-153</td>
-    								<td>ST 1 - BSED-ENG 1-A</td>
-    								<td>The Teaching Profession</td>
-    								<td class="cred-lec-lab">6</td>
-    								<td class="cred-lec-lab">1080</td>
-    								<td class="cred-lec-lab">500</td>
-    							</tr>
+								    <td colspan="4"></td>
+								    <td class="cred-lec-lab">{{ $totalLecFee }}</td>
+								    <td class="cred-lec-lab">{{ $totalLabFee }}</td>
+								</tr>
     						</tbody>
     					</table>
     					<br><br><br>
@@ -294,10 +246,10 @@
     				<td width="7%"><img src="{{ asset('template/img/cashsec.png') }}" width="50%" style="margin-left: 10px;"></td>
     				<td colspan="2" style="border-right: none !important" width="35%">
     					<div class="studinfolabel">
-							<span style="font-weight: bold;">StudID:</span>
+							<span style="font-weight: normal;">StudID: {{ request('stud_id') }}</span>
 						</div>
 						<div class="studinfolabel">
-							<span style="font-weight: bold;">Appraised Amount:</span>
+							<span style="font-weight: normal;">Appraised Amount:</span>
 						</div>
     					<table id="table-inside-cash-left">
     						<thead>
@@ -307,52 +259,32 @@
     							</tr>
     						</thead>
     						<tbody>
+    							@php
+								    $totalBalanceFee = 0;
+								@endphp
+    							@foreach($studfees as $fees)
+	    							<tr>
+	    								<td>{{ $fees->account }}</td>
+	    								<td class="accnt-amount">{{ number_format($fees->amount, 2) }}</td>
+	    							</tr>
+	    							@php
+								        $totalBalanceFee += $fees->amount;
+								    @endphp
+    							@endforeach
     							<tr>
-    								<td>ATHLETIC FEE</td>
-    								<td class="accnt-amount">730.00</td>
-    							</tr>
-    							<tr>
-    								<td>COMPUTER FEE</td>
-    								<td class="accnt-amount">500.00</td>
-    							</tr>
-    							<tr>
-    								<td>CULTURAL FEE</td>
-    								<td class="accnt-amount">200.00</td>
-    							</tr>
-    							<tr>
-    								<td>DEVELOPMENT FEE</td>
-    								<td class="accnt-amount">1,725.00</td>
-    							</tr>
-    							<tr>
-    								<td>GUIDANCE FEE</td>
-    								<td class="accnt-amount">70.00</td>
-    							</tr>
-    							<tr>
-    								<td>LIBRARY FEE</td>
-    								<td class="accnt-amount">300.00</td>
-    							</tr>
-    							<tr>
-    								<td>MEDICAL FEE</td>
-    								<td class="accnt-amount">200.00</td>
-    							</tr>
-    							<tr>
-    								<td>REGISTRATION FEE FEE</td>
-    								<td class="accnt-amount">100.00</td>
-    							</tr>
-    							<tr>
-    								<td>TUITION FEE</td>
-    								<td class="accnt-amount">4,320.00</td>
-    							</tr>
+								    <td colspan="1"></td>
+								    <td class="accnt-amount">{{ number_format($totalBalanceFee, 2) }}</td>
+								</tr>
     						</tbody>
     					</table>
     					<br><br><br>
     				</td>
     				<td style="border-left: none !important" width="55%">
     					<div class="studinfolabel">
-							<span style="font-weight: bold;">Amount Paid:</span>
+							<span style="font-weight: normal;">Amount Paid:</span>
 						</div>
 						<div class="studinfolabel">
-							<span style="font-weight: bold;">Posted By:</span>
+							<span style="font-weight: normal;">Posted By:</span>
 						</div>
     					<table id="table-inside-cash-right">
     						<thead>
@@ -365,10 +297,10 @@
     						</thead>
     						<tbody>
     							<tr>
-    								<td>ATHLETIC FEE</td>
-    								<td class="accnt-amount">2024-20-05</td>
-    								<td class="accnt-or">5412581</td>
-    								<td class="accnt-amount">730.00</td>
+    								<td></td>
+    								<td class="accnt-amount"></td>
+    								<td class="accnt-or"></td>
+    								<td class="accnt-amount"></td>
     							</tr>
     						</tbody>
     					</table>

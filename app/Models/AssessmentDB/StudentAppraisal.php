@@ -13,7 +13,7 @@ class StudentAppraisal extends Model
     protected $table = 'student_appraisal';
 
     protected $fillable = [
-        'studId',
+        'studID',
         'semester',
         'schlyear',
         'campus',

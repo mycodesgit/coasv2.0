@@ -374,24 +374,26 @@ document.getElementById('assessButton').addEventListener('click', function() {
 });
 
 // Disable save button initially
-document.getElementById('submitButton').disabled = true;
-document.getElementById('addSubjectModalBtn').disabled = true;
-document.getElementById('assessButton').addEventListener('click', function() {
-    document.getElementById('submitButton').disabled = false;
-});
+// document.getElementById('submitButton').disabled = true;
+// document.getElementById('addSubjectModalBtn').disabled = true;
+// document.getElementById('assessButton').addEventListener('click', function() {
+//     document.getElementById('submitButton').disabled = false;
+// });
 
-document.getElementById('submitButton').addEventListener('click', function() {
+// document.getElementById('submitButton').addEventListener('click', function() {
 
-    // Disable all buttons except Enroll New and Print RF
-    // document.querySelectorAll('.btnprim').forEach(function(button) {
-    //     button.disabled = true;
-    // });
-    document.getElementById('addSubjectModalBtn').disabled = false;
-    document.getElementById('addSubjectBtn').disabled = true;
-    if (response && !response.error) {
-        document.getElementById('submitButton').disabled = true;
-    }
-});
+//     // Disable all buttons except Enroll New and Print RF
+//     // document.querySelectorAll('.btnprim').forEach(function(button) {
+//     //     button.disabled = true;
+//     // });
+//     document.getElementById('addSubjectModalBtn').disabled = false;
+//     document.getElementById('addSubjectBtn').disabled = true;
+//     if (response && !response.error) {
+//         document.getElementById('submitButton').disabled = true;
+//     }
+// });
+
+
 
 
 

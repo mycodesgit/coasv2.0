@@ -259,12 +259,18 @@ COAS - V1.0 || Enroll Student
                     <div class="card mt-2" style="background-color: #e9ecef">
                         <div class="card-body">
                             <a href="{{ route('searchStud') }}" class="form-control form-control-sm btn btn-success btn-sm">Enroll New</a>
-                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
+                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton">Assess</button>
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
-                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-studrf">
+                            <form action="{{ route('studrfprint') }}" method="get" target="_blank">
+                                @csrf
+                                <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
+                                <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                                <input type="hidden" name="semester" value="{{ request('semester') }}">
+                            <button type="submit" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" target="_blank">
                                 Print RF
                             </button>
+                            </form>
                             {{-- <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}
                         </div>
@@ -357,7 +363,7 @@ COAS - V1.0 || Enroll Student
 </div>
 
 
-@include('enrollment.studenroll.modalrf')
+{{-- @include('enrollment.studenroll.modalrf') --}}
 
 <script>
     var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";

@@ -65,19 +65,19 @@ class EnrollmentController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $student = Student::where('stud_id', $stud_id)->first();
-        if (!$student) {
-            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
-        }
+        // if (!$student) {
+        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        // }
 
-        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
-            ->where('schlyear', $schlyear)
-            ->where('semester', $semester)
-            ->where('campus', $campus)
-            ->first();
+        // $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+        //     ->where('schlyear', $schlyear)
+        //     ->where('semester', $semester)
+        //     ->where('campus', $campus)
+        //     ->first();
 
-        if ($enrollmentHistory) {
-            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
-        }
+        // if ($enrollmentHistory) {
+        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
+        // }
 
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
@@ -240,7 +240,7 @@ class EnrollmentController extends Controller
                 $amntFees = $request->input('amntFees');
                 foreach ($fndCodes as $key => $fndCode) {
                     StudentAppraisal::create([
-                        'studID' => $studentID, 
+                        'studID' => $request->input('studentID'),
                         'semester' => $request->input('semester'),
                         'schlyear' => $request->input('schlyear'),
                         'campus' => $request->input('campus'),
@@ -259,11 +259,49 @@ class EnrollmentController extends Controller
         }
     }
 
-    public function studrf_print()
+    public function studrfprint(Request $request)
     {
-        // $applicant = Applicant::find($id); 
-        // view()->share('applicant',$applicant);
-        $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRF')->setPaper('Legal', 'portrait');
+        $stud_id = $request->query('stud_id');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                    ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
+                    ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select('students.*', 'program_en_history.*', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('program_en_history.schlyear',  $schlyear)
+                    ->where('program_en_history.semester',  $semester)
+                    ->where('program_en_history.campus',  $campus)
+                    ->where('program_en_history.studentID', $stud_id)->first();
+
+        $studsub = Grade::join('program_en_history', 'studgrades.studID', '=', 'program_en_history.studentID')
+                    ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select('program_en_history.*', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear',  $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester',  $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    ->where('studgrades.studID', $stud_id)
+                    ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
+                    ->get();
+
+        $studfees = StudentAppraisal::join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
+                    ->select('coasv2_db_enrollment.program_en_history.*', 'student_appraisal.*')
+                    ->where('student_appraisal.schlyear',  $schlyear)
+                    ->where('student_appraisal.semester',  $semester)
+                    ->where('student_appraisal.campus',  $campus)
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->orderBy('student_appraisal.account', 'ASC')
+                    ->get();
+
+        $data = [
+            'student' => $student,
+            'studsub' => $studsub,
+            'studfees' => $studfees
+        ];
+        $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRF', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
     }
 }

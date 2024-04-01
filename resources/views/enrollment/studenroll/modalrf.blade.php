@@ -11,7 +11,7 @@
             </div>
             
             <div class="modal-body">
-                <iframe src="{{ route('studrf_print') }}" width="100%" height="510"></iframe>
+                <iframe src="{{ route('studrfprint') }}" width="100%" height="510"></iframe>
             </div>
             
             <div class="modal-footer justify-content-between">

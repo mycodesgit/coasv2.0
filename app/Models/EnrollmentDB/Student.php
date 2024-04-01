@@ -23,7 +23,7 @@ class Student extends Model
         'lname', 
         'mname',
         'ext',
-        'course',
+        'courseeee',
         'gender',
         'contact',
         'email',

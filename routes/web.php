@@ -196,7 +196,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/student', [EnrollmentController::class, 'searchStud'])->name('searchStud');
             Route::get('/liveSearchStudent', [EnrollmentController::class, 'liveSearchStudent'])->name('liveSearchStudent');
             Route::get('/student/enroll', [EnrollmentController::class, 'searchStudEnroll'])->name('searchStudEnroll');
-            Route::get('/student/enroll/rf', [EnrollmentController::class, 'studrf_print'])->name('studrf_print');
+            Route::get('/student/enroll/RF', [EnrollmentController::class, 'studrfprint'])->name('studrfprint');
             Route::get('/fetch-subjects', [EnrollmentController::class, 'fetchSubjects'])->name('fetchSubjects');
             Route::get('/get-sub-title', [EnrollmentController::class, 'coursefetchSubjects'])->name('coursefetchSubjects');
             Route::get('/get-sub-fee', [EnrollmentController::class, 'fetchFeeSubjects'])->name('fetchFeeSubjects');
