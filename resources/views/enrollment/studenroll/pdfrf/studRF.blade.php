@@ -243,7 +243,7 @@
     	<table id="table" style="margin-top: 40px !important">
     		<tbody>
     			<tr>
-    				<td width="7%"><img src="{{ asset('template/img/cashsec.png') }}" width="50%" style="margin-left: 10px;"></td>
+    				<td width="4%"><img src="{{ asset('template/img/cashsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
     				<td colspan="2" style="border-right: none !important" width="35%">
     					<div class="studinfolabel">
 							<span style="font-weight: normal;">StudID: {{ request('stud_id') }}</span>
