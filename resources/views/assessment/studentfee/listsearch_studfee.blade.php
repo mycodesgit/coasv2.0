@@ -1,7 +1,7 @@
 @extends('layouts.master_assessment')
 
 @section('title')
-COAS - V1.0 || Student Fee
+COAS - V2.0 || Student Fee
 @endsection
 
 @section('sideheader')

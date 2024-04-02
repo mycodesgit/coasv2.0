@@ -304,4 +304,55 @@ class EnrollmentController extends Controller
         $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRF', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
     }
+
+    public function editsearchStud()
+    {   
+        return view('enrollment.studenroll.editenroll');
+    }
+
+    public function editsearchStudRead(Request $request)
+    {
+        $studlvl = StudentLevel::all();
+        $studscholar = Scholar::all();
+        $mamisub = MajorMinor::all();
+        $studstat = StudentStatus::all();
+        $studtype = StudentType::all();
+        $shiftrans = StudentShifTrans::all();
+        $program = EnPrograms::all();
+
+        $stud_id = $request->stud_id;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $student = Student::where('stud_id', $stud_id)->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+
+        $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                ->join('coasv2_db_enrollment.yearlevel', function($join) {
+                    $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
+                })
+                ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                ->where('schlyear', '=', $schlyear)
+                ->where('semester', '=', $semester)
+                ->where('campus', '=', $campus)
+                ->orderBy('programs.progAcronym', 'ASC')
+                ->orderBy('class_enroll.classSection', 'ASC')
+                ->get();
+        
+        $subjOffer = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
+                        ->select('subjects.*', 'sub_offered.*',)
+                        ->where('schlyear', $schlyear)
+                        ->where('semester', $semester)
+                        ->where('campus', $campus)
+                        ->orderBy('subjects.sub_name', 'ASC')
+                        ->get();
+                        
+        $subjectCount = $subjOffer->count();
+    
+        return view('enrollment.studenroll.enrollStudent', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans'));
+    }
+
 }

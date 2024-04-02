@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V1.0 || Student List per Curriculum
+COAS - V2.0 || Student List per Curriculum
 @endsection
 
 @section('sideheader')

@@ -1,7 +1,7 @@
 @extends('layouts.master_scholarship')
 
 @section('title')
-COAS - V1.0 || Add Scholar
+COAS - V2.0 || Add Scholar
 @endsection
 
 @section('sideheader')

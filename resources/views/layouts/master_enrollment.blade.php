@@ -267,7 +267,7 @@
         @if(session('error'))
             Swal.fire({
                 icon: 'warning',
-                title: 'Waring',
+                // title: 'Waring',
                 html: '{!! session('error') !!}',
                 showClass: {
                     popup: 'my-custom-show-animation'

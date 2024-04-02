@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V2.0 || Enroll Student
+COAS - V2.0 || Edit Student Enrollment
 @endsection
 
 @section('sideheader')
@@ -20,7 +20,7 @@ COAS - V2.0 || Enroll Student
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Enrollment</li>
-            <li class="breadcrumb-item active mt-1">Enroll Student</li>
+            <li class="breadcrumb-item active mt-1">Edit Student Enrollment</li>
         </ol>
 
         <p>
@@ -35,7 +35,7 @@ COAS - V2.0 || Enroll Student
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
                 <div class="row">
                     <div class="col-md-9">
-                        <h4>Enroll Student</h4>
+                        <h4>Edit Student Enrollment</h4>
                     </div>
                 </div>
             </div>

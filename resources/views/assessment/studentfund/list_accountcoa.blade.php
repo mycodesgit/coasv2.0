@@ -1,7 +1,7 @@
 @extends('layouts.master_assessment')
 
 @section('title')
-COAS - V1.0 || Fund
+COAS - V2.0 || Fund
 @endsection
 
 @section('sideheader')

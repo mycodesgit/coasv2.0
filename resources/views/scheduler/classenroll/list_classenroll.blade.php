@@ -1,7 +1,7 @@
 @extends('layouts.master_classScheduler')
 
 @section('title')
-COAS - V1.0 || Class Enroll
+COAS - V2.0 || Class Enroll
 @endsection
 
 @section('sideheader')

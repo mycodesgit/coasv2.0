@@ -1,7 +1,7 @@
 @extends('layouts.master_classScheduler')
 
 @section('title')
-COAS - V1.0 || Subject Offered
+COAS - V2.0 || Subject Offered
 @endsection
 
 @section('sideheader')
