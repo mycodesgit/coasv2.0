@@ -39,7 +39,19 @@ $(document).ready(function() {
                 }
             },
             { data: 'maleCount' },
-            { data: 'femaleCount' }
+            { data: 'femaleCount' },
+            {data: 'id',
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        var link = '<a href="' + courseEnrollReadRoute + '/' + data + '" class="btn btn-primary btn-xs btn-edit">' +
+                            '<i class="fas fa-eye"></i>' +
+                            '</a>';
+                        return link;
+                    } else {
+                        return data;
+                    }
+                },
+            },
 
         ],
         "createdRow": function (row, data, index) {

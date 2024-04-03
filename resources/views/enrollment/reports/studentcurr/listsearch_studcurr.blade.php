@@ -72,12 +72,13 @@ COAS - V2.0 || Student List per Curriculum
                         <thead>
                             <tr>
                                 <th>Code</th>
-                                <th>Program Name</th>
+                                <th width="30%">Program Name</th>
                                 <th>Acronym</th>
                                 <th>Year&Section</th>
                                 <th>No. of Stud</th>
                                 <th>Male</th>
                                 <th>Female</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
