@@ -16,9 +16,9 @@ $(document).ready(function() {
         },
         info: true,
         responsive: true,
-        lengthChange: false,
-        searching: false,
-        paging: false,
+        lengthChange: true,
+        searching: true,
+        paging: true,
         "columns": [
             { data: 'progCod' },
             { data: 'progName' },
