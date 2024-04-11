@@ -69,9 +69,9 @@ COAS - V2.0 || Add Scholar
                                 <label><span class="badge badge-secondary">Funding Source</span></label>
                                 <select class="form-control  form-control-sm" name="fund_source">
                                     <option disabled selected>---Select---</option>
-                                    <option value="External">External</option>
-                                    <option value="Internal">Internal</option>
-                                    <option value="None">None</option>
+                                    @foreach($fscode as $datafscode)
+                                        <option value="{{ $datafscode->id }}">{{ $datafscode->fndsource_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

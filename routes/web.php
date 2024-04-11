@@ -331,6 +331,8 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::post('/addScholarship', [ScholarshipController::class, 'scholarCreate'])->name('scholarCreate');
             Route::get('/list/chedScholar', [ScholarshipController::class, 'chedscholarRead'])->name('chedscholarRead');
             Route::get('/list/chedScholar/search', [ScholarshipController::class, 'chedscholarSearch'])->name('chedscholarSearch');
+            Route::get('/list/students/scholar', [ScholarshipController::class, 'chedstudscholarRead'])->name('chedstudscholarRead');
+            Route::get('/list/students/scholar/searchlist', [ScholarshipController::class, 'studscholar_searchRead'])->name('studscholar_searchRead');
         });
 
     });

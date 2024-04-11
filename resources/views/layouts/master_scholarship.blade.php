@@ -149,6 +149,7 @@
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <script src="{{ asset('js/validation/scholars/scholarValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/scholars/studscholarValidation.js') }}"></script>
 
     <script>
         $(document).ready(function () {

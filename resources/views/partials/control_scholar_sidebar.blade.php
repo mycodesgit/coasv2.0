@@ -3,6 +3,7 @@
 
     $addScholarActive = in_array($curr_route, ['scholarAdd']) ? 'active' : '';
     $listScholarActive = in_array($curr_route, ['chedscholarRead', 'chedscholarSearch']) ? 'active' : '';
+    $listStudScholarActive = in_array($curr_route, ['chedstudscholarRead', 'studscholar_searchRead']) ? 'active' : '';
     
 
 @endphp
@@ -11,7 +12,7 @@
     <ul class="list-group">
         <a href="{{ route('scholarAdd') }}" class="list-group-item {{ $addScholarActive }}">Add Scholarship</a>  
         <a href="{{ route('chedscholarRead') }}" class="list-group-item {{ $listScholarActive }}">Scholarship List</a>
-        <a href="" class="list-group-item">Student Scholarship</a>
+        <a href="{{ route('chedstudscholarRead') }}" class="list-group-item {{ $listStudScholarActive }}">Student Scholarship</a>
     </ul>
 </div>
 

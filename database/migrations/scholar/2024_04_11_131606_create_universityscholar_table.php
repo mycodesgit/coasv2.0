@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('scholarship', function (Blueprint $table) {
+        Schema::create('universityscholar', function (Blueprint $table) {
             $table->id();
-            $table->string('scholar_name')->nullable();
-            $table->string('scholar_sponsor')->nullable();
-            $table->string('chedcategory')->nullable();
-            $table->string('unicategory')->nullable();
-            $table->string('fund_source')->nullable();
+            $table->string('unisch_name')->nullable();
             $table->timestamps();
         });
     }
@@ -31,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scholarship');
+        Schema::dropIfExists('universityscholar');
     }
 };
-
-

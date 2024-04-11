@@ -5,17 +5,14 @@ namespace App\Models\ScholarshipDB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Scholar extends Model
+class ChedSch extends Model
 {
     use HasFactory;
     protected $connection = 'scholarship';
-    protected $table = 'scholarship';
+    protected $table = 'chedscholarship';
 
     protected $fillable = [
-        'scholar_name',
-        'scholar_sponsor', 
-        'chedcategory', 
-        'unicategory',
-        'fund_source',
+        'fndsource_name',
+        
     ];
 }
