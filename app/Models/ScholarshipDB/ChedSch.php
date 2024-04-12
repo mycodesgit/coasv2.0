@@ -12,7 +12,7 @@ class ChedSch extends Model
     protected $table = 'chedscholarship';
 
     protected $fillable = [
-        'fndsource_name',
+        'chedsch_name',
         
     ];
 }

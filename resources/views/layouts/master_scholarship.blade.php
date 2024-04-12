@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
@@ -26,6 +30,30 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    <style>
+        .sticky-column {
+          position: sticky;
+          top: 50px;
+          height: 5vh;
+        }
+        .scrolling-column {
+          overflow-y: auto;
+        }
+        .my-custom-show-animation {
+            animation: myShowAnimation 0.2s ease forwards;
+        }
+        @keyframes myShowAnimation {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
@@ -68,7 +96,7 @@
             <div class="content">
                 <div class="container-fluid1">
                     <div class="row" style="padding-top: 0px;">
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 sticky-column">
                             <div class="card">
                                 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
                                     @section('sideheader')
@@ -137,6 +165,10 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}"></script>
@@ -150,6 +182,13 @@
 
     <script src="{{ asset('js/validation/scholars/scholarValidation.js') }}"></script>
     <script src="{{ asset('js/validation/scholars/studscholarValidation.js') }}"></script>
+
+    @if(request()->routeIs('chedscholarlist'))
+        <script src="{{ asset('js/ajax/scholars/chedScholarSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('studscholar_searchRead'))
+        <script src="{{ asset('js/ajax/scholars/scholarSerialize.js') }}"></script>
+    @endif
 
     <script>
         $(document).ready(function () {

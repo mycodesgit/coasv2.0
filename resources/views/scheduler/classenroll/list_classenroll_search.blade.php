@@ -189,6 +189,8 @@ COAS - V2.0 || Classes Enrolled
 <script>
     var classEnReadRoute = "{{ route('getclassEnRead') }}";
     var classEnCreateRoute = "{{ route('classEnrollCreate') }}";
+    var classEnUpdateRoute = "{{ route('classEnrolledUpdate', ['id' => ':id']) }}";
+    var classEnDeleteRoute = "{{ route('classEnrolledDelete', ['id' => ':id']) }}";
 </script>
 
 

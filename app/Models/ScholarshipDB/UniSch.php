@@ -9,11 +9,10 @@ class UniSch extends Model
 {
     use HasFactory;
     protected $connection = 'scholarship';
-    protected $table = 'fscode';
+    protected $table = 'universityscholar';
 
     protected $fillable = [
         'unisch_name',
-        
     ];
 
 }

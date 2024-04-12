@@ -1,7 +1,7 @@
 @extends('layouts.master_scholarship')
 
 @section('title')
-COAS - V2.0 || Student Scholar
+COAS - V2.0 || Student Scholarship
 @endsection
 
 @section('sideheader')
@@ -20,7 +20,7 @@ COAS - V2.0 || Student Scholar
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Scholarship</li>
-            <li class="breadcrumb-item active mt-1">List</li>
+            <li class="breadcrumb-item active mt-1">Student Scholarship</li>
         </ol>
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;">

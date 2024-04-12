@@ -104,27 +104,40 @@ class SchedClassEnrollController extends Controller
         }
     }
 
-    public function classEnrolledUpdate(Request $request)
+    public function classEnrolledUpdate(Request $request) 
     {
+        $request->validate([
+            'id' => 'required',
+            'progCode' => 'required',
+            'classSection' => 'required',
+            'classno' => 'required',
+        ]);
 
-        $id = $request->input('edit_id');
-        $class = $request->input('edit_class');
-        $class_section = $request->input('edit_class_section');
-        $progid = $request->input('prog_id');
-
-        $classEnroll = ClassEnroll::find($id);
-        $classEnroll->class = $class;
-        $classEnroll->class_section = $class_section;
-        $classEnroll->prog_id = $progid;
-        $classEnroll->save();
-
-        return redirect()->back()->with('success', 'The Course and Section successfully updated.');
+        try {
+            $classEn = ClassEnroll::findOrFail($request->input('id'));
+            $classEn->update([
+                'progCode' => $request->input('progCode'),
+                'classSection' => $request->input('classSection'),
+                'classno' => $request->input('classno'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Class successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to store Class'], 404);
+        }
     }
 
     public function getProgramId($progAcronym)
     {
         $program = EnPrograms::where('progAcronym', $progAcronym)->first();
         return response()->json(['id' => $program->id]);
+    }
+
+    public function classEnrolledDelete($id) 
+    {
+        $classEn = ClassEnroll::find($id);
+        $classEn->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 }
 

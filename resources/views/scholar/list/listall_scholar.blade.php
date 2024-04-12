@@ -1,7 +1,7 @@
 @extends('layouts.master_scholarship')
 
 @section('title')
-COAS - V2.0 || Add Scholar
+COAS - V2.0 || CHED Scholarship
 @endsection
 
 @section('sideheader')
@@ -20,34 +20,10 @@ COAS - V2.0 || Add Scholar
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Scholarship</li>
-            <li class="breadcrumb-item active mt-1">List</li>
+            <li class="breadcrumb-item active mt-1">CHED Scholarship</li>
         </ol>
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <form method="GET" action="{{ route('chedscholarSearch') }}">
-                @csrf
-
-                <div class="container">
-                    <div class="form-group">
-                        <div class="form-row">
-
-                            <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Category</span></label>
-                                <select class="form-control form-control-sm" name="category">
-                                    <option disabled selected>---Select---</option>
-                                    <option value="CHED Scholarship">CHED Scholarship</option>
-                                    <option value="Financial Assistance">Financial Assistance</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-2">
-                                <label>&nbsp;</label>
-                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
             <h5>Search Results: {{ $totalSearchResults }} 
                 <small>
                     <i>
@@ -63,30 +39,29 @@ COAS - V2.0 || Add Scholar
                         <tr>
                             <th>#</th>
                             <th>Scholarship Name</th>
-                            <th>Sponsor</th>
-                            <th>Categorys</th>
-                            <th>Funding Source</th>
+                            <th width="20%">Sponsor</th>
+                            <th>CHED Cat</th>
+                            <th>CPSU Cat</th>
+                            <th>FS</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php $no = 1; @endphp
                         @foreach($data as $scholars)
-                            @if ($scholars->status == 1)
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $scholars->scholar_name }}</td>
                                 <td>{{ $scholars->scholar_sponsor }}</td>
-                                <td>{{ $scholars->category }}</td>
-                                <td>{{ $scholars->fund_source }}</td>
+                                <td>{{ $scholars->chedsch_name }}</td>
+                                <td>{{ $scholars->unisch_name }}</td>
+                                <td>{{ $scholars->fndsource_name }}</td>
                                 <td style="text-align:center;">
-                                    <a href="" type="button" class="btn btn-primary">
-                                        <i class="fas fa-cog"></i>
+                                    <a href="" type="button" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-pen"></i>
                                     </a>
                                 </td>
                             </tr>
-                            @else
-                            @endif
                         @endforeach
                     </tbody>
                 </table>

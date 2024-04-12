@@ -251,6 +251,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/search/ajaxviewclass', [SchedClassEnrollController::class, 'getclassEnRead'])->name('getclassEnRead');
             Route::post('/list/Add', [SchedClassEnrollController::class, 'classEnrollCreate'])->name('classEnrollCreate');
             Route::post('/list/update', [SchedClassEnrollController::class, 'classEnrolledUpdate'])->name('classEnrolledUpdate');
+            Route::get('/list/delete{id}', [SchedClassEnrollController::class, 'classEnrolledDelete'])->name('classEnrolledDelete');
         });
 
         Route::prefix('subjectOff')->group(function () {
@@ -329,10 +330,15 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::prefix('studScholar')->group(function () {
             Route::get('/add', [ScholarshipController::class, 'scholarAdd'])->name('scholarAdd');
             Route::post('/addScholarship', [ScholarshipController::class, 'scholarCreate'])->name('scholarCreate');
-            Route::get('/list/chedScholar', [ScholarshipController::class, 'chedscholarRead'])->name('chedscholarRead');
-            Route::get('/list/chedScholar/search', [ScholarshipController::class, 'chedscholarSearch'])->name('chedscholarSearch');
+
+            Route::get('/list/chedScholar', [ScholarshipController::class, 'chedscholarlist'])->name('chedscholarlist');
+            Route::get('/list/chedScholar/ajax', [ScholarshipController::class, 'getchedscholarlist'])->name('getchedscholarlist');
+            Route::get('/list/uniScholar', [ScholarshipController::class, 'unischolarlist'])->name('unischolarlist');
+            Route::get('/list/allScholar', [ScholarshipController::class, 'scholarlist'])->name('scholarlist');
+
             Route::get('/list/students/scholar', [ScholarshipController::class, 'chedstudscholarRead'])->name('chedstudscholarRead');
             Route::get('/list/students/scholar/searchlist', [ScholarshipController::class, 'studscholar_searchRead'])->name('studscholar_searchRead');
+            Route::get('/list/students/scholar/searchlist/ajax', [ScholarshipController::class, 'getstudscholarSearchRead'])->name('getstudscholarSearchRead');
         });
 
     });

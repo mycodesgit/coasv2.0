@@ -4,7 +4,7 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#classEnrollAdd').submit(function(event) {
+    $('#chedschcatAdded').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
@@ -31,20 +31,10 @@ $(document).ready(function() {
         });
     });
 
-    var urlParams = new URLSearchParams(window.location.search);
-    var schlyear = urlParams.get('schlyear') || ''; 
-    var semester = urlParams.get('semester') || '';
-    var campus = urlParams.get('campus') || ''; 
-
-    var dataTable = $('#classEn').DataTable({
+    var dataTable = $('#chedschtable').DataTable({
         "ajax": {
-            "url": classEnReadRoute,
+            "url": chedschcatReadRoute,
             "type": "GET",
-            "data": { 
-                "schlyear": schlyear,
-                "semester": semester,
-                "campus": campus
-            }
         },
         info: true,
         responsive: true,
@@ -52,9 +42,7 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
-            {data: 'progAcronym'},
-            {data: 'classSection'},
-            {data: 'classno'},
+            {data: 'chedsch_name'},
             {
                 data: 'id',
                 render: function(data, type, row) {
@@ -62,10 +50,10 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-classEn" data-id="' + row.id + '" data-class="' + row.progCode + '" data-section="' + row.classSection + '" data-classno="' + row.classno + '">' +
+                            '<a href="#" class="dropdown-item btn-chedschcatAdded" data-id="' + row.id + '" data-class="' + row.progCode + '" data-section="' + row.classSection + '" data-classno="' + row.classno + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item classen-delete">' +
+                            '<button type="button" value="' + data + '" class="dropdown-item chedschcat-delete">' +
                             '<i class="fas fa-trash"></i> Delete' +
                             '</button>' +
                             '</div>' +
@@ -81,7 +69,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('classEnAdded', function() {
+    $(document).on('chedschcatAdded', function() {
         dataTable.ajax.reload();
     });
 });

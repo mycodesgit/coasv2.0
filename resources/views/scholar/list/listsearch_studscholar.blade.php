@@ -20,7 +20,7 @@ COAS - V2.0 || List of Scholars Student
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Scholarship</li>
-            <li class="breadcrumb-item active mt-1">List</li>
+            <li class="breadcrumb-item active mt-1">Student Scholarship</li>
         </ol>
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -53,7 +53,7 @@ COAS - V2.0 || List of Scholars Student
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
+            <h5>Search Results: {{-- {{ $totalSearchResults }} --}} 
                 <small>
                     <i>Year-<b>{{ request('schlyear') }}</b>,
                         Semester-<b>{{ request('semester') }}</b>,
@@ -73,9 +73,9 @@ COAS - V2.0 || List of Scholars Student
                 </small>
             </h5>
         </div>
-        <div class="mt-5">
+        <div class="mt-2">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="schstud" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -89,7 +89,7 @@ COAS - V2.0 || List of Scholars Student
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data as $schstud)
+                        {{-- @foreach($data as $schstud)
                             <tr>
                                 <td>{{ $schstud->lname }}, {{ $schstud->fname }}</td>
                                 <td>{{ $schstud->studentID }}</td>
@@ -100,7 +100,7 @@ COAS - V2.0 || List of Scholars Student
                                 <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 8ch;">{{ $schstud->unisch_name }}</td>
                                 <td>{{ number_format($schstud->amount, 2)  }}</td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -108,7 +108,9 @@ COAS - V2.0 || List of Scholars Student
     </div>
 </div>
 
-
+<script>
+    var studschReadRoute = "{{ route('getstudscholarSearchRead') }}";
+</script>
 
 @endsection
 
