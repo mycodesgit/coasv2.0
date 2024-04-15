@@ -23,27 +23,22 @@ COAS - V2.0 || CPSU Scholarship
             <li class="breadcrumb-item active mt-1">CPSU Scholarship</li>
         </ol>
 
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <h5>Search Results: {{-- {{ $totalSearchResults }}  --}}
-                <small>
-                    <i>
-                        Category-<b>{{ request('category') }}</b>,
-                    </i>
-                </small>
-            </h5>
-        </div>
-        <div class="mt-5">
+        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+        <div class="mt-3">
+            <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal-unisch">
+                <i class="fas fa-plus"></i> Add New
+            </button>
+            @include('modal.unischAdd')
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="unischtable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Scholarship Category</th>
-                            <th>Action</th>
+                            <th width="10%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($schuni as $schuniv)
                             <tr>
                                 <td>{{ $no++ }}</td>
@@ -54,7 +49,7 @@ COAS - V2.0 || CPSU Scholarship
                                     </a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -62,6 +57,13 @@ COAS - V2.0 || CPSU Scholarship
     </div>
 </div>
 
+<script>
+    var unischcatReadRoute = "{{ route('getunischolarlist') }}";
+    var chedschcatCreateRoute = "{{ route('chedscholarCreate') }}";
+    var chedschcatUpdateRoute = "{{ route('chedscholarUpdate', ['id' => ':id']) }}";
+    var chedschcatDeleteRoute = "{{ route('chedscholarDelete', ['id' => ':id']) }}";
+    var isAdmin = '{{ Auth::user()->isAdmin == "0" }}';
+</script>
 
 
 @endsection

@@ -333,9 +333,12 @@ Route::group(['middleware'=>['login_auth']],function(){
 
             Route::get('/list/chedScholar', [ScholarshipController::class, 'chedscholarlist'])->name('chedscholarlist');
             Route::get('/list/chedScholar/ajax', [ScholarshipController::class, 'getchedscholarlist'])->name('getchedscholarlist');
+            Route::post('/list/chedScholar/add', [ScholarshipController::class,'chedscholarCreate'])->name('chedscholarCreate');
             Route::post('/list/chedScholar/update', [ScholarshipController::class,'chedscholarUpdate'])->name('chedscholarUpdate');
+            Route::get('/list/chedScholar/delete{id}', [ScholarshipController::class, 'chedscholarDelete'])->name('chedscholarDelete');
 
             Route::get('/list/uniScholar', [ScholarshipController::class, 'unischolarlist'])->name('unischolarlist');
+            Route::get('/list/uniScholar/ajax', [ScholarshipController::class, 'getunischolarlist'])->name('getunischolarlist');
             Route::get('/list/allScholar', [ScholarshipController::class, 'scholarlist'])->name('scholarlist');
 
             Route::get('/list/students/scholar', [ScholarshipController::class, 'chedstudscholarRead'])->name('chedstudscholarRead');

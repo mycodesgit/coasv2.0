@@ -4,20 +4,20 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#addChedSch').submit(function(event) {
+    $('#addUniSch').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: chedschcatCreateRoute,
+            url: unischcatReadRoute,
             type: "POST",
             data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $('#modal-chedsch').modal('hide');
-                    $(document).trigger('chedschcatAdded');
+                    $('#modal-unisch').modal('hide');
+                    $(document).trigger('unischcatAdded');
                     $('input[name="chedsch_name"]').val('');
                 } else {
                     toastr.error(response.message);
@@ -31,9 +31,9 @@ $(document).ready(function() {
         });
     });
 
-    var dataTable = $('#chedschtable').DataTable({
+    var dataTable = $('#unischtable').DataTable({
         "ajax": {
-            "url": chedschcatReadRoute,
+            "url": unischcatReadRoute,
             "type": "GET",
         },
         info: true,
@@ -42,7 +42,7 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
-            {data: 'chedsch_name'},
+            {data: 'unisch_name'},
             {
                 data: 'id',
                 render: function(data, type, row) {
@@ -76,7 +76,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('chedschcatAdded', function() {
+    $(document).on('unischcatAdded', function() {
         dataTable.ajax.reload();
     });
 });

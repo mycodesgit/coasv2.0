@@ -23,16 +23,12 @@ COAS - V2.0 || CHED Scholarship
             <li class="breadcrumb-item active mt-1">CHED Scholarship</li>
         </ol>
 
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <h5>Search Results: {{-- {{ $totalSearchResults }}  --}}
-                <small>
-                    <i>
-                        Category-<b>{{ request('category') }}</b>,
-                    </i>
-                </small>
-            </h5>
-        </div>
-        <div class="mt-5">
+        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+        <div class="mt-3">
+            <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal-chedsch">
+                <i class="fas fa-plus"></i> Add New
+            </button>
+            @include('modal.chedschAdd')
             <div class="">
                 <table id="chedschtable" class="table table-hover">
                     <thead>
@@ -89,7 +85,9 @@ COAS - V2.0 || CHED Scholarship
 
 <script>
     var chedschcatReadRoute = "{{ route('getchedscholarlist') }}";
+    var chedschcatCreateRoute = "{{ route('chedscholarCreate') }}";
     var chedschcatUpdateRoute = "{{ route('chedscholarUpdate', ['id' => ':id']) }}";
+    var chedschcatDeleteRoute = "{{ route('chedscholarDelete', ['id' => ':id']) }}";
     var isAdmin = '{{ Auth::user()->isAdmin == "0" }}';
 </script>
 

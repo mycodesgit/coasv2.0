@@ -72,6 +72,24 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function chedscholarCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'chedsch_name' => 'required',
+            ]);
+
+            try {
+                ChedSch::create([
+                    'chedsch_name' => $request->input('chedsch_name'),
+                ]);
+                return response()->json(['success' => true, 'message' => 'CHED Scholarship Store Successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store CHED Scholarship!'], 404);
+            }
+        }
+    }
+
     public function chedscholarUpdate(Request $request) 
     {
         $chedsch = ChedSch::find($request->id);
@@ -112,6 +130,31 @@ class ScholarshipController extends Controller
     {
         $schuni = UniSch::all();
         return view('scholar.list.listuni_scholar', compact('schuni'));
+    }
+
+    public function getunischolarlist()
+    {
+        $data = UniSch::all();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function unischolarCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'chedsch_name' => 'required',
+            ]);
+
+            try {
+                ChedSch::create([
+                    'chedsch_name' => $request->input('chedsch_name'),
+                ]);
+                return response()->json(['success' => true, 'message' => 'CHED Scholarship Store Successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store CHED Scholarship!'], 404);
+            }
+        }
     }
 
     public function scholarlist()
