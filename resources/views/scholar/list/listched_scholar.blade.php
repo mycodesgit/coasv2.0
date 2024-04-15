@@ -65,7 +65,7 @@ COAS - V2.0 || CHED Scholarship
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editFundModalLabel">Edit</h5>
+                <h5 class="modal-title" id="editCHEDSchModalLabel">Edit</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -74,8 +74,8 @@ COAS - V2.0 || CHED Scholarship
                 <div class="modal-body">
                     <input type="hidden" name="id" id="editCHEDSchId">
                     <div class="form-group">
-                        <label for="editstudfeeamountFee">Scholarship</label>
-                        <input type="text" class="form-control" id="editCHEDSchName" name="chedsch_name">
+                        <label for="editCHEDSchName">Scholarship</label>
+                        <textarea class="form-control form-control-sm" name="chedsch_name" id="editCHEDSchName" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -89,6 +89,8 @@ COAS - V2.0 || CHED Scholarship
 
 <script>
     var chedschcatReadRoute = "{{ route('getchedscholarlist') }}";
+    var chedschcatUpdateRoute = "{{ route('chedscholarUpdate', ['id' => ':id']) }}";
+    var isAdmin = '{{ Auth::user()->isAdmin == "0" }}';
 </script>
 
 @endsection

@@ -49,21 +49,29 @@ $(document).ready(function() {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
-                            '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-chedschcatAdded" data-id="' + row.id + '" data-class="' + row.progCode + '" data-section="' + row.classSection + '" data-classno="' + row.classno + '">' +
-                            '<i class="fas fa-pen"></i> Edit' +
-                            '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item chedschcat-delete">' +
-                            '<i class="fas fa-trash"></i> Delete' +
-                            '</button>' +
-                            '</div>' +
+                            '<div class="dropdown-menu">';
+                            
+                        // Check if the user is an administrator
+                        if (isAdmin) {
+                            dropdown += '<a href="#" class="dropdown-item btn-chedschcat" data-id="' + row.id + '" data-chedname="' + row.chedsch_name + '">' +
+                                '<i class="fas fa-pen"></i> Edit' +
+                                '</a>' +
+                                '<button type="button" value="' + data + '" class="dropdown-item chedschcat-delete">' +
+                                '<i class="fas fa-trash"></i> Delete' +
+                                '</button>';
+                        } else {
+                            dropdown += '<span class="dropdown-item disabled"><i class="fas fa-pen"></i> Edit</span>' +
+                                '<span class="dropdown-item disabled"><i class="fas fa-trash"></i> Delete</span>';
+                        }
+                        
+                        dropdown += '</div>' +
                             '</div>';
                         return dropdown;
                     } else {
                         return data;
                     }
                 },
-            },
+            }
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
@@ -74,28 +82,22 @@ $(document).ready(function() {
     });
 });
 
-$(document).on('click', '.btn-classEn', function() {
+$(document).on('click', '.btn-chedschcat', function() {
     var id = $(this).data('id');
-    var classEn = $(this).data('class');
-    var section = $(this).data('section');
-    var classno = $(this).data('classno');
+    var chedName = $(this).data('chedname');
     
-    $('#editclassen').attr('id', 'editclassen');
-    
-    $('#editclassenId').val(id);
-    $('#editclassen').val(classEn);
-    $('#editsection').val(section);
-    $('#editclassno').val(classno);
-    $('#editClassEnModal').modal('show');
+    $('#editCHEDSchId').val(id);
+    $('#editCHEDSchName').val(chedName);
+    $('#editCHEDSchModal').modal('show');
 });
 
 
-$('#editClassEnForm').submit(function(event) {
+$('#editCHEDSchForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
     $.ajax({
-        url: classEnUpdateRoute,
+        url: chedschcatUpdateRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -104,8 +106,8 @@ $('#editClassEnForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#editClassEnModal').modal('hide');
-                $(document).trigger('classEnAdded');
+                $('#editCHEDSchModal').modal('hide');
+                $(document).trigger('chedschcatAdded');
             } else {
                 toastr.error(response.message);
             }

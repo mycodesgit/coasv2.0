@@ -110,6 +110,10 @@
                                     <option value="5" @if (old('type') == 5) {{ 'selected' }} @endif>College Dean</option>
                                     <option value="6" @if (old('type') == 6) {{ 'selected' }} @endif>Program Head</option>
                                     <option value="7" @if (old('type') == 7) {{ 'selected' }} @endif>College Staff</option>
+                                    <option value="8" @if (old('type') == 8) {{ 'selected' }} @endif>Scholarship Head</option>
+                                    <option value="9" @if (old('type') == 9) {{ 'selected' }} @endif>Scholarship Staff</option>
+                                    <option value="10" @if (old('type') == 10) {{ 'selected' }} @endif>Assessment Head</option>
+                                    <option value="11" @if (old('type') == 11) {{ 'selected' }} @endif>Assessment Staff</option>
                                 </select>
                             </div>
                         </div>

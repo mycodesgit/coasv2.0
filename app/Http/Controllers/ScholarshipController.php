@@ -72,6 +72,42 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function chedscholarUpdate(Request $request) 
+    {
+        $chedsch = ChedSch::find($request->id);
+        
+        $request->validate([
+            'id' => 'required',
+            'chedsch_name' => 'required',
+        ]);
+
+        try {
+            $chedschName = $request->input('chedsch_name');
+            $existingChedName = ChedSch::where('chedsch_name', $chedschName)->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingChedName) {
+                return response()->json(['error' => true, 'message' => 'CHED Scholarship already exists!'], 404);
+            }
+
+            $chedsch = ChedSch::findOrFail($request->input('id'));
+            $chedsch->update([
+                'chedsch_name' => $chedschName,
+            ]);
+            return response()->json(['success' => true, 'message' => 'CHED Scholarship Updated Successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to update CHED Scholarship!'], 404);
+        }
+    }
+
+    public function chedscholarDelete($id) 
+    {
+        $chedsch = ChedSch::find($id);
+        $chedsch->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
+    }
+
+
     public function unischolarlist()
     {
         $schuni = UniSch::all();

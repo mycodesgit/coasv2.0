@@ -333,6 +333,8 @@ Route::group(['middleware'=>['login_auth']],function(){
 
             Route::get('/list/chedScholar', [ScholarshipController::class, 'chedscholarlist'])->name('chedscholarlist');
             Route::get('/list/chedScholar/ajax', [ScholarshipController::class, 'getchedscholarlist'])->name('getchedscholarlist');
+            Route::post('/list/chedScholar/update', [ScholarshipController::class,'chedscholarUpdate'])->name('chedscholarUpdate');
+
             Route::get('/list/uniScholar', [ScholarshipController::class, 'unischolarlist'])->name('unischolarlist');
             Route::get('/list/allScholar', [ScholarshipController::class, 'scholarlist'])->name('scholarlist');
 

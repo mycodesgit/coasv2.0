@@ -53,6 +53,9 @@
                 opacity: 1;
             }
         }
+        .toast-top-right {
+            margin-top: 50px;
+        }
     </style>
 </head>
 
