@@ -23,21 +23,16 @@ COAS - V2.0 || CHED Scholarship
             <li class="breadcrumb-item active mt-1">CHED Scholarship</li>
         </ol>
 
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <h5>Search Results: {{ $totalSearchResults }} 
-                <small>
-                    <i>
-                        Category-<b>{{ request('category') }}</b>,
-                    </i>
-                </small>
-            </h5>
-        </div>
-        <div class="mt-5">
+        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+        <div class="mt-3">
+            <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#modal-allsch">
+                <i class="fas fa-plus"></i> Add New
+            </button>
+            @include('modal.allschAdd')
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="allschTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Scholarship Name</th>
                             <th width="20%">Sponsor</th>
                             <th>CHED Cat</th>
@@ -47,7 +42,7 @@ COAS - V2.0 || CHED Scholarship
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($data as $scholars)
                             <tr>
                                 <td>{{ $no++ }}</td>
@@ -62,7 +57,7 @@ COAS - V2.0 || CHED Scholarship
                                     </a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -70,7 +65,69 @@ COAS - V2.0 || CHED Scholarship
     </div>
 </div>
 
+<div class="modal fade" id="editAllSchModal" role="dialog" aria-labelledby="editAllSchModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAllSchModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editAllSchForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editSchChoiceId">
+                    <div class="form-group">
+                        <label for="editSchChoiceName">Scholarship</label>
+                        <textarea class="form-control form-control-sm" name="scholar_name" id="editSchChoiceName" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSchSponChoiceName">Scholarship</label>
+                        <textarea class="form-control form-control-sm" name="scholar_sponsor" id="editSchSponChoiceName" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSchchedChoiceName">CHED Scholarship Category</label>
+                        <select class="form-control form-control-sm" name="chedcategory" id="edichedChoiceName">
+                            <option disabled selected>--Select--</option>
+                            @foreach($ched as $datached)
+                                <option value="{{ $datached->id }}">{{ $datached->chedsch_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSchuniChoiceName">CPSU Scholarship Category</label>
+                        <select class="form-control form-control-sm" name="unicategory" id="ediuniChoiceName">
+                            <option disabled selected>--Select--</option>
+                            @foreach($uni as $datauni)
+                                <option value="{{ $datauni->id }}">{{ $datauni->unisch_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSchfsChoiceName">Funding Source</label>
+                        <select class="form-control form-control-sm" name="fund_source" id="edifsChoiceName">
+                            <option disabled selected>--Select--</option>
+                            @foreach($fs as $datafs)
+                                <option value="{{ $datafs->id }}">{{ $datafs->fndsource_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<script>
+    var allschcatReadRoute = "{{ route('getallscholarlist') }}";
+    var allschcatCreateRoute = "{{ route('allscholarCreate') }}";
+    var allschcatUpdateRoute = "{{ route('chedscholarUpdate', ['id' => ':id']) }}";
+    var isAdmin = '{{ Auth::user()->isAdmin == "0" }}';
+</script>
 
 @endsection
 

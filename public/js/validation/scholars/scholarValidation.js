@@ -52,7 +52,7 @@ $(function () {
 
 
 $(function () {
-    $('#scholarAdd').validate({
+    $('#addScholar').validate({
         rules: {
             scholar_name: {
                 required: true,
@@ -60,7 +60,10 @@ $(function () {
             scholar_sponsor: {
                 required: true,
             },
-            scholar_category: {
+            chedcategory: {
+                required: true,
+            },
+            unicategory: {
                 required: true,
             },
             fund_source: {
@@ -74,7 +77,10 @@ $(function () {
             scholar_sponsor: {
                 required: "Enter Scholarship Sponsor",
             },
-            scholar_category: {
+            chedcategory: {
+                required: "Select Scholarship Category",
+            },
+            unicategory: {
                 required: "Select Scholarship Category",
             },
             fund_source: {
@@ -84,7 +90,7 @@ $(function () {
         errorElement: 'span',
         errorPlacement: function (error, element) {
             error.addClass('invalid-feedback');
-            element.closest('.col-md-6').append(error);        
+            element.closest('.col-md-12').append(error);        
         },
         highlight: function (element, errorClass, validClass) {
             $(element).addClass('is-invalid');

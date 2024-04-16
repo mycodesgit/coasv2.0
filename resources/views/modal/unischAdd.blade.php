@@ -11,7 +11,7 @@
             </div>
             
             <div class="modal-body">
-               <form class="form-horizontal" action="" method="post" id="addUniSch">  
+               <form class="form-horizontal" action="{{ route('unischolarCreate') }}" method="post" id="addUniSch">  
                     @csrf
 
                     <div class="form-group">

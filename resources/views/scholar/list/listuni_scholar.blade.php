@@ -57,11 +57,39 @@ COAS - V2.0 || CPSU Scholarship
     </div>
 </div>
 
+
+<div class="modal fade" id="editUNISchModal" role="dialog" aria-labelledby="editUNISchModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUNISchModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editUNISchForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editUNISchId">
+                    <div class="form-group">
+                        <label for="editUNISchName">Scholarship</label>
+                        <textarea class="form-control form-control-sm" name="unisch_name" id="editUNISchName" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <script>
     var unischcatReadRoute = "{{ route('getunischolarlist') }}";
-    var chedschcatCreateRoute = "{{ route('chedscholarCreate') }}";
-    var chedschcatUpdateRoute = "{{ route('chedscholarUpdate', ['id' => ':id']) }}";
-    var chedschcatDeleteRoute = "{{ route('chedscholarDelete', ['id' => ':id']) }}";
+    var unischcatCreateRoute = "{{ route('unischolarCreate') }}";
+    var unischcatUpdateRoute = "{{ route('unischolarUpdate', ['id' => ':id']) }}";
+    var unischcatDeleteRoute = "{{ route('unischolarDelete', ['id' => ':id']) }}";
     var isAdmin = '{{ Auth::user()->isAdmin == "0" }}';
 </script>
 

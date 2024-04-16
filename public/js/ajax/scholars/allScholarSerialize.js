@@ -4,21 +4,25 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#addUniSch').submit(function(event) {
+    $('#addScholar').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: unischcatCreateRoute,
+            url: allschcatCreateRoute,
             type: "POST",
             data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $('#modal-unisch').modal('hide');
-                    $(document).trigger('unischcatAdded');
-                    $('input[name="unisch_name"]').val('');
+                    $('#modal-allsch').modal('hide');
+                    $(document).trigger('allschcatAdded');
+                    $('input[name="scholar_name"]').val('');
+                    $('input[name="scholar_sponsor"]').val('');
+                    $('select[name="chedcategory"]').val('');
+                    $('select[name="unicategory"]').val('');
+                    $('select[name="fund_source"]').val('');
                 } else {
                     toastr.error(response.message);
                     console.log(response);
@@ -31,9 +35,9 @@ $(document).ready(function() {
         });
     });
 
-    var dataTable = $('#unischtable').DataTable({
+    var dataTable = $('#allschTable').DataTable({
         "ajax": {
-            "url": unischcatReadRoute,
+            "url": allschcatReadRoute,
             "type": "GET",
         },
         info: true,
@@ -42,7 +46,11 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
+            {data: 'scholar_name'},
+            {data: 'scholar_sponsor'},
+            {data: 'chedsch_name'},
             {data: 'unisch_name'},
+            {data: 'fndsource_name'},
             {
                 data: 'id',
                 render: function(data, type, row) {
@@ -52,7 +60,7 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isAdmin) {
-                            dropdown += '<a href="#" class="dropdown-item btn-unischcat" data-id="' + row.id + '" data-uniname="' + row.unisch_name + '">' +
+                            dropdown += '<a href="#" class="dropdown-item btn-allschcat" data-id="' + row.id + '" data-allschname="' + row.scholar_name + '" data-allschsponname="' + row.scholar_sponsor + '" data-allschchedname="' + row.chedschid + '" data-allschuniname="' + row.unischid + '" data-allschfsname="' + row.fsschid + '">' +
                                 '<i class="fas fa-pen"></i> Edit' +
                                 '</a>' +
                                 '<button type="button" value="' + data + '" class="dropdown-item unischcat-delete">' +
@@ -76,18 +84,26 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('unischcatAdded', function() {
+    $(document).on('allschcatAdded', function() {
         dataTable.ajax.reload();
     });
 });
 
-$(document).on('click', '.btn-unischcat', function() {
+$(document).on('click', '.btn-allschcat', function() {
     var id = $(this).data('id');
-    var uniName = $(this).data('uniname');
+    var allschName = $(this).data('allschname');
+    var allsponName = $(this).data('allschsponname');
+    var allschedName = $(this).data('allschchedname');
+    var allsuniName = $(this).data('allschuniname');
+    var allsfsName = $(this).data('allschfsname');
     
-    $('#editUNISchId').val(id);
-    $('#editUNISchName').val(uniName);
-    $('#editUNISchModal').modal('show');
+    $('#editSchChoiceId').val(id);
+    $('#editSchChoiceName').val(allschName);
+    $('#editSchSponChoiceName').val(allsponName);
+    $('#edichedChoiceName').val(allschedName);
+    $('#ediuniChoiceName').val(allsuniName);
+    $('#edifsChoiceName').val(allsfsName);
+    $('#editAllSchModal').modal('show');
 });
 
 
@@ -96,7 +112,7 @@ $('#editUNISchForm').submit(function(event) {
     var formData = $(this).serialize();
 
     $.ajax({
-        url: unischcatUpdateRoute,
+        url: allschcatUpdateRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -105,7 +121,7 @@ $('#editUNISchForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#editUNISchModal').modal('hide');
+                $('#editAllSchModal').modal('hide');
                 $(document).trigger('unischcatAdded');
             } else {
                 toastr.error(response.message);

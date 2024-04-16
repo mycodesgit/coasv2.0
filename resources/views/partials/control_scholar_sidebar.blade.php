@@ -4,7 +4,7 @@
     $addScholarActive = in_array($curr_route, ['scholarAdd']) ? 'active' : '';
     $chedScholarActive = in_array($curr_route, ['chedscholarlist']) ? 'active' : '';
     $uniScholarActive = in_array($curr_route, ['unischolarlist']) ? 'active' : '';
-    $allScholarActive = in_array($curr_route, ['scholarlist']) ? 'active' : '';
+    $allScholarActive = in_array($curr_route, ['allscholarlist']) ? 'active' : '';
     $listStudScholarActive = in_array($curr_route, ['chedstudscholarRead', 'studscholar_searchRead']) ? 'active' : '';
     
 
@@ -15,7 +15,7 @@
         <a href="{{ route('scholarAdd') }}" class="list-group-item {{ $addScholarActive }}">Add Scholarship</a>  
         <a href="{{ route('chedscholarlist') }}" class="list-group-item {{ $chedScholarActive }}">CHED Scholarship</a>
         <a href="{{ route('unischolarlist') }}" class="list-group-item {{ $uniScholarActive }}">CPSU Scholarship</a>
-        <a href="{{ route('scholarlist') }}" class="list-group-item {{ $allScholarActive }}">Scholarship</a>
+        <a href="{{ route('allscholarlist') }}" class="list-group-item {{ $allScholarActive }}">Scholarship</a>
         <a href="{{ route('chedstudscholarRead') }}" class="list-group-item {{ $listStudScholarActive }}">Students</a>
     </ul>
 </div>

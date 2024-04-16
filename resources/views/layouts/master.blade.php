@@ -95,6 +95,7 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <script src="{{ asset('js/basic/madapak.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
 

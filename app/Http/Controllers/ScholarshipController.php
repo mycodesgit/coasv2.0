@@ -143,31 +143,141 @@ class ScholarshipController extends Controller
     {
         if ($request->isMethod('post')) {
             $request->validate([
-                'chedsch_name' => 'required',
+                'unisch_name' => 'required',
             ]);
 
             try {
-                ChedSch::create([
-                    'chedsch_name' => $request->input('chedsch_name'),
+                UniSch::create([
+                    'unisch_name' => $request->input('unisch_name'),
                 ]);
-                return response()->json(['success' => true, 'message' => 'CHED Scholarship Store Successfully'], 200);
+                return response()->json(['success' => true, 'message' => 'CPSU Scholarship Store Successfully'], 200);
             } catch (\Exception $e) {
-                return response()->json(['error' => true, 'message' => 'Failed to store CHED Scholarship!'], 404);
+                return response()->json(['error' => true, 'message' => 'Failed to store CPSU Scholarship!'], 404);
             }
         }
     }
 
-    public function scholarlist()
+    public function unischolarUpdate(Request $request) 
+    {
+        $unisch = UniSch::find($request->id);
+        
+        $request->validate([
+            'id' => 'required',
+            'unisch_name' => 'required',
+        ]);
+
+        try {
+            $unischName = $request->input('unisch_name');
+            $existingUniName = UniSch::where('unisch_name', $unischName)->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingUniName) {
+                return response()->json(['error' => true, 'message' => 'CPSU Scholarship already exists!'], 404);
+            }
+
+            $unisch = UniSch::findOrFail($request->input('id'));
+            $unisch->update([
+                'unisch_name' => $unischName,
+            ]);
+            return response()->json(['success' => true, 'message' => 'CPSU Scholarship Updated Successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to update CPSU Scholarship!'], 404);
+        }
+    }
+
+    public function unischolarDelete($id) 
+    {
+        $unisch = UniSch::find($id);
+        $unisch->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
+    }
+
+    public function allscholarlist()
+    {
+        $ched = ChedSch::all();
+        $uni =  UniSch::all();
+        $fs =  FSCode::all();
+
+        return view('scholar.list.listall_scholar', compact('ched', 'uni', 'fs'));
+    }
+
+    public function getallscholarlist()
     {
         $data = Scholar::join('fscode', 'scholarship.fund_source', '=', 'fscode.id')
-                ->join('chedscholarship', 'scholarship.chedcategory', '=', 'chedscholarship.id')
-                ->join('universityscholar', 'scholarship.unicategory', '=', 'universityscholar.id')
-                ->get();
+            ->join('chedscholarship', 'scholarship.chedcategory', '=', 'chedscholarship.id')
+            ->join('universityscholar', 'scholarship.unicategory', '=', 'universityscholar.id')
+            ->select('scholarship.*', 'universityscholar.*', 'universityscholar.id as unischid', 'chedscholarship.*', 'chedscholarship.id as  chedschid', 'fscode.*', 'fscode.id as fsschid')
+            ->get();
 
-        $totalSearchResults = count($data);
-
-        return view('scholar.list.listall_scholar', compact('data', 'totalSearchResults'));
+        return response()->json(['data' => $data]);
     }
+
+    public function allscholarCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'scholar_name' => 'required',
+                'scholar_sponsor' => 'required',
+                'chedcategory' => 'required',
+                'unicategory' => 'required',
+                'fund_source' => 'required',
+            ]);
+
+            try {
+                Scholar::create([
+                    'scholar_name' => $request->input('scholar_name'),
+                    'scholar_sponsor' => $request->input('scholar_sponsor'),
+                    'chedcategory' => $request->input('chedcategory'),
+                    'unicategory' => $request->input('unicategory'),
+                    'fund_source' => $request->input('fund_source'),
+                ]);
+                return response()->json(['success' => true, 'message' => 'Scholarship Store Successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Scholarship!'], 404);
+            }
+        }
+    }
+
+    public function allscholarUpdate(Request $request) 
+    {
+        $allsch = Scholar::find($request->id);
+        
+        $request->validate([
+            'id' => 'required',
+            'scholar_name' => 'required',
+            'scholar_sponsor' => 'required',
+            'chedcategory' => 'required',
+            'unicategory' => 'required',
+            'fund_source' => 'required',
+        ]);
+
+        try {
+            $allschName = $request->input('scholar_name');
+            $existingAllName = Scholar::where('unisch_name', $allschName)->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingAllName) {
+                return response()->json(['error' => true, 'message' => 'Scholarship already exists!'], 404);
+            }
+
+            $allsch = Scholar::findOrFail($request->input('id'));
+            $allsch->update([
+                'scholar_name' => $request->input('scholar_name'),
+                'scholar_sponsor' => $request->input('scholar_sponsor'),
+                'chedcategory' => $request->input('chedcategory'),
+                'unicategory' => $request->input('unicategory'),
+                'fund_source' => $request->input('fund_source'),
+            ]);
+            return response()->json(['success' => true, 'message' => 'Scholarship Updated Successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to update Scholarship!'], 404);
+        }
+    }
+
+
+
+
+
+
 
     public function chedscholarSearch()
     {

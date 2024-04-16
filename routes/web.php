@@ -339,7 +339,13 @@ Route::group(['middleware'=>['login_auth']],function(){
 
             Route::get('/list/uniScholar', [ScholarshipController::class, 'unischolarlist'])->name('unischolarlist');
             Route::get('/list/uniScholar/ajax', [ScholarshipController::class, 'getunischolarlist'])->name('getunischolarlist');
-            Route::get('/list/allScholar', [ScholarshipController::class, 'scholarlist'])->name('scholarlist');
+            Route::post('/list/uniScholar/add', [ScholarshipController::class,'unischolarCreate'])->name('unischolarCreate');
+            Route::post('/list/uniScholar/update', [ScholarshipController::class,'unischolarUpdate'])->name('unischolarUpdate');
+            Route::get('/list/uniScholar/delete{id}', [ScholarshipController::class, 'unischolarDelete'])->name('unischolarDelete');
+
+            Route::get('/list/allScholar', [ScholarshipController::class, 'allscholarlist'])->name('allscholarlist');
+            Route::get('/list/allScholar/ajax', [ScholarshipController::class, 'getallscholarlist'])->name('getallscholarlist');
+            Route::post('/list/allScholar/add', [ScholarshipController::class,'allscholarCreate'])->name('allscholarCreate');
 
             Route::get('/list/students/scholar', [ScholarshipController::class, 'chedstudscholarRead'])->name('chedstudscholarRead');
             Route::get('/list/students/scholar/searchlist', [ScholarshipController::class, 'studscholar_searchRead'])->name('studscholar_searchRead');

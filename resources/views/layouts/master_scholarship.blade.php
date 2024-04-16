@@ -192,6 +192,9 @@
     @if(request()->routeIs('unischolarlist'))
         <script src="{{ asset('js/ajax/scholars/uniScholarSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('allscholarlist'))
+        <script src="{{ asset('js/ajax/scholars/allScholarSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('studscholar_searchRead'))
         <script src="{{ asset('js/ajax/scholars/scholarSerialize.js') }}"></script>
     @endif
