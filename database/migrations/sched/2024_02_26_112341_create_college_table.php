@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('college_abbr')->nullable();
             $table->string('college_name')->nullable();
+            $table->string('campus')->nullable();
             $table->timestamps();
         });
     }

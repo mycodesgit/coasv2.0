@@ -20,6 +20,11 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo  -->
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
+    <style>
+        .toast-top-right {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
@@ -110,7 +115,7 @@
             toastr.options = {
                 "closeButton":true,
                 "progressBar":true,
-                'positionClass': 'toast-top-center'
+                'positionClass': 'toast-top-right'
             }
             toastr.error("{{ session('error') }}")
         @endif

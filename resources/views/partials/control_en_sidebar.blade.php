@@ -1,6 +1,7 @@
 @php
     $curr_route = request()->route()->getName();
 
+    $dashEnActive = in_array($curr_route, ['enrollment-index']) ? 'active' : '';
     $searchStudActive = in_array($curr_route, ['searchStud', 'searchStudEnroll']) ? 'active' : '';
     $editEnrollStudActive = in_array($curr_route, ['editsearchStud', 'editsearchStudRead']) ? 'active' : '';
     $gradeStudActive = in_array($curr_route, ['studgrade_search', 'studgrade_searchlist', 'geneStudent1']) ? 'active' : '';
@@ -14,6 +15,9 @@
 
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
+        <a href="{{ route('enrollment-index') }}" class="list-group-item {{ $dashEnActive }}">Dashboard</a>
+    </ul>
+    <ul class="list-group mt-1">
         <a href="{{ route('searchStud') }}" class="list-group-item {{ $searchStudActive }}">Enroll Student</a>  
         <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
         <a href="" class="list-group-item">Enrollment History</a>

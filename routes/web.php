@@ -235,6 +235,11 @@ Route::group(['middleware'=>['login_auth']],function(){
         
         Route::get('/', [SchedClassProgramsController::class, 'index'])->name('scheduler-index');
 
+        Route::prefix('college')->group(function () {
+            Route::get('/list', [SchedClassProgramsController::class, 'collegeRead'])->name('collegeRead');
+            Route::get('/collegelist/ajaxview', [SchedClassProgramsController::class, 'getcollegeRead'])->name('getcollegeRead');
+        });
+
         Route::prefix('programs')->group(function () {
             Route::get('/list', [SchedClassProgramsController::class, 'programsRead'])->name('programsRead');
             Route::get('/proglist/ajaxview', [SchedClassProgramsController::class, 'getprogramsRead'])->name('getprogramsRead');
@@ -375,7 +380,7 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::get('/', [SettingController::class, 'index'])->name('settings-index');
 
         Route::prefix('usersAccount')->group(function () {
-            Route::get('/list', [SettingController::class, 'usersRead'])->name('usersRead');
+            Route::get('/list/all/users', [SettingController::class, 'usersRead'])->name('usersRead');
             Route::post('/users/list/add',[SettingController::class,'userCreate'])->name('userCreate');
             Route::get('/list/info', [SettingController::class, 'accountRead'])->name('accountRead');
             Route::get('/list/edituser/{id}', [SettingController::class, 'edit_user'])->name('edit_user');

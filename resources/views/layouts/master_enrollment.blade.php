@@ -139,13 +139,70 @@
                                             <li class="breadcrumb-item active mt-1">Enrollment</li>
                                         </ol>
                                         <div class="workspace-top" style="text-align: center;">
-                                            <h1 class="fas fa-mug-hot fa-7x" style="color: #04401f"></h1>
-                                            <h1><span style="color:#ffff66;font-size: 70px;">Eey!</span> Grab a coffee before doing something.</h1>
-                                            <p>  <i class="fas fa-quote-left fa-2x fa-pull-left"></i>
-                                                Gatsby believed in the green light, the orgastic future that year by year recedes before us.
-                                                It eluded us then, but that’s no matter — tomorrow we will run faster, stretch our arms further...
-                                                And one fine morning — So we beat on, boats against the current, borne back ceaselessly into the past.
-                                            </p>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-6">
+                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
+                                                        <div class="text-left">
+                                                            <div class="inner">
+                                                                <h3>150</h3>
+                                                                <p>Students</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <div class="icon">
+                                                                <i class="fa fa-users"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-6">
+                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important">
+                                                        <div class="text-left">
+                                                            <div class="inner">
+                                                                <h3>150</h3>
+                                                                <p>Students</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <div class="icon">
+                                                                <i class="fa fa-users"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-6">
+                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #9dcda8 !important">
+                                                        <div class="text-left">
+                                                            <div class="inner">
+                                                                <h3>150</h3>
+                                                                <p>Students</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <div class="icon">
+                                                                <i class="fa fa-users"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-6">
+                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #d5d5d5 !important">
+                                                        <div class="text-left">
+                                                            <div class="inner">
+                                                                <h3>150</h3>
+                                                                <p>Students</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <div class="icon">
+                                                                <i class="fa fa-users"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
                                             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                                         </div>
                                     </div>

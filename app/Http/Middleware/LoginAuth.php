@@ -19,11 +19,36 @@ class LoginAuth
     public function handle(Request $request, Closure $next)
     {
         if (auth()->guard('web')->check()) {
-            $userRole = auth()->guard('web')->user()->role;
-    
-            if (in_array($userRole, [0, 1])) {
-                if ($request->is('users') || $request->is('users/*')) {
-                    return redirect()->route('dashboard')->with('error1', 'You do not have permission to access this page');
+            $userRole = auth()->guard('web')->user()->isAdmin;
+            //dd($userRole);
+            if (in_array($userRole, [1, 2,])) {
+                if ($request->is('emp/enrollment', 'emp/scheduler', 'emp/assessment', 'emp/cashiering', 'emp/scholarship', 'emp/grades', 'emp/request') || $request->is('emp/enrollment/*', 'emp/scheduler/*', 'emp/assessment/*', 'emp/cashiering/*', 'emp/scholarship/*', 'emp/grades/*')) {
+                    return redirect()->route('home')->with('error', 'You have no permission to access this page');
+                }
+            }
+            if (in_array($userRole, [3, 4])) {
+                if ($request->is('emp/admission', 'emp/scheduler', 'emp/assessment', 'emp/cashiering', 'emp/scholarship', 'emp/grades', 'emp/request') || $request->is('emp/admission/*', 'emp/scheduler/*', 'emp/assessment/*', 'emp/cashiering/*', 'emp/scholarship/*', 'emp/grades/*')) {
+                    return redirect()->route('home')->with('error', 'You have no permission to access this page');
+                }
+            }
+            if (in_array($userRole, [5, 6, 7])) {
+                if ($request->is('emp/enrollment', 'emp/assessment', 'emp/cashiering', 'emp/scholarship', 'emp/grades', 'emp/request') || $request->is('emp/enrollment/*', 'emp/assessment/*', 'emp/cashiering/*', 'emp/scholarship/*', 'emp/grades/*')) {
+                    return redirect()->route('home')->with('error', 'You have no permission to access this page');
+                }
+            }
+            if (in_array($userRole, [8, 9])) {
+                if ($request->is('emp/admission', 'emp/enrollment', 'emp/scheduler', 'emp/assessment', 'emp/cashiering', 'emp/grades', 'emp/request') || $request->is('emp/admission/*', 'emp/enrollment/*', 'emp/scheduler/*', 'emp/assessment/*', 'emp/cashiering/*', 'emp/grades/*')) {
+                    return redirect()->route('home')->with('error', 'You have no permission to access this page');
+                }
+            }
+            if (in_array($userRole, [10, 11])) {
+                if ($request->is('emp/admission', 'emp/enrollment', 'emp/scheduler', 'emp/scholarship', 'emp/cashiering', 'emp/grades', 'emp/request') || $request->is('emp/admission/*', 'emp/enrollment/*', 'emp/scheduler/*', 'emp/scholarship/*', 'emp/cashiering/*', 'emp/grades/*')) {
+                    return redirect()->route('home')->with('error', 'You have no permission to access this page');
+                }
+            }
+            if (in_array($userRole, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])) {
+                if ($request->is('emp/settings/usersAccount/list/all/users')) {
+                    return redirect()->route('home')->with('error', 'You have no permission to access this page');
                 }
             }
         } elseif (auth()->guard('faculty')->check()) {

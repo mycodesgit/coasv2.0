@@ -1,6 +1,8 @@
 @php
     $curr_route = request()->route()->getName();
 
+    $dashSchedActive = in_array($curr_route, ['scheduler-index']) ? 'active' : '';
+    $collegeActive = in_array($curr_route, ['collegeRead']) ? 'active' : '';
     $classProgActive = in_array($curr_route, ['programsRead']) ? 'active' : '';
     $roomActive = in_array($curr_route, ['roomsRead']) ? 'active' : '';
     $classEnrollActive = in_array($curr_route, ['courseEnroll_list', 'courseEnroll_list_search']) ? 'active' : '';
@@ -18,6 +20,10 @@
 
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
+        <a href="{{ route('scheduler-index') }}" class="list-group-item {{ $dashSchedActive }}">Dashboard</a>
+    </ul>
+    <ul class="list-group mt-1">
+        <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
         <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
         <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
         <a href="{{ route('courseEnroll_list') }}" class="list-group-item {{ $classEnrollActive }}">Classes Enrolled</a>  
