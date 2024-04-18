@@ -107,6 +107,7 @@ COAS - V2.0 || College
 <script>
     var collegeReadRoute = "{{ route('getcollegeRead') }}";
     var collegeUpdateRoute = "{{ route('collegeUpdate', ['id' => ':id']) }}";
+    var idEncryptRoute = "{{ route('idcrypt') }}";
 </script>
 
 @endsection

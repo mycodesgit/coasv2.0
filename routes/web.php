@@ -7,6 +7,7 @@ use App\Http\Controllers\PortalController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LoginFacultyController;
 use App\Http\Controllers\ControlController;
+use App\Http\Controllers\ForAllEncryptIDController;
 use App\Http\Controllers\AdAdmissionController;
 use App\Http\Controllers\AdPrntController;
 use App\Http\Controllers\AdCaptureImageController;
@@ -240,6 +241,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list', [SchedClassCollegeController::class, 'collegeRead'])->name('collegeRead');
             Route::get('/collegelist/ajaxview', [SchedClassCollegeController::class, 'getcollegeRead'])->name('getcollegeRead');
             Route::post('/collegelist/update', [SchedClassCollegeController::class, 'collegeUpdate'])->name('collegeUpdate');
+            Route::post('/collegelist/encrypt', [ForAllEncryptIDController::class, 'idcrypt'])->name('idcrypt');
         });
 
         Route::prefix('programs')->group(function () {
@@ -352,7 +354,9 @@ Route::group(['middleware'=>['login_auth']],function(){
 
             Route::get('/list/allScholar', [ScholarshipController::class, 'allscholarlist'])->name('allscholarlist');
             Route::get('/list/allScholar/ajax', [ScholarshipController::class, 'getallscholarlist'])->name('getallscholarlist');
+            Route::post('/list/allScholar/IDencrypt', [ForAllEncryptIDController::class, 'idcrypt'])->name('idcrypt');
             Route::post('/list/allScholar/add', [ScholarshipController::class,'allscholarCreate'])->name('allscholarCreate');
+            Route::post('/list/allScholar/update', [ScholarshipController::class,'allscholarUpdate'])->name('allscholarUpdate');
 
             Route::get('/list/students/scholar', [ScholarshipController::class, 'chedstudscholarRead'])->name('chedstudscholarRead');
             Route::get('/list/students/scholar/searchlist', [ScholarshipController::class, 'studscholar_searchRead'])->name('studscholar_searchRead');

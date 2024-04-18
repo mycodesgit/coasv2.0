@@ -38,18 +38,6 @@
         .toast-top-right {
             margin-top: 50px;
         }
-        #liveSearchResultsContainer {
-            max-height: 200px; 
-            overflow-y: auto;
-        }
-        .live-search-result {
-            cursor: pointer;
-            padding: 8px;
-            border-bottom: 1px solid #eee; 
-        }
-        .live-search-result:hover {
-            background-color: #f0f0f0;
-        }
         .sticky-column {
           position: sticky;
           top: 50px;
@@ -280,6 +268,8 @@
         <script> 
             var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
             var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
+            var collbarprevYearRoute = {!! json_encode($previousYear) !!}; 
+            var collbarnowYearRoute = {!! json_encode($currentYear) !!}; 
         </script>
         <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
     @endif

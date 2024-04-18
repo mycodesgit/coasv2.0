@@ -57,6 +57,23 @@ $(document).on('click', '.btn-editcol', function() {
     $('.select2').trigger('change');
 
     $('#editCollegeModal').modal('show');
+
+    $.ajax({
+        url: idEncryptRoute,
+        type: "POST",
+        data: { data: $('#editCollegeId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editCollegeId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
+    });
+
 });
 
 $('#editCollegeForm').submit(function(event) {

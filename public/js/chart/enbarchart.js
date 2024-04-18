@@ -12,11 +12,15 @@ $(function () {
         firstSemesterCollegeCounts.push(college.college_count);
         firstSemesterCollegeColors.push(college.colcolor);
     });
-    
+
+    var prevschlyear = collbarprevYearRoute;
+    var nowschlyear = collbarnowYearRoute;
+
     var firstSemesterBarData = {
         labels: firstSemesterCollegeAbbrs,
+        //labels: firstSemesterCollegeAbbrs.map((abbr, index) => abbr + '\n' + firstSemesterCollegeCounts[index]),
         datasets: [{
-            label: '1st Sem - No. of Students',
+            label: 'No. of Students enrolled in 1st Sem ' + prevschlyear + '-' + nowschlyear,
             data: firstSemesterCollegeCounts,
             backgroundColor: firstSemesterCollegeColors
         }]
@@ -52,11 +56,14 @@ $(function () {
         secondSemesterCollegeCounts.push(college.college_count);
         secondSemesterCollegeColors.push(college.colcolor);
     });
+
+    var prevschlyear = collbarprevYearRoute;
+    var nowschlyear = collbarnowYearRoute;
     
     var secondSemesterBarData = {
         labels: secondSemesterCollegeAbbrs,
         datasets: [{
-            label: '2nd Sem - No. of Students',
+            label: 'No. of Students enrolled in 2nd Sem ' + prevschlyear + '-' + nowschlyear,
             data: secondSemesterCollegeCounts,
             backgroundColor: secondSemesterCollegeColors
         }]

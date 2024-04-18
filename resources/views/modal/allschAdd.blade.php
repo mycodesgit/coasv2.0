@@ -11,7 +11,7 @@
             </div>
             
             <div class="modal-body">
-               <form class="form-horizontal" action="" method="post" id="addScholar">  
+               <form class="form-horizontal" action="{{ route('allscholarCreate') }}" method="post" id="addScholar">  
                     @csrf
 
                     <div class="form-group">

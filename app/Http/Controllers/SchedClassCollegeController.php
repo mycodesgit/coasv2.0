@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 use Storage;
 use Carbon\Carbon;
@@ -46,7 +47,8 @@ class SchedClassCollegeController extends Controller
         ]);
 
         try {
-            $coll = College::findOrFail($request->input('id'));
+            $decryptedId = Crypt::decrypt($request->input('id'));
+            $coll = College::findOrFail($decryptedId);
             $coll->update([
                 'campus' => implode(',', $request->input('campus')),
         ]);

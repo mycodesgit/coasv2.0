@@ -79,7 +79,7 @@ COAS - V2.0 || CHED Scholarship
                     <input type="hidden" name="id" id="editSchChoiceId">
                     <div class="form-group">
                         <label for="editSchChoiceName">Scholarship</label>
-                        <textarea class="form-control form-control-sm" name="scholar_name" id="editSchChoiceName" rows="3"></textarea>
+                        <input type="text" class="form-control form-control-sm" name="scholar_name" id="editSchChoiceName">
                     </div>
                     <div class="form-group">
                         <label for="editSchSponChoiceName">Scholarship</label>
@@ -125,7 +125,8 @@ COAS - V2.0 || CHED Scholarship
 <script>
     var allschcatReadRoute = "{{ route('getallscholarlist') }}";
     var allschcatCreateRoute = "{{ route('allscholarCreate') }}";
-    var allschcatUpdateRoute = "{{ route('chedscholarUpdate', ['id' => ':id']) }}";
+    var allschcatUpdateRoute = "{{ route('allscholarUpdate', ['id' => ':id']) }}";
+    var idSchEncryptRoute = "{{ route('idcrypt') }}";
     var isAdmin = '{{ Auth::user()->isAdmin == "0" }}';
 </script>
 

@@ -52,7 +52,7 @@ $(document).ready(function() {
             {data: 'unisch_name'},
             {data: 'fndsource_name'},
             {
-                data: 'id',
+                data: 'allschid',
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
@@ -60,7 +60,7 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isAdmin) {
-                            dropdown += '<a href="#" class="dropdown-item btn-allschcat" data-id="' + row.id + '" data-allschname="' + row.scholar_name + '" data-allschsponname="' + row.scholar_sponsor + '" data-allschchedname="' + row.chedschid + '" data-allschuniname="' + row.unischid + '" data-allschfsname="' + row.fsschid + '">' +
+                            dropdown += '<a href="#" class="dropdown-item btn-allschcat" data-id="' + row.allschid + '" data-allschname="' + row.scholar_name + '" data-allschsponname="' + row.scholar_sponsor + '" data-allschchedname="' + row.chedschid + '" data-allschuniname="' + row.unischid + '" data-allschfsname="' + row.fsschid + '">' +
                                 '<i class="fas fa-pen"></i> Edit' +
                                 '</a>' +
                                 '<button type="button" value="' + data + '" class="dropdown-item unischcat-delete">' +
@@ -104,10 +104,26 @@ $(document).on('click', '.btn-allschcat', function() {
     $('#ediuniChoiceName').val(allsuniName);
     $('#edifsChoiceName').val(allsfsName);
     $('#editAllSchModal').modal('show');
+
+    $.ajax({
+        url: idSchEncryptRoute,
+        type: "POST",
+        data: { data: $('#editSchChoiceId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editSchChoiceId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
+    });
 });
 
 
-$('#editUNISchForm').submit(function(event) {
+$('#editAllSchForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
@@ -122,7 +138,7 @@ $('#editUNISchForm').submit(function(event) {
             if(response.success) {
                 toastr.success(response.message);
                 $('#editAllSchModal').modal('hide');
-                $(document).trigger('unischcatAdded');
+                $(document).trigger('allschcatAdded');
             } else {
                 toastr.error(response.message);
             }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 use Storage;
 use Carbon\Carbon;
@@ -14,6 +16,7 @@ use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
 use App\Models\ScheduleDB\ClassEnroll;
+use App\Models\ScheduleDB\College;
 use App\Models\ScheduleDB\EnPrograms;
 
 use App\Models\ScholarshipDB\Scholar;
@@ -25,7 +28,46 @@ class ScholarshipController extends Controller
 {
     public function index()
     {
-        return view('scholar.index');
+        $currentYear = Carbon::now()->year;
+        $previousYear = Carbon::now()->subYears(1)->year;
+        $userCampus = Auth::guard('web')->user()->campus;
+
+        $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function($join) {
+                        $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+                    })
+                    ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
+                    ->where(function ($query) use ($userCampus) {
+                        $campuses = explode(', ', $userCampus);
+                        foreach ($campuses as $campus) {
+                            $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
+                        }
+                    })
+                    ->where('coasv2_db_enrollment.program_en_history.semester', '=', 1)
+                    ->where(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.schlyear, '-', -1)"), $currentYear)
+                    ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
+                    ->orderBy('college_name', 'ASC')
+                    ->select('college.*', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+                    ->groupBy('college.id')
+                    ->get();
+
+        $collegesSecondSemester = College::join('coasv2_db_enrollment.program_en_history', function($join) {
+                        $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+                    })
+                    ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
+                    ->where(function ($query) use ($userCampus) {
+                        $campuses = explode(', ', $userCampus);
+                        foreach ($campuses as $campus) {
+                            $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
+                        }
+                    })
+                    ->where('coasv2_db_enrollment.program_en_history.semester', '=', 2)
+                    ->where(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.schlyear, '-', -1)"), $currentYear)
+                    ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
+                    ->orderBy('college_name', 'ASC')
+                    ->select('college.*', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+                    ->groupBy('college.id')
+                    ->get();
+        return view('scholar.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear'));
     }
 
     public function scholarAdd()
@@ -206,7 +248,8 @@ class ScholarshipController extends Controller
         $data = Scholar::join('fscode', 'scholarship.fund_source', '=', 'fscode.id')
             ->join('chedscholarship', 'scholarship.chedcategory', '=', 'chedscholarship.id')
             ->join('universityscholar', 'scholarship.unicategory', '=', 'universityscholar.id')
-            ->select('scholarship.*', 'universityscholar.*', 'universityscholar.id as unischid', 'chedscholarship.*', 'chedscholarship.id as  chedschid', 'fscode.*', 'fscode.id as fsschid')
+            ->select('scholarship.*', 'scholarship.id as allschid', 'universityscholar.*', 'universityscholar.id as unischid', 'chedscholarship.*', 'chedscholarship.id as  chedschid', 'fscode.*', 'fscode.id as fsschid')
+            ->orderBy('scholarship.scholar_name', 'ASC')
             ->get();
 
         return response()->json(['data' => $data]);
@@ -222,6 +265,13 @@ class ScholarshipController extends Controller
                 'unicategory' => 'required',
                 'fund_source' => 'required',
             ]);
+
+            $allschName = $request->input('scholar_name');
+            $existingAllName = Scholar::where('scholar_name', $allschName)->first();
+
+            if ($existingAllName) {
+                return response()->json(['error' => true, 'message' => 'Scholarship already exists!'], 404);
+            }
 
             try {
                 Scholar::create([
@@ -239,9 +289,7 @@ class ScholarshipController extends Controller
     }
 
     public function allscholarUpdate(Request $request) 
-    {
-        $allsch = Scholar::find($request->id);
-        
+    {   
         $request->validate([
             'id' => 'required',
             'scholar_name' => 'required',
@@ -253,13 +301,14 @@ class ScholarshipController extends Controller
 
         try {
             $allschName = $request->input('scholar_name');
-            $existingAllName = Scholar::where('unisch_name', $allschName)->where('id', '!=', $request->input('id'))->first();
+            $existingAllName = Scholar::where('scholar_name', $allschName)->where('id', '!=', $request->input('id'))->first();
 
             if ($existingAllName) {
                 return response()->json(['error' => true, 'message' => 'Scholarship already exists!'], 404);
             }
 
-            $allsch = Scholar::findOrFail($request->input('id'));
+            $decryptedId = Crypt::decrypt($request->input('id'));
+            $allsch = Scholar::findOrFail($decryptedId);
             $allsch->update([
                 'scholar_name' => $request->input('scholar_name'),
                 'scholar_sponsor' => $request->input('scholar_sponsor'),
