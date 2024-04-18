@@ -42,6 +42,7 @@ COAS - V2.0 || College
                     <tr>
                         <th>Acronym</th>
                         <th>College Name</th>
+                        <th>Campus</th>
                         <th width="10%">Action</th>
                     </tr>
                 </thead>
@@ -67,15 +68,15 @@ COAS - V2.0 || College
                     <input type="hidden" name="id" id="editCollegeId">
                     <div class="form-group">
                         <label for="editCollegeAbbr">Acronym</label>
-                        <input type="text" class="form-control" id="editCollegeAbbr" name="college_abbr">
+                        <input type="text" class="form-control" id="editCollegeAbbr" readonly>
                     </div>
                     <div class="form-group">
                         <label for="editCollegeName">College Name</label>
-                        <input type="text" class="form-control" id="editCollegeName" name="college_name">
+                        <input type="text" class="form-control" id="editCollegeName" readonly>
                     </div>
                     <div class="form-group">
                         <label for="editCampAbbr">Belongs to:</label>
-                        <input type="text" class="form-control" id="editCampAbbr" name="campus">
+                        <input type="text" class="form-control" id="editCampAbbr" name="campus" readonly>
                     </div>
                     <div class="form-group">
                         <label for="editCollegeName">Campus</label>
@@ -105,6 +106,7 @@ COAS - V2.0 || College
 
 <script>
     var collegeReadRoute = "{{ route('getcollegeRead') }}";
+    var collegeUpdateRoute = "{{ route('collegeUpdate', ['id' => ':id']) }}";
 </script>
 
 @endsection

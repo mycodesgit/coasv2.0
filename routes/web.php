@@ -20,6 +20,7 @@ use App\Http\Controllers\EnSubjectsController;
 use App\Http\Controllers\EnreportsController;
 use App\Http\Controllers\EnStudentPerCurriculumController;
 
+use App\Http\Controllers\SchedClassCollegeController;
 use App\Http\Controllers\SchedClassProgramsController;
 use App\Http\Controllers\SchedClassRoomsController;
 use App\Http\Controllers\SchedClassEnrollController;
@@ -233,11 +234,12 @@ Route::group(['middleware'=>['login_auth']],function(){
 
     Route::prefix('emp/scheduler')->group(function () {
         
-        Route::get('/', [SchedClassProgramsController::class, 'index'])->name('scheduler-index');
+        Route::get('/', [SchedClassCollegeController::class, 'index'])->name('scheduler-index');
 
         Route::prefix('college')->group(function () {
-            Route::get('/list', [SchedClassProgramsController::class, 'collegeRead'])->name('collegeRead');
-            Route::get('/collegelist/ajaxview', [SchedClassProgramsController::class, 'getcollegeRead'])->name('getcollegeRead');
+            Route::get('/list', [SchedClassCollegeController::class, 'collegeRead'])->name('collegeRead');
+            Route::get('/collegelist/ajaxview', [SchedClassCollegeController::class, 'getcollegeRead'])->name('getcollegeRead');
+            Route::post('/collegelist/update', [SchedClassCollegeController::class, 'collegeUpdate'])->name('collegeUpdate');
         });
 
         Route::prefix('programs')->group(function () {

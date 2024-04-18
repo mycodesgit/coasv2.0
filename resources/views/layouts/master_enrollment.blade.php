@@ -200,6 +200,25 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="chart-responsive pt-1">
+                                                                <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="chart-responsive pt-1">
+                                                                <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
 
@@ -241,19 +260,29 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <!-- Moment -->
+    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
     
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
     <script src="{{ asset('js/basic/subjects.js') }}"></script>
-    <!-- Moment -->
-    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
+    <!-- Basic -->
+    @if(request()->routeIs('enrollment-index'))
+        <script> 
+            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
+            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
+        </script>
+        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+    @endif
     <!-- Ajax -->
     @if(request()->routeIs('subjectsRead'))
         <script src="{{ asset('js/ajax/enrolment/subjectSerialize.js') }}"></script>

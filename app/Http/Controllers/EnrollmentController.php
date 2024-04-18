@@ -25,6 +25,7 @@ use App\Models\EnrollmentDB\StudentShifTrans;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
 use App\Models\ScheduleDB\ClassEnroll;
+use App\Models\ScheduleDB\College;
 use App\Models\ScheduleDB\EnPrograms;
 use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
@@ -40,8 +41,32 @@ class EnrollmentController extends Controller
 {
     public function index()
     {   
-        $grdCode = GradeCode::all();
-        return view('enrollment.index', compact('grdCode'));
+        //$grdCode = GradeCode::all();
+        $currentYear = Carbon::now()->year;
+        $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function($join) {
+                        $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+                    })
+                    ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
+                    ->where('college.campus', Auth::guard('web')->user()->campus)
+                    ->where('coasv2_db_enrollment.program_en_history.semester', '=', 1)
+                    ->where(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.schlyear, '-', -1)"), $currentYear)
+                    ->orderBy('college_name', 'ASC')
+                    ->select('college.*', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+                    ->groupBy('college.id')
+                    ->get();
+
+        $collegesSecondSemester = College::join('coasv2_db_enrollment.program_en_history', function($join) {
+                        $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+                    })
+                    ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
+                    ->where('college.campus', Auth::guard('web')->user()->campus)
+                    ->where('coasv2_db_enrollment.program_en_history.semester', '=', 2)
+                    ->where(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.schlyear, '-', -1)"), $currentYear)
+                    ->orderBy('college_name', 'ASC')
+                    ->select('college.*', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+                    ->groupBy('college.id')
+                    ->get();
+        return view('enrollment.index', compact('collegesFirstSemester', 'collegesSecondSemester'));
     }
 
     public function searchStud()

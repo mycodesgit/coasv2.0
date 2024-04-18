@@ -15,5 +15,6 @@ class College extends Model
         'college_abbr', 
         'college_name', 
         'campus', 
+        'colcolor'
     ];
 }
