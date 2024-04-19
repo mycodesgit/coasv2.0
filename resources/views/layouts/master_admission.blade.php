@@ -105,59 +105,47 @@
                                         <div class="workspace-top" style="text-align: center;">
                                             @php $curr_route = request()->route()->getName(); @endphp
                                             @if($curr_route == 'admission-index')
-                                            <div class="">
-                                                <div class="card-header">
-                                                    <h3 class="card-title">Bar Chart All Extension Campuses</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="chart">
-                                                        <div class="position-relative mb-4">
-                                                            <canvas id="sales-chart"
-                                                                    data-main="{!! $MainRegCount !!}"
-                                                                    data-main-sched="{!! $MainSchedCount !!}"
-                                                                    data-ilog="{!! $IlogRegCount !!}"
-                                                                    data-ilog-sched="{!! $IlogSchedCount !!}" 
-                                                                    data-cauayan="{!! $CauayanRegCount !!}"
-                                                                    data-cauayan-sched="{!! $CauayanSchedCount !!}" 
-                                                                    data-siplay="{!! $SipalayRegCount !!}"
-                                                                    data-siplay-sched="{!! $SipalaySchedCount !!}" 
-                                                                    data-hinobaan="{!! $HinobaanRegCount !!}"
-                                                                    data-hinobaan-sched="{!! $HinobaanSchedCount !!}" 
-                                                                    data-hinigaran="{!! $HinigaranRegCount !!}"
-                                                                    data-hinigaran-sched="{!! $HinigaranSchedCount !!}" 
-                                                                    data-moises="{!! $MoisesRegCount !!}"
-                                                                    data-moises-sched="{!! $MoisesSchedCount !!}" 
-                                                                    data-sancarlos="{!! $SancarlosRegCount !!}"
-                                                                    data-sancarlos-sched="{!! $SancarlosSchedCount !!}" 
-                                                                    data-victorias="{!! $VictoriasRegCount !!}"
-                                                                    data-victorias-sched="{!! $VictoriasSchedCount !!}" 
-                                                                    height="200">
-                                                            </canvas>
-                                                        </div>
-                                                        <div class="d-flex flex-row justify-content-end">
-                                                            <span class="mr-2">
-                                                                <i class="fas fa-square" style="color: #90ee90"></i> Applicant Registered
-                                                            </span>
+                                                <div class="">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Bar Chart All Extension Campuses</h3>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="chart">
+                                                            <div class="position-relative mb-4">
+                                                                <canvas id="sales-chart"
+                                                                        data-main="{!! $MainRegCount !!}"
+                                                                        data-main-sched="{!! $MainSchedCount !!}"
+                                                                        data-ilog="{!! $IlogRegCount !!}"
+                                                                        data-ilog-sched="{!! $IlogSchedCount !!}" 
+                                                                        data-cauayan="{!! $CauayanRegCount !!}"
+                                                                        data-cauayan-sched="{!! $CauayanSchedCount !!}" 
+                                                                        data-siplay="{!! $SipalayRegCount !!}"
+                                                                        data-siplay-sched="{!! $SipalaySchedCount !!}" 
+                                                                        data-hinobaan="{!! $HinobaanRegCount !!}"
+                                                                        data-hinobaan-sched="{!! $HinobaanSchedCount !!}" 
+                                                                        data-hinigaran="{!! $HinigaranRegCount !!}"
+                                                                        data-hinigaran-sched="{!! $HinigaranSchedCount !!}" 
+                                                                        data-moises="{!! $MoisesRegCount !!}"
+                                                                        data-moises-sched="{!! $MoisesSchedCount !!}" 
+                                                                        data-sancarlos="{!! $SancarlosRegCount !!}"
+                                                                        data-sancarlos-sched="{!! $SancarlosSchedCount !!}" 
+                                                                        data-victorias="{!! $VictoriasRegCount !!}"
+                                                                        data-victorias-sched="{!! $VictoriasSchedCount !!}" 
+                                                                        height="350">
+                                                                </canvas>
+                                                            </div>
+                                                            <div class="d-flex flex-row justify-content-end">
+                                                                <span class="mr-2">
+                                                                    <i class="fas fa-square" style="color: #90ee90"></i> Applicant Registered
+                                                                </span>
 
-                                                            <span class="mr-2">
-                                                                <i class="fas fa-square" style="color: #00a65a"></i> Applicant Scheduled
-                                                            </span>
+                                                                <span class="mr-2">
+                                                                    <i class="fas fa-square" style="color: #00a65a"></i> Applicant Scheduled
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12 col-sm-4 col-md-2">
-                                                    <div class="info-box">
-                                                        <div class="info-box-content">
-                                                            <span class="info-box-text">CPU Traffic</span>
-                                                            <span class="info-box-number">
-                                                                10
-                                                                <small>%</small>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                            </div>
                                             @endif
                                         </div>
                                     </div>
@@ -173,6 +161,7 @@
             <i class="text-light">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
+
     @include('modal.examinee-modal')
     @include('modal.examineeConfirm-modal')
     @include('modal.applicantAccept-modal')
@@ -218,13 +207,18 @@
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
     <!-- Ajax -->
-    <script src="{{ asset('js/ajax/examineeajax/examineeSerialize.js') }}"></script>
+    @if(request()->routeIs('applicant_edit'))
+        <script src="{{ asset('js/ajax/applicant/applicantSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('examinee_edit'))
+        <script src="{{ asset('js/ajax/examineeajax/examineeSerialize.js') }}"></script>
+    @endif
 
     @php $curr_route = request()->route()->getName(); @endphp
-    @if($curr_route == 'admission-index')
-    <!-- ChartJS -->
-    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('js/chart/dashall.js') }}"></script>
+        @if($curr_route == 'admission-index')
+        <!-- ChartJS -->
+        <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
+        <script src="{{ asset('js/chart/dashall.js') }}"></script>
     @endif
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
@@ -239,7 +233,6 @@
     <script src="{{ asset('js/validation/configureAd/venueCon.js') }}"></script>
     <script src="{{ asset('js/validation/report/applicantValidation.js') }}"></script>
     <script src="{{ asset('js/validation/report/schedValidation.js') }}"></script>
-    {{-- <script src="{{ asset('js/ajax/applicant/applist.js') }}"></script> --}}
 
     <script type="text/javascript">
         setTimeout(function () {

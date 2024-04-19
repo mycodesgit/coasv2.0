@@ -78,6 +78,7 @@ class AdAdmissionController extends Controller
     {
         $this->shareCounts();
         $applicantCounts = $this->countApplicantsByCampus();
+        
         return view('admission.index', compact('applicantCounts'));
     }
 

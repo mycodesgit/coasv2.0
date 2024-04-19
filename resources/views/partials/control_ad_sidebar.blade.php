@@ -1,6 +1,7 @@
 @php
     $curr_route = request()->route()->getName();
 
+    $dashAdActive = in_array($curr_route, ['admission-index']) ? 'active' : '';
     $appAddActive = in_array($curr_route, ['applicant-add']) ? 'active' : '';
     $appListActive = in_array($curr_route, ['applicant-list', 'srchappList', 'applicant_edit']) ? 'active' : '';
     $examineeListActive = in_array($curr_route, ['examinee-list', 'srchexamineeList', 'examinee_edit']) ? 'active' : '';
@@ -20,6 +21,9 @@
 
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
+        <a href="{{ route('admission-index') }}" class="list-group-item {{ $dashAdActive }}">Dashboard</a>
+    </ul>
+    <ul class="list-group mt-1">
         @if(in_array(Auth::user()->isAdmin, [0, 1, 2]))
             <a href="{{ route('applicant-add') }}" class="list-group-item {{ $appAddActive }}">Add Applicants</a>
             <a href="{{ route('applicant-list') }}" class="list-group-item {{ $appListActive }}">Applicants</a>  
