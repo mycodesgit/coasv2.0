@@ -23,18 +23,25 @@ COAS - V1.0 || Examination Result
             <li class="breadcrumb-item active mt-1">Examination Result</li>
         </ol>
 
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+        <div class="page-header">
+            <h5>Search Results: {{ $totalSearchResults }} 
+                <small>
+                    <i>Year-<b>{{ request('year') }}</b>,
+                        Campus-<b>{{ request('campus') }}</b>,
+                        Datetime-<b>{{ request('date') }}</b>,
+                    </i>
+                </small>
+            </h5>
+        </div>
+        <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
 
+        <div>
             <form method="GET" action="{{ route('examinationPDF_reports') }}" id="adSched" target="_blank">
                 {{ csrf_field() }}
 
-                <div class="container">
+                <div class="">
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-2">
-                                <label>&nbsp;</label>
-                                <a href="{{ route('examination_printing') }}" class="form-control form-control-sm btn btn-success btn-sm">New Search</a>
-                            </div>
 
                             <div class="col-md-2">
                                 <label>&nbsp;</label>
@@ -56,17 +63,8 @@ COAS - V1.0 || Examination Result
                     </div>
                 </div>
             </form>
-
-            <h5>Search Results: {{ $totalSearchResults }} 
-                <small>
-                    <i>Year-<b>{{ request('year') }}</b>,
-                        Campus-<b>{{ request('campus') }}</b>,
-                        Datetime-<b>{{ request('date') }}</b>,
-                    </i>
-                </small>
-            </h5>
         </div>
-        <div class="mt-5">
+        <div class="mt-2">
             <div class="">
                 <table id="report" class="table table-hover">
                     <thead>

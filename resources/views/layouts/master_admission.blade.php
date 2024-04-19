@@ -56,13 +56,13 @@
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
                             @auth('web')
-                                @if(in_array(Auth::guard('web')->user()->isAdmin, [0, 1, 2, 3, 4, 5]))
+                                @if(in_array(Auth::guard('web')->user()->isAdmin, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))
                                     Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
                                 @endif
                             @endauth
 
                             @auth('faculty')
-                                @if(Auth::guard('faculty')->user()->isAdmin == '8')
+                                @if(Auth::guard('faculty')->user()->isAdmin == '943')
                                     Logged as: {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
                                 @endif
                             @endauth
@@ -107,7 +107,7 @@
                                             @if($curr_route == 'admission-index')
                                                 <div class="">
                                                     <div class="card-header">
-                                                        <h3 class="card-title">Bar Chart All Extension Campuses</h3>
+                                                        <h3 class="card-title">No. of Applicants in every campus in this year {{ $currentYear }}</h3>
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="chart">
@@ -135,12 +135,12 @@
                                                                 </canvas>
                                                             </div>
                                                             <div class="d-flex flex-row justify-content-end">
-                                                                <span class="mr-2">
-                                                                    <i class="fas fa-square" style="color: #90ee90"></i> Applicant Registered
+                                                                <span class="mr-5">
+                                                                    <i class="fas fa-square" style="color: #90ee90"></i> Registered Applicant: No schedule yet
                                                                 </span>
 
                                                                 <span class="mr-2">
-                                                                    <i class="fas fa-square" style="color: #00a65a"></i> Applicant Scheduled
+                                                                    <i class="fas fa-square" style="color: #00a65a"></i> Registered Applicant: Scheduled
                                                                 </span>
                                                             </div>
                                                         </div>

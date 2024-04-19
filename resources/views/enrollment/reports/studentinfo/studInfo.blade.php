@@ -36,7 +36,7 @@ COAS - V2.0 || Student Info
             <form method="GET" action="{{ route('studInfo_search') }}">
                 {{ csrf_field() }}
 
-                <div class="container">
+                <div class="">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">

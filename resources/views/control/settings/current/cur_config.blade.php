@@ -58,7 +58,7 @@ COAS - V1.0 || Configure
                             @foreach($sttngs as $data)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $data->syear }}</td>
+                                    <td>{{ $data->schlyear }}</td>
                                     <td>{{ $data->semester }}</td>
                                     <td>
                                         @if($data->set_status == 1)

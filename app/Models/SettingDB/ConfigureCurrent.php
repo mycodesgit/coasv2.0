@@ -12,7 +12,7 @@ class ConfigureCurrent extends Model
     protected $table = 'settings_conf';
 
     protected $fillable = [
-        'syear',
+        'schlyear',
         'semester',
         'set_status', 
     ];

@@ -27,7 +27,7 @@ COAS - V1.0 || Enrolled Applicants
             <form method="GET" action="{{ route('srchacceptedEnrolledList') }}">
                 {{ csrf_field() }}
 
-                <div class="container">
+                <div class="custom-container">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">

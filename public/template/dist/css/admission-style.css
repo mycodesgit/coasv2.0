@@ -3,7 +3,11 @@
     width: 100% !important;
     z-index: 999 !important;
 }
-
+.custom-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+}
 .container-fluid {
     padding-right: 3% !important;
     padding-left: 3% !important;

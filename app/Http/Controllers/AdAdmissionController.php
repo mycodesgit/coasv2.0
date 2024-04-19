@@ -78,8 +78,9 @@ class AdAdmissionController extends Controller
     {
         $this->shareCounts();
         $applicantCounts = $this->countApplicantsByCampus();
+        $currentYear = Carbon::now()->year;
         
-        return view('admission.index', compact('applicantCounts'));
+        return view('admission.index', compact('applicantCounts', 'currentYear'));
     }
 
     public function applicant_add()

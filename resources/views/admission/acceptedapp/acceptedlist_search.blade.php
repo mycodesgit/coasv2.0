@@ -23,11 +23,11 @@ COAS - V1.0 || Accepted Applicants
             <li class="breadcrumb-item active mt-1">Accepted Applicants</li>
         </ol>
 
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+        <div class="page-header">
             <form method="GET" action="{{ route('srchacceptedList') }}">
                 {{ csrf_field() }}
 
-                <div class="container">
+                <div class="custom-container">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">
@@ -107,6 +107,7 @@ COAS - V1.0 || Accepted Applicants
                 </small>
             </h5>
         </div>
+        <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
                 <table id="example1" class="table table-hover">

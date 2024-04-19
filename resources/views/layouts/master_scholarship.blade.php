@@ -76,13 +76,13 @@
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
                             @auth('web')
-                                @if(in_array(Auth::guard('web')->user()->isAdmin, [0, 1, 2, 3, 4, 5]))
+                                @if(in_array(Auth::guard('web')->user()->isAdmin, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))
                                     Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
                                 @endif
                             @endauth
 
                             @auth('faculty')
-                                @if(Auth::guard('faculty')->user()->isAdmin == '8')
+                                @if(Auth::guard('faculty')->user()->isAdmin == '943')
                                     Logged as: {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
                                 @endif
                             @endauth

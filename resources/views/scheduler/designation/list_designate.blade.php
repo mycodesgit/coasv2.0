@@ -40,7 +40,7 @@ COAS - V2.0 || Faculty Designation
                     <h4>Faculty Designation</h4>
                 </div>
 
-                <div class="container mt-1">
+                <div class="mt-1">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">

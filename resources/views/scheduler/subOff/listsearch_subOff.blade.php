@@ -40,7 +40,7 @@ COAS - V2.0 || Subject Offered
                     <h4>Subject Offered</h4>
                 </div>
 
-                <div class="container mt-1">
+                <div class="mt-1">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">
@@ -92,10 +92,10 @@ COAS - V2.0 || Subject Offered
                 <div class="card-header p-0 border-bottom-0">
                     <ul class="nav nav-tabs" id="custom-tabs-five-tab" role="tablist">
                         <li class="nav-item ml-1">
-                            <a class="nav-link active" id="custom-tabs-one-tab" data-toggle="pill" href="#custom-tabs-one" role="tab" aria-controls="custom-tabs-one" aria-selected="true">View</a>
+                            <a class="nav-link active text-dark text-bold" id="custom-tabs-one-tab" data-toggle="pill" href="#custom-tabs-one" role="tab" aria-controls="custom-tabs-one" aria-selected="true">List of Subject Offered</a>
                         </li>
                         <li class="nav-item ml-1">
-                            <a class="nav-link" id="custom-tabs-two-tab" data-toggle="pill" href="#custom-tabs-two" role="tab" aria-controls="custom-tabs-two" aria-selected="false">Add</a>
+                            <a class="nav-link text-dark text-bold" id="custom-tabs-two-tab" data-toggle="pill" href="#custom-tabs-two" role="tab" aria-controls="custom-tabs-two" aria-selected="false">Add New Subject to be offer</a>
                         </li>
                     </ul>
                 </div>
@@ -133,7 +133,7 @@ COAS - V2.0 || Subject Offered
                                 <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
                                 <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="datePosted" readonly>
 
-                                <div class="container mt-1">
+                                <div class="mt-1">
                                     <div class="form-group">
                                         <div class="form-row">
                                             <div class="col-md-8">

@@ -30,7 +30,7 @@ COAS - V2.0 || Classes Enrolled
                     <h4>Classes Enrolled</h4>
                 </div>
 
-                <div class="container">
+                <div class="">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-10">

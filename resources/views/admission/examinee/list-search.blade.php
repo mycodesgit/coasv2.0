@@ -27,7 +27,7 @@ COAS - V1.0 || Examinee Search List
             <form method="GET" action="{{ route('srchexamineeList') }}">
                 {{ csrf_field() }}
 
-                <div class="container">
+                <div class="custom-container">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">

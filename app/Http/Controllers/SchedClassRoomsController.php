@@ -24,7 +24,7 @@ class SchedClassRoomsController extends Controller
     public function getroomsRead() 
     {
         $data = Room::join('college', 'rooms.college_room', 'college.id')
-                ->where('campus', '=', Auth::user()->campus)->get();
+                ->where('rooms.campus', '=', Auth::guard('web')->user()->campus)->get();
 
         return response()->json(['data' => $data]);
     }

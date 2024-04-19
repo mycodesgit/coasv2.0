@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('settings_conf', function (Blueprint $table) {
             $table->id();
-            $table->string('syear')->nullable();
+            $table->string('schlyear')->nullable();
             $table->string('semester')->nullable();
             $table->enum('set_status', array(1, 2))->default(1);
             $table->timestamps();

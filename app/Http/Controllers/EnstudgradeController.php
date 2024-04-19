@@ -26,15 +26,15 @@ class EnstudgradeController extends Controller
 
     public function studgrade_searchlist(Request $request)
     {
-        $syear = $request->query('syear');
+        $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
 
-        $syear = is_array($syear) ? $syear : [$syear];
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
         $semester = is_array($semester) ? $semester : [$semester];
 
         $data = SubjectOffered::select('sub_offered.*', 'subjects.*', 'sub_offered.id as sid',)
                         ->join('subjects', 'sub_offered.subcode', '=', 'subjects.sub_code')
-                        ->whereIn('sub_offered.syear', $syear)
+                        ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->get();
         $grdCode = GradeCode::all();
@@ -48,7 +48,7 @@ class EnstudgradeController extends Controller
         $id = $request->id;
         $grade = $request->grade;
 
-        $syear = $request->query('syear');
+        $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
 
         $gradereg = Grade::where('subjID', $id)
@@ -60,7 +60,7 @@ class EnstudgradeController extends Controller
                 ->join('students', 'studgrades.studID', '=', 'students.stud_id')
                 ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
                 ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
-                ->where('so.syear', $syear)
+                ->where('so.schlyear', $schlyear)
                 ->where('so.semester', $semester)
                 ->where('studgrades.subjID', $id)
                 ->orderBy('students.lname', 'ASC')

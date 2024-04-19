@@ -18,7 +18,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('coaAdded', function() {
+    $(document).on('roomAdded', function() {
         dataTable.ajax.reload();
     });
 });

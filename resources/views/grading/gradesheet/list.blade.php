@@ -46,7 +46,7 @@ COAS - V1.0 || Grading
                         <div class="col-md-2">
                             <input type="hidden" name="facID" value="{{ Auth::guard($guard)->user()->id }}">
                             <label><span class="badge badge-secondary">School Year</span></label>
-                            <select class="form-control form-control-sm" id="schlyear" name="syear"></select>
+                            <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
                         </div>
 
                         <div class="col-md-3">
@@ -73,7 +73,7 @@ COAS - V1.0 || Grading
                 <small>
                     <i>
                         Semester- <b>{{ $cursttngs->semester; }}</b>,
-                        School Year- <b>{{ $cursttngs->syear; }}</b>
+                        School Year- <b>{{ $cursttngs->schlyear; }}</b>
                     </i>
                 </small>
             </h5>

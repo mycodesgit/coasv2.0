@@ -27,7 +27,7 @@ COAS - V2.0 || List of Scholars Student
             <form method="GET" action="{{ route('studscholar_searchRead') }}" id="studscholar">
                 @csrf
 
-                <div class="container">
+                <div class="">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">

@@ -51,7 +51,7 @@ class GradingController extends Controller
         $fac = Faculty::all();
 
         if ($cursttngs) {
-            $syear = $cursttngs->syear;
+            $schlyear = $cursttngs->schlyear;
             $semester = $cursttngs->semester;
             $campus = "MC";
             $facID = $user->id;
@@ -59,7 +59,7 @@ class GradingController extends Controller
 
         }
 
-        $syear = is_array($syear) ? $syear : [$syear];
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
         $semester = is_array($semester) ? $semester : [$semester];
         $campus = is_array($campus) ? $campus : [$campus];
         $facID = is_array($facID) ? $facID : [$facID];
@@ -67,7 +67,7 @@ class GradingController extends Controller
         $datargrades = FacultyLoad::select('facultyload.*', 'sub_offered.*', 'subjects.*')
                         ->join('sub_offered', 'facultyload.subjectID', '=', 'sub_offered.id')
                         ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->whereIn('sub_offered.syear', $syear)
+                        ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->whereIn('sub_offered.campus', $campus)
                         ->whereIn('facultyload.facultyID', $facID)
@@ -101,11 +101,11 @@ class GradingController extends Controller
         $desiredIds = [1, 74, 75, 76, 77];
         $grdlegend = GradeCode::whereIn('id', $desiredIds)->get();
 
-        $syear = $cursttngs->syear;
+        $schlyear = $cursttngs->schlyear;
         $semester = $cursttngs->semester;
         $facID = $user->id;
 
-        $syear = is_array($syear) ? $syear : [$syear];
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
         $semester = is_array($semester) ? $semester : [$semester];
         $facID = is_array($facID) ? $facID : [$facID];
 
@@ -114,7 +114,7 @@ class GradingController extends Controller
                         ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                         ->leftJoin('coasv2_db_enrollment.studgrades', 'facultyload.subjectID', '=', 'coasv2_db_enrollment.studgrades.subjID')
                         ->leftJoin('coasv2_db_enrollment.students', 'coasv2_db_enrollment.studgrades.studID', '=', 'coasv2_db_enrollment.students.stud_id')
-                        ->whereIn('sub_offered.syear', $syear)
+                        ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->whereIn('facultyload.facultyID', $facID)
                         ->where('coasv2_db_enrollment.studgrades.subjID', $subjID)
@@ -143,20 +143,20 @@ class GradingController extends Controller
     {
         $fac = Faculty::all();
         
-        $syear = $request->query('syear');
+        $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = "MC";
         $facID = $request->query('facID');
        
 
-        $syear = is_array($syear) ? $syear : [$syear];
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
         $semester = is_array($semester) ? $semester : [$semester];
         $facID = is_array($facID) ? $facID : [$facID];
 
         $datargrades1 = FacultyLoad::select('facultyload.*', 'sub_offered.*', 'subjects.*')
                         ->join('sub_offered', 'facultyload.subjectID', '=', 'sub_offered.id')
                         ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->whereIn('sub_offered.syear', $syear)
+                        ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->whereIn('facultyload.facultyID', $facID)
                         ->get();
@@ -253,11 +253,11 @@ class GradingController extends Controller
         $desiredIds = [1, 74, 75, 76, 77];
         $grdlegend = GradeCode::whereIn('id', $desiredIds)->get();
 
-        $syear = $cursttngs->syear;
+        $schlyear = $cursttngs->schlyear;
         $semester = $cursttngs->semester;
         $facID = $user->id;
 
-        $syear = is_array($syear) ? $syear : [$syear];
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
         $semester = is_array($semester) ? $semester : [$semester];
         $facID = is_array($facID) ? $facID : [$facID];
 
@@ -266,7 +266,7 @@ class GradingController extends Controller
                         ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                         ->leftJoin('coasv2_db_enrollment.studgrades', 'facultyload.subjectID', '=', 'coasv2_db_enrollment.studgrades.subjID')
                         ->leftJoin('coasv2_db_enrollment.students', 'coasv2_db_enrollment.studgrades.studID', '=', 'coasv2_db_enrollment.students.stud_id')
-                        ->whereIn('sub_offered.syear', $syear)
+                        ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->whereIn('facultyload.facultyID', $facID)
                         ->where('coasv2_db_enrollment.studgrades.subjID', $subjID)

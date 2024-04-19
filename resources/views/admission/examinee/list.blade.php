@@ -23,11 +23,11 @@ COAS - V1.0 || Examinee List
             <li class="breadcrumb-item active mt-1">Examinee List</li>
         </ol>
 
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+        <div class="page-header">
             <form method="GET" action="{{ route('srchexamineeList') }}">
                 {{ csrf_field() }}
 
-                <div class="container">
+                <div class="custom-container">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">
@@ -100,6 +100,7 @@ COAS - V1.0 || Examinee List
                 </div>
             </form>
         </div>
+        <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
                 <table id="" class="table table-hover">
