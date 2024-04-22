@@ -284,6 +284,9 @@
     @if(request()->routeIs('studscholar_searchRead'))
         <script src="{{ asset('js/ajax/scholars/scholarSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('studEnHistory'))
+        <script src="{{ asset('js/ajax/scholars/studHistorySerialize.js') }}"></script>
+    @endif
 
     <script>
         $(document).ready(function () {

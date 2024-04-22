@@ -43,7 +43,7 @@ COAS - V2.0 || Grading
                     <div class="form-row">
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">School Year</span></label>
-                            <select class="form-control form-control-sm" id="schlyear" name="syear"></select>
+                            <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
                         </div>
 
                         <div class="col-md-3">

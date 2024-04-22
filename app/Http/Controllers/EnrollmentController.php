@@ -41,7 +41,7 @@ class EnrollmentController extends Controller
 {
     public function index()
     {   
-        //$grdCode = GradeCode::all();
+        $grdCode = GradeCode::all();
         $currentYear = Carbon::now()->year;
         $previousYear = Carbon::now()->subYears(1)->year;
         $userCampus = Auth::guard('web')->user()->campus;
@@ -81,7 +81,7 @@ class EnrollmentController extends Controller
                     ->select('college.*', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
                     ->groupBy('college.id')
                     ->get();
-        return view('enrollment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear'));
+        return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear'));
     }
 
     public function searchStud()

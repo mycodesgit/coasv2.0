@@ -1,6 +1,7 @@
 @php
     $curr_route = request()->route()->getName();
 
+    $dashAssessActive = in_array($curr_route, ['assessment-index']) ? 'active' : '';
     $fundActive = in_array($curr_route, ['fundsRead']) ? 'active' : '';
     $coaActive = in_array($curr_route, ['accountCOARead']) ? 'active' : '';
     $accntAppraisalActive = in_array($curr_route, ['accountAppraisalRead']) ? 'active' : '';
@@ -11,6 +12,9 @@
 
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
+        <a href="{{ route('assessment-index') }}" class="list-group-item {{ $dashAssessActive }}">Dashboard</a>
+    </ul>
+    <ul class="list-group mt-1">
         <a href="{{ route('fundsRead') }}" class="list-group-item {{ $fundActive }}">Funds</a> 
         <a href="{{ route('accountCOARead') }}" class="list-group-item {{ $coaActive }}">COA Accounts</a> 
         <a href="{{ route('accountAppraisalRead') }}" class="list-group-item {{ $accntAppraisalActive }}">Accounts</a> 

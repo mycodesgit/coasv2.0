@@ -43,7 +43,7 @@ COAS - V2.0 || Grading
                     <div class="form-row">
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">School Year</span></label>
-                            <select class="form-control form-control-sm" id="schlyear" name="syear"></select>
+                            <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
                         </div>
 
                         <div class="col-md-3">
@@ -122,7 +122,7 @@ COAS - V2.0 || Grading
                         <td>{{ $subjects->sub_desc }}</td>
                         <td>{{ $subjects->subSec }}</td>
                         <td>
-                            <a href="{{ route('geneStudent1', ['id' => $subjects->sid, 'syear'  => request('syear'), 'semester'  => request('semester')]) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ route('geneStudent1', ['id' => $subjects->sid, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="btn btn-primary btn-sm">
                                 <i class="fa fa-eye"></i>
                             </a>
                         </td>

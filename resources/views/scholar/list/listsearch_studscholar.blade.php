@@ -86,6 +86,7 @@ COAS - V2.0 || List of Scholars Student
                             <th>CHEDCategory</th>
                             <th>CPSUCategory</th>
                             <th>Tuition</th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,8 +109,50 @@ COAS - V2.0 || List of Scholars Student
     </div>
 </div>
 
+
+<div class="modal fade" id="editstudSchEnModal" role="dialog" aria-labelledby="editstudSchEnModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editstudSchEnModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editstudSchEnForm">
+                <div class="modal-body">
+                    <input type="text" name="id" id="editstudSchEnId">
+                    <div class="form-group">
+                        <label for="editstudSchEnStudID">Student ID No.</label>
+                        <input type="text" id="editstudSchEnStudID" class="form-control form-control-sm" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="editstudSchEnStudName">Student Name</label>
+                        <input type="text" id="editstudSchEnStudName" class="form-control form-control-sm" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="editstudSchEnSch">Scholarship</label>
+                        <select class="form-control form-control-sm" name="studSch" id="editstudSchEnSch">
+                            <option disabled selected>--Select--</option>
+                            @foreach($studsch as $datasch)
+                                <option value="{{ $datasch->id }}">{{ $datasch->scholar_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var studschReadRoute = "{{ route('getstudscholarSearchRead') }}";
+    var studschUpdateRoute = "{{ route('studscholarUpdate', ['id' => ':id']) }}";
+    var idStudSchEncryptRoute = "{{ route('idcrypt') }}";
 </script>
 
 @endsection

@@ -337,9 +337,6 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::get('/', [ScholarshipController::class, 'index'])->name('scholarship-index');
 
         Route::prefix('studScholar')->group(function () {
-            Route::get('/add', [ScholarshipController::class, 'scholarAdd'])->name('scholarAdd');
-            Route::post('/addScholarship', [ScholarshipController::class, 'scholarCreate'])->name('scholarCreate');
-
             Route::get('/list/chedScholar', [ScholarshipController::class, 'chedscholarlist'])->name('chedscholarlist');
             Route::get('/list/chedScholar/ajax', [ScholarshipController::class, 'getchedscholarlist'])->name('getchedscholarlist');
             Route::post('/list/chedScholar/add', [ScholarshipController::class,'chedscholarCreate'])->name('chedscholarCreate');
@@ -361,8 +358,15 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/students/scholar', [ScholarshipController::class, 'chedstudscholarRead'])->name('chedstudscholarRead');
             Route::get('/list/students/scholar/searchlist', [ScholarshipController::class, 'studscholar_searchRead'])->name('studscholar_searchRead');
             Route::get('/list/students/scholar/searchlist/ajax', [ScholarshipController::class, 'getstudscholarSearchRead'])->name('getstudscholarSearchRead');
+            Route::post('/list/students/scholar/update', [ScholarshipController::class,'studscholarUpdate'])->name('studscholarUpdate');
+            Route::post('/list/students/scholar/encrypt', [ForAllEncryptIDController::class, 'idcrypt'])->name('idcrypt');
         });
 
+        Route::prefix('studenhistory')->group(function () {
+            Route::get('/list/search/student', [ScholarshipController::class, 'studEnHistory'])->name('studEnHistory');
+            Route::get('/list/search/student/view', [ScholarshipController::class, 'viewsearchStudHistory'])->name('viewsearchStudHistory');
+            Route::get('/list/search/student/ajax', [ScholarshipController::class, 'searchStudHistory'])->name('searchStudHistory');
+        });
     });
 
     Route::prefix('emp/grades')->group(function () {

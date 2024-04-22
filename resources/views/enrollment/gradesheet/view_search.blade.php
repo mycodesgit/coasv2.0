@@ -20,7 +20,11 @@ COAS - V2.0 || Grading
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Grading</li>
-            <li class="breadcrumb-item mt-1"><a href="{{ url()->previous() }}"> @if($genstud)<strong>{{ $genstud->first()->sub_name }} {{ $genstud->first()->subSec }}</strong> @endif </a></li>
+            <li class="breadcrumb-item mt-1">
+                <a href="{{ url()->previous() }}"> 
+                    @if($genstud)<strong>{{ $genstud->first()->sub_name }} {{ $genstud->first()->subSec }}</strong> @endif 
+                </a>
+            </li>
             <li class="breadcrumb-item active mt-1">Grade Sheet</li>
         </ol>
 
@@ -44,7 +48,7 @@ COAS - V2.0 || Grading
                     <div class="form-row">
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">School Year</span></label>
-                            <select class="form-control form-control-sm" id="schlyear" name="syear"></select>
+                            <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
                         </div>
 
                         <div class="col-md-3">
