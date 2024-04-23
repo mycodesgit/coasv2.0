@@ -22,29 +22,34 @@ COAS - V2.0 || Student Enrollment History
             <li class="breadcrumb-item mt-1">Scholarship</li>
             <li class="breadcrumb-item active mt-1">Student Enrollment History</li>
         </ol>
-
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <form method="GET" action="" id="studscholar">
+        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+        <div class="page-header mt-2">
+            <form method="POST" action="{{ route('viewsearchStudHistory') }}" id="studscholar">
                 @csrf
 
                 <div class="">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Type</span></label>
-                                <select class="form-control form-control-sm" name="type">
-                                    <option disabled selected>Select</option>
+                                <label><span class="badge badge-secondary">Select Type to Search</span></label>
+                                <select class="form-control form-control-sm" id="searchType" name="type">
+                                    <option disabled selected> --Select-- </option>
                                     <option value="lname">Last Name</option>
                                     <option value="studentID">Student ID Number</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Search</span></label>
-                                <input type="text" name="query" class="form-control form-control-sm">
+                            <div class="col-md-4" id="searchLastName" style="display: none;">
+                                <label><span class="badge badge-secondary">Search Last Name</span></label>
+                                <input type="text" name="lname" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-4" id="searchStudentID" style="display: none;">
+                                <label><span class="badge badge-secondary">Search Student ID No.</span></label>
+                                <input type="text" name="studentID" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="col-md-2" id="searchStudButton" style="display: none;">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
                             </div>
@@ -55,14 +60,35 @@ COAS - V2.0 || Student Enrollment History
         </div>
         <div class="mt-2">
             <div class="">
-                <table id="studhisTable" class="table table-hover">
+                <table id="studhis" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>StudID</th>
-                            <th>Name</th>
+                            <th>No.</th>
+                            <th>Student ID Number</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Extension</th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @php $no = 1; @endphp
+                        @foreach($results as $res)
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $res->stud_id }}</td>
+                            <td>{{ $res->lname }}</td>
+                            <td>{{ $res->fname }}</td>
+                            <td>{{ $res->mname }}</td>
+                            <td>{{ $res->ext }}</td>
+                            <td style="text-align:center;">
+                                <a href="" class="btn btn-primary btn-sm btn-edit">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -71,7 +97,22 @@ COAS - V2.0 || Student Enrollment History
 </div>
 
 <script>
-    var historyReadRoute = "{{ route('searchStudHistory') }}";
+    document.getElementById('searchType').addEventListener('change', function() {
+        var selectedOption = this.value;
+        if (selectedOption === 'lname') {
+            document.getElementById('searchLastName').style.display = 'block';
+            document.getElementById('searchStudentID').style.display = 'none';
+            document.getElementById('searchStudButton').style.display = 'block';
+        } else if (selectedOption === 'studentID') {
+            document.getElementById('searchLastName').style.display = 'none';
+            document.getElementById('searchStudentID').style.display = 'block';
+            document.getElementById('searchStudButton').style.display = 'block';
+        } else {
+            document.getElementById('searchLastName').style.display = 'none';
+            document.getElementById('searchStudentID').style.display = 'none';
+            document.getElementById('searchStudButton').style.display = 'none';
+        }
+    });
 </script>
 
 @endsection

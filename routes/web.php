@@ -50,23 +50,25 @@ use App\Http\Controllers\SettingController;
 |
 */
 
+Route::group(['middleware'=>['guest']],function(){
+    Route::get('/',[MainController::class,'main'])->name('main');
+    Route::get('/linkstorage', function () {
+        Artisan::call('storage:link');
+    });
 
-Route::get('/',[MainController::class,'main'])->name('main');
-Route::get('/linkstorage', function () {
-    Artisan::call('storage:link');
+    Route::prefix('/portal')->group(function () {
+        Route::get('/',[PortalController::class,'index'])->name('admission-portal');
+        Route::get('/apply', [PortalController::class, 'admission_apply'])->name('admission-apply');
+        Route::get('/getProgramsByCampus', [PortalController::class, 'getProgramsByCampus'])->name('getProgramsByCampus');
+        Route::post('/post_admission_apply', [PortalController::class, 'post_admission_apply'])->name('post_admission_apply');
+        Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
+        Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
+    });
+
+
+    Route::get('/emp', [LoginController::class, 'login'])->name('login');
+    Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
 });
-
-Route::prefix('/portal')->group(function () {
-    Route::get('/',[PortalController::class,'index'])->name('admission-portal');
-    Route::get('/apply', [PortalController::class, 'admission_apply'])->name('admission-apply');
-    Route::get('/getProgramsByCampus', [PortalController::class, 'getProgramsByCampus'])->name('getProgramsByCampus');
-    Route::post('/post_admission_apply', [PortalController::class, 'post_admission_apply'])->name('post_admission_apply');
-    Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
-    Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
-});
-
-Route::get('/emp', [LoginController::class, 'login'])->name('login');
-Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
 
 Route::group(['middleware'=>['login_auth']],function(){
     Route::prefix('emp/control')->group(function () {
@@ -364,7 +366,7 @@ Route::group(['middleware'=>['login_auth']],function(){
 
         Route::prefix('studenhistory')->group(function () {
             Route::get('/list/search/student', [ScholarshipController::class, 'studEnHistory'])->name('studEnHistory');
-            Route::get('/list/search/student/view', [ScholarshipController::class, 'viewsearchStudHistory'])->name('viewsearchStudHistory');
+            Route::post('/list/search/student/view', [ScholarshipController::class, 'viewsearchStudHistory'])->name('viewsearchStudHistory');
             Route::get('/list/search/student/ajax', [ScholarshipController::class, 'searchStudHistory'])->name('searchStudHistory');
         });
     });

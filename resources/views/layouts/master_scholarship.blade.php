@@ -304,6 +304,22 @@
         }, 0); 
     </script>
 
+    <script>
+        @if(session('error'))
+            Swal.fire({
+                icon: 'warning',
+                // title: 'Waring',
+                html: '{!! session('error') !!}',
+                showClass: {
+                    popup: 'my-custom-show-animation'
+                },
+                hideClass: {
+                    popup: ''
+                }
+            });
+        @endif
+    </script>
+
 </body>
 </html>
    

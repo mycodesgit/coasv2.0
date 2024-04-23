@@ -397,25 +397,34 @@ class ScholarshipController extends Controller
 
     public function viewsearchStudHistory(Request $request) 
     {
-        return view('scholar.enrolhis.listsearch_enrhis');
+        $searchType = $request->input('type');
+        $query = $request->input($searchType);
+
+        if ($searchType == 'lname') {
+            $results = Student::where('lname', 'like', '%' . $query . '%')->get();
+        } elseif ($searchType == 'studentID') {
+            $results = Student::where('stud_id', $query)->get();
+        }
+
+        if (count($results) > 0) {    
+            return view('scholar.enrolhis.listsearch_enrhis', compact('results'));
+        }
+        return redirect()->route('studEnHistory')->with('error', 'No results found for the search.');
     }
 
     public function searchStudHistory(Request $request)
     {
-        $type = $request->input('type');
-        $query = $request->input('query');
+        // $searchType = $request->input('type');
+        // $query = $request->input($searchType);
 
-        // Perform the search query based on the selected type
-        if ($type === 'lname') {
-            $results = StudEnrolmentHistory::where('lname', 'like', '%' . $query . '%')->get();
-        } elseif ($type === 'studentID') {
-            $results = StudEnrolmentHistory::where('studentID', $query)->get();
-        } else {
-            // Handle invalid type
-            return response()->json(['error' => 'Invalid search type'], 400);
-        }
+        // $data = [];
+        
+        // if ($searchType === 'lname') {
+        //     $data = Student::where('lname', 'like', '%' . $query . '%')->get();
+        // } elseif ($searchType === 'studentID') {
+        //     $data = Student::where('stud_id', $query)->get();
+        // }
 
-        // Return the search results
-        return response()->json($results);
+        // return response()->json(['data' => $data]);
     }
 }

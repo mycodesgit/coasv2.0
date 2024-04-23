@@ -1,11 +1,20 @@
 $(function () {
     $("#example1").DataTable({
-        "responsive": false,
+        "responsive": true,
         "lengthChange": true, 
         "autoWidth": true,
         //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
 
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+    $("#studhis").DataTable({
+        "responsive": true,
+        "lengthChange": false, 
+        "autoWidth": true,
+        "searching": false,
+        //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+
+    }).buttons().container().appendTo('#studhis_wrapper .col-md-6:eq(0)');
 
     $("#studgradeid").DataTable({
         "responsive": false,
