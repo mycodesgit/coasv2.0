@@ -81,6 +81,9 @@ $(document).ready(function() {
                             dropdown += '<a href="edit/srch/' + row.id + '" class="dropdown-item btn-edit" data-id="' + row.id + '" data-chedname="' + row.chedsch_name + '">' +
                                 '<i class="fas fa-eye"></i> View' +
                                 '</a>' +
+                                '<a href="#" class="dropdown-item btn-image" data-id="' + row.id + '" data-image="' + row.doc_image + '">' +
+                                '<i class="fas fa-image"></i> Uploaded Photo' +
+                                '</a>' +
                                 '<a href="#" class="dropdown-item btn-assignsched" data-id="' + row.id + '" data-dateid="' + row.dateID + '" data-dadmission="' + row.d_admission + '" data-time="' + row.time + '" data-venue="' + row.venue + '">' +
                                 '<i class="fas fa-calendar"></i> Schedule' +
                                 '</a>' +
@@ -108,13 +111,63 @@ $(document).ready(function() {
     toggleActionColumn();
 });
 
+$(document).on('click', '.btn-image', function() {
+    var id = $(this).data('id');
+    var image = $(this).data('image');
+    
+    $('#editUploadPhotoId').val(id);
+    $('#editUploadPhotoDoc').val(image);
+
+    if (image) {
+        $('#uploadedPhoto').attr('src', photoStorage + "/" + image).show();
+        $('#uploadedPhoto').removeAttr('alt');
+        $('#noDocumentText').hide();
+    } else {
+        $('#uploadedPhoto').attr('src', '').hide();
+        $('#noDocumentText').show();
+        $('#noDocumentText').css('font-size', '58px');
+    }
+
+    $('#editUploadPhotoModal').modal('show');
+});
+
 $(document).on('click', '.btn-assignsched', function() {
     var id = $(this).data('id');
     var dateSelected = $(this).data('dateid');
     var dadmissionSelected = $(this).data('dadmission');
+    var dadmissionSched = $(this).data('dadmission');
     var dtimeSelected = $(this).data('time');
+    var dtimeSched = $(this).data('time');
     var venueSelected = $(this).data('venue');
+    var venueSched = $(this).data('venue');
+
+    if (dadmissionSched) {
+        var dateParts = dadmissionSched.split('-');
+        var year = dateParts[0];
+        var monthIndex = parseInt(dateParts[1]) - 1;
+        var day = dateParts[2];
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var monthName = monthNames[monthIndex];
+        var formattedDate = monthName + " " + day + ", " + year;
+
+        $('#schedDate').val(formattedDate);
+    } else {
+        $('#schedDate').val('No schedule');
+    }
+
+    if (dtimeSched) {
+        $('#schedTime').val(dtimeSched);
+    } else {
+        $('#schedTime').val('No schedule time');
+    }
     
+    if (venueSched) {
+        $('#schedVenue').val(venueSched);
+    } else {
+        $('#schedVenue').val('No venue');
+    }
+
     $('#editAssignSchedId').val(id);
     $('#editAssignDateID').val(dateSelected);
     $('#selectedDate').val(dadmissionSelected);
@@ -122,6 +175,22 @@ $(document).on('click', '.btn-assignsched', function() {
     $('#selectedVenue').val(venueSelected);
 
     $('#editAssignSchedModal').modal('show');
+
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#editAssignSchedId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editAssignSchedId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
+    });
 });
 
 $('#editAssignSchedForm').submit(function(event) {

@@ -89,6 +89,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/search/applicants/ajax', [AdAdmissionController::class, 'getsrchappList'])->name('getsrchappList');
             Route::get('/list/search/edit/srch/{id}', [AdAdmissionController::class, 'applicant_edit_srch'])->name('applicant_edit_srch');
             Route::get('/list/search/edit/{id}', [AdAdmissionController::class, 'applicant_edit'])->name('applicant_edit');
+            Route::post('/applist/encrypt', [ForAllEncryptIDController::class, 'idcrypt'])->name('idcrypt');
             Route::put('/list/search/update/{id}', [AdAdmissionController::class, 'applicant_update'])->name('applicant_update');
             Route::get('/{id}/schedule', [AdAdmissionController::class, 'applicant_schedule'])->name('applicant_schedule');
             Route::get('/delete/{id}', [AdAdmissionController::class, 'applicant_delete'])->name('applicant_delete');

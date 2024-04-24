@@ -158,6 +158,32 @@ COAS - V1.0 || Applicant Search List
     </div>
 </div>
 
+<div class="modal fade" id="editUploadPhotoModal" role="dialog" aria-labelledby="editUploadPhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUploadPhotoModalLabel">Uploaded Photo/Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editUploadPhotoId">
+                    <div class="form-group">
+                        <input type="hidden" id="editUploadPhotoDoc" class="form-control form-control-sm" >
+                        <img id="uploadedPhoto" class="img-square" width="90%" src="" alt="Image">
+                        <p id="noDocumentText" style="text-align: center;" class="big-text">No document uploaded</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="uploadedPhoto" class="btn btn-secondary" data-lightbox="photos">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="editAssignSchedModal" role="dialog" aria-labelledby="editAssignSchedModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -169,7 +195,42 @@ COAS - V1.0 || Applicant Search List
             </div>
             <form id="editAssignSchedForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="editAssignSchedId">
+                    <input type="hidden" name="id" id="editAssignSchedId">
+                    <div class="form-group">
+                        <center><label style="text-align: center; font-size: 15pt;"><span class="badge badge-primary">Date and Venue for Admission Test</span></label></center>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; font-size: 13pt;">Scheduled Date</th>
+                                    <th style="text-align: center; font-size: 13pt;">Scheduled Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" id="schedDate" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" disabled></td>
+                                    <td><input type="text" id="schedTime" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" disabled></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; font-size: 13pt;">Scheduled Venue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" id="schedVenue" style="border: none; background-color: #fff !important; text-align: center !important;" class="text-bold" disabled></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <div class="form-group mt-4">
+                        <center><label style="text-align: center; font-size: 15pt;"><span class="badge badge-warning">If no Date and Venue Select below</span></label></center>
+                    </div>
+
                     <div class="form-group">
                         <label><span class="badge badge-secondary">Date of Admission Test</span></label>
                         <select class="form-control form-control-sm" name="dateID" id="editAssignDateIDs" style="text-transform: uppercase;" onchange="updateDateTime()">
@@ -181,8 +242,8 @@ COAS - V1.0 || Applicant Search List
                             @endforeach
                         </select>
                     </div>
-                    <input type="text" id="selectedDate" name="d_admission" class="form-control form-control-md" placeholder="Selected Date">
-                    <input type="text" id="selectedTime" name="time" class="form-control form-control-md" placeholder="Selected Time">
+                    <input type="hidden" id="selectedDate" name="d_admission" class="form-control form-control-md" placeholder="Selected Date">
+                    <input type="hidden" id="selectedTime" name="time" class="form-control form-control-md" placeholder="Selected Time">
 
                     <div class="form-group">
                         <label><span class="badge badge-secondary">Venue</span></label>
@@ -209,6 +270,9 @@ COAS - V1.0 || Applicant Search List
     var allApplicantRoute = "{{ route('getsrchappList') }}";
     var allAppAssignSchedRoute = "{{ route('applicant_schedulemod_save', ['id' => ':id']) }}";
     var allAppDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
+    var appidEncryptRoute = "{{ route('idcrypt') }}";
+    var photoStorage = "{{ asset('storage/') }}";
+
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
     var requestedCampus = '{{ request('campus') }}'
 </script>

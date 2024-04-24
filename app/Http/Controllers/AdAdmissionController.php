@@ -138,10 +138,8 @@ class AdAdmissionController extends Controller
         $year = $request->query('year');
         $campus = $request->query('campus');
 
-        // $year = is_array($year) ? $year : [$year];
-        // $campus = is_array($campus) ? $campus : [$campus];
-
-        $data = Applicant::select('ad_applicant_admission.*')
+        $data = Applicant::join('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_docs.*')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
                         ->where('p_status', '=', 1)
@@ -449,7 +447,6 @@ class AdAdmissionController extends Controller
 
     public function applicant_schedule_save(Request $request, $id)
     {   
-        $id = $request->input('id');
         $dateID = $request->input('dateID');
         $d_admission = $request->input('d_admission');
         $time = $request->input('time');
@@ -459,7 +456,6 @@ class AdAdmissionController extends Controller
             return response()->json(['error' => true, 'message' => 'Please fill in all required fields.'], 422);
         }
         $applicant = Applicant::findOrFail($id);
-        $applicant = $request->input('id');
         $applicant->dateID = $request->input('dateID');
         $applicant->d_admission = $request->input('d_admission');
         $applicant->time = $request->input('time');
