@@ -97,7 +97,7 @@ COAS - V1.0 || Examinee Search List
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
+            <h5>Search Results:
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
@@ -109,10 +109,9 @@ COAS - V1.0 || Examinee Search List
         </div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="examlistTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>App ID</th>
                             <th>Name</th>
                             <th>Type</th>
@@ -125,7 +124,7 @@ COAS - V1.0 || Examinee Search List
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status == 2)
                             <tr id="tr-{{ $applicant->id }}">
@@ -172,13 +171,19 @@ COAS - V1.0 || Examinee Search List
                             </tr>
                             @else
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    var allExamlicantRoute = "{{ route('getsrchexamineeList') }}";
+    var allExamDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+</script>
 
 @endsection
 

@@ -364,7 +364,7 @@ COAS - V1.0 || Applicant Edit
 
                                     <div class="col-md-6">
                                         <label><span class="badge badge-secondary">Venue</span></label>
-                                        <select class="form-control form-control-md" name="venue" style="text-transform: uppercase;">
+                                        <select class="form-control form-control-md" name="venue" id="selectedVenue" style="text-transform: uppercase;">
                                             <option disabled selected> ---Select--- </option>
                                             @foreach ($venue1 as $venueItem)
                                                 <option value="{{ $venueItem->venue }}" {{ $venueItem->venue == $venue ? 'selected' : '' }}>

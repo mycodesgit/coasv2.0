@@ -21,6 +21,19 @@ $(document).ready(function() {
             {data: 'fname'},
             {data: 'mname'},
             {data: 'ext'},
+            {
+            data: 'id',
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        var editLink = '<a href="#" class="btn btn-primary btn-sm btn-studhisview" data-id="' + row.id + '" data-studhislname="' + row.lname + ', ' +row.fname + '">' +
+                            '<i class="fas fa-eye"></i>' +
+                            '</a>';
+                        return editLink;
+                    } else {
+                        return data;
+                    }
+                },
+            },
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 

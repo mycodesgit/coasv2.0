@@ -398,8 +398,11 @@ class ScholarshipController extends Controller
     public function viewsearchStudHistory(Request $request) 
     {
         $query = $request->input('query');
+        $campus = Auth::guard('web')->user()->campus;
+
         $results = Student::where('lname', 'like', '%' . $query . '%')
                         ->orWhere('stud_id', $query)
+                        ->where('campus', $campus)
                         ->get();
 
         if (count($results) > 0) {    
@@ -411,8 +414,10 @@ class ScholarshipController extends Controller
     public function searchStudHistory(Request $request)
     {
         $query = $request->input('query'); 
+        $campus = Auth::guard('web')->user()->campus;
         $results = Student::where('lname', 'like', '%' . $query . '%')
                         ->orWhere('stud_id', $query)
+                        ->where('campus', $campus)
                         ->get();
 
         return response()->json(['data' => $results]);

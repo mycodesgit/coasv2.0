@@ -86,6 +86,8 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list', [AdAdmissionController::class, 'applicant_list'])->name('applicant-list');
             Route::get('/list/search', [AdAdmissionController::class, 'applicant_list_search'])->name('applicant_list_search');
             Route::get('/list/search/applicants', [AdAdmissionController::class, 'srchappList'])->name('srchappList');
+            Route::get('/list/search/applicants/ajax', [AdAdmissionController::class, 'getsrchappList'])->name('getsrchappList');
+            Route::get('/list/search/edit/srch/{id}', [AdAdmissionController::class, 'applicant_edit_srch'])->name('applicant_edit_srch');
             Route::get('/list/search/edit/{id}', [AdAdmissionController::class, 'applicant_edit'])->name('applicant_edit');
             Route::put('/list/search/update/{id}', [AdAdmissionController::class, 'applicant_update'])->name('applicant_update');
             Route::get('/{id}/schedule', [AdAdmissionController::class, 'applicant_schedule'])->name('applicant_schedule');
@@ -101,12 +103,15 @@ Route::group(['middleware'=>['login_auth']],function(){
 
             Route::post('/capture/{id}/save', [AdCaptureImageController::class, 'applicant_save_image'])->name('applicant_save_image');
             Route::post('/schedule/{id}/save', [AdAdmissionController::class, 'applicant_schedule_save'])->name('applicant_schedule_save');
+            Route::post('/schedule/save', [AdAdmissionController::class, 'applicant_schedulemod_save'])->name('applicant_schedulemod_save');
         });
 
         Route::prefix('examinee')->group(function () {
             Route::get('/examineeList', [AdExamineeController::class, 'examinee_list'])->name('examinee-list');
             Route::get('/list/srchexamineeList', [AdExamineeController::class, 'srchexamineeList'])->name('srchexamineeList');
-            Route::get('/{id}/edit', [AdExamineeController::class, 'examinee_edit'])->name('examinee_edit');
+            Route::get('/list/srchexamineeList/ajax', [AdExamineeController::class, 'getsrchexamineeList'])->name('getsrchexamineeList');
+            Route::get('/list/srchexamineeList/edit/srchexam/{id}', [AdExamineeController::class, 'examinee_edit_srch'])->name('examinee_edit_srch');
+            Route::get('/list/srchexamineeList/edit/{id}', [AdExamineeController::class, 'examinee_edit'])->name('examinee_edit');
             Route::get('/delete/{id}', [AdExamineeController::class, 'examinee_delete'])->name('examinee_delete');
             Route::get('/{id}/assignresult', [AdExamineeController::class, 'assignresult'])->name('assignresult');
             Route::put('/result/{id}/save', [AdExamineeController::class, 'examinee_result_save'])->name('examinee_result_save');

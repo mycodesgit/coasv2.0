@@ -70,28 +70,6 @@ COAS - V1.0 || Applicant Search List
                             </div>
 
                             <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Applicant ID</span></label>
-                                <input type="text" class="form-control form-control-sm" name="admission_id" placeholder="Applicant ID">
-                            </div>
-
-                            <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Strand</span></label>
-                                <select class="form-control  form-control-sm" name="strand">
-                                    <option value="">Strand</option>
-                                    <option value="BAM">Accountancy, Business, & Management (BAM)</option>
-                                    <option value="GAS">General Academic Strand (GAS)</option>
-                                    <option value="HUMSS">Humanities, Education, Social Sciences (HUMSS)</option>
-                                    <option value="STEM">Science, Technology, Engineering, & Mathematics (STEM)</option>
-                                    <option value="TVL-CHF">TVL - Cookery, Home Economics, & FBS (TVL-CHF)</option>
-                                    <option value="TVL-CIV">TVL - CSS, ICT, & VGD (TVL-CIV)</option>
-                                    <option value="TVL-AFA">TVL - Agricultural & Fisheries Arts (TVL-AFA)</option>
-                                    <option value="TVL-EIM">TVL - Electrical Installation & Maintenance (TVL-EIM)</option>
-                                    <option value="TVL-SMAW">TVL - Shielded Metal Arc Welding (TVL-SMAW)</option>
-                                    <option value="OLD">Old Curriculum</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-2">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
                             </div>
@@ -99,7 +77,7 @@ COAS - V1.0 || Applicant Search List
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
+            <h5>Search Results:  
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
@@ -112,23 +90,20 @@ COAS - V1.0 || Applicant Search List
         <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="applistTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>App ID</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Contact No.</th>
                             <th>Date Applied</th>
                             <th>Campus</th>
-                            @if (Auth::user()->campus == request('campus'))
-                            <th>Action</th>
-                            @endif
+                            <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status == 1)
                             <tr id="tr-{{ $applicant->id }}">
@@ -175,7 +150,7 @@ COAS - V1.0 || Applicant Search List
                             </tr>
                             @else
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -183,8 +158,59 @@ COAS - V1.0 || Applicant Search List
     </div>
 </div>
 
+<div class="modal fade" id="editAssignSchedModal" role="dialog" aria-labelledby="editAssignSchedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAssignSchedModalLabel">Assign Schedule for Admission Test</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editAssignSchedForm">
+                <div class="modal-body">
+                    <input type="text" name="id" id="editAssignSchedId">
+                    <div class="form-group">
+                        <label><span class="badge badge-secondary">Date of Admission Test</span></label>
+                        <select class="form-control form-control-sm" name="dateID" id="editAssignDateIDs" style="text-transform: uppercase;" onchange="updateDateTime()">
+                            <option disabled selected> ---Select--- </option>
+                            @foreach ($time1 as $dateItem)
+                                <option value="{{ $dateItem->id }}">
+                                    {{ Carbon\Carbon::parse($dateItem->date . ' ' . $dateItem->time)->format('F j Y g:i A') }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <input type="text" id="selectedDate" name="d_admission" class="form-control form-control-md" placeholder="Selected Date">
+                    <input type="text" id="selectedTime" name="time" class="form-control form-control-md" placeholder="Selected Time">
+
+                    <div class="form-group">
+                        <label><span class="badge badge-secondary">Venue</span></label>
+                        <select class="form-control form-control-sm" name="venue" style="text-transform: uppercase;">
+                            <option disabled selected> ---Select--- </option>
+                            @foreach ($venue1 as $venueItem)
+                                <option value="{{ $venueItem->venue }}">
+                                    {{ $venueItem->venue }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
-    var allApplicantRoute = "{{ route('srchappList') }}";
+    var allApplicantRoute = "{{ route('getsrchappList') }}";
+    var allAppAssignSchedRoute = "{{ route('applicant_schedulemod_save', ['id' => ':id']) }}";
+    var allAppDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+    var requestedCampus = '{{ request('campus') }}'
 </script>
 
 @endsection

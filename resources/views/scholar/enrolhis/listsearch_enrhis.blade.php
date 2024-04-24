@@ -56,7 +56,7 @@ COAS - V2.0 || Student Enrollment History
                             <th>First Name</th>
                             <th>Middle Name</th>
                             <th>Extension</th>
-                            {{-- <th>#</th> --}}
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,27 +84,53 @@ COAS - V2.0 || Student Enrollment History
 </div>
 
 <div class="modal fade" id="viewStudHisModal" role="dialog" aria-labelledby="viewStudHisModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewStudHisModalLabel">Edit</h5>
+                <input type="hidden" name="id" id="viewStudHisId">
+                <h5 class="modal-title" id="viewStudHisModalLabel">
+                    Enrollment History of <input type="text" class="" style="border: none; background-color: none !important;" id="viewStudHisName" disabled>
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="viewStudHisForm">
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>School Year</th>
+                            <th>Semester</th>
+                            <th>Course</th>
+                            <th>Year Level</th>
+                            <th>Section</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- <form id="viewStudHisForm">
                 <div class="modal-body">
                     <input type="hidden" name="id" id="viewStudHisId">
                     <div class="form-group">
                         <label for="viewStudHisName">Name</label>
-                        <textarea class="form-control form-control-sm" name="chedsch_name" id="viewStudHisName" rows="3"></textarea>
+                        <input type="text" class="form-control form-control-sm" name="chedsch_name" id="viewStudHisName">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
-            </form>
+            </form> --}}
         </div>
     </div>
 </div>

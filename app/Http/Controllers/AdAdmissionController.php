@@ -117,18 +117,37 @@ class AdAdmissionController extends Controller
         $year = $request->query('year');
         $campus = $request->query('campus');
 
-        $year = is_array($year) ? $year : [$year];
-        $campus = is_array($campus) ? $campus : [$campus];
+        $currentYear = now()->year;
+
+        $time1 = Time::select('ad_time.*')
+                ->where('campus', '=', Auth::user()->campus)
+                ->whereYear('created_at', $currentYear)
+                ->get();
+        $venue1 = Venue::select('venue', DB::raw('count(*) as total'))
+                ->where('campus', '=', Auth::user()->campus)
+                ->groupBy('venue')
+                ->whereYear('created_at', $currentYear)
+                ->get();
+
+        return view('admission.applicant.list-search', compact('time1', 'venue1'));
+    }
+
+    public function getsrchappList(Request $request)
+    {   
+        
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+
+        // $year = is_array($year) ? $year : [$year];
+        // $campus = is_array($campus) ? $campus : [$campus];
 
         $data = Applicant::select('ad_applicant_admission.*')
-                        ->whereIn('ad_applicant_admission.year', $year)
-                        ->whereIn('ad_applicant_admission.campus', $campus)
+                        ->where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
                         ->where('p_status', '=', 1)
                         ->get();
-        $totalSearchResults = count($data);
 
-        //return response()->json(['data' => $data]);
-        return view('admission.applicant.list-search', compact('data', 'totalSearchResults'));
+        return response()->json(['data' => $data]);
     }
 
     public function post_applicant_add(Request $request)
@@ -254,6 +273,10 @@ class AdAdmissionController extends Controller
         }
     }
 
+    public function applicant_edit_srch($id)
+    {
+        return redirect()->route('applicant_edit', [encrypt($id)]);
+    }
 
     public function applicant_edit($id)
     {
@@ -426,6 +449,7 @@ class AdAdmissionController extends Controller
 
     public function applicant_schedule_save(Request $request, $id)
     {   
+        $id = $request->input('id');
         $dateID = $request->input('dateID');
         $d_admission = $request->input('d_admission');
         $time = $request->input('time');
@@ -434,8 +458,8 @@ class AdAdmissionController extends Controller
         if(empty($dateID) || empty($d_admission) || empty($time) || empty($venue)) {
             return response()->json(['error' => true, 'message' => 'Please fill in all required fields.'], 422);
         }
-    
         $applicant = Applicant::findOrFail($id);
+        $applicant = $request->input('id');
         $applicant->dateID = $request->input('dateID');
         $applicant->d_admission = $request->input('d_admission');
         $applicant->time = $request->input('time');
@@ -443,6 +467,32 @@ class AdAdmissionController extends Controller
         $applicant->update();
         //return redirect()->back()->with('success', 'Applicant schedule has been saved');
         return response()->json(['success' => true, 'message' => 'Applicant schedule has been saved'], 200);
+    }
+
+    public function applicant_schedulemod_save(Request $request) 
+    {   
+        $request->validate([
+            'id' => 'required',
+            'dateID' => 'required',
+            'd_admission' => 'required',
+            'time' => 'required',
+            'venue' => 'required',
+        ]);
+
+        try {
+            //$decryptedId = Crypt::decrypt($request->input('id'));
+            $id = $request->input('id');
+            $appsched = Applicant::findOrFail($id);
+            $appsched->update([
+                'dateID' => $request->input('dateID'),
+                'd_admission' => $request->input('d_admission'),
+                'time' => $request->input('time'),
+                'venue' => $request->input('venue'),
+            ]);
+            return response()->json(['success' => true, 'message' => 'Applicant schedule has been saved'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to set Schedule!'], 404);
+        }
     }
     
     public function slots()

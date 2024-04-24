@@ -28,16 +28,50 @@ class AdExamineeController extends Controller
     }
 
     public function srchexamineeList(Request $request)
+    {   
+        
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+
+        $data = Applicant::select('ad_applicant_admission.*')
+                        ->where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
+                        ->where('p_status', '=', 2)
+                        ->get();
+
+        return view('admission.examinee.list-search', compact('data'));
+    }
+
+    public function getsrchexamineeList(Request $request)
+    {   
+        
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+
+        $data = Applicant::where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
+                        ->where('p_status', '=', 2)
+                        ->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+    // public function srchexamineeList(Request $request)
+    // {
+    //     $data = Applicant::where('p_status', '=', 2)->get();
+    //     if ($request->year){$data = $data->where('year',$request->year);}
+    //     if ($request->campus){$data = $data->where('campus',$request->campus);}
+    //     if ($request->admission_id){$data = $data->where('admission_id',$request->admission_id);}
+    //     if ($request->lname){$data = $data->where('lname',$request->lname);}
+    //     if ($request->strand){$data = $data->where('strand',$request->strand);}
+    //     $request->session()->put('recent_search', $data);
+    //     $totalSearchResults = count($data);
+    //     return view('admission.examinee.list-search', ['data' => $data,'totalSearchResults' => $totalSearchResults] );
+    // }
+
+    public function examinee_edit_srch($id)
     {
-        $data = Applicant::where('p_status', '=', 2)->get();
-        if ($request->year){$data = $data->where('year',$request->year);}
-        if ($request->campus){$data = $data->where('campus',$request->campus);}
-        if ($request->admission_id){$data = $data->where('admission_id',$request->admission_id);}
-        if ($request->lname){$data = $data->where('lname',$request->lname);}
-        if ($request->strand){$data = $data->where('strand',$request->strand);}
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
-        return view('admission.examinee.list-search', ['data' => $data,'totalSearchResults' => $totalSearchResults] );
+        return redirect()->route('examinee_edit', [encrypt($id)]);
     }
 
     public function examinee_edit($id)

@@ -207,11 +207,17 @@
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
     <!-- Ajax -->
-    @if(request()->routeIs('applicant_edit'))
+    @if(request()->routeIs('srchappList'))
         <script src="{{ asset('js/ajax/applicant/applicantSerialize.js') }}"></script>
     @endif
-    @if(request()->routeIs('examinee_edit'))
+    @if(request()->routeIs('applicant_edit'))
+        <script src="{{ asset('js/ajax/applicant/appAssignSchedSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('srchexamineeList'))
         <script src="{{ asset('js/ajax/examineeajax/examineeSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('examinee_edit'))
+        <script src="{{ asset('js/ajax/examineeajax/examAssignRateSerialize.js') }}"></script>
     @endif
 
     @php $curr_route = request()->route()->getName(); @endphp
@@ -240,8 +246,6 @@
         }, 0); 
     </script>
 
-    @include('script.examineeDelete')
-    @include('script.applicantDelete')
  
 
 </body>

@@ -70,28 +70,6 @@ COAS - V1.0 || Applicant List
                             </div>
 
                             <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Applicant ID</span></label>
-                                <input type="text" class="form-control form-control-sm" name="admission_id" placeholder="Applicant ID">
-                            </div>
-
-                            <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Strand</span></label>
-                                <select class="form-control  form-control-sm" name="strand">
-                                    <option value="">Strand</option>
-                                    <option value="BAM">Accountancy, Business, & Management (BAM)</option>
-                                    <option value="GAS">General Academic Strand (GAS)</option>
-                                    <option value="HUMSS">Humanities, Education, Social Sciences (HUMSS)</option>
-                                    <option value="STEM">Science, Technology, Engineering, & Mathematics (STEM)</option>
-                                    <option value="TVL-CHF">TVL - Cookery, Home Economics, & FBS (TVL-CHF)</option>
-                                    <option value="TVL-CIV">TVL - CSS, ICT, & VGD (TVL-CIV)</option>
-                                    <option value="TVL-AFA">TVL - Agricultural & Fisheries Arts (TVL-AFA)</option>
-                                    <option value="TVL-EIM">TVL - Electrical Installation & Maintenance (TVL-EIM)</option>
-                                    <option value="TVL-SMAW">TVL - Shielded Metal Arc Welding (TVL-SMAW)</option>
-                                    <option value="OLD">Old Curriculum</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-2">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
                             </div>
