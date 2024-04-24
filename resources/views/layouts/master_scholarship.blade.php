@@ -284,7 +284,7 @@
     @if(request()->routeIs('studscholar_searchRead'))
         <script src="{{ asset('js/ajax/scholars/scholarSerialize.js') }}"></script>
     @endif
-    @if(request()->routeIs('studEnHistory'))
+    @if(request()->routeIs('viewsearchStudHistory'))
         <script src="{{ asset('js/ajax/scholars/studHistorySerialize.js') }}"></script>
     @endif
 

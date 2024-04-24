@@ -397,14 +397,10 @@ class ScholarshipController extends Controller
 
     public function viewsearchStudHistory(Request $request) 
     {
-        $searchType = $request->input('type');
-        $query = $request->input($searchType);
-
-        if ($searchType == 'lname') {
-            $results = Student::where('lname', 'like', '%' . $query . '%')->get();
-        } elseif ($searchType == 'studentID') {
-            $results = Student::where('stud_id', $query)->get();
-        }
+        $query = $request->input('query');
+        $results = Student::where('lname', 'like', '%' . $query . '%')
+                        ->orWhere('stud_id', $query)
+                        ->get();
 
         if (count($results) > 0) {    
             return view('scholar.enrolhis.listsearch_enrhis', compact('results'));
@@ -414,17 +410,11 @@ class ScholarshipController extends Controller
 
     public function searchStudHistory(Request $request)
     {
-        // $searchType = $request->input('type');
-        // $query = $request->input($searchType);
+        $query = $request->input('query'); 
+        $results = Student::where('lname', 'like', '%' . $query . '%')
+                        ->orWhere('stud_id', $query)
+                        ->get();
 
-        // $data = [];
-        
-        // if ($searchType === 'lname') {
-        //     $data = Student::where('lname', 'like', '%' . $query . '%')->get();
-        // } elseif ($searchType === 'studentID') {
-        //     $data = Student::where('stud_id', $query)->get();
-        // }
-
-        // return response()->json(['data' => $data]);
+        return response()->json(['data' => $results]);
     }
 }

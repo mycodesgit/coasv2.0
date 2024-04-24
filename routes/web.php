@@ -366,7 +366,7 @@ Route::group(['middleware'=>['login_auth']],function(){
 
         Route::prefix('studenhistory')->group(function () {
             Route::get('/list/search/student', [ScholarshipController::class, 'studEnHistory'])->name('studEnHistory');
-            Route::post('/list/search/student/view', [ScholarshipController::class, 'viewsearchStudHistory'])->name('viewsearchStudHistory');
+            Route::get('/list/search/student/view', [ScholarshipController::class, 'viewsearchStudHistory'])->name('viewsearchStudHistory');
             Route::get('/list/search/student/ajax', [ScholarshipController::class, 'searchStudHistory'])->name('searchStudHistory');
         });
     });

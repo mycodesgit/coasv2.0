@@ -1,13 +1,19 @@
 $(document).ready(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var query = urlParams.get('query') || ''; 
+
     var dataTable = $('#studhisTable').DataTable({
         "ajax": {
-            "url": historyReadRoute,
+            "url": studhistoryReadRoute,
             "type": "GET",
+            "data": { 
+                "query": query
+            }
         },
         info: true,
         responsive: true,
-        lengthChange: true,
-        searching: true,
+        lengthChange: false,
+        searching: false,
         paging: true,
         "columns": [
             {data: 'stud_id'},
@@ -20,26 +26,20 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-        // Handle search type change event
-        $('#searchType').change(function() {
-            // Hide both input fields initially
-            $('#searchLastName, #searchStudentID').hide();
 
-            // Show the input field based on the selected search type
-            var selectedOption = $(this).val();
-            if (selectedOption === 'lname') {
-                $('#searchLastName').show();
-            } else if (selectedOption === 'studentID') {
-                $('#searchStudentID').show();
-            }
-        });
+    if (dataTable) {
+        console.log("DataTable initialized successfully.");
+    } else {
+        console.error("DataTable initialization failed. The table element with ID '#studhisTable' was not found.");
+    }
+});
 
-        // Handle search button click event
-        $('#searchButton').click(function() {
-            var searchType = $('#searchType').val();
-            var query = $('#' + searchType).val();
 
-            // Make AJAX request to fetch data based on search type and query
-            dataTable.ajax.url(historyReadRoute + '?type=' + searchType + '&' + searchType + '=' + query).load();
-        });
+$(document).on('click', '.btn-studhisview', function() {
+    var id = $(this).data('id');
+    var studhislname = $(this).data('studhislname');
+    
+    $('#viewStudHisId').val(id);
+    $('#viewStudHisName').val(studhislname);
+    $('#viewStudHisModal').modal('show');
 });
