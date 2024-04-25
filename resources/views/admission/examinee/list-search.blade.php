@@ -118,9 +118,7 @@ COAS - V1.0 || Examinee Search List
                             <th>Contact No.</th>
                             <th>Exam Sched</th>
                             <th>Campus</th>
-                            @if (Auth::user()->campus == request('campus'))
-                            <th>Action</th>
-                            @endif
+                            <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -179,10 +177,74 @@ COAS - V1.0 || Examinee Search List
     </div>
 </div>
 
+
+<div class="modal fade" id="assignresultexamModal" role="dialog" aria-labelledby="assignresultexamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignresultexamModalLabel">Assign Result to Examinee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="admissionAssignResult">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="assignresultexamId">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label><span class="badge badge-secondary">Raw Score</span></label>
+                            <input type="number" class="form-control form-control-sm" name="raw_score" id="assignresultexamRawScore" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label><span class="badge badge-secondary">Remarks</span></label>
+                            <input type="text" name="percentile" class="form-control form-control-sm" id="assignresultexamPercent" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pushtoresultModal" role="dialog" aria-labelledby="pushtoresultModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pushtoresultModalLabel">Are you sure you want to Push the Applicant to Examination Result List?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="pushtoresultForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="pushtoresultId">
+                    <div class="form-group">
+                        <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Examinee</button></center>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var allExamlicantRoute = "{{ route('getsrchexamineeList') }}";
+    var allExamAssignResultRoute = "{{ route('examinee_resultmod_save', ['id' => ':id']) }}";
     var allExamDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
+    var pushtoresultRoute = '{{ route('examinee_confirmajax',  ['id' => ':id']) }}';
+    var appidEncryptRoute = "{{ route('idcrypt') }}";
+
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+    var requestedCampus = '{{ request('campus') }}'
 </script>
 
 @endsection

@@ -177,7 +177,7 @@ COAS - V1.0 || Applicant Search List
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="uploadedPhoto" class="btn btn-secondary" data-lightbox="photos">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -188,7 +188,7 @@ COAS - V1.0 || Applicant Search List
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editAssignSchedModalLabel">Assign Schedule for Admission Test</h5>
+                <h5 class="modal-title text-center" id="editAssignSchedModalLabel">Assign Schedule for Admission Test</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -207,8 +207,8 @@ COAS - V1.0 || Applicant Search List
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><input type="text" id="schedDate" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" disabled></td>
-                                    <td><input type="text" id="schedTime" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" disabled></td>
+                                    <td><input type="text" id="schedDate" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" readonly></td>
+                                    <td><input type="text" id="schedTime" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" readonly></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -266,10 +266,35 @@ COAS - V1.0 || Applicant Search List
     </div>
 </div>
 
+<div class="modal fade" id="pushtoexamModal" role="dialog" aria-labelledby="pushtoexamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pushtoexamModalLabel">Are you sure you want to Push the Applicant to Examinee List?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="pushtoexamForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="pushtoexamId">
+                    <div class="form-group">
+                        <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Examinee</button></center>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var allApplicantRoute = "{{ route('getsrchappList') }}";
     var allAppAssignSchedRoute = "{{ route('applicant_schedulemod_save', ['id' => ':id']) }}";
     var allAppDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
+    var pushtoexamRoute = '{{ route('applicant_confirmajax',  ['id' => ':id']) }}';
     var appidEncryptRoute = "{{ route('idcrypt') }}";
     var photoStorage = "{{ asset('storage/') }}";
 

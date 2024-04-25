@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 use Storage;
 use Carbon\Carbon;
@@ -33,13 +34,7 @@ class AdExamineeController extends Controller
         $year = $request->query('year');
         $campus = $request->query('campus');
 
-        $data = Applicant::select('ad_applicant_admission.*')
-                        ->where('ad_applicant_admission.year', $year)
-                        ->where('ad_applicant_admission.campus', $campus)
-                        ->where('p_status', '=', 2)
-                        ->get();
-
-        return view('admission.examinee.list-search', compact('data'));
+        return view('admission.examinee.list-search');
     }
 
     public function getsrchexamineeList(Request $request)
@@ -48,7 +43,9 @@ class AdExamineeController extends Controller
         $year = $request->query('year');
         $campus = $request->query('campus');
 
-        $data = Applicant::where('ad_applicant_admission.year', $year)
+        $data = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_examinee_result.*')
+                        ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
                         ->where('p_status', '=', 2)
                         ->get();
@@ -181,6 +178,27 @@ class AdExamineeController extends Controller
         }
     }
 
+    public function examinee_resultmod_save(Request $request) 
+    {   
+        $request->validate([
+            'id' => 'required',
+            'raw_score' => 'required|numeric',
+            'percentile' => 'required',
+        ]);
+
+        try {
+            $decryptedId = Crypt::decrypt($request->input('id'));
+            $appresult = ExamineeResult::where('app_id', $decryptedId)->first();
+            $appresult->update([
+                'raw_score' => $request->input('raw_score'),
+                'percentile' => $request->input('percentile'),
+            ]);
+            return response()->json(['success' => true, 'message' => 'Examinee Result has been saved'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to assign result!'], 404);
+        }
+    }
+
     public function examinee_result_save_nd(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -206,6 +224,35 @@ class AdExamineeController extends Controller
             
         }
     }
+
+    public function examinee_confirmajax(Request $request) 
+    {
+        $decryptedId = Crypt::decrypt($request->input('id'));
+        
+        $applicantsWithoutResult = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+            ->where('ad_applicant_admission.p_status', 2)
+            ->where('ad_applicant_admission.id', $decryptedId)
+            ->where(function ($query) {
+                $query->whereNull('ad_examinee_result.raw_score')
+                    ->whereNull('ad_examinee_result.percentile');
+            })
+            ->exists();
+
+        if ($applicantsWithoutResult) {
+            return response()->json(['error' => true, 'message' => 'Please assign result before pushing to examination results list.'], 422);
+        }
+        
+        $affectedRows = Applicant::where('p_status', 2)
+            ->where('id', $decryptedId)
+            ->update(['p_status' => 3]);
+
+        if ($affectedRows > 0) {
+            return response()->json(['success' => true, 'message' => 'Examinee has been pushed to Examination Results'], 200);
+        } else {
+            return response()->json(['error' => true, 'message' => 'No applicant found with the provided ID or the applicant already has a result assigned.'], 422);
+        }
+    }
+
 
     public function examinee_confirm($id)
     {

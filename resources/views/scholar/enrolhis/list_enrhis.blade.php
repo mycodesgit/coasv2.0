@@ -32,7 +32,7 @@ COAS - V2.0 || Student Enrollment History
                         <div class="form-row">
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Search Student Lastname or Student ID No.</span></label>
-                                <input type="text" name="query" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" placeholder="Search Student Lastname or Student ID No." autofocus>
+                                <input type="text" name="query" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" placeholder="Search Student Lastname or Student ID No." autofocus required>
                             </div>
 
 

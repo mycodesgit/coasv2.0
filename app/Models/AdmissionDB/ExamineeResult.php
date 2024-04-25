@@ -15,10 +15,10 @@ class ExamineeResult extends Model
         'app_id',
         'camp',
         'admission_id',
-        'row_score', 
+        'raw_score', 
         'percentile', 
-        'rating', '
-        interviewed_by',
+        'rating', 
+        'interviewed_by',
         'approval',
     ];
 

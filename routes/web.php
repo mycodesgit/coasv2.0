@@ -94,6 +94,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/{id}/schedule', [AdAdmissionController::class, 'applicant_schedule'])->name('applicant_schedule');
             Route::get('/delete/{id}', [AdAdmissionController::class, 'applicant_delete'])->name('applicant_delete');
             Route::get('/{id}/confirm', [AdAdmissionController::class, 'applicant_confirm'])->name('applicant_confirm');
+            Route::post('/confirm', [AdAdmissionController::class, 'applicant_confirmajax'])->name('applicant_confirmajax');
             Route::get('/slots', [AdAdmissionController::class, 'slots'])->name('slots'); 
             Route::get('/slots/search', [AdAdmissionController::class, 'slots_search'])->name('slots_search');
 
@@ -117,7 +118,9 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/{id}/assignresult', [AdExamineeController::class, 'assignresult'])->name('assignresult');
             Route::put('/result/{id}/save', [AdExamineeController::class, 'examinee_result_save'])->name('examinee_result_save');
             Route::put('/result/{id}/save', [AdExamineeController::class, 'examinee_result_save_nd'])->name('examinee_result_save_nd');
+            Route::post('/result/save', [AdExamineeController::class, 'examinee_resultmod_save'])->name('examinee_resultmod_save');
             Route::get('/{id}/confirm', [AdExamineeController::class, 'examinee_confirm'])->name('examinee_confirm');
+            Route::post('/confirm', [AdExamineeController::class, 'examinee_confirmajax'])->name('examinee_confirmajax');
             Route::get('/result/list', [AdExamineeController::class, 'result_list'])->name('result-list');
             Route::get('/list/srchexamineeResultList', [AdExamineeController::class, 'srchexamineeResultList'])->name('srchexamineeResultList');
             Route::get('/{id}/printPreEnrolment', [AdPrntController::class, 'pre_enrolment_print'])->name('pre_enrolment_print');
