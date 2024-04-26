@@ -52,9 +52,9 @@ class PortalController extends Controller
         $validator = Validator::make($request->all(), [
             'type' => 'required',
             'campus' => 'required',
-            'lastname' => 'required|max:191',
-            'firstname' => 'required|max:191',
-            'email' => 'required|max:191',
+            'lastname' => 'required|unique:ad_applicant_admission,lname|max:191',
+            'firstname' => 'required|unique:ad_applicant_admission,fname|max:191',
+            'email' => 'required|unique:ad_applicant_admission,email|max:191',
             'gender' => 'required',
             'age' => 'required',
             'contact' => 'required|numeric|min:11',
@@ -67,7 +67,6 @@ class PortalController extends Controller
         $existingApplicant = Applicant::where('lname', $request->input('lastname'))
             ->where('fname', $request->input('firstname'))
             ->whereYear('created_at', Carbon::now()->year)
-            ->where('p_status', '!=', 7)
             ->first();
 
         if ($existingApplicant) {
