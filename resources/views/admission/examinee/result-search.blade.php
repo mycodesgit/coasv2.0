@@ -99,7 +99,7 @@ COAS - V1.0 || Examinee Search List Result
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
+            <h5>Search Results: 
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
@@ -112,10 +112,9 @@ COAS - V1.0 || Examinee Search List Result
         <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="exresultlistTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>App ID</th>
                             <th>Name</th>
                             <th>Type</th>
@@ -123,11 +122,11 @@ COAS - V1.0 || Examinee Search List Result
                             <th>Remarks</th>
                             <th>Exam Sched</th>
                             <th>Campus</th>
-                            <th>Action</th>
+                            <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status == 3)
                             <tr>
@@ -160,7 +159,7 @@ COAS - V1.0 || Examinee Search List Result
                             </tr>
                             @else
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -168,7 +167,12 @@ COAS - V1.0 || Examinee Search List Result
     </div>
 </div>
 
+<script>
+    var allresultRoute = "{{ route('getsrchexamineeResultList') }}";
 
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+    var requestedCampus = '{{ request('campus') }}'
+</script>
 
 
 @endsection

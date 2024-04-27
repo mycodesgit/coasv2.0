@@ -121,8 +121,10 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::post('/result/save', [AdExamineeController::class, 'examinee_resultmod_save'])->name('examinee_resultmod_save');
             Route::get('/{id}/confirm', [AdExamineeController::class, 'examinee_confirm'])->name('examinee_confirm');
             Route::post('/confirm', [AdExamineeController::class, 'examinee_confirmajax'])->name('examinee_confirmajax');
+
             Route::get('/result/list', [AdExamineeController::class, 'result_list'])->name('result-list');
             Route::get('/list/srchexamineeResultList', [AdExamineeController::class, 'srchexamineeResultList'])->name('srchexamineeResultList');
+            Route::get('/list/srchexamineeResultList/ajax', [AdExamineeController::class, 'getsrchexamineeResultList'])->name('getsrchexamineeResultList');
             Route::get('/{id}/printPreEnrolment', [AdPrntController::class, 'pre_enrolment_print'])->name('pre_enrolment_print');
             Route::get('/{id}/view', [AdPrntController::class, 'genPreEnrolment'])->name('genPreEnrolment');
             Route::get('/{id}/print', [AdPrntController::class, 'applicant_print'])->name('applicant_print');

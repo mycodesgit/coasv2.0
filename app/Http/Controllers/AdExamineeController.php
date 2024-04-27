@@ -279,15 +279,22 @@ class AdExamineeController extends Controller
 
     public function srchexamineeResultList(Request $request)
     {
-        $data = Applicant::where('p_status', '=', 3)->get();
-        if ($request->year){$data = $data->where('year',$request->year);}
-        if ($request->campus){$data = $data->where('campus',$request->campus);}
-        if ($request->admission_id){$data = $data->where('admission_id',$request->admission_id);}
-        if ($request->lname){$data = $data->where('lname',$request->lname);}
-        if ($request->strand){$data = $data->where('strand',$request->strand);}
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
-        return view('admission.examinee.result-search', ['data' => $data,'totalSearchResults' => $totalSearchResults] );
+        return view('admission.examinee.result-search');
+    }
+
+    public function getsrchexamineeResultList(Request $request)
+    {   
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+
+        $data = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_examinee_result.*')
+                        ->where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
+                        ->where('p_status', '=', 3)
+                        ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function confirmResult($id)

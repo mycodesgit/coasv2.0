@@ -5,7 +5,7 @@
                 <i class="fas fa-home"></i> Home
             </a>
             
-            <a @if(!in_array(Auth::guard($guard)->user()->isAdmin, [3, 4, 5, 6, 7, 8, 9, 10, 11, 943])) id="admission-url" @endif class="btn btn-app @if(in_array(Auth::guard($guard)->user()->isAdmin, [3, 4, 5, 6, 7, 8, 9, 10, 11, 943])) disabled @endif ">
+            <a @if(!in_array(Auth::guard($guard)->user()->isAdmin, [3, 4, 8, 9, 10, 11, 943])) id="admission-url" @endif class="btn btn-app @if(in_array(Auth::guard($guard)->user()->isAdmin, [3, 4, 8, 9, 10, 11, 943])) disabled @endif ">
                 <i class="fas fa-id-card"></i> Admission
             </a>
 

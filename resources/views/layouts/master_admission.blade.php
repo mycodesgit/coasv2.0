@@ -219,6 +219,9 @@
     @if(request()->routeIs('examinee_edit'))
         <script src="{{ asset('js/ajax/examineeajax/examAssignRateSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('srchexamineeResultList'))
+        <script src="{{ asset('js/ajax/examresult/exresultSerialize.js') }}"></script>
+    @endif
 
     @php $curr_route = request()->route()->getName(); @endphp
         @if($curr_route == 'admission-index')

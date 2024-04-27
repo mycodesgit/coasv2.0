@@ -146,7 +146,7 @@ $(document).on('click', '.btn-assignresultexam', function() {
     });
 });
 
-$('#editAssignResultForm').submit(function(event) {
+$('#admissionAssignResult').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
@@ -195,7 +195,7 @@ $(document).on('click', '.btn-pushtoresult', function() {
     });
 });
 
-$('#admissionAssignResult').submit(function(event) {
+$('#pushtoresultForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 

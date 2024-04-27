@@ -44,11 +44,13 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
+        @if(!in_array(Auth::user()->isAdmin, [5, 6, 7]))
         <a href="{{ route('applicant_printing') }}" class="list-group-item {{ $appsreportActive }}">Applicants</a>
         <a href="{{ route('schedules_printing') }}" class="list-group-item {{ $schedreportActive }}">Admission Schedules</a>
         <a href="{{ route('nosched_printing') }}" class="list-group-item {{ $noschedreportActive}}">Applicants No Sched</a>
         <a href="{{ route('examination_printing') }}" class="list-group-item {{ $examreportActive }}">Examination Results</a>
         <a href="{{ route('qualified_printing') }}" class="list-group-item {{ $qualreportActive }}">Qualified Applicants</a>
+        @endif
         <a href="" class="list-group-item">Confirmed Applicants</a> 
         <a href="" class="list-group-item">Accepted Applicants</a>
     </ul>
