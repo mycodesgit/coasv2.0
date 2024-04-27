@@ -22,6 +22,7 @@
     <ul class="list-group">
         <a href="{{ route('scheduler-index') }}" class="list-group-item {{ $dashSchedActive }}">Dashboard</a>
     </ul>
+    @if(!in_array(Auth::guard($guard)->user()->isAdmin, [5, 6, 7]))
     <ul class="list-group mt-1">
         <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
         <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
@@ -31,6 +32,7 @@
         <a href="{{ route('faculty_design') }}" class="list-group-item {{ $facDesigActive }}">Designation</a>
         <a href="{{ route('subjectsOffered') }}" class="list-group-item {{ $suboffActive }}">Subject Offered</a>
     </ul>
+    @endif
 </div>
 
 

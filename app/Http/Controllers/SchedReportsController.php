@@ -20,6 +20,15 @@ use App\Models\EnrollmentDB\Grade;
 
 class SchedReportsController extends Controller
 {
+    public function getGuard()
+    {
+        if(\Auth::guard('web')->check()) {
+            return 'web';
+        } elseif(\Auth::guard('faculty')->check()) {
+            return 'faculty';
+        }
+    }
+
     public function subjectsRead() 
     {
         $subject = Subject::all();
@@ -28,12 +37,16 @@ class SchedReportsController extends Controller
 
     public function facultyloadRead() 
     {
+        $guard= $this->getGuard();
+
         $fac = Faculty::all();
-        return view('scheduler.reports.facultyload', compact('fac'));
+        return view('scheduler.reports.facultyload', compact('fac', 'guard'));
     }
 
     public function facultyload_search(Request $request) 
     {
+        $guard= $this->getGuard();
+
         $fac = Faculty::all();
 
         $schlyear = $request->query('schlyear');
@@ -63,6 +76,6 @@ class SchedReportsController extends Controller
             $grades[$dataItem->subjectID] = Grade::where('subjID', $dataItem->subjectID)->get();
         }
 
-        return view('scheduler.reports.facultyload_listsearch', compact('fac', 'datar', 'grades', 'totalSearchResults'));
+        return view('scheduler.reports.facultyload_listsearch', compact('fac', 'datar', 'grades', 'totalSearchResults', 'guard'));
     }
 }

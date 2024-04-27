@@ -17,14 +17,25 @@ use App\Models\ScheduleDB\Room;
 
 class SchedClassCollegeController extends Controller
 {
+    public function getGuard()
+    {
+        if(\Auth::guard('web')->check()) {
+            return 'web';
+        } elseif(\Auth::guard('faculty')->check()) {
+            return 'faculty';
+        }
+    }
+
     public function index()
     {
+        $guard= $this->getGuard();
+
         $colCount = College::whereIn('id', [2, 3, 4, 5, 6, 7, 8])->count();
         $enunprogCount = EnPrograms::where('progCod', 'NOT LIKE', '%GSS%')->count();
         $engradprogCount = EnPrograms::where('progCod', 'LIKE', '%GSS%')->count();
         $roomCount = Room::where('campus', Auth::guard('web')->user()->campus)->count();
 
-        return view('scheduler.index', compact('colCount', 'enunprogCount', 'engradprogCount', 'roomCount'));
+        return view('scheduler.index', compact('colCount', 'enunprogCount', 'engradprogCount', 'roomCount', 'guard'));
     }
 
     public function collegeRead() 

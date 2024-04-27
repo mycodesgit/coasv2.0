@@ -13,7 +13,7 @@
                 <i class="fas fa-laptop-code"></i> Enrollment
             </a>
 
-            <a @if(!in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 5, 6, 8, 9, 10, 11, 943])) id="scheduler-url" @endif class="btn btn-app @if(in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 5, 6, 8, 9, 10, 11, 943])) disabled @endif ">
+            <a @if(!in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 6, 8, 9, 10, 11, 943])) id="scheduler-url" @endif class="btn btn-app @if(in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 6, 8, 9, 10, 11, 943])) disabled @endif ">
                 <i class="fas fa-calendar-alt"></i> Scheduling
             </a>
            
