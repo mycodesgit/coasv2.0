@@ -20,9 +20,9 @@ $(document).ready(function() {
         }
     }
 
-    var dataTable = $('#exresultlistTable').DataTable({
+    var dataTable = $('#confrmlistTable').DataTable({
         "ajax": {
-            "url": allresultRoute,
+            "url": allAppConfirmRoute,
             "type": "GET",
             "data": { 
                 "year": year,
@@ -59,8 +59,17 @@ $(document).ready(function() {
                     }
                 }
             },
-            {data: 'raw_score'},
-            {data: 'percentile'},
+            {data: 'contact'},
+            {
+                data: 'remarks',
+                render: function(data) {
+                    if (data == 1) {
+                        return '<td><small><span>Accepted for Enrolment</span></small></td>';
+                    } else {
+                        return '<td><small><span>Not accepted for enrolment</span></small></td>';
+                    }
+                }
+            },
             {
                 data: null,
                 render: function(data, type, row) {
@@ -89,8 +98,8 @@ $(document).ready(function() {
                             dropdown += '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>' +
-                                '<a href="#" class="dropdown-item btn-updateresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '">' +
-                                '<i class="fas fa-file-lines"></i> Update Test Result' +
+                                '<a href="#" class="dropdown-item btn-updateInterviewResult" data-id="' + row.adid + '" data-name="' + row.fname + ' ' + row.mname + ' ' + row.lname + '" data-strnd="' + row.strand + '" data-camp="' + row.campus + '" data-cpref1="' + row.preference_1 + '" data-cpref2="' + row.preference_2 + '">' +
+                                '<i class="fas fa-file-lines"></i> Assign Interview Test Result' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-pushtocnfrm" data-id="' + row.adid + '">' +
                                 '<i class="fas fa-check"></i> Push Examinee' +
@@ -119,27 +128,36 @@ $(document).ready(function() {
     });
 });
 
-$(document).on('click', '.btn-updateresultexam', function() {
+$(document).on('click', '.btn-updateInterviewResult', function() {
     var id = $(this).data('id');
-    var uprawScore = $(this).data('rawscore');
-    var uppercentile = $(this).data('percentile');
+    var fullname = $(this).data('name');
+    var nameParts = fullname.split(' ');
+    var middleInitial = nameParts[1] ? nameParts[1].charAt(0) + '.' : ''; 
+    var updatedName = nameParts[0] + ' ' + middleInitial + ' ' + nameParts[2];
+    var strnd = $(this).data('strnd');
+    var camp = $(this).data('camp');
+    var pref1 = $(this).data('cpref1');
+    var pref2 = $(this).data('cpref2');
 
-    $('#updateresultexamId').val(id);
-    $('#updateresultexamRawScore').val(uprawScore);
-    $('#updateresultexamPercent').val(uppercentile);
+    $('#interviewExamId').val(id);
+    $('#interviewresultName').val(updatedName);
+    $('#interviewresultStrand').val(strnd);
+    $('#campus').val(camp).trigger('change');
+    $('#coursePref1').val(pref1);
+    $('#coursePref2').val(pref2);
 
-    $('#updateresultexamModal').modal('show');
+    $('#interviewresultexamModal').modal('show');
     
     $.ajax({
         url: appidEncryptRoute,
         type: "POST",
-        data: { data: $('#updateresultexamId').val() },
+        data: { data: $('#interviewExamId').val() },
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
             //alert(response); 
-            $('#updateresultexamId').val(response)
+            $('#interviewExamId').val(response)
         },
         error: function(xhr, status, error) {
             alert('Error: ' + error); 
@@ -223,3 +241,26 @@ $('#pushtocnfrmForm').submit(function(event) {
     });
 });
 
+ $(document).ready(function() {
+    $('#campus').val('YourStaticCampusValue');
+    $('#campus').trigger('change');
+    
+    $('#campus').change(function() {
+        var campus = $(this).val();
+        $.ajax({
+            url: progCampRoute,
+            method: 'GET',
+            data: { campus: campus },
+            success: function(response) {
+                $('#course').empty();
+                $('#course').append('<option disabled selected>Select Course Preference</option>');
+                $.each(response, function(index, program) {
+                    $('#course').append('<option value="' + program.code + '">' + program.program + '</option>');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});

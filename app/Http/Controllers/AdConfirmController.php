@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 use Storage;
 use Carbon\Carbon;
@@ -13,6 +14,7 @@ use App\Models\AdmissionDB\Applicant;
 use App\Models\AdmissionDB\ApplicantDocs;
 use App\Models\AdmissionDB\DeptRating;
 use App\Models\AdmissionDB\Programs;
+use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\ExamineeResult;
 
 use App\Models\EnrollmentDB\Student;
@@ -22,20 +24,51 @@ class AdConfirmController extends Controller
 {
     public function examinee_confirm()
     {
-        return view('admission.conapp.list');
+        $strand = Strands::all();
+        return view('admission.conapp.list', compact('strand'));
     }
 
     public function srchconfirmList(Request $request)
     {
-        $data = Applicant::where('p_status', '=', 4)->get();
-        if ($request->year){$data = $data->where('year',$request->year);}
-        if ($request->campus){$data = $data->where('campus',$request->campus);}
-        if ($request->admission_id){$data = $data->where('admission_id',$request->admission_id);}
-        if ($request->lname){$data = $data->where('lname',$request->lname);}
-        if ($request->strand){$data = $data->where('strand',$request->strand);}
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
-        return view('admission.conapp.list-search', ['data' => $data,'totalSearchResults' => $totalSearchResults] );
+        $strand = Strands::all();
+        $preference_1 = $applicant->preference_1 ?? null;
+        $preference_2 = $applicant->preference_2 ?? null;
+
+        $program = Programs::where('code', $preference_1)
+            ->orWhere('code', $preference_2)
+            ->orderBy('id', 'asc')
+            ->get();
+
+        return view('admission.conapp.list-search', compact('strand', 'program'));
+    }
+
+    public function getsrchconfirmList(Request $request)
+    {
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+        $strand = $request->query('strand');
+
+        $query  = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_dept_rating.*')
+                        ->where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
+                        ->where('p_status', '=', 4);
+
+        if ($strand) {
+            $query->where('ad_applicant_admission.strand', $strand);
+        }
+
+        $data = $query->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function getCampPrograms(Request $request)
+    {
+        $campus = $request->input('campus');
+        $programs = Programs::where('campus', 'like', '%' . $campus . '%')->get();
+
+        return response()->json($programs);
     }
 
     public function deptInterview($id)

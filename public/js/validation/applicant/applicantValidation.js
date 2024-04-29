@@ -58,4 +58,34 @@ $(function () {
             $(element).removeClass('is-invalid');
         },
     });
+
+    $('#updateTstResult').validate({
+        rules: {
+            raw_score: {
+                required: true,
+            },
+            percentile: {
+                required: true,
+            }
+        },
+        messages: {
+            raw_score: {
+                required: "Please Enter Raw Score",
+            },
+            percentile: {
+                required: "Please Enter Percentile",
+            }
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.col-md-6, .col-md-12').append(error);        
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+    });
 });

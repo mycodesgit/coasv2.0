@@ -104,19 +104,15 @@ class AdAdmissionController extends Controller
 
     public function applicant_list()
     {
-        return view('admission.applicant.list');
-    }
-
-    public function applicant_list_search()
-    {
-        return view('admission.applicant.list-search');
+        $strand = Strands::all();
+        return view('admission.applicant.list', compact('strand'));
     }
 
     public function srchappList(Request $request)
     {   
-        
         $year = $request->query('year');
         $campus = $request->query('campus');
+        $strand = $request->query('strand');
 
         $currentYear = now()->year;
 
@@ -129,8 +125,8 @@ class AdAdmissionController extends Controller
                 ->groupBy('venue')
                 ->whereYear('created_at', $currentYear)
                 ->get();
-
-        return view('admission.applicant.list-search', compact('time1', 'venue1'));
+        $strand = Strands::all();
+        return view('admission.applicant.list-search', compact('time1', 'venue1', 'strand'));
     }
 
     public function getsrchappList(Request $request)
@@ -138,13 +134,19 @@ class AdAdmissionController extends Controller
         
         $year = $request->query('year');
         $campus = $request->query('campus');
+        $strand = $request->query('strand');
 
-        $data = Applicant::join('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
-                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_docs.*')
+        $query  = Applicant::join('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_docs.*')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
-                        ->where('p_status', '=', 1)
-                        ->get();
+                        ->where('p_status', '=', 1);
+
+        if ($strand) {
+            $query->where('ad_applicant_admission.strand', $strand);
+        }
+
+        $data = $query->get();
 
         return response()->json(['data' => $data]);
     }

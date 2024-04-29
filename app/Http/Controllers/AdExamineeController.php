@@ -25,7 +25,8 @@ class AdExamineeController extends Controller
 {
     public function examinee_list()
     {
-        return view('admission.examinee.list');
+        $strand = Strands::all();
+        return view('admission.examinee.list', compact('strand'));
     }
 
     public function srchexamineeList(Request $request)
@@ -33,8 +34,9 @@ class AdExamineeController extends Controller
         
         $year = $request->query('year');
         $campus = $request->query('campus');
+        $strand = Strands::all();
 
-        return view('admission.examinee.list-search');
+        return view('admission.examinee.list-search', compact('strand'));
     }
 
     public function getsrchexamineeList(Request $request)
@@ -42,13 +44,18 @@ class AdExamineeController extends Controller
         
         $year = $request->query('year');
         $campus = $request->query('campus');
+        $strand = $request->query('strand');
 
-        $data = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
-                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_examinee_result.*')
+        $query = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_examinee_result.*')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
-                        ->where('p_status', '=', 2)
-                        ->get();
+                        ->where('p_status', '=', 2);
+        if ($strand) {
+            $query->where('ad_applicant_admission.strand', $strand);
+        }
+
+        $data = $query->get();
 
         return response()->json(['data' => $data]);
     }
@@ -269,30 +276,37 @@ class AdExamineeController extends Controller
             $examinee->update();
             return Redirect::back()->with('success','Examinee has been push to Examination Results'); 
         }
-
     }
 
     public function result_list()
     {
-        return view('admission.examinee.result');
+        $strand = Strands::all();
+        return view('admission.examinee.result', compact('strand'));
     }
 
     public function srchexamineeResultList(Request $request)
     {
-        return view('admission.examinee.result-search');
+        $strand = Strands::all();
+        return view('admission.examinee.result-search', compact('strand'));
     }
 
     public function getsrchexamineeResultList(Request $request)
     {   
         $year = $request->query('year');
         $campus = $request->query('campus');
+        $strand =$request->query('strand');
 
-        $data = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
-                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_examinee_result.*')
+        $query = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_examinee_result.*')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
-                        ->where('p_status', '=', 3)
-                        ->get();
+                        ->where('p_status', '=', 3);
+        
+        if ($strand) {
+            $query->where('ad_applicant_admission.strand', $strand);
+        }
+
+        $data = $query->get();
 
         return response()->json(['data' => $data]);
     }
@@ -314,5 +328,33 @@ class AdExamineeController extends Controller
         $applicant->updated_at = $dt;
         $applicant->update();
         return back()->with('success', 'Applicant was officially confirmed for Pre-Enrolment');
+    }
+
+    public function examinee_confirmPreEnrolmentajax(Request $request) 
+    {
+        $decryptedId = Crypt::decrypt($request->input('id'));
+        
+        $applicantsWithoutResult = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+            ->where('ad_applicant_admission.p_status', 2)
+            ->where('ad_applicant_admission.id', $decryptedId)
+            ->where(function ($query) {
+                $query->whereNull('ad_examinee_result.raw_score')
+                    ->whereNull('ad_examinee_result.percentile');
+            })
+            ->exists();
+
+        if ($applicantsWithoutResult) {
+            return response()->json(['error' => true, 'message' => 'Please assign result before pushing to Confirm Applicant list.'], 422);
+        }
+        
+        $affectedRows = Applicant::where('p_status', 3)
+            ->where('id', $decryptedId)
+            ->update(['p_status' => 4]);
+
+        if ($affectedRows > 0) {
+            return response()->json(['success' => true, 'message' => 'Examinee has been pushed to Confirm Applicants List'], 200);
+        } else {
+            return response()->json(['error' => true, 'message' => 'No applicant found with the provided ID or the applicant already has a result assigned.'], 422);
+        }
     }
 }

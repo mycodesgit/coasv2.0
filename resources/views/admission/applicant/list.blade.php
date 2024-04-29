@@ -69,6 +69,16 @@ COAS - V1.0 || Applicant List
                                 </select>
                             </div>
 
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Strand</span></label>
+                                <select class="form-control  form-control-sm" name="strand">
+                                    <option value=""> --Select-- </option>
+                                    @foreach($strand as $datastrand)
+                                        <option value="{{ $datastrand->code }}">{{ $datastrand->strand }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="col-md-2">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>

@@ -21,7 +21,7 @@ class LoginAuth
         if (auth()->guard('web')->check()) {
             $userRole = auth()->guard('web')->user()->isAdmin;
             //dd($userRole);
-            if (in_array($userRole, [1, 2,])) {
+            if (in_array($userRole, [1, 2])) {
                 if ($request->is('emp/enrollment', 'emp/scheduler', 'emp/assessment', 'emp/cashiering', 'emp/scholarship', 'emp/grades', 'emp/request') || $request->is('emp/enrollment/*', 'emp/scheduler/*', 'emp/assessment/*', 'emp/cashiering/*', 'emp/scholarship/*', 'emp/grades/*')) {
                     return redirect()->route('home')->with('error', 'You have no permission to access this page');
                 }

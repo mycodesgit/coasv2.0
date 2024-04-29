@@ -69,25 +69,13 @@ COAS - V1.0 || Examinee Search List Result
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Applicant ID</span></label>
-                                <input type="text" class="form-control form-control-sm" name="admission_id" placeholder="Applicant ID">
-                            </div>
-
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Strand</span></label>
                                 <select class="form-control  form-control-sm" name="strand">
-                                    <option value="">Strand</option>
-                                    <option value="BAM">Accountancy, Business, & Management (BAM)</option>
-                                    <option value="GAS">General Academic Strand (GAS)</option>
-                                    <option value="HUMSS">Humanities, Education, Social Sciences (HUMSS)</option>
-                                    <option value="STEM">Science, Technology, Engineering, & Mathematics (STEM)</option>
-                                    <option value="TVL-CHF">TVL - Cookery, Home Economics, & FBS (TVL-CHF)</option>
-                                    <option value="TVL-CIV">TVL - CSS, ICT, & VGD (TVL-CIV)</option>
-                                    <option value="TVL-AFA">TVL - Agricultural & Fisheries Arts (TVL-AFA)</option>
-                                    <option value="TVL-EIM">TVL - Electrical Installation & Maintenance (TVL-EIM)</option>
-                                    <option value="TVL-SMAW">TVL - Shielded Metal Arc Welding (TVL-SMAW)</option>
-                                    <option value="OLD">Old Curriculum</option>
+                                    <option value=""> --Select-- </option>
+                                    @foreach($strand as $datastrand)
+                                        <option value="{{ $datastrand->code }}">{{ $datastrand->strand }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -103,8 +91,7 @@ COAS - V1.0 || Examinee Search List Result
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
-                        ID-<b>{{ request('admission_id') }}</b>,
-                        Strand-<b>{{ request('strand') }}</b>,
+                        Strand-@if(request('strand'))<b>{{ request('strand') }}</b>@else <b>All Strand</b> @endif
                     </i>
                 </small>
             </h5>
@@ -122,44 +109,12 @@ COAS - V1.0 || Examinee Search List Result
                             <th>Remarks</th>
                             <th>Exam Sched</th>
                             <th>Campus</th>
+                            <th>Strand</th>
                             <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @php $no = 1; @endphp
-                        @foreach($data as $applicant)
-                            @if ($applicant->p_status == 3)
-                            <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $applicant->admission_id }}</td>
-                                <td style="text-transform: uppercase;">
-                                    <b>{{$applicant->fname}} 
-                                        @if($applicant->mname == null)
-                                            @else {{ substr($applicant->mname,0,1) }}.
-                                        @endif {{$applicant->lname}}  
 
-                                        @if($applicant->ext == 'N/A') 
-                                            @else{{$applicant->ext}}
-                                        @endif
-                                    </b>
-                                </td>
-                                <td>
-                                    @if ($applicant->type == 1) New 
-                                        @elseif($applicant->type == 2) Returnee 
-                                        @elseif($applicant->type == 3) Transferee 
-                                    @endif
-                                </td>
-                                <td>{{ $applicant->result->raw_score }}</td>
-                                <td>{{ $applicant->result->percentile }}</td>
-                                <td>{{ \Carbon\Carbon::parse($applicant->d_admission. ' ' . $applicant->time)->format('M. d, Y g:i A') }}</td>
-                                <td>{{ $applicant->campus }}</td>
-                                <td style="text-align:center;">
-                                    <a data-toggle="tooltip" data-placement="bottom" class="btn btn-primary info_applicant" title="Process Applicant"><i id="{{ encrypt($applicant->id) }}" data-toggle="modal" data-target="#info_results" class="fas fa-server"></i></a>
-                                </td>
-                            </tr>
-                            @else
-                            @endif
-                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -167,8 +122,69 @@ COAS - V1.0 || Examinee Search List Result
     </div>
 </div>
 
+<div class="modal fade" id="updateresultexamModal" role="dialog" aria-labelledby="updateresultexamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateresultexamModalLabel">Update Test Result to Examinee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="updateTstResult">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="updateresultexamId">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label><span class="badge badge-secondary">Raw Score</span></label>
+                            <input type="number" class="form-control form-control-sm" name="raw_score" id="updateresultexamRawScore" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label><span class="badge badge-secondary">Remarks</span></label>
+                            <input type="text" name="percentile" class="form-control form-control-sm" id="updateresultexamPercent" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pushtocnfrmModal" role="dialog" aria-labelledby="pushtocnfrmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pushtocnfrmModalLabel">Are you sure you want to Push the Examinee to Confirm List?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="pushtocnfrmForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="pushtocnfrmId">
+                    <div class="form-group">
+                        <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Confirm</button></center>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var allresultRoute = "{{ route('getsrchexamineeResultList') }}";
+    var updateTestResultRoute = "{{ route('examinee_resultmod_save', ['id' => ':id']) }}";
+    var pushtocnfrmRoute = '{{ route('examinee_confirmPreEnrolmentajax',  ['id' => ':id']) }}';
+    var appidEncryptRoute = "{{ route('idcrypt') }}";
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
     var requestedCampus = '{{ request('campus') }}'

@@ -52,6 +52,11 @@ class AdPrntController extends Controller
         return view('admission.applicant.printPermit')->with('applicant', $applicant);
     }
 
+    public function pre_enrolment_print_srch($id)
+    {
+        return redirect()->route('pre_enrolment_print', [encrypt($id)]);
+    }
+
     public function pre_enrolment_print(Request $request, $id)
     {
         $appID = decrypt($id);

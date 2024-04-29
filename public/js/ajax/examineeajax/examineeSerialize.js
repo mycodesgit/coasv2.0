@@ -8,6 +8,7 @@ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var year = urlParams.get('year') || ''; 
     var campus = urlParams.get('campus') || ''; 
+    var strand = urlParams.get('strand') || ''; 
 
     function toggleActionColumn() {
         if (isCampus === requestedCampus) {
@@ -25,7 +26,8 @@ $(document).ready(function() {
             "type": "GET",
             "data": { 
                 "year": year,
-                "campus": campus
+                "campus": campus,
+                "strand": strand
             }
         },
         responsive: true,
@@ -72,6 +74,7 @@ $(document).ready(function() {
                 }
             },
             {data: 'campus'},
+            {data: 'appstrand'},
             {
                 data: 'adid',
                 className: "action-column",
@@ -82,7 +85,7 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
-                            dropdown += '<a href="srchexamineeList/edit/srchexam/' + row.adid + '" class="dropdown-item btn-edit" data-id="' + row.adid + '" data-chedname="' + row.chedsch_name + '">' +
+                            dropdown += '<a href="srchexamineeList/edit/srchexam/' + row.adid + '" class="dropdown-item btn-edit" data-id="' + row.adid + '">' +
                                 '<i class="fas fa-eye"></i> View' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-assignresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '">' +

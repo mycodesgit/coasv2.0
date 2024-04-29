@@ -67,25 +67,13 @@ COAS - V1.0 || Examinee Search List
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Applicant ID</span></label>
-                                <input type="text" class="form-control form-control-sm" name="admission_id" placeholder="Applicant ID">
-                            </div>
-
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Strand</span></label>
                                 <select class="form-control  form-control-sm" name="strand">
-                                    <option value="">Strand</option>
-                                    <option value="BAM">Accountancy, Business, & Management (BAM)</option>
-                                    <option value="GAS">General Academic Strand (GAS)</option>
-                                    <option value="HUMSS">Humanities, Education, Social Sciences (HUMSS)</option>
-                                    <option value="STEM">Science, Technology, Engineering, & Mathematics (STEM)</option>
-                                    <option value="TVL-CHF">TVL - Cookery, Home Economics, & FBS (TVL-CHF)</option>
-                                    <option value="TVL-CIV">TVL - CSS, ICT, & VGD (TVL-CIV)</option>
-                                    <option value="TVL-AFA">TVL - Agricultural & Fisheries Arts (TVL-AFA)</option>
-                                    <option value="TVL-EIM">TVL - Electrical Installation & Maintenance (TVL-EIM)</option>
-                                    <option value="TVL-SMAW">TVL - Shielded Metal Arc Welding (TVL-SMAW)</option>
-                                    <option value="OLD">Old Curriculum</option>
+                                    <option value=""> --Select-- </option>
+                                    @foreach($strand as $datastrand)
+                                        <option value="{{ $datastrand->code }}">{{ $datastrand->strand }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -101,8 +89,7 @@ COAS - V1.0 || Examinee Search List
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
-                        ID-<b>{{ request('admission_id') }}</b>,
-                        Strand-<b>{{ request('strand') }}</b>,
+                        Strand-@if(request('strand'))<b>{{ request('strand') }}</b>@else <b>All Strand</b> @endif
                     </i>
                 </small>
             </h5>
@@ -118,58 +105,12 @@ COAS - V1.0 || Examinee Search List
                             <th>Contact No.</th>
                             <th>Exam Sched</th>
                             <th>Campus</th>
+                            <th>Strand</th>
                             <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @php $no = 1; @endphp
-                        @foreach($data as $applicant)
-                            @if ($applicant->p_status == 2)
-                            <tr id="tr-{{ $applicant->id }}">
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $applicant->admission_id }}</td>
-                                <td style="text-transform: uppercase;">
-                                    <b>{{$applicant->fname}} 
-                                        @if($applicant->mname == null)
-                                            @else {{ substr($applicant->mname,0,1) }}.
-                                        @endif {{$applicant->lname}}  
-
-                                        @if($applicant->ext == 'N/A') 
-                                            @else{{$applicant->ext}}
-                                        @endif
-                                    </b>
-                                </td>
-                                <td>
-                                    @if ($applicant->type == 1) New 
-                                        @elseif($applicant->type == 2) Returnee 
-                                        @elseif($applicant->type == 3) Transferee 
-                                    @endif
-                                </td>
-                                <td>{{ $applicant->contact }}</td>
-                                <td>{{ \Carbon\Carbon::parse($applicant->d_admission. ' ' . $applicant->time)->format('M. d, Y g:i A') }}</td>
-                                <td>{{ $applicant->campus }}</td>
-                                @if (Auth::user()->campus == request('campus'))
-                                <td style="text-align:center;">
-                                    <div class="btn-group">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a href="{{  route('examinee_edit', encrypt($applicant->id ))}}" class="dropdown-item btn-edit">
-                                                    <i class="fas fa-eye"></i> View
-                                                </a>
-                                                <button value="{{ $applicant->id }}" class="dropdown-item examinee-delete">
-                                                    <i class="fas fa-trash"></i> Delete
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                @endif
-                            </tr>
-                            @else
-                            @endif
-                        @endforeach --}}
+                        
                     </tbody>
                 </table>
             </div>

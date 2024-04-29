@@ -8,6 +8,7 @@ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var year = urlParams.get('year') || ''; 
     var campus = urlParams.get('campus') || ''; 
+    var strand = urlParams.get('strand') || ''; 
 
     function toggleActionColumn() {
         if (isCampus === requestedCampus) {
@@ -25,7 +26,8 @@ $(document).ready(function() {
             "type": "GET",
             "data": { 
                 "year": year,
-                "campus": campus
+                "campus": campus,
+                "strand": strand
             }
         },
         responsive: true,
@@ -68,6 +70,7 @@ $(document).ready(function() {
                 }
             },
             {data: 'campus'},
+            {data: 'appstrand'},
             {
                 data: 'adid',
                 className: "action-column",

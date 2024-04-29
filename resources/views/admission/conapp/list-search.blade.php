@@ -67,25 +67,13 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Applicant ID</span></label>
-                                <input type="text" class="form-control form-control-sm" name="admission_id" placeholder="Applicant ID">
-                            </div>
-
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Strand</span></label>
                                 <select class="form-control  form-control-sm" name="strand">
-                                    <option value="">Strand</option>
-                                    <option value="BAM">Accountancy, Business, & Management (BAM)</option>
-                                    <option value="GAS">General Academic Strand (GAS)</option>
-                                    <option value="HUMSS">Humanities, Education, Social Sciences (HUMSS)</option>
-                                    <option value="STEM">Science, Technology, Engineering, & Mathematics (STEM)</option>
-                                    <option value="TVL-CHF">TVL - Cookery, Home Economics, & FBS (TVL-CHF)</option>
-                                    <option value="TVL-CIV">TVL - CSS, ICT, & VGD (TVL-CIV)</option>
-                                    <option value="TVL-AFA">TVL - Agricultural & Fisheries Arts (TVL-AFA)</option>
-                                    <option value="TVL-EIM">TVL - Electrical Installation & Maintenance (TVL-EIM)</option>
-                                    <option value="TVL-SMAW">TVL - Shielded Metal Arc Welding (TVL-SMAW)</option>
-                                    <option value="OLD">Old Curriculum</option>
+                                    <option value=""> --Select-- </option>
+                                    @foreach($strand as $datastrand)
+                                        <option value="{{ $datastrand->code }}">{{ $datastrand->strand }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -97,12 +85,11 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
+            <h5>Search Results:
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
-                        ID-<b>{{ request('admission_id') }}</b>,
-                        Strand-<b>{{ request('strand') }}</b>,
+                        Strand-@if(request('strand'))<b>{{ request('strand') }}</b>@else <b>All Strand</b> @endif
                     </i>
                 </small>
             </h5>
@@ -110,64 +97,22 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
         <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="confrmlistTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>App ID</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Contact No.</th>
                             <th>Status</th>
+                            <th>Exam Sched</th>
                             <th>Campus</th>
-                            @if(in_array(Auth::user()->isAdmin, [5]))
-                            <th>Action</th>
-                            @endif
+                            <th>Strand</th>
+                            <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
-                        @foreach($data as $applicant)
-                            @if ($applicant->p_status == 4)
-                            <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $applicant->admission_id }}</td>
-                                <td style="text-transform: uppercase;">
-                                    <b>{{$applicant->fname}} 
-                                        @if($applicant->mname == null)
-                                            @else {{ substr($applicant->mname,0,1) }}.
-                                        @endif {{$applicant->lname}}  
 
-                                        @if($applicant->ext == 'N/A') 
-                                            @else{{$applicant->ext}}
-                                        @endif
-                                    </b>
-                                </td>
-                                <td>
-                                    @if ($applicant->type == 1) New 
-                                        @elseif($applicant->type == 2) Returnee 
-                                        @elseif($applicant->type == 3) Transferee 
-                                    @endif
-                                </td>
-                                <td>{{ $applicant->contact }}</td>
-                                <td><small>
-                                        <span>
-                                            @if ($applicant->interview->remarks == 1) Accepted for Enrolment 
-                                            @else Not accepted for enrolment 
-                                            @endif
-                                        </span>
-                                    </small>
-                                </td>
-                                <td>{{ $applicant->campus }}</td>
-                                @if(in_array(Auth::user()->isAdmin, [5]))
-                                <td style="text-align:center;">
-                                    <a data-toggle="tooltip" data-placement="bottom" class="btn btn-primary info_applicant" title="Process Applicant"><i id="{{ encrypt($applicant->id) }}" data-toggle="modal" data-target="#info_app" class="fas fa-server"></i></a>
-                                </td>
-                                @endif
-                            </tr>
-                            @else
-                            @endif
-                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -175,6 +120,93 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
     </div>
 </div>
 
+<div class="modal fade" id="interviewresultexamModal" role="dialog" aria-labelledby="interviewresultexamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="interviewresultexamModalLabel">Assign Interview Result to Applicant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="">
+                <div class="modal-body">
+                    <input type="text" name="id" id="interviewExamId">
+                    <input type="hidden" id="campus">
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="interviewresultName"><span class="badge badge-secondary">Applicant Name</span></label>
+                                <input type="text" class="form-control form-control-sm" id="interviewresultName" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="interviewresultStrand"><span class="badge badge-secondary">Strand</span></label>
+                                <input type="text" class="form-control form-control-sm" id="interviewresultStrand" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="coursePref1"><span class="badge badge-secondary">Course Preference 1</span></label>
+                                <input type="text" class="form-control form-control-sm" id="coursePref1" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="coursePref2"><span class="badge badge-secondary">Course Preference 2</span></label>
+                                <input type="text" class="form-control form-control-sm" id="coursePref2" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="interviewresultexamRawScore"><span class="badge badge-secondary">Rating</span></label>
+                                <input type="number" class="form-control form-control-sm" name="raw_score" id="interviewresultexamRawScore" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="interviewRemarks"><span class="badge badge-secondary">Remarks</span></label>
+                                <select class="form-control form-control-sm" name="remarks" id="interviewRemarks">
+                                    <option disabled selected>Select</option>
+                                    <option value="1">Accepted for Enrollment</option>
+                                    <option value="2">Not Accepted for Enrollment</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Course</span></label>
+                                <select class="form-control form-control-sm" name="course" id="course" style="text-transform: uppercase;">
+                                    <option value="">Select Course Preference</option>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var allAppConfirmRoute = "{{ route('getsrchconfirmList') }}";
+    var appidEncryptRoute = "{{ route('idcrypt') }}";
+    var progCampRoute = "{{ route('getCampPrograms') }}";
+
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+    var requestedCampus = '{{ request('campus') }}'
+</script>
 
 
 @endsection

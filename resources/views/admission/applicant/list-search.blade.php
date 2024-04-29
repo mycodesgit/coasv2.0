@@ -69,6 +69,16 @@ COAS - V1.0 || Applicant Search List
                                 </select>
                             </div>
 
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Strand</span></label>
+                                <select class="form-control  form-control-sm" name="strand">
+                                    <option value=""> --Select-- </option>
+                                    @foreach($strand as $datastrand)
+                                        <option value="{{ $datastrand->code }}">{{ $datastrand->strand }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="col-md-2">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
@@ -81,8 +91,7 @@ COAS - V1.0 || Applicant Search List
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
-                        ID-<b>{{ request('admission_id') }}</b>,
-                        Strand-<b>{{ request('strand') }}</b>,
+                        Strand-@if(request('strand'))<b>{{ request('strand') }}</b>@else <b>All Strand</b> @endif
                     </i>
                 </small>
             </h5>
@@ -99,6 +108,7 @@ COAS - V1.0 || Applicant Search List
                             <th>Contact No.</th>
                             <th>Date Applied</th>
                             <th>Campus</th>
+                            <th>Strand</th>
                             <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>

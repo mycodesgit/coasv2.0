@@ -84,7 +84,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/add', [AdAdmissionController::class, 'applicant_add'])->name('applicant-add');
             Route::post('applicant-add', [AdAdmissionController::class, 'post_applicant_add'])->name('post-applicant-add');
             Route::get('/list', [AdAdmissionController::class, 'applicant_list'])->name('applicant-list');
-            Route::get('/list/search', [AdAdmissionController::class, 'applicant_list_search'])->name('applicant_list_search');
+            // Route::get('/list/search', [AdAdmissionController::class, 'applicant_list_search'])->name('applicant_list_search');
             Route::get('/list/search/applicants', [AdAdmissionController::class, 'srchappList'])->name('srchappList');
             Route::get('/list/search/applicants/ajax', [AdAdmissionController::class, 'getsrchappList'])->name('getsrchappList');
             Route::get('/list/search/edit/srch/{id}', [AdAdmissionController::class, 'applicant_edit_srch'])->name('applicant_edit_srch');
@@ -125,16 +125,20 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/result/list', [AdExamineeController::class, 'result_list'])->name('result-list');
             Route::get('/list/srchexamineeResultList', [AdExamineeController::class, 'srchexamineeResultList'])->name('srchexamineeResultList');
             Route::get('/list/srchexamineeResultList/ajax', [AdExamineeController::class, 'getsrchexamineeResultList'])->name('getsrchexamineeResultList');
-            Route::get('/{id}/printPreEnrolment', [AdPrntController::class, 'pre_enrolment_print'])->name('pre_enrolment_print');
+            Route::get('/list/printPreEnrolment/srch/{id}', [AdPrntController::class, 'pre_enrolment_print_srch'])->name('pre_enrolment_print_srch');
+            Route::get('/list/printPreEnrolment/{id}', [AdPrntController::class, 'pre_enrolment_print'])->name('pre_enrolment_print');
             Route::get('/{id}/view', [AdPrntController::class, 'genPreEnrolment'])->name('genPreEnrolment');
             Route::get('/{id}/print', [AdPrntController::class, 'applicant_print'])->name('applicant_print');
             Route::get('/{id}/confirmResult', [AdExamineeController::class, 'confirmResult'])->name('confirmResult');
             Route::get('/{id}/confirmPreEnrolment', [AdExamineeController::class, 'confirmPreEnrolment'])->name('confirmPreEnrolment');
+            Route::post('/confirmPreEnrolment', [AdExamineeController::class, 'examinee_confirmPreEnrolmentajax'])->name('examinee_confirmPreEnrolmentajax');
         });
 
         Route::prefix('confirm')->group(function () {    
             Route::get('/list', [AdConfirmController::class, 'examinee_confirm'])->name('examinee-confirm');
             Route::get('/list/srchconfirmList', [AdConfirmController::class, 'srchconfirmList'])->name('srchconfirmList');
+            Route::get('/list/srchconfirmList/ajax', [AdConfirmController::class, 'getsrchconfirmList'])->name('getsrchconfirmList');
+            Route::get('/get-programs', [AdConfirmController::class, 'getCampPrograms'])->name('getCampPrograms');
             Route::get('/list/srchconfirmList/accept', [AdConfirmController::class, 'accept'])->name('accept');
             Route::get('/{id}/deptInterview', [AdConfirmController::class, 'deptInterview'])->name('deptInterview');
             Route::put('/rating/{id}/save', [AdConfirmController::class, 'save_applicant_rating'])->name('save_applicant_rating');
