@@ -57,6 +57,11 @@ class AdPrntController extends Controller
         return redirect()->route('pre_enrolment_print', [encrypt($id)]);
     }
 
+    public function conpre_enrolment_print_srch($id)
+    {
+        return redirect()->route('pre_enrolment_print', [encrypt($id)]);
+    }
+
     public function pre_enrolment_print(Request $request, $id)
     {
         $appID = decrypt($id);

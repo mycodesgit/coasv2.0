@@ -99,6 +99,31 @@ class AdConfirmController extends Controller
         return view('admission.conapp.listappaccept')->with('applicant',$applicant )->with('assign',$assign)->with('per',$per);
     }
 
+    public function save_applicantmod_rating(Request $request) 
+    {   
+        $request->validate([
+            'id' => 'required',
+            'rating' => 'required|numeric',
+            'remarks' => 'required',
+            'course' => 'required',
+        ]);
+
+        try {
+            $decryptedId = Crypt::decrypt($request->input('id'));
+            $appresult = DeptRating::where('app_id', $decryptedId)->first();
+            $appresult->update([
+                'interviewer' => Auth::user()->fname . ' ' .Auth::user()->lname ,
+                'rating' => $request->input('rating'),
+                'remarks' => $request->input('remarks'),
+                'course' => $request->input('course'),
+                'reason' => $request->input('reason'),
+            ]);
+            return response()->json(['success' => true, 'message' => 'Applicant Interview Result has been saved'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to assign result!'], 404);
+        }
+    }
+
     public function save_applicant_rating(Request $request, $id)
     {
         $dt = Carbon::now();
@@ -116,6 +141,34 @@ class AdConfirmController extends Controller
             'created_at' => $dt,
         ]);
         return Redirect::route('deptInterview', encrypt($id))->with('success','The applicant interview result has been saved');
+    }
+
+    public function examinee_pushAcceptajax(Request $request) 
+    {
+        $decryptedId = Crypt::decrypt($request->input('id'));
+        
+        $applicantsWithoutResult = Applicant::leftJoin('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+            ->where('ad_applicant_admission.p_status', 2)
+            ->where('ad_applicant_admission.id', $decryptedId)
+            ->where(function ($query) {
+                $query->whereNull('ad_applicant_dept_rating.rating')
+                    ->whereNull('ad_applicant_dept_rating.remarks');
+            })
+            ->exists();
+
+        if ($applicantsWithoutResult) {
+            return response()->json(['error' => true, 'message' => 'Please assign result before pushing to Accepted Applicant list.'], 422);
+        }
+        
+        $affectedRows = Applicant::where('p_status', 4)
+            ->where('id', $decryptedId)
+            ->update(['p_status' => 5]);
+
+        if ($affectedRows > 0) {
+            return response()->json(['success' => true, 'message' => 'Examinee has been pushed to Accepted Applicants List'], 200);
+        } else {
+            return response()->json(['error' => true, 'message' => 'No applicant found with the provided ID or the applicant already has a result assigned.'], 422);
+        }
     }
 
     public function save_accepted_applicant($id)

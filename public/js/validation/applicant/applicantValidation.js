@@ -88,4 +88,40 @@ $(function () {
             $(element).removeClass('is-invalid');
         },
     });
+
+    $('#interviewResultForm').validate({
+        rules: {
+            rating: {
+                required: true,
+            },
+            remarks: {
+                required: true,
+            },
+            course: {
+                required: true,
+            }
+        },
+        messages: {
+            rating: {
+                required: "Please Enter Rating Score",
+            },
+            remarks: {
+                required: "Please Enter Remarks",
+            },
+            course: {
+                required: "Please Select Course",
+            }
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.col-md-6, .col-md-12').append(error);        
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+    });
 });

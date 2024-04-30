@@ -225,6 +225,9 @@
     @if(request()->routeIs('srchconfirmList'))
         <script src="{{ asset('js/ajax/examresult/exconfirmSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('srchacceptedList'))
+        <script src="{{ asset('js/ajax/examresult/acceptedSerialize.js') }}"></script>
+    @endif
 
     @php $curr_route = request()->route()->getName(); @endphp
         @if($curr_route == 'admission-index')

@@ -141,13 +141,18 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/get-programs', [AdConfirmController::class, 'getCampPrograms'])->name('getCampPrograms');
             Route::get('/list/srchconfirmList/accept', [AdConfirmController::class, 'accept'])->name('accept');
             Route::get('/{id}/deptInterview', [AdConfirmController::class, 'deptInterview'])->name('deptInterview');
+            Route::get('/list/conprintPreEnrolment/pdf/{id}', [AdPrntController::class, 'conpre_enrolment_print_srch'])->name('conpre_enrolment_print_srch');
+            Route::post('/rating/save', [AdConfirmController::class, 'save_applicantmod_rating'])->name('save_applicantmod_rating');
             Route::put('/rating/{id}/save', [AdConfirmController::class, 'save_applicant_rating'])->name('save_applicant_rating');
+            Route::post('/saveapplicant', [AdConfirmController::class, 'examinee_pushAcceptajax'])->name('examinee_pushAcceptajax');
             Route::get('/{id}/saveapplicant', [AdConfirmController::class, 'save_accepted_applicant'])->name('save_accepted_applicant');
             Route::get('/{id}/pushapp', [AdConfirmController::class, 'accepted_push_enroll_applicant'])->name('accepted_push_enroll_applicant');
             Route::get('/{id}/pushapplicant', [AdConfirmController::class, 'save_enroll_applicant'])->name('save_enroll_applicant');
             Route::get('/{id}/applicantAccept', [AdConfirmController::class, 'accept'])->name('accept');
+
             Route::get('/accepted', [AdAcceptedController::class, 'applicant_accepted'])->name('applicant-accepted');
             Route::get('/list/acceptedList', [AdAcceptedController::class, 'srchacceptedList'])->name('srchacceptedList');
+            Route::get('/list/acceptedList/ajax', [AdAcceptedController::class, 'getsrchacceptedListapp'])->name('getsrchacceptedListapp');
             Route::get('/enrolled', [AdAcceptedController::class, 'applicant_enrolled'])->name('applicant-enrolled');
             Route::get('/list/enrolledList', [AdAcceptedController::class, 'srchacceptedEnrolledList'])->name('srchacceptedEnrolledList');
         });
@@ -207,7 +212,7 @@ Route::group(['middleware'=>['login_auth']],function(){
         });
     });
 
-    Route::prefix('emp/enrollment')->group(function () {
+    Route::prefix('enmod/enrollment')->group(function () {
         
         Route::get('/', [EnrollmentController::class, 'index'])->name('enrollment-index');
 
@@ -250,7 +255,7 @@ Route::group(['middleware'=>['login_auth']],function(){
 
     });
 
-    Route::prefix('emp/scheduler')->group(function () {
+    Route::prefix('schedmod/scheduler')->group(function () {
         
         Route::get('/', [SchedClassCollegeController::class, 'index'])->name('scheduler-index');
 
@@ -315,7 +320,7 @@ Route::group(['middleware'=>['login_auth']],function(){
 
     });
 
-    Route::prefix('emp/assessment')->group(function () {
+    Route::prefix('assessmod/assessment')->group(function () {
         
         Route::get('/', [StudFundAssessmentController::class, 'index'])->name('assessment-index');
 
@@ -349,7 +354,7 @@ Route::group(['middleware'=>['login_auth']],function(){
         });
     }); 
 
-    Route::prefix('emp/scholarship')->group(function () {
+    Route::prefix('studschmod/scholarship')->group(function () {
         
         Route::get('/', [ScholarshipController::class, 'index'])->name('scholarship-index');
 
@@ -386,7 +391,7 @@ Route::group(['middleware'=>['login_auth']],function(){
         });
     });
 
-    Route::prefix('emp/grades')->group(function () {
+    Route::prefix('estudgrdmod/grades')->group(function () {
         
         Route::get('/', [GradingController::class, 'index'])->name('grading-index');
 
@@ -402,7 +407,7 @@ Route::group(['middleware'=>['login_auth']],function(){
 
     });
 
-    Route::prefix('emp/settings')->group(function () {
+    Route::prefix('adempset/settings')->group(function () {
         
         Route::get('/', [SettingController::class, 'index'])->name('settings-index');
 

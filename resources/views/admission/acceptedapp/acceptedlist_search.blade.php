@@ -67,25 +67,13 @@ COAS - V1.0 || Accepted Applicants
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Applicant ID</span></label>
-                                <input type="text" class="form-control form-control-sm" name="admission_id" placeholder="Applicant ID">
-                            </div>
-
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Strand</span></label>
                                 <select class="form-control  form-control-sm" name="strand">
-                                    <option value="">Strand</option>
-                                    <option value="BAM">Accountancy, Business, & Management (BAM)</option>
-                                    <option value="GAS">General Academic Strand (GAS)</option>
-                                    <option value="HUMSS">Humanities, Education, Social Sciences (HUMSS)</option>
-                                    <option value="STEM">Science, Technology, Engineering, & Mathematics (STEM)</option>
-                                    <option value="TVL-CHF">TVL - Cookery, Home Economics, & FBS (TVL-CHF)</option>
-                                    <option value="TVL-CIV">TVL - CSS, ICT, & VGD (TVL-CIV)</option>
-                                    <option value="TVL-AFA">TVL - Agricultural & Fisheries Arts (TVL-AFA)</option>
-                                    <option value="TVL-EIM">TVL - Electrical Installation & Maintenance (TVL-EIM)</option>
-                                    <option value="TVL-SMAW">TVL - Shielded Metal Arc Welding (TVL-SMAW)</option>
-                                    <option value="OLD">Old Curriculum</option>
+                                    <option value=""> --Select-- </option>
+                                    @foreach($strand as $datastrand)
+                                        <option value="{{ $datastrand->code }}">{{ $datastrand->strand }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -97,12 +85,11 @@ COAS - V1.0 || Accepted Applicants
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
+            <h5>Search Results:
                 <small>
                     <i>Year-<b>{{ request('year') }}</b>,
                         Campus-<b>{{ request('campus') }}</b>,
-                        ID-<b>{{ request('admission_id') }}</b>,
-                        Strand-<b>{{ request('strand') }}</b>,
+                        Strand-@if(request('strand'))<b>{{ request('strand') }}</b>@else <b>All Strand</b> @endif
                     </i>
                 </small>
             </h5>
@@ -110,10 +97,9 @@ COAS - V1.0 || Accepted Applicants
         <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="acceptedTableapp" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>App ID</th>
                             <th>Name</th>
                             <th>Type</th>
@@ -121,13 +107,12 @@ COAS - V1.0 || Accepted Applicants
                             <th>Approved Course</th>
                             <th>Status</th>
                             <th>Campus</th>
-                            @if(in_array(Auth::user()->isAdmin, [5]))
-                            <th>Action</th>
-                            @endif
+                            <th>Strand</th>
+                            <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status == 5)
                             <tr>
@@ -171,7 +156,7 @@ COAS - V1.0 || Accepted Applicants
                             </tr>
                             @else
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -179,7 +164,13 @@ COAS - V1.0 || Accepted Applicants
     </div>
 </div>
 
+<script>
+    var allAppAcceptedRoute = "{{ route('getsrchacceptedListapp') }}";
+    var appidEncryptRoute = "{{ route('idcrypt') }}";
 
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+    var requestedCampus = '{{ request('campus') }}'
+</script>
 
 @endsection
 

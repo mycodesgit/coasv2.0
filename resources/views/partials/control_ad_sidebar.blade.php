@@ -6,7 +6,7 @@
     $appListActive = in_array($curr_route, ['applicant-list', 'srchappList', 'applicant_edit']) ? 'active' : '';
     $examineeListActive = in_array($curr_route, ['examinee-list', 'srchexamineeList', 'examinee_edit']) ? 'active' : '';
     $resultListActive = in_array($curr_route, ['result-list', 'srchexamineeResultList', 'assignresult', 'pre_enrolment_print', 'confirmResult']) ? 'active' : '';
-    $confirmAppListActive = in_array($curr_route, ['examinee-confirm', 'srchconfirmList', 'accept', 'deptInterview']) ? 'active' : '';
+    $confirmAppListActive = in_array($curr_route, ['examinee-confirm', 'srchconfirmList', 'accept', 'deptInterview', 'pre_enrolment_print']) ? 'active' : '';
     $acceptedAppListActive = in_array($curr_route, ['applicant-accepted', 'srchacceptedList', 'accepted_push_enroll_applicant']) ? 'active' : '';
     $enrolledAppListActive = in_array($curr_route, ['applicant-enrolled', 'srchacceptedEnrolledList']) ? 'active' : '';
     $slotActive = in_array($curr_route, ['slots', 'slots_search']) ? 'active' : '';
@@ -33,8 +33,10 @@
         <a href="{{ route('examinee-confirm') }}" class="list-group-item {{ $confirmAppListActive }}">Confirmed Applicants</a>  
         <a href="{{ route('applicant-accepted') }}" class="list-group-item {{ $acceptedAppListActive }}">Accepted Applicants</a>
         {{-- <a href="{{ route('applicant-enrolled') }}" class="list-group-item {{ $enrolledAppListActive }}">Enrolled Applicants</a> --}}
-        <a href="{{ route('slots') }}" class="list-group-item {{ $slotActive }}">Availability/Slots</a>
-        <a href="{{ route('configure_admission') }}" class="list-group-item {{ $confActive }}">Configure Admission</a>
+        @if(in_array(Auth::user()->isAdmin, [0, 1, 2]))
+            <a href="{{ route('slots') }}" class="list-group-item {{ $slotActive }}">Availability/Slots</a>
+            <a href="{{ route('configure_admission') }}" class="list-group-item {{ $confActive }}">Configure Admission</a>
+        @endif
     </ul>
 </div>
 

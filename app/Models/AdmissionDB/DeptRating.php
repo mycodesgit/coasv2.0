@@ -19,5 +19,6 @@ class DeptRating extends Model
         'rating', 
         'remarks',
         'course',
+        'reason',
     ];
 }

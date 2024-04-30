@@ -129,9 +129,9 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="">
+            <form id="interviewResultForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="interviewExamId">
+                    <input type="hidden" name="id" id="interviewExamId">
                     <input type="hidden" id="campus">
 
                     <div class="form-group">
@@ -165,8 +165,8 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-6">
-                                <label for="interviewresultexamRawScore"><span class="badge badge-secondary">Rating</span></label>
-                                <input type="number" class="form-control form-control-sm" name="raw_score" id="interviewresultexamRawScore" min="0">
+                                <label for="interviewresultRating"><span class="badge badge-secondary">Rating</span></label>
+                                <input type="number" class="form-control form-control-sm" name="rating" id="interviewresultRating" min="0">
                             </div>
                             <div class="col-md-6">
                                 <label for="interviewRemarks"><span class="badge badge-secondary">Remarks</span></label>
@@ -189,6 +189,15 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Comments</span></label>
+                                <textarea class="form-control" name="reason" id="interReason" rows="2"></textarea>
+                                <span style="font-size: 9pt; font-weight: normal; font-style: italic; color: #dc3545;">Optional</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -199,8 +208,34 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
     </div>
 </div>
 
+<div class="modal fade" id="pushtoAcceptModal" role="dialog" aria-labelledby="pushtoAcceptModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pushtoAcceptModalLabel">Are you sure you want to Push the Examinee to Confirm List?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="pushtoAcceptForm">
+                <div class="modal-body">
+                    <input type="text" name="id" id="pushtoAcceptId">
+                    <div class="form-group">
+                        <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Confirm</button></center>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var allAppConfirmRoute = "{{ route('getsrchconfirmList') }}";
+    var updateConfirmRoute = "{{ route('save_applicantmod_rating', ['id' => ':id']) }}";
+    var pushtoAcceptRoute = '{{ route('examinee_pushAcceptajax',  ['id' => ':id']) }}';
     var appidEncryptRoute = "{{ route('idcrypt') }}";
     var progCampRoute = "{{ route('getCampPrograms') }}";
 

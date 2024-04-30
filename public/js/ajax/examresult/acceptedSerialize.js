@@ -20,9 +20,9 @@ $(document).ready(function() {
         }
     }
 
-    var dataTable = $('#exresultlistTable').DataTable({
+    var dataTable = $('#acceptedTableapp').DataTable({
         "ajax": {
-            "url": allresultRoute,
+            "url": allAppAcceptedRoute,
             "type": "GET",
             "data": { 
                 "year": year,
@@ -59,18 +59,15 @@ $(document).ready(function() {
                     }
                 }
             },
-            {data: 'raw_score'},
-            {data: 'percentile'},
+            {data: 'interviewer'},
+            {data: 'course'},
             {
-                data: null,
-                render: function(data, type, row) {
-                    if (type === 'display') {
-                        // Parse the date and time strings and format them using moment.js
-                        var dateTimeString = row.d_admission + ' ' + row.time;
-                        var formattedDateTime = moment(dateTimeString, 'YYYY-MM-DD HH:mm:ss').format('MMM DD, YYYY h:mm A');
-                        return formattedDateTime;
+                data: 'remarks',
+                render: function(data) {
+                    if (data == 1) {
+                        return '<td><small><span>Accepted for Enrolment</span></small></td>';
                     } else {
-                        return data; // Return the original data for other types
+                        return '<td><small><span>Not accepted for enrolment</span></small></td>';
                     }
                 }
             },
@@ -89,12 +86,12 @@ $(document).ready(function() {
                             dropdown += '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>' +
-                                '<a href="#" class="dropdown-item btn-updateresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '">' +
-                                '<i class="fas fa-file-lines"></i> Update Test Result' +
+                                '<a href="#" class="dropdown-item btn-updateInterviewResult" data-id="' + row.adid + '" data-name="' + row.fname + ' ' + row.mname + ' ' + row.lname + '" data-strnd="' + row.strand + '" data-camp="' + row.campus + '" data-crating="' + row.rating + '" data-remark="' + row.remarks + '" data-cpref1="' + row.preference_1 + '" data-cpref2="' + row.preference_2 + '" data-creason="' + row.reason + '">' +
+                                '<i class="fas fa-file-lines"></i> Assign Interview Test Result' +
                                 '</a>';
 
-                                if (row.percentile == 'Qualified') {
-                                    dropdown += '<a href="#" class="dropdown-item btn-pushtocnfrm" data-id="' + row.adid + '">' +
+                                if (row.remarks == 1) {
+                                    dropdown += '<a href="#" class="dropdown-item btn-pushtoaccept" data-id="' + row.adid + '">' +
                                         '<i class="fas fa-check"></i> Push Examinee' +
                                         '</a>';
                                 } else {
@@ -119,32 +116,47 @@ $(document).ready(function() {
         }
     });
     toggleActionColumn();
-    $(document).on('rslttable', function() {
+    $(document).on('interrslttable', function() {
         dataTable.ajax.reload();
     });
 });
 
-$(document).on('click', '.btn-updateresultexam', function() {
+$(document).on('click', '.btn-updateInterviewResult', function() {
     var id = $(this).data('id');
-    var uprawScore = $(this).data('rawscore');
-    var uppercentile = $(this).data('percentile');
+    var fullname = $(this).data('name');
+    var nameParts = fullname.split(' ');
+    var middleInitial = nameParts[1] ? nameParts[1].charAt(0) + '.' : ''; 
+    var updatedName = nameParts[0] + ' ' + middleInitial + ' ' + nameParts[2];
+    var strnd = $(this).data('strnd');
+    var camp = $(this).data('camp');
+    var rating = parseFloat($(this).data('crating'));
+    var remark = $(this).data('remark');
+    var pref1 = $(this).data('cpref1');
+    var pref2 = $(this).data('cpref2');
+    var reason = $(this).data('creason');
 
-    $('#updateresultexamId').val(id);
-    $('#updateresultexamRawScore').val(uprawScore);
-    $('#updateresultexamPercent').val(uppercentile);
+    $('#interviewExamId').val(id);
+    $('#interviewresultName').val(updatedName);
+    $('#interviewresultStrand').val(strnd);
+    $('#campus').val(camp).trigger('change');
+    $('#interviewresultRating').val(rating);
+    $('#interviewRemarks').val(remark);
+    $('#coursePref1').val(pref1);
+    $('#coursePref2').val(pref2);
+    $('#interReason').val(reason);
 
-    $('#updateresultexamModal').modal('show');
+    $('#interviewresultexamModal').modal('show');
     
     $.ajax({
         url: appidEncryptRoute,
         type: "POST",
-        data: { data: $('#updateresultexamId').val() },
+        data: { data: $('#interviewExamId').val() },
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
             //alert(response); 
-            $('#updateresultexamId').val(response)
+            $('#interviewExamId').val(response)
         },
         error: function(xhr, status, error) {
             alert('Error: ' + error); 
@@ -152,12 +164,12 @@ $(document).on('click', '.btn-updateresultexam', function() {
     });
 });
 
-$('#updateTstResult').submit(function(event) {
+$('#interviewResultForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
     $.ajax({
-        url: updateTestResultRoute,
+        url: updateConfirmRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -166,8 +178,8 @@ $('#updateTstResult').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#updateresultexamModal').modal('hide');
-                $(document).trigger('rslttable');
+                $('#interviewresultexamModal').modal('hide');
+                $(document).trigger('interrslttable');
             } else {
                 toastr.error(response.message);
             }
@@ -216,7 +228,7 @@ $('#pushtocnfrmForm').submit(function(event) {
             if(response.success) {
                 toastr.success(response.message);
                 $('#pushtocnfrmModal').modal('hide');
-                $(document).trigger('rslttable');
+                $(document).trigger('interrslttable');
             } else {
                 toastr.error(response.message);
             }
@@ -228,19 +240,75 @@ $('#pushtocnfrmForm').submit(function(event) {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const rawScoreInput = document.querySelector('input[name="raw_score"]');
+ $(document).ready(function() {
+    $('#campus').val('YourStaticCampusValue');
+    $('#campus').trigger('change');
     
-    const remarksInput = document.querySelector('input[name="percentile"]');
+    $('#campus').change(function() {
+        var campus = $(this).val();
+        $.ajax({
+            url: progCampRoute,
+            method: 'GET',
+            data: { campus: campus },
+            success: function(response) {
+                $('#course').empty();
+                $('#course').append('<option disabled selected>Select Course Preference</option>');
+                $.each(response, function(index, program) {
+                    $('#course').append('<option value="' + program.code + '">' + program.program + '</option>');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+
+$(document).on('click', '.btn-pushtoaccept', function() {
+    var id = $(this).data('id');
+    $('#pushtoAcceptId').val(id);
+    $('#pushtoAcceptModal').modal('show');
     
-    rawScoreInput.addEventListener('input', function() {
-        const rawScoreValue = parseInt(this.value);
-        
-        if (rawScoreValue < 100) {
-            remarksInput.value = 'Failed';
-        } else {
-            remarksInput.value = 'Qualified';
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#pushtoAcceptId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#pushtoAcceptId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
         }
-        
+    });
+});
+
+$('#pushtoAcceptForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: pushtoAcceptRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#pushtoAcceptModal').modal('hide');
+                $(document).trigger('interrslttable');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
     });
 });
