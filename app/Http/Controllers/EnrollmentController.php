@@ -375,7 +375,16 @@ class EnrollmentController extends Controller
                 ->first(); 
                 
         $selectedProgValue = $programEnHistory->progCod . ' '. $programEnHistory->studYear . '-' . $programEnHistory->studSec;
-        //dd($selectedProgValue);
+
+        $selectedProgStudLevel = $programEnHistory->studLevel;
+        $selectedStudSch = $programEnHistory->studSch;
+        $selectedStudMajor = $programEnHistory->studMajor;
+        $selectedStudMinor = $programEnHistory->studMinor;
+        $selectedStudStatus = $programEnHistory->studStatus;
+        $selectedStudType = $programEnHistory->studType;
+        $selectedStudTransferee = $programEnHistory->transferee;
+        $selectedStudFourPs = $programEnHistory->fourPs ?? 0;
+
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
                     $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
@@ -400,7 +409,7 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs'));
     }
 
 }

@@ -119,7 +119,7 @@ COAS - V2.0 || Enroll Student
 
                                     <div class="form-group">
                                         <div class="form-row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-6">
                                                 <label><span class="badge badge-secondary">Student Level</span></label>
                                                 <select class="form-control form-control-sm" name="studLevel">
                                                     <option disabled selected> --Select-- </option>
@@ -128,7 +128,7 @@ COAS - V2.0 || Enroll Student
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-9">
+                                            <div class="col-md-6">
                                                 <label><span class="badge badge-secondary">Year Level</span></label>
                                                 <input type="text" id="yearsectionInput" name="" class="form-control form-control-sm" readonly>
                                             </div>
@@ -140,7 +140,7 @@ COAS - V2.0 || Enroll Student
                                             <div class="col-md-6">
                                                 <label><span class="badge badge-secondary">Scholarship</span></label>
                                                 <select class="form-control form-control-sm" name="studSch">
-                                                    <option value="0">NO SCHOLARSHIP</option>
+                                                    <option disabled selected> --SELECT SCHOLARSHIP-- </option>
                                                     @foreach ($studscholar as $data)
                                                         <option value="{{ $data->scholar_name }}">{{ $data->scholar_name }}</option>
                                                     @endforeach

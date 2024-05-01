@@ -280,6 +280,9 @@
     @if(request()->routeIs('searchStudEnroll'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('editsearchStudRead'))
+        <script src="{{ asset('js/ajax/enrolment/editEnrollmentSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('studCurrsearch'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
     @endif

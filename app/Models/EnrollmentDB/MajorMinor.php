@@ -10,6 +10,7 @@ class MajorMinor extends Model
     use HasFactory;
     protected $connection = 'enrollment';
     protected $table = 'majorminor_subject';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'submamiID',
