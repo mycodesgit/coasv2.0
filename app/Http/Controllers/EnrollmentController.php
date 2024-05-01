@@ -369,7 +369,13 @@ class EnrollmentController extends Controller
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
-
+        $programEnHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+                ->where('schlyear', $schlyear)
+                ->where('semester', '=', $semester)
+                ->first(); 
+                
+        $selectedProgValue = $programEnHistory->progCod . ' '. $programEnHistory->studYear . '-' . $programEnHistory->studSec;
+        //dd($selectedProgValue);
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
                     $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
@@ -382,6 +388,8 @@ class EnrollmentController extends Controller
                 ->orderBy('class_enroll.classSection', 'ASC')
                 ->get();
         
+
+
         $subjOffer = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
                         ->select('subjects.*', 'sub_offered.*',)
                         ->where('schlyear', $schlyear)
@@ -392,7 +400,7 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.enrollStudent', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue'));
     }
 
 }

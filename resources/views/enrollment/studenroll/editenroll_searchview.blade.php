@@ -92,8 +92,11 @@ COAS - V2.0 || Edit Student Enrollment
                                                     @foreach ($classEnrolls as $class)
                                                     @php
                                                         $yearsection = preg_replace('/\D/', '', $class->classSection);
+
+                                                        $combinedValue = $class->progCode . ' ' . $class->classSection;
+                                                        $selected = ($combinedValue == $selectedProgValue) ? 'selected' : '';
                                                     @endphp
-                                                    <option value="{{ $class->progAcronym }} {{ $class->classSection }}" data-pkey="{{ $class->subjID}}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}">
+                                                    <option value="{{ $combinedValue }}" data-pkey="{{ $class->subjID}}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}" {{ $selected }}>
                                                         {{ $class->progAcronym }} {{ $class->classSection }}
                                                     </option>
                                                     @endforeach
