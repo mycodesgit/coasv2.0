@@ -67,7 +67,7 @@
                         <div>
                             <a href="{{ route('admission-portal') }}" class="btn btn-warning btn-block text-bold">Student</a>
                             <a href="{{ route('login') }}" class="btn btn-warning btn-block text-bold">Employee</a>
-                            <a href="https://cpsu.edu.ph/" class="btn btn-warning btn-block text-bold">CPSU Website</a>
+                            <a href="#" class="btn btn-warning btn-block text-bold">CPSU LMS</a>
                         </div>
                     </div>   
                 </div> 

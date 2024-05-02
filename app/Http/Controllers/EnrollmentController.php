@@ -109,15 +109,15 @@ class EnrollmentController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
-        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
-            ->where('schlyear', $schlyear)
-            ->where('semester', $semester)
-            ->where('campus', $campus)
-            ->first();
+        // $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+        //     ->where('schlyear', $schlyear)
+        //     ->where('semester', $semester)
+        //     ->where('campus', $campus)
+        //     ->first();
 
-        if ($enrollmentHistory) {
-            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
-        }
+        // if ($enrollmentHistory) {
+        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
+        // }
 
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
@@ -137,6 +137,7 @@ class EnrollmentController extends Controller
                         ->where('semester', $semester)
                         ->where('campus', $campus)
                         ->orderBy('subjects.sub_name', 'ASC')
+                        ->orderBy('sub_offered.subSec', 'ASC')
                         ->get();
                         
         $subjectCount = $subjOffer->count();
@@ -181,6 +182,31 @@ class EnrollmentController extends Controller
 
         return response()->json($subjects);
     }
+
+    public function editfetchSubjects(Request $request)
+    {
+        $course = $request->input('course');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $subjects = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
+                        ->leftJoin('studgrades', function ($join) {
+                            $join->on('program_en_history.studentID', '=', 'studgrades.studID')
+                                ->on('sub_offered.id', '=', 'studgrades.subjID');
+                        })
+                        ->select('subjects.*', 'sub_offered.*', 'sub_offered.id as subjID')
+                        ->where('subSec', $course)
+                        ->where('isTemp', 'Yes')
+                        ->where('schlyear', $schlyear)
+                        ->where('semester', $semester)
+                        ->where('campus', $campus)
+                        ->orderBy('sub_offered.subCode', 'ASC')
+                        ->get();
+
+        return response()->json($subjects);
+    }
+
 
     public function fetchFeeSubjects(Request $request)
     {

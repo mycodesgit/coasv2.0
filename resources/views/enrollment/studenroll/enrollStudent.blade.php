@@ -226,6 +226,7 @@ COAS - V2.0 || Enroll Student
                                         <th>Credit</th>
                                         <th>Lec Fee</th>
                                         <th>Lab Fee</th>
+                                        <th>#</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -333,10 +334,10 @@ COAS - V2.0 || Enroll Student
                 </div>  
                 
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="subjecID" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="subjecID" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="sub_code" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="sub_code" readonly>
                 </div>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-sm" id="sub_title" readonly>

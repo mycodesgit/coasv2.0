@@ -126,6 +126,33 @@ $(document).ready(function() {
     });
 });
 
+//for update units, lecfee, labfee and subjectID
+function updateTotalsAndIDs() {
+    var totalUnits = 0;
+    var totalLecFee = 0;
+    var totalLabFee = 0;
+    var subjIDs = [];
+
+    var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
+    var rows = tableBody.getElementsByTagName('tr');
+
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].cells;
+        if (cells.length >= 7) {
+            totalUnits += parseInt(cells[4].textContent);
+            totalLecFee += parseFloat(cells[5].textContent);
+            totalLabFee += parseFloat(cells[6].textContent);
+            subjIDs.push(cells[0].textContent);
+        }
+    }
+
+    document.getElementById('totalunitInput').value = totalUnits;
+    document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
+    document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
+    var subjIDString = subjIDs.join(',');
+    document.getElementById('subjIDsInput').value = subjIDString;
+}
+
 //for Selecting Course from option to generate subject offer using template
 document.getElementById('programNameSelect').addEventListener('change', function() {
     var selectedCourse = this.value;
@@ -144,10 +171,10 @@ document.getElementById('programNameSelect').addEventListener('change', function
                 var subjects = JSON.parse(xhr.responseText);
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
                 tableBody.innerHTML = '';
-                var totalUnits = 0;
-                var totalLecFee = 0;
-                var totalLabFee = 0;
-                var subjIDs = [];
+                // var totalUnits = 0;
+                // var totalLecFee = 0;
+                // var totalLabFee = 0;
+                // var subjIDs = [];
 
                 subjects.forEach(function(subject) {
                     var row = tableBody.insertRow();
@@ -159,28 +186,53 @@ document.getElementById('programNameSelect').addEventListener('change', function
                     row.insertCell(5).textContent = subject.lecFee;
                     row.insertCell(6).textContent = subject.labFee;
 
-                    totalUnits += parseInt(subject.subUnit);
-                    totalLecFee += parseFloat(subject.lecFee);
-                    totalLabFee += parseFloat(subject.labFee);
+                    var removeCell = row.insertCell(7);
+                    var removeButton = document.createElement('button');
+                    removeButton.textContent = '';
+                    removeButton.classList.add('btn', 'btn-outline-danger', 'btn-sm');
+                    var icon = document.createElement('i');
+                    icon.classList.add('fas', 'fa-trash');
+                    removeButton.appendChild(icon);
+                    removeButton.addEventListener('click', function() {
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: 'You are about to remove this subject. This action cannot be undone.',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, remove it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                for (var i = 0; i < 7; i++) {
+                                    row.cells[i].textContent = '';
+                                }
+                                row.parentNode.removeChild(row);
+                                updateTotalsAndIDs();
+                                Swal.fire(
+                                    'Deleted!',
+                                    'The subject has been removed.',
+                                    'success'
+                                );
+                            }
+                        });
+                    });
+                    removeCell.appendChild(removeButton);
 
-                    subjIDs.push(subject.subjID);
+                    // totalUnits += parseInt(subject.subUnit);
+                    // totalLecFee += parseFloat(subject.lecFee);
+                    // totalLabFee += parseFloat(subject.labFee);
+
+                    // subjIDs.push(subject.subjID);
                 });
+                updateTotalsAndIDs();
+                // document.getElementById('totalunitInput').value = totalUnits;
+                // document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
+                // document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
 
-                document.getElementById('totalunitInput').value = totalUnits;
+                // var subjIDString = subjIDs.join(',');
 
-                // var totalRow = tableBody.insertRow();
-                // totalRow.insertCell(0);
-                // totalRow.insertCell(1);
-                // totalRow.insertCell(2); 
-                // totalRow.insertCell(3); 
-                // totalRow.insertCell(4).textContent = totalLecFee.toFixed(2);
-                // totalRow.insertCell(5).textContent = totalLabFee.toFixed(2);
-                document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
-                document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
-
-                var subjIDString = subjIDs.join(',');
-
-                document.getElementById('subjIDsInput').value = subjIDString;
+                // document.getElementById('subjIDsInput').value = subjIDString;
             } else {
                 alert('Failed to fetch subjects.');
             }
@@ -238,6 +290,41 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 row.insertCell(5).textContent = lecFee || selectedSubjectlecFeeText;
                 row.insertCell(6).textContent = labFee || selectedSubjectlabFeeText;
 
+                // Create and append remove button
+                var removeCell = row.insertCell(7);
+                var removeButton = document.createElement('button');
+                removeButton.textContent = '';
+                removeButton.classList.add('btn', 'btn-outline-danger', 'btn-sm');
+                var icon = document.createElement('i');
+                icon.classList.add('fas', 'fa-trash');
+                removeButton.appendChild(icon);
+                removeButton.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You are about to remove this subject. This action cannot be undone.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, remove it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            for (var i = 0; i < 7; i++) {
+                                row.cells[i].textContent = '';
+                            }
+                            row.parentNode.removeChild(row);
+                            updateTotalsAndIDs();
+                            Swal.fire(
+                                'Deleted!',
+                                'The subject has been removed.',
+                                'success'
+                            );
+                        }
+                    });
+                });
+                removeCell.appendChild(removeButton);
+                updateTotalsAndIDs();
+
                 var totalUnits = parseInt(selectedSubjectUnitText) || 0;
                 var rows = tableBody.getElementsByTagName('tr');
                 for (var i = 0; i < rows.length - 1; i++) { 
@@ -246,7 +333,20 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                         totalUnits += parseInt(cell.textContent) || 0;
                     }
                 }
-                document.getElementById('totalunitInput').value = totalUnits;
+                
+                var totalUnitsInput = document.getElementById('totalunitInput');
+                var currentTotalUnits = parseInt(totalUnitsInput.value) || 0;
+                var previousUnits = 0;
+                var rows = tableBody.getElementsByTagName('tr');
+                for (var i = 0; i < rows.length - 1; i++) { 
+                    var cell = rows[i].getElementsByTagName('td')[4];
+                    if (cell) {
+                        previousUnits += parseInt(cell.textContent) || 0;
+                    }
+                }
+                var totalUnits = previousUnits + (parseInt(selectedSubjectUnitText) || 0);
+                totalUnitsInput.value = totalUnits;
+
 
                 var totalLecFeeInputs = document.querySelectorAll('#totalLecFeeInput');
                 totalLecFeeInputs.forEach(function(input) {

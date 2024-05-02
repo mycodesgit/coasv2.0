@@ -92,21 +92,20 @@ COAS - V2.0 || Edit Student Enrollment
                                                     @foreach ($classEnrolls as $class)
                                                     @php
                                                         $yearsection = preg_replace('/\D/', '', $class->classSection);
-
                                                         $combinedValue = $class->progCode . ' ' . $class->classSection;
                                                         $selected = ($combinedValue == $selectedProgValue) ? 'selected' : '';
                                                     @endphp
-                                                    <option value="{{ $combinedValue }}" data-pkey="{{ $class->subjID}}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}" {{ $selected }}>
+                                                    <option value="{{ $class->progAcronym }} {{ $class->classSection }}" data-pkey="{{ $class->subjID}}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}" {{ $selected }}>
                                                         {{ $class->progAcronym }} {{ $class->classSection }}
                                                     </option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
-                                            <input type="hidden" id="editprogramIDInput" name="studClassID" class="form-control form-control-sm" readonly>
-                                            <input type="hidden" id="editprogramCodeInput" name="progCod" class="form-control form-control-sm" readonly>
-                                            <input type="hidden" id="editnumericPart" name="studYear" placeholder="Numeric Part">
-                                            <input type="hidden" id="editalphabeticalPart" name="studSec" placeholder="Alphabetical Part">
+                                            <input type="text" id="editprogramIDInput" name="studClassID" class="form-control form-control-sm" readonly>
+                                            <input type="text" id="editprogramCodeInput" name="progCod" class="form-control form-control-sm" readonly>
+                                            <input type="text" id="editnumericPart" name="studYear" placeholder="Numeric Part">
+                                            <input type="text" id="editalphabeticalPart" name="studSec" placeholder="Alphabetical Part">
 
                                             <div class="col-md-7">
                                                 <label><span class="badge badge-secondary">Program Name</span></label>
@@ -145,7 +144,7 @@ COAS - V2.0 || Edit Student Enrollment
                                                 <select class="form-control form-control-sm" name="studSch">
                                                     <option disabled selected> --SELECT SCHOLARSHIP-- </option>
                                                     @foreach ($studscholar as $data)
-                                                        <option value="{{ $data->id }}" {{ $data->id == $selectedStudSch ? 'selected' : '' }}>{{ $data->scholar_name }}</option>
+                                                        <option value="{{ $data->scholar_name }}" {{ $data->id == $selectedStudSch ? 'selected' : '' }}>{{ $data->scholar_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -177,7 +176,6 @@ COAS - V2.0 || Edit Student Enrollment
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Status</span></label>
                                                 <select class="form-control form-control-sm" name="studStatus">
-                                                    <option disabled selected> --Select-- </option>
                                                     @foreach ($studstat as $data)
                                                         <option value="{{ $data->id }}" {{ $data->id == $selectedStudStatus ? 'selected' : '' }}>{{ $data->studentStatName }}</option>
                                                     @endforeach
@@ -187,7 +185,7 @@ COAS - V2.0 || Edit Student Enrollment
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Type</span></label>
                                                 <select class="form-control form-control-sm" name="studType">
-                                                    <option disabled selected> --Select-- </option>
+                                                    <option disabled selected> --Select--</option>
                                                     @foreach ($studtype as $data)
                                                         <option value="{{ $data->id }}" {{ $data->id == $selectedStudType ? 'selected' : '' }}>{{ $data->studentTypeName }}</option>
                                                     @endforeach
@@ -230,6 +228,7 @@ COAS - V2.0 || Edit Student Enrollment
                                         <th>Credit</th>
                                         <th>Lec Fee</th>
                                         <th>Lab Fee</th>
+                                        <th>#</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -262,7 +261,7 @@ COAS - V2.0 || Edit Student Enrollment
                 <div class="col-md-2 sticky-column mt-6">
                     <div class="card mt-2" style="background-color: #e9ecef">
                         <div class="card-body">
-                            <a href="{{ route('editsearchStud') }}" class="form-control form-control-sm btn btn-success btn-sm">Edit New</a>
+                            <a href="{{ route('searchStud') }}" class="form-control form-control-sm btn btn-success btn-sm">Enroll New</a>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton">Assess</button>
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
