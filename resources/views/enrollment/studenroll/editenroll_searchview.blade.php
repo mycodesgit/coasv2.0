@@ -102,19 +102,26 @@ COAS - V2.0 || Edit Student Enrollment
                                                 </select>
                                             </div>
 
-                                            <input type="text" id="editprogramIDInput" name="studClassID" class="form-control form-control-sm" readonly>
-                                            <input type="text" id="editprogramCodeInput" name="progCod" class="form-control form-control-sm" readonly>
-                                            <input type="text" id="editnumericPart" name="studYear" placeholder="Numeric Part">
-                                            <input type="text" id="editalphabeticalPart" name="studSec" placeholder="Alphabetical Part">
+                                            <input type="hidden" id="editprogramIDInput" name="studClassID" class="form-control form-control-sm" readonly>
+                                            <input type="hidden" id="editprogramCodeInput" name="progCod" class="form-control form-control-sm" readonly>
+                                            <input type="hidden" id="editnumericPart" name="studYear" placeholder="Numeric Part">
+                                            <input type="hidden" id="editalphabeticalPart" name="studSec" placeholder="Alphabetical Part">
 
                                             <div class="col-md-7">
                                                 <label><span class="badge badge-secondary">Program Name</span></label>
                                                 <input type="text" id="editprogramNameInput" name="" class="form-control form-control-sm" readonly>
                                             </div>
 
+                                            @php
+                                            $totalUnits = 0;
+                                            foreach ($subjectsEn as $dataen) {
+                                                $totalUnits += $dataen->subUnit;
+                                            }
+                                            @endphp
+
                                             <div class="col-md-2">
                                                 <label><span class="badge badge-secondary">Total Units</span></label>
-                                                <input type="text" id="totalunitInput" name="studUnit" class="form-control form-control-sm" readonly>
+                                                <input type="text" id="totalunitInput" name="studUnit" class="form-control form-control-sm" value="{{ $totalUnits }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +239,22 @@ COAS - V2.0 || Edit Student Enrollment
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    @foreach($subjectsEn as $dataen)
+                                    <tr>
+                                        <td>{{ $dataen->subjID }}</td>
+                                        <td>{{ $dataen->subCode }}</td>
+                                        <td>{{ $dataen->sub_name }}</td>
+                                        <td>{{ $dataen->sub_title }}</td>
+                                        <td>{{ $dataen->subUnit }}</td>
+                                        <td>{{ $dataen->lecFee }}</td>
+                                        <td>{{ $dataen->labFee }}</td>
+                                        <td>
+                                            <button class="btn btn-outline-danger btn-sm delete-row">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -248,12 +270,33 @@ COAS - V2.0 || Edit Student Enrollment
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($studEditfees as $dataenfees)
+                                    <tr>
+                                        <td>{{ $dataenfees->fundID }}</td>
+                                        <td>{{ $dataenfees->account }}</td>
+                                        <td>{{ $dataenfees->account === 'LAB FEE' ? 0 : $dataenfees->amount }}</td>
+                                    </tr>
+                                    @endforeach
+                                    @php
+                                        $fundIDs = [];
+                                        $accounts = [];
+                                        $amounts = [];
 
+                                        foreach ($studEditfees as $fee) {
+                                            $fundIDs[] = $fee->fundID;
+                                            $accounts[] = $fee->account;
+                                            $amounts[] = $fee->account === 'LAB FEE' ? 0 : $fee->amount;
+                                        }
+
+                                        $fundIDsString = implode(',', $fundIDs);
+                                        $accountsString = implode(',', $accounts);
+                                        $amountsString = implode(',', $amounts);
+                                @endphp
                                 </tbody>
                             </table>
-                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" readonly>
-                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" readonly>
-                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" readonly>
+                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
+                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
+                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -283,15 +326,25 @@ COAS - V2.0 || Edit Student Enrollment
                         <div class="card-body">
                             <div class="form-group">
                                 <div class="form-row">
+                                    @php
+                                        $totallecFee = 0;
+                                        foreach ($subjectsEn as $datalecfee) {
+                                            $totallecFee += $datalecfee->lecFee;
+                                        }
+                                        $totallabFee = 0;
+                                        foreach ($subjectsEn as $datalabfee) {
+                                            $totallabFee += $datalabfee->labFee;
+                                        }
+                                    @endphp
                                     <div class="col-md-6">
-                                        Tuition: <input type="text" id="totalLecFeeInput" class="form-control form-control-sm" readonly>
+                                        Tuition: <input type="text" id="totalLecFeeInput" class="form-control form-control-sm" value="{{ $totallecFee }}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" readonly>
+                                        Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" value="{{ $totallabFee }}" readonly>
                                     </div>
                                 </div>
                             </div>      
-                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
+                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
                         </div>
                     </div>
                 </div>
@@ -364,6 +417,7 @@ COAS - V2.0 || Edit Student Enrollment
         </div>
     </div>
 </div>
+
 
 
 {{-- @include('enrollment.studenroll.modalrf') --}}

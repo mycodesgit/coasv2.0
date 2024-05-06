@@ -342,10 +342,9 @@ class EnrollmentController extends Controller
                     ->where('program_en_history.campus',  $campus)
                     ->where('program_en_history.studentID', $stud_id)->first();
 
-        $studsub = Grade::join('program_en_history', 'studgrades.studID', '=', 'program_en_history.studentID')
-                    ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+        $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                    ->select('program_en_history.*', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('coasv2_db_schedule.sub_offered.schlyear',  $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester',  $semester)
                     ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
@@ -353,8 +352,7 @@ class EnrollmentController extends Controller
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
                     ->get();
 
-        $studfees = StudentAppraisal::join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
-                    ->select('coasv2_db_enrollment.program_en_history.*', 'student_appraisal.*')
+        $studfees = StudentAppraisal::select('student_appraisal.*')
                     ->where('student_appraisal.schlyear',  $schlyear)
                     ->where('student_appraisal.semester',  $semester)
                     ->where('student_appraisal.campus',  $campus)
@@ -411,31 +409,55 @@ class EnrollmentController extends Controller
         $selectedStudTransferee = $programEnHistory->transferee;
         $selectedStudFourPs = $programEnHistory->fourPs ?? 0;
 
-        $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
-                ->join('coasv2_db_enrollment.yearlevel', function($join) {
-                    $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
-                })
-                ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
-                ->where('schlyear', '=', $schlyear)
-                ->where('semester', '=', $semester)
-                ->where('campus', '=', $campus)
-                ->orderBy('programs.progAcronym', 'ASC')
-                ->orderBy('class_enroll.classSection', 'ASC')
-                ->get();
-        
 
+        $subjectsEn = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('studgrades.studID', '=', $programEnHistory->studentID)
+                    ->get();
+
+        $subjectsEnID = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('studgrades.studID', '=', $programEnHistory->studentID)
+                    ->pluck('coasv2_db_schedule.sub_offered.id');
+        $subOfferedIds = implode(',', $subjectsEnID->toArray());
+
+        $studEditfees = StudentAppraisal::join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
+                    ->select('coasv2_db_enrollment.program_en_history.studentID', 'student_appraisal.*')
+                    ->where('student_appraisal.schlyear', '=', $schlyear)
+                    ->where('student_appraisal.semester', '=',  $semester)
+                    ->where('student_appraisal.campus', '=',  $campus)
+                    ->where('student_appraisal.studID', '=', $programEnHistory->studentID)
+                    ->orderBy('student_appraisal.account', 'ASC')
+                    ->distinct('student_appraisal.fundID')
+                    ->get();
+
+        $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                    ->join('coasv2_db_enrollment.yearlevel', function($join) {
+                        $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
+                    })
+                    ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                    ->where('schlyear', '=', $schlyear)
+                    ->where('semester', '=', $semester)
+                    ->where('campus', '=', $campus)
+                    ->orderBy('programs.progAcronym', 'ASC')
+                    ->orderBy('class_enroll.classSection', 'ASC')
+                    ->get();
 
         $subjOffer = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
-                        ->select('subjects.*', 'sub_offered.*',)
-                        ->where('schlyear', $schlyear)
-                        ->where('semester', $semester)
-                        ->where('campus', $campus)
-                        ->orderBy('subjects.sub_name', 'ASC')
-                        ->get();
+                    ->select('subjects.*', 'sub_offered.*',)
+                    ->where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', $campus)
+                    ->orderBy('subjects.sub_name', 'ASC')
+                    ->get();
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subjectsEn', 'subOfferedIds', 'studEditfees'));
     }
 
 }

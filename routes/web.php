@@ -230,6 +230,7 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::prefix('edit')->group(function () {
             Route::get('/student/enroll', [EnrollmentController::class, 'editsearchStud'])->name('editsearchStud');
             Route::get('/student/enroll/view', [EnrollmentController::class, 'editsearchStudRead'])->name('editsearchStudRead');
+            Route::get('/student/enroll/editRF', [EnrollmentController::class, 'studrfprint'])->name('studrfprint');
         });
 
         Route::prefix('gradesheet')->group(function () {

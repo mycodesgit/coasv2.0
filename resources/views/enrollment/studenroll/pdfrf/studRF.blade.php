@@ -205,7 +205,7 @@
 								@endphp
     							@foreach($studsub as $sub)
 	    							<tr>
-	    								<td style="padding-left: 7px;">{{ $sub->sub_code }}</td>
+	    								<td style="padding-left: 7px;">{{ $sub->subCode }}</td>
 	    								<td>{{ $sub->sub_name }}-{{ $sub->subSec }}</td>
 	    								<td>{{ $sub->sub_title }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->subUnit }}</td>
