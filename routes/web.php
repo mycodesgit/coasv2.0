@@ -33,6 +33,7 @@ use App\Http\Controllers\SchedReportsController;
 
 use App\Http\Controllers\StudFundAssessmentController;
 use App\Http\Controllers\StudFeeAssessmentController;
+use App\Http\Controllers\StudStateAccntAssessmentController;
 
 use App\Http\Controllers\ScholarshipController;
 
@@ -230,7 +231,6 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::prefix('edit')->group(function () {
             Route::get('/student/enroll', [EnrollmentController::class, 'editsearchStud'])->name('editsearchStud');
             Route::get('/student/enroll/view', [EnrollmentController::class, 'editsearchStudRead'])->name('editsearchStudRead');
-            Route::get('/student/enroll/editRF', [EnrollmentController::class, 'studrfprint'])->name('studrfprint');
         });
 
         Route::prefix('gradesheet')->group(function () {
@@ -353,6 +353,13 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::post('/search/list/add', [StudFeeAssessmentController::class, 'studFeeCreate'])->name('studFeeCreate');
             Route::post('/search/list/update', [StudFeeAssessmentController::class, 'studFeeUpdate'])->name('studFeeUpdate');
             Route::get('/search/list/delete{id}', [StudFeeAssessmentController::class, 'studFeeDelete'])->name('studFeeDelete');
+        });
+
+        Route::prefix('reports')->group(function () {
+            Route::get('/statement/per/sem', [StudStateAccntAssessmentController::class, 'stateaccntpersem'])->name('stateaccntpersem');
+
+            Route::get('/statement/summary', [StudStateAccntAssessmentController::class, 'stateaccntpersum'])->name('stateaccntpersum');
+            Route::get('/statement/summary/search', [StudStateAccntAssessmentController::class, 'stateaccntpersum_search'])->name('stateaccntpersum_search');
         });
     }); 
 

@@ -88,7 +88,7 @@ $(function () {
                     required: "Select Transferee or Not",
                 },
                 fourPs: {
-                    required: "Select Student 4P's Beneficiaries<",
+                    required: "Select Student 4P's Beneficiaries",
                 },
             },
             errorElement: 'span',

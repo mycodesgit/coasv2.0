@@ -30,6 +30,18 @@ $(document).ready(function() {
     });
 });
 
+//for Selecting subject manually in modal 
+$(document).ready(function() {
+    $('#subjectSelect').change(function() {
+        var selectedOption = $(this).find(':selected');
+        $('#subjecID').val(selectedOption.data('subp-sid'));
+        $('#sub_code').val(selectedOption.data('sub-code'));
+        $('#sub_title').val(selectedOption.data('sub-title'));
+        $('#subUnit').val(selectedOption.data('sub-unit'));
+        $('#lecFee').val(selectedOption.data('lec-fee'));
+        $('#labFee').val(selectedOption.data('lab-fee'));
+    });
+});
 
 //for update units, lecfee, labfee and subjectID
 function updateTotalsAndIDs() {
@@ -128,6 +140,136 @@ document.getElementById('programNameEditSelect').addEventListener('change', func
     };
     var tableBody = document.getElementById('studFeeTable').getElementsByTagName('tbody')[0];
     tableBody.innerHTML = '';
+    xhr.send();
+});
+
+//for Manual Adding of Subject using Modal
+document.getElementById('addSubjectBtn').addEventListener('click', function() {
+    var selectedSubjectOption = document.querySelector('#subjectSelect option:checked');
+    if (!selectedSubjectOption) {
+        alert('Please select a subject.');
+        return;
+    }
+
+    var selectedSubjectText = selectedSubjectOption.textContent;
+    var sub_name = selectedSubjectText; 
+
+    var selectedSubjectPkeyText = document.getElementById('subjecID').value;
+    var selectedSubjectCodeText = document.getElementById('sub_code').value;
+    var selectedSubjectTitleText = document.getElementById('sub_title').value;
+    var selectedSubjectUnitText = document.getElementById('subUnit').value;
+    var selectedSubjectlecFeeText = document.getElementById('lecFee').value;
+    var selectedSubjectlabFeeText = document.getElementById('labFee').value;
+
+    var subjIDInput = document.getElementById('subjIDsInput');
+    var existingIDs = subjIDInput.value.trim(); 
+    var newID = selectedSubjectPkeyText || ''; 
+    var updatedIDs = existingIDs ? existingIDs + ',' + newID : newID; 
+    subjIDInput.value = updatedIDs; 
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', getfetchSubjectRoute + '?dd=' + encodeURIComponent(selectedSubjectText), true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var subjectDetails = JSON.parse(xhr.responseText);
+                var id = subjectDetails.id; 
+                var subCode = subjectDetails.subCode; 
+                var sub_title = subjectDetails.sub_title;
+                var subUnit = subjectDetails.subUnit;
+                var lecFee = subjectDetails.lecFee;
+                var labFee = subjectDetails.labFee;
+
+                var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
+                var row = tableBody.insertRow();
+                row.insertCell(0).textContent = id || selectedSubjectPkeyText;
+                row.insertCell(1).textContent = subCode || selectedSubjectCodeText; 
+                row.insertCell(2).textContent = sub_name;
+                row.insertCell(3).textContent = sub_title || selectedSubjectTitleText;
+                row.insertCell(4).textContent = subUnit || selectedSubjectUnitText;
+                row.insertCell(5).textContent = lecFee || selectedSubjectlecFeeText;
+                row.insertCell(6).textContent = labFee || selectedSubjectlabFeeText;
+
+                // Create and append remove button
+                var removeCell = row.insertCell(7);
+                var removeButton = document.createElement('button');
+                removeButton.textContent = '';
+                removeButton.classList.add('btn', 'btn-outline-danger', 'btn-sm');
+                var icon = document.createElement('i');
+                icon.classList.add('fas', 'fa-trash');
+                removeButton.appendChild(icon);
+                removeButton.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You are about to remove this subject. This action cannot be undone.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, remove it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            for (var i = 0; i < 7; i++) {
+                                row.cells[i].textContent = '';
+                            }
+                            row.parentNode.removeChild(row);
+                            updateTotalsAndIDs();
+                            Swal.fire(
+                                'Deleted!',
+                                'The subject has been removed.',
+                                'success'
+                            );
+                        }
+                    });
+                });
+                removeCell.appendChild(removeButton);
+                updateTotalsAndIDs();
+
+                var totalUnits = parseInt(selectedSubjectUnitText) || 0;
+                var rows = tableBody.getElementsByTagName('tr');
+                for (var i = 0; i < rows.length - 1; i++) { 
+                    var cell = rows[i].getElementsByTagName('td')[3];
+                    if (cell) {
+                        totalUnits += parseInt(cell.textContent) || 0;
+                    }
+                }
+                
+                var totalUnitsInput = document.getElementById('totalunitInput');
+                var currentTotalUnits = parseInt(totalUnitsInput.value) || 0;
+                var previousUnits = 0;
+                var rows = tableBody.getElementsByTagName('tr');
+                for (var i = 0; i < rows.length - 1; i++) { 
+                    var cell = rows[i].getElementsByTagName('td')[4];
+                    if (cell) {
+                        previousUnits += parseInt(cell.textContent) || 0;
+                    }
+                }
+                var totalUnits = previousUnits + (parseInt(selectedSubjectUnitText) || 0);
+                totalUnitsInput.value = totalUnits;
+
+
+                var totalLecFeeInputs = document.querySelectorAll('#totalLecFeeInput');
+                totalLecFeeInputs.forEach(function(input) {
+                    var previousValue = parseFloat(input.value) || 0;
+                    var currentFee = parseFloat(selectedSubjectlecFeeText) || parseFloat(lecFee);
+                    var newTotal = previousValue + currentFee;
+                    input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
+                });
+
+                var totalLabFeeInputs = document.querySelectorAll('#totalLabFeeInput');
+                totalLabFeeInputs.forEach(function(input) {
+                    var previousValue = parseFloat(input.value) || 0;
+                    var currentFee = parseFloat(selectedSubjectlabFeeText) || 0; 
+                    var newTotal = previousValue + currentFee;
+                    input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
+                });
+
+                $('#modal-addSub').modal('hide');
+            } else {
+                alert('Failed to fetch subject details.');
+            }
+        }
+    };
     xhr.send();
 });
 
@@ -281,3 +423,53 @@ function updateTotalsAndIDs(subjIDToDelete) {
     $('#subjIDsInput').val(subjIDString); 
 }
 
+// Disable save button initially
+document.getElementById('submitButton').disabled = true;
+document.getElementById('printRFButton').disabled = true;
+
+document.getElementById('assessButton').addEventListener('click', function() {
+    if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
+        document.getElementById('submitButton').disabled = true;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No subjects added.',
+        });
+    } else if (!document.getElementById('programNameSelect').value) {
+        document.getElementById('submitButton').disabled = true;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please select a program.',
+        });
+    } else {
+        document.getElementById('submitButton').disabled = false;
+    }
+});
+
+document.getElementById('submitButton').addEventListener('click', function() {
+    document.querySelectorAll('.btnprim').forEach(function(button) {
+        button.disabled = false;
+    });
+
+    if (response && response.error) {
+        // If there's an error, disable the Print RF button
+        document.getElementById('printRFButton').disabled = true;
+    } else {
+        if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
+            document.getElementById('submitButton').disabled = true;
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No subjects added.',
+            });
+        } else if (!document.getElementById('programNameSelect').value) {
+            document.getElementById('submitButton').disabled = true;
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select a program.',
+            });
+        }
+    }
+});

@@ -171,7 +171,7 @@ COAS - V2.0 || Subject Offered
                                                 <select class="form-control form-control-sm select2bs4" name="subSec">
                                                     <option disabled selected>---Select---</option>
                                                     @foreach($class as $classes)
-                                                        <option value="{{ $classes->progAcronym }} - {{ $classes->classSection }}">{{ $classes->progAcronym }} {{ $classes->classSection }}</option>
+                                                        <option value="{{ $classes->progAcronym }} {{ $classes->classSection }}">{{ $classes->progAcronym }} {{ $classes->classSection }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

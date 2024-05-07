@@ -121,7 +121,7 @@ COAS - V2.0 || List of Scholars Student
             </div>
             <form id="editstudSchEnForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="editstudSchEnId">
+                    <input type="hidden" name="id" id="editstudSchEnId">
                     <div class="form-group">
                         <label for="editstudSchEnStudID">Student ID No.</label>
                         <input type="text" id="editstudSchEnStudID" class="form-control form-control-sm" readonly>

@@ -88,7 +88,7 @@ COAS - V2.0 || Enroll Student
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Course Year&Section</span></label>
                                                 <select class="form-control form-control-sm" name="course" id="programNameSelect">
-                                                    <option> --Select --</option>
+                                                    <option disabled selected> --Select --</option>
                                                     @foreach ($classEnrolls as $class)
                                                     @php
                                                         $yearsection = preg_replace('/\D/', '', $class->classSection);
@@ -121,7 +121,7 @@ COAS - V2.0 || Enroll Student
                                         <div class="form-row">
                                             <div class="col-md-6">
                                                 <label><span class="badge badge-secondary">Student Level</span></label>
-                                                <select class="form-control form-control-sm" name="studLevel">
+                                                <select class="form-control form-control-sm" name="studLevel" id="studLevel">
                                                     <option disabled selected> --Select-- </option>
                                                     @foreach ($studlvl as $data)
                                                     <option value="{{ $data->id }}">{{ $data->studLevel }}</option>
@@ -268,7 +268,7 @@ COAS - V2.0 || Enroll Student
                                 <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
                                 <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                                 <input type="hidden" name="semester" value="{{ request('semester') }}">
-                            <button type="submit" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" target="_blank">
+                            <button type="submit" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="printRFButton" target="_blank">
                                 Print RF
                             </button>
                             </form>

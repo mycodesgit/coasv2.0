@@ -384,7 +384,18 @@ document.getElementById('assessButton').addEventListener('click', function() {
     var totalLabFee = 0;
 
     if (!programCode || !numericPart || !schlyear || !semester || !campus) {
-        alert('Please fill in all fields.');
+        //alert('Please fill in all fields.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please fill in all fields.',
+            showClass: {
+                popup: 'my-custom-show-animation'
+            },
+            hideClass: {
+                popup: ''
+            }
+        });
         return;
     }
 
@@ -474,33 +485,55 @@ document.getElementById('assessButton').addEventListener('click', function() {
 });
 
 // Disable save button initially
-// document.getElementById('submitButton').disabled = true;
-// document.getElementById('addSubjectModalBtn').disabled = true;
-// document.getElementById('assessButton').addEventListener('click', function() {
-//     document.getElementById('submitButton').disabled = false;
-// });
+document.getElementById('submitButton').disabled = true;
+document.getElementById('printRFButton').disabled = true;
 
-// document.getElementById('submitButton').addEventListener('click', function() {
+document.getElementById('assessButton').addEventListener('click', function() {
+    if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
+        document.getElementById('submitButton').disabled = true;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No subjects added.',
+        });
+    } else if (!document.getElementById('programNameSelect').value) {
+        document.getElementById('submitButton').disabled = true;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please select a program.',
+        });
+    } else {
+        document.getElementById('submitButton').disabled = false;
+    }
+});
 
-//     // Disable all buttons except Enroll New and Print RF
-//     // document.querySelectorAll('.btnprim').forEach(function(button) {
-//     //     button.disabled = true;
-//     // });
-//     document.getElementById('addSubjectModalBtn').disabled = false;
-//     document.getElementById('addSubjectBtn').disabled = true;
-//     if (response && !response.error) {
-//         document.getElementById('submitButton').disabled = true;
-//     }
-// });
+document.getElementById('submitButton').addEventListener('click', function() {
+    document.querySelectorAll('.btnprim').forEach(function(button) {
+        button.disabled = false;
+    });
 
-
-
-
-
-
-
-
-
+    if (response && response.error) {
+        // If there's an error, disable the Print RF button
+        document.getElementById('printRFButton').disabled = true;
+    } else {
+        if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
+            document.getElementById('submitButton').disabled = true;
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No subjects added.',
+            });
+        } else if (!document.getElementById('programNameSelect').value) {
+            document.getElementById('submitButton').disabled = true;
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select a program.',
+            });
+        }
+    }
+});
 
 
 

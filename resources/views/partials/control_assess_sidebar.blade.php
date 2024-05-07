@@ -6,7 +6,9 @@
     $coaActive = in_array($curr_route, ['accountCOARead']) ? 'active' : '';
     $accntAppraisalActive = in_array($curr_route, ['accountAppraisalRead']) ? 'active' : '';
     $studFeeActive = in_array($curr_route, ['searchStudfee', 'list_searchStudfee']) ? 'active' : '';
-    
+
+    $studStateAccntActive = in_array($curr_route, ['stateaccntpersem']) ? 'active' : '';
+    $studStateAccntSumActive = in_array($curr_route, ['stateaccntpersum', 'stateaccntpersum_search']) ? 'active' : '';
 
 @endphp
 
@@ -24,10 +26,12 @@
 
 
 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Reports</h5>
+    <h5>Reports <span class="nav-header text-dark text-left" style="font-size: 12pt">of Statement of</span></h5>
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        <a href="" class="list-group-item">Students Scholar Reports</a>
+        <a href="{{ route('stateaccntpersem') }}" class="list-group-item {{ $studStateAccntActive }}">Accounts Per Semester</a>
+        <a href="" class="list-group-item ">Accounts Per Date</a>
+        <a href="{{ route('stateaccntpersum') }}" class="list-group-item {{ $studStateAccntSumActive }}">Accounts Summary</a>
     </ul>
 </div>

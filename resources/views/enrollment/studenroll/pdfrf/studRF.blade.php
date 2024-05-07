@@ -27,7 +27,7 @@
 			margin-left: 135px;
 		}
 		.studinfoScholar {
-			margin-left: 30px;
+			margin-left: 5px;
 		}
 		.studinfoCourse {
 			margin-left: 10px;
@@ -158,7 +158,7 @@
 
     <div class="studinfolabel">
     	<span style="font-weight: bold;">Name:</span> <span class="studinfoName">{{ $student->fname }} {{ substr($student->mname, 0, 1) }} {{ $student->lname }}</span>
-    	<span style="font-weight: bold; text-align: right !important; margin-left: 100px;">Scholarship:</span> <span class="studinfoScholar">None</span>
+    	<span style="font-weight: bold; text-align: right !important; margin-left: 10px;">Scholarship:</span> <span class="studinfoScholar">{{ $student->scholar_name}}</span>
     </div>
 
     <div class="studinfolabel">
@@ -307,7 +307,7 @@
     				</td>
     			</tr>
     			<tr>
-    				<td colspan="4" style="padding-left: 5px">Balance for the SECOND SEMESTER SY 2023-2024 as of 23/02/2024 is: Php 8, 145.00</td>
+    				<td colspan="4" style="padding-left: 5px">Balance for the SECOND SEMESTER SY {{ $student->schlyear }} as of {{ \Carbon\Carbon::parse($student->updated_at)->format('d/m/Y'); }} is: {{ number_format($totalBalanceFee, 2) }}</td>
     			</tr>
     		</tbody>
     	</table>

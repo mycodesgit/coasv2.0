@@ -294,9 +294,9 @@ COAS - V2.0 || Edit Student Enrollment
                                 @endphp
                                 </tbody>
                             </table>
-                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
-                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
-                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
+                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
+                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
+                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -304,7 +304,7 @@ COAS - V2.0 || Edit Student Enrollment
                 <div class="col-md-2 sticky-column mt-6">
                     <div class="card mt-2" style="background-color: #e9ecef">
                         <div class="card-body">
-                            <a href="{{ route('searchStud') }}" class="form-control form-control-sm btn btn-success btn-sm">Enroll New</a>
+                            <a href="{{ route('editsearchStud') }}" class="form-control form-control-sm btn btn-success btn-sm">Edit New</a>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton">Assess</button>
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
@@ -313,7 +313,7 @@ COAS - V2.0 || Edit Student Enrollment
                                 <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
                                 <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                                 <input type="hidden" name="semester" value="{{ request('semester') }}">
-                            <button type="submit" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" target="_blank">
+                            <button type="submit" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="printRFButton" target="_blank">
                                 Print RF
                             </button>
                             </form>

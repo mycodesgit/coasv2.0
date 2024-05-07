@@ -109,15 +109,15 @@ class EnrollmentController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
-        // $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
-        //     ->where('schlyear', $schlyear)
-        //     ->where('semester', $semester)
-        //     ->where('campus', $campus)
-        //     ->first();
+        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+            ->where('schlyear', $schlyear)
+            ->where('semester', $semester)
+            ->where('campus', $campus)
+            ->first();
 
-        // if ($enrollmentHistory) {
-        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
-        // }
+        if ($enrollmentHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
+        }
 
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
@@ -333,10 +333,11 @@ class EnrollmentController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                    ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
                     ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
                     ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                    ->select('students.*', 'program_en_history.*', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->select('students.*', 'program_en_history.*', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*', 'coasv2_db_scholarship.scholarship.*')
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
                     ->where('program_en_history.campus',  $campus)
@@ -397,6 +398,10 @@ class EnrollmentController extends Controller
                 ->where('schlyear', $schlyear)
                 ->where('semester', '=', $semester)
                 ->first(); 
+
+        if (!$programEnHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> not enrolled at this term or school year.');
+        }
                 
         $selectedProgValue = $programEnHistory->progCod . ' '. $programEnHistory->studYear . '-' . $programEnHistory->studSec;
 
