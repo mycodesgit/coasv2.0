@@ -360,6 +360,7 @@ Route::group(['middleware'=>['login_auth']],function(){
 
             Route::get('/statement/summary', [StudStateAccntAssessmentController::class, 'stateaccntpersum'])->name('stateaccntpersum');
             Route::get('/statement/summary/search', [StudStateAccntAssessmentController::class, 'stateaccntpersum_search'])->name('stateaccntpersum_search');
+            Route::get('/statement/summary/searchajax', [StudStateAccntAssessmentController::class, 'getstateaccntpersum_search'])->name('getstateaccntpersum_search');
         });
     }); 
 

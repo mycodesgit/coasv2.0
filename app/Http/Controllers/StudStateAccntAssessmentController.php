@@ -24,11 +24,16 @@ class StudStateAccntAssessmentController extends Controller
 
     public function stateaccntpersum_search(Request $request)
     {
+        return view('assessment.assessreports.statementaccntsum_search');
+    }
+
+    public function getstateaccntpersum_search(Request $request)
+    {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $sumstudfees = StudEnrolmentHistory::join('students', 'program_en_history.studentID', 'students.stud_id')
+        $data = StudEnrolmentHistory::join('students', 'program_en_history.studentID', 'students.stud_id')
                         ->join('coasv2_db_assessment.student_appraisal', 'program_en_history.studentID', 'coasv2_db_assessment.student_appraisal.studID')
                         ->select(
                             'program_en_history.studentID',
@@ -48,8 +53,7 @@ class StudStateAccntAssessmentController extends Controller
                         ->limit(10)
                         ->get();
 
-
-        return view('assessment.assessreports.statementaccntsum_search', compact('sumstudfees'));
+        return response()->json(['data' => $data]);
     }
 }
 

@@ -199,6 +199,9 @@
     @if(request()->routeIs('list_searchStudfee'))
         <script src="{{ asset('js/ajax/assess/studfeeSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('stateaccntpersum_search'))
+        <script src="{{ asset('js/ajax/assess/reportassessSerialize.js') }}"></script>
+    @endif
 
 
 

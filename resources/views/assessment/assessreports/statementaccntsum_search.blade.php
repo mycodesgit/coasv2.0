@@ -83,7 +83,7 @@ COAS - V2.0 || Student Statements of Accounts Summary
 
         <div class="mt-3 row">
             <div class="col-md-12">
-                <table id="example1" class="table table-hover">
+                <table id="reportAssessUndergrad" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Student ID Number</th>
@@ -94,7 +94,7 @@ COAS - V2.0 || Student Statements of Accounts Summary
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($sumstudfees as $datasumstudfees)
+                        {{-- @foreach($sumstudfees as $datasumstudfees)
                             <tr>
                                 <td>{{ $datasumstudfees->studentID }}</td>
                                 <td>{{ $datasumstudfees->lname }}, {{ $datasumstudfees->fname }}</td>
@@ -102,12 +102,16 @@ COAS - V2.0 || Student Statements of Accounts Summary
                                 <td>{{ $datasumstudfees->semester }}</td>
                                 <td>{{ $datasumstudfees->totalamount  }}</td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    var studundergradReadRoute = "{{ route('getstateaccntpersum_search') }}";
+</script>
 
 @endsection
