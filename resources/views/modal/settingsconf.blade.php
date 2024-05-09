@@ -1,5 +1,5 @@
 <div class="modal fade" id="modal-setconf">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
@@ -16,12 +16,16 @@
 
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label><span class="badge badge-secondary">School Year:</span></label>
-                                <select class="form-control form-control-sm" id="schlyear" name="syear"></select>
+                                <input type="text" name="schlyear" class="form-control form-control-sm">
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
                                 <label><span class="badge badge-secondary">Semester:</span></label>
                                 <select class="form-control  form-control-sm" name="semester">
                                     <option disabled selected>---Select---</option>

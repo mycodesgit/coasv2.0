@@ -156,38 +156,42 @@ class SettingController extends Controller
 
     public function setconfigure() 
     {
-        $sttngs = ConfigureCurrent::all();
-        return view('control.settings.current.cur_config', compact('sttngs'));
+        return view('control.settings.current.cur_config');
+    }
+
+    public function getsetconfigure() 
+    {
+        $data = ConfigureCurrent::orderBy('id', 'DESC')->get();
+        return response()->json(['data' => $data]);
     }
 
     public function setconfCreate(Request $request) 
     {
         if ($request->isMethod('post')) {
             $request->validate([
-                'syear' => 'required',
+                'schlyear' => 'required',
                 'semester' => 'required',
             ]);
 
-            $syearName = $request->input('syear'); 
+            $schlyearName = $request->input('schlyear'); 
             $semesterName = $request->input('semester'); 
 
-            $existingConfiguration = ConfigureCurrent::where('syear', $syearName)
+            $existingConfiguration = ConfigureCurrent::where('schlyear', $schlyearName)
                 ->where('semester', $semesterName)
                 ->first();
 
             if ($existingConfiguration) {
-                return redirect()->route('setconfigure')->with('fail', 'School Year and Semester already exists!');
+                return response()->json(['error' => true, 'message' => 'School Year and Semester already exists'], 404);
             }
 
             try {
                 ConfigureCurrent::create([
-                    'syear' => $syearName,
+                    'schlyear' => $schlyearName,
                     'semester' => $semesterName,
                 ]);
-
-                return redirect()->route('setconfigure')->with('success', 'School Year and Semester added successfully!');
+                return response()->json(['success' => true, 'message' => 'School Year and Semester added successfully!'], 200);
             } catch (\Exception $e) {
-                return redirect()->route('setconfigure')->with('error', 'Failed to store School Year and Semester!');
+                return response()->json(['error' => true, 'message' => 'Failed to store School Year and Semester!']);
             }
         }
     }
@@ -196,6 +200,42 @@ class SettingController extends Controller
     {
         $gradepasttngs = GradePass::all();
         return view('control.settings.current.gradepass_config', compact('gradepasttngs'));
+    }
+
+    public function setconfUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+            'schlyear' => 'required',
+            'semester' => 'required',
+            'set_status' => 'required',
+        ]);
+
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+        $set_status = $request->input('set_status');
+
+        try {
+            $setconfName = $request->input('schlyear'); 
+            $setconfSem = $request->input('semester'); 
+            $existingSetConf = ConfigureCurrent::where('schlyear', $setconfName)
+                            ->where('schlyear', $setconfSem)
+                            ->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingSetConf) {
+                return response()->json(['error' => true, 'message' => 'School Year already exists'], 404);
+            }
+
+            $setconf = ConfigureCurrent::findOrFail($request->input('id'));
+            $setconf->update([
+                'schlyear' => $request->input('schlyear'),
+                'semester' => $request->input('semester'),
+                'set_status' => $request->input('set_status'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'School Year update successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to store School Year'], 404);
+        }
     }
 
     public function setgradepassconfCreate(Request $request) 

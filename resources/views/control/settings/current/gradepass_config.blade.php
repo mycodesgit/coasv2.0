@@ -1,7 +1,7 @@
 @extends('layouts.master_settings')
 
 @section('title')
-COAS - V1.0 || Configure
+COAS - V2.0 || Configure
 @endsection
 
 @section('sideheader')

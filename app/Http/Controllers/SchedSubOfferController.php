@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 use Storage;
 use Carbon\Carbon;
@@ -17,15 +17,35 @@ use App\Models\ScheduleDB\EnPrograms;
 
 use App\Models\AssessmentDB\AccountAppraisal;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class SchedSubOfferController extends Controller
 {
     public function subjectsOffered() 
     {
-        return view('scheduler.subOff.list_subOff');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('scheduler.subOff.list_subOff', compact('sy'));
     }
 
     public function subjectsOffered_search(Request $request) 
     {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
         $campus = Auth::guard('web')->user()->campus;
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
@@ -56,7 +76,7 @@ class SchedSubOfferController extends Controller
 
         $funds = AccountAppraisal::whereIn('id', [85, 105])->get();
 
-        return view('scheduler.subOff.listsearch_subOff', compact('data', 'totalSearchResults', 'subjects', 'class', 'funds'));
+        return view('scheduler.subOff.listsearch_subOff', compact('data', 'totalSearchResults', 'subjects', 'class', 'funds', 'sy'));
     }
 
     public function getsubjectsOfferedRead(Request $request) 

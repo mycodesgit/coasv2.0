@@ -36,6 +36,8 @@ use App\Models\ScholarshipDB\Scholar;
 use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudentAppraisal;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 
 class EnrollmentController extends Controller
 {
@@ -86,7 +88,16 @@ class EnrollmentController extends Controller
 
     public function searchStud()
     {   
-        return view('enrollment.studenroll.index');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('enrollment.studenroll.index', compact('sy'));
     }
 
     public function searchStudEnroll(Request $request)
@@ -372,7 +383,16 @@ class EnrollmentController extends Controller
 
     public function editsearchStud()
     {   
-        return view('enrollment.studenroll.editenroll');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+        return view('enrollment.studenroll.editenroll', compact('sy'));
     }
 
     public function editsearchStudRead(Request $request)

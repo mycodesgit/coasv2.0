@@ -430,7 +430,9 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::post('/list/users/updatePass', [SettingController::class, 'userUpdatePassword'])->name('userUpdatePassword');
 
             Route::get('/conf', [SettingController::class, 'setconfigure'])->name('setconfigure');
+            Route::get('/conf/ajax', [SettingController::class, 'getsetconfigure'])->name('getsetconfigure');
             Route::post('/conf/add',[SettingController::class,'setconfCreate'])->name('setconfCreate');
+            Route::post('/conf/update',[SettingController::class,'setconfUpdate'])->name('setconfUpdate');
 
             Route::get('/confGradeAuthSet', [SettingController::class, 'setgradepassconfigure'])->name('setgradepassconfigure');
             Route::post('/confGradeAuthSet/add',[SettingController::class,'setgradepassconfCreate'])->name('setgradepassconfCreate');

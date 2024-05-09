@@ -15,12 +15,22 @@ use App\Models\AssessmentDB\Funds;
 
 use App\Models\ScheduleDB\EnPrograms;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class StudFeeAssessmentController extends Controller
 {
     public function searchStudfee()
     {   
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
         $programsEn = EnPrograms::orderBy('progAcronym', 'ASC')->get();
-        return view('assessment.studentfee.list_studfee', compact('programsEn'));
+        return view('assessment.studentfee.list_studfee', compact('programsEn', 'sy'));
     }
 
     public function list_searchStudfee(Request $request)

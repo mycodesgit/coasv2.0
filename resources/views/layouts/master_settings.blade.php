@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
@@ -26,6 +30,12 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    <style>
+        .toast-top-right {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
@@ -114,7 +124,7 @@
             <i class="text-light">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
-    @include('portal.modal-terms')
+
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
@@ -137,10 +147,14 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
-    <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
@@ -149,6 +163,10 @@
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <script src="{{ asset('js/validation/settings/setconfValidation.js') }}"></script>
+
+    @if(request()->routeIs('setconfigure'))
+        <script src="{{ asset('js/ajax/settngs/setconfSerialize.js') }}"></script>
+    @endif
 
     <script>
         $(document).ready(function () {

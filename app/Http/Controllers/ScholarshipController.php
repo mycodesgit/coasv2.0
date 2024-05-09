@@ -24,6 +24,8 @@ use App\Models\ScholarshipDB\FSCode;
 use App\Models\ScholarshipDB\ChedSch;
 use App\Models\ScholarshipDB\UniSch;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class ScholarshipController extends Controller
 {
     public function index()
@@ -311,18 +313,36 @@ class ScholarshipController extends Controller
 
     public function chedstudscholarRead()
     {
-        return view('scholar.list.list_studscholar');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('scholar.list.list_studscholar', compact('sy'));
     }
 
     public function studscholar_searchRead(Request $request)
     {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
         $campus = Auth::guard('web')->user()->campus;
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
 
         $studsch = Scholar::all();
 
-        return view('scholar.list.listsearch_studscholar', compact('studsch'));
+        return view('scholar.list.listsearch_studscholar', compact('studsch', 'sy'));
     }
 
     public function getstudscholarSearchRead(Request $request)

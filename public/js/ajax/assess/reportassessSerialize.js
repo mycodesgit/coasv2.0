@@ -7,6 +7,7 @@ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var schlyear = urlParams.get('schlyear') || ''; 
     var semester = urlParams.get('semester') || ''; 
+    var category = urlParams.get('category') || ''; 
 
     var dataTable = $('#reportAssessUndergrad').DataTable({
         "ajax": {
@@ -15,6 +16,7 @@ $(document).ready(function() {
             "data": { 
                 "schlyear": schlyear,
                 "semester": semester,
+                "category": category,
             }
         },
         responsive: true,

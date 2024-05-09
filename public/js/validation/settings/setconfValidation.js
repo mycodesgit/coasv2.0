@@ -1,7 +1,7 @@
 $(function () {
     $('#adSetConf').validate({
         rules: {
-            syear: {
+            schlyear: {
                 required: true,
             },
             semester: {
@@ -9,7 +9,7 @@ $(function () {
             }
         },
         messages: {
-            syear: {
+            schlyear: {
                 required: "Select School Year",
             },
             semester: {

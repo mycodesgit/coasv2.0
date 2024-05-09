@@ -45,7 +45,11 @@ COAS - V2.0 || Student List per Curriculum
                             <div class="form-row">
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">School Year</span></label>
-                                    <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+                                    <select class="form-control form-control-sm" name="schlyear">
+                                        @foreach($sy as $datasy)
+                                            <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="col-md-3">

@@ -19,16 +19,36 @@ use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\EnPrograms;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class EnStudentPerCurriculumController extends Controller
 {
     public function studCurr()
     {
-        return view('enrollment.reports.studentcurr.list_studcurr');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('enrollment.reports.studentcurr.list_studcurr', compact('sy'));
     }
 
     public function studCurrsearch(Request $request)
     {
-        return view('enrollment.reports.studentcurr.listsearch_studcurr');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+        return view('enrollment.reports.studentcurr.listsearch_studcurr', compact('sy'));
     }
 
     public function getstudCurrSearch(Request $request)

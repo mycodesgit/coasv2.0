@@ -74,8 +74,7 @@ COAS - V2.0 || Student Fee
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Account</span></label>
-                                        <select class="form-control form-control-sm select2bs4" name="accountName">
-                                            <option disabled selected> ---Select---</option>
+                                        <select class="form-control form-control-sm select2bs4" data-placeholder="--Select--" name="accountName">
                                             @foreach($studAccntap as $studapp)
                                                 <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
                                             @endforeach

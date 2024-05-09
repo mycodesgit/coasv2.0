@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use Storage;
 use Carbon\Carbon;
@@ -13,11 +14,22 @@ use Carbon\Carbon;
 use App\Models\ScheduleDB\Faculty;
 use App\Models\ScheduleDB\FacDesignation;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class SchedFacultyDesignationController extends Controller
 {
     public function faculty_design() 
     {
-        return view('scheduler.designation.list_designate');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('scheduler.designation.list_designate', compact('sy'));
     }
 
     public function faculty_design_search(Request $request) 

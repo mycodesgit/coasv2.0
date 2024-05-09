@@ -18,6 +18,8 @@ use App\Models\ScheduleDB\SubjectOffered;
 
 use App\Models\EnrollmentDB\Grade;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class SchedReportsController extends Controller
 {
     public function getGuard()
@@ -39,13 +41,31 @@ class SchedReportsController extends Controller
     {
         $guard= $this->getGuard();
 
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
         $fac = Faculty::all();
-        return view('scheduler.reports.facultyload', compact('fac', 'guard'));
+        return view('scheduler.reports.facultyload', compact('fac', 'guard', 'sy'));
     }
 
     public function facultyload_search(Request $request) 
     {
         $guard= $this->getGuard();
+
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
 
         $fac = Faculty::all();
 
@@ -76,6 +96,6 @@ class SchedReportsController extends Controller
             $grades[$dataItem->subjectID] = Grade::where('subjID', $dataItem->subjectID)->get();
         }
 
-        return view('scheduler.reports.facultyload_listsearch', compact('fac', 'datar', 'grades', 'totalSearchResults', 'guard'));
+        return view('scheduler.reports.facultyload_listsearch', compact('fac', 'datar', 'grades', 'totalSearchResults', 'guard', 'sy'));
     }
 }

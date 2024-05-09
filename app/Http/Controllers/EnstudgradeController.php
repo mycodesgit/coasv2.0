@@ -16,12 +16,23 @@ use App\Models\EnrollmentDB\Grade;
 use App\Models\EnrollmentDB\GradeCode;
 use App\Models\AdmissionDB\Programs;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class EnstudgradeController extends Controller
 {
     public function studgrade_search()
-    {
+    {   
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
         $grdCode = GradeCode::all();
-        return view('enrollment.gradesheet.list_studgrade',  compact('grdCode'));
+        return view('enrollment.gradesheet.list_studgrade',  compact('grdCode', 'sy'));
     }
 
     public function studgrade_searchlist(Request $request)

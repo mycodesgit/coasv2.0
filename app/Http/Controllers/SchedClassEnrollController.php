@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 use Storage;
@@ -13,12 +14,23 @@ use Carbon\Carbon;
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\EnPrograms;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class SchedClassEnrollController extends Controller
 {
     
     public function courseEnroll_list() 
     {
-        return view('scheduler.classenroll.list_classenroll');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+        return view('scheduler.classenroll.list_classenroll', compact('sy'));
     }
 
     public function courseEnroll_list_search(Request $request) {

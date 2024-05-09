@@ -71,7 +71,11 @@ COAS - V2.0 || Student Fee
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">School Year</span></label>
-                                        <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+                                        <select class="form-control form-control-sm" name="schlyear">
+                                            @foreach($sy as $datasy)
+                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                     <div class="mt-2 col-md-12">
