@@ -36,7 +36,8 @@ $(document).ready(function() {
             },
             {data: 'schlyear'},
             {data: 'semester'},
-            {data: 'totalamount'}
+            {data: 'totalamount'},
+            {data: 'schlyear'}
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 

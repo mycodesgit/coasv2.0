@@ -95,6 +95,7 @@ COAS - V2.0 || Student Statements of Accounts Summary
                             <th>School Year</th>
                             <th>Semester</th>
                             <th>Balance</th>
+                            <th>Paid</th>
                         </tr>
                     </thead>
                     <tbody>

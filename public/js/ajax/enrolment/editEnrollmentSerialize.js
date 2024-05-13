@@ -1,3 +1,91 @@
+toastr.options = {
+    "closeButton": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right"
+};
+
+//for inserting data to DB  using ajax serialize
+$(document).ready(function() {
+    $('#submitButton').click(function(event) {
+        event.preventDefault();
+        var formData = $('#AddenrollStud').serialize();
+
+        var studentID = $('#studentID').val(); 
+
+        var subjIDs = [];
+        $('input[name="subjIDs"]').each(function() {
+            subjIDs.push($(this).val());
+        });
+
+        formData += '&studentID=' + studentID;
+
+        var subjIDsString = $('#subjIDsInput').val();
+        var subjIDsArray = subjIDsString.split(',');
+
+        subjIDsArray.forEach(function(subjID) {
+            formData += '&subjIDs[]=' + subjID.trim(); 
+        });
+
+        var fndCodes = [];
+        $('input[name="fndCodes"]').each(function() {
+            fndCodes.push($(this).val());
+        });
+
+        var fndCodesString = $('#fundnameCodeInput').val();
+        var fndCodesArray = fndCodesString.split(',');
+
+        fndCodesArray.forEach(function(fundID) {
+            formData += '&fndCodes[]=' + fundID.trim(); 
+        });
+
+        var accntNames = [];
+        $('input[name="accntNames"]').each(function() {
+            accntNames.push($(this).val());
+        });
+
+        var accntNamesString = $('#accountNameInput').val();
+        var accntNamesArray = accntNamesString.split(',');
+
+        accntNamesArray.forEach(function(accntNames) {
+            formData += '&accntNames[]=' + accntNames.trim(); 
+        });
+
+        var amntFees = [];
+        $('input[name="amntFees"]').each(function() {
+            amntFees.push($(this).val());
+        });
+
+        var amntFeesString = $('#amountFeeInput').val();
+        var amntFeesArray = amntFeesString.split(',');
+
+        amntFeesArray.forEach(function(amntFees) {
+            formData += '&amntFees[]=' + amntFees.trim(); 
+        });
+
+        $.ajax({
+            url: saveEnrollmentRoute,
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData, 
+            success: function(response) {
+                if(response.success) {
+                    toastr.success(response.message);
+                    console.log(response);
+                } else {
+                    toastr.error(response.message);
+                    console.log(response);
+                }
+            },
+            error: function(xhr, status, error, message) {
+                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                toastr.error(errorMessage);
+            }
+        });
+    });
+});
+
 $(document).ready(function() {
     function updateInputFields(selectedOption) {
         var programCode = selectedOption.data('program-code');
