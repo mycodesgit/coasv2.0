@@ -450,6 +450,14 @@ class EnrollmentController extends Controller
                     ->pluck('coasv2_db_schedule.sub_offered.id');
         $subOfferedIds = implode(',', $subjectsEnID->toArray());
 
+        $studsubview = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('studgrades.studID', '=', $programEnHistory->studentID)
+                    ->pluck('studgrades.subjID');
+        $studsubenrollIds = implode(',', $studsubview->toArray());
+
         $studEditfees = StudentAppraisal::join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
                     ->select('coasv2_db_enrollment.program_en_history.studentID', 'student_appraisal.*')
                     ->where('student_appraisal.schlyear', '=', $schlyear)
@@ -473,7 +481,7 @@ class EnrollmentController extends Controller
                     ->get();
 
         $subjOffer = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
-                    ->select('subjects.*', 'sub_offered.*',)
+                    ->select('subjects.*', 'sub_offered.*')
                     ->where('schlyear', $schlyear)
                     ->where('semester', $semester)
                     ->where('campus', $campus)
@@ -482,7 +490,170 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subjectsEn', 'subOfferedIds', 'studEditfees'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds'));
+    }
+
+    public function studEnrollmentUpdate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'id' => 'required',
+                'studentID' => 'required',
+                'schlyear' => 'required',
+                'semester' => 'required',
+                'campus' => 'required',
+                'course' => 'required',
+                'progCod' => 'required',
+                'studMajor' => 'required',
+                'studMinor' => 'required',
+                'studLevel' => 'required',
+                'studStatus' => 'required',
+                'studSch' => 'required',
+                'studClassID' => 'required',
+                'studType' => 'required',
+                'transferee' => 'required',
+                'fourPs' => 'required',
+            ]);
+
+
+            $studentID = $request->input('studentID');
+
+            if (empty($studentID)) {
+                return response()->json(['error' => true, 'message' => 'Student ID is required'], 400);
+            }   
+
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $request->input('campus');
+
+            $existingStudEnroll = StudEnrolmentHistory::where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', $campus)
+                    ->where('studentID', $studentID)
+                    ->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingStudEnroll) {
+                return response()->json(['error' => true, 'message' => 'Enrollment for this Student ID No. already exists this semester'], 404);
+            }
+
+            //try {
+                //if ($enrolment) {
+                $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
+                $enrolment->update([
+                    'studentID' => $request->input('studentID'),
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'campus' => $request->input('campus'),
+                    'course' => $request->input('course'),
+                    'progCod' => $request->input('progCod'),
+                    'studMajor' => $request->input('studMajor'),
+                    'studMinor' => $request->input('studMinor'),
+                    'studLevel' => $request->input('studLevel'),
+                    'studYear' => $request->input('studYear'),
+                    'studSec' => $request->input('studSec'),
+                    'studUnit' => $request->input('studUnit'),
+                    'studStatus' => $request->input('studStatus'),
+                    'studSch' => $request->input('studSch'),
+                    'studClassID' => $request->input('studClassID'),
+                    'postedBy' => $request->input('postedBy'),
+                    'confirmBy' => $request->input('confirmBy'),
+                    'postedDate' => $request->input('postedDate'),
+                    'studType' => $request->input('studType'),
+                    'transferee' => $request->input('transferee'),
+                    'fourPs' => $request->input('fourPs'),
+                ]);
+                //}
+
+                // $subjIDs = $request->input('subjIDs');
+                // foreach ($subjIDs as $subjID) {
+                //     Grade::create([
+                //         'studID' => $studentID,
+                //         'subjID' => $subjID,
+                //         'postedBy' => $request->input('postedBy'),
+                //     ]);
+                // }
+
+                $studentID = $request->input('studentID');
+                $postedBy = $request->input('postedBy');
+
+                $subjIDs = $request->input('subjIDs');
+                $subjprimIDs = $request->input('subjprimIDs');
+
+                if ($subjIDs) {
+                    $currentGrades = Grade::where('studID', $studentID)->pluck('subjID')->toArray();
+                    $subjIDsToRemove = array_diff($currentGrades, $subjIDs);
+
+                    Grade::where('studID', $studentID)->whereIn('subjID', $subjIDsToRemove)->delete();
+
+                    foreach ($subjIDs as $newSubjID) {
+                        $existingRecord = Grade::where('studID', $studentID)->where('subjID', $newSubjID)->first();
+
+                        if (!$existingRecord) {
+                            Grade::create([
+                                'studID' => $studentID,
+                                'subjID' => $newSubjID,
+                                'postedBy' => $postedBy,
+                            ]);
+                        }
+                    }
+                }
+
+                if ($subjprimIDs && $subjIDs) {
+                    foreach ($subjprimIDs as $index => $subjprimID) {
+                        $newSubjID = $subjIDs[$index] ?? null;
+                        
+                        if ($newSubjID) {
+                            $grade = Grade::find($subjprimID);
+                            if ($grade) {
+                                if ($grade->subjID != $newSubjID) {
+                                    $grade->update([
+                                        'subjID' => $newSubjID,
+                                        'postedBy' => $postedBy,
+                                    ]);
+                                }
+                            } else {
+                                $existingRecord = Grade::where('studID', $studentID)->where('subjID', $newSubjID)->first();
+
+                                if (!$existingRecord) {
+                                    Grade::create([
+                                        'studID' => $studentID,
+                                        'subjID' => $newSubjID,
+                                        'postedBy' => $postedBy,
+                                    ]);
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+
+
+
+
+                // $fndCodes = $request->input('fndCodes');
+                // $accntNames = $request->input('accntNames');
+                // $amntFees = $request->input('amntFees');
+                // foreach ($fndCodes as $key => $fndCode) {
+                //     StudentAppraisal::create([
+                //         'studID' => $request->input('studentID'),
+                //         'semester' => $request->input('semester'),
+                //         'schlyear' => $request->input('schlyear'),
+                //         'campus' => $request->input('campus'),
+                //         'fundID' => $fndCode,
+                //         'account' => $accntNames[$key], 
+                //         'dateAssess' => $request->input('postedDate'),
+                //         'amount' => $amntFees[$key], 
+                //         'postedBy' => $request->input('postedBy'),
+                //     ]);
+                // }
+
+                return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
+            //} catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
+            //}
+        }
     }
 
 }

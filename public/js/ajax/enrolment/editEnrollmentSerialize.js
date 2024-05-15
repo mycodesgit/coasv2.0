@@ -26,6 +26,12 @@ $(document).ready(function() {
             formData += '&subjIDs[]=' + subjID.trim(); 
         });
 
+        var subjprimIDsString = $('#subjprimIDsInput').val();
+        var subjprimIDsArray = subjprimIDsString.split(',');
+        subjprimIDsArray.forEach(function(subjprimID) {
+            formData += '&subjprimIDs[]=' + subjprimID.trim();
+        });
+
         var fndCodes = [];
         $('input[name="fndCodes"]').each(function() {
             fndCodes.push($(this).val());
@@ -63,7 +69,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: saveEnrollmentRoute,
+            url: updateEnrollmentRoute,
             type: "POST",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -512,52 +518,52 @@ function updateTotalsAndIDs(subjIDToDelete) {
 }
 
 // Disable save button initially
-document.getElementById('submitButton').disabled = true;
-document.getElementById('printRFButton').disabled = true;
+// document.getElementById('submitButton').disabled = true;
+// document.getElementById('printRFButton').disabled = true;
 
-document.getElementById('assessButton').addEventListener('click', function() {
-    if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
-        document.getElementById('submitButton').disabled = true;
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'No subjects added.',
-        });
-    } else if (!document.getElementById('programNameSelect').value) {
-        document.getElementById('submitButton').disabled = true;
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Please select a program.',
-        });
-    } else {
-        document.getElementById('submitButton').disabled = false;
-    }
-});
+// document.getElementById('assessButton').addEventListener('click', function() {
+//     if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
+//         document.getElementById('submitButton').disabled = true;
+//         Swal.fire({
+//             icon: 'error',
+//             title: 'Oops...',
+//             text: 'No subjects added.',
+//         });
+//     } else if (!document.getElementById('programNameSelect').value) {
+//         document.getElementById('submitButton').disabled = true;
+//         Swal.fire({
+//             icon: 'error',
+//             title: 'Oops...',
+//             text: 'Please select a program.',
+//         });
+//     } else {
+//         document.getElementById('submitButton').disabled = false;
+//     }
+// });
 
-document.getElementById('submitButton').addEventListener('click', function() {
-    document.querySelectorAll('.btnprim').forEach(function(button) {
-        button.disabled = false;
-    });
+// document.getElementById('submitButton').addEventListener('click', function() {
+//     document.querySelectorAll('.btnprim').forEach(function(button) {
+//         button.disabled = false;
+//     });
 
-    if (response && response.error) {
-        // If there's an error, disable the Print RF button
-        document.getElementById('printRFButton').disabled = true;
-    } else {
-        if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
-            document.getElementById('submitButton').disabled = true;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'No subjects added.',
-            });
-        } else if (!document.getElementById('programNameSelect').value) {
-            document.getElementById('submitButton').disabled = true;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please select a program.',
-            });
-        }
-    }
-});
+//     if (response && response.error) {
+//         // If there's an error, disable the Print RF button
+//         document.getElementById('printRFButton').disabled = true;
+//     } else {
+//         if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
+//             document.getElementById('submitButton').disabled = true;
+//             Swal.fire({
+//                 icon: 'error',
+//                 title: 'Oops...',
+//                 text: 'No subjects added.',
+//             });
+//         } else if (!document.getElementById('programNameSelect').value) {
+//             document.getElementById('submitButton').disabled = true;
+//             Swal.fire({
+//                 icon: 'error',
+//                 title: 'Oops...',
+//                 text: 'Please select a program.',
+//             });
+//         }
+//     }
+// });

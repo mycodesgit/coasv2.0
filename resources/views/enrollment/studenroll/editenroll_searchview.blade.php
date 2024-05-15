@@ -81,6 +81,7 @@ COAS - V2.0 || Edit Student Enrollment
                                 <input type="hidden" value="{{ $student->campus }}" name="campus" id="campusInput" readonly>
                                 <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
                                 <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
+                                <input type="hidden" value="{{ $programEnHistory->id }}" name="id" readonly>
 
                                 <div class="container">
                                     <div class="form-group">
@@ -278,25 +279,29 @@ COAS - V2.0 || Edit Student Enrollment
                                     </tr>
                                     @endforeach
                                     @php
+                                        $primfundIDs = [];
                                         $fundIDs = [];
                                         $accounts = [];
                                         $amounts = [];
 
                                         foreach ($studEditfees as $fee) {
+                                            $primfundIDs[] = $fee->id;
                                             $fundIDs[] = $fee->fundID;
                                             $accounts[] = $fee->account;
                                             $amounts[] = $fee->account === 'LAB FEE' ? 0 : $fee->amount;
                                         }
 
+                                        $primIDsString = implode(',', $primfundIDs);
                                         $fundIDsString = implode(',', $fundIDs);
                                         $accountsString = implode(',', $accounts);
                                         $amountsString = implode(',', $amounts);
                                 @endphp
                                 </tbody>
                             </table>
-                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
-                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
-                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
+                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
+                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
+                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
+                            <input type="text" id="primInput" name="primID" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -345,6 +350,7 @@ COAS - V2.0 || Edit Student Enrollment
                                 </div>
                             </div>      
                             <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
+                            <input type="text" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
                         </div>
                     </div>
                 </div>
@@ -426,7 +432,7 @@ COAS - V2.0 || Edit Student Enrollment
     var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";
     var getfetchSubjectRoute  = "{{ route('coursefetchSubjects') }}";
     var fetchFeeDataRoute  = "{{ route('fetchFeeSubjects') }}";
-    var saveEnrollmentRoute  = "{{ route('studEnrollmentCreate') }}";
+    var updateEnrollmentRoute  = "{{ route('studEnrollmentUpdate') }}";
 
     document.addEventListener('DOMContentLoaded', function() {
     var scrollableColumn = document.querySelector('.scrolling-column');
