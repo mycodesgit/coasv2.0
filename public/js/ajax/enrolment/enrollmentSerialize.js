@@ -325,44 +325,44 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 removeCell.appendChild(removeButton);
                 updateTotalsAndIDs();
 
-                var totalUnits = parseInt(selectedSubjectUnitText) || 0;
-                var rows = tableBody.getElementsByTagName('tr');
-                for (var i = 0; i < rows.length - 1; i++) { 
-                    var cell = rows[i].getElementsByTagName('td')[3];
-                    if (cell) {
-                        totalUnits += parseInt(cell.textContent) || 0;
-                    }
-                }
+                // var totalUnits = parseInt(selectedSubjectUnitText) || 0;
+                // var rows = tableBody.getElementsByTagName('tr');
+                // for (var i = 0; i < rows.length - 1; i++) { 
+                //     var cell = rows[i].getElementsByTagName('td')[3];
+                //     if (cell) {
+                //         totalUnits += parseInt(cell.textContent) || 0;
+                //     }
+                // }
                 
-                var totalUnitsInput = document.getElementById('totalunitInput');
-                var currentTotalUnits = parseInt(totalUnitsInput.value) || 0;
-                var previousUnits = 0;
-                var rows = tableBody.getElementsByTagName('tr');
-                for (var i = 0; i < rows.length - 1; i++) { 
-                    var cell = rows[i].getElementsByTagName('td')[4];
-                    if (cell) {
-                        previousUnits += parseInt(cell.textContent) || 0;
-                    }
-                }
-                var totalUnits = previousUnits + (parseInt(selectedSubjectUnitText) || 0);
-                totalUnitsInput.value = totalUnits;
+                // var totalUnitsInput = document.getElementById('totalunitInput');
+                // var currentTotalUnits = parseInt(totalUnitsInput.value) || 0;
+                // var previousUnits = 0;
+                // var rows = tableBody.getElementsByTagName('tr');
+                // for (var i = 0; i < rows.length - 1; i++) { 
+                //     var cell = rows[i].getElementsByTagName('td')[4];
+                //     if (cell) {
+                //         previousUnits += parseInt(cell.textContent) || 0;
+                //     }
+                // }
+                // var totalUnits = previousUnits + (parseInt(selectedSubjectUnitText) || 0);
+                // totalUnitsInput.value = totalUnits;
 
 
-                var totalLecFeeInputs = document.querySelectorAll('#totalLecFeeInput');
-                totalLecFeeInputs.forEach(function(input) {
-                    var previousValue = parseFloat(input.value) || 0;
-                    var currentFee = parseFloat(selectedSubjectlecFeeText) || parseFloat(lecFee);
-                    var newTotal = previousValue + currentFee;
-                    input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
-                });
+                // var totalLecFeeInputs = document.querySelectorAll('#totalLecFeeInput');
+                // totalLecFeeInputs.forEach(function(input) {
+                //     var previousValue = parseFloat(input.value) || 0;
+                //     var currentFee = parseFloat(selectedSubjectlecFeeText) || parseFloat(lecFee);
+                //     var newTotal = previousValue + currentFee;
+                //     input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
+                // });
 
-                var totalLabFeeInputs = document.querySelectorAll('#totalLabFeeInput');
-                totalLabFeeInputs.forEach(function(input) {
-                    var previousValue = parseFloat(input.value) || 0;
-                    var currentFee = parseFloat(selectedSubjectlabFeeText) || 0; 
-                    var newTotal = previousValue + currentFee;
-                    input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
-                });
+                // var totalLabFeeInputs = document.querySelectorAll('#totalLabFeeInput');
+                // totalLabFeeInputs.forEach(function(input) {
+                //     var previousValue = parseFloat(input.value) || 0;
+                //     var currentFee = parseFloat(selectedSubjectlabFeeText) || 0; 
+                //     var newTotal = previousValue + currentFee;
+                //     input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
+                // });
 
                 $('#modal-addSub').modal('hide');
             } else {

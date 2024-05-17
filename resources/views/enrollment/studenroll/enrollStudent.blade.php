@@ -249,9 +249,9 @@ COAS - V2.0 || Enroll Student
 
                                 </tbody>
                             </table>
-                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" readonly>
-                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" readonly>
-                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" readonly>
+                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" readonly>
+                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" readonly>
+                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" readonly>
                         </div>
                     </div>
                 </div>

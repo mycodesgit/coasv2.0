@@ -32,6 +32,12 @@ $(document).ready(function() {
             formData += '&subjprimIDs[]=' + subjprimID.trim();
         });
 
+        var primIDsString = $('#primInput').val();
+        var primIDsArray = primIDsString.split(',');
+        primIDsArray.forEach(function(primIDs) {
+            formData += '&primIDs[]=' + primIDs.trim();
+        });
+
         var fndCodes = [];
         $('input[name="fndCodes"]').each(function() {
             fndCodes.push($(this).val());
@@ -511,8 +517,8 @@ function updateTotalsAndIDs(subjIDToDelete) {
     });
 
     $('#totalunitInput').val(totalUnits);
-    $('#totalLecFeeInput').val(totalLecFee.toFixed());
-    $('#totalLabFeeInput').val(totalLabFee.toFixed());
+    //$('#totalLecFeeInput').val(totalLecFee.toFixed());
+    //$('#totalLabFeeInput').val(totalLabFee.toFixed());
     var subjIDString = subjIDs.join(',');
     $('#subjIDsInput').val(subjIDString); 
 }

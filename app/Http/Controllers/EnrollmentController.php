@@ -120,15 +120,15 @@ class EnrollmentController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
-        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
-            ->where('schlyear', $schlyear)
-            ->where('semester', $semester)
-            ->where('campus', $campus)
-            ->first();
+        // $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+        //     ->where('schlyear', $schlyear)
+        //     ->where('semester', $semester)
+        //     ->where('campus', $campus)
+        //     ->first();
 
-        if ($enrollmentHistory) {
-            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
-        }
+        // if ($enrollmentHistory) {
+        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
+        // }
 
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {
@@ -536,8 +536,7 @@ class EnrollmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Enrollment for this Student ID No. already exists this semester'], 404);
             }
 
-            //try {
-                //if ($enrolment) {
+            try {
                 $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
                 $enrolment->update([
                     'studentID' => $request->input('studentID'),
@@ -562,16 +561,6 @@ class EnrollmentController extends Controller
                     'transferee' => $request->input('transferee'),
                     'fourPs' => $request->input('fourPs'),
                 ]);
-                //}
-
-                // $subjIDs = $request->input('subjIDs');
-                // foreach ($subjIDs as $subjID) {
-                //     Grade::create([
-                //         'studID' => $studentID,
-                //         'subjID' => $subjID,
-                //         'postedBy' => $request->input('postedBy'),
-                //     ]);
-                // }
 
                 $studentID = $request->input('studentID');
                 $postedBy = $request->input('postedBy');
@@ -626,33 +615,36 @@ class EnrollmentController extends Controller
                     }
                 }
 
+                $studentID = $request->input('studentID');
+                $postedBy = $request->input('postedBy');
 
+                $fndCodes = $request->input('fndCodes');
+                $accntNames = $request->input('accntNames');
+                $amntFees = $request->input('amntFees');
 
+                $primIDs = $request->input('primIDs');
 
+                if ($primIDs && $fndCodes && $accntNames && $amntFees) {
+                    foreach ($primIDs as $index => $primID) {
+                        // Find the record with the given primary key ID
+                        $studappfees = StudentAppraisal::find($primID);
 
-
-
-                // $fndCodes = $request->input('fndCodes');
-                // $accntNames = $request->input('accntNames');
-                // $amntFees = $request->input('amntFees');
-                // foreach ($fndCodes as $key => $fndCode) {
-                //     StudentAppraisal::create([
-                //         'studID' => $request->input('studentID'),
-                //         'semester' => $request->input('semester'),
-                //         'schlyear' => $request->input('schlyear'),
-                //         'campus' => $request->input('campus'),
-                //         'fundID' => $fndCode,
-                //         'account' => $accntNames[$key], 
-                //         'dateAssess' => $request->input('postedDate'),
-                //         'amount' => $amntFees[$key], 
-                //         'postedBy' => $request->input('postedBy'),
-                //     ]);
-                // }
+                        if ($studappfees) {
+                            // Update the existing record
+                            $studappfees->update([
+                                'fundID' => $fndCodes[$index],
+                                'account' => $accntNames[$index],
+                                'amount' => $amntFees[$index],
+                                'postedBy' => $postedBy,
+                            ]);
+                        }
+                    }
+                }
 
                 return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
-            //} catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
-            //}
+            }
         }
     }
 

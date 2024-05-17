@@ -244,7 +244,7 @@ COAS - V2.0 || Edit Student Enrollment
                                     <tr>
                                         <td>{{ $dataen->subjID }}</td>
                                         <td>{{ $dataen->subCode }}</td>
-                                        <td>{{ $dataen->sub_name }}</td>
+                                        <td>{{ $dataen->sub_name }} - {{ $dataen->subSec }}</td>
                                         <td>{{ $dataen->sub_title }}</td>
                                         <td>{{ $dataen->subUnit }}</td>
                                         <td>{{ $dataen->lecFee }}</td>
@@ -298,10 +298,10 @@ COAS - V2.0 || Edit Student Enrollment
                                 @endphp
                                 </tbody>
                             </table>
-                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
-                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
-                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
-                            <input type="text" id="primInput" name="primID" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
+                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
+                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
+                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
+                            <input type="hidden" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -401,16 +401,16 @@ COAS - V2.0 || Edit Student Enrollment
                     <input type="text" class="form-control form-control-sm" id="sub_code" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-control-sm" id="sub_title" readonly>
+                    <input type="text" class="form-control form-control-sm" id="sub_title" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-control-sm" id="subUnit" readonly>
+                    <input type="text" class="form-control form-control-sm" id="subUnit" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-control-sm" id="lecFee" readonly>
+                    <input type="text" class="form-control form-control-sm" id="lecFee" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
+                    <input type="text" class="form-control form-control-sm" id="labFee" readonly>
                 </div>
                 
                 <button type="button" class="btn btn-primary" id="addSubjectBtn">
@@ -424,9 +424,7 @@ COAS - V2.0 || Edit Student Enrollment
     </div>
 </div>
 
-
-
-{{-- @include('enrollment.studenroll.modalrf') --}}
+@include('enrollment.studenroll.modalrf')
 
 <script>
     var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";
