@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('rating')->length(5)->nullable();
             $table->string('remarks')->nullable();
             $table->string('course')->nullable();
+            $table->string('deptcol')->nullable();
             $table->string('reason')->nullable();
             $table->timestamps();
         });

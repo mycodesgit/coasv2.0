@@ -64,9 +64,9 @@ $(document).ready(function() {
                 data: 'remarks',
                 render: function(data) {
                     if (data == 1) {
-                        return '<td><small><span>Accepted for Enrolment</span></small></td>';
+                        return '<td><small><span class="badge badge-success" style="font-size: 7pt">Interview Completed</span></small></td>';
                     } else {
-                        return '<td><small><span>Not accepted for enrolment</span></small></td>';
+                        return '<td><small><span class="badge badge-danger" style="font-size: 7pt">Interview Pending</span></small></td>';
                     }
                 }
             },

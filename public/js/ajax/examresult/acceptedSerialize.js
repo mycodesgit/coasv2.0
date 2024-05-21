@@ -62,12 +62,12 @@ $(document).ready(function() {
             {data: 'interviewer'},
             {data: 'course'},
             {
-                data: 'remarks',
+                data: 'p_status',
                 render: function(data) {
-                    if (data == 1) {
-                        return '<td><small><span>Accepted for Enrolment</span></small></td>';
+                    if (data == 6) {
+                        return '<td><small><span class="badge badge-primary" style="font-size: 7pt">Pushed to Enrolment</span></small></td>';
                     } else {
-                        return '<td><small><span>Not accepted for enrolment</span></small></td>';
+                        return '<td><small><span class="badge badge-warning" style="font-size: 7pt">Not Push  to Enrolment</span></small></td>';
                     }
                 }
             },
@@ -85,17 +85,14 @@ $(document).ready(function() {
                         if (isCampus) {
                             dropdown += '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
-                                '</a>' +
-                                '<a href="#" class="dropdown-item btn-updateInterviewResult" data-id="' + row.adid + '" data-name="' + row.fname + ' ' + row.mname + ' ' + row.lname + '" data-strnd="' + row.strand + '" data-camp="' + row.campus + '" data-crating="' + row.rating + '" data-remark="' + row.remarks + '" data-cpref1="' + row.preference_1 + '" data-cpref2="' + row.preference_2 + '" data-creason="' + row.reason + '">' +
-                                '<i class="fas fa-file-lines"></i> Assign Interview Test Result' +
                                 '</a>';
 
-                                if (row.remarks == 1) {
-                                    dropdown += '<a href="#" class="dropdown-item btn-pushtoaccept" data-id="' + row.adid + '">' +
-                                        '<i class="fas fa-check"></i> Push Examinee' +
+                                if (row.p_status == 5) {
+                                    dropdown += '<a href="#" class="dropdown-item btn-pushtoenrollment" data-id="' + row.adid + '">' +
+                                        '<i class="fas fa-check"></i> Push Enrollment' +
                                         '</a>';
                                 } else {
-                                    dropdown += '<span class="dropdown-item disabled"><i class="fas fa-check"></i> Push Examinee</span>';
+                                    dropdown += '<span class="dropdown-item disabled"><i class="fas fa-check"></i> Done Pushed Enrollment</span>';
                                 }
                         } else {
                             dropdown += '<span class="dropdown-item disabled"><i class="fas fa-eye"></i> View</span>' +
@@ -116,78 +113,8 @@ $(document).ready(function() {
         }
     });
     toggleActionColumn();
-    $(document).on('interrslttable', function() {
+    $(document).on('pushtoenrolltable', function() {
         dataTable.ajax.reload();
-    });
-});
-
-$(document).on('click', '.btn-updateInterviewResult', function() {
-    var id = $(this).data('id');
-    var fullname = $(this).data('name');
-    var nameParts = fullname.split(' ');
-    var middleInitial = nameParts[1] ? nameParts[1].charAt(0) + '.' : ''; 
-    var updatedName = nameParts[0] + ' ' + middleInitial + ' ' + nameParts[2];
-    var strnd = $(this).data('strnd');
-    var camp = $(this).data('camp');
-    var rating = parseFloat($(this).data('crating'));
-    var remark = $(this).data('remark');
-    var pref1 = $(this).data('cpref1');
-    var pref2 = $(this).data('cpref2');
-    var reason = $(this).data('creason');
-
-    $('#interviewExamId').val(id);
-    $('#interviewresultName').val(updatedName);
-    $('#interviewresultStrand').val(strnd);
-    $('#campus').val(camp).trigger('change');
-    $('#interviewresultRating').val(rating);
-    $('#interviewRemarks').val(remark);
-    $('#coursePref1').val(pref1);
-    $('#coursePref2').val(pref2);
-    $('#interReason').val(reason);
-
-    $('#interviewresultexamModal').modal('show');
-    
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#interviewExamId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#interviewExamId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
-});
-
-$('#interviewResultForm').submit(function(event) {
-    event.preventDefault();
-    var formData = $(this).serialize();
-
-    $.ajax({
-        url: updateConfirmRoute,
-        type: "POST",
-        data: formData,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            if(response.success) {
-                toastr.success(response.message);
-                $('#interviewresultexamModal').modal('hide');
-                $(document).trigger('interrslttable');
-            } else {
-                toastr.error(response.message);
-            }
-        },
-        error: function(xhr, status, error, message) {
-            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
-            toastr.error(errorMessage);
-        }
     });
 });
 
@@ -213,72 +140,21 @@ $(document).on('click', '.btn-pushtocnfrm', function() {
     });
 });
 
-$('#pushtocnfrmForm').submit(function(event) {
-    event.preventDefault();
-    var formData = $(this).serialize();
-
-    $.ajax({
-        url: pushtocnfrmRoute,
-        type: "POST",
-        data: formData,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            if(response.success) {
-                toastr.success(response.message);
-                $('#pushtocnfrmModal').modal('hide');
-                $(document).trigger('interrslttable');
-            } else {
-                toastr.error(response.message);
-            }
-        },
-        error: function(xhr, status, error, message) {
-            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
-            toastr.error(errorMessage);
-        }
-    });
-});
-
- $(document).ready(function() {
-    $('#campus').val('YourStaticCampusValue');
-    $('#campus').trigger('change');
-    
-    $('#campus').change(function() {
-        var campus = $(this).val();
-        $.ajax({
-            url: progCampRoute,
-            method: 'GET',
-            data: { campus: campus },
-            success: function(response) {
-                $('#course').empty();
-                $('#course').append('<option disabled selected>Select Course Preference</option>');
-                $.each(response, function(index, program) {
-                    $('#course').append('<option value="' + program.code + '">' + program.program + '</option>');
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
-    });
-});
-
-$(document).on('click', '.btn-pushtoaccept', function() {
+$(document).on('click', '.btn-pushtoenrollment', function() {
     var id = $(this).data('id');
-    $('#pushtoAcceptId').val(id);
-    $('#pushtoAcceptModal').modal('show');
+    $('#pushtoEnrollmentId').val(id);
+    $('#pushtoEnrollmentModal').modal('show');
     
     $.ajax({
         url: appidEncryptRoute,
         type: "POST",
-        data: { data: $('#pushtoAcceptId').val() },
+        data: { data: $('#pushtoEnrollmentId').val() },
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
             //alert(response); 
-            $('#pushtoAcceptId').val(response)
+            $('#pushtoEnrollmentId').val(response)
         },
         error: function(xhr, status, error) {
             alert('Error: ' + error); 
@@ -286,12 +162,12 @@ $(document).on('click', '.btn-pushtoaccept', function() {
     });
 });
 
-$('#pushtoAcceptForm').submit(function(event) {
+$('#pushtoEnrollmentForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
     $.ajax({
-        url: pushtoAcceptRoute,
+        url: pushtoEnrollmentRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -300,8 +176,8 @@ $('#pushtoAcceptForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#pushtoAcceptModal').modal('hide');
-                $(document).trigger('interrslttable');
+                $('#pushtoEnrollmentModal').modal('hide');
+                $(document).trigger('pushtoenrolltable');
             } else {
                 toastr.error(response.message);
             }

@@ -229,8 +229,8 @@ COAS - V2.0 || Subject Offered
                                                 </select>
                                             </div>
 
-                                            <input type="text" id="fundIdInput" name="fund" class="form-control form-control-sm" readonly>
-                                            <input type="text" id="accountNameInput" name="fundAccount" class="form-control form-control-sm" readonly>
+                                            <input type="hidden" id="fundIdInput" name="fund" class="form-control form-control-sm" readonly>
+                                            <input type="hidden" id="accountNameInput" name="fundAccount" class="form-control form-control-sm" readonly>
 
                                             <div class="col-md-2">
                                                 <label>&nbsp;</label>
@@ -259,14 +259,14 @@ COAS - V2.0 || Subject Offered
             </div>
             <form id="editStudSubOfferForm" action="{{ route('subjectsOfferedUpdate') }}" method="POST">
                 <div class="modal-body">
-                    <input type="text" name="id" id="editSubOfferId">
+                    <input type="hidden" name="id" id="editSubOfferId">
                     <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
                     <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="datePosted" readonly>
                     <div class="container mt-1">
                         <div class="form-group">
                             <div class="form-row">
-                                <div class="col-md-5">
-                                    <label><span class="badge badge-secondary">Subject Name</span></label>
+                                <div class="col-md-8">
+                                    <label><span class="badge badge-info">Select New Subject here</span></label>
                                     <select class="form-control form-control-sm select2bs4" id="subCodeEdit">
                                         <option disabled selected>---Select---</option>
                                         @foreach($subjects as $sub)
@@ -275,17 +275,18 @@ COAS - V2.0 || Subject Offered
                                     </select>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <label><span class="badge badge-secondary">Subject Name</span></label>
-                                    <input type="text" id="subnameEdit"  class="form-control form-control-sm" readonly>
-                                </div>
-
                                 <div class="col-md-4">
                                     <label><span class="badge badge-secondary">Subject Code</span></label>
                                     <input type="text" name="subCode" id="subcodeEdit" class="form-control form-control-sm" readonly>
                                 </div>
 
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Subject Name</span></label>
+                                    <input type="text" id="subnameEdit"  class="form-control form-control-sm" readonly>
+                                </div>
+
+
+                                <div class="col-md-8 mt-2">
                                     <label><span class="badge badge-secondary">Subject Title</span></label>
                                     <input type="text" id="subtitleEdit" class="form-control form-control-sm" readonly>
                                 </div>
@@ -327,7 +328,7 @@ COAS - V2.0 || Subject Offered
 
                                 <div class="col-md-2 mt-2">
                                     <label><span class="badge badge-secondary">Template</span></label>
-                                    <select class="form-control form-control-sm" name="isTemp">
+                                    <select class="form-control form-control-sm" name="isTemp" id="isTempSelect">
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
                                     </select>
@@ -335,9 +336,9 @@ COAS - V2.0 || Subject Offered
 
                                 <div class="col-md-2 mt-2">
                                     <label><span class="badge badge-secondary">OJT</span></label>
-                                    <select class="form-control form-control-sm" name="isOJT">
-                                        <option value="0">No</option>
-                                        <option value="1">Yes</option>
+                                    <select class="form-control form-control-sm" name="isOJT" id="isOJTSelect">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
                                     </select>
                                 </div>
 
@@ -353,9 +354,9 @@ COAS - V2.0 || Subject Offered
                                     <label><span class="badge badge-secondary">Fund</span></label>
                                     <select class="form-control form-control-sm" id="fundSelectEdit">
                                         <option disabled selected> --Select-- </option>
-                                        <option value="">No Account</option>
+                                        <option value="" id="noAccountOption">No Account</option>
                                         @foreach($funds as $fund)
-                                            <option value="{{ $fund->fund_id }}" data-account-nameedit="{{ $fund->account_name }}">{{ $fund->fund_id }} - {{ $fund->account_name }}</option>
+                                            <option value="{{ $fund->account_name }}" >{{ $fund->fund_id }} - {{ $fund->account_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -365,11 +366,11 @@ COAS - V2.0 || Subject Offered
                                 <div class="col-md-2 mt-2"></div>
                                 <div class="col-md-2 mt-2"></div>
                                 <div class="col-md-2 mt-2">
-                                    <input type="text" id="fundEdit" name="fund" class="form-control form-control-sm" readonly>
+                                    <input type="hidden" id="fundEdit" name="fund" class="form-control form-control-sm" readonly>
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <input type="text" id="fundAccountEdit" name="fundAccount" class="form-control form-control-sm" readonly>
+                                    <input type="hidden" id="fundAccountEdit" name="fundAccount" class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
                         </div>

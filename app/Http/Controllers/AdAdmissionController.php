@@ -79,9 +79,39 @@ class AdAdmissionController extends Controller
     {
         $this->shareCounts();
         $applicantCounts = $this->countApplicantsByCampus();
+
         $currentYear = Carbon::now()->year;
+        $user = Auth::guard('web')->user()->dept;
+        $campus = Auth::guard('web')->user()->campus;
+
+        $cnfrmapp = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                    ->where('ad_applicant_admission.year', $currentYear)
+                    ->where('ad_applicant_admission.campus', $campus)
+                    ->where('p_status', '=', 4)
+                    ->count();
+
+        $acptapp = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                    ->where('ad_applicant_admission.year', $currentYear)
+                    ->where('ad_applicant_admission.campus', $campus)
+                    ->where('ad_applicant_dept_rating.deptcol', $user)
+                    ->whereIn('p_status', [5, 6])
+                    ->count();
+
+        $acptapppushen = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                    ->where('ad_applicant_admission.year', $currentYear)
+                    ->where('ad_applicant_admission.campus', $campus)
+                    ->where('ad_applicant_dept_rating.deptcol', $user)
+                    ->where('p_status', '=', 6)
+                    ->count();
+
+        $acptappnotpushen = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                    ->where('ad_applicant_admission.year', $currentYear)
+                    ->where('ad_applicant_admission.campus', $campus)
+                    ->where('ad_applicant_dept_rating.deptcol', $user)
+                    ->where('p_status', '=', 5)
+                    ->count();
         
-        return view('admission.index', compact('applicantCounts', 'currentYear'));
+        return view('admission.index', compact('applicantCounts', 'currentYear', 'cnfrmapp', 'acptapp', 'acptapppushen', 'acptappnotpushen'));
     }
 
     public function applicant_add()

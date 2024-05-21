@@ -105,6 +105,71 @@
                                         <div class="workspace-top" style="text-align: center;">
                                             @php $curr_route = request()->route()->getName(); @endphp
                                             @if($curr_route == 'admission-index')
+                                                @if(in_array(Auth::guard('web')->user()->isAdmin, [5, 6, 7]))
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-6">
+                                                        <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
+                                                            <div class="text-left">
+                                                                <div class="inner">
+                                                                    <h3>{{ $cnfrmapp }}</h3>
+                                                                    <p>No. of Confirm Applicants</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <div class="icon">
+                                                                    <i class="fa fa-users"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-6">
+                                                        <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #497f6f !important">
+                                                            <div class="text-left">
+                                                                <div class="inner">
+                                                                    <h3>{{ $acptapp }}</h3>
+                                                                    <p>No. of Accepted Applicants</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <div class="icon">
+                                                                    <i class="fa fa-users"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-6">
+                                                        <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #047553 !important">
+                                                            <div class="text-left">
+                                                                <div class="inner">
+                                                                    <h3>{{ $acptapppushen }}</h3>
+                                                                    <p>Pushed to Enrollment</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <div class="icon">
+                                                                    <i class="fa fa-users"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-6">
+                                                        <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #547b6f !important">
+                                                            <div class="text-left">
+                                                                <div class="inner">
+                                                                    <h3>{{ $acptappnotpushen }}</h3>
+                                                                    <p>Waiting to Push to Enrollment</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <div class="icon">
+                                                                    <i class="fa fa-users"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endif
+                                            
                                                 <div class="">
                                                     <div class="card-header">
                                                         <h3 class="card-title">No. of Applicants in every campus in this year {{ $currentYear }}</h3>

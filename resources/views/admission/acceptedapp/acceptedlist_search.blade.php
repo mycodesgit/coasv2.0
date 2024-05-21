@@ -1,7 +1,7 @@
 @extends('layouts.master_admission')
 
 @section('title')
-COAS - V1.0 || Accepted Applicants
+COAS - V2.0 || Accepted Applicants
 @endsection
 
 @section('sideheader')
@@ -164,9 +164,34 @@ COAS - V1.0 || Accepted Applicants
     </div>
 </div>
 
+<div class="modal fade" id="pushtoEnrollmentModal" role="dialog" aria-labelledby="pushtoEnrollmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pushtoEnrollmentModalLabel">Are you sure you want to Push the Accepted Applicant to the Registrar for Enrollment?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="pushtoEnrollmentForm">
+                <div class="modal-body">
+                    <input type="text" name="id" id="pushtoEnrollmentId">
+                    <div class="form-group">
+                        <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Registrar for Enrollment</button></center>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var allAppAcceptedRoute = "{{ route('getsrchacceptedListapp') }}";
     var appidEncryptRoute = "{{ route('idcrypt') }}";
+    var pushtoEnrollmentRoute = '{{ route('save_enroll_applicant',  ['id' => ':id']) }}';
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
     var requestedCampus = '{{ request('campus') }}'

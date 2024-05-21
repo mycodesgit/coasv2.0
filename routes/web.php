@@ -156,6 +156,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/acceptedList/ajax', [AdAcceptedController::class, 'getsrchacceptedListapp'])->name('getsrchacceptedListapp');
             Route::get('/enrolled', [AdAcceptedController::class, 'applicant_enrolled'])->name('applicant-enrolled');
             Route::get('/list/enrolledList', [AdAcceptedController::class, 'srchacceptedEnrolledList'])->name('srchacceptedEnrolledList');
+            Route::post('/pushapplicantenrollment', [AdAcceptedController::class, 'save_enroll_applicant'])->name('save_enroll_applicant');
         });
 
         Route::prefix('configure')->group(function () {    

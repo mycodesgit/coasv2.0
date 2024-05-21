@@ -5,7 +5,7 @@
     $appAddActive = in_array($curr_route, ['applicant-add']) ? 'active' : '';
     $appListActive = in_array($curr_route, ['applicant-list', 'srchappList', 'applicant_edit']) ? 'active' : '';
     $examineeListActive = in_array($curr_route, ['examinee-list', 'srchexamineeList', 'examinee_edit']) ? 'active' : '';
-    $resultListActive = in_array($curr_route, ['result-list', 'srchexamineeResultList', 'assignresult', 'pre_enrolment_print', 'confirmResult']) ? 'active' : '';
+    $resultListActive = in_array($curr_route, ['result-list', 'srchexamineeResultList', 'assignresult', 'confirmResult']) ? 'active' : '';
     $confirmAppListActive = in_array($curr_route, ['examinee-confirm', 'srchconfirmList', 'accept', 'deptInterview', 'pre_enrolment_print']) ? 'active' : '';
     $acceptedAppListActive = in_array($curr_route, ['applicant-accepted', 'srchacceptedList', 'accepted_push_enroll_applicant']) ? 'active' : '';
     $enrolledAppListActive = in_array($curr_route, ['applicant-enrolled', 'srchacceptedEnrolledList']) ? 'active' : '';

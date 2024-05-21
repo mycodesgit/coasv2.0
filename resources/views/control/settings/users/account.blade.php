@@ -117,12 +117,12 @@ COAS - V2.0 || User's List
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <label><span class="badge badge-secondary">Last Name</span></label>
-                                            <input type="text" name="lname" class="form-control form-control-sm" value="{{ $user->lname }}" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
+                                            <input type="text" name="lname" class="form-control form-control-sm" value="{{ $user->lname }}" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" readonly>
                                         </div>
 
                                         <div class="col-md-6">
                                             <label><span class="badge badge-secondary">First Name</span></label>
-                                            <input type="text" name="fname" class="form-control form-control-sm" value="{{ $user->fname }}" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
+                                            <input type="text" name="fname" class="form-control form-control-sm" value="{{ $user->fname }}" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -131,12 +131,12 @@ COAS - V2.0 || User's List
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <label><span class="badge badge-secondary">Middle Name</span></label>
-                                            <input type="text" name="mname" class="form-control form-control-sm" value="{{ $user->mname }}" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
+                                            <input type="text" name="mname" class="form-control form-control-sm" value="{{ $user->mname }}" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" readonly>
                                         </div>
 
                                         <div class="col-md-6">
                                             <label><span class="badge badge-secondary">Ext Name</span></label>
-                                            <input type="text" name="ext" class="form-control form-control-sm" value="{{ $user->ext }}" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
+                                            <input type="text" name="ext" class="form-control form-control-sm" value="{{ $user->ext }}" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -145,7 +145,7 @@ COAS - V2.0 || User's List
                                     <div class="form-row">
                                         <div class="col-md-12">
                                             <label><span class="badge badge-secondary">Email Address</span></label>
-                                            <input type="email" name="email" class="form-control form-control-sm" value="{{ $user->email }}">
+                                            <input type="email" name="email" class="form-control form-control-sm" value="{{ $user->email }}" readonly>
                                         </div>
                                     </div>
                                 </div>

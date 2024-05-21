@@ -1,7 +1,7 @@
 @extends('layouts.master_admission')
 
 @section('title')
-COAS - V1.0 || Confirmed/Unconfirm Applicants
+COAS - V2.0 || Confirmed/Unconfirm Applicants
 @endsection
 
 @section('sideheader')
@@ -104,7 +104,7 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
                             <th>Name</th>
                             <th>Type</th>
                             <th>Contact No.</th>
-                            <th>Status</th>
+                            <th>Remarks</th>
                             <th>Exam Sched</th>
                             <th>Campus</th>
                             <th>Strand</th>
@@ -172,8 +172,8 @@ COAS - V1.0 || Confirmed/Unconfirm Applicants
                                 <label for="interviewRemarks"><span class="badge badge-secondary">Remarks</span></label>
                                 <select class="form-control form-control-sm" name="remarks" id="interviewRemarks">
                                     <option disabled selected>Select</option>
-                                    <option value="1">Accepted for Enrollment</option>
-                                    <option value="2">Not Accepted for Enrollment</option>
+                                    <option value="1">Interview Completed</option>
+                                    <option value="2">Interview Pending</option>
                                 </select>
                             </div>
                         </div>

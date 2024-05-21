@@ -75,8 +75,12 @@ class EnstudgradeController extends Controller
                 ->where('so.semester', $semester)
                 ->where('studgrades.subjID', $id)
                 ->orderBy('students.lname', 'ASC')
-                ->get(); 
-        $grdCode = GradeCode::all();
+                ->get();
+
+        $grdpercentage = range(44, 78); 
+        $grdCode = GradeCode::whereIn('id', $grdpercentage)
+                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
+                ->get();
 
         $totalSearchResults = count($genstud);
 

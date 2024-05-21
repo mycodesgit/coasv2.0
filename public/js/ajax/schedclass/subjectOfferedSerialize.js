@@ -81,7 +81,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-studSubOffer" data-id="' + row.soid + '" data-subcode="' + row.subCode + '" data-subsec="' + row.subSec + '" data-lecunit="' + row.lecUnit + '" data-labunit="' + row.labUnit + '" data-subunit="' + row.subUnit + '" data-lecfee="' + row.lecFee + '" data-labfee="' + row.labFee + '" data-maxstud="' + row.maxstud + '" data-fund="' + row.fund + '" data-fundaccount="' + row.fundAccount + '">' +
+                            '<a href="#" class="dropdown-item btn-studSubOffer" data-id="' + row.soid + '" data-subcode="' + row.subCode + '" data-subsec="' + row.subSec + '" data-lecunit="' + row.lecUnit + '" data-labunit="' + row.labUnit + '" data-subunit="' + row.subUnit + '" data-lecfee="' + row.lecFee + '" data-labfee="' + row.labFee + '" data-maxstud="' + row.maxstud + '" data-fund="' + row.fund + '" data-istemp="' + row.isTemp + '" data-isojt="' + row.isOJT + '" data-istype="' + row.isType + '" data-fundaccount="' + row.fundAccount + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item studfees-delete">' +
@@ -167,6 +167,10 @@ $(document).on('click', '.btn-studSubOffer', function() {
     var labfee = $(this).data('labfee');
     var maxstud = $(this).data('maxstud');
     var fund = $(this).data('fund');
+    var isTemp = $(this).data('istemp');
+    var isOJTSelect = $(this).data('isojt');
+    var isTypeSelect = $(this).data('istype');
+    var fundSelectEdit = $(this).data('fundaccount');
     var fundAccount = $(this).data('fundaccount');
 
     $('#editSubOfferId').val(id);
@@ -180,6 +184,10 @@ $(document).on('click', '.btn-studSubOffer', function() {
     $('#editlabfee').val(labfee);
     $('#editmaxstud').val(maxstud);
     $('#fundEdit').val(fund);
+    $('#isTempSelect').val(isTemp);
+    $('#isOJTSelect').val(isOJTSelect);
+    $('#isTypeSelect').val(isTypeSelect);
+    $('#fundSelectEdit').val(fundAccount);
     $('#fundAccountEdit').val(fundAccount);
 
     $.ajax({
@@ -196,6 +204,20 @@ $(document).on('click', '.btn-studSubOffer', function() {
     });
 
     $('#editStudSubOfferModal').modal('show');
+});
+
+document.getElementById('fundSelectEdit').addEventListener('change', function() {
+    var selectedOption = this.options[this.selectedIndex];
+    var fundEdit = document.getElementById('fundEdit');
+    var fundAccountEdit = document.getElementById('fundAccountEdit');
+
+    if (selectedOption.id === 'noAccountOption') {
+        fundEdit.value = null;
+        fundAccountEdit.value = null;
+    } else {
+        fundEdit.value = selectedOption.text.split(' - ')[0];
+        fundAccountEdit.value = selectedOption.value;
+    }
 });
 
 $('#editStudSubOfferForm').submit(function(event) {

@@ -119,7 +119,7 @@ COAS - V2.0 || Grading
                     <tr>
                         <td>{{ $subjects->sid }}</td>
                         <td>{{ $subjects->sub_name }}</td>
-                        <td>{{ $subjects->sub_desc }}</td>
+                        <td>{{ $subjects->sub_title }}</td>
                         <td>{{ $subjects->subSec }}</td>
                         <td>
                             <a href="{{ route('geneStudent1', ['id' => $subjects->sid, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="btn btn-primary btn-sm">

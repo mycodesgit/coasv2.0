@@ -164,6 +164,9 @@ class AdConfirmController extends Controller
             ->where('id', $decryptedId)
             ->update(['p_status' => 5]);
 
+        $affectedRowsDeptRating = DeptRating::where('app_id', $decryptedId)
+            ->update(['deptcol' => Auth::guard('web')->user()->dept]);
+
         if ($affectedRows > 0) {
             return response()->json(['success' => true, 'message' => 'Examinee has been pushed to Accepted Applicants List'], 200);
         } else {
@@ -189,84 +192,5 @@ class AdConfirmController extends Controller
         return view('admission.acceptedapp.push_applcnt', compact('applicant'));
     }
 
-    public function save_enroll_applicant($id)
-    {
-        $applicant = Applicant::findOrFail($id);
-
-        $existingApplicant = Student::where('stud_id', $applicant->admission_id)
-            ->orWhere(function ($query) use ($applicant) {
-                $query->where('fname', $applicant->fname)
-                    ->where('mname', $applicant->mname)
-                    ->where('lname', $applicant->lname);
-            })
-            ->first();
-
-        if ($existingApplicant) {
-            return Redirect::back()
-                ->withInput()
-                ->with('fail', 'Error: Name or Student ID already exists!');
-        }
-
-        $enrollmentStudent = new Student();
-        
-        $enrollmentStudent->year = $applicant->year;
-        $enrollmentStudent->stud_id = $this->generateAdmissionId($applicant->admission_id, $applicant->campus);
-        $enrollmentStudent->app_id = $applicant->id;
-        $enrollmentStudent->status = $applicant->status;
-        $enrollmentStudent->en_status = 2; 
-        $enrollmentStudent->p_status = $applicant->p_status;
-        $enrollmentStudent->type = $applicant->type;
-        $enrollmentStudent->campus = $applicant->campus;
-        $enrollmentStudent->lname = $applicant->lname;
-        $enrollmentStudent->fname = $applicant->fname;
-        $enrollmentStudent->mname = $applicant->mname;
-        $enrollmentStudent->ext = $applicant->ext;
-        $enrollmentStudent->course = $applicant->course;
-        $enrollmentStudent->gender = $applicant->gender;
-        $enrollmentStudent->civil_status = $applicant->civil_status;
-        $enrollmentStudent->contact = $applicant->contact;
-        $enrollmentStudent->email = $applicant->email;
-        $enrollmentStudent->religion = $applicant->religion;
-        $enrollmentStudent->address = $applicant->address;
-        $enrollmentStudent->bday = $applicant->bday;
-        $enrollmentStudent->pbirth = $applicant->pbirth;
-        $enrollmentStudent->monthly_income = $applicant->monthly_income;
-        $enrollmentStudent->hnum = $applicant->hnum;
-        $enrollmentStudent->brgy = $applicant->brgy;
-        $enrollmentStudent->city = $applicant->city;
-        $enrollmentStudent->province = $applicant->province;
-        $enrollmentStudent->region = $applicant->region;
-        $enrollmentStudent->zcode = $applicant->zcode;
-        $enrollmentStudent->lstsch_attended = $applicant->lstsch_attended;
-        $enrollmentStudent->suc_lst_attended = $applicant->suc_lst_attended;
-        $enrollmentStudent->award = $applicant->award;
-        $enrollmentStudent->image = $applicant->image;
-        $enrollmentStudent->created_at = Carbon::now();
-
-        $enrollmentStudent->save();
-
-        $applicant->en_status = 2;
-        $applicant->updated_at = Carbon::now();
-        $applicant->update();
-        return back()->with('success', 'Applicant can now proceed to enrollment');
-    }
-
-    protected function generateAdmissionId($baseId, $campus)
-    {
-        $campusLetter = $this->getCampusLetter($campus);
-        $formattedId = substr($baseId, 0, 4) . '-' . substr($baseId, 4) . '-' . $campusLetter;
-
-        return $formattedId;
-    }
-
-
-    protected function getCampusLetter($campus)
-    {
-        $campusMappings = [
-            'MC' => 'K',
-            'CC' => 'C',
-            'HIN' => 'N',
-        ];
-        return $campusMappings[$campus] ?? 'X';
-    }
+    
 }

@@ -1,7 +1,7 @@
 @extends('layouts.master_admission')
 
 @section('title')
-COAS - V1.0 || Admission
+COAS - V2.0 || Admission
 @endsection
 
 @section('sideheader')

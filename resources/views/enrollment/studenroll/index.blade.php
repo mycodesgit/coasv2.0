@@ -45,7 +45,7 @@ COAS - V2.0 || Enroll Student
                             <div class="form-row">
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">Student ID Number</span></label>
-                                    <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()">
+                                    <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
                                 </div>
 
                                 <div class="col-md-3">

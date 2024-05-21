@@ -289,7 +289,7 @@ COAS - V2.0 || Enroll Student
                                     </div>
                                 </div>
                             </div>      
-                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
+                            <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
                         </div>
                     </div>
                 </div>

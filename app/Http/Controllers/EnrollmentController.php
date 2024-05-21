@@ -120,15 +120,15 @@ class EnrollmentController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
-        // $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
-        //     ->where('schlyear', $schlyear)
-        //     ->where('semester', $semester)
-        //     ->where('campus', $campus)
-        //     ->first();
+        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+            ->where('schlyear', $schlyear)
+            ->where('semester', $semester)
+            ->where('campus', $campus)
+            ->first();
 
-        // if ($enrollmentHistory) {
-        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
-        // }
+        if ($enrollmentHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
+        }
 
         $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->join('coasv2_db_enrollment.yearlevel', function($join) {

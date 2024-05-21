@@ -349,8 +349,8 @@ COAS - V2.0 || Edit Student Enrollment
                                     </div>
                                 </div>
                             </div>      
-                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
-                            <input type="text" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
+                            <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
+                            <input type="hidden" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
                         </div>
                     </div>
                 </div>
@@ -395,22 +395,22 @@ COAS - V2.0 || Edit Student Enrollment
                 </div>  
                 
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="subjecID" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="subjecID" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="sub_code" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="sub_code" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="sub_title" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="sub_title" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="subUnit" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="subUnit" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="lecFee" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="lecFee" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="labFee" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
                 </div>
                 
                 <button type="button" class="btn btn-primary" id="addSubjectBtn">
