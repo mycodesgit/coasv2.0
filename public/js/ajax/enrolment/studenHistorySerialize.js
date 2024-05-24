@@ -4,7 +4,7 @@ $(document).ready(function() {
 
     var dataTable = $('#studhisTable').DataTable({
         "ajax": {
-            "url": studhistoryReadRoute,
+            "url": studenhistoryReadRoute,
             "type": "GET",
             "data": { 
                 "query": query
@@ -57,7 +57,7 @@ $(document).ready(function() {
         $('#studentName').text(studentName);
 
         $.ajax({
-            url: studhistoryClickReadRoute,
+            url: studenhistoryClickReadRoute,
             method: 'GET',
             data: { stud_id: studentId },
             success: function(response) {

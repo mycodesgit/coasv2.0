@@ -63,7 +63,7 @@ class EnStudentPerCurriculumController extends Controller
                 ->where('program_en_history.semester', $semester)
                 ->where('program_en_history.campus', $campus)
                 ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
-                ->select('coasv2_db_schedule.programs.progCod', 'coasv2_db_schedule.programs.progName', 'coasv2_db_schedule.programs.progAcronym', 'program_en_history.studYear', 'program_en_history.studYear', 'program_en_history.studSec', 'students.gender', 'program_en_history.id',)
+                ->select('coasv2_db_schedule.programs.progCod', 'coasv2_db_schedule.programs.progName', 'coasv2_db_schedule.programs.progAcronym', 'program_en_history.studYear', 'program_en_history.studYear', 'program_en_history.studSec', 'students.gender', 'program_en_history.id', 'program_en_history.schlyear', 'program_en_history.semester')
                 ->selectRaw('program_en_history.progCod,
                             program_en_history.studYear, 
                             program_en_history.studSec, 
@@ -73,5 +73,52 @@ class EnStudentPerCurriculumController extends Controller
                 ->get();
 
         return response()->json(['data' => $data]);
+    }
+
+    public function fetchStudEnrollmentlist(Request $request)
+    {
+        $progCode = $request->input('progCod');
+        $studYear = $request->input('studYear');
+        $studSec = $request->input('studSec');
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+
+        $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->where('program_en_history.progCod', $progCode)
+            ->where('program_en_history.studYear', $studYear)
+            ->where('program_en_history.studSec', $studSec)
+            ->where('program_en_history.schlyear', $schlyear)
+            ->where('program_en_history.semester', $semester)
+            ->select('program_en_history.*', 'students.*')
+            ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym')
+            ->orderBy('students.lname', 'ASC')
+            ->get();
+
+        return response()->json(['data' => $enrolledstud]);
+    }
+
+    public function exportEnrollmentPDF(Request $request)
+    {
+        $progCode = $request->input('progCod');
+        $studYear = $request->input('studYear');
+        $studSec = $request->input('studSec');
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+
+        $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->where('program_en_history.progCod', $progCode)
+            ->where('program_en_history.studYear', $studYear)
+            ->where('program_en_history.studSec', $studSec)
+            ->where('program_en_history.schlyear', $schlyear)
+            ->where('program_en_history.semester', $semester)
+            ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
+            ->orderBy('students.lname', 'ASC')
+            ->get();
+
+        $pdf = PDF::loadView('enrollment.reports.studentcurr.studcoursepdf', compact('enrolledstud'))->setPaper('Legal', 'portrait');
+
+        return $pdf->stream('enrollment_history.pdf');
     }
 }

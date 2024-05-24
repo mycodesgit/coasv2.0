@@ -1,11 +1,11 @@
-@extends('layouts.master_scholarship')
+@extends('layouts.master_enrollment')
 
 @section('title')
 COAS - V2.0 || Student Enrollment History
 @endsection
 
 @section('sideheader')
-<h4>Scholarship</h4>
+<h4>Enrollment</h4>
 @endsection
 
 @yield('sidemenu')
@@ -19,12 +19,12 @@ COAS - V2.0 || Student Enrollment History
                     <i class="fas fa-home"></i>
                 </a>
             </li>
-            <li class="breadcrumb-item mt-1">Scholarship</li>
+            <li class="breadcrumb-item mt-1">Enrollment</li>
             <li class="breadcrumb-item active mt-1">Student Enrollment History</li>
         </ol>
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
         <div class="page-header mt-2">
-            <form method="GET" action="{{ route('viewsearchStudHistory') }}" id="studscholar">
+            <form method="GET" action="{{ route('viewsearchenStudHistory') }}" id="studscholar">
                 @csrf
 
                 <div class="">
@@ -99,8 +99,8 @@ COAS - V2.0 || Student Enrollment History
 
 
 <script>
-    var studhistoryReadRoute = "{{ route('searchStudHistory') }}";
-    var studhistoryClickReadRoute = "{{ route('fetchEnrollmentHistory') }}";
+    var studenhistoryReadRoute = "{{ route('searchenStudHistory') }}";
+    var studenhistoryClickReadRoute = "{{ route('fetchStudEnrollmentHistory') }}";
 </script>
 
 @endsection

@@ -104,7 +104,7 @@ $(document).ready(function() {
 
                                 if (row.remarks == 1) {
                                     dropdown += '<a href="#" class="dropdown-item btn-pushtoaccept" data-id="' + row.adid + '">' +
-                                        '<i class="fas fa-check"></i> Push Examinee' +
+                                        '<i class="fas fa-check"></i> Push to Accepted Applicant' +
                                         '</a>';
                                 } else {
                                     dropdown += '<span class="dropdown-item disabled"><i class="fas fa-check"></i> Push Examinee</span>';

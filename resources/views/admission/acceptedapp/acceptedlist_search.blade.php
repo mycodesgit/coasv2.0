@@ -175,7 +175,7 @@ COAS - V2.0 || Accepted Applicants
             </div>
             <form id="pushtoEnrollmentForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="pushtoEnrollmentId">
+                    <input type="hidden" name="id" id="pushtoEnrollmentId">
                     <div class="form-group">
                         <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Registrar for Enrollment</button></center>
                     </div>

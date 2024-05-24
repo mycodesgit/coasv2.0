@@ -111,9 +111,9 @@ class GradingController extends Controller
 
         $gradeviewData = FacultyLoad::select('facultyload.*', 'sub_offered.*', 'subjects.*', 'coasv2_db_enrollment.studgrades.*', 'coasv2_db_enrollment.studgrades.status as gstat', 'coasv2_db_enrollment.students.*', 'coasv2_db_enrollment.studgrades.id as sgid' )
                         ->join('sub_offered', 'facultyload.subjectID', '=', 'sub_offered.id')
-                        ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->leftJoin('coasv2_db_enrollment.studgrades', 'facultyload.subjectID', '=', 'coasv2_db_enrollment.studgrades.subjID')
-                        ->leftJoin('coasv2_db_enrollment.students', 'coasv2_db_enrollment.studgrades.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->join('coasv2_db_enrollment.studgrades', 'facultyload.subjectID', '=', 'coasv2_db_enrollment.studgrades.subjID')
+                        ->join('coasv2_db_enrollment.students', 'coasv2_db_enrollment.studgrades.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                         ->whereIn('sub_offered.schlyear', $schlyear)
                         ->whereIn('sub_offered.semester', $semester)
                         ->whereIn('facultyload.facultyID', $facID)

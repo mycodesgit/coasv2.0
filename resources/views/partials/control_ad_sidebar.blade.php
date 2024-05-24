@@ -16,7 +16,8 @@
     $schedreportActive = in_array($curr_route, ['schedules_printing', 'schedules_reports']) ? 'active' : '';
     $noschedreportActive = in_array($curr_route, ['nosched_printing', 'nosched_reports']) ? 'active' : '';   
     $examreportActive = in_array($curr_route, ['examination_printing', 'examination_reports']) ? 'active' : '';  
-    $qualreportActive = in_array($curr_route, ['qualified_printing']) ? 'active' : '';    
+    $qualreportActive = in_array($curr_route, ['qualified_printing']) ? 'active' : ''; 
+    $acceptedreportActive = in_array($curr_route, ['accepted_printing', 'accepted_reports']) ? 'active' : '';    
 @endphp
 
 <div class="ml-2 mr-2 mt-3 mb-3">
@@ -53,7 +54,6 @@
         <a href="{{ route('examination_printing') }}" class="list-group-item {{ $examreportActive }}">Examination Results</a>
         <a href="{{ route('qualified_printing') }}" class="list-group-item {{ $qualreportActive }}">Qualified Applicants</a>
         @endif
-        <a href="" class="list-group-item">Confirmed Applicants</a> 
-        <a href="" class="list-group-item">Accepted Applicants</a>
+        <a href="{{ route('accepted_printing') }}" class="list-group-item {{ $acceptedreportActive }}">Accepted Applicants</a> 
     </ul>
 </div>

@@ -237,7 +237,7 @@
     	</table>
 
     	<div class="studinfolabel">
-			<span style="font-weight: bold;">Posted By:</span> Admin Admin
+			<span style="font-weight: bold;">Posted By:</span> {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
 		</div>
 
     	<table id="table" style="margin-top: 40px !important">

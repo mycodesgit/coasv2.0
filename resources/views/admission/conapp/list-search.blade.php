@@ -212,16 +212,16 @@ COAS - V2.0 || Confirmed/Unconfirm Applicants
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="pushtoAcceptModalLabel">Are you sure you want to Push the Examinee to Confirm List?</h5>
+                <h5 class="modal-title" id="pushtoAcceptModalLabel">Are you sure you want to Push the Applicant to Accepted Applicant List?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="pushtoAcceptForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="pushtoAcceptId">
+                    <input type="hidden" name="id" id="pushtoAcceptId">
                     <div class="form-group">
-                        <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Confirm</button></center>
+                        <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Accepted Applicants</button></center>
                     </div>
                 </div>
                 <div class="modal-footer">

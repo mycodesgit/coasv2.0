@@ -16,6 +16,7 @@ use App\Http\Controllers\AdConfirmController;
 use App\Http\Controllers\AdAcceptedController;
 
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\EnStudHistoryController;
 use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnSubjectsController;
 use App\Http\Controllers\EnreportsController;
@@ -207,10 +208,10 @@ Route::group(['middleware'=>['login_auth']],function(){
             
             Route::get('/qualified', [AdPrntController::class, 'qualified_printing'])->name('qualified_printing');
             Route::get('/qualifiedReports', [AdPrntController::class, 'qualified_reports'])->name('qualified_reports');
+
             Route::get('/accepted', [AdPrntController::class, 'accepted_printing'])->name('accepted_printing');
             Route::get('/acceptedReports', [AdPrntController::class, 'accepted_reports'])->name('accepted_reports');
-            Route::get('/confirm', [AdPrntController::class, 'confirm_printing'])->name('confirm_printing');
-            Route::get('/confirmReports', [AdPrntController::class, 'confirm_reports'])->name('confirm_reports');
+            Route::get('/acceptedReports/PDF', [AdPrntController::class, 'acceptedPDF_reports'])->name('acceptedPDF_reports');
         });
     });
 
@@ -236,6 +237,13 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/student/enroll/viewRF', [EnrollmentController::class, 'studrfprint'])->name('studrfprint');
         });
 
+        Route::prefix('history')->group(function () {
+            Route::get('/listsearch/student', [EnStudHistoryController::class, 'studentEnHistory'])->name('studentEnHistory');
+            Route::get('/listsearch/student/view', [EnStudHistoryController::class, 'viewsearchenStudHistory'])->name('viewsearchenStudHistory');
+            Route::get('/listsearch/student/ajax', [EnStudHistoryController::class, 'searchenStudHistory'])->name('searchenStudHistory');
+            Route::get('/listsearch/student/historyajax', [EnStudHistoryController::class, 'fetchStudEnrollmentHistory'])->name('fetchStudEnrollmentHistory');
+        });
+
         Route::prefix('gradesheet')->group(function () {
             Route::get('/search', [EnstudgradeController::class, 'studgrade_search'])->name('studgrade_search');
             Route::get('/search/list', [EnstudgradeController::class, 'studgrade_searchlist'])->name('studgrade_searchlist');
@@ -256,6 +264,8 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/info/students/curriculum', [EnStudentPerCurriculumController::class, 'studCurr'])->name('studCurr');
             Route::get('/info/students/curriculum/search', [EnStudentPerCurriculumController::class, 'studCurrsearch'])->name('studCurrsearch');
             Route::get('/info/students/curriculum/searchajax', [EnStudentPerCurriculumController::class, 'getstudCurrSearch'])->name('getstudCurrSearch');
+            Route::get('/info/students/curriculum/viewenroll/searchajax', [EnStudentPerCurriculumController::class, 'fetchStudEnrollmentlist'])->name('fetchStudEnrollmentlist');
+            Route::get('/info/students/curriculum/viewenroll/pdfajax', [EnStudentPerCurriculumController::class, 'exportEnrollmentPDF'])->name('exportEnrollmentPDF');
         });
 
     });
@@ -401,6 +411,7 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/search/student', [ScholarshipController::class, 'studEnHistory'])->name('studEnHistory');
             Route::get('/list/search/student/view', [ScholarshipController::class, 'viewsearchStudHistory'])->name('viewsearchStudHistory');
             Route::get('/list/search/student/ajax', [ScholarshipController::class, 'searchStudHistory'])->name('searchStudHistory');
+            Route::get('/list/search/student/historyajax', [ScholarshipController::class, 'fetchEnrollmentHistory'])->name('fetchEnrollmentHistory');
         });
     });
 

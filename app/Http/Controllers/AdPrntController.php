@@ -364,5 +364,68 @@ class AdPrntController extends Controller
         ->with('strand', $strand);
     }
 
+    public function accepted_printing()
+    {
+        $strand = Strands::all();
+        return view('admission.reports.acceptedapp', compact('strand'));
+    }
+
+    public function accepted_reports(Request $request)
+    {
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+        $strand = $request->query('strand');
+        $user = Auth::guard('web')->user()->dept;
+
+        $query = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_dept_rating.*')
+                        ->where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
+                        ->where('ad_applicant_dept_rating.deptcol', $user)
+                        ->where('p_status', '=', 6);
+        if ($strand) {
+            $query->where('ad_applicant_admission.strand', $strand);
+        }
+
+        $data = $query->get();
+
+        $strand = Strands::all();
+
+        return view('admission.reports.acceptedappgen', compact('strand', 'data'));
+    }
+
+    public function acceptedPDF_reports(Request $request)
+    {
+        try {
+            $selectedYear = $request->query('year', []);
+            $selectedCampus = $request->query('campus', []);
+            $selectedStrand = $request->query('strand', []);
+
+            $selectedYear = is_array($selectedYear) ? $selectedYear : [$selectedYear];
+            $selectedCampus = is_array($selectedCampus) ? $selectedCampus : [$selectedCampus];
+            $selectedStrand = is_array($selectedStrand) ? $selectedStrand : [$selectedStrand];
+            $user = Auth::guard('web')->user()->dept;
+
+            $query = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_dept_rating.*')
+                        ->whereIn('ad_applicant_admission.year', $selectedYear)
+                        ->whereIn('ad_applicant_admission.campus', $selectedCampus)
+                        ->where('ad_applicant_dept_rating.deptcol', $user);
+
+            if ($selectedStrand && $selectedStrand[0] !== 'All') {
+                $query->whereIn('ad_applicant_admission.strand', $selectedStrand);
+            }
+
+            $data = $query->where('p_status', '=', 6)->get();
+
+            $totalSearchResults = count($data);
+
+            $pdf = PDF::loadView('admission.reports.pdf.acceptedPDF', ['data' => $data, 'totalSearchResults' => $totalSearchResults])->setPaper('Legal', 'landscape');
+            return $pdf->stream();
+        } catch (\Exception $e) {
+            \Log::error('Error in applicantPDF_reports: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
 
 }

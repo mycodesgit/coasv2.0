@@ -25,7 +25,7 @@
                 <i class="fas fa-calculator"></i> Cashiering
             </a>
 
-            <a @if(!in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 5, 6, 7, 943])) id="scholarship-url" @endif class="btn btn-app @if(in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 5, 6, 7, 943])) disabled @endif ">
+            <a @if(!in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 5, 6, 7, 10, 943])) id="scholarship-url" @endif class="btn btn-app @if(in_array(Auth::guard($guard)->user()->isAdmin, [1, 2, 3, 5, 6, 7, 10, 943])) disabled @endif ">
                 <i class="fas fa-users"></i> Scholarship
             </a>
 

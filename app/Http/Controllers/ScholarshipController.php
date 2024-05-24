@@ -442,4 +442,16 @@ class ScholarshipController extends Controller
 
         return response()->json(['data' => $results]);
     }
+    public function fetchEnrollmentHistory(Request $request)
+    {
+        $stud_id = $request->input('stud_id');
+
+        $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->where('studentID', $stud_id)
+            ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
+            ->get();
+
+        return response()->json(['data' => $enrollmentHistory]);
+    }
+
 }
