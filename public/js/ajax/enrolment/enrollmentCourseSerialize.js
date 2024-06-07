@@ -19,6 +19,9 @@ $(document).ready(function() {
         lengthChange: true,
         searching: true,
         paging: true,
+        buttons: [
+                'excel', 'pdf'
+            ],
         "columns": [
             { data: 'progCod' },
             { data: 'progName' },
@@ -56,8 +59,9 @@ $(document).ready(function() {
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
-        }
-    });
+        },
+        dom: 'Bfrtip'
+    }).buttons().container().appendTo('#courseEn_wrapper .col-md-6:eq(0)');
 });
 
 // $(document).ready(function() {

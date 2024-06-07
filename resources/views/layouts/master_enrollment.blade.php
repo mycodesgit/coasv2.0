@@ -289,6 +289,15 @@
     @if(request()->routeIs('studCurrsearch'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('studgrade_searchlist'))
+        <script src="{{ asset('js/ajax/enrolment/gradesheetSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('elpl_listsearch'))
+        <script src="{{ asset('js/ajax/enrolment/elplSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('elpl_list', 'elpl_listsearch'))
+        <script src="{{ asset('js/ajax/enrolment/getcourseSerialize.js') }}"></script>
+    @endif
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
@@ -312,8 +321,6 @@
             $("#alert").delay(2500).fadeOut(5000);
         }, 0); 
     </script>
-
-    @include('script.gradeScript')
 
     <script type="text/javascript">
         function updateGrade(id, grade){

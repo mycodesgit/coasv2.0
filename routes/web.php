@@ -21,6 +21,8 @@ use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnSubjectsController;
 use App\Http\Controllers\EnreportsController;
 use App\Http\Controllers\EnStudentPerCurriculumController;
+use App\Http\Controllers\EnStudReportCardController;
+use App\Http\Controllers\EnStudELPLController;
 
 use App\Http\Controllers\SchedClassCollegeController;
 use App\Http\Controllers\SchedClassProgramsController;
@@ -247,8 +249,11 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::prefix('gradesheet')->group(function () {
             Route::get('/search', [EnstudgradeController::class, 'studgrade_search'])->name('studgrade_search');
             Route::get('/search/list', [EnstudgradeController::class, 'studgrade_searchlist'])->name('studgrade_searchlist');
-            // Route::post('/search/list/studentsGrade', [EnstudgradeController::class, 'geneStudent'])->name('geneStudent');
+            Route::get('/search/list/ajax', [EnstudgradeController::class, 'studgrade_searchlistajax'])->name('studgrade_searchlistajax');
             Route::get('/search/list/studentsGrade/{id}', [EnstudgradeController::class, 'geneStudent1'])->name('geneStudent1');
+            Route::post('/list/view/studgrde/save', [EnstudgradeController::class, 'registrarsave_grades'])->name('registrarsave_grades');
+            Route::post('/list/view/studgrdeComp/save', [EnstudgradeController::class, 'registrarsave_gradesComp'])->name('registrarsave_gradesComp');
+            Route::post('/list/view/studgrde/submit/{subjID}', [EnstudgradeController::class, 'registrarupdateStatus_gradessubmit'])->name('registrarupdateStatus_gradessubmit');
         });
 
         Route::prefix('subjects')->group(function () {
@@ -266,6 +271,15 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/info/students/curriculum/searchajax', [EnStudentPerCurriculumController::class, 'getstudCurrSearch'])->name('getstudCurrSearch');
             Route::get('/info/students/curriculum/viewenroll/searchajax', [EnStudentPerCurriculumController::class, 'fetchStudEnrollmentlist'])->name('fetchStudEnrollmentlist');
             Route::get('/info/students/curriculum/viewenroll/pdfajax', [EnStudentPerCurriculumController::class, 'exportEnrollmentPDF'])->name('exportEnrollmentPDF');
+
+            Route::get('/info/stud/reportcard', [EnStudReportCardController::class, 'reportCard_list'])->name('reportCard_list');
+            Route::get('/info/stud/reportcard/search', [EnStudReportCardController::class, 'reportCard_listsearch'])->name('reportCard_listsearch');
+            Route::get('/info/stud/reportcard/searchPDF', [EnStudReportCardController::class, 'reportCard_listsearchpdf'])->name('reportCard_listsearchpdf');
+
+            Route::get('/info/enrollmentList', [EnStudELPLController::class, 'elpl_list'])->name('elpl_list');
+            Route::get('/info/getcourse/ajax', [EnStudELPLController::class, 'getCourses'])->name('getCourses');
+            Route::get('/info/enrollmentList/search', [EnStudELPLController::class, 'elpl_listsearch'])->name('elpl_listsearch');
+            Route::get('/info/enrollmentList/searchajax', [EnStudELPLController::class, 'elplajax_listsearch'])->name('elplajax_listsearch');
         });
 
     });

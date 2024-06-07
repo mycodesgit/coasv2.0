@@ -43,7 +43,11 @@ COAS - V2.0 || Grading
                     <div class="form-row">
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">School Year</span></label>
-                            <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+                            <select class="form-control form-control-sm" name="schlyear">
+                                @foreach($sy as $datasy)
+                                    <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-md-3">
@@ -63,7 +67,7 @@ COAS - V2.0 || Grading
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
+            <h5>Search Results: {{-- {{ $totalSearchResults }}  --}}
                 <small>
                     <i>Year-<b>{{ request('syear') }}</b>,
                         Semester-<b>{{ request('semester') }}</b>,
@@ -104,7 +108,7 @@ COAS - V2.0 || Grading
         </div> --}}
 
         <div class="mt-3">
-            <table id="studgradeid" class="table table-bordered">
+            <table id="madapak" class="table table-striped">
                 <thead>
                     <tr>
                         <th>Subject Code</th>
@@ -115,7 +119,7 @@ COAS - V2.0 || Grading
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $subjects)
+                    {{-- @foreach($data as $subjects)
                     <tr>
                         <td>{{ $subjects->sid }}</td>
                         <td>{{ $subjects->sub_name }}</td>
@@ -127,7 +131,7 @@ COAS - V2.0 || Grading
                             </a>
                         </td>
                     </tr>
-                    @endforeach
+                    @endforeach --}}
                 </tbody>
             </table>
         </div>
@@ -135,6 +139,11 @@ COAS - V2.0 || Grading
     </div>
 </div>
 
-
+<script>
+    var studsubgradeoffered = "{{ route('studgrade_searchlistajax') }}";
+    var schlyear = "{{ request('schlyear') }}";
+    var semester = "{{ request('semester') }}";
+    var routeTemplate = "{{ route('geneStudent1', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
+</script>
 
 @endsection

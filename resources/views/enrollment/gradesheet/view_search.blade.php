@@ -22,7 +22,11 @@ COAS - V2.0 || Grading
             <li class="breadcrumb-item mt-1">Grading</li>
             <li class="breadcrumb-item mt-1">
                 <a href="{{ url()->previous() }}"> 
-                    @if($genstud)<strong>{{ $genstud->first()->sub_name }} {{ $genstud->first()->subSec }}</strong> @endif 
+                    @if($genstud && $genstud->isNotEmpty())
+                        <strong>{{ $genstud->first()->sub_name }} {{ $genstud->first()->subSec }}</strong>
+                    @else
+                        <strong>No subjects or no students</strong>
+                    @endif
                 </a>
             </li>
             <li class="breadcrumb-item active mt-1">Grade Sheet</li>
@@ -48,7 +52,11 @@ COAS - V2.0 || Grading
                     <div class="form-row">
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">School Year</span></label>
-                            <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+                            <select class="form-control form-control-sm" name="schlyear">
+                                @foreach($sy as $datasy)
+                                    <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-md-3">
@@ -78,13 +86,17 @@ COAS - V2.0 || Grading
         </div>
 
         <div class="col-md-2 float-right mt-3 mb-2">
+            @if($genstud && $genstud->isNotEmpty())
             <form method="POST" action="{{ route('updateStatus_gradessubmit', ['subjID' => $genstud->first()->subjID]) }}" id="confirmationForm">
                 @csrf
                 <input type="hidden" name="subjID[]" value="{{ $genstud->first()->subjID }}">
                 <button type="button" class="btn btn-primary btn-sm btn-block" id="submitgradeid" data-toggle="modal" data-target="#submitgrades" @if($gradereg == 0) disabled @endif>Submit Grades</button>
             </form>
+            @else
+                <strong>No Students in this subject</strong>
+            @endif
         </div>
-
+        @include('modal.submitgrades')
         <div class="mt-3 table-responsive p-0" style="height: 400px;">
             <table id="" class="table table-bordered table-head-fixed text-nowrap">
                 <thead>

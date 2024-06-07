@@ -9,6 +9,8 @@
     $subjectAllActive = in_array($curr_route, ['subjectsRead']) ? 'active' : '';
     $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
     $studcurrActive = in_array($curr_route, ['studCurr', 'studCurrsearch']) ? 'active' : '';
+    $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
+    $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
 
 @endphp
 
@@ -33,8 +35,8 @@
     <ul class="list-group">
         <a href="{{ route('studInfo') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Curriculum</a>
-        <a href="" class="list-group-item">Students Report Card</a>
-        <a href="" class="list-group-item">Number of Enrollees</a>
+        <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
+        <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
         <a href="" class="list-group-item">Transcript</a>
     </ul>
 </div>
