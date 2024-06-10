@@ -122,6 +122,151 @@ COAS - V1.0 || Examinee Search List Result
     </div>
 </div>
 
+
+<div class="modal fade" id="viewdataresultexamModal" role="dialog" aria-labelledby="viewdataresultexamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewdataresultexamModalLabel">View Examinee Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="">
+                <div class="modal-body">
+                    <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
+                        <h4>Applicant Information</h4>
+                    </div>
+                    <input type="hidden" name="id" id="viewdataresultexamId">
+                    <div class="form-group mt-3">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Admission ID</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamAdID" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Admission Type</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamType" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Preffered Campus</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamCampus" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Firstname</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamFname" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Middlename</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamMname" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Lastname</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamLname" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Ext.</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamExt" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Gender</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamGender" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Birthday</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamBday" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Age</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamAge" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Mobile</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamMobile" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Email Address</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamEmail" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Address</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamAddress" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>For New Student <span style="font-size: 12pt;color:#ff0000;">(Input for New Applicant only)</span></h4>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Last School Attended</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamLSA" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Strand</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamStrand" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>For Transferee <span style="font-size: 12pt;color:#ff0000;">(Input for Transferees only)</span></h4>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">College/University last attended</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCUla" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Course</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCUlac" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>Course Preference</h4>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Course Preference 1</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCP1" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Course Preference 1</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCP2" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="updateresultexamModal" role="dialog" aria-labelledby="updateresultexamModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">

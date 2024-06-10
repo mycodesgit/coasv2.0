@@ -86,7 +86,10 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
-                            dropdown += '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
+                            dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-age="' + row.age + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
+                                '<i class="fas fa-eye"></i> View Data' +
+                                '</a>' +
+                                '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-updateresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '">' +
@@ -121,6 +124,106 @@ $(document).ready(function() {
     toggleActionColumn();
     $(document).on('rslttable', function() {
         dataTable.ajax.reload();
+    });
+});
+
+$(document).on('click', '.btn-viewappdata', function() {
+    var id = $(this).data('id');
+    var admissionid = $(this).data('admissionid');
+    var type = $(this).data('type');
+    var campus = $(this).data('campus');
+    var fname = $(this).data('fname');
+    var mname = $(this).data('mname');
+    var lname = $(this).data('lname');
+    var ext = $(this).data('ext');
+    var gender = $(this).data('gender');
+    var bday = $(this).data('bday');
+    var age = $(this).data('age');
+    var contact = $(this).data('gender');
+    var email = $(this).data('email');
+    var address = $(this).data('address');
+    var lsa = $(this).data('lsa');
+    var strand = $(this).data('strand');
+    var cula = $(this).data('cula');
+    var culac = $(this).data('culac');
+    var cp1 = $(this).data('cp1');
+    var cp2 = $(this).data('cp2');
+
+    $('#viewdataresultexamId').val(id);
+
+    var typeDisplay;
+    if(type == 1) {
+        typeDisplay = "New";
+    } else if(type == 2) {
+        typeDisplay = "Returnee";
+    } else if(type == 3) {
+        typeDisplay = "Transferee";
+    } else {
+        typeDisplay = "Unknown";
+    }
+
+    $('#viewdataresultexamType').val(typeDisplay);
+
+    var campusDisplay;
+    if(campus == 'MC') {
+        campusDisplay = "Main";
+    } else if(campus == 'VC') {
+        campusDisplay = "Victorias";
+    } else if(campus == 'SCC') {
+        campusDisplay = "San Carlos";
+    } else if(campus == 'HC') {
+        campusDisplay = "Hinigaran";
+    } else if(campus == 'MP') {
+        campusDisplay = "Moises Padilla";
+    } else if(campus == 'IC') {
+        campusDisplay = "Ilog";
+    } else if(campus == 'CA') {
+        campusDisplay = "Candoni";
+    } else if(campus == 'CC') {
+        campusDisplay = "Cauayan";
+    } else if(campus == 'SC') {
+        campusDisplay = "Sipalay";
+    } else if(campus == 'HinC') {
+        campusDisplay = "Hinobaan";
+    } else {
+        campusDisplay = "Unknown";
+    }
+
+    $('#viewdataresultexamCampus').val(campusDisplay);
+    $('#viewdataresultexamAdID').val(admissionid);
+    $('#viewdataresultexamFname').val(fname);
+    $('#viewdataresultexamMname').val(mname);
+    $('#viewdataresultexamLname').val(lname);
+    $('#viewdataresultexamExt').val(ext);
+    $('#viewdataresultexamGender').val(gender);
+    $('#viewdataresultexamBday').val(bday);
+    $('#viewdataresultexamAge').val(age);
+    $('#viewdataresultexamMobile').val(contact);
+    $('#viewdataresultexamEmail').val(email);
+    $('#viewdataresultexamAddress').val(address);
+    $('#viewdataresultexamLSA').val(lsa);
+    $('#viewdataresultexamStrand').val(strand);
+    $('#viewdataresultexamCUla').val(cula);
+    $('#viewdataresultexamCUlac').val(culac);
+    $('#viewdataresultexamCP1').val(cp1);
+    $('#viewdataresultexamCP2').val(cp2);
+
+    $('#viewdataresultexamModal').modal('show');
+    
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#viewdataresultexamId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#viewdataresultexamId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
     });
 });
 
