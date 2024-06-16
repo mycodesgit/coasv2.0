@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V2.0 || Student Info
+COAS - V2.0 || Student Info Graduated
 @endsection
 
 @section('sideheader')
@@ -21,7 +21,7 @@ COAS - V2.0 || Student Info
             </li>
             <li class="breadcrumb-item mt-1">Enrollment</li>
             <li class="breadcrumb-item mt-1">Reports</li>
-            <li class="breadcrumb-item active mt-1">Student Info</li>
+            <li class="breadcrumb-item active mt-1">Student Info Graduated</li>
         </ol>
 
         <p>
@@ -32,18 +32,12 @@ COAS - V2.0 || Student Info
             @endif
         </p>
 
-        <div>
-            <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Student Info</h4>
-            </div> 
-        </div>
+        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+            <form method="GET" action="{{ route('studInfograduated_search') }}">
+                {{ csrf_field() }}
 
-        <div class="row">
-            <div class="col-md-12">
-                <form method="GET" action="{{ route('studInfo_search') }}">
-                    {{ csrf_field() }}
-
-                    <div class="form-group mt-2" style="padding: 10px">
+                <div class="">
+                    <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Campus</span></label>
@@ -81,9 +75,29 @@ COAS - V2.0 || Student Info
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
+            </form>
+        </div>
+
+        <div class="mt-5">
+            <div class="">
+                <table id="example1" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Student ID</th>
+                            <th>Gender</th>
+                            <th>Civil Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
             </div>
         </div>
+        
     </div>
 </div>
 

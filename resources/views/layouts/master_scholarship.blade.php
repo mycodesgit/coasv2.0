@@ -99,7 +99,7 @@
             <div class="content">
                 <div class="container-fluid1">
                     <div class="row" style="padding-top: 0px;">
-                        <div class="col-lg-2 sticky-column">
+                        <div class="col-lg-2">
                             <div class="card">
                                 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
                                     @section('sideheader')
@@ -286,6 +286,9 @@
     @endif
     @if(request()->routeIs('viewsearchStudHistory'))
         <script src="{{ asset('js/ajax/scholars/studHistorySerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('countstudnoenrollee'))
+        <script src="{{ asset('js/ajax/enrolment/enrolleescountSerialize.js') }}"></script>
     @endif
 
     <script>

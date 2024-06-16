@@ -82,6 +82,7 @@ $(document).ready(function() {
                                 break;
                         }
                         var row = '<tr>' +
+                            '<td>' + history.studentID + '</td>' +
                             '<td>' + history.schlyear + '</td>' +
                             '<td>' + semesterText + '</td>' +
                             '<td>' + history.progAcronym + '</td>' +

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
 use Storage;
@@ -283,6 +284,27 @@ class SettingController extends Controller
         $grade->save();
 
         return redirect()->back()->with('success', 'Grades Password updated successfully');
+    }
+
+    public function serverMaintenance()
+    {
+        return view('control.settings.admin.settingsMaintenance',  [
+            'maintenance_mode' => Config::get('settings.maintenance_mode', false),
+        ]);
+    }
+
+    public function toggleMaintenance(Request $request)
+    {
+        $maintenanceMode = $request->input('maintenance_mode') === 'on';
+        
+        // Update the config file or database
+        // Example for config file (config/settings.php):
+        $configFile = config_path('settings.php');
+        $config = require $configFile;
+        $config['maintenance_mode'] = $maintenanceMode;
+        file_put_contents($configFile, '<?php return ' . var_export($config, true) . ';');
+
+        return redirect()->back()->with('success', 'Maintenance mode updated!');
     }
 
 }

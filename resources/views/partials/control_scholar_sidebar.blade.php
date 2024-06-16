@@ -8,6 +8,7 @@
     $listStudScholarActive = in_array($curr_route, ['chedstudscholarRead', 'studscholar_searchRead']) ? 'active' : '';
 
     $enhistoryActive = in_array($curr_route, ['studEnHistory', 'viewsearchStudHistory']) ? 'active' : '';
+    $countnumEnrollActive = in_array($curr_route, ['countstudnoenrollee']) ? 'active' : '';
     
 
 @endphp
@@ -32,5 +33,6 @@
     <ul class="list-group">
         <a href="" class="list-group-item">Students Scholar Reports</a>
         <a href="{{ route('studEnHistory') }}" class="list-group-item {{ $enhistoryActive }}">Enrollment History</a>
+        <a href="{{ route('countstudnoenrollee') }}" class="list-group-item {{ $countnumEnrollActive }}">Number of Enrollees</a>
     </ul>
 </div>

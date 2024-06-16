@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('stud_id')->length(12);
             $table->integer('app_id')->length(11);
             $table->enum('status', array(1, 2, 3, 4))->default(1);
-            $table->enum('en_status', array(1, 2,))->nullable();
+            $table->enum('en_status', array(1, 2, 3))->nullable();
+            $table->integer('yeargrad')->nullable();
             $table->enum('p_status', array(1, 2, 3, 4,5,6))->default(1);
             $table->enum('type', array(1, 2, 3, 4))->nullable();
             $table->string('campus')->nullable();

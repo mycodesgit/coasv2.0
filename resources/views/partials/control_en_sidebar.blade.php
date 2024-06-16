@@ -8,9 +8,11 @@
     $gradeStudActive = in_array($curr_route, ['studgrade_search', 'studgrade_searchlist', 'geneStudent1']) ? 'active' : '';
     $subjectAllActive = in_array($curr_route, ['subjectsRead']) ? 'active' : '';
     $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
+    $studinfogradActive = in_array($curr_route, ['studInfograduated', 'studInfograduated_search']) ? 'active' : '';
     $studcurrActive = in_array($curr_route, ['studCurr', 'studCurrsearch']) ? 'active' : '';
     $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
     $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
+    $numenrolledActive = in_array($curr_route, ['studnoenrollee', 'studnoenrollee_searchList']) ? 'active' : '';
 
 @endphp
 
@@ -34,9 +36,11 @@
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
         <a href="{{ route('studInfo') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
+        <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Graduated Students</a>
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Curriculum</a>
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
+        <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
         <a href="" class="list-group-item">Transcript</a>
     </ul>
 </div>

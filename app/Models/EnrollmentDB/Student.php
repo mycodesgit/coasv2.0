@@ -17,6 +17,7 @@ class Student extends Model
         'app_id', 
         'status', 
         'en_status',
+        'yeargrad',
         'p_status',
         'type',
         'fname', 

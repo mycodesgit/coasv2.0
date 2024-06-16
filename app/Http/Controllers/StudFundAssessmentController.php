@@ -126,7 +126,7 @@ class StudFundAssessmentController extends Controller
         ]);
             return response()->json(['success' => true, 'message' => 'Fund update successfully'], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => true, 'message' => 'Failed to store Fund'], 404);
+            return response()->json(['error' => true, 'message' => 'Failed to Update Fund'], 404);
         }
     }
 

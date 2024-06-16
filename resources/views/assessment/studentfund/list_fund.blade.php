@@ -39,7 +39,7 @@ COAS - V2.0 || Fund
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <form method="post" action="{{ route('fundCreate') }}" enctype="multipart/form-data" id="adFund">
+                        <form method="post" action="{{ route('fundCreate') }}" id="adFund">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                 <h5>Add Funds</h5>

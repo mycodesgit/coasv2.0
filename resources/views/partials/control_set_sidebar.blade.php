@@ -5,7 +5,7 @@
     $curconfActive = in_array($curr_route, ['setconfigure']) ? 'active' : '';
     $gradeconfActive = in_array($curr_route, ['setgradepassconfigure']) ? 'active' : '';
     $usersAccntActive = in_array($curr_route, ['accountRead']) ? 'active' : '';
-    
+    $serverActive = in_array($curr_route, ['serverMaintenance']) ? 'active' : '';
 
 @endphp
 
@@ -15,7 +15,8 @@
             @if(Auth::guard('web')->user()->isAdmin == '0')
                 <a href="{{ route('usersRead') }}" class="list-group-item {{ $usersActive }}">User's Account</a> 
                 <a href="{{ route('setconfigure') }}" class="list-group-item {{ $curconfActive }}">Setting Configure</a>
-                <a href="{{ route('setgradepassconfigure') }}" class="list-group-item {{ $gradeconfActive }}">Grades Password</a>  
+                <a href="{{ route('setgradepassconfigure') }}" class="list-group-item {{ $gradeconfActive }}">Grades Password</a> 
+                <a href="{{ route('serverMaintenance') }}" class="list-group-item {{ $serverActive }}">Server</a>  
             @endif
             @if(Auth::guard('web')->user()->isAdmin == '3')
                 <a href="{{ route('setgradepassconfigure') }}" class="list-group-item {{ $gradeconfActive }}">Grades Password</a>  
@@ -23,7 +24,7 @@
         @endauth
 
         @auth('faculty')
-            @if(Auth::guard('faculty')->user()->isAdmin == '5')
+            @if(Auth::guard('faculty')->user()->isAdmin == '943')
             @endif
         @endauth
         

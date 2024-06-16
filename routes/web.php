@@ -23,6 +23,7 @@ use App\Http\Controllers\EnreportsController;
 use App\Http\Controllers\EnStudentPerCurriculumController;
 use App\Http\Controllers\EnStudReportCardController;
 use App\Http\Controllers\EnStudELPLController;
+use App\Http\Controllers\EnStudNoEnrolleeController;
 
 use App\Http\Controllers\SchedClassCollegeController;
 use App\Http\Controllers\SchedClassProgramsController;
@@ -54,7 +55,7 @@ use App\Http\Controllers\SettingController;
 |
 */
 
-Route::group(['middleware'=>['guest']],function(){
+Route::group(['middleware'=>['guest', 'CheckMaintenanceMode']],function(){
     Route::get('/',[MainController::class,'main'])->name('main');
     Route::get('/linkstorage', function () {
         Artisan::call('storage:link');
@@ -74,7 +75,7 @@ Route::group(['middleware'=>['guest']],function(){
     Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
 });
 
-Route::group(['middleware'=>['login_auth']],function(){
+Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('emp/control')->group(function () {
         Route::get('/', [ControlController::class, 'home'])->name('home');
         Route::get('/logout', [ControlController::class, 'logout'])->name('logout');
@@ -264,7 +265,12 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::prefix('report')->group(function () {
             Route::get('/info/students', [EnreportsController::class, 'studInfo'])->name('studInfo');
             Route::get('/info/students/searchList', [EnreportsController::class, 'studInfo_search'])->name('studInfo_search');
+            Route::get('/info/students/searchListajax', [EnreportsController::class, 'getstudInfo_search'])->name('getstudInfo_search');
             Route::get('/info/students/view/{id}', [EnreportsController::class, 'studInfo_view'])->name('studInfo_view');
+
+            Route::get('/info/students/graduated', [EnreportsController::class, 'studInfograduated'])->name('studInfograduated');
+            Route::get('/info/students/graduated/search/list', [EnreportsController::class, 'studInfograduated_search'])->name('studInfograduated_search');
+            Route::get('/info/students/graduated/search/listajax', [EnreportsController::class, 'getstudInfograduated_search'])->name('getstudInfograduated_search');
 
             Route::get('/info/students/curriculum', [EnStudentPerCurriculumController::class, 'studCurr'])->name('studCurr');
             Route::get('/info/students/curriculum/search', [EnStudentPerCurriculumController::class, 'studCurrsearch'])->name('studCurrsearch');
@@ -280,6 +286,9 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/info/getcourse/ajax', [EnStudELPLController::class, 'getCourses'])->name('getCourses');
             Route::get('/info/enrollmentList/search', [EnStudELPLController::class, 'elpl_listsearch'])->name('elpl_listsearch');
             Route::get('/info/enrollmentList/searchajax', [EnStudELPLController::class, 'elplajax_listsearch'])->name('elplajax_listsearch');
+
+            Route::get('/info/number/enrollees', [EnStudNoEnrolleeController::class, 'studnoenrollee'])->name('studnoenrollee');
+            Route::post('/info/number/enrollees', [EnStudNoEnrolleeController::class, 'studnoenrollee_searchList'])->name('studnoenrollee_searchList');
         });
 
     });
@@ -303,6 +312,9 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::prefix('rooms')->group(function () {
             Route::get('/list', [SchedClassRoomsController::class, 'roomsRead'])->name('roomsRead');
             Route::get('/roomlist/ajaxview', [SchedClassRoomsController::class, 'getroomsRead'])->name('getroomsRead');
+            Route::post('/list/roomlist/add', [SchedClassRoomsController::class, 'roomsCreate'])->name('roomsCreate');
+            Route::post('/roomlist/view/update', [SchedClassRoomsController::class, 'roomsUpdate'])->name('roomsUpdate');
+            Route::get('/roomlist/view/delete{id}', [SchedClassRoomsController::class, 'roomsDelete'])->name('roomsDelete');
         });
 
         Route::prefix('class')->group(function () {
@@ -426,6 +438,8 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/list/search/student/view', [ScholarshipController::class, 'viewsearchStudHistory'])->name('viewsearchStudHistory');
             Route::get('/list/search/student/ajax', [ScholarshipController::class, 'searchStudHistory'])->name('searchStudHistory');
             Route::get('/list/search/student/historyajax', [ScholarshipController::class, 'fetchEnrollmentHistory'])->name('fetchEnrollmentHistory');
+
+            Route::get('/list/search/student/numberenroll', [ScholarshipController::class, 'countstudnoenrollee'])->name('countstudnoenrollee');
         });
     });
 
@@ -465,6 +479,9 @@ Route::group(['middleware'=>['login_auth']],function(){
             Route::get('/confGradeAuthSet', [SettingController::class, 'setgradepassconfigure'])->name('setgradepassconfigure');
             Route::post('/confGradeAuthSet/add',[SettingController::class,'setgradepassconfCreate'])->name('setgradepassconfCreate');
             Route::post('/confGradeAuthSet/update/{id}', [SettingController::class, 'updateGradepass'])->name('updateGradepass');
+
+            Route::get('/setting/server/zeus', [SettingController::class, 'serverMaintenance'])->name('serverMaintenance');
+            Route::post('/setting/server/zeus/admin/maintenance', [SettingController::class, 'toggleMaintenance'])->name('toggleMaintenance');
         });
 
     });

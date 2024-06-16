@@ -18,18 +18,30 @@ use App\Models\AdmissionDB\ApplicantDocs;
 
 class EnreportsController extends Controller
 {
-    //
-    public function studInfo() {
+    public function studInfo() 
+    {
         return view('enrollment.reports.studentinfo.studInfo');
     }
 
-    public function studInfo_search(Request $request) {
-        $data = Student::where('en_status', '=', 2)->get();
-        if ($request->year){$data = $data->where('year',$request->year);}
-        if ($request->campus){$data = $data->where('campus',$request->campus);}
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
-        return view('enrollment.reports.studentinfo.studInfo_search',  ['data' => $data,'totalSearchResults' => $totalSearchResults]);
+    public function studInfo_search(Request $request) 
+    {
+        $campus = Auth::guard('web')->user()->campus;
+
+        $studlist = Student::where('campus', '=', $campus)->where('stud_id', 'NOT LIKE', '%-G%')->get();
+
+        return view('enrollment.reports.studentinfo.studInfo_search', compact('studlist'));
+    }
+
+    public function getstudInfo_search(Request $request) 
+    {
+        $campus = Auth::guard('web')->user()->campus;
+
+        $data = Student::where('campus', '=', $campus)
+                        ->where('stud_id', 'NOT LIKE', '%-G%')
+                        ->orderBy('lname', 'ASC')
+                        ->get();
+        
+        return response()->json(['data' => $data]);
     }
 
     public function studInfo_view($id)
@@ -47,5 +59,32 @@ class EnreportsController extends Controller
         ->with('program', $program)
         ->with('docs', $docs)
         ->with('selectedProgram', $selectedProgram);
+    }
+
+    public function studInfograduated() {
+        return view('enrollment.reports.graduated.studinfograd');
+    }
+
+    public function studInfograduated_search(Request $request) 
+    {
+        $campus = Auth::guard('web')->user()->campus;
+
+        $studlistgrad = Student::where('campus', '=', $campus)
+                    ->where('en_status', '=', 3)
+                    ->get();
+
+        return view('enrollment.reports.graduated.studinfograd_listsearch', compact('studlistgrad'));
+    }
+
+    public function getstudInfograduated_search(Request $request) 
+    {
+        $campus = Auth::guard('web')->user()->campus;
+
+        $data = Student::where('campus', '=', $campus)
+                        ->where('en_status', '=', 3)
+                        ->orderBy('lname', 'ASC')
+                        ->get();
+        
+        return response()->json(['data' => $data]);
     }
 }

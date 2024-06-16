@@ -242,6 +242,7 @@
 
     <script src="{{ asset('js/validation/schedule/classenrollValidation.js') }}"></script>
     <script src="{{ asset('js/validation/schedule/facdegValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/schedule/roomValidation.js') }}"></script>
 
     <script type="text/javascript">
         setTimeout(function () {

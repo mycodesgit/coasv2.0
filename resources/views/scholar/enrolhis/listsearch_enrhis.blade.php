@@ -81,6 +81,7 @@ COAS - V2.0 || Student Enrollment History
                 <table id="ss" class="table table-striped">
                     <thead>
                         <tr>
+                            <th>StudentID</th>
                             <th>School Year</th>
                             <th>Semester</th>
                             <th>Course</th>

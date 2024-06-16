@@ -463,8 +463,18 @@ document.getElementById('assessButton').addEventListener('click', function() {
                             fundnameCodeInput.value += (fundnameCodeInput.value.trim().length > 0 ? ' ' : '') + item.fundname_code;
                         }
                     }
-
-
+                });
+                // Add success notification
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Student fee data fetched successfully.',
+                    showClass: {
+                        popup: 'my-custom-show-animation'
+                    },
+                    hideClass: {
+                        popup: ''
+                    }
                 });
             } else {
                 Swal.fire({

@@ -32,18 +32,19 @@ COAS - V2.0 || Student Info
             @endif
         </p>
 
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+        <div>
+            <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                <h4>Student Info</h4>
+            </div> 
+        </div>
+
+        <div class="mt-3" style="border-bottom: 1px solid #04401f;">
             <form method="GET" action="{{ route('studInfo_search') }}">
                 {{ csrf_field() }}
 
                 <div class="">
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
-                            </div>
-
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Campus</span></label>
                                 <select class="form-control form-control-sm" name="campus" id="campus">
@@ -82,9 +83,9 @@ COAS - V2.0 || Student Info
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
+            <h5>Search Results:
                 <small>
-                    <i>Year-<b>{{ request('year') }}</b>,
+                    <i>
                         Campus-<b>{{ request('campus') }}</b>,
                     </i>
                 </small>
@@ -93,55 +94,19 @@ COAS - V2.0 || Student Info
 
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="studinfoall" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Student ID</th>
                             <th>Name</th>
-                            <th>Type</th>
+                            <th>Student ID</th>
                             <th>Gender</th>
                             <th>Civil Status</th>
-                            <th>Campus</th>
+                            <th>City</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
-                        @foreach($data as $student)
-                            @if ($student->en_status == 2)
-                            <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $student->stud_id }}</td>
-                                <td style="text-transform: uppercase;">
-                                    <b>{{$student->fname}} 
-                                        @if($student->mname == null)
-                                            @else {{ substr($student->mname,0,1) }}.
-                                        @endif {{$student->lname}}  
-
-                                        @if($student->ext == 'N/A') 
-                                            @else{{$student->ext}}
-                                        @endif
-                                    </b>
-                                </td>
-                                <td>
-                                    @if ($student->type == 1) New 
-                                        @elseif($student->type == 2) Returnee 
-                                        @elseif($student->type == 3) Transferee 
-                                    @endif
-                                </td>
-                                <td>{{ $student->gender }}</td>
-                                <td>{{ $student->civil_status }}</td>
-                                <td>{{ $student->campus }}</td>
-                                <td style="text-align:center;">
-                                    <a href="{{  route('studInfo_view',$student->id )}}" type="button" class="btn btn-primary">
-                                        <i class="fas fa-cog"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            @else
-                            @endif
-                        @endforeach
+                        
                     </tbody>
                 </table>
             </div>
@@ -149,5 +114,130 @@ COAS - V2.0 || Student Info
         
     </div>
 </div>
+
+<div class="modal fade" id="viewdatastudModal" role="dialog" aria-labelledby="viewdatastudModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewdatastudModalLabel">View Student Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="">
+                <div class="modal-body">
+                    <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                        <h4>Student Information</h4>
+                    </div>
+                    <input type="hidden" name="id" id="viewdatastudIdprim">
+                    <div class="form-group mt-3">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Student ID No.</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudID" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Firstname</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudFname">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Middlename</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudMname">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Lastname</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudLname">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Ext. name</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudExt">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Gender</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudGender">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Birthday</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBday">
+                            </div>
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Birth Place</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBdayp">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Mobile</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudMobile">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Email Address</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudEmail">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Religion</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudReligion">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Address</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudAddress">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">House No.</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudHnum">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Street/Barangay</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBrgy">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Munipality/City</span></label>
+                                <select class="form-control form-control-sm" id="viewdatastudCity">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Province</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudProvince">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Region</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudRegion">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Zip Code</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudZcode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var studentlistinfoRoute = "{{ route('getstudInfo_search') }}";
+    var appidEncryptRoute = "{{ route('idcrypt') }}";
+
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+    var requestedCampus = '{{ request('campus') }}'
+</script>
 
 @endsection

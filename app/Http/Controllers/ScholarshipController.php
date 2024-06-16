@@ -454,4 +454,18 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $enrollmentHistory]);
     }
 
+    public function countstudnoenrollee() 
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('scholar.numenroll.listnum_enroll', compact('sy'));
+    }
+
 }
