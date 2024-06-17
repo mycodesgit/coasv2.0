@@ -58,7 +58,7 @@ COAS - V2.0 || Class Schedule
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Campus</span></label>
+                                <label><span class="badge badge-secondary">Course</span></label>
                                 <select class="form-control form-control-sm" name="campus">
                                     {{-- @foreach($cdata as $class)
                                         <option value="">{{ $class->class }} - {{ $class->class_section }}</option>
@@ -75,10 +75,10 @@ COAS - V2.0 || Class Schedule
                 </div>
             </form>
         </div>
-        <div class="container">
+        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+        <div class="container mt-4">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Class Scheduler</h1>
                     <div id="schedule-grid">
                     </div>
                 </div>
@@ -96,39 +96,41 @@ COAS - V2.0 || Class Schedule
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div id="selected-time-range" class="mb-3">
-                        <!-- Selected time range will be displayed here -->
-                    </div>
-                    <form id="scheduleForm">
-                        <!-- Form fields for subject, faculty, room, etc. -->
-                        <div class="form-group">
-                            <label for="subject_id">Subject</label>
-                            <select id="subject_id" name="subject_id" class="form-control">
-                                <!-- Options will be populated dynamically -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="faculty_id">Faculty</label>
-                            <select id="faculty_id" name="faculty_id" class="form-control">
-                                <!-- Options will be populated dynamically -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="room_id">Room</label>
-                            <select id="room_id" name="room_id" class="form-control">
-                                <!-- Options will be populated dynamically -->
-                            </select>
-                        </div>
+                <form id="scheduleForm">
+                    <div class="modal-body">
                         <input type="hidden" id="day" name="day">
                         <input type="hidden" id="start_time" name="start_time">
                         <input type="hidden" id="end_time" name="end_time">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveSchedule">Save changes</button>
-                </div>
+                        
+                        <div id="selected-time-range" class="mb-3"></div>
+                        
+                        <div class="form-group">
+                            <div class="form-row">
+                                <label for="subject_id"><span class="badge badge-secondary">Select Subject</span></label>
+                                <select id="subject_id" name="subject_id" class="form-control form-control-sm">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <label for="faculty_id"><span class="badge badge-secondary">Select Faculty</span></label>
+                                <select id="faculty_id" name="faculty_id" class="form-control form-control-sm">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <label for="room_id"><span class="badge badge-secondary">Select Room</span></label>
+                                <select id="room_id" name="room_id" class="form-control form-control-sm">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveSchedule">Save Schedule</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

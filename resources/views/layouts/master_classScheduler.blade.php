@@ -38,6 +38,57 @@
         .toast-top-right {
             margin-top: 50px;
         }
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /*.highlight {
+            background-color: #b2b9bf;
+        }*/
+
+        /* Allow text selection within the schedule grid */
+        #schedule-grid {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* Prevent text selection for time labels */
+        .time-label {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        #schedule-grid {
+            border-collapse: collapse; /* Collapse borders */
+            width: 100%; /* Set table width to 100% */
+        }
+
+        #schedule-grid th, #schedule-grid td {
+            border: 1px solid #ccc; /* Example border style */
+            padding: 8px; /* Adjust padding as needed */
+            text-align: center; /* Center text within cells */
+            height: 10px; /* Set height of table rows */
+            line-height: 10px; /* Adjust line-height to vertically center content */
+        }
+
+        #schedule-grid th {
+            background-color: #83a986; /* Header background color */
+        }
+
+        #schedule-grid .time-label {
+            /*background-color: #b2b9bf;*/ /* Time label background color */
+        }
+
+        #schedule-grid .highlight {
+            background-color: #b2b9bf; /* Highlighted cell background color */
+        }
+
     </style>
 </head>
 
@@ -184,7 +235,7 @@
             <i class="text-light">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
-    @include('portal.modal-terms')
+
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
@@ -281,6 +332,123 @@
                 $('#editFacDesigModal #edit_fac_id').val(fac_id);
                 $('#editFacDesigModal #edit_designation').val(designation);
                 $('#editFacDesigModal #edit_dunit').val(dunit);
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize the grid with time slots and days
+            let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            let times = [
+                '7:30-8:00', '8:00-8:30', '8:30-9:00', '9:00-9:30', '9:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00',
+                '12:00-12:30', '12:30-1:00', '1:00-1:30', '1:30-2:00', '2:00-2:30'
+            ];
+
+            let grid = '<table class="table table-bordered" style="height: 5px"><thead><tr><th style="background-color: #83a986; border: 1px solid #000; text-align: center">Time</th>';
+            days.forEach(day => {
+                grid += `<th class="text-center" style="background-color: #e9ecef; border: 1px solid #000"">${day}</th>`;
+            });
+            grid += '</tr></thead><tbody>';
+
+            times.forEach(time => {
+                grid += `<tr><td class="time-label text-left" width="10%" style="background-color: #e9ecef; border: 1px solid #000"">${time}</td>`;
+                days.forEach(day => {
+                    grid += `<td class="time-slot" style="border: 1px solid #8f8f8f"" data-day="${day}" data-time="${time}"></td>`;
+                });
+                grid += '</tr>';
+            });
+
+            grid += '</tbody></table>';
+            $('#schedule-grid').html(grid);
+
+            let isDragging = false;
+            let startDay, startTime, endDay, endTime;
+
+            $('.time-slot').mousedown(function() {
+                isDragging = true;
+                clearHighlights();
+                $(this).addClass('highlight');
+                startDay = $(this).data('day');
+                startTime = $(this).data('time');
+                endDay = startDay;
+                endTime = startTime;
+            });
+
+            $('.time-slot').mousemove(function() {
+                if (isDragging) {
+                    let currentDay = $(this).data('day');
+                    let currentTime = $(this).data('time');
+                    highlightCells(startDay, startTime, currentDay, currentTime);
+                    endDay = currentDay;
+                    endTime = currentTime;
+                }
+            });
+
+            $(document).mouseup(function() {
+                if (isDragging) {
+                    isDragging = false;
+                    $('#day').val(startDay);
+                    $('#start_time').val(startTime);
+                    $('#end_time').val(endTime);
+                    
+                    // Display the selected time range and day in the modal
+                    $('#selected-time-range').html(`Selected Time: ${startTime} - ${endTime}<br>Day: ${startDay}`);
+
+                    $('#scheduleModal').modal('show');
+                }
+            });
+
+            function highlightCells(startDay, startTime, endDay, endTime) {
+                clearHighlights();
+                let dayIndexStart = days.indexOf(startDay);
+                let dayIndexEnd = days.indexOf(endDay);
+                let timeIndexStart = times.indexOf(startTime);
+                let timeIndexEnd = times.indexOf(endTime);
+
+                for (let i = Math.min(dayIndexStart, dayIndexEnd); i <= Math.max(dayIndexStart, dayIndexEnd); i++) {
+                    for (let j = Math.min(timeIndexStart, timeIndexEnd); j <= Math.max(timeIndexStart, timeIndexEnd); j++) {
+                        $(`.time-slot[data-day="${days[i]}"][data-time="${times[j]}"]`).addClass('highlight');
+                    }
+                }
+            }
+
+            function clearHighlights() {
+                $('.time-slot').removeClass('highlight');
+            }
+
+            $('.time-slot').click(function() {
+                clearHighlights();
+                startDay = $(this).data('day');
+                startTime = $(this).data('time');
+                endDay = startDay;
+                endTime = startTime;
+                highlightCells(startDay, startTime, endDay, endTime);
+                $('#day').val(startDay);
+                $('#start_time').val(startTime);
+                $('#end_time').val(endTime);
+                
+                // Display the selected time range and day in the modal
+                $('#selected-time-range').html(`Selected Time: ${startTime} - ${endTime}<br>Day: ${startDay}`);
+
+                $('#scheduleModal').modal('show');
+            });
+
+            $('#saveSchedule').click(function() {
+                // Save the schedule via AJAX
+                let formData = $('#scheduleForm').serialize();
+                $.ajax({
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        alert('Schedule saved successfully.');
+                        $('#scheduleModal').modal('hide');
+                        clearHighlights();
+                    },
+                    error: function(response) {
+                        alert('Error saving schedule: ' + response.responseJSON.error);
+                    }
+                });
             });
         });
     </script>

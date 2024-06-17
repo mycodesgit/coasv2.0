@@ -26,9 +26,13 @@ class SchedClassController extends Controller
     public function classSchedRead() 
     {
         $cdata = ClassEnroll::where('campus', '=', Auth::user()->campus)
-                    ->orderBy('class', 'asc')
                     ->get();
         return view('scheduler.schedule.class_sched', compact('cdata'));
+    }
+
+    public function classSchedSetRead() 
+    {
+        return view('scheduler.schedule.class_schedset');
     }
 
     public function facultySchedRead() 

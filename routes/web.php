@@ -350,6 +350,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('schedule')->group(function () {
             Route::get('/class', [SchedClassController::class, 'classSchedRead'])->name('classSchedRead');
+            Route::get('/class/set', [SchedClassController::class, 'classSchedSetRead'])->name('classSchedSetRead');
             Route::get('/faculty', [SchedClassController::class, 'facultySchedRead'])->name('facultySchedRead');
             Route::get('/room', [SchedClassController::class, 'roomSchedRead'])->name('roomSchedRead');
         });
