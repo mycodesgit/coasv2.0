@@ -27,12 +27,12 @@ COAS - V2.0 || Class Schedule
             @if(Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success')}}</div>
             @elseif (Session::has('fail'))
-                <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                <div class="alert alert-default">{{Session::get('fail')}}</div>
             @endif
         </p>
 
         <div class="page-header">
-            <form method="GET" action="" id="classEnroll">
+            <form method="GET" action="{{ route('classSchedSetRead') }}" id="classEnroll">
                 {{ csrf_field() }}
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -44,12 +44,16 @@ COAS - V2.0 || Class Schedule
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Academic Year</span></label>
-                                <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+                                <select class="form-control form-control-sm" name="schlyear" id="schlyear1">
+                                    @foreach($sy as $datasy)
+                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Semester</span></label>
-                                <select class="form-control  form-control-sm" name="semester">
+                                <select class="form-control  form-control-sm" name="semester" id="semester">
                                     <option disabled selected>---Select---</option>
                                     <option value="1">First Semester</option>
                                     <option value="2">Second Semester</option>
@@ -59,10 +63,8 @@ COAS - V2.0 || Class Schedule
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Course</span></label>
-                                <select class="form-control form-control-sm" name="campus">
-                                    {{-- @foreach($cdata as $class)
-                                        <option value="">{{ $class->class }} - {{ $class->class_section }}</option>
-                                    @endforeach --}}
+                                <select class="form-control form-control-sm" name="progCod" id="progCod">
+                                    <option disabled selected>Select a course</option>
                                 </select>
                             </div>
 
@@ -75,12 +77,42 @@ COAS - V2.0 || Class Schedule
                 </div>
             </form>
         </div>
+
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-        <div class="container mt-4">
+
+        <div class="container mt-3">
             <div class="row">
                 <div class="col-md-12">
-                    <div id="schedule-grid">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="breadcrumb" style="font-size: 13pt">
+                                    <span>Course: {{ $progAcronym ?? 'Not Available' }} {{ $progCodSuffix ?? 'Not Available' }},</span>
+                                    <span class="ml-2">School Year: {{ request('schlyear') }},</span>
+                                    <span class="ml-2">
+                                        Semester: 
+                                        @if(request('semester') == 1)
+                                            1st Sem
+                                        @elseif(request('semester') == 2)
+                                            2nd Sem
+                                        @elseif(request('semester') == 3)
+                                            Summer
+                                        @else
+                                            Unknown Semester
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="breadcrumb">
+                                    <button class="btn btn-danger btn-xs ml-1">Delete Schedule</button>
+                                    <button class="btn btn-secondary btn-xs ml-1">View Schedule</button>
+                                    <button class="btn btn-info btn-xs ml-1">Print Schedule</button>  
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div id="schedule-grid"></div>
                 </div>
             </div>
         </div>
@@ -136,7 +168,14 @@ COAS - V2.0 || Class Schedule
     </div>
 </div>
 
+<script>
+    var classenrollyrsecReadRoute = "{{ route('getCoursesyearsec') }}";
+</script>
 
+<script>
+    var days = @json($days);
+    var times = @json($times);
+</script>
 
 
 @endsection

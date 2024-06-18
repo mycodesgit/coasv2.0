@@ -60,10 +60,12 @@ class EnStudELPLController extends Controller
     {
         $semester = $request->semester;
         $schlyear = $request->schlyear;
+        $campus = Auth::guard('web')->user()->campus;
 
         $courses = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
             ->where('class_enroll.semester', $semester)
             ->where('class_enroll.schlyear', $schlyear)
+            ->where('class_enroll.campus', $campus)
             ->groupBy('programs.progCod')
             ->get();
 

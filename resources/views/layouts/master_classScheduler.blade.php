@@ -286,6 +286,9 @@
     @if(request()->routeIs('subjectsOffered_search'))
         <script src="{{ asset('js/ajax/schedclass/subjectOfferedSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('classSchedRead', 'classSchedSetRead'))
+        <script src="{{ asset('js/ajax/schedclass/getCourseYrSecSerialize.js') }}"></script>
+    @endif
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
@@ -336,14 +339,18 @@
         });
     </script>
 
+    @if(request()->routeIs('classSchedSetRead'))
     <script>
         $(document).ready(function() {
             // Initialize the grid with time slots and days
-            let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            let times = [
-                '7:30-8:00', '8:00-8:30', '8:30-9:00', '9:00-9:30', '9:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00',
-                '12:00-12:30', '12:30-1:00', '1:00-1:30', '1:30-2:00', '2:00-2:30'
-            ];
+            // let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            // let times = [
+            //     '7:30-8:00', '8:00-8:30', '8:30-9:00', '9:00-9:30', '9:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00',
+            //     '12:00-12:30', '12:30-1:00', '1:00-1:30', '1:30-2:00', '2:00-2:30'
+            // ];
+
+            let days = @json($days);
+            let times = @json($times);
 
             let grid = '<table class="table table-bordered" style="height: 5px"><thead><tr><th style="background-color: #83a986; border: 1px solid #000; text-align: center">Time</th>';
             days.forEach(day => {
@@ -452,7 +459,7 @@
             });
         });
     </script>
-
+    @endif
 
 </body>
 </html>

@@ -34,7 +34,7 @@
                             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="{{ asset('template/img/maintenance5.png') }}">
+                                        <img src="{{ asset('template/img/maintenance5.png') }}" width="105%">
                                     </div>
                                 </div>
                             </div>

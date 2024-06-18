@@ -32,7 +32,7 @@ COAS - V2.0 || Class Schedule
         </p>
 
         <div class="page-header">
-            <form method="GET" action="" id="classEnroll">
+            <form method="GET" action="{{ route('classSchedSetRead') }}" id="classEnroll">
                 {{ csrf_field() }}
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -44,12 +44,16 @@ COAS - V2.0 || Class Schedule
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Academic Year</span></label>
-                                <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+                                <select class="form-control form-control-sm" name="schlyear" id="schlyear1">
+                                    @foreach($sy as $datasy)
+                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Semester</span></label>
-                                <select class="form-control  form-control-sm" name="semester">
+                                <select class="form-control  form-control-sm" name="semester" id="semester">
                                     <option disabled selected>---Select---</option>
                                     <option value="1">First Semester</option>
                                     <option value="2">Second Semester</option>
@@ -58,11 +62,9 @@ COAS - V2.0 || Class Schedule
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Campus</span></label>
-                                <select class="form-control form-control-sm" name="campus">
-                                    {{-- @foreach($cdata as $class)
-                                        <option value="">{{ $class->class }} - {{ $class->class_section }}</option>
-                                    @endforeach --}}
+                                <label><span class="badge badge-secondary">Course</span></label>
+                                <select class="form-control form-control-sm" name="progCod" id="progCod">
+                                    <option disabled selected>Select a course</option>
                                 </select>
                             </div>
 
@@ -75,66 +77,11 @@ COAS - V2.0 || Class Schedule
                 </div>
             </form>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>Class Scheduler</h1>
-                    <div id="schedule-grid">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="scheduleModalLabel">Schedule Class</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="selected-time-range" class="mb-3">
-                        <!-- Selected time range will be displayed here -->
-                    </div>
-                    <form id="scheduleForm">
-                        <!-- Form fields for subject, faculty, room, etc. -->
-                        <div class="form-group">
-                            <label for="subject_id">Subject</label>
-                            <select id="subject_id" name="subject_id" class="form-control">
-                                <!-- Options will be populated dynamically -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="faculty_id">Faculty</label>
-                            <select id="faculty_id" name="faculty_id" class="form-control">
-                                <!-- Options will be populated dynamically -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="room_id">Room</label>
-                            <select id="room_id" name="room_id" class="form-control">
-                                <!-- Options will be populated dynamically -->
-                            </select>
-                        </div>
-                        <input type="hidden" id="day" name="day">
-                        <input type="hidden" id="start_time" name="start_time">
-                        <input type="hidden" id="end_time" name="end_time">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveSchedule">Save changes</button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
-
-
+<script>
+    var classenrollyrsecReadRoute = "{{ route('getCoursesyearsec') }}";
+</script>
 
 @endsection
