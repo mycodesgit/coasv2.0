@@ -38,6 +38,69 @@
         .toast-top-right {
             margin-top: 50px;
         }
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .highlight {
+            background-color: #b2b9bf;
+        }
+
+        /* Allow text selection within the schedule grid */
+        #schedule-grid {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* Prevent text selection for time labels */
+        .time-label {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .day-label {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .time-slot {
+            user-select: none; /* Disable text selection */
+            -webkit-user-select: none; /* For older versions of Chrome/Safari */
+            -moz-user-select: none; /* For older versions of Firefox */
+            -ms-user-select: none; /* For older versions of IE/Edge */
+        }
+
+        #schedule-grid {
+            border-collapse: collapse; /* Collapse borders */
+            width: 100%; /* Set table width to 100% */
+        }
+
+        #schedule-grid th, #schedule-grid td {
+            border: 1px solid #ccc; /* Example border style */
+            padding: 8px; /* Adjust padding as needed */
+            text-align: center; /* Center text within cells */
+            height: 10px; /* Set height of table rows */
+            line-height: 10px; /* Adjust line-height to vertically center content */
+        }
+
+        #schedule-grid th {
+            background-color: #83a986; /* Header background color */
+        }
+
+        #schedule-grid .time-label {
+            /*background-color: #b2b9bf;*/ /* Time label background color */
+        }
+
+        #schedule-grid .highlight {
+            background-color: #b2b9bf; /* Highlighted cell background color */
+        }
 
     </style>
 </head>
@@ -82,18 +145,7 @@
             <div class="content">
                 <div class="container-fluid1">
                     <div class="row" style="padding-top: 0px;">
-                        <div class="col-lg-2">
-                            <div class="card">
-                                <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-                                    @section('sideheader')
-                                    @show
-                                </div>
-                                @section('sidemenu')
-                                    @include('partials.control_sched_sidebar')
-                                @show
-                            </div>
-                        </div>
-                        <div class="col-lg-10">
+                        <div class="col-lg-12">
                             @section('workspace')
                                 <div class="card">
                                     <div class="card-body">
@@ -106,71 +158,7 @@
                                             <li class="breadcrumb-item active mt-1">Scheduler</li>
                                         </ol>
                                         <div class="workspace-top" style="text-align: center;">
-                                            @if(request()->routeIs('scheduler-index'))
-                                            <div class="row">
-                                                <div class="col-lg-3 col-6">
-                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
-                                                        <div class="text-left">
-                                                            <div class="inner">
-                                                                <h3>{{ $colCount }}</h3>
-                                                                <p>Colleges</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-right">
-                                                            <div class="icon">
-                                                                <i class="fa fa-building"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-6">
-                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #1b9173 !important">
-                                                        <div class="text-left">
-                                                            <div class="inner">
-                                                                <h3>{{ $enunprogCount }}</h3>
-                                                                <p>Undergrad Programs</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-right">
-                                                            <div class="icon">
-                                                                <i class="fa fa-graduation-cap"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-6">
-                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #467e70 !important">
-                                                        <div class="text-left">
-                                                            <div class="inner">
-                                                                <h3>{{ $engradprogCount }}</h3>
-                                                                <p>Graduates Programs</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-right">
-                                                            <div class="icon">
-                                                                <i class="fa fa-graduation-cap"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-6">
-                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #6f7473 !important">
-                                                        <div class="text-left">
-                                                            <div class="inner">
-                                                                <h3>{{ $roomCount }}</h3>
-                                                                <p>Rooms</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-right">
-                                                            <div class="icon">
-                                                                <i class="fa fa-hotel"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
                                         </div>
                                     </div>
                                 </div>
@@ -220,22 +208,6 @@
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
-    <!-- Ajax -->
-    @if(request()->routeIs('collegeRead'))
-        <script src="{{ asset('js/ajax/schedclass/collegeSerialize.js') }}"></script>
-    @endif
-    @if(request()->routeIs('programsRead'))
-        <script src="{{ asset('js/ajax/schedclass/programsSerialize.js') }}"></script>
-    @endif
-    @if(request()->routeIs('roomsRead'))
-        <script src="{{ asset('js/ajax/schedclass/roomSerialize.js') }}"></script>
-    @endif
-    @if(request()->routeIs('courseEnroll_list_search'))
-        <script src="{{ asset('js/ajax/schedclass/classEnrollSerialize.js') }}"></script>
-    @endif
-    @if(request()->routeIs('subjectsOffered_search'))
-        <script src="{{ asset('js/ajax/schedclass/subjectOfferedSerialize.js') }}"></script>
-    @endif
     @if(request()->routeIs('classSchedRead', 'classSchedSetRead'))
         <script src="{{ asset('js/ajax/schedclass/getCourseYrSecSerialize.js') }}"></script>
     @endif
@@ -259,40 +231,9 @@
         }, 0); 
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('.btn-editclassenroll').click(function() {
-                var id = $(this).data('id');
-                var classVal = $(this).data('class');
-                var classSection = $(this).data('class-section');
-                var programID = $(this).data('program-code');
-
-                $('#edit_id').val(id);
-                $('#edit_class').val(classVal);
-                $('#edit_class_section').val(classSection);
-                $('#selectedProgramIdEdit').val(programID);
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('.btn-edit-facdesig').click(function() {
-                var id = $(this).data('id');
-                var facdept = $(this).data('facdept');
-                var fac_id = $(this).data('fac_id');
-                var designation = $(this).data('designation');
-                var dunit = $(this).data('dunit');
-
-                // Populate the modal form fields with the retrieved data
-                $('#editFacDesigModal #edit_id').val(id);
-                $('#editFacDesigModal #edit_facdept').val(facdept);
-                $('#editFacDesigModal #edit_fac_id').val(fac_id);
-                $('#editFacDesigModal #edit_designation').val(designation);
-                $('#editFacDesigModal #edit_dunit').val(dunit);
-            });
-        });
-    </script>
+    @if(request()->routeIs('classSchedSetRead'))
+        @include('scheduler.schedule.classsched_script')
+    @endif
 
 </body>
 </html>

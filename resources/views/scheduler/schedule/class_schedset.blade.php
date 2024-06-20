@@ -1,22 +1,16 @@
-@extends('layouts.master_classScheduler')
+@extends('layouts.master_classSetSchedule')
 
 @section('title')
 COAS - V2.0 || Class Schedule
 @endsection
-
-@section('sideheader')
-<h4>Option</h4>
-@endsection
-
-@yield('sidemenu')
 
 @section('workspace')
 <div class="card">
     <div class="card-body">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-home"></i>
+                <a href="{{ route('classSchedRead') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-left-long"></i>
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Scheduler</li>
@@ -39,7 +33,7 @@ COAS - V2.0 || Class Schedule
                     <h4>Class Schedule</h4>
                 </div>
 
-                <div class="container mt-1">
+                <div class="container-fluid mt-1">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">
@@ -80,10 +74,9 @@ COAS - V2.0 || Class Schedule
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
 
-        <div class="container mt-3">
+        <div class="container-fluid mt-3">
             <div class="row">
                 <div class="col-md-12">
-                    <div>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="breadcrumb" style="font-size: 13pt">
@@ -106,12 +99,11 @@ COAS - V2.0 || Class Schedule
                             <div class="col-md-4">
                                 <div class="breadcrumb">
                                     <button class="btn btn-danger btn-xs ml-1">Delete Schedule</button>
-                                    <button class="btn btn-secondary btn-xs ml-1">View Schedule</button>
-                                    <button class="btn btn-info btn-xs ml-1">Print Schedule</button>  
+                                    <button id="viewSchedule" class="btn btn-secondary btn-xs ml-1">View Schedule</button>
+                                    <button id="printSchedule" class="btn btn-info btn-xs ml-1">Print Schedule</button>  
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <div id="schedule-grid"></div>
                 </div>
             </div>
@@ -119,7 +111,7 @@ COAS - V2.0 || Class Schedule
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="scheduleModal" tabindex="" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -129,32 +121,59 @@ COAS - V2.0 || Class Schedule
                     </button>
                 </div>
                 <form id="scheduleForm">
+                    @csrf
                     <div class="modal-body">
-                        <input type="hidden" id="day" name="day">
-                        <input type="hidden" id="start_time" name="start_time">
-                        <input type="hidden" id="end_time" name="end_time">
+                        <input type="hidden" class="form-control form-control-sm" id="day" name="schedday" readonly>
+                        <input type="hidden" class="form-control form-control-sm" id="start_time" name="start_time" readonly>
+                        <input type="hidden" class="form-control form-control-sm" id="end_time" name="end_time" readonly>
+                        <input type="hidden" class="form-control form-control-sm" id="progcodename" name="progcodename" value="{{ $progCodPart }}" readonly>
+                        <input type="hidden" class="form-control form-control-sm" id="progcodesection" name="progcodesection" value="{{ $progCodSuffix }}" readonly>
+                        <input type="hidden" class="form-control form-control-sm" id="progschlyear" name="schlyear" value="{{ request('schlyear') }}" readonly>
+                        <input type="hidden" class="form-control form-control-sm" id="progsemester" name="semester" value="{{ request('semester') }}" readonly>
+                        <input type="hidden" class="form-control form-control-sm" id="progpostedBy" name="postedBy" value="{{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}" readonly>
+                        <input type="hidden" class="form-control form-control-sm" id="campus" name="campus" value="{{ Auth::guard('web')->user()->campus }}" readonly>
+
                         
                         <div id="selected-time-range" class="mb-3"></div>
                         
                         <div class="form-group">
                             <div class="form-row">
-                                <label for="subject_id"><span class="badge badge-secondary">Select Subject</span></label>
-                                <select id="subject_id" name="subject_id" class="form-control form-control-sm">
-                                </select>
+                                <div class="col-md-12">
+                                    <label for="subject_id"><span class="badge badge-secondary">Select Subject</span></label>
+                                    <select class="form-control form-control-sm select2bs4" data-placeholder="Select Subjects" id="subject_id" name="subject_id" >
+                                        
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-row">
-                                <label for="faculty_id"><span class="badge badge-secondary">Select Faculty</span></label>
-                                <select id="faculty_id" name="faculty_id" class="form-control form-control-sm">
-                                </select>
+                                <div class="col-md-12">
+                                    <label for="faculty_id"><span class="badge badge-secondary">Select Faculty</span></label>
+                                    <select class="form-control form-control-sm select2bs4" data-placeholder="Select Faculty" id="faculty_id" name="faculty_id" >
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-row">
-                                <label for="room_id"><span class="badge badge-secondary">Select Room</span></label>
-                                <select id="room_id" name="room_id" class="form-control form-control-sm">
-                                </select>
+                                <div class="col-md-12">
+                                    <label for="room_id"><span class="badge badge-secondary">Select Room</span></label>
+                                    <select class="form-control form-control-sm select2bs4" data-placeholder="Select Room" id="room_id" name="room_id">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <label for="remarks"><span class="badge badge-secondary">Select Remarks</span></label>
+                                    <select class="form-control form-control-sm" id="remarks" name="remarks">
+                                        <option disabled selected> --Select-- </option>
+                                        <option value="LEC">LEC</option>
+                                        <option value="LAB">LAB</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,10 +185,33 @@ COAS - V2.0 || Class Schedule
             </div>
         </div>
     </div>
+
+    <!-- Modal for viewing the schedule -->
+    <div class="modal fade" id="viewScheduleModal" tabindex="-1" role="dialog" aria-labelledby="viewScheduleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewScheduleModalLabel">View Schedule</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="schedule-view"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
     var classenrollyrsecReadRoute = "{{ route('getCoursesyearsec') }}";
+    var classSubOfferSchedReadRoute = "{{ route('getSubjectsClassSched') }}";
+    var classFacultySchedReadRoute = "{{ route('getFacultyClassSched') }}";
+    var classRoomSchedReadRoute = "{{ route('getRoomClassSched') }}";
 </script>
 
 <script>

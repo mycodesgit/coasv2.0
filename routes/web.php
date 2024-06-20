@@ -352,6 +352,13 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/class', [SchedClassController::class, 'classSchedRead'])->name('classSchedRead');
             Route::get('/info/getcourseyrsec/ajax', [SchedClassController::class, 'getCoursesyearsec'])->name('getCoursesyearsec');
             Route::get('/class/set', [SchedClassController::class, 'classSchedSetRead'])->name('classSchedSetRead');
+            Route::get('/class/set/suboff/class/ajax', [SchedClassController::class, 'getSubjectsClassSched'])->name('getSubjectsClassSched');
+            Route::get('/class/set/faculty/class/ajax', [SchedClassController::class, 'getFacultyClassSched'])->name('getFacultyClassSched');
+            Route::get('/class/set/room/class/ajax', [SchedClassController::class, 'getRoomClassSched'])->name('getRoomClassSched');
+            Route::post('/class/set/class/add', [SchedClassController::class, 'classSchedCreate'])->name('classSchedCreate');
+            Route::get('/class/set/class/fetch', [SchedClassController::class, 'fetchSchedule'])->name('fetchSchedule');
+
+
             Route::get('/faculty', [SchedClassController::class, 'facultySchedRead'])->name('facultySchedRead');
             Route::get('/room', [SchedClassController::class, 'roomSchedRead'])->name('roomSchedRead');
         });
