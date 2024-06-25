@@ -75,25 +75,25 @@ CISS V.1.0 || User's List
                                     </td>
                                     <td>{{ $user->email }}</td>
                                     <td>
-                                        @if ($user->isAdmin == 0)
+                                        @if ($user->role == 0)
                                             <span class="badge badge-secondary">Administrator</span>
-                                        @elseif ($user->isAdmin == '1')
+                                        @elseif ($user->role == '1')
                                             <span class="badge badge-primary">Guidance Officer</span>
-                                        @elseif ($user->isAdmin == '2')
+                                        @elseif ($user->role == '2')
                                             <span class="badge badge-success">Guidance Staff</span>
-                                        @elseif ($user->isAdmin == '3')
+                                        @elseif ($user->role == '3')
                                             <span class="badge badge-danger">Registrar</span>
-                                        @elseif ($user->isAdmin == '4')
+                                        @elseif ($user->role == '4')
                                             <span class="badge badge-warning">Registrar Staff</span>
-                                        @elseif ($user->isAdmin == '5')
+                                        @elseif ($user->role == '5')
                                             <span class="badge badge-info">College Dean</span>
-                                        @elseif ($user->isAdmin == '6')
+                                        @elseif ($user->role == '6')
                                             <span class="badge badge-info">Program Head</span>
-                                        @elseif ($user->isAdmin == '7')
+                                        @elseif ($user->role == '7')
                                             <span class="badge badge-info">College Staff</span>
-                                        @elseif ($user->isAdmin == '8')
+                                        @elseif ($user->role == '8')
                                             <span class="badge badge-warning">Scholarship Head</span>
-                                        @elseif ($user->isAdmin == '9')
+                                        @elseif ($user->role == '9')
                                             <span class="badge badge-warning">Scholarship Staff</span>
                                         @else
                                             <span class="badge badge-light">Unknown Role</span>
