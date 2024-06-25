@@ -21,6 +21,7 @@ class StudentFee extends Model
         'fundname_code',
         'amountFee',
         'accountName',
+        'postedBy',
         'remember_token', 
     ];
 }

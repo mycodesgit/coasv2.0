@@ -135,6 +135,7 @@ class StudFeeAssessmentController extends Controller
                     'fundname_code' => $request->input('fundname_code'),
                     'accountName' => $request->input('accountName'),
                     'amountFee' => $request->input('amountFee'),
+                    'postedBy' => Auth::guard('web')->user()->id,
                     'remember_token' => Str::random(60),
                 ]);
 

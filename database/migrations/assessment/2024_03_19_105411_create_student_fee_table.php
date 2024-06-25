@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('fundname_code')->nullable();
             $table->string('amountFee')->nullable();
             $table->string('amountName')->nullable();
+            $table->integer('postedBy')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
