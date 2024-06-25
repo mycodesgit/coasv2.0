@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>CPSU || COAS - Portal</title>
+    <title>CISS V.1.0 - Portal</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -27,7 +27,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-light" style="background-color: #04401f">
             <div class="container-fluid">
                 <a href="" class="" style="color: #fff;font-family: Courier;">
-                    COAS V.2.0
+                    CISS V.1.0
                 </a>
                 <div class="" style="z-index: 999">
                     <img src="{{ asset('template/img/CPSU_L.png') }}" style="width:80px;" class="center-top">

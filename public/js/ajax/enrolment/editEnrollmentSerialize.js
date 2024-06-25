@@ -144,7 +144,33 @@ $(document).ready(function() {
 });
 
 //for update units, lecfee, labfee and subjectID
-function updateTotalsAndIDs() {
+// function updateTotalsAndIDs() {
+//     var totalUnits = 0;
+//     var totalLecFee = 0;
+//     var totalLabFee = 0;
+//     var subjIDs = [];
+
+//     var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
+//     var rows = tableBody.getElementsByTagName('tr');
+
+//     for (var i = 0; i < rows.length; i++) {
+//         var cells = rows[i].cells;
+//         if (cells.length >= 7) {
+//             totalUnits += parseInt(cells[4].textContent);
+//             totalLecFee += parseFloat(cells[5].textContent);
+//             totalLabFee += parseFloat(cells[6].textContent);
+//             subjIDs.push(cells[0].textContent);
+//         }
+//     }
+
+//     document.getElementById('totalunitInput').value = totalUnits;
+//     document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
+//     document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
+//     var subjIDString = subjIDs.join(',');
+//     document.getElementById('subjIDsInput').value = subjIDString;
+// }
+
+function updateTotalsAndIDs(subjIDToDelete = null) {
     var totalUnits = 0;
     var totalLecFee = 0;
     var totalLabFee = 0;
@@ -156,10 +182,13 @@ function updateTotalsAndIDs() {
     for (var i = 0; i < rows.length; i++) {
         var cells = rows[i].cells;
         if (cells.length >= 7) {
-            totalUnits += parseInt(cells[4].textContent);
-            totalLecFee += parseFloat(cells[5].textContent);
-            totalLabFee += parseFloat(cells[6].textContent);
-            subjIDs.push(cells[0].textContent);
+            var subjID = cells[0].textContent;
+            if (subjID !== subjIDToDelete) {
+                totalUnits += parseInt(cells[4].textContent);
+                totalLecFee += parseFloat(cells[5].textContent);
+                totalLabFee += parseFloat(cells[6].textContent);
+                subjIDs.push(subjID);
+            }
         }
     }
 
@@ -323,7 +352,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                     });
                 });
                 removeCell.appendChild(removeButton);
-                updateTotalsAndIDs();
+                //updateTotalsAndIDs();
 
                 var totalUnits = parseInt(selectedSubjectUnitText) || 0;
                 var rows = tableBody.getElementsByTagName('tr');
@@ -509,29 +538,29 @@ $(document).on('click', '.delete-row', function(e) {
     })
 });
 
-function updateTotalsAndIDs(subjIDToDelete) {
-    var totalUnits = 0;
-    var totalLecFee = 0;
-    var totalLabFee = 0;
-    var subjIDs = [];
+// function updateTotalsAndIDs(subjIDToDelete) {
+//     var totalUnits = 0;
+//     var totalLecFee = 0;
+//     var totalLabFee = 0;
+//     var subjIDs = [];
 
-    $('#subjectTable tbody tr').each(function() {
-        var cells = $(this).find('td');
-        totalUnits += parseInt(cells.eq(4).text());
-        totalLecFee += parseFloat(cells.eq(5).text());
-        totalLabFee += parseFloat(cells.eq(6).text());
-        var subjID = cells.eq(0).text(); 
-        if (subjID !== subjIDToDelete) { 
-            subjIDs.push(subjID);
-        }
-    });
+//     $('#subjectTable tbody tr').each(function() {
+//         var cells = $(this).find('td');
+//         totalUnits += parseInt(cells.eq(4).text());
+//         totalLecFee += parseFloat(cells.eq(5).text());
+//         totalLabFee += parseFloat(cells.eq(6).text());
+//         var subjID = cells.eq(0).text(); 
+//         if (subjID !== subjIDToDelete) { 
+//             subjIDs.push(subjID);
+//         }
+//     });
 
-    $('#totalunitInput').val(totalUnits);
-    //$('#totalLecFeeInput').val(totalLecFee.toFixed());
-    //$('#totalLabFeeInput').val(totalLabFee.toFixed());
-    var subjIDString = subjIDs.join(',');
-    $('#subjIDsInput').val(subjIDString); 
-}
+//     $('#totalunitInput').val(totalUnits);
+//     //$('#totalLecFeeInput').val(totalLecFee.toFixed());
+//     //$('#totalLabFeeInput').val(totalLabFee.toFixed());
+//     var subjIDString = subjIDs.join(',');
+//     $('#subjIDsInput').val(subjIDString); 
+// }
 
 // Disable save button initially
 // document.getElementById('submitButton').disabled = true;

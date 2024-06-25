@@ -1,7 +1,7 @@
 @extends('layouts.master_scholarship')
 
 @section('title')
-COAS - V2.0 || List of Scholars Student
+CISS V.1.0 || List of Scholars Student
 @endsection
 
 @section('sideheader')

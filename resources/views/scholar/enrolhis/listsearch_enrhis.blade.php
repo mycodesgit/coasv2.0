@@ -1,7 +1,7 @@
 @extends('layouts.master_scholarship')
 
 @section('title')
-COAS - V2.0 || Student Enrollment History
+CISS V.1.0 || Student Enrollment History
 @endsection
 
 @section('sideheader')

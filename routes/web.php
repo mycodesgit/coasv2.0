@@ -474,9 +474,12 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('usersAccount')->group(function () {
             Route::get('/list/all/users', [SettingController::class, 'usersRead'])->name('usersRead');
+            Route::get('/list/all/users/getajax', [SettingController::class, 'getusersRead'])->name('getusersRead');
             Route::post('/users/list/add',[SettingController::class,'userCreate'])->name('userCreate');
             Route::get('/list/info', [SettingController::class, 'accountRead'])->name('accountRead');
-            Route::get('/list/edituser/{id}', [SettingController::class, 'edit_user'])->name('edit_user');
+            Route::get('/list/all/users/edit{id}', [SettingController::class, 'edit_user'])->name('edit_user');
+            Route::post('/filter_buttons', [SettingController::class, 'filterButtons'])->name('filterButtons');
+            Route::post('/filter_buttons/update', [SettingController::class, 'userbuttonUpdate'])->name('userbuttonUpdate');
             Route::post('/list/update', [SettingController::class, 'updateUser'])->name('updateUser');
             Route::post('/list/users/updatePass', [SettingController::class, 'userUpdatePassword'])->name('userUpdatePassword');
 

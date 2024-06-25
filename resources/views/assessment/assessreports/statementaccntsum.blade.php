@@ -1,7 +1,7 @@
 @extends('layouts.master_assessment')
 
 @section('title')
-COAS - V2.0 || Student Statements of Accounts Summary
+CISS V.1.0 || Student Statements of Accounts Summary
 @endsection
 
 @section('sideheader')

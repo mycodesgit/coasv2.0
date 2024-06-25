@@ -1,7 +1,7 @@
 @extends('layouts.master_settings')
 
 @section('title')
-CISS V.1.0 || User's List
+COAS - V2.0 || User's List
 @endsection
 
 @section('sideheader')
@@ -40,10 +40,6 @@ CISS V.1.0 || User's List
                         <i class="fas fa-user-plus"></i> Add New
                     </button>
 
-                    <button type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal" data-target="#buttonFilterModal">
-                      <i class="fas fa-filter"></i> Filter Menu
-                    </button>
-
                     @include('modal.userAdd')
 
                     <table id="example1" class="table table-hover">
@@ -77,23 +73,23 @@ CISS V.1.0 || User's List
                                     <td>
                                         @if ($user->isAdmin == 0)
                                             <span class="badge badge-secondary">Administrator</span>
-                                        @elseif ($user->isAdmin == '1')
+                                        @elseif ($user->isAdmin == 1)
                                             <span class="badge badge-primary">Guidance Officer</span>
-                                        @elseif ($user->isAdmin == '2')
+                                        @elseif ($user->isAdmin == 2)
                                             <span class="badge badge-success">Guidance Staff</span>
-                                        @elseif ($user->isAdmin == '3')
+                                        @elseif ($user->isAdmin == 3)
                                             <span class="badge badge-danger">Registrar</span>
-                                        @elseif ($user->isAdmin == '4')
+                                        @elseif ($user->isAdmin == 4)
                                             <span class="badge badge-warning">Registrar Staff</span>
-                                        @elseif ($user->isAdmin == '5')
+                                        @elseif ($user->isAdmin == 5)
                                             <span class="badge badge-info">College Dean</span>
-                                        @elseif ($user->isAdmin == '6')
+                                        @elseif ($user->isAdmin == 6)
                                             <span class="badge badge-info">Program Head</span>
-                                        @elseif ($user->isAdmin == '7')
+                                        @elseif ($user->isAdmin == 7)
                                             <span class="badge badge-info">College Staff</span>
-                                        @elseif ($user->isAdmin == '8')
+                                        @elseif ($user->isAdmin == 8)
                                             <span class="badge badge-warning">Scholarship Head</span>
-                                        @elseif ($user->isAdmin == '9')
+                                        @elseif ($user->isAdmin == 9)
                                             <span class="badge badge-warning">Scholarship Staff</span>
                                         @else
                                             <span class="badge badge-light">Unknown Role</span>
@@ -101,7 +97,7 @@ CISS V.1.0 || User's List
                                     </td>
                                     <td>{{ $user->campus }}</td>
                                     <td style="text-align:center;">
-                                        <a href="{{ route('edit_user', ['id' => encrypt($user->id)]) }}" type="button" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('edit_user', ['id' => encrypt($user->id)]) }}" type="button" class="btn btn-primary">
                                             <i class="fas fa-cog"></i>
                                         </a>
                                         <button class="btn btn-primary btn-sm btn-edit"
@@ -113,13 +109,20 @@ CISS V.1.0 || User's List
                                         </button>
                                     </td>
                                 </tr>
-                                <!-- Button Filter Modal -->
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                                 <div class="modal fade" id="buttonFilterModal{{ $user->id }}" tabindex="-1" aria-labelledby="buttonFilterModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('userbuttonUpdate', ['id' => $user->id]) }}" method="POST">
+                                            <form action="{{ route('filterButtons') }}" method="POST">
                                                 @csrf
-                                                <input type="hidden" name="id" value="{{ $user->id }}">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="buttonFilterModalLabel">Filter User Buttons</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -128,48 +131,56 @@ CISS V.1.0 || User's List
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="form-group">
-                                                        <label for="user">Name</label>
-                                                        <input type="text" class="form-control form-control-sm" value="{{ $user->fname }} {{ substr($user->mname,0,1) }}. {{ $user->lname }}" readonly>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="user">Role</label>
-                                                        <input type="text" class="form-control form-control-sm" value="{{ 
-                                                            $user->isAdmin == 0 ? 'Administrator' :
-                                                            ($user->isAdmin == 1 ? 'Guidance Officer' :
-                                                            ($user->isAdmin == 2 ? 'Guidance Staff' :
-                                                            ($user->isAdmin == 3 ? 'Registrar' :
-                                                            ($user->isAdmin == 4 ? 'Registrar Staff' :
-                                                            ($user->isAdmin == 5 ? 'College Dean' :
-                                                            ($user->isAdmin == 6 ? 'Program Head' :
-                                                            ($user->isAdmin == 7 ? 'College Staff' :
-                                                            ($user->isAdmin == 8 ? 'Scholarship Head' :
-                                                            ($user->isAdmin == 9 ? 'Scholarship Staff' : 'Unknown Role'))))))))) 
-                                                        }}" readonly>
+                                                        <label for="user">User</label>
+                                                        <input type="text" class="form-control form-control-sm" value="{{ $user->fname }} {{ $user->lname }}" readonly>
                                                     </div>
                                                     <div class="form-group" id="buttonSelection">
                                                         <label for="buttons">Select Buttons</label>
-                                                        @php
-                                                            $buttons = [
-                                                                'admission-url' => 'Admission',
-                                                                'enrollment-url' => 'Enrollment',
-                                                                'scheduler-url' => 'Scheduling',
-                                                                'assessment-url' => 'Assessment',
-                                                                'cashiering-url' => 'Cashiering',
-                                                                'scholarship-url' => 'Scholarship',
-                                                                'grading-url' => 'Grading',
-                                                                'request-url' => 'Request',
-                                                                'setting-url' => 'Settings',
-                                                            ];
-                                                            $userButtons = json_decode($user->buttons, true) ?? [];
-                                                        @endphp
 
-                                                        @foreach($buttons as $value => $label)
-                                                            <div class="icheck-success">
-                                                                <input type="checkbox" id="{{ $value }}-{{ $user->id }}" name="buttons[]" value="{{ $value }}"
-                                                                @if(in_array($value, $userButtons)) checked @endif>
-                                                                <label for="{{ $value }}-{{ $user->id }}">{{ $label }}</label>
-                                                            </div>
-                                                        @endforeach
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="admission" name="buttons[]" value="admission-url">
+                                                            <label for="admission">Admission</label>
+                                                        </div>
+
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="enrollment" name="buttons[]" value="enrollment-url">
+                                                            <label for="enrollment">Enrollment</label>
+                                                        </div>
+
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="schedule" name="buttons[]" value="scheduler-url">
+                                                            <label for="schedule">Scheduling</label>
+                                                        </div>
+
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="assesment" name="buttons[]" value="assessment-url">
+                                                            <label for="assesment">Assessment</label>
+                                                        </div>
+
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="cashiering" name="buttons[]" value="cashiering-url">
+                                                            <label for="cashiering">Cashiering</label>
+                                                        </div>
+
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="scholarship" name="buttons[]" value="scholarship-url">
+                                                            <label for="scholarship">Scholarship</label>
+                                                        </div>
+
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="grading" name="buttons[]" value="grading-url">
+                                                            <label for="grading">Grading</label>
+                                                        </div>
+
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="request" name="buttons[]" value="request-url">
+                                                            <label for="request">Request</label>
+                                                        </div>
+
+                                                        <div class="icheck-success">
+                                                            <input type="checkbox" id="setting" name="buttons[]" value="setting-url">
+                                                            <label for="setting">Settings</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -180,50 +191,6 @@ CISS V.1.0 || User's List
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<div class="modal fade" id="editUserAccntModal" tabindex="-1" role="dialog" aria-labelledby="editUserAccntModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editUserAccntModalLabel">Edit Fund Name</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="editUserAccntForm">
-                <div class="modal-body">
-                    <input type="hidden" name="id" id="editUserAccntId">
-                    <div class="form-group">
-                        <label for="editFundName">Fund Name</label>
-                        <input type="text" class="form-control" id="editFundName" name="fund_name">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    var useraccountRoute = "{{ route('getusersRead') }}";
-    var setconfCreateRoute = "{{ route('setconfCreate') }}";
-    var setconfUpdateRoute = "{{ route('setconfUpdate', ['id' => ':id']) }}";
-</script>
-
 @endsection
 
 @section('script')

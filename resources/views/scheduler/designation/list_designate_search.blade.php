@@ -1,7 +1,7 @@
 @extends('layouts.master_classScheduler')
 
 @section('title')
-COAS - V2.0 || Faculty Designation
+CISS V.1.0 || Faculty Designation
 @endsection
 
 @section('sideheader')

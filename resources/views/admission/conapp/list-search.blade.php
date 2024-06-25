@@ -1,7 +1,7 @@
 @extends('layouts.master_admission')
 
 @section('title')
-COAS - V2.0 || Confirmed/Unconfirm Applicants
+CISS V.1.0 || Confirmed/Unconfirm Applicants
 @endsection
 
 @section('sideheader')

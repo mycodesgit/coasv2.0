@@ -65,7 +65,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-light" style="background-color: #04401f">
             <div class="container-fluid">
                 <div href="" class="" style="color: #fff;font-family: Courier;">
-                    CPSU COAS V.2.0
+                    CISS V.1.0
                 </div>
 
                 <div class="" style="z-index: 999">
@@ -124,12 +124,13 @@
                                         </ol>
                                         <div class="workspace-top" style="text-align: center;">
                                             <div class="row">
+                                                @if(request()->routeIs('scholarship-index'))
                                                 <div class="col-lg-3 col-6">
                                                     <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
                                                         <div class="text-left">
                                                             <div class="inner">
-                                                                <h3>150</h3>
-                                                                <p>Students</p>
+                                                                <h3>{{ $enrlstudcountfirst }}</h3>
+                                                                <p>1st Stud Enrolled this Sem</p>
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
@@ -143,8 +144,8 @@
                                                     <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important">
                                                         <div class="text-left">
                                                             <div class="inner">
-                                                                <h3>150</h3>
-                                                                <p>Students</p>
+                                                                <h3>{{ $enrlstudcountsecond }}</h3>
+                                                                <p>2nd Stud Enrolled this Sem</p>
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
@@ -158,8 +159,8 @@
                                                     <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #9dcda8 !important">
                                                         <div class="text-left">
                                                             <div class="inner">
-                                                                <h3>150</h3>
-                                                                <p>Students</p>
+                                                                <h3>{{ $enrlstudcountthird }}</h3>
+                                                                <p>3rd Stud Enrolled this Sem</p>
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
@@ -170,11 +171,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 col-6">
-                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #d5d5d5 !important">
+                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #008b51 !important">
                                                         <div class="text-left">
                                                             <div class="inner">
-                                                                <h3>150</h3>
-                                                                <p>Students</p>
+                                                                <h3>{{ $enrlstudcountfourth }}</h3>
+                                                                <p>4th Stud Enrolled this Sem</p>
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
@@ -184,6 +185,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @endif
                                                 
                                                 <div class="col-md-6">
                                                     <div class="card">

@@ -48,7 +48,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-light" style="background-color: #04401f">
             <div class="container-fluid">
                 <div href="" class="" style="color: #fff;font-family: Courier;">
-                    CPSU COAS V.2.0
+                    CISS V.1.0
                 </div>
 
                 <div class="" style="z-index: 999">

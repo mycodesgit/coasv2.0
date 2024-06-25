@@ -1,7 +1,7 @@
 @extends('layouts.master_classScheduler')
 
 @section('title')
-COAS - V1.0 || Scheduler
+CISS V.1.0 || Scheduler
 @endsection
 
 @section('sideheader')

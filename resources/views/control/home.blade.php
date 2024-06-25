@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-COAS - V1.0 || Home
+CISS V.1.0 || Home
 @endsection
 
 @section('sideheader')

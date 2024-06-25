@@ -1,7 +1,7 @@
 @extends('layouts.master_classSetSchedule')
 
 @section('title')
-COAS - V2.0 || Class Schedule
+CISS V.1.0 || Class Schedule
 @endsection
 
 @section('workspace')

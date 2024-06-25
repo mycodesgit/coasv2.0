@@ -1,7 +1,7 @@
 @extends('layouts.master_admission')
 
 @section('title')
-COAS - V1.0 || Examinee Results
+CISS V.1.0 || Examinee Results
 @endsection
 
 @section('sideheader')

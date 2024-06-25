@@ -1,7 +1,7 @@
 @extends('layouts.master_scholarship')
 
 @section('title')
-COAS - V2.0 || Student Scholarship
+CISS V.1.0 || Student Scholarship
 @endsection
 
 @section('sideheader')
@@ -23,11 +23,15 @@ COAS - V2.0 || Student Scholarship
             <li class="breadcrumb-item active mt-1">Student Scholarship</li>
         </ol>
 
-        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+        <div class="page-header">
             <form method="GET" action="{{ route('studscholar_searchRead') }}" id="studscholar">
                 @csrf
 
-                <div class="">
+                <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                    <h4>Students</h4>
+                </div>
+
+                <div class="mt-1">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">

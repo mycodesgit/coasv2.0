@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V2.0 || Edit Student Enrollment
+CISS V.1.0 || Edit Student Enrollment
 @endsection
 
 @section('sideheader')

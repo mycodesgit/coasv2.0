@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>CPSU || COAS - Login</title>
+    <title>CISS - Login</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -31,23 +31,23 @@
                 <div class="row">
                     <div class="col-md-7 d-none d-md-block">
                         <h3 style="font-weight: bold;color:#04401f;" class="card-footer">
-                            CPSU - COAS V2.0
+                            CISS V.1.0
                         </h3>
                         <hr>
                         <div class="">
                             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <p class="lead" alt="First slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="First slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="First slide">CPSU Integrated Software Solution (CISS) is an advanced application system for the University Frontline Services. </p>
+                                        <p class="lead" alt="First slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
-                                        <p class="lead" alt="Second slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
+                                        <p class="lead" alt="Second slide">CPSU Integrated Software Solution (CISS) is an advanced application system for the University Frontline Services. </p>
                                         <p class="lead" alt="Second slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
-                                        <p class="lead" alt="Third slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Third slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="Third slide">CPSU Integrated Software Solution (CISS) is an advanced application system for the University Frontline Services. </p>
+                                        <p class="lead" alt="Third slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
 
                     <div class="col-md-5 col-sm-12 pr-4 pl-4 pt-2 pb-2 w-100 col-12" style="background-color: #04401f; border-radius: 5px;">
                         <div class="login-logo mt-2">
-                            <a href="{{ route('main') }}">
+                            <a href="{{ route('login') }}">
                                 <img src="{{ asset('template/img/cpsulogo.png') }}" class="img-circle" width="100px" height="100px">
                             </a>
                             

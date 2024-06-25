@@ -53,11 +53,11 @@
     <div class="" style="margin-top: 35px">
         <table>
             <thead>
-                <th style="font-weight: bold; font-size: 10pt;">I hereby certify that: &nbsp;&nbsp;&nbsp; JUAN DELA CRUZ</th>
+                <th style="font-weight: bold; font-size: 10pt;">I hereby certify that: &nbsp;&nbsp;&nbsp; {{ $studrepcard->fname }} {{ strtoupper(substr($studrepcard->mname, 0, 1)) }}. {{ $studrepcard->lname }}</th>
                 <th class="" style="text-align: right !important; font-size: 10pt; font-weight: initial; color: #000 !important;">has completed the following subjects in the</th>
             </thead>
             <thead>
-                <th style="font-weight: bold; font-size: 10pt;">BACHELOR IN SUGAR TECHNOLOGY</th>
+                <th style="font-weight: bold; font-size: 10pt;">{{ $studrepcard->progName }}</th>
                 <th class="" style="text-align: right !important; font-size: 10pt; font-weight: initial; color: #000 !important;">curriculum and earned the</th>
             </thead>
             <thead>

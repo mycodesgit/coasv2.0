@@ -1,7 +1,7 @@
 @extends('layouts.master_settings')
 
 @section('title')
-COAS - V2.0 || Edit User
+CISS V.1.0 || Edit User
 @endsection
 
 @section('sideheader')

@@ -26,7 +26,7 @@ class User extends Authenticatable
         'ext',
         'email',
         'password',
-        'isAdmin',
+        'role',
         'remember_token'
     ];
 
@@ -47,14 +47,23 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'isAdmin' => 'boolean',
     ];
     public function getIsAdminAttribute($value)
     {
         return (bool) $value;
     }
-    public function hasRole($isAdmin)
+    public function hasRole($role)
     {
-        return $this->isAdmin === $isAdmin;
+        return $this->role === $role;
+    }
+    public function buttonAccess(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne('App\Models\SettingDB\ButtonAccess', 'user_id');
+    }
+    public function hasPermissionToAccess($button)
+    {
+        $buttonAccess = $this->buttonAccess;
+        $buttons = $buttonAccess ? $buttonAccess->buttons : [];
+        return in_array($button, $buttons);
     }
 }

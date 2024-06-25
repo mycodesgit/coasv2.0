@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 use Storage;
@@ -16,7 +17,10 @@ use App\Models\AdmissionDB\User;
 use App\Models\ScheduleDB\Faculty;
 
 use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\ButtonAccess;
+use App\Models\SettingDB\ButtonMenu;
 use App\Models\SettingDB\GradePass;
+
 
 class SettingController extends Controller
 {
@@ -36,8 +40,16 @@ class SettingController extends Controller
 
     public function usersRead() 
     {
-        $data = User::all();
+        $data = User::join('coasv2_db_settings.button_access', 'users.id', '=', 'coasv2_db_settings.button_access.user_id')
+                    ->select('users.*', 'coasv2_db_settings.button_access.*', 'coasv2_db_settings.button_access.id as baid')
+                    ->get();
         return view('control.settings.users.listusers', compact('data'));
+    }
+
+    public function getusersRead() 
+    {
+        $data = User::all();
+        return response()->json(['data' => $data]);
     }
 
     public function userCreate(Request $request) 
@@ -94,8 +106,56 @@ class SettingController extends Controller
         $userID = decrypt($id);
         $user = User::find($userID);
 
-        return view('control.settings.users.editUser', compact('user'));
+        return view('control.settings.users.editUser')->with('user', $user);
     }
+
+    public function filterButtons(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+            'buttons' => 'nullable|array',
+        ]);
+
+        $buttonAccess = ButtonAccess::updateOrCreate(
+            ['user_id' => $request->user_id],
+            ['buttons' => $request->buttons]
+        );
+
+        return back()->with('success', 'Button access updated successfully!');
+    }
+
+    public function userbuttonUpdate(Request $request) {
+        $request->validate([
+            'buttons' => 'required',
+        ]);
+
+        try {
+            $suerbutton = ButtonAccess::findOrFail($request->input('id'));
+            $suerbutton->update([
+                'buttons' => $request->input('buttons')
+            ]);
+
+            return back()->with('success', 'Button access updated successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('usersRead')->with('error', 'Failed to update!');
+        }
+    }
+
+    public function getUserButtons($userId)
+    {
+        try {
+            // Fetch user buttons based on $userId
+            $user = User::findOrFail($userId);
+            $buttons = ButtonAccess::where('user_id', $user->id)->pluck('button_name')->toArray();
+
+            return response()->json(['buttons' => $buttons]);
+        } catch (\Exception $e) {
+            // Handle any errors gracefully
+            return response()->json(['error' => 'Error fetching user buttons: ' . $e->getMessage()], 500);
+        }
+    }
+
+
 
     public function updateUser(Request $request)
     {

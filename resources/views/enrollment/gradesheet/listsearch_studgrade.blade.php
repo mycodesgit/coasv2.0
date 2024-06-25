@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V2.0 || Grading
+CISS V.1.0 || Grading
 @endsection
 
 @section('sideheader')

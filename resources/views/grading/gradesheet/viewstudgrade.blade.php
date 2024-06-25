@@ -1,7 +1,7 @@
 @extends('layouts.master_grading')
 
 @section('title')
-COAS - V1.0 || Grading Student
+CISS V.1.0 || Grading Student
 @endsection
 
 @section('sideheader')

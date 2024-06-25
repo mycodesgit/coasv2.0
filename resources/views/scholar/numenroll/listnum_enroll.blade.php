@@ -1,7 +1,7 @@
 @extends('layouts.master_scholarship')
 
 @section('title')
-COAS - V2.0 || Number of Enrollees
+CISS V.1.0 || Number of Enrollees
 @endsection
 
 @section('sideheader')

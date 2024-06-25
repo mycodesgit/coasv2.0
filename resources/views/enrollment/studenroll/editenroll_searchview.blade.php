@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V2.0 || Edit Student Enrollment
+CISS V.1.0 || Edit Student Enrollment
 @endsection
 
 @section('sideheader')
@@ -349,8 +349,8 @@ COAS - V2.0 || Edit Student Enrollment
                                     </div>
                                 </div>
                             </div>      
-                            <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
-                            <input type="hidden" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
+                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
+                            <input type="text" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
                         </div>
                     </div>
                 </div>

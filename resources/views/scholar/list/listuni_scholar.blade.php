@@ -1,7 +1,7 @@
 @extends('layouts.master_scholarship')
 
 @section('title')
-COAS - V2.0 || CPSU Scholarship
+CISS V.1.0 || CPSU Scholarship
 @endsection
 
 @section('sideheader')

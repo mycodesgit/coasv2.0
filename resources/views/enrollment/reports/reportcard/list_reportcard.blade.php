@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-COAS - V2.0 || Student Report Card
+CISS V.1.0 || Student Report Card
 @endsection
 
 @section('sideheader')
