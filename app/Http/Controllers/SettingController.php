@@ -63,7 +63,7 @@ class SettingController extends Controller
                 'email' => 'required|string|email|max:255',
                 'password' => 'required|string|min:5',
                 'dept' => 'required',
-                'isAdmin' => 'required',
+                'role' => 'required',
                 'campus' => 'required',
             ]);
 
@@ -82,7 +82,7 @@ class SettingController extends Controller
                     'email' => $emailName,
                     'password' => Hash::make($request->input('password')),
                     'dept' => $request->input('dept'),
-                    'isAdmin' => $request->input('isAdmin'),
+                    'role' => $request->input('role'),
                     'campus' => $request->input('campus'),
                     'remember_token' => Str::random(60),
                 ]);
