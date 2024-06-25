@@ -100,7 +100,7 @@
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">User Role</span></label>
-                                <select class="form-control form-control-sm" name="isAdmin" >
+                                <select class="form-control form-control-sm" name="role" >
                                     <option disabled selected>Level</option>
                                     <option value="1" @if (old('type') == 0) {{ 'selected' }} @endif>Administrator</option>
                                     <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>Guidance Officer</option>
