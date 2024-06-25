@@ -75,7 +75,7 @@ class SettingController extends Controller
             }
 
             try {
-                User::create([
+                $userid = User::create([
                     'lname' => $request->input('lname'),
                     'fname' => $request->input('fname'),
                     'mname' => $request->input('mname'),
@@ -85,6 +85,10 @@ class SettingController extends Controller
                     'role' => $request->input('role'),
                     'campus' => $request->input('campus'),
                     'remember_token' => Str::random(60),
+                ]);
+
+                ButtonAccess::create([
+                    'user_id' => $userid->id,
                 ]);
 
                 return redirect()->route('usersRead')->with('success', 'User stored successfully!');

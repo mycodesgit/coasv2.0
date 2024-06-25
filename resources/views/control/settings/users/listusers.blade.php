@@ -75,7 +75,7 @@ CISS V.1.0 || User's List
                                     </td>
                                     <td>{{ $user->email }}</td>
                                     <td>
-                                        @if ($user->role == 0)
+                                        @if ($user->role == '0')
                                             <span class="badge badge-secondary">Administrator</span>
                                         @elseif ($user->role == '1')
                                             <span class="badge badge-primary">Guidance Officer</span>
@@ -95,6 +95,10 @@ CISS V.1.0 || User's List
                                             <span class="badge badge-warning">Scholarship Head</span>
                                         @elseif ($user->role == '9')
                                             <span class="badge badge-warning">Scholarship Staff</span>
+                                        @elseif ($user->role == '10')
+                                            <span class="badge badge-warning">Assessment Head</span>
+                                        @elseif ($user->role == '11')
+                                            <span class="badge badge-warning">Assessment Staff</span>
                                         @else
                                             <span class="badge badge-light">Unknown Role</span>
                                         @endif
@@ -134,16 +138,18 @@ CISS V.1.0 || User's List
                                                     <div class="form-group">
                                                         <label for="user">Role</label>
                                                         <input type="text" class="form-control form-control-sm" value="{{ 
-                                                            $user->isAdmin == 0 ? 'Administrator' :
-                                                            ($user->isAdmin == 1 ? 'Guidance Officer' :
-                                                            ($user->isAdmin == 2 ? 'Guidance Staff' :
-                                                            ($user->isAdmin == 3 ? 'Registrar' :
-                                                            ($user->isAdmin == 4 ? 'Registrar Staff' :
-                                                            ($user->isAdmin == 5 ? 'College Dean' :
-                                                            ($user->isAdmin == 6 ? 'Program Head' :
-                                                            ($user->isAdmin == 7 ? 'College Staff' :
-                                                            ($user->isAdmin == 8 ? 'Scholarship Head' :
-                                                            ($user->isAdmin == 9 ? 'Scholarship Staff' : 'Unknown Role'))))))))) 
+                                                            $user->role == 0 ? 'Administrator' :
+                                                            ($user->role == 1 ? 'Guidance Officer' :
+                                                            ($user->role == 2 ? 'Guidance Staff' :
+                                                            ($user->role == 3 ? 'Registrar' :
+                                                            ($user->role == 4 ? 'Registrar Staff' :
+                                                            ($user->role == 5 ? 'College Dean' :
+                                                            ($user->role == 6 ? 'Program Head' :
+                                                            ($user->role == 7 ? 'College Staff' :
+                                                            ($user->role == 8 ? 'Scholarship Head' :
+                                                            ($user->role == 9 ? 'Scholarship Staff' :
+                                                            ($user->role == 10 ? 'Assessment Head' :
+                                                            ($user->role == 11 ? 'Assessment Staff' : 'Unknown Role'))))))))))) 
                                                         }}" readonly>
                                                     </div>
                                                     <div class="form-group" id="buttonSelection">
