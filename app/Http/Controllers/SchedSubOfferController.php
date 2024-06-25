@@ -235,4 +235,12 @@ class SchedSubOfferController extends Controller
             return response()->json(['error' => true, 'message' => 'Failed to Update Subject Offer'], 404);
         }
     }
+
+    public function subjectsOfferedDelete($id) 
+    {
+        $studSubOffer = SubjectOffered::find($id);
+        $studSubOffer->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
+    }
 }

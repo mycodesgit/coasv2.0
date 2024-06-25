@@ -38,15 +38,15 @@
                             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <p class="lead" alt="First slide">CPSU Integrated Software Solution (CISS) is an advanced application system for the University Frontline Services. </p>
+                                        <p class="lead" alt="First slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
                                         <p class="lead" alt="First slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
-                                        <p class="lead" alt="Second slide">CPSU Integrated Software Solution (CISS) is an advanced application system for the University Frontline Services. </p>
+                                        <p class="lead" alt="Second slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
                                         <p class="lead" alt="Second slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
-                                        <p class="lead" alt="Third slide">CPSU Integrated Software Solution (CISS) is an advanced application system for the University Frontline Services. </p>
+                                        <p class="lead" alt="Third slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
                                         <p class="lead" alt="Third slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                 </div>

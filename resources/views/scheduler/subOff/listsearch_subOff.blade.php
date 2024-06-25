@@ -390,6 +390,7 @@ CISS V.1.0 || Subject Offered
     var subOfferedNameReadRoute = "{{ route('fetchSubjectName') }}";
     var subOfferedCreateRoute = "{{ route('subjectsOfferedCreate') }}";
     var subOfferedUpdateRoute = "{{ route('subjectsOfferedUpdate') }}";
+    var subOfferedDeleteRoute = "{{ route('subjectsOfferedDelete', ['id' => ':id']) }}";
 </script>
 
 

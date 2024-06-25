@@ -84,7 +84,7 @@ $(document).ready(function() {
                             '<a href="#" class="dropdown-item btn-studSubOffer" data-id="' + row.soid + '" data-subcode="' + row.subCode + '" data-subsec="' + row.subSec + '" data-lecunit="' + row.lecUnit + '" data-labunit="' + row.labUnit + '" data-subunit="' + row.subUnit + '" data-lecfee="' + row.lecFee + '" data-labfee="' + row.labFee + '" data-maxstud="' + row.maxstud + '" data-fund="' + row.fund + '" data-istemp="' + row.isTemp + '" data-isojt="' + row.isOJT + '" data-istype="' + row.isType + '" data-fundaccount="' + row.fundAccount + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item studfees-delete">' +
+                            '<button type="button" value="' + data + '" class="dropdown-item subsoff-delete">' +
                             '<i class="fas fa-trash"></i> Delete' +
                             '</button>' +
                             '</div>' +
@@ -98,7 +98,7 @@ $(document).ready(function() {
 
         ],
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.id); 
+            $(row).attr('id', 'tr-' + data.soid); 
         }
     });
     $(document).on('subjOffAdded', function() {
@@ -247,5 +247,43 @@ $('#editStudSubOfferForm').submit(function(event) {
     });
 });
 
+$(document).on('click', '.subsoff-delete', function(e) {
+    var id = $(this).val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to recover this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "GET",
+                url: subOfferedDeleteRoute.replace(':id', id),
+                success: function(response) {
+                    $("#tr-" + id).delay(1000).fadeOut();
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Successfully Deleted!',
+                        icon: 'warning',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    if(response.success) {
+                        toastr.success(response.message);
+                        console.log(response);
+                    }
+                }
+            });
+        }
+    })
+});
 
 

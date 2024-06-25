@@ -333,6 +333,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/get-subname-subcode', [SchedSubOfferController::class, 'fetchSubjectName'])->name('fetchSubjectName');
             Route::post('/list/search/add', [SchedSubOfferController::class, 'subjectsOfferedCreate'])->name('subjectsOfferedCreate');
             Route::post('/list/search/suboff/update', [SchedSubOfferController::class, 'subjectsOfferedUpdate'])->name('subjectsOfferedUpdate');
+            Route::get('/list/search/suboff/delete{id}', [SchedSubOfferController::class, 'subjectsOfferedDelete'])->name('subjectsOfferedDelete');
         });
 
         Route::prefix('faculty')->group(function () {
