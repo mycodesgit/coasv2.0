@@ -114,6 +114,7 @@
                                     <option value="9" @if (old('type') == 9) {{ 'selected' }} @endif>Scholarship Staff</option>
                                     <option value="10" @if (old('type') == 10) {{ 'selected' }} @endif>Assessment Head</option>
                                     <option value="11" @if (old('type') == 11) {{ 'selected' }} @endif>Assessment Staff</option>
+                                    <option value="12" @if (old('type') == 12) {{ 'selected' }} @endif>MIS Staff</option>
                                 </select>
                             </div>
                         </div>

@@ -74,6 +74,7 @@ CISS V.1.0 || User's List
                                                 <option value="9" @if (old('type') == 9 || $user->role == '9') {{ 'selected' }} @endif>Scholarship Staff</option>
                                                 <option value="10" @if (old('type') == 10 || $user->role == '10') {{ 'selected' }} @endif>Assessment Head</option>
                                                 <option value="11" @if (old('type') == 11 || $user->role == '11') {{ 'selected' }} @endif>Assessment Staff</option>
+                                                <option value="12" @if (old('type') == 12 || $user->role == '12') {{ 'selected' }} @endif>MIS Staff</option>
                                             </select>
                                         </div>
 
