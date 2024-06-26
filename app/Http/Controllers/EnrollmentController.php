@@ -322,7 +322,7 @@ class EnrollmentController extends Controller
                     if ($currentEnrollmentCount >= $subject->maxstud) {
                         $fullSubjects[] = [
                             //'id' => $subjID,
-                            'name' => $subject->sub_name,
+                            'name' => $subject->sub_name, // Assuming you have a name attribute
                             'section' => $subject->subSec,
                             'maxstud' => $subject->maxstud
                         ];
@@ -401,12 +401,19 @@ class EnrollmentController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
+        // $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+        //             ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
+        //             ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
+        //             ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+        //             ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+        //             ->select('students.*', 'program_en_history.*', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*', 'coasv2_db_scholarship.scholarship.*')
+        //             ->where('program_en_history.schlyear',  $schlyear)
+        //             ->where('program_en_history.semester',  $semester)
+        //             ->where('program_en_history.campus',  $campus)
+        //             ->where('program_en_history.studentID', $stud_id)->first();
+
         $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-                    ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
-                    ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
-                    ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
-                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                    ->select('students.*', 'program_en_history.*', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*', 'coasv2_db_scholarship.scholarship.*')
+                    ->select('students.*', 'program_en_history.*')
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
                     ->where('program_en_history.campus',  $campus)

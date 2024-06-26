@@ -38,6 +38,11 @@
         .toast-top-right {
             margin-top: 50px;
         }
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            color: #495057;
+            /*background-color: #c9c2c2;*/
+            border-color: #c9c2c2 #c9c2c2 #fff;
+        }
 
     </style>
 </head>

@@ -91,7 +91,7 @@ $(document).ready(function() {
                 if (response.error && response.fullSubjects && response.fullSubjects.length > 0) {
                     var fullSubjectsList = response.fullSubjects.map(function(subject) {
                         // return 'Subject ID: ' + subject.id + ', Name: ' + subject.name + ', Max Students: ' + subject.maxstud;
-                        return 'Name: ' + subject.name + ' - ' + subject.section + ', Max Students: ' + subject.maxstud;
+                        return ' ' + subject.name + ' - ' + subject.section + ', Max Students: ' + subject.maxstud;
                     }).join('<br>');
                     Swal.fire({
                         icon: 'error',
