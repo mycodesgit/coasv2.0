@@ -70,17 +70,41 @@ $(document).ready(function() {
             },
             data: formData, 
             success: function(response) {
-                if(response.success) {
+                if (response.success) {
                     toastr.success(response.message);
                     console.log(response);
                 } else {
-                    toastr.error(response.message);
-                    console.log(response);
+                    // if (response.fullSubjects && response.fullSubjects.length > 0) {
+                    //     var fullSubjectsList = response.fullSubjects;
+                        
+                    //     Swal.fire({
+                    //         icon: 'error',
+                    //         title: 'Subjects Full',
+                    //         html: 'The following subjects are full: <br>' + fullSubjectsList.replace(/,/g, '<br>'),
+                    //     });
+                    // } 
                 }
             },
-            error: function(xhr, status, error, message) {
-                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
-                toastr.error(errorMessage);
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+                var response = JSON.parse(xhr.responseText);
+                if (response.error && response.fullSubjects && response.fullSubjects.length > 0) {
+                    var fullSubjectsList = response.fullSubjects.map(function(subject) {
+                        // return 'Subject ID: ' + subject.id + ', Name: ' + subject.name + ', Max Students: ' + subject.maxstud;
+                        return 'Name: ' + subject.name + ' - ' + subject.section + ', Max Students: ' + subject.maxstud;
+                    }).join('<br>');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Subjects Full',
+                        html: 'The following subjects are full:<br>' + fullSubjectsList,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message,
+                    });
+                }
             }
         });
     });
@@ -523,7 +547,8 @@ document.getElementById('submitButton').addEventListener('click', function() {
         button.disabled = false;
     });
 
-    if (response && response.error) {
+    var isError = false;
+    if (isError) {
         // If there's an error, disable the Print RF button
         document.getElementById('printRFButton').disabled = true;
     } else {

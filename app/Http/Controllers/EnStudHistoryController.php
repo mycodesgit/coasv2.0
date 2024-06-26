@@ -39,7 +39,7 @@ class EnStudHistoryController extends Controller
         if (count($results) > 0) {    
             return view('enrollment.enrolhis.listsearch_enrolhis', compact('results'));
         }
-        return redirect()->route('studEnHistory')->with('error', 'No results found for the search.');
+        return redirect()->back()->with('error', 'No results found for the search.');
     }
 
     public function searchenStudHistory(Request $request)

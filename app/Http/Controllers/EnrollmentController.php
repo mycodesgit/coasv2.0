@@ -312,6 +312,30 @@ class EnrollmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Enrollment for this Student ID No. already exists this semester'], 404);
             }
 
+            // Check maxstud attribute
+            $subjIDs = $request->input('subjIDs');
+            $fullSubjects = [];
+            foreach ($subjIDs as $subjID) {
+                $subject = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')->find($subjID);
+                if ($subject) {
+                    $currentEnrollmentCount = Grade::where('subjID', $subjID)->count();
+                    if ($currentEnrollmentCount >= $subject->maxstud) {
+                        $fullSubjects[] = [
+                            //'id' => $subjID,
+                            'name' => $subject->sub_name,
+                            'section' => $subject->subSec,
+                            'maxstud' => $subject->maxstud
+                        ];
+                    }
+                } else {
+                    return response()->json(['error' => true, 'message' => 'Subject ID ' . $subjID . ' not found'], 404);
+                }
+            }
+
+            if (!empty($fullSubjects)) {
+                return response()->json(['error' => true, 'message' => 'Some subjects are full', 'fullSubjects' => $fullSubjects], 400);
+            }
+
             try {
                 StudEnrolmentHistory::create([
                     'studentID' => $request->input('studentID'),
