@@ -413,7 +413,8 @@ class EnrollmentController extends Controller
         //             ->where('program_en_history.studentID', $stud_id)->first();
 
         $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-                    ->select('students.*', 'program_en_history.*')
+                    ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
+                    ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*')
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
                     ->where('program_en_history.campus',  $campus)
@@ -601,7 +602,7 @@ class EnrollmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Enrollment for this Student ID No. already exists this semester'], 404);
             }
 
-            try {
+            //try {
                 $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
                 $enrolment->update([
                     'studentID' => $request->input('studentID'),
@@ -707,9 +708,9 @@ class EnrollmentController extends Controller
                 }
 
                 return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
-            } catch (\Exception $e) {
+            //} catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
-            }
+            //}
         }
     }
 
