@@ -68,6 +68,8 @@ $(document).ready(function() {
             {data: 'labUnit'},
             {data: 'subUnit'},
             {data: 'maxstud'},
+            {data: 'lecFee'},
+            {data: 'labFee'},
             {
                 data: 'fundAccount',
                 render: function(data, type, row) {

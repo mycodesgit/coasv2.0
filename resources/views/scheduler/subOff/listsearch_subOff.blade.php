@@ -117,6 +117,8 @@ CISS V.1.0 || Subject Offered
                                         <th>Lab</th>
                                         <th>Units</th>
                                         <th>MaxStud</th>
+                                        <th>LecFee</th>
+                                        <th>LabFee</th>
                                         <th>FundAccount</th>
                                         <th>Action</th>
                                     </tr>
