@@ -263,6 +263,7 @@
 
     <script src="{{ asset('js/validation/scholars/scholarValidation.js') }}"></script>
     <script src="{{ asset('js/validation/scholars/studscholarValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}"></script>
 
     <!-- Basic -->
     @if(request()->routeIs('scholarship-index'))

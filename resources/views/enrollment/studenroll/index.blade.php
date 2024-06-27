@@ -38,7 +38,7 @@ CISS V.1.0 || Enroll Student
         </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="GET" action="{{ route('searchStudEnroll') }}" enctype="multipart/form-data" id="enrollStud">
+                    <form method="GET" action="{{ route('searchStudEnroll') }}" id="enrollStud">
                         @csrf   
 
                         <div class="form-group mt-2" style="padding: 10px">

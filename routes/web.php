@@ -450,6 +450,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/search/student/historyajax', [ScholarshipController::class, 'fetchEnrollmentHistory'])->name('fetchEnrollmentHistory');
 
             Route::get('/list/search/student/numberenroll', [ScholarshipController::class, 'countstudnoenrollee'])->name('countstudnoenrollee');
+
+            Route::get('/list/search/student/registrationform', [ScholarshipController::class, 'studregformRead'])->name('studregformRead');
+            Route::get('/list/search/student/registrationform/search', [ScholarshipController::class, 'listsearch_studregformRead'])->name('listsearch_studregformRead');
+            Route::get('/list/search/student/registrationform/search/pdf', [ScholarshipController::class, 'listsearchpdf_studregformRead'])->name('listsearchpdf_studregformRead');
         });
     });
 

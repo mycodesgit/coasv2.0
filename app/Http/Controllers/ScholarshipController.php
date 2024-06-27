@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 
+use PDF;
 use Storage;
 use Carbon\Carbon;
 
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\Grade;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -23,6 +25,9 @@ use App\Models\ScholarshipDB\Scholar;
 use App\Models\ScholarshipDB\FSCode;
 use App\Models\ScholarshipDB\ChedSch;
 use App\Models\ScholarshipDB\UniSch;
+
+use App\Models\AssessmentDB\StudentFee;
+use App\Models\AssessmentDB\StudentAppraisal;
 
 use App\Models\SettingDB\ConfigureCurrent;
 
@@ -498,6 +503,117 @@ class ScholarshipController extends Controller
             ->get();
 
         return view('scholar.numenroll.listnum_enroll', compact('sy'));
+    }
+
+    public function studregformRead()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('scholar.numenroll.studregform', compact('sy'));
+    }
+
+    public function listsearch_studregformRead(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                    ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
+                    ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*')
+                    ->where('program_en_history.schlyear',  $schlyear)
+                    ->where('program_en_history.semester',  $semester)
+                    ->where('program_en_history.campus',  $campus)
+                    ->where('program_en_history.studentID', $stud_id)->first();
+
+        $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear',  $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester',  $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    ->where('studgrades.studID', $stud_id)
+                    ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
+                    ->get();
+
+        $studfees = StudentAppraisal::select('student_appraisal.*')
+                    ->where('student_appraisal.schlyear',  $schlyear)
+                    ->where('student_appraisal.semester',  $semester)
+                    ->where('student_appraisal.campus',  $campus)
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->orderBy('student_appraisal.account', 'ASC')
+                    ->get();
+
+        return view('scholar.numenroll.studregform_search', compact('sy'));
+    }
+
+    public function listsearchpdf_studregformRead(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                    ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
+                    ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*')
+                    ->where('program_en_history.schlyear',  $schlyear)
+                    ->where('program_en_history.semester',  $semester)
+                    ->where('program_en_history.campus',  $campus)
+                    ->where('program_en_history.studentID', $stud_id)->first();
+
+        $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear',  $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester',  $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    ->where('studgrades.studID', $stud_id)
+                    ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
+                    ->get();
+
+        $studfees = StudentAppraisal::select('student_appraisal.*')
+                    ->where('student_appraisal.schlyear',  $schlyear)
+                    ->where('student_appraisal.semester',  $semester)
+                    ->where('student_appraisal.campus',  $campus)
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->orderBy('student_appraisal.account', 'ASC')
+                    ->get();
+
+        $data = [
+            'student' => $student,
+            'studsub' => $studsub,
+            'studfees' => $studfees
+        ];
+        $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRF', $data)->setPaper('Legal', 'portrait');
+        return $pdf->stream();
+
     }
 
 }
