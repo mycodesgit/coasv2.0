@@ -535,6 +535,19 @@ class ScholarshipController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+        $student = Student::where('stud_id', $stud_id)->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+        $programEnHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+                ->where('schlyear', $schlyear)
+                ->where('semester', '=', $semester)
+                ->first(); 
+
+        if (!$programEnHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> not enrolled at this term or school year.');
+        }
+
         $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                     ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
                     ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*')
