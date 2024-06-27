@@ -49,7 +49,7 @@ CISS V.1.0 || Student Fee
                                 <div class="form-row">
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Course</span></label>
-                                        <select class="form-control  form-control-sm" name="prog_Code">
+                                        <select class="form-control form-control-sm select2bs4" name="prog_Code">
                                             <option disabled selected> ---Select---</option>
                                             @foreach($programsEn as $prog)
                                                 <option value="{{ $prog->progCod }}">{{ $prog->progAcronym }}</option>
