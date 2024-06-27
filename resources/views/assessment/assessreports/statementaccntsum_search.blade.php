@@ -94,8 +94,9 @@ CISS V.1.0 || Student Statements of Accounts Summary
                             <th>Name</th>
                             <th>School Year</th>
                             <th>Semester</th>
-                            <th>Balance</th>
+                            <th>Amount Due</th>
                             <th>Paid</th>
+                            <th>Balance</th>
                         </tr>
                     </thead>
                     <tbody>

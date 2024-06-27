@@ -30,14 +30,33 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : 'Null');
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
             {data: 'schlyear'},
             {data: 'semester'},
-            {data: 'totalamount'},
-            {data: 'schlyear'}
+            {
+                data: 'totalamount',
+                render: function(data, type, row) {
+                    return parseFloat(data).toFixed(2);
+                }
+            },
+            {
+                data: 'amountpaid',
+                render: function(data, type, row) {
+                    return parseFloat(data).toFixed(2);
+                }
+            },
+            {
+                data: null,
+                render: function(data, type, row) {
+                    var totalamount = parseFloat(row.totalamount);
+                    var amountpaid = parseFloat(row.amountpaid);
+                    var balance = totalamount - amountpaid;
+                    return balance.toFixed(2);
+                }
+            }
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 

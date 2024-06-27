@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
+use App\Models\AssessmentDB\AccountAppraisal;
+use App\Models\AssessmentDB\StudPayment;
+
 use App\Models\SettingDB\ConfigureCurrent;
 
 class StudStateAccntAssessmentController extends Controller
@@ -65,12 +68,14 @@ class StudStateAccntAssessmentController extends Controller
 
         $query = StudEnrolmentHistory::join('students', 'program_en_history.studentID', 'students.stud_id')
                         ->join('coasv2_db_assessment.student_appraisal', 'program_en_history.studentID', 'coasv2_db_assessment.student_appraisal.studID')
+                        ->join('coasv2_db_assessment.studpayment', 'program_en_history.studentID', '=', 'coasv2_db_assessment.studpayment.studID')
                         ->select(
                             'program_en_history.studentID',
                             'students.lname',
                             'students.fname',
                             'program_en_history.schlyear',
                             'program_en_history.semester',
+                            'coasv2_db_assessment.studpayment.amountpaid',
                             DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) as totalamount')
                         )
                         ->where('program_en_history.schlyear', $schlyear)
@@ -79,6 +84,9 @@ class StudStateAccntAssessmentController extends Controller
                         ->where('coasv2_db_assessment.student_appraisal.schlyear', $schlyear)
                         ->where('coasv2_db_assessment.student_appraisal.semester', $semester)
                         ->where('coasv2_db_assessment.student_appraisal.campus', $campus)
+                        ->where('coasv2_db_assessment.studpayment.schlyear', $schlyear)
+                        ->where('coasv2_db_assessment.studpayment.semester', $semester)
+                        ->where('coasv2_db_assessment.studpayment.campus', $campus)
                         ->groupBy('program_en_history.studentID');
 
                         if ($category == '1') {
