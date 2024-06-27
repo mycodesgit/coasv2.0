@@ -54,7 +54,7 @@ $(document).ready(function() {
                     var totalamount = parseFloat(row.totalamount);
                     var amountpaid = parseFloat(row.amountpaid);
                     var balance = totalamount - amountpaid;
-                    return balance.toFixed(2);
+                    return '<strong>' + balance.toFixed(2) + '</strong>';
                 }
             }
         ],
