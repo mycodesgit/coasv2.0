@@ -91,7 +91,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
 
         <div class="mt-3 row">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <table id="" class="table table-hover">
                     <thead>
                         <tr>
@@ -122,7 +122,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <table id="" class="table table-hover">
                     <thead>
                         <tr>
@@ -131,6 +131,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                             </center>
                         </tr>
                         <tr>
+                            <th>OR</th>
                             <th>Code</th>
                             <th>Fund</th>
                             <th>Amount</th>
@@ -140,7 +141,8 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     <tbody>
                         @foreach($studpayment as $datastudpaymentview)
                             <tr>
-                                <td>{{ $datastudpaymentview->fundID }}</td>
+                                <td>{{ $datastudpaymentview->orno }}</td>
+                                <td>{{ $datastudpaymentview->fund }}</td>
                                 <td>{{ $datastudpaymentview->account }}</td>
                                 <td>{{ $datastudpaymentview->amount  }}</td>
                                 <td>{{ Carbon\Carbon::parse($datastudpaymentview->dateAssess)->format('M j, Y') }}</td>
