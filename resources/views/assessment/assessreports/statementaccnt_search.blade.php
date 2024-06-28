@@ -168,17 +168,17 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 $totalBalance = $totalAmount - $totalAmountPaid;
             @endphp
 
-            <div class="col-md-7">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body"><h4><strong>Total Amount: </strong>{{ number_format($totalAmount, 2) }}</h4></div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body"><h4><strong>Total Amount Paid: </strong>{{ number_format($totalAmountPaid, 2) }}</h4></div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body"><h4><strong>Balance: </strong>{{ number_format($totalBalance, 2) }}</h4></div>
                 </div>
