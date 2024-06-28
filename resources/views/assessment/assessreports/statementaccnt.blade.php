@@ -37,7 +37,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
 
         <div class="mt-2 row">
             <div class="col-md-12">
-                <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesum">
+                <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesem">
                     @csrf
 
                     <div class="">

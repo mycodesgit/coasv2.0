@@ -177,6 +177,50 @@ $(function () {
 });
 
 $(function () {
+    $('#studstatesem').validate({
+        rules: {
+            stud_id: {
+                required: true,
+            },
+            schlyear: {
+                required: true,
+            },
+            semester: {
+                required: true,
+            },
+            category: {
+                required: true,
+            },
+        },
+        messages: {
+            stud_id: {
+                required: "Please enter Student ID Number",
+            },
+            schlyear: {
+                required: "Select School Year",
+            },
+            semester: {
+                semester: "Select Semester",
+            },
+            category: {
+                semester: "Select Category",
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.col-md-2, .col-md-4').append(error);        
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+    });
+});
+
+$(function () {
     $('#studstatesum').validate({
         rules: {
             schlyear: {
