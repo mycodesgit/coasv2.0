@@ -110,6 +110,9 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     </thead>
                     <tbody>
                         @foreach($studfees as $datastudfeesview)
+                            @php
+                                $totalAmount += $datastudfeesview->amount;
+                            @endphp
                             <tr>
                                 <td>{{ $datastudfeesview->fundID }}</td>
                                 <td>{{ $datastudfeesview->account }}</td>
@@ -118,12 +121,12 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                 <td>{{ $datastudfeesview->semester }}</td>
                                 <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
                             </tr>
-                            <tr>
-                                <td>{{ $datastudfeesview->totalamount }}</td>
-                            </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <div>
+                    <strong>Total Amount: </strong>{{ $totalAmount }}
+                </div>
             </div>
             <div class="col-md-5 card">
                 <table id="" class="table table-hover">
