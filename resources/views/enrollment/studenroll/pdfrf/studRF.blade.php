@@ -227,7 +227,7 @@
 								</tr>
     							<tr>
 								    <td colspan="3"></td>
-								    <td>{{ $totalsubUnit }}</td>
+								    <td class="cred-lec-lab">{{ $totalsubUnit }}</td>
 								    <td class="cred-lec-lab">{{ $totalLecFee }}</td>
 								    <td class="cred-lec-lab">{{ $totalLabFee }}</td>
 								</tr>
