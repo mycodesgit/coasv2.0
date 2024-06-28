@@ -226,7 +226,8 @@
 								    <td colspan="3" style="padding-left: 15px">*****************</td>
 								</tr>
     							<tr>
-								    <td colspan="3">{{ $totalsubUnit }}</td>
+								    <td colspan="4"></td>
+								    <td>{{ $totalsubUnit }}</td>
 								    <td class="cred-lec-lab">{{ $totalLecFee }}</td>
 								    <td class="cred-lec-lab">{{ $totalLabFee }}</td>
 								</tr>
