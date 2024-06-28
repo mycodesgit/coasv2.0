@@ -118,6 +118,9 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                 <td>{{ $datastudfeesview->semester }}</td>
                                 <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
                             </tr>
+                            <tr>
+                                <td>{{ $datastudfeesview->totalamount }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

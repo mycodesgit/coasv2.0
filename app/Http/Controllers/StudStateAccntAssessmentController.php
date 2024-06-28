@@ -53,7 +53,7 @@ class StudStateAccntAssessmentController extends Controller
                     ->where('student_appraisal.semester',  $semester)
                     ->where('student_appraisal.campus',  $campus)
                     ->where('student_appraisal.studID', $stud_id)
-                    ->select('student_appraisal.*')
+                    ->select('student_appraisal.*', DB::raw('SUM(student_appraisal.amount) as totalamount'))
                     ->orderBy('student_appraisal.account', 'ASC');
 
                     if ($category == '2') {
