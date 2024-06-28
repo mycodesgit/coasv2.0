@@ -92,7 +92,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
 
         <div class="mt-3 row">
             <div class="col-md-7">
-                <table id="" class="table table-hover">
+                <table id="" class="table table-hover table-striped">
                     <thead>
                         <tr>
                             <center>
@@ -148,7 +148,13 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $totalAmountPaid = 0;
+                        @endphp
                         @foreach($studpayment as $datastudpaymentview)
+                            @php
+                                $totalAmountPaid += $datastudpaymentview->amountpaid;
+                            @endphp
                             <tr>
                                 <td>{{ $datastudpaymentview->orno }}</td>
                                 <td>{{ $datastudpaymentview->fund }}</td>
@@ -159,6 +165,9 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                         @endforeach
                     </tbody>
                 </table>
+                <div>
+                    <h3><strong>Total Amount Paid: </strong>{{ number_format($totalAmountPaid, 2) }}</h3>
+                </div>
             </div>
         </div>
     </div>
