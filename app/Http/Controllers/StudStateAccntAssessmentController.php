@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\Student;
 
 use App\Models\AssessmentDB\AccountAppraisal;
 use App\Models\AssessmentDB\StudentAppraisal;
