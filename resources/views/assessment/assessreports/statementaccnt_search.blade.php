@@ -91,7 +91,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
 
         <div class="mt-3 row">
-            <div class="col-md-7 card">
+            <div class="col-md-7">
                 <table id="" class="table table-hover">
                     <thead>
                         <tr>
