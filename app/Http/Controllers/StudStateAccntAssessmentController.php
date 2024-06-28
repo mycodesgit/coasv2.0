@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
 use App\Models\AssessmentDB\AccountAppraisal;
+use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\AssessmentDB\StudPayment;
 
 use App\Models\SettingDB\ConfigureCurrent;
@@ -29,6 +30,39 @@ class StudStateAccntAssessmentController extends Controller
             ->get();
 
         return view('assessment.assessreports.statementaccnt', compact('sy'));
+    }
+
+    public function stateaccntpersem_search(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $stud_id = $request->query('stud_id');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $category = $request->query('category');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $query = StudentAppraisal::where('student_appraisal.schlyear',  $schlyear)
+                    ->where('student_appraisal.semester',  $semester)
+                    ->where('student_appraisal.campus',  $campus)
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->select('student_appraisal.*')
+                    ->orderBy('student_appraisal.account', 'ASC');
+
+                    if ($category == '2') {
+                        $query->where('student_appraisal.studID', 'LIKE', '%-G');
+                    }
+
+                    $studfees = $query->get();
+
+        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studfees'));
     }
 
     public function stateaccntpersum()

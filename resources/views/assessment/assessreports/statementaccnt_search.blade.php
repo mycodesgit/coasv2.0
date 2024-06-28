@@ -37,7 +37,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
 
         <div class="mt-2 row">
             <div class="col-md-12">
-                <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesum">
+                                <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesum">
                     @csrf
 
                     <div class="">
@@ -87,29 +87,38 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 </form>
             </div>
         </div>
+
+        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+
+        <div class="mt-3 row">
+            <div class="col-md-6">
+                <table id="" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Fund Code</th>
+                            <th>Fund Name</th>
+                            <th>Amount</th>
+                            <th>School Year</th>
+                            <th>Semester</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($studfees as $datastudfees)
+                            <tr>
+                                <td>{{ $datastudfees->fundID }}</td>
+                                <td>{{ $datastudfees->account }}</td>
+                                <td>{{ $datastudfees->amount  }}</td>
+                                <td>{{ $datastudfees->schlyear }}</td>
+                                <td>{{ $datastudfees->semester }}</td>
+                                <td>{{ $datastudfees->dateAssess }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-
-<script>
-    function formatInput(input) {
-        let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-        
-        if (cleaned.length > 0) {
-            let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
-            input.value = formatted;
-        } else {
-            input.value = '';
-        }
-    }
-
-    function handleDelete(event) {
-        if (event.key === 'Backspace') {
-            let input = event.target;
-            let value = input.value;
-            input.value = value.substring(0, value.length - 1);
-            formatInput(input);
-        }
-    }
-</script>
 
 @endsection

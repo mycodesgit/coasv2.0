@@ -7,7 +7,7 @@
     $accntAppraisalActive = in_array($curr_route, ['accountAppraisalRead']) ? 'active' : '';
     $studFeeActive = in_array($curr_route, ['searchStudfee', 'list_searchStudfee']) ? 'active' : '';
 
-    $studStateAccntActive = in_array($curr_route, ['stateaccntpersem']) ? 'active' : '';
+    $studStateAccntActive = in_array($curr_route, ['stateaccntpersem', 'stateaccntpersem_search']) ? 'active' : '';
     $studStateAccntSumActive = in_array($curr_route, ['stateaccntpersum', 'stateaccntpersum_search']) ? 'active' : '';
 
 @endphp
