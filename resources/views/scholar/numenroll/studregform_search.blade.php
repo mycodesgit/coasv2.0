@@ -75,7 +75,7 @@ CISS V.1.0 || Registration Form
                     </div>
                 </form>
 
-                <iframe src="{{ route('listsearchpdf_studregformRead', ['stud_id' => request('stud_id'), 'schlyear' => request('schlyear'), 'semester' => request('semester')]) }} #toolbar=0" width="100%" height="500"></iframe>
+                <iframe src="{{ route('listsearchpdf_studregformRead', ['stud_id' => request('stud_id'), 'schlyear' => request('schlyear'), 'semester' => request('semester')]) }}" width="100%" height="500"></iframe>
             </div>
         </div>
     </div>
