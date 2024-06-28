@@ -91,7 +91,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
 
         <div class="mt-3 row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <table id="" class="table table-hover">
                     <thead>
                         <tr>
@@ -104,14 +104,14 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($studfees as $datastudfees)
+                        @foreach($studfees as $datastudfeesview)
                             <tr>
-                                <td>{{ $datastudfees->fundID }}</td>
-                                <td>{{ $datastudfees->account }}</td>
-                                <td>{{ $datastudfees->amount  }}</td>
-                                <td>{{ $datastudfees->schlyear }}</td>
-                                <td>{{ $datastudfees->semester }}</td>
-                                <td>{{ $datastudfees->dateAssess }}</td>
+                                <td>{{ $datastudfeesview->fundID }}</td>
+                                <td>{{ $datastudfeesview->account }}</td>
+                                <td>{{ $datastudfeesview->amount  }}</td>
+                                <td>{{ $datastudfeesview->schlyear }}</td>
+                                <td>{{ $datastudfeesview->semester }}</td>
+                                <td>{{ $datastudfeesview->dateAssess }}</td>
                             </tr>
                         @endforeach
                     </tbody>
