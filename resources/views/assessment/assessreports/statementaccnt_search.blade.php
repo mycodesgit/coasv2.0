@@ -165,12 +165,12 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
             </div>
             <div class="col-md-7">
                 <div class="card">
-                    <div><h3><strong>Total Amount: </strong>{{ number_format($totalAmount, 2) }}</h3></div>
+                    <div class="card-body"><h3><strong>Total Amount: </strong>{{ number_format($totalAmount, 2) }}</h3></div>
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="card">
-                    <div><h3><strong>Total Amount Paid: </strong>{{ number_format($totalAmountPaid, 2) }}</h3></div>
+                    <div class="card-body"><h3><strong>Total Amount Paid: </strong>{{ number_format($totalAmountPaid, 2) }}</h3></div>
                 </div>
             </div>
         </div>
