@@ -213,6 +213,7 @@
 	    								<td class="cred-lec-lab">{{ $sub->labFee }}</td>
 	    							</tr>
 	    							@php
+	    								$totalsubUnit += $sub->subUnit;
 								        $totalLecFee += $sub->lecFee;
 								        $totalLabFee += $sub->labFee;
 								    @endphp
@@ -224,7 +225,7 @@
 								    <td colspan="3" style="padding-left: 15px">*****************</td>
 								</tr>
     							<tr>
-								    <td colspan="4"></td>
+								    <td colspan="4">{{ $totalsubUnit }}</td>
 								    <td class="cred-lec-lab">{{ $totalLecFee }}</td>
 								    <td class="cred-lec-lab">{{ $totalLabFee }}</td>
 								</tr>
