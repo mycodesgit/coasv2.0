@@ -180,7 +180,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
             </div>
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-body"><h4><strong>Balance: </strong>{{ number_format($totalbalance, 2) }}</h4></div>
+                    <div class="card-body"><h4><strong>Balance: </strong>{{ number_format($totalBalance, 2) }}</h4></div>
                 </div>
             </div>
         </div>
