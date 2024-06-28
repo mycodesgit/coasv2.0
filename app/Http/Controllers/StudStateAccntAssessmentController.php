@@ -89,15 +89,20 @@ class StudStateAccntAssessmentController extends Controller
                         ->where('coasv2_db_assessment.studpayment.campus', $campus)
                         ->groupBy('program_en_history.studentID');
 
-                        if ($category == '1') {
-                            $query->where('program_en_history.studentID', 'NOT LIKE', '%-G');
-                            $query->where('coasv2_db_assessment.student_appraisal.studID', 'NOT LIKE', '%-G');
-                        } elseif ($category == '2') {
+                        // if ($category == '1') {
+                        //     $query->where('program_en_history.studentID', 'NOT LIKE', '%-G');
+                        //     $query->where('coasv2_db_assessment.student_appraisal.studID', 'NOT LIKE', '%-G');
+                        // } elseif ($category == '2') {
+                        //     $query->where('program_en_history.studentID', 'LIKE', '%-G');
+                        //     $query->where('coasv2_db_assessment.student_appraisal.studID', 'LIKE', '%-G');
+                        // } elseif ($category == '3') {
+                        //     $query->where('program_en_history.studentID', '!=', '');
+                        //     $query->where('coasv2_db_assessment.student_appraisal.studID', '!=', '');
+                        // }
+
+                        if ($category == '2') {
                             $query->where('program_en_history.studentID', 'LIKE', '%-G');
                             $query->where('coasv2_db_assessment.student_appraisal.studID', 'LIKE', '%-G');
-                        } elseif ($category == '3') {
-                            $query->where('program_en_history.studentID', '!=', '');
-                            $query->where('coasv2_db_assessment.student_appraisal.studID', '!=', '');
                         }
 
                         $data = $query->get();
