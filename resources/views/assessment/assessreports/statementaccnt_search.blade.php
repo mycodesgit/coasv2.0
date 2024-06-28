@@ -94,7 +94,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        {{ $studfees->fname }}
+                        <p>{{ $studfees->first()->fname }}</p>
                     </div>
                 </div>
             </div>
