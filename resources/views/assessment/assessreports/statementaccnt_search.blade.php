@@ -128,7 +128,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     </tbody>
                 </table>
                 <div>
-                    <strong>Total Amount: </strong>{{ $totalAmount }}
+                    <h3><strong>Total Amount: </strong>{{ number_format($totalAmount, 2) }}</h3>
                 </div>
             </div>
             <div class="col-md-5 card">
