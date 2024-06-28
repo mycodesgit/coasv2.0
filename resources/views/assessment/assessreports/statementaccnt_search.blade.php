@@ -109,6 +109,10 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            use Carbon\Carbon;
+                            $totalAmount = 0;
+                        @endphp
                         @foreach($studfees as $datastudfeesview)
                             @php
                                 $totalAmount += $datastudfeesview->amount;
