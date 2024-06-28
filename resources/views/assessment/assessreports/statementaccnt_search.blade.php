@@ -95,10 +95,10 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 <table id="" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Fund Code</th>
-                            <th>Fund Name</th>
+                            <th>Code</th>
+                            <th>Fund</th>
                             <th>Amount</th>
-                            <th>School Year</th>
+                            <th>Year</th>
                             <th>Semester</th>
                             <th>Date</th>
                         </tr>
@@ -111,7 +111,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                 <td>{{ $datastudfeesview->amount  }}</td>
                                 <td>{{ $datastudfeesview->schlyear }}</td>
                                 <td>{{ $datastudfeesview->semester }}</td>
-                                <td>{{ $datastudfeesview->dateAssess }}</td>
+                                <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
