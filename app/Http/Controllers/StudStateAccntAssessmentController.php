@@ -68,7 +68,7 @@ class StudStateAccntAssessmentController extends Controller
 
         $query = StudEnrolmentHistory::join('students', 'program_en_history.studentID', 'students.stud_id')
                         ->join('coasv2_db_assessment.student_appraisal', 'program_en_history.studentID', 'coasv2_db_assessment.student_appraisal.studID')
-                        ->leftJoin('coasv2_db_assessment.studpayment', 'program_en_history.studentID', '=', 'coasv2_db_assessment.studpayment.studID')
+                        ->rightJoin('coasv2_db_assessment.studpayment', 'program_en_history.studentID', '=', 'coasv2_db_assessment.studpayment.studID')
                         ->select(
                             'program_en_history.studentID',
                             'students.lname',
