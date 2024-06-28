@@ -75,7 +75,7 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studpayment = $query->get();
 
-        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studpayment'));
+        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studfees', 'studpayment'));
     }
 
     public function stateaccntpersum()
