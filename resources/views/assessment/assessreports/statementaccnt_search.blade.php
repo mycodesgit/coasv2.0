@@ -187,4 +187,26 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
     </div>
 </div>
 
+<script>
+    function formatInput(input) {
+        let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
+        
+        if (cleaned.length > 0) {
+            let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
+            input.value = formatted;
+        } else {
+            input.value = '';
+        }
+    }
+
+    function handleDelete(event) {
+        if (event.key === 'Backspace') {
+            let input = event.target;
+            let value = input.value;
+            input.value = value.substring(0, value.length - 1);
+            formatInput(input);
+        }
+    }
+</script>
+
 @endsection
