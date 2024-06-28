@@ -62,7 +62,20 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studfees = $query->get();
 
-        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studfees'));
+        $query = StudPayment::where('studpayment.schlyear',  $schlyear)
+                    ->where('studpayment.semester',  $semester)
+                    ->where('studpayment.campus',  $campus)
+                    ->where('studpayment.studID', $stud_id)
+                    ->select('studpayment.*')
+                    ->orderBy('studpayment.account', 'ASC');
+
+                    if ($category == '2') {
+                        $query->where('studpayment.studID', 'LIKE', '%-G');
+                    }
+
+                    $studpayment = $query->get();
+
+        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studpayment'));
     }
 
     public function stateaccntpersum()

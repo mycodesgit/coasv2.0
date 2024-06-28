@@ -95,6 +95,11 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 <table id="" class="table table-hover">
                     <thead>
                         <tr>
+                            <center>
+                                <h4>Appraisal</h4>
+                            </center>
+                        </tr>
+                        <tr>
                             <th>Code</th>
                             <th>Fund</th>
                             <th>Amount</th>
@@ -112,6 +117,33 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                 <td>{{ $datastudfeesview->schlyear }}</td>
                                 <td>{{ $datastudfeesview->semester }}</td>
                                 <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table id="" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <center>
+                                <h4>Payment</h4>
+                            </center>
+                        </tr>
+                        <tr>
+                            <th>Code</th>
+                            <th>Fund</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($studpayment as $datastudpaymentview)
+                            <tr>
+                                <td>{{ $datastudpaymentview->fundID }}</td>
+                                <td>{{ $datastudpaymentview->account }}</td>
+                                <td>{{ $datastudpaymentview->amount  }}</td>
+                                <td>{{ Carbon\Carbon::parse($datastudpaymentview->dateAssess)->format('M j, Y') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
