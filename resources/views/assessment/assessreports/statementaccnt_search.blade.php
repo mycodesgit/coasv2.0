@@ -129,7 +129,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 </table>
             </div>
             <div class="col-md-5 card">
-                <table id="" class="table table-hover">
+                <table id="" class="table table-hover table-striped">
                     <thead>
                         <tr>
                             <center>
@@ -163,14 +163,24 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     </tbody>
                 </table>
             </div>
+
+            @php
+                $totalBalance = $totalAmount - $totalAmountPaid;
+            @endphp
+
             <div class="col-md-7">
                 <div class="card">
-                    <div class="card-body"><h3><strong>Total Amount: </strong>{{ number_format($totalAmount, 2) }}</h3></div>
+                    <div class="card-body"><h4><strong>Total Amount: </strong>{{ number_format($totalAmount, 2) }}</h4></div>
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="card">
-                    <div class="card-body"><h3><strong>Total Amount Paid: </strong>{{ number_format($totalAmountPaid, 2) }}</h3></div>
+                    <div class="card-body"><h4><strong>Total Amount Paid: </strong>{{ number_format($totalAmountPaid, 2) }}</h4></div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body"><h4><strong>Balance: </strong>{{ number_format($totalbalance, 2) }}</h4></div>
                 </div>
             </div>
         </div>
