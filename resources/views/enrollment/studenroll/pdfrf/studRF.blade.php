@@ -200,6 +200,7 @@
     						</thead>
     						<tbody>
     							@php
+    								$totalsubUnit = 0;
 								    $totalLecFee = 0;
 								    $totalLabFee = 0;
 								@endphp
