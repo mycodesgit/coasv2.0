@@ -24,6 +24,14 @@
         .toast-top-right {
             margin-top: 50px;
         }
+        .bg-light {
+            background-color: #f8f9fa !important;
+        }
+
+        .bg-secondary {
+            background-color: #e9ecef !important;
+        }
+
     </style>
 </head>
 
