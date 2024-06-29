@@ -1,7 +1,7 @@
 @extends('layouts.master_kiosk')
 
 @section('body')
-<div class="container">
+<div class="container-fluid">
     <div class="row" style="padding-top: 0px;">
         <div class="col-md-12">
             <div class="card">
@@ -44,7 +44,15 @@
                                                     @endif
                                                     <tr class="{{ $currentColor }}">
                                                         <td>{{ $datastudsubowner->schlyear }}</td>
-                                                        <td>{{ $datastudsubowner->semester }}</td>
+                                                        <td>
+                                                            @if($datastudsubowner->semester == 1)
+                                                                <span class="badge badge-primary">1st Sem</span>
+                                                            @elseif($datastudsubowner->semester == 2)
+                                                                <span class="badge badge-success">2nd Sem</span>
+                                                            @elseif($datastudsubowner->semester == 3)
+                                                                <span class="badge badge-info">Summer</span>
+                                                            @endif
+                                                        </td>
                                                         <td>{{ $datastudsubowner->sub_name }}</td>
                                                         <td>{{ $datastudsubowner->sub_title }}</td>
                                                         <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
