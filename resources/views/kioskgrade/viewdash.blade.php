@@ -17,24 +17,56 @@
                                         <table class="table table-head-fixed text-nowrap table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Subject</th>
-                                                    <th>Descriptive Title</th>
                                                     <th>School Year</th>
                                                     <th>Semester</th>
+                                                    <th>Subject</th>
+                                                    <th>Descriptive Title</th>
                                                     <th>Final Grade</th>
                                                     <th>Credit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @php
+                                                    $currentYear = '';
+                                                    $currentSemester = '';
+                                                    $rowspanYear = 0;
+                                                    $rowspanSemester = 0;
+                                                @endphp
                                                 @foreach($studsub as $datastudsubowner)
-                                                <tr>
-                                                    <td>{{ $datastudsubowner->sub_name }}</td>
-                                                    <td>{{ $datastudsubowner->sub_title }}</td>
-                                                    <td>{{ $datastudsubowner->schlyear }}</td>
-                                                    <td>{{ $datastudsubowner->semester }}</td>
-                                                    <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
-                                                    <td>{{ $datastudsubowner->creditEarned }}</td>
-                                                </tr>
+                                                    @if($currentYear != $datastudsubowner->schlyear)
+                                                        @php
+                                                            $currentYear = $datastudsubowner->schlyear;
+                                                            $rowspanYear = $studsub->where('schlyear', $currentYear)->count();
+                                                            $currentSemester = '';
+                                                        @endphp
+                                                        <tr>
+                                                            <td rowspan="{{ $rowspanYear }}">{{ $currentYear }}</td>
+                                                            <td rowspan="{{ $studsub->where('schlyear', $currentYear)->where('semester', $datastudsubowner->semester)->count() }}">{{ $datastudsubowner->semester }}</td>
+                                                            <td>{{ $datastudsubowner->sub_name }}</td>
+                                                            <td>{{ $datastudsubowner->sub_title }}</td>
+                                                            <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
+                                                            <td>{{ $datastudsubowner->creditEarned }}</td>
+                                                        </tr>
+                                                    @elseif($currentSemester != $datastudsubowner->semester)
+                                                        @php
+                                                            $currentSemester = $datastudsubowner->semester;
+                                                            $rowspanSemester = $studsub->where('schlyear', $currentYear)->where('semester', $currentSemester)->count();
+                                                        @endphp
+                                                        <tr>
+                                                            <td rowspan="{{ $rowspanSemester }}">{{ $currentSemester }}</td>
+                                                            <td>{{ $datastudsubowner->sub_name }}</td>
+                                                            <td>{{ $datastudsubowner->sub_title }}</td>
+                                                            <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
+                                                            <td>{{ $datastudsubowner->creditEarned }}</td>
+                                                        </tr>
+                                                    @else
+                                                        <tr>
+                                                            <td>{{ $datastudsubowner->sub_name }}</td>
+                                                            <td>{{ $datastudsubowner->sub_title }}</td>
+                                                            <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
+                                                            <td>{{ $datastudsubowner->creditEarned }}</td>
+                                                        </tr>
+                                                    @endif
                                                 @endforeach
                                             </tbody>
                                         </table>
