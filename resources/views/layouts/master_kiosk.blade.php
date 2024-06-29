@@ -30,6 +30,7 @@
 
         .bg-secondary {
             background-color: #e9ecef !important;
+            color: #252525 !important;
         }
 
     </style>
