@@ -61,6 +61,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'CheckMaintenanceMode' => \App\Http\Middleware\CheckMaintenanceMode::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'kiosk.session.expired' => \App\Http\Middleware\RedirectIfKioskSessionExpired::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,

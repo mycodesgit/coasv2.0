@@ -44,6 +44,10 @@ return [
             'driver' => 'session',
             'provider' => 'faculty',
         ],
+        'kioskstudent' => [
+            'driver' => 'session',
+            'provider' => 'kioskstudent',
+        ],
     ],
 
     /*
@@ -72,6 +76,11 @@ return [
         'faculty' => [
             'driver' => 'eloquent',
             'model' => App\Models\ScheduleDB\Faculty::class,
+        ],
+
+        'kioskstudent' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\EnrollmentDB\KioskUser::class,
         ],
 
         // 'users' => [
@@ -104,6 +113,13 @@ return [
         ],
 
         'faculty' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'kioskstudent' => [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,

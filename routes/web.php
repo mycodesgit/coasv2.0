@@ -44,6 +44,8 @@ use App\Http\Controllers\ScholarshipController;
 use App\Http\Controllers\GradingController;
 use App\Http\Controllers\SettingController;
 
+use App\Http\Controllers\KioskDashController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,7 +57,8 @@ use App\Http\Controllers\SettingController;
 |
 */
 
-Route::group(['middleware'=>['guest', 'CheckMaintenanceMode']],function(){
+
+Route::group(['middleware'=>['guest', 'CheckMaintenanceMode', 'kiosk.session.expired']],function(){
     Route::get('/',[MainController::class,'main'])->name('main');
     Route::get('/linkstorage', function () {
         Artisan::call('storage:link');
@@ -72,6 +75,7 @@ Route::group(['middleware'=>['guest', 'CheckMaintenanceMode']],function(){
 
 
     Route::get('/emp', [LoginController::class, 'login'])->name('login');
+    Route::get('/stud/kiosk', [LoginController::class, 'loginkioskstud'])->name('loginkioskstud');
     Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
 });
 
@@ -502,6 +506,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/setting/server/zeus/admin/maintenance', [SettingController::class, 'toggleMaintenance'])->name('toggleMaintenance');
         });
 
+    });
+
+    Route::prefix('student')->group(function () {
+        Route::get('/info/kiosk/dashboard/view', [KioskDashController::class, 'kioskhome'])->name('kioskhome');
     });
 
 });

@@ -31,6 +31,8 @@ class RedirectIfAuthenticated
 
         if (Auth::guard('web')->check() || Auth::guard('faculty')->check()) {
             return redirect()->route('home');
+        } elseif (Auth::guard('kioskstudent')->check()) {
+            return redirect()->route('kioskhome');
         }
 
         $response = $next($request);
