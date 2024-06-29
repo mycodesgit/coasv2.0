@@ -22,6 +22,7 @@
                                                     <th>Subject</th>
                                                     <th>Descriptive Title</th>
                                                     <th>Final Grade</th>
+                                                    <th>SubjComp</th>
                                                     <th>Credit</th>
                                                 </tr>
                                             </thead>
@@ -50,12 +51,13 @@
                                                             @elseif($datastudsubowner->semester == 2)
                                                                 <span class="badge badge-success">2nd Sem</span>
                                                             @elseif($datastudsubowner->semester == 3)
-                                                                <span class="badge badge-info">Summer</span>
+                                                                <span class="badge badge-secondary">Summer</span>
                                                             @endif
                                                         </td>
                                                         <td>{{ $datastudsubowner->sub_name }}</td>
                                                         <td>{{ $datastudsubowner->sub_title }}</td>
                                                         <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
+                                                        <td><b>{{ $datastudsubowner->subjComp }}</b></td>
                                                         <td>{{ $datastudsubowner->creditEarned }}</td>
                                                     </tr>
                                                 @endforeach
