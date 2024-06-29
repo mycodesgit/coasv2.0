@@ -14,7 +14,7 @@
                             <div class="tab-content" id="vert-tabs-right-tabContent">
                                 <div class="tab-pane fade show active" id="vert-tabs-right-one" role="tabpanel" aria-labelledby="vert-tabs-right-one-tab">
                                     <div class="card-body table-responsive p-0" style="height: 500px;">
-                                        <table class="table table-head-fixed text-nowrap">
+                                        <table class="table table-head-fixed text-nowrap table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>Subject</th>
