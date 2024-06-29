@@ -20,6 +20,7 @@
                                                     <th>Subject</th>
                                                     <th>Descriptive Title</th>
                                                     <th>School Year</th>
+                                                    <th>Semester</th>
                                                     <th>Final Grade</th>
                                                     <th>Credit</th>
                                                 </tr>
@@ -30,6 +31,7 @@
                                                     <td>{{ $datastudsubowner->sub_name }}</td>
                                                     <td>{{ $datastudsubowner->sub_title }}</td>
                                                     <td>{{ $datastudsubowner->schlyear }}</td>
+                                                    <td>{{ $datastudsubowner->semester }}</td>
                                                     <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
                                                     <td>{{ $datastudsubowner->creditEarned }}</td>
                                                 </tr>

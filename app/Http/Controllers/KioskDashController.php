@@ -49,7 +49,7 @@ class KioskDashController extends Controller
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('studgrades.studID', $studentowner)
-                    ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
+                    ->orderBy('coasv2_db_schedule.sub_offered.id', 'ASC')
                     ->get();
 
         return view('kioskgrade.viewdash', compact('guard', 'studauth', 'studsub'));
