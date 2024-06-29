@@ -14,7 +14,7 @@
                             <div class="tab-content" id="vert-tabs-right-tabContent">
                                 <div class="tab-pane fade show active" id="vert-tabs-right-one" role="tabpanel" aria-labelledby="vert-tabs-right-one-tab">
                                     <div class="card-body table-responsive p-0" style="height: 500px;">
-                                        <table class="table table-head-fixed text-nowrap table-striped">
+                                        <table class="table table-head-fixed text-nowrap">
                                             <thead>
                                                 <tr>
                                                     <th>School Year</th>
@@ -26,15 +26,30 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @php
+                                                    $currentYear = '';
+                                                    $currentSemester = '';
+                                                    $currentColor = '';
+                                                    $colorClasses = ['bg-light', 'bg-secondary']; // Define your color classes here
+                                                    $colorIndex = 0;
+                                                @endphp
                                                 @foreach($studsub as $datastudsubowner)
-                                                <tr>
-                                                    <td>{{ $datastudsubowner->schlyear }}</td>
-                                                    <td>{{ $datastudsubowner->semester }}</td>
-                                                    <td>{{ $datastudsubowner->sub_name }}</td>
-                                                    <td>{{ $datastudsubowner->sub_title }}</td>
-                                                    <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
-                                                    <td>{{ $datastudsubowner->creditEarned }}</td>
-                                                </tr>
+                                                    @if($currentYear != $datastudsubowner->schlyear || $currentSemester != $datastudsubowner->semester)
+                                                        @php
+                                                            $currentYear = $datastudsubowner->schlyear;
+                                                            $currentSemester = $datastudsubowner->semester;
+                                                            $currentColor = $colorClasses[$colorIndex % count($colorClasses)];
+                                                            $colorIndex++;
+                                                        @endphp
+                                                    @endif
+                                                    <tr class="{{ $currentColor }}">
+                                                        <td>{{ $datastudsubowner->schlyear }}</td>
+                                                        <td>{{ $datastudsubowner->semester }}</td>
+                                                        <td>{{ $datastudsubowner->sub_name }}</td>
+                                                        <td>{{ $datastudsubowner->sub_title }}</td>
+                                                        <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
+                                                        <td>{{ $datastudsubowner->creditEarned }}</td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
