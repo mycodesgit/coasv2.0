@@ -37,13 +37,13 @@
             <a id="btn-reset" class="btn btn-app" style="border: 2px solid #252525">
                 <i class="fas fa-arrow-left mt-1 text-dark"></i>
             </a>
-            <a id="btn-k" class="btn btn-app" style="border: 2px solid #252525">
+            <a id="btn-k" class="btn btn-app" style="border: 2px solid #252525; background-color: #ffff66 !important;">
                 <i class="fas fa-k mt-1 text-dark"></i>
             </a>
-            <a id="btn-g" class="btn btn-app" style="border: 2px solid #252525">
+            <a id="btn-g" class="btn btn-app" style="border: 2px solid #252525; background-color: #ffff66 !important;">
                 <i class="fas fa-g mt-1 text-dark"></i>
             </a>
-            <a id="btn-u" class="btn btn-app" style="border: 2px solid #252525">
+            <a id="btn-u" class="btn btn-app" style="border: 2px solid #252525; background-color: #ffff66 !important;">
                 <i class="fas fa-u mt-1 text-dark"></i>
             </a>
         </div>
