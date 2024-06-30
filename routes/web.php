@@ -42,6 +42,9 @@ use App\Http\Controllers\StudStateAccntAssessmentController;
 use App\Http\Controllers\ScholarshipController;
 
 use App\Http\Controllers\GradingController;
+
+use App\Http\Controllers\KioskAdminController;
+
 use App\Http\Controllers\SettingController;
 
 use App\Http\Controllers\KioskDashController;
@@ -476,6 +479,14 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
         });
 
+    });
+
+    Route::prefix('kioskstud')->group(function () {
+        Route::get('/admin/kiosk/user/view', [KioskAdminController::class, 'adminkioskRead'])->name('adminkioskRead');
+        Route::get('/admin/kiosk/user/view/ajax', [KioskAdminController::class, 'getadminkioskRead'])->name('getadminkioskRead');
+        Route::post('/admin/kiosk/user/view/add', [KioskAdminController::class, 'adminkioskCreate'])->name('adminkioskCreate');
+        Route::post('/admin/kiosk/user/view/update', [KioskAdminController::class, 'adminkioskUpdate'])->name('adminkioskUpdate');
+        Route::get('/admin/kiosk/user/view/delete{id}', [KioskAdminController::class, 'adminkioskDelete'])->name('adminkioskDelete');
     });
 
     Route::prefix('adempset/settings')->group(function () {

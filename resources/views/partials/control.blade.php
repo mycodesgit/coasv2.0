@@ -39,6 +39,10 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
                 <i class="fas fa-book-open"></i> Grading
             </a>
 
+            <a id="kiosk-url" class="btn btn-app {{ in_array('kiosk-url', $buttons) ? '' : 'disabled' }}">
+                <i class="fas fa-tv"></i> Kiosk
+            </a>
+
             <a id="request-url" class="btn btn-app {{ in_array('request-url', $buttons) ? '' : 'disabled' }}">
                 <i class="fas fa-file-lines"></i> Request
             </a>
@@ -64,6 +68,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
     var cashierRoute = "";
     var scholarshipRoute = "{{ route('scholarship-index') }}";
     var gradingRoute = "{{ route('grading-index') }}";
+    var kioskRoute = "{{ route('adminkioskRead') }}";
     var requestRoute = "";
     var settingRoute = "{{ route('settings-index') }}";
     var logoutRoute = "{{ route('logout') }}";

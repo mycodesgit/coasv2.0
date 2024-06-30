@@ -26,6 +26,10 @@ $('#grading-url').click(function() {
     window.location.href = gradingRoute;
 });
 
+$('#kiosk-url').click(function() {
+    window.location.href = kioskRoute;
+});
+
 $('#setting-url').click(function() {
     window.location.href = settingRoute;
 });
