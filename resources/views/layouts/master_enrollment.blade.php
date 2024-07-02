@@ -59,6 +59,14 @@
                 opacity: 1;
             }
         }
+        .bg-light {
+            background-color: #f8f9fa !important;
+        }
+
+        .bg-secondary {
+            background-color: #e9ecef !important;
+            color: #252525 !important;
+        }
     </style>
     
 </head>
