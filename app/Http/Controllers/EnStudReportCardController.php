@@ -106,15 +106,18 @@ class EnStudReportCardController extends Controller
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
                     ->get();
 
-        $totalCredits = 0;
-        $weightedSum = 0;
+            $totalCredits = 0;
+            $weightedSum = 0;
 
-        foreach ($studrepcardsub as $subject) {
-            $totalCredits += $subject->creditEarned;
-            $weightedSum += $subject->subjFgrade * $subject->creditEarned;
-        }
+            foreach ($studrepcardsub as $subject) {
+                $creditEarned = (float)$subject->creditEarned;
+                $subjFgrade = (float)$subject->subjFgrade;
+                
+                $totalCredits += $creditEarned;
+                $weightedSum += $subjFgrade * $creditEarned;
+            }
 
-        $average = $totalCredits ? $weightedSum / $totalCredits : 0;
+            $average = $totalCredits ? $weightedSum / $totalCredits : 0;
 
         $data = [
             'studrepcard' => $studrepcard,
