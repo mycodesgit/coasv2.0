@@ -25,7 +25,7 @@
         <a href="{{ route('admission-index') }}" class="list-group-item {{ $dashAdActive }}">Dashboard</a>
     </ul>
     <ul class="list-group mt-1">
-        @if(in_array(Auth::user()->isAdmin, [0, 1, 2]))
+        @if(in_array(Auth::user()->role, [0, 1, 2]))
             <a href="{{ route('applicant-add') }}" class="list-group-item {{ $appAddActive }}">Add Applicants</a>
             <a href="{{ route('applicant-list') }}" class="list-group-item {{ $appListActive }}">Applicants</a>  
             <a href="{{ route('examinee-list') }}" class="list-group-item {{ $examineeListActive }}">List of Examinees</a>
@@ -34,7 +34,7 @@
         <a href="{{ route('examinee-confirm') }}" class="list-group-item {{ $confirmAppListActive }}">Confirmed Applicants</a>  
         <a href="{{ route('applicant-accepted') }}" class="list-group-item {{ $acceptedAppListActive }}">Accepted Applicants</a>
         {{-- <a href="{{ route('applicant-enrolled') }}" class="list-group-item {{ $enrolledAppListActive }}">Enrolled Applicants</a> --}}
-        @if(in_array(Auth::user()->isAdmin, [0, 1, 2]))
+        @if(in_array(Auth::user()->role, [0, 1, 2]))
             <a href="{{ route('slots') }}" class="list-group-item {{ $slotActive }}">Availability/Slots</a>
             <a href="{{ route('configure_admission') }}" class="list-group-item {{ $confActive }}">Configure Admission</a>
         @endif
@@ -47,7 +47,7 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        @if(!in_array(Auth::user()->isAdmin, [5, 6, 7]))
+        @if(!in_array(Auth::user()->role, [5, 6, 7]))
         <a href="{{ route('applicant_printing') }}" class="list-group-item {{ $appsreportActive }}">Applicants</a>
         <a href="{{ route('schedules_printing') }}" class="list-group-item {{ $schedreportActive }}">Admission Schedules</a>
         <a href="{{ route('nosched_printing') }}" class="list-group-item {{ $noschedreportActive}}">Applicants No Sched</a>

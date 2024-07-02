@@ -22,11 +22,15 @@
         <a href="{{ route('enrollment-index') }}" class="list-group-item {{ $dashEnActive }}">Dashboard</a>
     </ul>
     <ul class="list-group mt-1">
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
         <a href="{{ route('searchStud') }}" class="list-group-item {{ $searchStudActive }}">Enroll Student</a>  
         <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
+        @endif
         <a href="{{ route('studentEnHistory') }}" class="list-group-item {{ $stuEnrollmentHisActive }}">Enrollment History</a>
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
         <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
         <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
+        @endif
     </ul>
 </div>
 
@@ -36,12 +40,16 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
         <a href="{{ route('studInfo') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
         <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Graduated Students</a>
+        @endif
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Curriculum</a>
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
+        @endif
         <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
         <a href="" class="list-group-item">Transcript</a>
     </ul>
