@@ -37,7 +37,7 @@
                                                             return ['gpa' => 'NG', 'status' => 'No Grade'];
                                                         } elseif ($grade === 'Drp..') {
                                                             return ['gpa' => 'Drp.', 'status' => 'Drop'];
-                                                        } elseif ($grade >= 97 || $grade == '1') {
+                                                        } elseif ($grade >= 97 || $grade == 1) {
                                                             return ['gpa' => '1.0', 'status' => 'Passed'];
                                                         } elseif ($grade >= 94) {
                                                             return ['gpa' => '1.2', 'status' => 'Passed'];
