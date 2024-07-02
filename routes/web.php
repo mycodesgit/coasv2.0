@@ -21,6 +21,7 @@ use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnSubjectsController;
 use App\Http\Controllers\EnreportsController;
 use App\Http\Controllers\EnStudentPerCurriculumController;
+use App\Http\Controllers\EnStudGrdeViewController;
 use App\Http\Controllers\EnStudReportCardController;
 use App\Http\Controllers\EnStudELPLController;
 use App\Http\Controllers\EnStudNoEnrolleeController;
@@ -284,6 +285,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/curriculum/searchajax', [EnStudentPerCurriculumController::class, 'getstudCurrSearch'])->name('getstudCurrSearch');
             Route::get('/info/students/curriculum/viewenroll/searchajax', [EnStudentPerCurriculumController::class, 'fetchStudEnrollmentlist'])->name('fetchStudEnrollmentlist');
             Route::get('/info/students/curriculum/viewenroll/pdfajax', [EnStudentPerCurriculumController::class, 'exportEnrollmentPDF'])->name('exportEnrollmentPDF');
+
+            Route::get('/info/stud/view/stud/grades', [EnStudGrdeViewController::class, 'studviewgradeRead'])->name('studviewgradeRead');
+            Route::get('/info/stud/view/stud/grades/search', [EnStudGrdeViewController::class, 'search_studviewgradeRead'])->name('search_studviewgradeRead');
 
             Route::get('/info/stud/reportcard', [EnStudReportCardController::class, 'reportCard_list'])->name('reportCard_list');
             Route::get('/info/stud/reportcard/search', [EnStudReportCardController::class, 'reportCard_listsearch'])->name('reportCard_listsearch');
