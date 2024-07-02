@@ -122,7 +122,7 @@ CISS V.1.0 || Grading
                                 return ['gpa' => 'NG', 'status' => 'No Grade'];
                             } elseif ($grade === 'Drp..') {
                                 return ['gpa' => 'Drp.', 'status' => 'Drop'];
-                            } elseif ($grade >= 97) {
+                            } elseif ($grade >= 97 || $grade == 1) {
                                 return ['gpa' => '1.0', 'status' => 'Passed'];
                             } elseif ($grade >= 94) {
                                 return ['gpa' => '1.2', 'status' => 'Passed'];
@@ -130,7 +130,7 @@ CISS V.1.0 || Grading
                                 return ['gpa' => '1.5', 'status' => 'Passed'];
                             } elseif ($grade >= 88) {
                                 return ['gpa' => '1.7', 'status' => 'Passed'];
-                            } elseif ($grade >= 85) {
+                            } elseif ($grade >= 85 || $grade == 2) {
                                 return ['gpa' => '2.0', 'status' => 'Passed'];
                             } elseif ($grade >= 82) {
                                 return ['gpa' => '2.2', 'status' => 'Passed'];
@@ -138,7 +138,7 @@ CISS V.1.0 || Grading
                                 return ['gpa' => '2.5', 'status' => 'Passed'];
                             } elseif ($grade >= 76) {
                                 return ['gpa' => '2.7', 'status' => 'Passed'];
-                            } elseif ($grade >= 75) {
+                            } elseif ($grade >= 75 || $grade == 3) {
                                 return ['gpa' => '3.0', 'status' => 'Passed'];
                             } elseif ($grade >= 70) {
                                 return ['gpa' => '4.0', 'status' => 'Conditional'];
