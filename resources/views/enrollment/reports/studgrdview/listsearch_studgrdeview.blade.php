@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-CISS V.1.0 || Student Info
+CISS V.1.0 || Student View Grades
 @endsection
 
 @section('sideheader')
@@ -21,7 +21,7 @@ CISS V.1.0 || Student Info
             </li>
             <li class="breadcrumb-item mt-1">Enrollment</li>
             <li class="breadcrumb-item mt-1">Reports</li>
-            <li class="breadcrumb-item active mt-1">Student View Grades</li>
+            <li class="breadcrumb-item active mt-1">View Student Grades</li>
         </ol>
 
         <p>
@@ -34,23 +34,23 @@ CISS V.1.0 || Student Info
 
         <div>
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Student View Grades</h4>
+                <h4>View Student Grades</h4>
             </div> 
         </div>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <form method="GET" action="{{ route('search_studviewgradeRead') }}" id="viewstudgrd">
                     {{ csrf_field() }}
 
                     <div class="form-group mt-2" style="padding: 10px">
                         <div class="form-row">
-                            <div class="col-md-3">
+                            <div class="col-md-8">
                                 <label><span class="badge badge-secondary">Student ID Number</span></label>
                                 <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
                             </div>
@@ -59,9 +59,17 @@ CISS V.1.0 || Student Info
                 </form>
             </div>
 
+            <div class="col-md-6">
+                <div class="form-group mt-2" style="padding: 10px">
+                    <div class="form-row">
+                        <label>&nbsp;</label>
+                        <h6 class="card-footer mt-4" style="border-radius: 5px">Student ID No.: {{ $studauth->stud_id }} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Name: {{ $studauth->lname }}, {{ $studauth->fname }} {{ substr($studauth->mname,0,1) }}.</h6>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-md-12">
                 <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-                <h4 class="card-footer mt-1" style="border-radius: 5px">Student ID No.: {{ $studauth->stud_id }} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Name: {{ $studauth->lname }}, {{ $studauth->fname }} {{ substr($studauth->mname,0,1) }}.</h4>
                 <div class="card-body table-responsive p-0 mt-3" style="height: 500px;">
                     <table class="table table-head-fixed text-nowrap">
                         <thead>

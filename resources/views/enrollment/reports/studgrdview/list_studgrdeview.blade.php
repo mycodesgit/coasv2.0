@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-CISS V.1.0 || Student Info
+CISS V.1.0 || Student View Grades
 @endsection
 
 @section('sideheader')
@@ -21,7 +21,7 @@ CISS V.1.0 || Student Info
             </li>
             <li class="breadcrumb-item mt-1">Enrollment</li>
             <li class="breadcrumb-item mt-1">Reports</li>
-            <li class="breadcrumb-item active mt-1">Student View Grades</li>
+            <li class="breadcrumb-item active mt-1">View Student Grades</li>
         </ol>
 
         <p>
@@ -34,7 +34,7 @@ CISS V.1.0 || Student Info
 
         <div>
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Student View Grades</h4>
+                <h4>View Student Grades</h4>
             </div> 
         </div>
 
