@@ -45,7 +45,7 @@
                                                             return ['gpa' => '1.5', 'status' => 'Passed'];
                                                         } elseif ($grade >= 88) {
                                                             return ['gpa' => '1.7', 'status' => 'Passed'];
-                                                        } elseif ($grade >= 85) {
+                                                        } elseif ($grade >= 85 || $grade == 2) {
                                                             return ['gpa' => '2.0', 'status' => 'Passed'];
                                                         } elseif ($grade >= 82) {
                                                             return ['gpa' => '2.2', 'status' => 'Passed'];
@@ -53,7 +53,7 @@
                                                             return ['gpa' => '2.5', 'status' => 'Passed'];
                                                         } elseif ($grade >= 76) {
                                                             return ['gpa' => '2.7', 'status' => 'Passed'];
-                                                        } elseif ($grade >= 75) {
+                                                        } elseif ($grade >= 75 || $grade == 3) {
                                                             return ['gpa' => '3.0', 'status' => 'Passed'];
                                                         } elseif ($grade >= 70) {
                                                             return ['gpa' => '4.0', 'status' => 'Conditional'];
