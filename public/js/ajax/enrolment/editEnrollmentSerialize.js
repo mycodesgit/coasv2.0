@@ -86,13 +86,30 @@ $(document).ready(function() {
                     toastr.success(response.message);
                     console.log(response);
                 } else {
-                    toastr.error(response.message);
-                    console.log(response);
+                    // toastr.error(response.message);
+                    // console.log(response);
                 }
             },
-            error: function(xhr, status, error, message) {
-                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
-                toastr.error(errorMessage);
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+                var response = JSON.parse(xhr.responseText);
+                if (response.error && response.fullSubjects && response.fullSubjects.length > 0) {
+                    var fullSubjectsList = response.fullSubjects.map(function(subject) {
+                        // return 'Subject ID: ' + subject.id + ', Name: ' + subject.name + ', Max Students: ' + subject.maxstud;
+                        return ' ' + subject.name + ' - ' + subject.section + ', Max Students: ' + subject.maxstud;
+                    }).join('<br>');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Subjects Full',
+                        html: 'The following subjects are full:<br>' + fullSubjectsList,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message,
+                    });
+                }
             }
         });
     });

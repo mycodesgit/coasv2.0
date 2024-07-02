@@ -12,8 +12,11 @@ use Storage;
 use Carbon\Carbon;
 use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
+
 use App\Models\EnrollmentDB\Grade;
 use App\Models\EnrollmentDB\GradeCode;
+use App\Models\EnrollmentDB\Student;
+
 use App\Models\AdmissionDB\Programs;
 
 use App\Models\SettingDB\ConfigureCurrent;
@@ -105,6 +108,13 @@ class EnstudgradeController extends Controller
                 ->where('studgrades.subjID', $id)
                 ->orderBy('students.lname', 'ASC')
                 ->get();
+
+        // $genstud = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+        //             ->join('students', 'studgrades.studID', '=', 'students.stud_id')
+        //             ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+        //             ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+        //             ->get();
+
 
         $grdpercentage = range(44, 78); 
         $grdCode = GradeCode::whereIn('id', $grdpercentage)

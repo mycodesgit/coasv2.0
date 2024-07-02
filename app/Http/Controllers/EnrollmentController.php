@@ -602,7 +602,31 @@ class EnrollmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Enrollment for this Student ID No. already exists this semester'], 404);
             }
 
-            //try {
+            // Check maxstud attribute
+            $subjIDs = $request->input('subjIDs');
+            $fullSubjects = [];
+            foreach ($subjIDs as $subjID) {
+                $subject = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')->find($subjID);
+                if ($subject) {
+                    $currentEnrollmentCount = Grade::where('subjID', $subjID)->count();
+                    if ($currentEnrollmentCount >= $subject->maxstud) {
+                        $fullSubjects[] = [
+                            //'id' => $subjID,
+                            'name' => $subject->sub_name, // Assuming you have a name attribute
+                            'section' => $subject->subSec,
+                            'maxstud' => $subject->maxstud
+                        ];
+                    }
+                } else {
+                    return response()->json(['error' => true, 'message' => 'Subject ID ' . $subjID . ' not found'], 404);
+                }
+            }
+
+            if (!empty($fullSubjects)) {
+                return response()->json(['error' => true, 'message' => 'Some subjects are full', 'fullSubjects' => $fullSubjects], 400);
+            }
+
+            try {
                 $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
                 $enrolment->update([
                     'studentID' => $request->input('studentID'),
@@ -708,9 +732,9 @@ class EnrollmentController extends Controller
                 }
 
                 return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
-            //} catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
-            //}
+            }
         }
     }
 

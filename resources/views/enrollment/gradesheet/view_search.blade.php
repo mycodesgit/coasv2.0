@@ -106,46 +106,122 @@ CISS V.1.0 || Grading
                         <th>Name</th>
                         <th>Final Grade</th>
                         <th>Completion</th>
+                        <th>Equivalent</th>
                         <th>Unit</th>
-                        <th>#</th>
+                        {{-- <th>#</th> --}}
                     </tr>
                 </thead>
                 <tbody>
+                    @php 
+                        function getEquivalentGrade($grade) {
+                            if ($grade === 'INC') {
+                                return ['gpa' => 'INC', 'status' => 'Incomplete'];
+                            } elseif ($grade === 'NN') {
+                                return ['gpa' => 'NN', 'status' => 'No Name'];
+                            } elseif ($grade === 'NG') {
+                                return ['gpa' => 'NG', 'status' => 'No Grade'];
+                            } elseif ($grade === 'Drp..') {
+                                return ['gpa' => 'Drp.', 'status' => 'Drop'];
+                            } elseif ($grade >= 97) {
+                                return ['gpa' => '1.0', 'status' => 'Passed'];
+                            } elseif ($grade >= 94) {
+                                return ['gpa' => '1.2', 'status' => 'Passed'];
+                            } elseif ($grade >= 91) {
+                                return ['gpa' => '1.5', 'status' => 'Passed'];
+                            } elseif ($grade >= 88) {
+                                return ['gpa' => '1.7', 'status' => 'Passed'];
+                            } elseif ($grade >= 85) {
+                                return ['gpa' => '2.0', 'status' => 'Passed'];
+                            } elseif ($grade >= 82) {
+                                return ['gpa' => '2.2', 'status' => 'Passed'];
+                            } elseif ($grade >= 79) {
+                                return ['gpa' => '2.5', 'status' => 'Passed'];
+                            } elseif ($grade >= 76) {
+                                return ['gpa' => '2.7', 'status' => 'Passed'];
+                            } elseif ($grade >= 75) {
+                                return ['gpa' => '3.0', 'status' => 'Passed'];
+                            } elseif ($grade >= 70) {
+                                return ['gpa' => '4.0', 'status' => 'Conditional'];
+                            } else {
+                                return ['gpa' => '5.0', 'status' => 'Failure'];
+                            }
+                        }
+
+                        function displayGrade($grade) {
+                            if (is_numeric($grade) && strpos($grade, '.') === false) {
+                                $equivalent = getEquivalentGrade($grade);
+                                return $equivalent['gpa'];
+                            }
+                            return $grade;
+                        }
+                    @endphp
                     @php $no = 1; @endphp
-                    @foreach($genstud as $data)
+                    @foreach($genstud as $datagenstud)
                     <tr>
                         <td>{{ $no++ }}</td>
-                        <td>{{ $data->studID }}</td>
-                        <td><strong>{{ $data->lname }}, {{ $data->fname }} {{ strtoupper(substr($data->mname, 0, 1)) }}. </strong></td>
+                        <td>{{ $datagenstud->studID }}</td>
+                        <td><strong>{{ $datagenstud->lname }}, {{ $datagenstud->fname }} {{ strtoupper(substr($datagenstud->mname, 0, 1)) }}. </strong></td>
                         <td>
-                            @if ($data->gstat == 1 || empty($data->subjFgrade))
-                                    @if (!empty($data->subjFgrade))
-                                        <select class="form-control form-control-sm" name="subjFgrade" id="{{ $data->sgid }}" onchange="updateGrade(this.id, this.value)">
-                                            <option></option>
-                                            @foreach ($grdCode as $grdCodes)
-                                                <option value="{{ $grdCodes->grade }}" {{ $grdCodes->grade == $data->subjFgrade ? 'selected' : '' }}>
-                                                    {{ $grdCodes->grade }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    @endif
-                                    @if (empty($data->subjFgrade))
-                                        <select class="form-control form-control-sm" name="subjFgrade" id="{{ $data->sgid }}" onchange="updateGrade(this.id, this.value)">
-                                            <option></option>
-                                            @foreach ($grdCode as $grdCodes)
-                                                <option value="{{ $grdCodes->grade }}">
-                                                    {{ $grdCodes->grade }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    @endif
-                                @elseif ($data->gstat == 2)
-                                    <strong>{{ $data->subjFgrade }}</strong>
+                            @if ($datagenstud->gstat == 1 || empty($datagenstud->subjFgrade))
+                                @if (!empty($datagenstud->subjFgrade))
+                                    <select class="form-control form-control-sm" name="subjFgrade" id="{{ $datagenstud->sgid }}" onchange="updateGrade(this.id, this.value)">
+                                        <option></option>
+                                        @foreach ($grdCode as $grdCodes)
+                                            <option value="{{ $grdCodes->grade }}" {{ $grdCodes->grade == $datagenstud->subjFgrade ? 'selected' : '' }}>
+                                                {{ $grdCodes->grade }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 @endif
+                                @if (empty($datagenstud->subjFgrade))
+                                    <select class="form-control form-control-sm" name="subjFgrade" id="{{ $datagenstud->sgid }}" onchange="updateGrade(this.id, this.value)">
+                                        <option></option>
+                                        @foreach ($grdCode as $grdCodes)
+                                            <option value="{{ $grdCodes->grade }}">
+                                                {{ $grdCodes->grade }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            @elseif ($datagenstud->gstat == 2)
+                                <strong style="{{ $datagenstud->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ $datagenstud->subjFgrade }}</strong>
+                            @endif
                         </td>
-                        <td>{{ $data->subjComp }}</td>
-                        <td><strong>{{ $data->creditEarned }}</strong></td>
-                        <td style="text-align:center;">
+                        <td>
+                            @if ($datagenstud->subjFgrade == 'INC')
+                            @if ($datagenstud->compstat == 1 || empty($datagenstud->subjComp))
+                                @if (!empty($datagenstud->subjComp))
+                                    <select class="form-control form-control-sm" name="subjComp" id="{{ $datagenstud->sgid }}" onchange="updateGradeComp(this.id, this.value)">
+                                        <option></option>
+                                        @foreach ($grdCode as $grdCodes)
+                                            <option value="{{ $grdCodes->grade }}" {{ $grdCodes->grade == $datagenstud->subjComp ? 'selected' : '' }}>
+                                                {{ $grdCodes->grade }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                                @if (empty($datagenstud->subjComp))
+                                    <select class="form-control form-control-sm" name="subjComp" id="{{ $datagenstud->sgid }}" onchange="updateGradeComp(this.id, this.value)">
+                                        <option></option>
+                                        @foreach ($grdCode as $grdCodes)
+                                            <option value="{{ $grdCodes->grade }}">
+                                                {{ $grdCodes->grade }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            @elseif ($datagenstud->compstat == 2)
+                                <strong>{{ $datagenstud->subjComp }}</strong>
+                            @endif
+                            @endif
+                        </td>
+                        <td>
+                            <strong style="{{ $datagenstud->subjComp ? '' : ($datagenstud->subjFgrade == 'INC' ? 'color: red;' : '') }}">
+                                {{ $datagenstud->subjComp ? $datagenstud->subjComp : displayGrade($datagenstud->subjFgrade) }}
+                            </strong>
+                        </td>
+                        <td><strong>{{ $datagenstud->creditEarned }}</strong></td>
+                        {{-- <td style="text-align:center;">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
                                 <span class="sr-only">Toggle Dropdown</span>
@@ -154,14 +230,14 @@ CISS V.1.0 || Grading
                                     <a class="dropdown-item" href="">
                                         <i class="fas fa-list-ol"></i> Edit Grades
                                     </a>
-                                    @if ($data->subjFgrade >= 3)
+                                    @if ($datagenstud->subjFgrade >= 3)
                                     <a class="dropdown-item" href="">
                                         <i class="fa-solid fa-envelopes-bulk"></i> Completion
                                     </a>
                                     @endif
                                 </div>
                             </div>
-                        </td>
+                        </td> --}}
                     </tr>
                     @endforeach
                 </tbody>

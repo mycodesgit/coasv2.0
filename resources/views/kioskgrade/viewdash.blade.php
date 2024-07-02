@@ -27,11 +27,54 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @php 
+                                                    function getEquivalentGrade($grade) {
+                                                        if ($grade === 'INC') {
+                                                            return ['gpa' => 'INC', 'status' => 'Incomplete'];
+                                                        } elseif ($grade === 'NN') {
+                                                            return ['gpa' => 'NN', 'status' => 'No Name'];
+                                                        } elseif ($grade === 'NG') {
+                                                            return ['gpa' => 'NG', 'status' => 'No Grade'];
+                                                        } elseif ($grade === 'Drp..') {
+                                                            return ['gpa' => 'Drp.', 'status' => 'Drop'];
+                                                        } elseif ($grade >= 97) {
+                                                            return ['gpa' => '1.00', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 94) {
+                                                            return ['gpa' => '1.25', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 91) {
+                                                            return ['gpa' => '1.50', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 88) {
+                                                            return ['gpa' => '1.75', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 85) {
+                                                            return ['gpa' => '2.00', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 82) {
+                                                            return ['gpa' => '2.25', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 79) {
+                                                            return ['gpa' => '2.50', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 76) {
+                                                            return ['gpa' => '2.75', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 75) {
+                                                            return ['gpa' => '3.00', 'status' => 'Passed'];
+                                                        } elseif ($grade >= 70) {
+                                                            return ['gpa' => '4.00', 'status' => 'Conditional'];
+                                                        } else {
+                                                            return ['gpa' => '5.00', 'status' => 'Failure'];
+                                                        }
+                                                    }
+
+                                                    function displayGrade($grade) {
+                                                        if (is_numeric($grade) && strpos($grade, '.') === false) {
+                                                            $equivalent = getEquivalentGrade($grade);
+                                                            return $equivalent['gpa'];
+                                                        }
+                                                        return $grade;
+                                                    }
+                                                    @endphp
                                                 @php
                                                     $currentYear = '';
                                                     $currentSemester = '';
                                                     $currentColor = '';
-                                                    $colorClasses = ['bg-light', 'bg-secondary']; // Define your color classes here
+                                                    $colorClasses = ['bg-light', 'bg-secondary'];
                                                     $colorIndex = 0;
                                                 @endphp
                                                 @foreach($studsub as $datastudsubowner)
@@ -56,8 +99,8 @@
                                                         </td>
                                                         <td>{{ $datastudsubowner->sub_name }}</td>
                                                         <td>{{ $datastudsubowner->sub_title }}</td>
-                                                        <td><b>{{ $datastudsubowner->subjFgrade }}</b></td>
-                                                        <td><b>{{ $datastudsubowner->subjComp }}</b></td>
+                                                        <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade) }}</b></td>
+                                                        <td><b>{{ displayGrade($datastudsubowner->subjComp) }}</b></td>
                                                         <td>{{ $datastudsubowner->creditEarned }}</td>
                                                     </tr>
                                                 @endforeach
