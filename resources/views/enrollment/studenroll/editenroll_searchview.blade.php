@@ -321,6 +321,7 @@ CISS V.1.0 || Edit Student Enrollment
                             <button type="submit" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="printRFButton" target="_blank">
                                 Print RF
                             </button>
+                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="deleteButton">Delete Enrollment</button>
                             </form>
                             {{-- <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}

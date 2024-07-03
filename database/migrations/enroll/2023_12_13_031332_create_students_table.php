@@ -55,6 +55,7 @@ return new class extends Migration
             $table->date('date_admission')->nullable();
             $table->date('graduation_date')->nullable();
             $table->integer('postedBy')->nullable();
+            $table->string('stud_pic')->nullable();
             $table->string('graduation_schlyear')->nullable();
             $table->string('graduation_semester')->nullable();
             $table->string('graduation_course')->nullable();
