@@ -21,6 +21,15 @@ CISS V.1.0 || Student List per Subjects
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Enrollment</li>
+            <li class="breadcrumb-item mt-1">
+                <a href="{{ url()->previous() }}"> 
+                    @if($substudnowview && $substudnowview->isNotEmpty())
+                        <strong>{{ $substudnowview->first()->sub_name }} {{ $substudnowview->first()->subSec }}</strong>
+                    @else
+                        <strong>No subjects or no students</strong>
+                    @endif
+                </a>
+            </li>
             <li class="breadcrumb-item active mt-1">Student List per Subjects</li>
         </ol>
 
@@ -38,7 +47,7 @@ CISS V.1.0 || Student List per Subjects
             </div> 
         </div>
             <div class="row">
-                <div class="col-md-12 mt-5">
+                <div class="col-md-12 mt-1">
                     <div>
                         @php
                             $id = request('id');
