@@ -73,7 +73,7 @@ class EnstudgradeController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
 
-        $data = SubjectOffered::select('sub_offered.*', 'subjects.*', 'sub_offered.id as sid',)
+        $data = SubjectOffered::select('sub_offered.*', 'subjects.*', 'sub_offered.id as sid')
                         ->join('subjects', 'sub_offered.subcode', '=', 'subjects.sub_code')
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)

@@ -10,6 +10,7 @@
     $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
     $studinfogradActive = in_array($curr_route, ['studInfograduated', 'studInfograduated_search']) ? 'active' : '';
     $studcurrActive = in_array($curr_route, ['studCurr', 'studCurrsearch']) ? 'active' : '';
+    $studsubjActive = in_array($curr_route, ['studsubjectsRead', 'listsearch_studsubjectsRead']) ? 'active' : '';
     $studviewgrdeActive = in_array($curr_route, ['studviewgradeRead', 'search_studviewgradeRead']) ? 'active' : '';
     $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
     $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
@@ -45,6 +46,9 @@
         <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Graduated Students</a>
         @endif
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Curriculum</a>
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
+        <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Students Per Subjects</a>
+        @endif
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
