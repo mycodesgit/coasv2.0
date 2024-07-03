@@ -46,8 +46,19 @@ return new class extends Migration
             $table->string('zcode')->nullable();
             $table->string('lstsch_attended')->nullable();
             $table->string('suc_lst_attended')->nullable();
-            $table->string('award')->nullable();
-            $table->string('image')->nullable();
+            $table->integer('studlegstat_id')->nullable();
+            $table->string('stud_father')->nullable(); 
+            $table->string('stud_mother')->nullable();
+            $table->string('stud_guardian')->nullable();
+            $table->string('guardian_contact')->nullable();
+            $table->string('lst_sch_attended_year')->nullable();
+            $table->date('date_admission')->nullable();
+            $table->date('graduation_date')->nullable();
+            $table->integer('postedBy')->nullable();
+            $table->string('graduation_schlyear')->nullable();
+            $table->string('graduation_semester')->nullable();
+            $table->string('graduation_course')->nullable();
+            $table->string('lst_sch_type')->nullable();
             $table->timestamps();
         });
     }

@@ -152,7 +152,7 @@ CISS V.1.0 || Edit Student Enrollment
                                                 <select class="form-control form-control-sm" name="studSch">
                                                     <option disabled selected> --SELECT SCHOLARSHIP-- </option>
                                                     @foreach ($studscholar as $data)
-                                                        <option value="{{ $data->scholar_name }}" {{ $data->id == $selectedStudSch ? 'selected' : '' }}>{{ $data->scholar_name }}</option>
+                                                        <option value="{{ $data->id }}" {{ $data->id == $selectedStudSch ? 'selected' : '' }}>{{ $data->scholar_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
