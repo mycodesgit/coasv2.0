@@ -82,6 +82,7 @@
                                 <label><span class="badge badge-secondary">Department</span></label>
                                 <select class="form-control form-control-sm" name="dept">
                                     <option disabled selected>Select</option>
+                                    <option value="CAS" @if (old('dept') == 'CAS') {{ 'selected' }} @endif>College of Arts and Sciences</option>
                                     <option value="CCS" @if (old('dept') == 'CCS') {{ 'selected' }} @endif>College of Computer Studies</option>
                                     <option value="COTED" @if (old('dept') == 'COTED') {{ 'selected' }} @endif>College of Teacher Education</option>
                                     <option value="CCJE" @if (old('dept') == 'CCJE') {{ 'selected' }} @endif>College of Criminal Justice Education</option>
