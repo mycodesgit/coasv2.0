@@ -46,9 +46,7 @@
         <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Graduated Students</a>
         @endif
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Curriculum</a>
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
         <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Students Per Subjects</a>
-        @endif
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
