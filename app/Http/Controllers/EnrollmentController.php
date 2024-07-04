@@ -524,6 +524,14 @@ class EnrollmentController extends Controller
                     ->pluck('studgrades.subjID');
         $studsubenrollIds = implode(',', $studsubview->toArray());
 
+        $studsubviewprimID = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('studgrades.studID', '=', $programEnHistory->studentID)
+                    ->pluck('studgrades.id');
+        $studsubenrollIdsprimID = implode(',', $studsubviewprimID->toArray());
+
         $studEditfees = StudentAppraisal::join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
                     ->select('coasv2_db_enrollment.program_en_history.studentID', 'student_appraisal.*')
                     ->where('student_appraisal.schlyear', '=', $schlyear)
@@ -556,7 +564,7 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID'));
     }
 
     public function studEnrollmentUpdate(Request $request) 
@@ -738,4 +746,24 @@ class EnrollmentController extends Controller
         }
     }
 
+    public function deleteAllRecords(Request $request)
+    {
+        $programEnHistoryId = $request->input('programEnHistoryId');
+        $studentAppraisalIds = explode(',', $request->input('studentAppraisalIds'));
+        $stuGradesIds = explode(',', $request->input('stuGradesIds'));
+        
+        if ($programEnHistoryId) {
+            StudEnrolmentHistory::where('id', $programEnHistoryId)->delete();
+        }
+
+        if (!empty($studentAppraisalIds)) {
+            StudentAppraisal::whereIn('id', $studentAppraisalIds)->delete();
+        }
+
+        if (!empty($stuGradesIds)) {
+            Grade::whereIn('id', $stuGradesIds)->delete();
+        }
+
+        return response()->json(['success' => true, 'message' => 'Deleted Successfully', 'redirect_url' => route('editsearchStud')]);
+    }
 }

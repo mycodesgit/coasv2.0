@@ -405,6 +405,63 @@
         @endif
     </script>
     
+    @if(request()->routeIs('editsearchStudRead'))
+    <script>
+        document.getElementById('deleteButton').addEventListener('click', function() {
+            var programEnHistoryId = document.querySelector('input[name="id"][value="{{ $programEnHistory->id }}"]').value;
+            var studentAppraisalIds = document.querySelector('input[name="id"][value="{{ $primIDsString }}"]').value;
+            var stuGradesIds = document.querySelector('input[name="id"][value="{{ $studsubenrollIdsprimID }}"]').value;
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{ route('deleteAllRecords') }}',
+                        type: 'DELETE',
+                        data: {
+                            programEnHistoryId: programEnHistoryId,
+                            studentAppraisalIds: studentAppraisalIds,
+                            stuGradesIds: stuGradesIds,
+                            _token: '{{ csrf_token() }}' // Add CSRF token if necessary
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.message,
+                                    'success'
+                                ).then(() => {
+                                    window.location.href = response.redirect_url; // Redirect to the specified URL
+                                });
+                                // Optionally, update the UI or refresh the page
+                            } else {
+                                Swal.fire(
+                                    'Failed!',
+                                    'Deletion failed.',
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function() {
+                            Swal.fire(
+                                'Error!',
+                                'An error occurred while processing your request.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    @endif
 </body>
 </html>
    
