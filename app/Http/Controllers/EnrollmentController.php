@@ -415,7 +415,7 @@ class EnrollmentController extends Controller
 
         $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                     ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
-                    ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*', 'students.updated_at as updated_ats')
+                    ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*', 'program_en_history.updated_at as updated_ats')
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
                     ->where('program_en_history.campus',  $campus)
