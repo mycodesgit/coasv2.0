@@ -485,6 +485,7 @@ class EnrollmentController extends Controller
                 ->where('program_en_history.studentID', $stud_id)
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
+                ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
                 ->first(); 
 
         if (!$programEnHistory) {
