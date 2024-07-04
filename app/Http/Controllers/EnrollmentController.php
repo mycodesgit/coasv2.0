@@ -23,6 +23,7 @@ use App\Models\EnrollmentDB\StudentStatus;
 use App\Models\EnrollmentDB\StudentType;
 use App\Models\EnrollmentDB\StudentShifTrans;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -414,7 +415,7 @@ class EnrollmentController extends Controller
 
         $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                     ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
-                    ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*')
+                    ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*', 'students.updated_at as upid')
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
                     ->where('program_en_history.campus',  $campus)
@@ -480,9 +481,10 @@ class EnrollmentController extends Controller
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
-        $programEnHistory = StudEnrolmentHistory::where('studentID', $stud_id)
-                ->where('schlyear', $schlyear)
-                ->where('semester', '=', $semester)
+        $programEnHistory = StudEnrolmentHistory::join('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
+                ->where('program_en_history.studentID', $stud_id)
+                ->where('program_en_history.schlyear', $schlyear)
+                ->where('program_en_history.semester', '=', $semester)
                 ->first(); 
 
         if (!$programEnHistory) {
@@ -499,6 +501,7 @@ class EnrollmentController extends Controller
         $selectedStudType = $programEnHistory->studType;
         $selectedStudTransferee = $programEnHistory->transferee;
         $selectedStudFourPs = $programEnHistory->fourPs ?? 0;
+        $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
 
 
         $subjectsEn = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
@@ -564,7 +567,7 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID'));
     }
 
     public function studEnrollmentUpdate(Request $request) 

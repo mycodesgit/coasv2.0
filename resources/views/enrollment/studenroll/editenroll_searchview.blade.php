@@ -357,6 +357,17 @@ CISS V.1.0 || Edit Student Enrollment
                             <input type="hidden" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
                         </div>
                     </div>
+
+                    <div class="card mt-2" style="background-color: #e9ecef">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <label>Posted By:</label>
+                                    <input type="text" name="" value="{{ $selectedpostedby }}" class="form-control form-control-sm" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
