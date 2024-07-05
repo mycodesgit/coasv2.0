@@ -454,13 +454,15 @@ class ScholarshipController extends Controller
 
     public function viewsearchStudHistory(Request $request) 
     {
-        $query = $request->input('query');
+        $query = $request->input('query'); 
         $campus = Auth::guard('web')->user()->campus;
 
-        $results = Student::where('lname', 'like', '%' . $query . '%')
-                        ->orWhere('stud_id', $query)
-                        ->where('campus', $campus)
-                        ->get();
+        $results = Student::where(function ($subQuery) use ($query) {
+                        $subQuery->where('lname', 'like', '%' . $query . '%')
+                                 ->orWhere('stud_id', $query);
+                    })
+                    ->where('campus', $campus)
+                    ->get();
 
         if (count($results) > 0) {    
             return view('scholar.enrolhis.listsearch_enrhis', compact('results'));
@@ -472,10 +474,13 @@ class ScholarshipController extends Controller
     {
         $query = $request->input('query'); 
         $campus = Auth::guard('web')->user()->campus;
-        $results = Student::where('lname', 'like', '%' . $query . '%')
-                        ->orWhere('stud_id', $query)
-                        ->where('campus', $campus)
-                        ->get();
+
+        $results = Student::where(function ($subQuery) use ($query) {
+                        $subQuery->where('lname', 'like', '%' . $query . '%')
+                                 ->orWhere('stud_id', $query);
+                    })
+                    ->where('campus', $campus)
+                    ->get();
 
         return response()->json(['data' => $results]);
     }
