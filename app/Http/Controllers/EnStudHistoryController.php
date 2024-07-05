@@ -67,6 +67,7 @@ class EnStudHistoryController extends Controller
         $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('studentID', $stud_id)
             ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
+            ->orderBy('schlyear', 'ASC')
             ->get();
 
         return response()->json(['data' => $enrollmentHistory]);
