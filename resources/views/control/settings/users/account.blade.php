@@ -119,7 +119,7 @@ CISS V.1.0 || User's List
                                                 <option value="Scholarship Office" @if (old('dept') == 'Scholarship Office' || $user->dept == 'Scholarship Office') {{ 'selected' }} @endif>Scholarship Office</option>
                                                 <option value="Cashier Office" @if (old('dept') == 'Cashier Office' || $user->dept == 'Cashier Office') {{ 'selected' }} @endif>Cashier Office</option>
                                                 <option value="Graduate School Registar" @if (old('dept') == 'Graduate School Registar' || $user->dept == 'Graduate School Registar') {{ 'selected' }} @endif>Graduate School Registar</option>
-                                                <option value="MIS" @if (old('dept') == 'MIS' || $user->dept == 'MIS') {{ 'selected' }} @endif>MIS Office</option>
+                                                <option value="MIS Office" @if (old('dept') == 'MIS Office' || $user->dept == 'MIS Office') {{ 'selected' }} @endif>MIS Office</option>
                                             </select>
                                         </div>
                                     </div>
