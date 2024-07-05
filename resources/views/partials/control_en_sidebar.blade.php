@@ -41,14 +41,14 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
         <a href="{{ route('studInfo') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
         <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Graduated Students</a>
         @endif
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Course</a>
         <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Students Per Subjects</a>
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
         @endif
