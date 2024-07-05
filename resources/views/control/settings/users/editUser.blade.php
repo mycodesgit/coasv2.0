@@ -64,7 +64,7 @@ CISS V.1.0 || Edit User
                                                 <option value="11" @if (old('type') == '11' || $user->role == '11') {{ 'selected' }} @endif>Assessment Staff</option>
                                                 <option value="12" @if (old('type') == '12' || $user->role == '12') {{ 'selected' }} @endif>MIS Staff</option>
                                                 <option value="13" @if (old('type') == '13' || $user->role == '13') {{ 'selected' }} @endif>MIS Director</option>
-                                                <option value="14" @if (old('type') == '14' || $user->role == '14') {{ 'selected' }} @endif>MIS Officer</option>
+                                                <option value="14" @if (old('type') == 14 || $user->role == '14') {{ 'selected' }} @endif>MIS Officer</option>
                                             </select>
                                         </div>
 
