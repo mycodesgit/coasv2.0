@@ -101,6 +101,10 @@ CISS V.1.0 || User's List
                                             <span class="badge badge-warning">Assessment Staff</span>
                                         @elseif ($user->role == '12')
                                             <span class="badge badge-secondary">MIS Staff</span>
+                                        @elseif ($user->role == '13')
+                                            <span class="badge badge-secondary">MIS Director</span>
+                                        @elseif ($user->role == '14')
+                                            <span class="badge badge-secondary">MIS Officer</span>
                                         @else
                                             <span class="badge badge-light">Unknown Role</span>
                                         @endif
