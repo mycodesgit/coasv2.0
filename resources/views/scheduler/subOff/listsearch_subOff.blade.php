@@ -310,7 +310,12 @@ CISS V.1.0 || Subject Offered
 
                                 <div class="col-md-4 mt-2">
                                     <label><span class="badge badge-secondary">Subject Year&Section</span></label>
-                                    <input type="text" name="subSec" id="subsecEdit" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                    <select class="form-control form-control-sm select2bs4" name="subSec" id="subsecEdit">
+                                        <option disabled selected>---Select---</option>
+                                        @foreach($class as $classes)
+                                            <option value="{{ $classes->progAcronym }} {{ $classes->classSection }}">{{ $classes->progAcronym }} {{ $classes->classSection }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="col-md-4 mt-2">
