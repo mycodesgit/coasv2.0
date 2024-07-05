@@ -28,13 +28,16 @@ class EnStudHistoryController extends Controller
 
     public function viewsearchenStudHistory(Request $request) 
     {
-        $query = $request->input('query');
+        $query = $request->input('query'); 
         $campus = Auth::guard('web')->user()->campus;
 
-        $results = Student::where('lname', 'like', '%' . $query . '%')
-                        ->orWhere('stud_id', $query)
-                        ->where('campus', $campus)
-                        ->get();
+        $results = Student::where(function ($subQuery) use ($query) {
+                        $subQuery->where('lname', 'like', '%' . $query . '%')
+                                 ->orWhere('stud_id', $query);
+                    })
+                    ->where('campus', $campus)
+                    ->get();
+
 
         if (count($results) > 0) {    
             return view('enrollment.enrolhis.listsearch_enrolhis', compact('results'));
@@ -46,10 +49,14 @@ class EnStudHistoryController extends Controller
     {
         $query = $request->input('query'); 
         $campus = Auth::guard('web')->user()->campus;
-        $results = Student::where('lname', 'like', '%' . $query . '%')
-                        ->orWhere('stud_id', $query)
-                        ->where('campus', $campus)
-                        ->get();
+
+        $results = Student::where(function ($subQuery) use ($query) {
+                        $subQuery->where('lname', 'like', '%' . $query . '%')
+                                 ->orWhere('stud_id', $query);
+                    })
+                    ->where('campus', $campus)
+                    ->get();
+
 
         return response()->json(['data' => $results]);
     }
