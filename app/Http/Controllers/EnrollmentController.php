@@ -477,7 +477,7 @@ class EnrollmentController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('stud_id', $stud_id)->first();
+        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
