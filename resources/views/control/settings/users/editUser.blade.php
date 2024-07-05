@@ -49,15 +49,15 @@ CISS V.1.0 || Edit User
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <label><span class="badge badge-secondary">User Level</span></label>
-                                            <select class="form-control form-control-sm" name="isAdmin" required="" style="text-transform: uppercase;">
-                                                <option value="0" @if (old('type') == '0' || $user->isAdmin == '0') {{ 'selected' }} @endif>Administrator</option>
-                                                <option value="1" @if (old('type') == '1' || $user->isAdmin == '1') {{ 'selected' }} @endif>Guidance Officer</option>
-                                                <option value="2" @if (old('type') == '2' || $user->isAdmin == '2') {{ 'selected' }} @endif>Guidance Staff</option>
-                                                <option value="3" @if (old('type') == '3' || $user->isAdmin == '3') {{ 'selected' }} @endif>Registrar</option>
-                                                <option value="4" @if (old('type') == '4' || $user->isAdmin == '4') {{ 'selected' }} @endif>Registrar Staff</option>
-                                                <option value="5" @if (old('type') == '5' || $user->isAdmin == '5') {{ 'selected' }} @endif>College Dean</option>
-                                                <option value="6" @if (old('type') == '6' || $user->isAdmin == '6') {{ 'selected' }} @endif>Program Head</option>
-                                                <option value="7" @if (old('type') == '7' || $user->isAdmin == '7') {{ 'selected' }} @endif>College Staff</option>
+                                            <select class="form-control form-control-sm" name="role" required="" style="text-transform: uppercase;">
+                                                <option value="0" @if (old('type') == '0' || $user->role == '0') {{ 'selected' }} @endif>Administrator</option>
+                                                <option value="1" @if (old('type') == '1' || $user->role == '1') {{ 'selected' }} @endif>Guidance Officer</option>
+                                                <option value="2" @if (old('type') == '2' || $user->role == '2') {{ 'selected' }} @endif>Guidance Staff</option>
+                                                <option value="3" @if (old('type') == '3' || $user->role == '3') {{ 'selected' }} @endif>Registrar</option>
+                                                <option value="4" @if (old('type') == '4' || $user->role == '4') {{ 'selected' }} @endif>Registrar Staff</option>
+                                                <option value="5" @if (old('type') == '5' || $user->role == '5') {{ 'selected' }} @endif>College Dean</option>
+                                                <option value="6" @if (old('type') == '6' || $user->role == '6') {{ 'selected' }} @endif>Program Head</option>
+                                                <option value="7" @if (old('type') == '7' || $user->role == '7') {{ 'selected' }} @endif>College Staff</option>
                                                 <option value="8" @if (old('type') == '8' || $user->role == '8') {{ 'selected' }} @endif>Scholarship Head</option>
                                                 <option value="9" @if (old('type') == '9' || $user->role == '9') {{ 'selected' }} @endif>Scholarship Staff</option>
                                                 <option value="10" @if (old('type') == '10' || $user->role == '10') {{ 'selected' }} @endif>Assessment Head</option>
