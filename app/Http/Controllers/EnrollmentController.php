@@ -150,7 +150,7 @@ class EnrollmentController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('stud_id', $stud_id)->first();
+        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
@@ -510,6 +510,7 @@ class EnrollmentController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->get();
 
@@ -517,6 +518,7 @@ class EnrollmentController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->pluck('coasv2_db_schedule.sub_offered.id');
         $subOfferedIds = implode(',', $subjectsEnID->toArray());
@@ -525,6 +527,7 @@ class EnrollmentController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->pluck('studgrades.subjID');
         $studsubenrollIds = implode(',', $studsubview->toArray());
@@ -533,6 +536,7 @@ class EnrollmentController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->pluck('studgrades.id');
         $studsubenrollIdsprimID = implode(',', $studsubviewprimID->toArray());
