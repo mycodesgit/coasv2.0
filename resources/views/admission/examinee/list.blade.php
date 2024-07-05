@@ -52,7 +52,7 @@ CISS v.1.0 || Examinee List
                                             @elseif(Auth::user()->campus == 'VE') Valladolid
                                         @endif
                                     </option>
-                                    @if (Auth::user()->isAdmin == 0 || Auth::user()->isAdmin == 1)
+                                    @if (Auth::user()->role == 0 || Auth::user()->role == 1)
                                         <option value="MC">Main</option>
                                         <option value="VC">Victorias</option>
                                         <option value="SCC">San Carlos</option>

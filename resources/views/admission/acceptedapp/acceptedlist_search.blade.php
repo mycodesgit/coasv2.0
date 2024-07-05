@@ -51,7 +51,7 @@ CISS V.1.0 || Accepted Applicants
                                             @elseif(Auth::user()->campus == 'HinC') Hinobaan 
                                         @endif
                                     </option>
-                                    @if (Auth::user()->isAdmin == 0)
+                                    @if (Auth::user()->role == 0)
                                         <option value="MC">Main</option>
                                         <option value="VC">Victorias</option>
                                         <option value="SCC">San Carlos</option>
@@ -146,7 +146,7 @@ CISS V.1.0 || Accepted Applicants
                                     </small>
                                 </td>
                                 <td>{{ $applicant->campus }}</td>
-                                @if(in_array(Auth::user()->isAdmin, [5]))
+                                @if(in_array(Auth::user()->role, [5]))
                                 <td style="text-align:center;">
                                     <a href="{{  route('accepted_push_enroll_applicant', encrypt($applicant->id ))}}" type="button" class="btn btn-primary">
                                         <i class="fas fa-server"></i>

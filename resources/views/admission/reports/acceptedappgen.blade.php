@@ -50,7 +50,7 @@ CISS V.1.0 || Accepted Applicants Reports
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
                                         @endif
                                     </option>
-                                    @if (Auth::user()->isAdmin == 0)
+                                    @if (Auth::user()->role == 0)
                                         <option value="MC">Main</option>
                                         <option value="SCC">San Carlos</option>
                                         <option value="VC">Victorias</option>
