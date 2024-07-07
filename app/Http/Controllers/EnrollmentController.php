@@ -643,7 +643,7 @@ class EnrollmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Some subjects are full', 'fullSubjects' => $fullSubjects], 400);
             }
 
-            try {
+            //try {
                 $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
                 $enrolment->update([
                     'studentID' => $request->input('studentID'),
@@ -669,58 +669,56 @@ class EnrollmentController extends Controller
                     'fourPs' => $request->input('fourPs'),
                 ]);
 
-                $studentID = $request->input('studentID');
-                $postedBy = $request->input('postedBy');
+                //$studentID = $request->input('studentID');
+                $studID = $request->input('studentID');
+                $newSubjIDs = $request->input('subjIDs');
+                $currentSubjprimIDs = $request->input('subjprimIDs');
+                $primaryIDs = $request->input('primaryIDs');
 
-                $subjIDs = $request->input('subjIDs');
-                $subjprimIDs = $request->input('subjprimIDs');
+                // Ensure the inputs are arrays
+                $newSubjIDsArray = is_array($newSubjIDs) ? $newSubjIDs : explode(',', $newSubjIDs);
+                $currentSubjprimIDsArray = is_array($currentSubjprimIDs) ? $currentSubjprimIDs : explode(',', $currentSubjprimIDs);
+                $primaryIDsArray = is_array($primaryIDs) ? $primaryIDs : explode(',', $primaryIDs);
 
-                if ($subjIDs) {
-                    $currentGrades = Grade::where('studID', $studentID)->pluck('subjID')->toArray();
-                    $subjIDsToRemove = array_diff($currentGrades, $subjIDs);
+                // Find subjIDs that have been removed
+                $removedSubjIDs = array_diff($currentSubjprimIDsArray, $newSubjIDsArray);
 
-                    Grade::where('studID', $studentID)->whereIn('subjID', $subjIDsToRemove)->delete();
+                // Delete grades for removed subjIDs
+                Grade::where('studID', $studID)
+                    ->whereIn('subjID', $removedSubjIDs)
+                    ->delete();
 
-                    foreach ($subjIDs as $newSubjID) {
-                        $existingRecord = Grade::where('studID', $studentID)->where('subjID', $newSubjID)->first();
+                foreach ($newSubjIDsArray as $index => $subjID) {
+                    $grade = Grade::where('studID', $studID)
+                                  ->where('subjID', $subjID)
+                                  ->first();
 
-                        if (!$existingRecord) {
-                            Grade::create([
-                                'studID' => $studentID,
-                                'subjID' => $newSubjID,
-                                'postedBy' => $postedBy,
-                            ]);
-                        }
+                    if ($grade) {
+                        // Update existing grade
+                        $grade->update([
+                            'subjID' => $subjID,
+                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
+                            'subjComp' => $request->input('subjComp')[$index] ?? '',
+                            'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
+                            'status' => $request->input('status')[$index] ?? '',
+                            'compstat' => $request->input('compstat')[$index] ?? '',
+                            'postedBy' => $request->input('postedBy')[$index] ?? '',
+                        ]);
+                    } else {
+                        // Create new grade
+                        Grade::create([
+                            'studID' => $studID,
+                            'subjID' => $subjID,
+                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
+                            'subjComp' => $request->input('subjComp')[$index] ?? '',
+                            'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
+                            'status' => $request->input('status')[$index] ?? '',
+                            'compstat' => $request->input('compstat')[$index] ?? '',
+                            'postedBy' => $request->input('postedBy')[$index] ?? '',
+                        ]);
                     }
                 }
 
-                if ($subjprimIDs && $subjIDs) {
-                    foreach ($subjprimIDs as $index => $subjprimID) {
-                        $newSubjID = $subjIDs[$index] ?? null;
-                        
-                        if ($newSubjID) {
-                            $grade = Grade::find($subjprimID);
-                            if ($grade) {
-                                if ($grade->subjID != $newSubjID) {
-                                    $grade->update([
-                                        'subjID' => $newSubjID,
-                                        'postedBy' => $postedBy,
-                                    ]);
-                                }
-                            } else {
-                                $existingRecord = Grade::where('studID', $studentID)->where('subjID', $newSubjID)->first();
-
-                                if (!$existingRecord) {
-                                    Grade::create([
-                                        'studID' => $studentID,
-                                        'subjID' => $newSubjID,
-                                        'postedBy' => $postedBy,
-                                    ]);
-                                }
-                            }
-                        }
-                    }
-                }
 
                 $studentID = $request->input('studentID');
                 $postedBy = $request->input('postedBy');
@@ -749,9 +747,9 @@ class EnrollmentController extends Controller
                 }
 
                 return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
-            } catch (\Exception $e) {
+            //} catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
-            }
+            //}
         }
     }
 

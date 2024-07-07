@@ -5,39 +5,161 @@ toastr.options = {
 };
 
 //for inserting data to DB  using ajax serialize
+// $(document).ready(function() {
+//     $('#submitButton').click(function(event) {
+//         event.preventDefault();
+//         var formData = $('#AddenrollStud').serialize();
+
+//         var studentID = $('#studentID').val(); 
+
+//         var subjIDs = [];
+//         $('input[name="subjIDs"]').each(function() {
+//             subjIDs.push($(this).val());
+//         });
+
+//         formData += '&studentID=' + studentID;
+
+//         var subjIDsString = $('#subjIDsInput').val();
+//         var subjIDsArray = subjIDsString.split(',');
+
+//         subjIDsArray.forEach(function(subjID) {
+//             formData += '&subjIDs[]=' + subjID.trim(); 
+//         });
+
+//         var subjprimIDsString = $('#subjprimIDsInput').val();
+//         var subjprimIDsArray = subjprimIDsString.split(',');
+//         subjprimIDsArray.forEach(function(subjprimID) {
+//             formData += '&subjprimIDs[]=' + subjprimID.trim();
+//         });
+
+//         var primIDsString = $('#primInput').val();
+//         var primIDsArray = primIDsString.split(',');
+//         primIDsArray.forEach(function(primIDs) {
+//             formData += '&primIDs[]=' + primIDs.trim();
+//         });
+
+//         var fndCodes = [];
+//         $('input[name="fndCodes"]').each(function() {
+//             fndCodes.push($(this).val());
+//         });
+
+//         var fndCodesString = $('#fundnameCodeInput').val();
+//         var fndCodesArray = fndCodesString.split(',');
+
+//         fndCodesArray.forEach(function(fundID) {
+//             formData += '&fndCodes[]=' + fundID.trim(); 
+//         });
+
+//         var accntNames = [];
+//         $('input[name="accntNames"]').each(function() {
+//             accntNames.push($(this).val());
+//         });
+
+//         var accntNamesString = $('#accountNameInput').val();
+//         var accntNamesArray = accntNamesString.split(',');
+
+//         accntNamesArray.forEach(function(accntNames) {
+//             formData += '&accntNames[]=' + accntNames.trim(); 
+//         });
+
+//         var amntFees = [];
+//         $('input[name="amntFees"]').each(function() {
+//             amntFees.push($(this).val());
+//         });
+
+//         var amntFeesString = $('#amountFeeInput').val();
+//         var amntFeesArray = amntFeesString.split(',');
+
+//         amntFeesArray.forEach(function(amntFees) {
+//             formData += '&amntFees[]=' + amntFees.trim(); 
+//         });
+
+//         $.ajax({
+//             url: updateEnrollmentRoute,
+//             type: "POST",
+//             headers: {
+//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//             },
+//             data: formData, 
+//             success: function(response) {
+//                 if(response.success) {
+//                     toastr.success(response.message);
+//                     console.log(response);
+//                 } else {
+//                     // toastr.error(response.message);
+//                     // console.log(response);
+//                 }
+//             },
+//             error: function(xhr, status, error) {
+//                 console.log(xhr.responseText);
+//                 var response = JSON.parse(xhr.responseText);
+//                 if (response.error && response.fullSubjects && response.fullSubjects.length > 0) {
+//                     var fullSubjectsList = response.fullSubjects.map(function(subject) {
+//                         // return 'Subject ID: ' + subject.id + ', Name: ' + subject.name + ', Max Students: ' + subject.maxstud;
+//                         return ' ' + subject.name + ' - ' + subject.section + ', Max Students: ' + subject.maxstud;
+//                     }).join('<br>');
+//                     Swal.fire({
+//                         icon: 'error',
+//                         title: 'Subjects Full',
+//                         html: 'The following subjects are full:<br>' + fullSubjectsList,
+//                     });
+//                 } else {
+//                     Swal.fire({
+//                         icon: 'error',
+//                         title: 'Error',
+//                         text: response.message,
+//                     });
+//                 }
+//             }
+//         });
+//     });
+// });
+
+
 $(document).ready(function() {
     $('#submitButton').click(function(event) {
         event.preventDefault();
+        
         var formData = $('#AddenrollStud').serialize();
-
+        
+        // Collecting existing input values
         var studentID = $('#studentID').val(); 
-
-        var subjIDs = [];
-        $('input[name="subjIDs"]').each(function() {
-            subjIDs.push($(this).val());
-        });
-
+        var totalLecFee = $('#totalLecFeeInput').val();
+        var totalLabFee = $('#totalLabFeeInput').val();
+        
         formData += '&studentID=' + studentID;
+        formData += '&totalLecFee=' + totalLecFee;
+        formData += '&totalLabFee=' + totalLabFee;
 
+        // Collecting subjIDs
         var subjIDsString = $('#subjIDsInput').val();
         var subjIDsArray = subjIDsString.split(',');
-
         subjIDsArray.forEach(function(subjID) {
-            formData += '&subjIDs[]=' + subjID.trim(); 
+            formData += '&subjIDs[]=' + subjID.trim();
         });
 
+        // Collecting subjprimIDs
         var subjprimIDsString = $('#subjprimIDsInput').val();
         var subjprimIDsArray = subjprimIDsString.split(',');
         subjprimIDsArray.forEach(function(subjprimID) {
             formData += '&subjprimIDs[]=' + subjprimID.trim();
         });
 
-        var primIDsString = $('#primInput').val();
-        var primIDsArray = primIDsString.split(',');
-        primIDsArray.forEach(function(primIDs) {
-            formData += '&primIDs[]=' + primIDs.trim();
+        // Collecting primaryIDs
+        var primaryIDsString = $('#primaryIDsInput').val();
+        var primaryIDsArray = primaryIDsString.split(',');
+        primaryIDsArray.forEach(function(primaryID) {
+            formData += '&primaryIDs[]=' + primaryID.trim();
         });
 
+        // Collecting primIDs
+        var primIDsString = $('#primInput').val();
+        var primIDsArray = primIDsString.split(',');
+        primIDsArray.forEach(function(primID) {
+            formData += '&primIDs[]=' + primID.trim();
+        });
+
+        // Collecting fndCodes
         var fndCodes = [];
         $('input[name="fndCodes"]').each(function() {
             fndCodes.push($(this).val());
@@ -45,11 +167,11 @@ $(document).ready(function() {
 
         var fndCodesString = $('#fundnameCodeInput').val();
         var fndCodesArray = fndCodesString.split(',');
-
         fndCodesArray.forEach(function(fundID) {
             formData += '&fndCodes[]=' + fundID.trim(); 
         });
 
+        // Collecting accntNames
         var accntNames = [];
         $('input[name="accntNames"]').each(function() {
             accntNames.push($(this).val());
@@ -57,11 +179,11 @@ $(document).ready(function() {
 
         var accntNamesString = $('#accountNameInput').val();
         var accntNamesArray = accntNamesString.split(',');
-
-        accntNamesArray.forEach(function(accntNames) {
-            formData += '&accntNames[]=' + accntNames.trim(); 
+        accntNamesArray.forEach(function(accntName) {
+            formData += '&accntNames[]=' + accntName.trim(); 
         });
 
+        // Collecting amntFees
         var amntFees = [];
         $('input[name="amntFees"]').each(function() {
             amntFees.push($(this).val());
@@ -69,25 +191,25 @@ $(document).ready(function() {
 
         var amntFeesString = $('#amountFeeInput').val();
         var amntFeesArray = amntFeesString.split(',');
-
-        amntFeesArray.forEach(function(amntFees) {
-            formData += '&amntFees[]=' + amntFees.trim(); 
+        amntFeesArray.forEach(function(amntFee) {
+            formData += '&amntFees[]=' + amntFee.trim(); 
         });
 
+        // AJAX request
         $.ajax({
             url: updateEnrollmentRoute,
             type: "POST",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data: formData, 
+            data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
                 } else {
-                    // toastr.error(response.message);
-                    // console.log(response);
+                    toastr.error(response.message);
+                    console.log(response);
                 }
             },
             error: function(xhr, status, error) {
@@ -95,7 +217,6 @@ $(document).ready(function() {
                 var response = JSON.parse(xhr.responseText);
                 if (response.error && response.fullSubjects && response.fullSubjects.length > 0) {
                     var fullSubjectsList = response.fullSubjects.map(function(subject) {
-                        // return 'Subject ID: ' + subject.id + ', Name: ' + subject.name + ', Max Students: ' + subject.maxstud;
                         return ' ' + subject.name + ' - ' + subject.section + ', Max Students: ' + subject.maxstud;
                     }).join('<br>');
                     Swal.fire({
