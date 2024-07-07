@@ -105,6 +105,7 @@ CISS V.1.0 || Accepted Applicants
                             <th>Type</th>
                             <th>Interviewer</th>
                             <th>Approved Course</th>
+                            <th>Stud ID No.</th>
                             <th>Status</th>
                             <th>Campus</th>
                             <th>Strand</th>

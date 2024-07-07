@@ -61,6 +61,7 @@ $(document).ready(function() {
             },
             {data: 'interviewer'},
             {data: 'course'},
+            {data: 'stud_id'},
             {
                 data: 'p_status',
                 render: function(data) {
