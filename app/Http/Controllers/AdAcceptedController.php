@@ -28,10 +28,22 @@ class AdAcceptedController extends Controller
         return view('admission.acceptedapp.index', compact('strand'));
     }
 
+    public function applicant_acceptedAll()
+    {
+        $strand = Strands::all();
+        return view('admission.acceptedapp.indexall', compact('strand'));
+    }
+
     public function srchacceptedList(Request $request)
     {
         $strand = Strands::all();
         return view('admission.acceptedapp.acceptedlist_search', compact('strand'));
+    }
+
+    public function srchacceptedListAll(Request $request)
+    {
+        $strand = Strands::all();
+        return view('admission.acceptedapp.acceptedlist_searchall', compact('strand'));
     }
 
     public function getsrchacceptedListapp(Request $request)
@@ -54,6 +66,36 @@ class AdAcceptedController extends Controller
                 ->where('ad_applicant_admission.year', $year)
                 ->where('ad_applicant_admission.campus', $campus)
                 ->where('ad_applicant_dept_rating.deptcol', $user)
+                ->whereIn('ad_applicant_admission.p_status', [5, 6]);
+
+        if ($strand) {
+            $query->where('ad_applicant_admission.strand', $strand);
+        }
+
+        $data = $query->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function getsrchacceptedListappAll(Request $request)
+    {   
+        
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+        $strand = $request->query('strand');
+        $user = Auth::guard('web')->user()->dept;
+
+        $query = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                ->leftJoin('coasv2_db_enrollment.students', 'ad_applicant_admission.id', '=', 'coasv2_db_enrollment.students.app_id')
+                ->select(
+                    'ad_applicant_admission.*', 
+                    'ad_applicant_admission.id as adid', 
+                    'ad_applicant_admission.strand as appstrand', 
+                    'ad_applicant_dept_rating.*', 
+                    'coasv2_db_enrollment.students.stud_id'
+                )
+                ->where('ad_applicant_admission.year', $year)
+                ->where('ad_applicant_admission.campus', $campus)
                 ->whereIn('ad_applicant_admission.p_status', [5, 6]);
 
         if ($strand) {

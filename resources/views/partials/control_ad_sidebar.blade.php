@@ -8,6 +8,7 @@
     $resultListActive = in_array($curr_route, ['result-list', 'srchexamineeResultList', 'assignresult', 'confirmResult']) ? 'active' : '';
     $confirmAppListActive = in_array($curr_route, ['examinee-confirm', 'srchconfirmList', 'accept', 'deptInterview', 'pre_enrolment_print']) ? 'active' : '';
     $acceptedAppListActive = in_array($curr_route, ['applicant-accepted', 'srchacceptedList', 'accepted_push_enroll_applicant']) ? 'active' : '';
+    $acceptedAppListAllActive = in_array($curr_route, ['applicant-accepted', 'srchacceptedList', 'accepted_push_enroll_applicant']) ? 'active' : '';
     $enrolledAppListActive = in_array($curr_route, ['applicant-enrolled', 'srchacceptedEnrolledList']) ? 'active' : '';
     $slotActive = in_array($curr_route, ['slots', 'slots_search']) ? 'active' : '';
     $confActive = in_array($curr_route, ['configure_admission', 'edit_program', 'edit_strand', 'edit_date', 'edit_time', 'edit_venue']) ? 'active' : '';
@@ -31,8 +32,13 @@
             <a href="{{ route('examinee-list') }}" class="list-group-item {{ $examineeListActive }}">List of Examinees</a>
             <a href="{{ route('result-list') }}" class="list-group-item {{ $resultListActive }}">Examination Results</a>
         @endif
-        <a href="{{ route('examinee-confirm') }}" class="list-group-item {{ $confirmAppListActive }}">Confirmed Applicants</a>  
-        <a href="{{ route('applicant-accepted') }}" class="list-group-item {{ $acceptedAppListActive }}">Accepted Applicants</a>
+        <a href="{{ route('examinee-confirm') }}" class="list-group-item {{ $confirmAppListActive }}">Confirmed Applicants</a>
+        @if(in_array(Auth::user()->role, [5, 6, 7]))  
+            <a href="{{ route('applicant-accepted') }}" class="list-group-item {{ $acceptedAppListActive }}">Accepted Applicants</a>
+        @endif
+        @if(in_array(Auth::user()->role, [0, 1, 2]))
+            <a href="{{ route('applicant-accepteda-all') }}" class="list-group-item {{ $acceptedAppListAllActive }}">Accepted Applicants</a>
+        @endif
         {{-- <a href="{{ route('applicant-enrolled') }}" class="list-group-item {{ $enrolledAppListActive }}">Enrolled Applicants</a> --}}
         @if(in_array(Auth::user()->role, [0, 1, 2]))
             <a href="{{ route('slots') }}" class="list-group-item {{ $slotActive }}">Availability/Slots</a>
