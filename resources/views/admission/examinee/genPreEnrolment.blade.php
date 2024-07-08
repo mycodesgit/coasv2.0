@@ -259,7 +259,7 @@ input.checkbox
 	      <br />
 	      <div class="name-p" style="font-size: 12px;">Interviewed by: <span style="text-decoration: underline;">{{$examinee->interview->interviewer }}</span></div>
 	      <div class="name-p" style="font-size: 12px;margin-left:100px;">Rating: <span style="text-decoration: underline;">{{$examinee->interview->rating }}</span></div>
-	      <div class="name-p" style="font-size: 12px;margin-left:104px;">Date: <span style="text-decoration: underline;">{{ Carbon\Carbon::parse($examinee->interview->created_at)->format('F j, Y') }}</span></div>
+	      <div class="name-p" style="font-size: 12px;margin-left:104px;">Date: <span style="text-decoration: underline;"></span></div>
 	      <br />
 	      <div class="name-p" style="font-size: 12px;"><b>APPROVED FOR ENROLLMENT:</b> _______________________________________</div>
 	      <div class="name-p" style="font-size: 12px;">Date: _________</div>
