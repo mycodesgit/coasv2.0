@@ -63,7 +63,7 @@ use App\Http\Controllers\KioskDashController;
 */
 
 
-Route::group(['middleware'=>['guest', 'CheckMaintenanceMode', 'kiosk.session.expired']],function(){
+Route::group(['middleware'=>['guest', 'kiosk.session.expired']],function(){
     Route::get('/',[MainController::class,'main'])->name('main');
     Route::get('/linkstorage', function () {
         Artisan::call('storage:link');

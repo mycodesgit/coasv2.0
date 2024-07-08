@@ -24,11 +24,11 @@ class CheckMaintenanceMode
 
         // Check if maintenance mode is enabled
         if ($isMaintenanceMode) {
-            // Check if the user is authenticated with web guard and isAdmin is 0
+            // Check if the user is authenticated with web guard and role is 0
             if (Auth::guard('web')->check()) {
                 $user = Auth::guard('web')->user();
-                if ($user->isAdmin == 0) {
-                    // Admin user with isAdmin = 0, allow access
+                if ($user->role == 0) {
+                    // Admin user with role = 0, allow access
                     return $next($request);
                 }
             }

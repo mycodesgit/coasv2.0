@@ -143,7 +143,7 @@ CISS V.1.0 || Subject Offered
                                     <div class="form-group">
                                         <div class="form-row">
                                             <div class="col-md-8">
-                                                <label><span class="badge badge-secondary">Subject Name</span></label>
+                                                <label><span class="badge badge-primary">Subject Name</span></label>
                                                 <select class="form-control form-control-sm select2bs4" id="subCode">
                                                     <option disabled selected>---Select---</option>
                                                     @foreach($subjects as $sub)
@@ -173,7 +173,7 @@ CISS V.1.0 || Subject Offered
                                             </div>
 
                                             <div class="col-md-4 mt-2">
-                                                <label><span class="badge badge-secondary">Subject Year&Section</span></label>
+                                                <label><span class="badge badge-primary">Subject Year&Section</span></label>
                                                 <select class="form-control form-control-sm select2bs4" name="subSec">
                                                     <option disabled selected>---Select---</option>
                                                     @foreach($class as $classes)
@@ -183,12 +183,12 @@ CISS V.1.0 || Subject Offered
                                             </div>
 
                                             <div class="col-md-4 mt-2">
-                                                <label><span class="badge badge-secondary">Lecture Fee</span></label>
+                                                <label><span class="badge badge-warning">Lecture Fee</span></label>
                                                 <input type="number" name="lecFee" class="form-control form-control-sm" value="0" min="0">
                                             </div>
 
                                             <div class="col-md-4 mt-2">
-                                                <label><span class="badge badge-secondary">Laboratory Fee</span></label>
+                                                <label><span class="badge badge-warning">Laboratory Fee</span></label>
                                                 <input type="number" name="labFee" class="form-control form-control-sm" value="0" min="0">
                                             </div>
 
@@ -198,7 +198,7 @@ CISS V.1.0 || Subject Offered
                                             </div>
 
                                             <div class="col-md-2 mt-2">
-                                                <label><span class="badge badge-secondary">Template</span></label>
+                                                <label><span class="badge badge-success">Template</span></label>
                                                 <select class="form-control form-control-sm" name="isTemp">
                                                     <option value="Yes">Yes</option>
                                                     <option value="No">No</option>
@@ -214,7 +214,7 @@ CISS V.1.0 || Subject Offered
                                             </div>
 
                                             <div class="col-md-2 mt-2">
-                                                <label><span class="badge badge-secondary">Type</span></label>
+                                                <label><span class="badge badge-danger">Type</span></label>
                                                 <select class="form-control form-control-sm" name="isType">
                                                     <option value="No">No</option>
                                                     <option value="Special">Special Class</option>
@@ -222,7 +222,7 @@ CISS V.1.0 || Subject Offered
                                             </div>
 
                                             <div class="col-md-4 mt-2">
-                                                <label><span class="badge badge-secondary">Fund</span></label>
+                                                <label><span class="badge badge-info">Fund</span></label>
                                                 <select class="form-control form-control-sm" id="fundSelect">
                                                     <option value="">No Account</option>
                                                     @foreach($funds as $fund)
