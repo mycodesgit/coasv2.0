@@ -77,34 +77,55 @@ CISS V.1.0 || Class Schedule
         <div class="container-fluid mt-3">
             <div class="row">
                 <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="breadcrumb" style="font-size: 13pt">
-                                    <span>Course: {{ $progAcronym ?? 'Not Available' }} {{ $progCodSuffix ?? 'Not Available' }},</span>
-                                    <span class="ml-2">School Year: {{ request('schlyear') }},</span>
-                                    <span class="ml-2">
-                                        Semester: 
-                                        @if(request('semester') == 1)
-                                            1st Sem
-                                        @elseif(request('semester') == 2)
-                                            2nd Sem
-                                        @elseif(request('semester') == 3)
-                                            Summer
-                                        @else
-                                            Unknown Semester
-                                        @endif
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="breadcrumb">
-                                    <button class="btn btn-danger btn-xs ml-1">Delete Schedule</button>
-                                    <button id="viewSchedule" class="btn btn-secondary btn-xs ml-1">View Schedule</button>
-                                    <button id="printSchedule" class="btn btn-info btn-xs ml-1">Print Schedule</button>  
-                                </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="breadcrumb" style="font-size: 13pt">
+                                <span>Course: {{ $progAcronym ?? 'Not Available' }} {{ $progCodSuffix ?? 'Not Available' }},</span>
+                                <span class="ml-2">School Year: {{ request('schlyear') }},</span>
+                                <span class="ml-2">
+                                    Semester: 
+                                    @if(request('semester') == 1)
+                                        1st Sem
+                                    @elseif(request('semester') == 2)
+                                        2nd Sem
+                                    @elseif(request('semester') == 3)
+                                        Summer
+                                    @else
+                                        Unknown Semester
+                                    @endif
+                                </span>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="breadcrumb">
+                                <button class="btn btn-danger btn-xs ml-1">Delete Schedule</button>
+                                <button id="viewSchedule" class="btn btn-secondary btn-xs ml-1">View Schedule</button>
+                                <button id="printSchedule" class="btn btn-info btn-xs ml-1">Print Schedule</button>  
+                            </div>
+                        </div>
+                    </div>
                     <div id="schedule-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Schedule View Modal -->
+    <div class="modal fade" id="viewScheduleModal" tabindex="-1" role="dialog" aria-labelledby="viewScheduleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewScheduleModalLabel">View Schedule</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="schedule-view">
+                    <!-- Schedule content will be dynamically inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

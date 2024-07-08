@@ -194,7 +194,7 @@
                         let currentCell = $(rows[rowIndex]).find('td').eq(colIndex);
                         let currentText = currentCell.html();  // Use .html() to compare the full content including line breaks
 
-                        if (prevCell && currentText === prevCell.html() && currentText.trim() !== '') {
+                        if (prevCell && currentText && prevCell.html().trim() === currentText.trim() && currentText.trim() !== '') {
                             rowspanCount++;
                             prevCell.attr('rowspan', rowspanCount);
                             currentCell.remove();
@@ -214,7 +214,7 @@
             });
         }
 
-
+        // View Schedule button click handler
         $('#viewSchedule').click(function() {
             let scheduleHtml = $('#schedule-grid').html();
             $('#schedule-view').html('<table class="table table-bordered">' + scheduleHtml + '</table>');
