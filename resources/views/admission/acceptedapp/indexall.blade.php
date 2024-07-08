@@ -24,7 +24,7 @@ CISS V.1.0 || Accepted Applicants
         </ol>
 
         <div class="page-header">
-            <form method="GET" action="{{ route('srchacceptedList') }}">
+            <form method="GET" action="{{ route('srchacceptedListAll') }}">
                 {{ csrf_field() }}
 
                 <div class="custom-container">
