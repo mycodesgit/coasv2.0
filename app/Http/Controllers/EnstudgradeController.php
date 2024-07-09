@@ -116,7 +116,7 @@ class EnstudgradeController extends Controller
         //             ->get();
 
 
-        $grdpercentage = range(43, 78); 
+        $grdpercentage = range(44, 80); 
         $grdCode = GradeCode::whereIn('id', $grdpercentage)
                 ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
                 ->get();
