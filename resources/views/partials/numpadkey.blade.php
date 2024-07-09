@@ -49,6 +49,9 @@
             <a id="btn-p" class="btn btn-app" style="border: 2px solid #252525; background-color: #ffff66 !important;">
                 <i class="fas fa-p mt-1 text-dark"></i>
             </a>
+            <a id="btn-s" class="btn btn-app" style="border: 2px solid #252525; background-color: #ffff66 !important;">
+                <i class="fas fa-s mt-1 text-dark"></i>
+            </a>
         </div>
         
     </div>
