@@ -24,7 +24,9 @@
     </ul>
     @if(!in_array(Auth::guard('web')->user()->isAdmin, [5, 6, 7]))
     <ul class="list-group mt-1">
-        <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
+        @if(!in_array(Auth::guard('web')->user()->isAdmin, [0]))
+            <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
+        @endif
         <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
         <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
         <a href="{{ route('courseEnroll_list') }}" class="list-group-item {{ $classEnrollActive }}">Classes Enrolled</a>  
