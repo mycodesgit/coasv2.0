@@ -33,7 +33,7 @@
             <a href="{{ route('result-list') }}" class="list-group-item {{ $resultListActive }}">Examination Results</a>
         @endif
         <a href="{{ route('examinee-confirm') }}" class="list-group-item {{ $confirmAppListActive }}">Confirmed Applicants</a>
-        @if(in_array(Auth::user()->role, [5, 6, 7]))  
+        @if(in_array(Auth::user()->role, [5, 6, 7, 14]))  
             <a href="{{ route('applicant-accepted') }}" class="list-group-item {{ $acceptedAppListActive }}">Accepted Applicants</a>
         @endif
         @if(in_array(Auth::user()->role, [0, 1, 2]))
