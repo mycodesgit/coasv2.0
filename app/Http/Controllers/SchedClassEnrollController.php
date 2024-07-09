@@ -92,7 +92,7 @@ class SchedClassEnrollController extends Controller
             $classSection = $request->input('classSection');
             $classno = $request->input('classno');
 
-            $existingClassEn = ClassEnroll::where('schlyear', $schlyear)->where('semester', $semester)->where('progCode', $progCode)->where('classSection', $classSection)->first();
+            $existingClassEn = ClassEnroll::where('campus', $campus)->where('schlyear', $schlyear)->where('semester', $semester)->where('progCode', $progCode)->where('classSection', $classSection)->first();
 
             if ($existingClassEn) {
                 return response()->json(['error' => true, 'message' => 'Class already exists'], 404);
