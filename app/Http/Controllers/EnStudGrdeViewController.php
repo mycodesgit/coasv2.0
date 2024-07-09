@@ -30,8 +30,9 @@ class EnStudGrdeViewController extends Controller
     public function search_studviewgradeRead(Request $request)
     {
         $stud_id = $request->query('stud_id');
+        $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('stud_id', $stud_id)->first();
+        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
