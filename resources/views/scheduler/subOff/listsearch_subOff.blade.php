@@ -320,12 +320,12 @@ CISS V.1.0 || Subject Offered
 
                                 <div class="col-md-4 mt-2">
                                     <label><span class="badge badge-secondary">Lecture Fee</span></label>
-                                    <input type="number" name="lecFee" id="editlecfee" class="form-control form-control-sm" value="0" min="0" readonly>
+                                    <input type="number" name="lecFee" id="editlecfee" class="form-control form-control-sm" value="0" min="0">
                                 </div>
 
                                 <div class="col-md-4 mt-2">
                                     <label><span class="badge badge-secondary">Laboratory Fee</span></label>
-                                    <input type="number" name="labFee" id="editlabfee" class="form-control form-control-sm" value="0" min="0" readonly>
+                                    <input type="number" name="labFee" id="editlabfee" class="form-control form-control-sm" value="0" min="0">
                                 </div>
 
                                 <div class="col-md-2 mt-2">
