@@ -42,6 +42,7 @@ class EnStudGrdeViewController extends Controller
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('studgrades.studID', $stud_id)
+                    ->where('studgrades.campus', '=', Auth::guard('web')->user()->campus)
                     ->orderBy('coasv2_db_schedule.sub_offered.id', 'ASC')
                     ->get();
 
