@@ -184,7 +184,7 @@ CISS V.1.0 || Grading
                                     </select>
                                 @endif
                             @elseif ($datagenstud->gstat == 2)
-                                <strong style="{{ $datagenstud->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ $datagenstud->subjFgrade }}</strong>
+                                <strong style="{{ ($datagenstud->subjFgrade == 'INC' || $datagenstud->subjFgrade == 'Inc.' || $datagenstud->subjFgrade == 'inc') ? 'color: red;' : '' }}">{{ $datagenstud->subjFgrade }}</strong>
                             @endif
                         </td>
                         <td>
