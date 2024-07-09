@@ -108,18 +108,69 @@ $(document).ready(function() {
     });
 });
 
+// $(document).ready(function() {
+//     $('#subCode').on('change', function() {
+//         var selectedOption = $(this).find('option:selected');
+//         var subcode = selectedOption.data('sub-code');
+//         var lecUnit = selectedOption.data('lec-unit');
+//         var labUnit = selectedOption.data('lab-unit');
+        
+//         $('#subcode').val(subcode);
+//         $('#lecUnit').val(lecUnit);
+//         $('#labUnit').val(labUnit);
+//         $('#subUnit').val(lecUnit + labUnit);
+//     });
+// });
+
+// $(document).ready(function() {
+//     $('#subCode').on('change', function() {
+//         var selectedOption = $(this).find('option:selected');
+//         var subcode = selectedOption.data('sub-code');
+//         var lecUnit = selectedOption.data('lec-unit');
+//         var labUnit = selectedOption.data('lab-unit');
+//         var subUnit = lecUnit + labUnit;
+
+//         $('#subcode').val(subcode);
+//         $('#lecUnit').val(lecUnit);
+//         $('#labUnit').val(labUnit);
+//         $('#subUnit').val(subUnit);
+
+//         calculateFees(subUnit, labUnit);
+//     });
+
+//     function calculateFees(subUnit, labUnit) {
+//         var lecFee = subUnit * 180;
+//         var labFee = labUnit > 0 ? 500 : 0;
+
+//         $('#lecFee').val(lecFee);
+//         $('#labFee').val(labFee);
+//     }
+// });
+
 $(document).ready(function() {
     $('#subCode').on('change', function() {
         var selectedOption = $(this).find('option:selected');
         var subcode = selectedOption.data('sub-code');
         var lecUnit = selectedOption.data('lec-unit');
         var labUnit = selectedOption.data('lab-unit');
-        
+        var subUnit = lecUnit + labUnit;
+
         $('#subcode').val(subcode);
         $('#lecUnit').val(lecUnit);
         $('#labUnit').val(labUnit);
-        $('#subUnit').val(lecUnit + labUnit);
+        $('#subUnit').val(subUnit);
+
+        calculateFees(subcode, subUnit, labUnit);
     });
+
+    function calculateFees(subcode, subUnit, labUnit) {
+        var specialCodes = ["KAB-SER-076", "KAB-SER-077", "KAB-SER-144", "KAB-SER-145", "KAB-SER-146", "KAB-SER-147", "KAB-SER-148", "KAB-SER-149"];
+        var lecFee = specialCodes.includes(subcode) ? 270 : subUnit * 180;
+        var labFee = labUnit > 0 ? 500 : 0;
+
+        $('#lecFee').val(lecFee);
+        $('#labFee').val(labFee);
+    }
 });
 
 $(document).ready(function() {

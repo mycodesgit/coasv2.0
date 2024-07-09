@@ -184,12 +184,12 @@ CISS V.1.0 || Subject Offered
 
                                             <div class="col-md-4 mt-2">
                                                 <label><span class="badge badge-warning">Lecture Fee</span></label>
-                                                <input type="number" name="lecFee" class="form-control form-control-sm" value="0" min="0">
+                                                <input type="number" name="lecFee" id="lecFee" class="form-control form-control-sm" value="0" min="0" readonly>
                                             </div>
 
                                             <div class="col-md-4 mt-2">
                                                 <label><span class="badge badge-warning">Laboratory Fee</span></label>
-                                                <input type="number" name="labFee" class="form-control form-control-sm" value="0" min="0">
+                                                <input type="number" name="labFee" id="labFee" class="form-control form-control-sm" value="0" min="0" readonly>
                                             </div>
 
                                             <div class="col-md-2 mt-2">
@@ -320,12 +320,12 @@ CISS V.1.0 || Subject Offered
 
                                 <div class="col-md-4 mt-2">
                                     <label><span class="badge badge-secondary">Lecture Fee</span></label>
-                                    <input type="number" name="lecFee" id="editlecfee" class="form-control form-control-sm" value="0" min="0">
+                                    <input type="number" name="lecFee" id="editlecfee" class="form-control form-control-sm" value="0" min="0" readonly>
                                 </div>
 
                                 <div class="col-md-4 mt-2">
                                     <label><span class="badge badge-secondary">Laboratory Fee</span></label>
-                                    <input type="number" name="labFee" id="editlabfee" class="form-control form-control-sm" value="0" min="0">
+                                    <input type="number" name="labFee" id="editlabfee" class="form-control form-control-sm" value="0" min="0" readonly>
                                 </div>
 
                                 <div class="col-md-2 mt-2">
@@ -399,6 +399,7 @@ CISS V.1.0 || Subject Offered
     var subOfferedUpdateRoute = "{{ route('subjectsOfferedUpdate') }}";
     var subOfferedDeleteRoute = "{{ route('subjectsOfferedDelete', ['id' => ':id']) }}";
 </script>
+
 
 
 @endsection
