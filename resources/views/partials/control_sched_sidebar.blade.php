@@ -35,7 +35,7 @@
     @endif
 </div>
 
-
+@if(!in_array(Auth::guard('web')->user()->isAdmin, [0]))
 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
     <h5>Scheduler</h5>
 </div>
@@ -46,7 +46,7 @@
         <a href="{{ route('roomSchedRead') }}" class="list-group-item {{ $roomSchedActive }}">Room Schedule</a>
     </ul>
 </div>
-
+@endif
 
 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
     <h5>Reports</h5>
