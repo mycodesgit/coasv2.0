@@ -139,7 +139,28 @@
 </head>
 <body>
 	<header >
-        <img src="{{ asset('template/img/studrfheader.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+		@if(Auth::guard('web')->user()->campus == 'MC')
+        	<img src="{{ asset('template/img/studrfheader.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'VC')
+        	<img src="{{ asset('template/img/studrfheader-VC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'SCC')
+        	<img src="{{ asset('template/img/studrfheader-SCC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'HC')
+        	<img src="{{ asset('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'MP')
+        	<img src="{{ asset('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'IC')
+        	<img src="{{ asset('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'CA')
+        	<img src="{{ asset('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'CC')
+        	<img src="{{ asset('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'SC')
+        	<img src="{{ asset('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @elseif(Auth::guard('web')->user()->campus == 'HinC')
+        	<img src="{{ asset('template/img/studrfheader-HinC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        @endif
+
         <div class="textdoccode">
         	Doc Control Code:&nbsp;&nbsp;&nbsp; CPSU-F-REG-13<br>
         	Effective Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9/12/2018<br>

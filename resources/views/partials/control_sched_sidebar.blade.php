@@ -22,9 +22,9 @@
     <ul class="list-group">
         <a href="{{ route('scheduler-index') }}" class="list-group-item {{ $dashSchedActive }}">Dashboard</a>
     </ul>
-    @if(!in_array(Auth::guard('web')->user()->isAdmin, [5, 6, 7]))
+    @if(!in_array(Auth::guard('web')->user()->role, [5, 6, 7]))
     <ul class="list-group mt-1">
-        @if(!in_array(Auth::guard('web')->user()->isAdmin, [0]))
+        @if(!in_array(Auth::guard('web')->user()->role, [0]))
             <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
         @endif
         <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
@@ -37,7 +37,7 @@
     @endif
 </div>
 
-@if(!in_array(Auth::guard('web')->user()->isAdmin, [0]))
+@if(!in_array(Auth::guard('web')->user()->role, [0]))
 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
     <h5>Scheduler</h5>
 </div>

@@ -21,5 +21,6 @@ class Grade extends Model
         'status',
         'compstat',
         'postedBy',
+        'campus'
     ];
 }

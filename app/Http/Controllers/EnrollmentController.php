@@ -368,6 +368,7 @@ class EnrollmentController extends Controller
                         'studID' => $studentID,
                         'subjID' => $subjID,
                         'postedBy' => $request->input('postedBy'),
+                        'campus' => Auth::guard('web')->user()->campus,
                     ]);
                 }
 
@@ -714,7 +715,8 @@ class EnrollmentController extends Controller
                             'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
                             'status' => $request->input('status')[$index] ?? '',
                             'compstat' => $request->input('compstat')[$index] ?? '',
-                            'postedBy' => $request->input('postedBy')[$index] ?? '',
+                            'postedBy' => $request->input('postedBy'),
+                            'campus' => Auth::guard('web')->user()->campus,
                         ]);
                     }
                 }
