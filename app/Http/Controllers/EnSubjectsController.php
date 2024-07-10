@@ -16,6 +16,7 @@ use App\Models\ScheduleDB\Department;
 use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
 use App\Models\ScheduleDB\SubjectAcademicType;
+use App\Models\ScheduleDB\SubjectDeliveryMode;
 
 use App\Models\EnrollmentDB\StudentLevel;
 
@@ -27,7 +28,8 @@ class EnSubjectsController extends Controller
         $dept = Department::all();
         $lev = StudentLevel::all();
         $acad = SubjectAcademicType::all();
-        return view('enrollment.subject.sublist', compact('col', 'dept', 'lev'));
+        $delv = SubjectDeliveryMode::all();
+        return view('enrollment.subject.sublist', compact('col', 'dept', 'lev', 'delv'));
     }
 
     public function getsubjectsRead() 

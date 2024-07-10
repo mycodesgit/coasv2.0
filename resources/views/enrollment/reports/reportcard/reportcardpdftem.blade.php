@@ -27,7 +27,7 @@
 </head>
 <body>
     <div align="center" style="margin-top: -30px">
-        <img src="{{ asset('template/img/reportcardheaderMain.png') }}" width="80%">
+        <img src="{{ public_path('template/img/reportcardheaderMain.png') }}" width="80%">
     </div>
 
     <div class="studinfolabel" style="margin-top: 25px">
