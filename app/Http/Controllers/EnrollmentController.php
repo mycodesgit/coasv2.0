@@ -644,7 +644,7 @@ class EnrollmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Some subjects are full', 'fullSubjects' => $fullSubjects], 400);
             }
 
-            //try {
+            try {
                 $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
                 $enrolment->update([
                     'studentID' => $request->input('studentID'),
@@ -703,7 +703,7 @@ class EnrollmentController extends Controller
                             'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
                             'status' => $request->input('status')[$index] ?? '',
                             'compstat' => $request->input('compstat')[$index] ?? '',
-                            'postedBy' => $request->input('postedBy')[$index] ?? '',
+                            'postedBy' => $request->input('postedBy'),
                         ]);
                     } else {
                         // Create new grade
@@ -749,9 +749,9 @@ class EnrollmentController extends Controller
                 }
 
                 return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
-            //} catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
-            //}
+            }
         }
     }
 

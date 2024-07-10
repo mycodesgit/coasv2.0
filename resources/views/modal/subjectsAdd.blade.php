@@ -108,8 +108,8 @@
                                 <label><span class="badge badge-secondary">Delivery Mode</span></label>
                                 <select class="form-control form-control-sm" id="studLevel" name="studLevel">
                                     <option disabled selected>--Select--</option>
-                                    @foreach($lev as $datalev)
-                                        <option value="{{ $datalev->id }}">{{ $datalev->delmode }}</option>
+                                    @foreach($delv as $datadelv)
+                                        <option value="{{ $datadelv->id }}">{{ $datadelv->delmode }}</option>
                                     @endforeach
                                 </select>
                             </div>
