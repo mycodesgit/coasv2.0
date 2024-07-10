@@ -206,7 +206,7 @@
     	<table id="table">
     		<tbody>
     			<tr>
-    				<td rowspan="" width="4%"><img src="{{ asset('template/img/subsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
+    				<td rowspan="" width="4%"><img src="{{ public_path('template/img/subsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
     				<td>
     					<table id="table-inside">
     						<thead>
@@ -267,7 +267,7 @@
     	<table id="table" style="margin-top: 40px !important">
     		<tbody>
     			<tr>
-    				<td width="4%"><img src="{{ asset('template/img/cashsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
+    				<td width="4%"><img src="{{ public_path('template/img/cashsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
     				<td colspan="2" style="border-right: none !important" width="35%">
     					<div class="studinfolabel">
 							<span style="font-weight: normal;">StudID: {{ request('stud_id') }}</span>
@@ -363,7 +363,7 @@
     	</div>
 
     	<div class="footer-logo-container">
-		    <img src="{{ asset('template/img/footerLogo.png') }}" class="footer-logo" width="100%">
+		    <img src="{{ public_path('template/img/footerLogo.png') }}" class="footer-logo" width="100%">
 		</div>
     </div>
 
