@@ -12,6 +12,7 @@
     $enrolledAppListActive = in_array($curr_route, ['applicant-enrolled', 'srchacceptedEnrolledList']) ? 'active' : '';
     $slotActive = in_array($curr_route, ['slots', 'slots_search']) ? 'active' : '';
     $confActive = in_array($curr_route, ['configure_admission', 'edit_program', 'edit_strand', 'edit_date', 'edit_time', 'edit_venue']) ? 'active' : '';
+    $changecampActive = in_array($curr_route, ['alllistappRead', 'alllistappRead_search']) ? 'active' : '';
 
     $appsreportActive = in_array($curr_route, ['applicant_printing', 'applicant_reports']) ? 'active' : '';
     $schedreportActive = in_array($curr_route, ['schedules_printing', 'schedules_reports']) ? 'active' : '';
@@ -43,6 +44,7 @@
         @if(in_array(Auth::user()->role, [0, 1, 2]))
             <a href="{{ route('slots') }}" class="list-group-item {{ $slotActive }}">Availability/Slots</a>
             <a href="{{ route('configure_admission') }}" class="list-group-item {{ $confActive }}">Configure Admission</a>
+            <a href="{{ route('alllistappRead') }}" class="list-group-item {{ $changecampActive }}">Change Campus</a>
         @endif
     </ul>
 </div>

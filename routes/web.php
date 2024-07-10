@@ -14,6 +14,7 @@ use App\Http\Controllers\AdCaptureImageController;
 use App\Http\Controllers\AdExamineeController;
 use App\Http\Controllers\AdConfirmController;
 use App\Http\Controllers\AdAcceptedController;
+use App\Http\Controllers\AdChangeCampusController;
 
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\EnStudHistoryController;
@@ -202,6 +203,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/venueEdit/{id}/edit', [AdAdmissionController::class, 'edit_venue'])->name('edit_venue');
             Route::post('/venueEdit/update', [AdAdmissionController::class, 'venueEdit'])->name('venueEdit');
             Route::get('/venueDelete/{id}/delete', [AdAdmissionController::class, 'venueDelete'])->name('venueDelete');
+
+            Route::get('/change/applicant/campus', [AdChangeCampusController::class, 'alllistappRead'])->name('alllistappRead');
+            Route::get('/change/applicant/campus/search', [AdChangeCampusController::class, 'alllistappRead_search'])->name('alllistappRead_search');
+            Route::get('/change/applicant/campus/search/ajax', [AdChangeCampusController::class, 'getalllistappRead_search'])->name('getalllistappRead_search');
+            Route::post('/change/applicant/campus/search/update', [AdChangeCampusController::class, 'alllistappUpdate'])->name('alllistappUpdate');
         });
 
         Route::prefix('reports')->group(function () {    
@@ -274,6 +280,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('subjects')->group(function () {
             Route::get('/list', [EnSubjectsController::class, 'subjectsRead'])->name('subjectsRead');
             Route::get('/ajaxsublist', [EnSubjectsController::class, 'getsubjectsRead'])->name('getsubjectsRead');
+            Route::get('/ajaxsubcode', [EnSubjectsController::class, 'getNextSubjectNumber'])->name('getNextSubjectNumber');
         });
 
         Route::prefix('report')->group(function () {

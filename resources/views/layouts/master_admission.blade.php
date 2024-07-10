@@ -296,6 +296,9 @@
     @if(request()->routeIs('srchacceptedListAll'))
         <script src="{{ asset('js/ajax/examresult/allacceptedSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('alllistappRead_search'))
+        <script src="{{ asset('js/ajax/applicant/applicantChangeCamSerialize.js') }}"></script>
+    @endif
 
     @php $curr_route = request()->route()->getName(); @endphp
         @if($curr_route == 'admission-index')

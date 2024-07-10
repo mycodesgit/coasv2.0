@@ -63,6 +63,7 @@ CISS V.1.0 || Subjects
 
 <script>
     var subjectReadRoute = "{{ route('getsubjectsRead') }}";
+    var subjectCodeRoute = "{{ route('getNextSubjectNumber') }}";
 </script>
 
 @endsection

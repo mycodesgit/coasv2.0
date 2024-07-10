@@ -10,15 +10,15 @@
                 </button>
             </div>
             
-           <form class="form-horizontal" action="   " method="post" id="addUser">  
+           <form class="form-horizontal" action=" " method="post" id="addUser">  
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">College:</span></label>
-                                <select class="form-control form-control-sm" name="">
-                                    <option disabled selected> --Select -- </option>
+                                <select class="form-control form-control-sm" id="college" name="college">
+                                    <option disabled selected>--Select--</option>
                                     @foreach($col as $datacol)
                                         <option value="{{ $datacol->college_abbr }}">{{ $datacol->college_name }}</option>
                                     @endforeach
@@ -27,20 +27,86 @@
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Department:</span></label>
-                                <select class="form-control form-control-sm" name="">
-                                    <option disabled selected> --Select -- </option>
+                                <select class="form-control form-control-sm" id="department" name="deptCod">
+                                    <option disabled selected>--Select--</option>
                                     @foreach($dept as $datadept)
-                                        <option value="{{ $datadept->college_abbr }}">{{ $datadept->deptName }}</option>
+                                        <option value="{{ $datadept->deptCod }}">{{ $datadept->deptName }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Number:</span></label>
-                                <input type="text" name="" class="form-control form-control-sm">
+                                <label><span class="badge badge-secondary">Subject Code:</span></label>
+                                <input type="text" id="sub_code" name="sub_code" class="form-control form-control-sm" readonly>
                             </div>
                         </div>
-                    </div>   
+                    </div> 
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Cost Center:</span></label>
+                                <input type="text" id="subjcostcenter" name="subjcostcenter" class="form-control form-control-sm" readonly>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-info">Subject Name:</span></label>
+                                <input type="text" id="sub_name" name="sub_name" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-info">Subject Description:</span></label>
+                                <input type="text" id="sub_title" name="sub_title" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-1">
+                                <label><span class="badge badge-warning">Lecture Unit:</span></label>
+                                <input type="text" id="sublecredit" name="sublecredit" class="form-control form-control-sm" readonly>
+                            </div>
+
+                            <div class="col-md-1">
+                                <label><span class="badge badge-warning">Laboratory Unit:</span></label>
+                                <input type="text" id="sublabcredit" name="sublabcredit" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label><span class="badge badge-warning">Total Unit:</span></label>
+                                <input type="text" id="sub_unit" name="sub_unit" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">No. of Weeks:</span></label>
+                                <input type="text" id="subjweeks" name="subjweeks" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Hours/Weeks:</span></label>
+                                <input type="text" id="subjconthrs" name="subjconthrs" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Level</span></label>
+                                <select class="form-control form-control-sm" id="studLevel" name="studLevel">
+                                    <option disabled selected>--Select--</option>
+                                    @foreach($lev as $datalev)
+                                        <option value="{{ $datalev->id }}">{{ $datalev->studLevel }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            
+                        </div>
+                    </div>
                 </div>
             
                 <div class="modal-footer justify-content-between">
