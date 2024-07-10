@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 use Storage;
 use Carbon\Carbon;
+
+use App\Models\ScheduleDB\College;
+use App\Models\ScheduleDB\Department;
 use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
 
@@ -17,7 +20,9 @@ class EnSubjectsController extends Controller
 {
     public function subjectsRead() 
     {
-        return view('enrollment.subject.sublist');
+        $col = College::whereBetween('id', [2, 8])->get();
+        $dept = Department::all();
+        return view('enrollment.subject.sublist', compact('col', 'dept'));
     }
 
     public function getsubjectsRead() 

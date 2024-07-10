@@ -37,6 +37,12 @@ CISS V.1.0 || Subjects
 
         <div class="mt-1 row">
             <div class="col-md-12">
+                <button type="button" class="btn btn-success btn-sm mb-4" data-toggle="modal" data-target="#modal-subjects">
+                    <i class="fas fa-plus"></i> Add New
+                </button>
+
+                @include('modal.subjectsAdd')
+
                 <table id="listsub" class="table table-hover">
                     <thead>
                         <tr>
