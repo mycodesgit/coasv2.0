@@ -264,7 +264,7 @@
 			<span style="font-weight: bold;">Posted By:</span> {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
 		</div>
 
-    	<table id="table" style="margin-top: 40px !important">
+    	<table id="table" style="margin-top: 10px !important">
     		<tbody>
     			<tr>
     				<td width="4%"><img src="{{ public_path('template/img/cashsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
