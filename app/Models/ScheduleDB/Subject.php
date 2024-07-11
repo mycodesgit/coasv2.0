@@ -14,8 +14,19 @@ class Subject extends Model
 
     protected $fillable = [
         'sub_code',
+        'subjcostcenter',
         'sub_name', 
-        'sub_title', 
+        'sub_title',
+        'subjcollege', 
+        'subjdep',
+        'sublecredit',
+        'sublabcredit',
         'sub_unit',
+        'subjweeks',
+        'subjconthrs',
+        'subjlev',
+        'subdelmod',
+        'subjprereq',
+        'subacadtype'
     ];
 }

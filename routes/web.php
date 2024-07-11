@@ -281,6 +281,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list', [EnSubjectsController::class, 'subjectsRead'])->name('subjectsRead');
             Route::get('/ajaxsublist', [EnSubjectsController::class, 'getsubjectsRead'])->name('getsubjectsRead');
             Route::get('/ajaxsubcode', [EnSubjectsController::class, 'getNextSubjectNumber'])->name('getNextSubjectNumber');
+            Route::post('/list/add', [EnSubjectsController::class, 'subjectsCreate'])->name('subjectsCreate');
         });
 
         Route::prefix('report')->group(function () {

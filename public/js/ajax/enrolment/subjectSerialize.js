@@ -1,4 +1,31 @@
 $(document).ready(function() {
+    $('#addSubject').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: subjectCreateRoute,
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if(response.success) {
+                    toastr.success(response.message);
+                    console.log(response);
+                    $('#modal-subjects').modal('hide');
+                    $(document).trigger('listsub');
+                    //$('input[name="fund_name"]').val('');
+                } else {
+                    toastr.error(response.message);
+                    console.log(response);
+                }
+            },
+            error: function(xhr, status, error, message) {
+                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                toastr.error(errorMessage);
+            }
+        });
+    });
+
     var dataTable = $('#listsub').DataTable({
         "ajax": {
             "url": subjectReadRoute,
@@ -18,7 +45,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('coaAdded', function() {
+    $(document).on('listsub', function() {
         dataTable.ajax.reload();
     });
 });
@@ -28,12 +55,16 @@ $(document).ready(function() {
     console.log('Document is ready');
 
     $('#college, #department').change(function() {
-        console.log('Change event triggered'); 
+        console.log('Change event triggered');
 
         var college = $('#college').val();
         var department = $('#department').val();
 
         console.log('College:', college, 'Department:', department);
+
+        // Set the values of subjcollege and subjdep with the selected college_abbr and deptCod
+        $('#subjcollege').val(college);
+        $('#subjdep').val(department);
 
         if (college && department) {
             $.ajax({
@@ -57,3 +88,5 @@ $(document).ready(function() {
         }
     });
 });
+
+

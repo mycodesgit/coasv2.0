@@ -10,7 +10,7 @@
                 </button>
             </div>
             
-           <form class="form-horizontal" action=" " method="post" id="addUser">  
+           <form class="form-horizontal" action="{{ route('subjectsCreate') }}" method="post" id="addSubject">  
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
@@ -58,6 +58,8 @@
                                 <label><span class="badge badge-info">Subject Description:</span></label>
                                 <input type="text" id="sub_title" name="sub_title" class="form-control form-control-sm">
                             </div>
+                            <input type="hidden" id="subjcollege" name="subjcollege" class="form-control form-control-sm">
+                            <input type="hidden" id="subjdep" name="subjdep" class="form-control form-control-sm">
                         </div>
                     </div>
 
@@ -92,7 +94,7 @@
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Level</span></label>
-                                <select class="form-control form-control-sm" id="studLevel" name="studLevel">
+                                <select class="form-control form-control-sm" id="subjlev" name="subjlev">
                                     <option disabled selected>--Select--</option>
                                     @foreach($lev as $datalev)
                                         <option value="{{ $datalev->id }}">{{ $datalev->studLevel }}</option>
@@ -106,10 +108,34 @@
                         <div class="form-row">
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Delivery Mode</span></label>
-                                <select class="form-control form-control-sm" id="studLevel" name="studLevel">
+                                <select class="form-control form-control-sm" id="subdelmod" name="subdelmod">
                                     <option disabled selected>--Select--</option>
                                     @foreach($delv as $datadelv)
                                         <option value="{{ $datadelv->id }}">{{ $datadelv->delmode }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Subject Pre-requisite</span></label>
+                                <input type="text" id=" subjprereq" name="subjprereq" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Subject Co-requisite</span></label>
+                                <input type="text" id=" subjcoreq" name=" subjcoreq" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Academic Type</span></label>
+                                <select class="form-control form-control-sm" id="subacadtype" name="subacadtype">
+                                    <option disabled selected>--Select--</option>
+                                    @foreach($acad as $dataacad)
+                                        <option value="{{ $dataacad->id }}">{{ $dataacad->acadtype_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

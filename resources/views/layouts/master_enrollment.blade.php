@@ -323,6 +323,7 @@
 
     <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}"></script>
     <script src="{{ asset('js/validation/enroll/gradesheetValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/enroll/subjectValidation.js') }}"></script>
 
     <script>
         $(document).ready(function () {

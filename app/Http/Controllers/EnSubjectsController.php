@@ -29,7 +29,7 @@ class EnSubjectsController extends Controller
         $lev = StudentLevel::all();
         $acad = SubjectAcademicType::all();
         $delv = SubjectDeliveryMode::all();
-        return view('enrollment.subject.sublist', compact('col', 'dept', 'lev', 'delv'));
+        return view('enrollment.subject.sublist', compact('col', 'dept', 'lev', 'delv', 'acad'));
     }
 
     public function getsubjectsRead() 
@@ -55,5 +55,61 @@ class EnSubjectsController extends Controller
         }
 
         return response()->json(['nextNumber' => $nextNumber]);
+    }
+
+    public function subjectsCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'sub_code' => 'required',
+                'subjcostcenter' => 'required',
+                'sub_name' => 'required',
+                'sub_title' => 'required',
+                'sublecredit' => 'required',
+                'sublabcredit' => 'required',
+                'sub_unit' => 'required',
+                'subjweeks' => 'required',
+                'subjconthrs' => 'required',
+                'subjlev' => 'required',
+                'subdelmod' => 'required',
+                'subacadtype' => 'required',
+                'subjweeks' => 'required',
+                'subjweeks' => 'required',
+            ]);
+
+            $sub_code = $request->input('sub_code');
+            $sub_name = $request->input('sub_name');
+
+            $existingSubject = Subject::where('sub_code', $sub_code)->where('sub_name', $sub_name)->first();
+
+            if ($existingSubject) {
+                return response()->json(['error' => true, 'message' => 'Subject already exists'], 404);
+            }
+
+            try {
+                Subject::create([
+                    'sub_code' => $request->input('sub_code'),
+                    'subjcostcenter' => $request->input('subjcostcenter'),
+                    'sub_name' => $request->input('sub_name'),
+                    'sub_title' => $request->input('sub_title'),
+                    'subjcollege' => $request->input('subjcollege'),
+                    'subjdep' => $request->input('subjdep'),
+                    'sublecredit' => $request->input('sublecredit'),
+                    'sublabcredit' => $request->input('sublabcredit'),
+                    'sub_unit' => $request->input('sub_unit'),
+                    'subjweeks' => $request->input('subjweeks'),
+                    'subjconthrs' => $request->input('subjconthrs'),
+                    'subjlev' => $request->input('subjlev'),
+                    'subdelmod' => $request->input('subdelmod'),
+                    'subjprereq' => $request->input('subjprereq'),
+                    'subjcoreq' => $request->input('subjcoreq'),
+                    'subacadtype' => $request->input('subacadtype'),
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Subject stored successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Subject'], 404);
+            }
+        }
     }
 }
