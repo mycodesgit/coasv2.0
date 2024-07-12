@@ -178,7 +178,7 @@
     </div>
 
     <div class="studinfolabel">
-    	<span style="font-weight: bold;">Name:</span> <span class="studinfoName">{{ $student->lname }}, {{ $student->fname }} {{ substr($student->mname, 0, 1) }}., {{ $student->ext }}.</span>
+    	<span style="font-weight: bold;">Name:</span> <span class="studinfoName">{{ $student->lname }}, {{ $student->fname }} {{ substr($student->mname, 0, 1) }}., {{ $student->ext }}</span>
     	<span style="font-weight: bold; text-align: right !important; margin-left: 10px;">Scholarship:</span> <span class="studinfoScholar">{{ $student->scholar_name}}</span>
     </div>
 
