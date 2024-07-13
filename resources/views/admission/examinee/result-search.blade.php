@@ -346,6 +346,22 @@ CISS v.1.0 || Examinee Search List Result
     var requestedCampus = '{{ request('campus') }}'
 </script>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('input[name="raw_score"]').addEventListener('input', function () {
+            var remarksValue = parseFloat(this.value);
+            var secondQualifiersGroup = document.getElementById('secondQualifiersGroup');
+            
+            if (!isNaN(remarksValue) && remarksValue >= 90) {
+                secondQualifiersGroup.style.display = 'block';
+            } else {
+                secondQualifiersGroup.style.display = 'none';
+            }
+        });
+    });
+</script>
+
 @endsection
 
 @section('script')
