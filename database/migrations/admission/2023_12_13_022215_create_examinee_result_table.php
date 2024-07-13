@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('admission_id');
             $table->integer('raw_score')->length(5)->nullable();
             $table->integer('percentile')->length(5)->nullable();
+            $table->enum('qualifier', ['1', '2'])->nullable();
             $table->timestamps();
         });
     }

@@ -290,6 +290,17 @@ CISS v.1.0 || Examinee Search List Result
                             <label><span class="badge badge-secondary">Remarks</span></label>
                             <input type="text" name="percentile" class="form-control form-control-sm" id="updateresultexamPercent" readonly>
                         </div>
+                    </div> 
+                    <div class="form-group bg-gray p-2" style="border-radius: 5px; display: none;" id="secondQualifiersGroup">
+                        <div class="col-md-12">
+                            <label><span class="badge badge-warning">Check if Second Qualifiers</span></label>
+                            <div class="icheck-warning">
+                                <input type="checkbox" id="qualifier" name="qualifier" value="2">
+                                <label for="qualifier">
+                                    <h6>Yes Second Qualifiers</h6>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -334,7 +345,6 @@ CISS v.1.0 || Examinee Search List Result
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
     var requestedCampus = '{{ request('campus') }}'
 </script>
-
 
 @endsection
 

@@ -17,9 +17,7 @@ class ExamineeResult extends Model
         'admission_id',
         'raw_score', 
         'percentile', 
-        'rating', 
-        'interviewed_by',
-        'approval',
+        'qualifier',
     ];
 
     public function user()

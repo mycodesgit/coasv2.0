@@ -92,11 +92,11 @@ $(document).ready(function() {
                                 '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>' +
-                                '<a href="#" class="dropdown-item btn-updateresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '">' +
+                                '<a href="#" class="dropdown-item btn-updateresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '" data-qualifier="' + row.qualifier + '">' +
                                 '<i class="fas fa-file-lines"></i> Update Test Result' +
                                 '</a>';
 
-                                if (row.percentile == 'Qualified') {
+                                if (row.percentile == 'Qualified' || row.qualifier == 2) {
                                     dropdown += '<a href="#" class="dropdown-item btn-pushtocnfrm" data-id="' + row.adid + '">' +
                                         '<i class="fas fa-check"></i> Push Examinee' +
                                         '</a>';
@@ -231,10 +231,24 @@ $(document).on('click', '.btn-updateresultexam', function() {
     var id = $(this).data('id');
     var uprawScore = $(this).data('rawscore');
     var uppercentile = $(this).data('percentile');
+    var qualifier = $(this).data('qualifier');
 
     $('#updateresultexamId').val(id);
     $('#updateresultexamRawScore').val(uprawScore);
     $('#updateresultexamPercent').val(uppercentile);
+
+    var qualifierFromDB = qualifier; // Replace `row.qualifier` with actual variable storing qualifier value
+    if (qualifierFromDB == 2) {
+        $('#qualifier').prop('checked', true); // Check the checkbox if qualifier is 2
+    } else {
+        $('#qualifier').prop('checked', false); // Uncheck the checkbox otherwise
+    }
+
+    if (uprawScore >= 90) {
+        $('#secondQualifiersGroup').show();
+    } else {
+        $('#secondQualifiersGroup').hide();
+    }
 
     $('#updateresultexamModal').modal('show');
     
