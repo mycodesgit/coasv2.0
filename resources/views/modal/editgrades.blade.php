@@ -1,0 +1,33 @@
+<div class="modal fade" id="editgrades" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">
+                    <i class="fas fa-info-circle"></i> Confirmation
+                </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                Are you sure you want to Edit the Grades?
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="mt-2 col-md-12">
+                            <label><span class="badge badge-warning">Enter the password Password here</span></label>
+                            <input type="password" id="gradeauthpass" name="gradeauthpass" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer justify-content-between">
+                <div>
+                    <button type="submit" class="btn btn-primary" id="editBtn" disabled>Yes</button>
+                </div>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

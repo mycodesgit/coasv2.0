@@ -301,6 +301,9 @@
     @if(request()->routeIs('studgrade_searchlist'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('geneStudent1'))
+        <script src="{{ asset('js/ajax/enrolment/passwordGrade.js') }}"></script>
+    @endif
     @if(request()->routeIs('elpl_listsearch'))
         <script src="{{ asset('js/ajax/enrolment/elplSerialize.js') }}"></script>
     @endif
@@ -383,14 +386,14 @@
     </script>
 
     <script>
-        $(document).ready(function () {
-            $('#submitBtn').click(function () {
-                $('#confirmationForm').submit();
-            });
-        });
-    </script>
-
-    <script>
+        @if(Session::has('success'))
+            toastr.options = {
+                "closeButton":true,
+                "progressBar":true,
+                'positionClass': 'toast-top-right'
+            }
+            toastr.success("{{ session('success') }}")
+        @endif
         @if(session('error'))
             Swal.fire({
                 icon: 'warning',
@@ -430,7 +433,7 @@
                             programEnHistoryId: programEnHistoryId,
                             studentAppraisalIds: studentAppraisalIds,
                             stuGradesIds: stuGradesIds,
-                            _token: '{{ csrf_token() }}' // Add CSRF token if necessary
+                            _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
                             if (response.success) {
@@ -439,9 +442,8 @@
                                     response.message,
                                     'success'
                                 ).then(() => {
-                                    window.location.href = response.redirect_url; // Redirect to the specified URL
+                                    window.location.href = response.redirect_url;
                                 });
-                                // Optionally, update the UI or refresh the page
                             } else {
                                 Swal.fire(
                                     'Failed!',

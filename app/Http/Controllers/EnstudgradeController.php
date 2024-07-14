@@ -20,9 +20,19 @@ use App\Models\EnrollmentDB\Student;
 use App\Models\AdmissionDB\Programs;
 
 use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\GradePass;
 
 class EnstudgradeController extends Controller
 {
+    public function getGuard()
+    {
+        if(\Auth::guard('web')->check()) {
+            return 'web';
+        } elseif(\Auth::guard('faculty')->check()) {
+            return 'faculty';
+        }
+    }
+
     public function studgrade_search()
     {   
         $sy = ConfigureCurrent::select('id', 'schlyear')
@@ -218,7 +228,43 @@ class EnstudgradeController extends Controller
         ->where('compstat', 1)
         ->update(['compstat' => 2]);
 
-        return redirect()->back()->with('success', 'Status updated successfully.');
+        return redirect()->back()->with('success', 'Grades Submitted Successfully.');
+    }
+
+    public function editGrade(Request $request, $id)
+    {
+        $guard = $this->getGuard();
+        $user = Auth::guard($guard)->user();
+
+        Grade::where('id', $id)
+        ->where('status', 2)
+        ->update(['status' => 1]);
+
+        return redirect()->back()->with('success', 'Now you can edit the grade.');
+    }
+
+    public function editCompletion(Request $request, $id)
+    {
+        // $guard = $this->getGuard();
+        // $user = Auth::guard($guard)->user();
+
+        Grade::where('id', $id)
+        ->where('compstat', 2)
+        ->update(['compstat' => 1]);
+
+        return redirect()->back()->with('success', 'Now you can edit the grade.');
+    }
+
+    public function checkPassword(Request $request)
+    {
+        $password = $request->input('password');
+        $gradePass = GradePass::first();
+
+        if ($gradePass && $gradePass->gradeauthpass === $password) {
+            return response()->json(['status' => 'success']);
+        }
+
+        return response()->json(['status' => 'fail']);
     }
 
 }

@@ -32,13 +32,13 @@ CISS V.1.0 || Grading
             <li class="breadcrumb-item active mt-1">Grade Sheet</li>
         </ol>
 
-        <p>
+        {{-- <p>
             @if(Session::has('success'))
                 <div class="alert alert-success">{{ Session::get('success')}}</div>
             @elseif (Session::has('fail'))
                 <div class="alert alert-danger">{{Session::get('fail')}}</div>
             @endif
-        </p>
+        </p> --}}
 
         <div style="border-bottom: 1px solid #04401f;">
             <form method="GET" action="{{ route('studgrade_searchlist') }}" enctype="multipart/form-data" id="gradeSht">
@@ -87,7 +87,7 @@ CISS V.1.0 || Grading
 
         <div class="col-md-2 float-right mt-3 mb-2">
             @if($genstud && $genstud->isNotEmpty())
-            <form method="POST" action="{{ route('updateStatus_gradessubmit', ['subjID' => $genstud->first()->subjID]) }}" id="confirmationForm">
+            <form method="POST" action="{{ route('registrarupdateStatus_gradessubmit', ['subjID' => $genstud->first()->subjID]) }}" id="confirmationForm">
                 @csrf
                 <input type="hidden" name="subjID[]" value="{{ $genstud->first()->subjID }}">
                 <button type="button" class="btn btn-primary btn-sm btn-block" id="submitgradeid" data-toggle="modal" data-target="#submitgrades" @if($gradereg == 0) disabled @endif>Submit Grades</button>
@@ -108,11 +108,12 @@ CISS V.1.0 || Grading
                         <th>Completion</th>
                         <th>Equivalent</th>
                         <th>Unit</th>
-                        {{-- <th>#</th> --}}
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php 
+                        if (!function_exists('getEquivalentGrade')) {
                         function getEquivalentGrade($grade) {
                             if ($grade === 'INC') {
                                 return ['gpa' => 'INC', 'status' => 'Incomplete'];
@@ -153,7 +154,7 @@ CISS V.1.0 || Grading
                                 return $equivalent['gpa'];
                             }
                             return $grade;
-                        }
+                        }}
                     @endphp
                     @php $no = 1; @endphp
                     @foreach($genstud as $datagenstud)
@@ -217,27 +218,36 @@ CISS V.1.0 || Grading
                         </td>
                         <td>
                             <strong style="{{ $datagenstud->subjComp ? '' : ($datagenstud->subjFgrade == 'INC' ? 'color: red;' : '') }}">
-                                {{ $datagenstud->subjComp ? $datagenstud->subjComp : displayGrade($datagenstud->subjFgrade) }}
+                                {{ $datagenstud->subjComp ? displayGrade($datagenstud->subjComp) : displayGrade($datagenstud->subjFgrade) }}
                             </strong>
                         </td>
                         <td><strong>{{ $datagenstud->creditEarned }}</strong></td>
-                        {{-- <td style="text-align:center;">
+                        <td style="text-align:center;">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
                                 <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu" style="">
-                                    <a class="dropdown-item" href="">
-                                        <i class="fas fa-list-ol"></i> Edit Grades
-                                    </a>
-                                    @if ($datagenstud->subjFgrade >= 3)
-                                    <a class="dropdown-item" href="">
-                                        <i class="fa-solid fa-envelopes-bulk"></i> Completion
-                                    </a>
+                                    @if ($datagenstud->compstat == 1 && $datagenstud->compstat == 2)
+                                    <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm">
+                                        @csrf
+                                        <input type="hidden" name="subjID" value="{{ $datagenstud->sgid }}">
+                                        <a class="dropdown-item" id="editgradeid" data-toggle="modal" data-target="#editgrades">
+                                            <i class="fas fa-pen"></i> Edit Grades
+                                        </a>
+                                    </form>
+                                    @endif
+                                    @if ($datagenstud->compstat == 2)
+                                    <form method="POST" action="{{ route('editCompletion', ['id' => $datagenstud->sgid]) }}" id="editCompletionForm">
+                                        @csrf
+                                        <a class="dropdown-item" id="editgradecompletionid" data-toggle="modal" data-target="#editCompletiongrades">
+                                            <i class="fa-solid fa-envelopes-bulk"></i> Completion
+                                        </a>
+                                    </form>
                                     @endif
                                 </div>
                             </div>
-                        </td> --}}
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -247,6 +257,11 @@ CISS V.1.0 || Grading
     </div>
 </div>
 
+@include('modal.editgrades')
+@include('modal.editCompletion')
 
-
+<script>
+    var passgradeRoute = "{{ route('checkPassword') }}";
+    var passgradeTokenRoute = "{{ csrf_token() }}";
+</script>
 @endsection
