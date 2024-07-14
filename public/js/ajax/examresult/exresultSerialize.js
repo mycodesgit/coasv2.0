@@ -237,11 +237,11 @@ $(document).on('click', '.btn-updateresultexam', function() {
     $('#updateresultexamRawScore').val(uprawScore);
     $('#updateresultexamPercent').val(uppercentile);
 
-    var qualifierFromDB = qualifier; // Replace `row.qualifier` with actual variable storing qualifier value
+    var qualifierFromDB = qualifier;
     if (qualifierFromDB == 2) {
-        $('#qualifier').prop('checked', true); // Check the checkbox if qualifier is 2
+        $('#qualifier').prop('checked', true); 
     } else {
-        $('#qualifier').prop('checked', false); // Uncheck the checkbox otherwise
+        $('#qualifier').prop('checked', false);
     }
 
     if (uprawScore >= 90) {
