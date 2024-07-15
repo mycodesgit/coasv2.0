@@ -244,7 +244,7 @@ $(document).on('click', '.btn-updateresultexam', function() {
         $('#qualifier').prop('checked', false);
     }
 
-    if (uprawScore >= 90) {
+    if (uprawScore >= 80) {
         $('#secondQualifiersGroup').show();
     } else {
         $('#secondQualifiersGroup').hide();
