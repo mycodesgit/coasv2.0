@@ -13,7 +13,7 @@ $(document).ready(function() {
                     console.log(response);
                     $('#modal-subjects').modal('hide');
                     $(document).trigger('listsub');
-                    //$('input[name="fund_name"]').val('');
+                    $('input[name="sub_code"]').val('');
                 } else {
                     toastr.error(response.message);
                     console.log(response);
