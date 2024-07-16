@@ -15,6 +15,9 @@
             padding: 2px;
             text-align: left;
         }
+        td {
+            font-size: 9pt;
+        }
         .studinfolabel {
             text-align: left;
             font-size: 10pt;
