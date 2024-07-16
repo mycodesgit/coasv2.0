@@ -85,6 +85,11 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired']],function(){
     Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
 });
 
+Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
+    Route::prefix('student')->group(function () {
+        Route::get('/info/kiosk/dashboard/view', [KioskDashController::class, 'kioskhome'])->name('kioskhome');
+    });
+});
 Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('emp/control')->group(function () {
         Route::get('/', [ControlController::class, 'home'])->name('home');
@@ -545,9 +550,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
     });
 
-    Route::prefix('student')->group(function () {
-        Route::get('/info/kiosk/dashboard/view', [KioskDashController::class, 'kioskhome'])->name('kioskhome');
-    });
+    
 
 });
 
