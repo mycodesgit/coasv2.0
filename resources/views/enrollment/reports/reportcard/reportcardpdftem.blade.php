@@ -15,6 +15,9 @@
             padding: 2px;
             text-align: left;
         }
+        th {
+            font-size: 11pt;
+        }
         td {
             font-size: 9pt;
         }
