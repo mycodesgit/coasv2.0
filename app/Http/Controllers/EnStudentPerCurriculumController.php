@@ -113,6 +113,7 @@ class EnStudentPerCurriculumController extends Controller
             ->where('program_en_history.studSec', $studSec)
             ->where('program_en_history.schlyear', $schlyear)
             ->where('program_en_history.semester', $semester)
+            ->where('students.campus', $campus)
             ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
             ->orderBy('students.lname', 'ASC')
             ->get();
