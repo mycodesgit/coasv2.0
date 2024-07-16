@@ -82,6 +82,7 @@ class EnStudentPerCurriculumController extends Controller
         $studSec = $request->input('studSec');
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
+        $campus = Auth::guard('web')->user()->campus;
 
         $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
@@ -106,6 +107,7 @@ class EnStudentPerCurriculumController extends Controller
         $studSec = $request->input('studSec');
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
+        $campus = Auth::guard('web')->user()->campus;
 
         $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
