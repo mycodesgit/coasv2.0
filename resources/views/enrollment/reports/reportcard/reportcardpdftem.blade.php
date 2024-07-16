@@ -15,9 +15,6 @@
             padding: 2px;
             text-align: left;
         }
-        th {
-            font-size: 11pt;
-        }
         td {
             font-size: 9pt;
         }
@@ -91,7 +88,7 @@
     <div style="margin-top: 10px">
         <table>
             <thead>
-                <th style="font-weight: bold; font-size: 10pt;" width="62%"><center>SUBJECTS</center></th>
+                <th style="font-weight: bold; font-size: 10pt;" width="60%"><center>SUBJECTS</center></th>
                 <th class="" style="font-weight: bold; font-size: 10pt;">FINAL<br> GRADE</th>
                 <th class="" style="font-weight: bold; font-size: 10pt;">COMPL<br> GRADE</th>
                 <th class="" style="font-weight: bold; font-size: 10pt;">CREDITS</th>
