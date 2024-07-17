@@ -69,6 +69,14 @@ $(function () {
 
     }).buttons().container().appendTo('#report_wrapper .col-md-6:eq(0)');
 
+    $("#hebilling").DataTable({
+        "responsive": false,
+        "lengthChange": true, 
+        "autoWidth": false,
+        "buttons": ["copy", "excel","colvis"]
+
+    }).buttons().container().appendTo('#hebilling_wrapper .col-md-6:eq(0)');
+
     $('.select2').select2();
 
     //Initialize Select2 Elements
