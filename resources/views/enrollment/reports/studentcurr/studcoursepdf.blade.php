@@ -24,7 +24,7 @@
 </head>
 <body>
     <div align="center" style="margin-top: -30px">
-        <img src="{{ asset('template/img/studcourseheaderMain.png') }}" width="80%">
+        <img src="{{ public_path('template/img/studcourseheaderMain.png') }}" width="80%">
     </div>
     <div align="center" style="font-family: Calibri !important; color: #000 !important; margin-top: -35px;">
         <h4>
