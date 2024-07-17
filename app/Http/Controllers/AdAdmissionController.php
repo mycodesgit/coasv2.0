@@ -198,38 +198,59 @@ class AdAdmissionController extends Controller
                 'preference_2' => 'required',
             ]);
 
-            do {
-                $currentYear = now()->year;
-                $latestApplicant = Applicant::latest('created_at')->first();
+            $existingApplicantValidator = Validator::make([], []);
 
-                if (empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $currentYear) {
-                    $latestId = 0; 
-                } else {
-                    $latestId = substr($latestApplicant->admission_id, -4);
-                }
-
-                $newId = $latestId + 1;
-                $paddedValue = str_pad($newId, 4, '0', STR_PAD_LEFT);
-                $admissionid = $currentYear.$paddedValue;
-
-                $existingAdID = Applicant::where('admission_id', $admissionid)->first();
-    
-            } while ($existingAdID);
-
-
-            $existingApplicant = Applicant::where('admission_id', $admissionid)
-                ->orWhere(function ($query) use ($request) {
-                    $query->where('fname', $request->input('firstname'))
-                        ->where('mname', $request->input('mname'))
-                        ->where('lname', $request->input('lastname'));
-                })
+            $existingApplicant = Applicant::where('lname', $request->input('lastname'))
+                ->where('fname', $request->input('firstname'))
+                ->whereYear('created_at', Carbon::now()->year)
                 ->first();
 
             if ($existingApplicant) {
-                return Redirect::route('applicant-add')
-                    ->withErrors($validator)
-                    ->withInput()
-                    ->with('fail', 'Error: Name is already exists!');
+                $existingApplicantValidator->errors()->add('existing_applicant', 'Error: You have already Registered this year.');
+            }
+
+            $validator->errors()->merge($existingApplicantValidator->errors());
+
+            if ($validator->fails()) {
+                if ($existingApplicantValidator->errors()->has('existing_applicant')) {
+                    return Redirect::route('admission-apply')
+                        ->withErrors($existingApplicantValidator)
+                        ->withInput()
+                        ->with('fail', $existingApplicantValidator->errors()->first('existing_applicant'));
+                } else {
+                    return Redirect::route('admission-apply')
+                        ->withErrors($validator)
+                        ->withInput()
+                        ->with('fail', 'Error in saving applicant data. Please check the inputs!');
+                }
+            }
+
+            $todayRegistrations = Applicant::whereDate('created_at', today())->count();
+
+            if ($todayRegistrations >= 500) {
+                return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Daily registration limit reached!');
+            }
+                
+            $campus = $request->input('campus');
+            $year = Carbon::now()->format('Y');
+            $admissionid = '';
+
+            $latestApplicant = Applicant::where('campus', $campus)->latest('created_at')->first();
+
+            if (empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $year) {
+                $latestId = 0;
+            } else {
+                $latestId = (int)substr($latestApplicant->admission_id, -4);
+            }
+
+            $newId = $latestId + 1;
+            $paddedValue = str_pad($newId, 4, '0', STR_PAD_LEFT);
+            $admissionid = $year . $paddedValue;
+
+            $existingAdID = Applicant::where('admission_id', $admissionid)->where('campus', $campus)->first();
+
+            if ($existingAdID) {
+                $admissionid = $existingAdID->admission_id + 1;
             }
 
             $year = Carbon::now()->format('Y');
