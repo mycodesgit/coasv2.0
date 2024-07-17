@@ -113,18 +113,6 @@ CISS V.1.0 || Kiosk User
             formatInput(input);
         }
     }
-</script>
-
-<script>
-    var kioskuserReadRoute = "{{ route('getadminkioskRead') }}";
-    var kioskuserCreateRoute = "{{ route('adminkioskCreate') }}";
-    var kioskuserUpdateRoute = "{{ route('adminkioskUpdate', ['id' => ':studkiosid']) }}";
-    var kioskuserDeleteRoute = "{{ route('adminkioskDelete', ['id' => ':id']) }}";
-</script>
-
-<script>
-    function formatInput(input) {
-    }
 
     function fetchStudentName(studid) {
         if (studid) {
@@ -147,6 +135,13 @@ CISS V.1.0 || Kiosk User
             document.getElementById('studentName').value = '';
         }
     }
+</script>
+
+<script>
+    var kioskuserReadRoute = "{{ route('getadminkioskRead') }}";
+    var kioskuserCreateRoute = "{{ route('adminkioskCreate') }}";
+    var kioskuserUpdateRoute = "{{ route('adminkioskUpdate', ['id' => ':studkiosid']) }}";
+    var kioskuserDeleteRoute = "{{ route('adminkioskDelete', ['id' => ':id']) }}";
 </script>
 
 @endsection
