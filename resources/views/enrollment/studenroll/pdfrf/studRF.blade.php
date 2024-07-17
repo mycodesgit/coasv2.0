@@ -152,7 +152,7 @@
         @elseif(Auth::guard('web')->user()->campus == 'IC')
         	<img src="{{ public_path('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'CA')
-        	<img src="{{ public_path('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrfheader-CA.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'CC')
         	<img src="{{ public_path('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'SC')
