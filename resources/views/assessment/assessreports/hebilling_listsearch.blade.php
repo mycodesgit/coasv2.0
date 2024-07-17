@@ -78,7 +78,7 @@ CISS V.1.0 || Higher Education Billing
         <div class="mt-3 row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table id="reportAssessUndergrad" class="table table-hover">
+                    <table id="example1" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>StudID</th>
