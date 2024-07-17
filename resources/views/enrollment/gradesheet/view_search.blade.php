@@ -237,7 +237,7 @@ CISS V.1.0 || Grading
                                         </a>
                                     </form>
                                     @endif
-                                    @if ($datagenstud->compstat == 2 && $datagenstud->compstat == ' ' )
+                                    @if ($datagenstud->compstat == 2)
                                     <form method="POST" action="{{ route('editCompletion', ['id' => $datagenstud->sgid]) }}" id="editCompletionForm">
                                         @csrf
                                         <a class="dropdown-item" id="editgradecompletionid" data-toggle="modal" data-target="#editCompletiongrades">
