@@ -18,7 +18,16 @@
                         <div class="form-row">
                             <div class="col-md-12">
                                 <label><span class="badge badge-secondary">Student ID No.:</span></label>
-                                <input type="text" name="studid" class="form-control" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                <input type="text" name="studid" class="form-control" oninput="formatInput(this); this.value = this.value.toUpperCase(); fetchStudentName(this.value);" autofocus>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Name:</span></label>
+                                <input type="text" id="studentName" class="form-control" readonly>
                             </div>
                         </div>
                     </div>

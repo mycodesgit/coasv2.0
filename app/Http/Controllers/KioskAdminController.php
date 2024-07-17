@@ -27,6 +27,17 @@ class KioskAdminController extends Controller
         return view('kioskadmin.list_kioskuser', compact('studkiosk'));
     }
 
+    public function getStudentById($id)
+    {
+        $campus = Auth::guard('web')->user()->campus;
+        $student = Student::where('stud_id', $id)->where('campus', $campus)->first();
+        if ($student) {
+            return response()->json($student);
+        } else {
+            return response()->json(['error' => 'Student not found'], 404);
+        }
+    }
+
     public function getadminkioskRead()
     {
         $campus = Auth::guard('web')->user()->campus;

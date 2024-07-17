@@ -122,4 +122,31 @@ CISS V.1.0 || Kiosk User
     var kioskuserDeleteRoute = "{{ route('adminkioskDelete', ['id' => ':id']) }}";
 </script>
 
+<script>
+    function formatInput(input) {
+    }
+
+    function fetchStudentName(studid) {
+        if (studid) {
+            const url = `{{ route('getStudentById', ['id' => ':id']) }}`.replace(':id', studid);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('studentName').value = 'Student not found';
+                    } else {
+                        const fullName = `${data.lname}, ${data.fname} ${data.mname}`;
+                        document.getElementById('studentName').value = fullName.toUpperCase();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching student:', error);
+                    document.getElementById('studentName').value = 'Error fetching student';
+                });
+        } else {
+            document.getElementById('studentName').value = '';
+        }
+    }
+</script>
+
 @endsection
