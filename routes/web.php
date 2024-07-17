@@ -41,6 +41,7 @@ use App\Http\Controllers\SchedReportsController;
 use App\Http\Controllers\StudFundAssessmentController;
 use App\Http\Controllers\StudFeeAssessmentController;
 use App\Http\Controllers\StudStateAccntAssessmentController;
+use App\Http\Controllers\StudHEBillingController;
 
 use App\Http\Controllers\ScholarshipController;
 
@@ -449,6 +450,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/statement/summary', [StudStateAccntAssessmentController::class, 'stateaccntpersum'])->name('stateaccntpersum');
             Route::get('/statement/summary/search', [StudStateAccntAssessmentController::class, 'stateaccntpersum_search'])->name('stateaccntpersum_search');
             Route::get('/statement/summary/searchajax', [StudStateAccntAssessmentController::class, 'getstateaccntpersum_search'])->name('getstateaccntpersum_search');
+
+            Route::get('/he/billing', [StudHEBillingController::class, 'hebillingRead'])->name('hebillingRead');
+            Route::get('/he/billing/search', [StudHEBillingController::class, 'hebillingRead_search'])->name('hebillingRead_search');
         });
     }); 
 
