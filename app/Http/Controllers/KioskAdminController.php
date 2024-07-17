@@ -20,11 +20,7 @@ class KioskAdminController extends Controller
     {
         $campus = Auth::guard('web')->user()->campus;
 
-        $studkiosk = KioskUser::leftJoin('students', 'kioskstudent.studid', '=', 'students.stud_id')
-                    ->where('students.campus', $campus)
-                    ->get();
-
-        return view('kioskadmin.list_kioskuser', compact('studkiosk'));
+        return view('kioskadmin.list_kioskuser');
     }
 
     public function getStudentById($id)
