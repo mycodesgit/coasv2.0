@@ -149,17 +149,8 @@
                         }
                         return $grade;
                     }
-                    $totalCredits = 0;
-                    $totalWeightedGrades = 0;
                 @endphp
                 @foreach($studrepcardsub as $datastudrepcardsub)
-                @php
-                // Accumulate totals
-                $creditEarned = (float)$datastudrepcardsub->creditEarned;
-                $subjFgrade = (float)$datastudrepcardsub->subjFgrade;
-                $totalCredits += $creditEarned;
-                $totalWeightedGrades += $subjFgrade * $creditEarned;
-            @endphp
                 <tr>
                     <td>{{ $datastudrepcardsub->sub_name }}</td>
                     <td>{{ $datastudrepcardsub->sub_title }}</td>
@@ -169,16 +160,6 @@
                 </tr>
                 @endforeach
             </tbody>
-            <tfoot>
-        <tr>
-            <th colspan="4" style="text-align:right;">Total Credits:</th>
-            <th>{{ $totalCredits }}</th>
-        </tr>
-        <tr>
-            <th colspan="4" style="text-align:right;">Total Weighted Grades:</th>
-            <th>{{ $totalWeightedGrades }}</th>
-        </tr>
-    </tfoot>
         </table>
 
         <div style="margin-top: 10px">
