@@ -123,7 +123,8 @@ class EnStudReportCardController extends Controller
         $data = [
             'studrepcard' => $studrepcard,
             'studrepcardsub' => $studrepcardsub,
-            'average' => $average
+            'average' => $average,
+            'weightedSum'
         ];
         $pdf = PDF::loadView('enrollment.reports.reportcard.reportcardpdftem', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
