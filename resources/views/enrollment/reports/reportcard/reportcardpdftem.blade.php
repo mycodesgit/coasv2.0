@@ -166,6 +166,9 @@
     </tbody>
 </table>
 
+<p>Average: {{ number_format($average, 6) }}</p>
+
+
         <div style="margin-top: 10px">
             **********************************Nothing Follows**********************
         </div>
