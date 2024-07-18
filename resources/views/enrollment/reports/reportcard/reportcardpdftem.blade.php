@@ -106,7 +106,7 @@
                     <th class="" style="font-weight: bold; font-size: 10pt;" width="12%"></th>
                     <th class="" style="font-weight: bold; font-size: 10pt;" width="12%"></th>
                     <th class="" style="font-weight: bold; font-size: 10pt;" width="12%"></th>
-                    <th class="" style="font-weight: bold; font-size: 10pt;" width="12%">Weighted Sum</th>
+                    {{-- <th class="" style="font-weight: bold; font-size: 10pt;" width="12%">Weighted Sum</th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -160,7 +160,7 @@
                         <td>{{ displayGrade($data['subject']->subjFgrade) }}</td>
                         <td>{{ displayGrade($data['subject']->subjComp) }}</td>
                         <td>{{ $data['subject']->creditEarned }}</td>
-                        <td>{{ $data['weightedSumPerSubject'] }}</td>
+                        {{-- <td>{{ $data['weightedSumPerSubject'] }}</td> --}}
                     </tr>
                 @endforeach
             </tbody>
