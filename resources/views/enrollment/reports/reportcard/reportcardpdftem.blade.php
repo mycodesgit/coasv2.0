@@ -167,7 +167,7 @@
             **********************************Nothing Follows**********************
         </div>
         <div>
-            AVERAGE: {{ number_format($average, 6) }}
+            AVERAGE: {{ $average }}
         </div>
         <div style="border-top: 1px solid #000; margin-top: 80px">
             <span style="font-size: 10pt; margin-top: 30px;"> Remarks: This is a system generated report. Valid for evaluation purposes only. </span>
