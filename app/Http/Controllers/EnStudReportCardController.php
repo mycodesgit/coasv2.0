@@ -110,8 +110,8 @@ class EnStudReportCardController extends Controller
             $weightedSum = 0;
 
             foreach ($studrepcardsub as $subject) {
-                $creditEarned = (float)$subject->creditEarned;
-                $subjFgrade = (float)$subject->subjFgrade;
+                $creditEarned = $subject->creditEarned;
+                $subjFgrade = $subject->subjFgrade;
                 
                 $totalCredits += $creditEarned;
                 $weightedSum += $subjFgrade * $creditEarned;
