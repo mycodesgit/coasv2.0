@@ -108,7 +108,6 @@ class EnStudReportCardController extends Controller
 
             $totalCredits = 0;
             $weightedSum = 0;
-            $totalweightedSum = 0;
 
             foreach ($studrepcardsub as $subject) {
                 $creditEarned = (float)$subject->creditEarned;
@@ -119,12 +118,11 @@ class EnStudReportCardController extends Controller
             }
 
             $average = $totalCredits ? $weightedSum / $totalCredits : 0;
-            $weightedSum;
+
         $data = [
             'studrepcard' => $studrepcard,
             'studrepcardsub' => $studrepcardsub,
-            'average' => $average,
-            'weightedSum'
+            'average' => $average
         ];
         $pdf = PDF::loadView('enrollment.reports.reportcard.reportcardpdftem', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
