@@ -156,7 +156,7 @@
                     <td>{{ $datastudrepcardsub->sub_title }}</td>
                     <td>{{ displayGrade($datastudrepcardsub->subjFgrade) }}</td>
                     <td>{{ displayGrade($datastudrepcardsub->subjComp) }}</td>
-                    <td>{{ $datastudrepcardsub->creditEarned }} {{ $weightedSum }}</td>
+                    <td>{{ $datastudrepcardsub->creditEarned }} {{ $datastudrepcardsub->weightedSum }}</td>
                 </tr>
                 @endforeach
             </tbody>
