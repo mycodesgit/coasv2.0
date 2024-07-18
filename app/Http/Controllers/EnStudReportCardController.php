@@ -117,7 +117,7 @@ class EnStudReportCardController extends Controller
                 $weightedSum += $subjFgrade * $creditEarned;
             }
 
-            $average = $totalCredits ? $weightedSum / $totalCredits : 0;
+            $average = $weightedSum / $totalCredits : 0;
 
         $data = [
             'studrepcard' => $studrepcard,
