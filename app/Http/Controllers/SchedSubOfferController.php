@@ -63,7 +63,7 @@ class SchedSubOfferController extends Controller
 
         $totalSearchResults = count($data);
 
-        $subjects = Subject::all();
+        $subjects = Subject::where('sub_code', 'not like', 'VIC%')->get();
 
         $class = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->select('class_enroll.*', 'programs.*' )
