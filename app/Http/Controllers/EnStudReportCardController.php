@@ -107,23 +107,31 @@ class EnStudReportCardController extends Controller
                     ->get();
 
             $totalCredits = 0;
-            $weightedSum = 0;
+    $weightedSum = 0;
+    $subjectsData = [];
 
-            foreach ($studrepcardsub as $subject) {
-                $creditEarned = (float)$subject->creditEarned;
-                $subjFgrade = (float)$subject->subjFgrade;
-                
-                $totalCredits += $creditEarned;
-                $weightedSum += $subjFgrade * $creditEarned;
-            }
+    foreach ($studrepcardsub as $subject) {
+        $creditEarned = (float)$subject->creditEarned;
+        $subjFgrade = (float)$subject->subjFgrade;
+        $weightedSumPerSubject = $subjFgrade * $creditEarned;
+        
+        $totalCredits += $creditEarned;
+        $weightedSum += $weightedSumPerSubject;
 
-            $average = $totalCredits ? $weightedSum / $totalCredits : 0;
-
-        $data = [
-            'studrepcard' => $studrepcard,
-            'studrepcardsub' => $studrepcardsub,
-            'average' => $average
+        $subjectsData[] = [
+            'subject' => $subject,
+            'weightedSumPerSubject' => $weightedSumPerSubject
         ];
+    }
+
+    $average = $totalCredits ? $weightedSum / $totalCredits : 0;
+
+    $data = [
+        'studrepcard' => $studrepcard,
+        'subjectsData' => $subjectsData,
+        'totalCredits' => $totalCredits,
+        'average' => $average
+    ];
         $pdf = PDF::loadView('enrollment.reports.reportcard.reportcardpdftem', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
     }

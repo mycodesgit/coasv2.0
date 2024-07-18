@@ -150,15 +150,16 @@
                         return $grade;
                     }
                 @endphp
-                @foreach($studrepcardsub as $datastudrepcardsub)
-                <tr>
-                    <td>{{ $datastudrepcardsub->sub_name }}</td>
-                    <td>{{ $datastudrepcardsub->sub_title }}</td>
-                    <td>{{ displayGrade($datastudrepcardsub->subjFgrade) }}</td>
-                    <td>{{ displayGrade($datastudrepcardsub->subjComp) }}</td>
-                    <td>{{ $datastudrepcardsub->creditEarned }}</td>
-                </tr>
-                @endforeach
+                 @foreach($subjectsData as $data)
+            <tr>
+                <td>{{ $data['subject']->sub_name }}</td>
+                <td>{{ $data['subject']->sub_title }}</td>
+                <td>{{ displayGrade($data['subject']->subjFgrade) }}</td>
+                <td>{{ displayGrade($data['subject']->subjComp) }}</td>
+                <td>{{ $data['subject']->creditEarned }}</td>
+                <td>{{ $data['weightedSumPerSubject'] }}</td>
+            </tr>
+        @endforeach
             </tbody>
         </table>
 
