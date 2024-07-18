@@ -108,15 +108,13 @@ class EnStudReportCardController extends Controller
 
             $totalCredits = 0;
             $weightedSum = 0;
-            $totalsubjFgrade = 0;
 
             foreach ($studrepcardsub as $subject) {
                 $creditEarned = (float)$subject->creditEarned;
                 $subjFgrade = (float)$subject->subjFgrade;
                 
                 $totalCredits += $creditEarned;
-                $totalsubjFgrade += $subjFgrade;
-                $weightedSum += $totalsubjFgrade * $creditEarned;
+                $weightedSum += $subjFgrade * $creditEarned;
             }
 
             $average = $totalCredits ? $weightedSum / $totalCredits : 0;
