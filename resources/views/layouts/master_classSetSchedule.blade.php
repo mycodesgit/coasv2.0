@@ -102,6 +102,23 @@
             background-color: #b2b9bf; /* Highlighted cell background color */
         }
 
+        .schedule-table {
+            table-layout: fixed; /* Ensure the table layout does not stretch columns */
+            width: 100%; /* Ensure the table takes full width */
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            word-wrap: break-word; /* Allow long words to break and wrap onto the next line */
+            overflow-wrap: break-word; /* Ensure long words break within the cell */
+            vertical-align: middle; /* Center text vertically */
+            text-align: center; /* Center text horizontally */
+            padding: 2px; /* Adjust padding for better appearance */
+        }
+
+        .time-slot.highlight {
+            white-space: normal; /* Ensure text wraps normally */
+        }
     </style>
 </head>
 
