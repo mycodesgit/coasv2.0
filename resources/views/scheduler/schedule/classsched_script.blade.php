@@ -9,6 +9,10 @@
         var semester = urlParams.get('semester') || '';
         var progCod = urlParams.get('progCod') || '';
 
+        $('#refreshSchedule').click(function() {
+            location.reload();
+        });
+
         function loadSchedule() {
             $.ajax({
                 url: '{{ route('fetchSchedule') }}',
@@ -272,8 +276,5 @@
             $('body').append(form);
             form.submit();
         });
-
-
-
     });
 </script>

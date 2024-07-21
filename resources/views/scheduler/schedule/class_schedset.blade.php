@@ -98,8 +98,15 @@ CISS V.1.0 || Class Schedule
                         </div>
                         <div class="col-md-4">
                             <div class="breadcrumb">
-                                <button class="btn btn-danger btn-xs ml-1">Delete Schedule</button>
-                                <button id="viewSchedule" class="btn btn-secondary btn-xs ml-1">View Schedule</button>  
+                                <button id="viewSchedule" class="btn btn-secondary btn-xs ml-1">
+                                    <i class="fas fa-eye"></i> View Schedule
+                                </button>
+                                <button type="button" id="refreshSchedule" class="btn btn-primary btn-xs ml-1">
+                                    <i class="fas fa-sync"></i> Refresh
+                                </button>  
+                                <button class="btn btn-danger btn-xs ml-1">
+                                    <i class="fas fa-trash"></i> Delete Schedule
+                                </button>
                             </div>
                         </div>
                     </div>
