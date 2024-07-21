@@ -57,16 +57,16 @@ body {
     border: 1px solid #ccc; 
     padding: 8px; 
     text-align: center;
-    height: 10px; 
-    line-height: 10px; 
+    height: 8px; 
+    line-height: 12px; 
 }
 
 #schedule-view th, #schedule-view td {
     border: 1px solid #ccc; 
     padding: 8px;
     text-align: center; 
-    height: 10px; 
-    line-height: 10px; 
+    height: 8px; 
+    line-height: 12px; 
 }
 
 #schedule-grid th {
