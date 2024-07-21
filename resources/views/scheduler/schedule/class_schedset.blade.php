@@ -108,13 +108,12 @@ CISS V.1.0 || Class Schedule
             </div>
         </div>
     </div>
-
-
+    
     <!-- Schedule View Modal -->
     <div class="modal fade" id="viewScheduleModal" tabindex="-1" role="dialog" aria-labelledby="viewScheduleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="viewScheduleModalLabel">
                         <span>Course: {{ $progAcronym ?? 'Not Available' }} {{ $progCodSuffix ?? 'Not Available' }},</span>
                             <span class="ml-2">School Year: {{ request('schlyear') }},</span>
@@ -131,15 +130,18 @@ CISS V.1.0 || Class Schedule
                                 @endif
                             </span>
                     </h5>
-                    <button id="printSchedule" class="btn btn-info btn-md">
-                        <i class="fas fa-print"></i> Print Schedule
-                    </button>
+                    <div>
+                        <button id="printSchedule" class="btn btn-info btn-md">
+                            <i class="fas fa-print"></i> Print Schedule
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
                 <div class="modal-body" id="schedule-view">
                     <!-- Schedule content will be dynamically inserted here -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
                 </div>
             </div>
         </div>
@@ -217,26 +219,6 @@ CISS V.1.0 || Class Schedule
                         <button type="button" class="btn btn-primary" id="saveSchedule">Save Schedule</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for viewing the schedule -->
-    <div class="modal fade" id="viewScheduleModal" tabindex="-1" role="dialog" aria-labelledby="viewScheduleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewScheduleModalLabel">View Schedule</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="schedule-view"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
             </div>
         </div>
     </div>

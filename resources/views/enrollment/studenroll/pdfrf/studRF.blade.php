@@ -140,25 +140,25 @@
 <body>
 	<header >
 		@if(Auth::guard('web')->user()->campus == 'MC')
-        	<img src="{{ public_path('template/img/studrfheader.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'VC')
-        	<img src="{{ public_path('template/img/studrfheader-VC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-VC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'SCC')
-        	<img src="{{ public_path('template/img/studrfheader-SCC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-SCC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'HC')
-        	<img src="{{ public_path('template/img/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'MP')
-        	<img src="{{ public_path('template/img/studrfheader-MP.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-MP.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'IC')
-        	<img src="{{ public_path('template/img/studrfheader-IC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-IC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'CA')
-        	<img src="{{ public_path('template/img/studrfheader-CA.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-CA.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'CC')
-        	<img src="{{ public_path('template/img/studrfheader-CC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-CC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'SC')
-        	<img src="{{ public_path('template/img/studrfheader-SC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-SC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @elseif(Auth::guard('web')->user()->campus == 'HinC')
-        	<img src="{{ public_path('template/img/studrfheader-HinC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
+        	<img src="{{ public_path('template/img/studrf/studrfheader-HinC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @endif
 
         <div class="textdoccode">
@@ -207,7 +207,7 @@
     	<table id="table">
     		<tbody>
     			<tr>
-    				<td rowspan="" width="4%"><img src="{{ public_path('template/img/subsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
+    				<td rowspan="" width="4%"><img src="{{ public_path('template/img/studrf/subsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
     				<td>
     					<table id="table-inside">
     						<thead>
@@ -268,7 +268,7 @@
     	<table id="table" style="margin-top: 10px !important">
     		<tbody>
     			<tr>
-    				<td width="4%"><img src="{{ public_path('template/img/cashsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
+    				<td width="4%"><img src="{{ public_path('template/img/studrf/cashsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
     				<td colspan="2" style="border-right: none !important" width="35%">
     					<div class="studinfolabel">
 							<span style="font-weight: normal;">StudID: {{ request('stud_id') }}</span>
@@ -364,7 +364,7 @@
     	</div>
 
     	<div class="footer-logo-container">
-		    <img src="{{ public_path('template/img/footerLogo.png') }}" class="footer-logo" width="100%">
+		    <img src="{{ public_path('template/img/studrf/footerLogo.png') }}" class="footer-logo" width="100%">
 		</div>
     </div>
 

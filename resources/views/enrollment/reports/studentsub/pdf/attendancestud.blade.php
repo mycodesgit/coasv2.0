@@ -60,7 +60,7 @@
 <body>
 	<div>
 		<div align="center" style="margin-top: -30px">
-	        <img src="{{ public_path('template/img/attendanceheader.png') }}" width="70%">
+	        <img src="{{ public_path('template/img/studsub/attendanceheader.png') }}" width="70%">
 	    </div>
 	    <div class="studinfolabel">
 		    <div class="info-row">
@@ -134,7 +134,7 @@
 			<span style="font-size: 12pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__________________________________________________________________________________</span>
 		</div>
 		<div class="footer">
-		    <img src="{{ public_path('template/img/attendancefooter.png') }}">
+		    <img src="{{ public_path('template/img/studsub/attendancefooter.png') }}">
 		</div>
     </div>
 </body>

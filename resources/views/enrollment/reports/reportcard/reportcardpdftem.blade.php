@@ -30,7 +30,11 @@
 </head>
 <body>
     <div align="center" style="margin-top: -30px">
-        <img src="{{ public_path('template/img/reportcardheaderMain.png') }}" width="80%">
+        @if(Auth::guard('web')->user()->campus == 'MC')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderMain.png') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'VC')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderVic.jpg') }}" width="80%">
+        @endif
     </div>
 
     <div class="studinfolabel" style="margin-top: 25px">

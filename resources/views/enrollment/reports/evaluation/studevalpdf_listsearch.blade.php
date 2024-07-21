@@ -30,7 +30,7 @@
 </head>
 <body>
     <div align="center" style="margin-top: -30px">
-        <img src="{{ public_path('template/img/studentrecordmain.jpg') }}" width="80%">
+        <img src="{{ public_path('template/img/eval/studentrecordmain.jpg') }}" width="80%">
     </div>
 
     <div class="" style="margin-top: 35px">

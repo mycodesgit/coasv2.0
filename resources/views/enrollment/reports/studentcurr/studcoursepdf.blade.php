@@ -25,9 +25,9 @@
 <body>
     <div align="center" style="margin-top: -30px">
         @if(Auth::guard('web')->user()->campus == 'MC')
-            <img src="{{ public_path('template/img/studcourseheaderMain.png') }}" width="80%">
+            <img src="{{ public_path('template/img/studcur/studcourseheaderMain.png') }}" width="80%">
         @elseif(Auth::guard('web')->user()->campus == 'CA')
-            <img src="{{ public_path('template/img/studcourseheaderCandoni.jpg') }}" width="80%">
+            <img src="{{ public_path('template/img/studcur/studcourseheaderCandoni.jpg') }}" width="80%">
         @endif
     </div>
     <div align="center" style="font-family: Calibri !important; color: #000 !important; margin-top: -35px;">

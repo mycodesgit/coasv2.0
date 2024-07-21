@@ -291,7 +291,7 @@ class SchedClassController extends Controller
             </table>
         ';
         $scheduleHtml = $request->input('scheduleHtml');
-        $headerImage = asset("template/img/schedclassheaderMain.png");
+        $headerImage = asset("template/img/schedclass/schedclassheaderMain.png");
 
         $html = '
             <html>
