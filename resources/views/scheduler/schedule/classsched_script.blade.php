@@ -23,7 +23,7 @@
                         let day = item.schedday;
                         let startTime = item.start_time;
                         let endTime = item.end_time;
-                        let subjectInfo = item.sub_name + " " + item.subSec + " " + item.lname + " " + item.room_name;
+                        let subjectInfo = item.sub_name + " " + item.subSec + " " + item.lname + ", " + item.room_name + " " + item.remarks;
 
                         let timeIndexStart = times.indexOf(startTime);
                         let timeIndexEnd = times.indexOf(endTime);
@@ -72,6 +72,7 @@
                         rowspanCount++;
                         prevCell.attr('rowspan', rowspanCount);
                         currentCell.remove();
+                        prevCell.css('background-color', '#d9edf7');
                     } else {
                         prevCell = currentCell;
                         rowspanCount = 1;
@@ -217,24 +218,40 @@
         // View Schedule button click handler
         $('#viewSchedule').click(function() {
             let scheduleHtml = $('#schedule-grid').html();
-            $('#schedule-view').html('<table class="table table-bordered">' + scheduleHtml + '</table>');
+            $('#schedule-view').html('<table class="table table-bordered schedule-table">' + scheduleHtml + '</table>');
             mergeCellsForView();
             $('#viewScheduleModal').modal('show');
         });
 
         // Generate and download the schedule as PDF
         $('#printSchedule').click(function() {
-            let doc = new jsPDF('landscape');
-            let scheduleHtml = $('#schedule-grid').html();
-            
-            doc.html(scheduleHtml, {
-                callback: function (doc) {
-                    doc.save('schedule.pdf');
+            let scheduleHtml = $('#schedule-view').html();
+            console.log(scheduleHtml); // Log the HTML content for debugging
+
+            $.ajax({
+                url: '{{ route('printSchedule') }}',
+                method: 'POST',
+                data: {
+                    scheduleHtml: scheduleHtml,
+                    schlyear: urlParams.get('schlyear'),
+                    semester: urlParams.get('semester'),
+                    progCod: urlParams.get('progCod'),
+                    _token: '{{ csrf_token() }}'
                 },
-                x: 10,
-                y: 10
+                xhrFields: {
+                    responseType: 'blob' // Important for handling binary data
+                },
+                success: function(response) {
+                    let blob = new Blob([response], { type: 'application/pdf' });
+                    let url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                },
+                error: function(response) {
+                    toastr.error('Error generating PDF: ' + response.responseJSON.message);
+                }
             });
         });
+
 
     });
 </script>

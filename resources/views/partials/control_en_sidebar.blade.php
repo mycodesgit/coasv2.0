@@ -15,6 +15,7 @@
     $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
     $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
     $numenrolledActive = in_array($curr_route, ['studnoenrollee', 'studnoenrollee_searchList']) ? 'active' : '';
+    $studevalActive = in_array($curr_route, ['studevalRead', 'studevalRead_listsearch']) ? 'active' : '';
 
 @endphp
 
@@ -55,6 +56,6 @@
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
         @endif
         <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
-        <a href="" class="list-group-item">Transcript</a>
+        <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
     </ul>
 </div>

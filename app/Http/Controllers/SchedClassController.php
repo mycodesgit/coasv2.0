@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+use PDF;
 use Storage;
 use Carbon\Carbon;
 use App\Models\ScheduleDB\ClassEnroll;
@@ -257,6 +258,83 @@ class SchedClassController extends Controller
 
         return response()->json($schedule);
     }
+
+    public function printSchedule(Request $request)
+    {
+        $progCod = $request->input('progCod', 'Not Available');
+        $schlyear = $request->input('schlyear', 'Not Available');
+        $semester = $request->input('semester', 'Unknown Semester');
+
+        $parts = preg_split('/[\+\s]/', $progCod);
+        $progCodPart = $parts[0];
+        $progCodSuffix = isset($parts[1]) ? $parts[1] : null;
+        $program = EnPrograms::whereRaw('LOWER(progCod) = ?', [strtolower($progCodPart)])->first();
+
+        $progAcronym = $program ? $program->progAcronym : 'N/A';
+
+        $breadcrumbHtml = '
+            
+            <table style="border: none; width: 100%; font-size: 10pt; background-color: none !important">
+                <thead>
+                    <tr>
+                        <th style="border: none; text-align: left; font-weight: bold; background-color: none !important">
+                            <span>Course: ' . htmlspecialchars($progAcronym) . ' ' . htmlspecialchars($progCodSuffix) . '</span>
+                        </th>
+                        <th style="border: none; text-align: left; font-weight: bold; color: #000; background-color: none !important">
+                            <span>School Year: ' . htmlspecialchars($schlyear) . '</span>
+                        </th>
+                        <th style="border: none; text-align: left; font-weight: bold; color: #000; background-color: none !important">
+                            <span>Semester: ' . htmlspecialchars($semester) . '</span>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        ';
+        $scheduleHtml = $request->input('scheduleHtml');
+        $headerImage = asset("template/img/schedclassheaderMain.png");
+
+        $html = '
+            <html>
+                <head>
+                    <style>
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            font-size: 8px; /* Reduce font size for better fitting */
+                        }
+                        th, td {
+                            border: 1px solid #000;
+                            text-align: center;
+                        }
+                        th {
+                            // background-color: #e9ecef;
+                        }
+                        .highlighted {
+                            background-color: #d9edf7;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div align="center" style="margin-top: -20px">
+                        <img src="' . $headerImage . '" width="70%">
+                    </div>
+                    <div align="center">
+                        <h3>Class Schedule</h3>
+                    </div>
+                    <div class="margin-top: 50px">
+                    ' . $breadcrumbHtml . '
+                    ' . $scheduleHtml . '
+                    </div>
+                </body>
+            </html>';
+
+        $pdf = PDF::loadHTML($html)
+            ->setPaper('Legal', 'portrait')
+            ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+
+        return $pdf->stream('schedule.pdf');
+    }
+
 
 
 

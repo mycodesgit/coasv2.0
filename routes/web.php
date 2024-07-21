@@ -328,6 +328,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/info/number/enrollees', [EnStudNoEnrolleeController::class, 'studnoenrollee'])->name('studnoenrollee');
             Route::post('/info/number/enrollees', [EnStudNoEnrolleeController::class, 'studnoenrollee_searchList'])->name('studnoenrollee_searchList');
+
+            Route::get('/info/stud/record/eval', [EnStudReportCardController::class, 'studevalRead'])->name('studevalRead');
+            Route::get('/info/stud/record/eval/search', [EnStudReportCardController::class, 'studevalRead_listsearch'])->name('studevalRead_listsearch');
+            Route::get('/info/stud/record/eval/searchPDF', [EnStudReportCardController::class, 'studevalRead_listsearchpdf'])->name('studevalRead_listsearchpdf');
         });
 
     });
@@ -397,6 +401,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/class/set/room/class/ajax', [SchedClassController::class, 'getRoomClassSched'])->name('getRoomClassSched');
             Route::post('/class/set/class/add', [SchedClassController::class, 'classSchedCreate'])->name('classSchedCreate');
             Route::get('/class/set/class/fetch', [SchedClassController::class, 'fetchSchedule'])->name('fetchSchedule');
+            Route::post('/print-schedule', [SchedClassController::class, 'printSchedule'])->name('printSchedule');
 
 
             Route::get('/faculty', [SchedClassController::class, 'facultySchedRead'])->name('facultySchedRead');

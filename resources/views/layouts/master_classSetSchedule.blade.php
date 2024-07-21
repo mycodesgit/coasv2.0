@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     <!-- Logo  -->
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
 
@@ -31,95 +32,6 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-    <style>
-        input[readonly] {
-            background-color: #fff !important;
-        }
-        .toast-top-right {
-            margin-top: 50px;
-        }
-        body {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        .highlight {
-            background-color: #b2b9bf;
-        }
-
-        /* Allow text selection within the schedule grid */
-        #schedule-grid {
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-            user-select: text;
-        }
-
-        /* Prevent text selection for time labels */
-        .time-label {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        .day-label {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        .time-slot {
-            user-select: none; /* Disable text selection */
-            -webkit-user-select: none; /* For older versions of Chrome/Safari */
-            -moz-user-select: none; /* For older versions of Firefox */
-            -ms-user-select: none; /* For older versions of IE/Edge */
-        }
-
-        #schedule-grid {
-            border-collapse: collapse; /* Collapse borders */
-            width: 100%; /* Set table width to 100% */
-        }
-
-        #schedule-grid th, #schedule-grid td {
-            border: 1px solid #ccc; /* Example border style */
-            padding: 8px; /* Adjust padding as needed */
-            text-align: center; /* Center text within cells */
-            height: 10px; /* Set height of table rows */
-            line-height: 10px; /* Adjust line-height to vertically center content */
-        }
-
-        #schedule-grid th {
-            background-color: #83a986; /* Header background color */
-        }
-
-        #schedule-grid .time-label {
-            /*background-color: #b2b9bf;*/ /* Time label background color */
-        }
-
-        #schedule-grid .highlight {
-            background-color: #b2b9bf; /* Highlighted cell background color */
-        }
-
-        .schedule-table {
-            table-layout: fixed; /* Ensure the table layout does not stretch columns */
-            width: 100%; /* Ensure the table takes full width */
-        }
-
-        .schedule-table th,
-        .schedule-table td {
-            word-wrap: break-word; /* Allow long words to break and wrap onto the next line */
-            overflow-wrap: break-word; /* Ensure long words break within the cell */
-            vertical-align: middle; /* Center text vertically */
-            text-align: center; /* Center text horizontally */
-            padding: 2px; /* Adjust padding for better appearance */
-        }
-
-        .time-slot.highlight {
-            white-space: normal; /* Ensure text wraps normally */
-        }
-    </style>
 </head>
 
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
