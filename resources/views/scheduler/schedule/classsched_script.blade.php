@@ -226,31 +226,53 @@
         // Generate and download the schedule as PDF
         $('#printSchedule').click(function() {
             let scheduleHtml = $('#schedule-view').html();
-            console.log(scheduleHtml); // Log the HTML content for debugging
+            let urlParams = new URLSearchParams(window.location.search);
 
-            $.ajax({
-                url: '{{ route('printSchedule') }}',
+            // Create a form
+            let form = $('<form>', {
+                action: '{{ route('printSchedule') }}',
                 method: 'POST',
-                data: {
-                    scheduleHtml: scheduleHtml,
-                    schlyear: urlParams.get('schlyear'),
-                    semester: urlParams.get('semester'),
-                    progCod: urlParams.get('progCod'),
-                    _token: '{{ csrf_token() }}'
-                },
-                xhrFields: {
-                    responseType: 'blob' // Important for handling binary data
-                },
-                success: function(response) {
-                    let blob = new Blob([response], { type: 'application/pdf' });
-                    let url = URL.createObjectURL(blob);
-                    window.open(url, '_blank');
-                },
-                error: function(response) {
-                    toastr.error('Error generating PDF: ' + response.responseJSON.message);
-                }
+                target: '_blank'
             });
+
+            // Add CSRF token
+            form.append($('<input>', {
+                type: 'hidden',
+                name: '_token',
+                value: '{{ csrf_token() }}'
+            }));
+
+            // Add schedule HTML
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'scheduleHtml',
+                value: scheduleHtml
+            }));
+
+            // Add other parameters
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'schlyear',
+                value: urlParams.get('schlyear')
+            }));
+
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'semester',
+                value: urlParams.get('semester')
+            }));
+
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'progCod',
+                value: urlParams.get('progCod')
+            }));
+
+            // Append form to body and submit
+            $('body').append(form);
+            form.submit();
         });
+
 
 
     });
