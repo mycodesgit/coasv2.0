@@ -63,7 +63,7 @@ CISS V.1.0 || Class Schedule
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Course</span></label>
-                                <select class="form-control form-control-sm" name="progCod" id="progCod">
+                                <select class="form-control form-control-sm select2bs4" name="progCod" id="progCod">
                                     <option disabled selected>Select a course</option>
                                 </select>
                             </div>
