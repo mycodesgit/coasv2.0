@@ -55,6 +55,8 @@ class SchedClassController extends Controller
             ->where('class_enroll.semester', $semester)
             ->where('class_enroll.schlyear', $schlyear)
             ->where('class_enroll.campus', $campus)
+            ->orderBy('class_enroll.progCode')
+            ->orderBy('class_enroll.classSection')
             ->get();
 
         return response()->json($courses);
