@@ -94,6 +94,7 @@ CISS V.1.0 || Higher Education Billing
                                 <th>Total Units</th>
                                 <th>NSTP Unit</th>
                                 <th>Tuition</th>
+                                <th>NSTP</th>
                                 <th>Athletic</th>
                                 <th>Computer</th>
                                 <th>Cultural</th>
@@ -145,7 +146,7 @@ CISS V.1.0 || Higher Education Billing
                                     <td>{{ $student['contact'] }}</td>
                                     <td></td>
                                     <td>{{ $student['studUnit'] }}</td>
-                                    <td></td>
+                                    <td>{{ $student['fees']['TUITION'] }}</td>
                                     <td></td>
                                     <td>{{ $student['fees']['ATHLETIC FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['COMPUTER LAB FEE'] ?? '' }}</td>
