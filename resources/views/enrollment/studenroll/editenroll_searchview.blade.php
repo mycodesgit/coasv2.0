@@ -322,11 +322,11 @@ CISS V.1.0 || Edit Student Enrollment
                                 Print RF
                             </button>
                             </form>
-                            
+                            @if(Auth::guard('web')->user()->role == 0)
                             <button type="button" class="form-control form-control-sm btn btn-danger btn-sm mt-2" id="deleteButton">
                                 <span style="font-size: 8pt;">Delete Enrollment</span>
                             </button>
-                            
+                            @endif
                             {{-- <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}
                         </div>
