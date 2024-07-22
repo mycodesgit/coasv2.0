@@ -177,7 +177,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/acceptedListAll', [AdAcceptedController::class, 'srchacceptedListAll'])->name('srchacceptedListAll');
             Route::get('/list/acceptedList/ajax', [AdAcceptedController::class, 'getsrchacceptedListapp'])->name('getsrchacceptedListapp');
             Route::get('/list/acceptedList/ajax/all', [AdAcceptedController::class, 'getsrchacceptedListappAll'])->name('getsrchacceptedListappAll');
-            Route::get('/list/acceptedList/xx/srch/{id}', [AdPrntController::class, 'acceptpre_enrolment_print'])->name('acceptpre_enrolment_print');
+            Route::get('/list/acceptedList/xx/srch/{id}', [AdPrntController::class, 'conpre_enrolment_print_srch'])->name('conpre_enrolment_print_srch');
             Route::get('/enrolled', [AdAcceptedController::class, 'applicant_enrolled'])->name('applicant-enrolled');
             Route::get('/list/enrolledList', [AdAcceptedController::class, 'srchacceptedEnrolledList'])->name('srchacceptedEnrolledList');
             Route::post('/pushapplicantenrollment', [AdAcceptedController::class, 'save_enroll_applicant'])->name('save_enroll_applicant');
