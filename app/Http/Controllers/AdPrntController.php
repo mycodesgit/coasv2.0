@@ -78,7 +78,7 @@ class AdPrntController extends Controller
     {
         $appID = decrypt($id);
         $examinee = Applicant::findOrFail($appID); 
-        return view('admission.examinee.genPreEnrolment')->with('examinee', $examinee);
+        return view('admission.examinee.printPreEnrolmentView')->with('examinee', $examinee);
     }
 
     public function genPreEnrolment(Request $request, $id)
