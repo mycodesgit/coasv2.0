@@ -195,6 +195,7 @@
                             LOBRIQUE, RHONELO M., MPA<br><span style="padding-left: 30px;">University Registrar</span>
                         @elseif(Auth::guard('web')->user()->campus == 'VC')
                             PAJARILLO, JUNO T., DPA<br><span style="padding-left: 30px;">University Registrar</span>
+                        @endif
                     </th>
                 </thead>
                 <tbody>
