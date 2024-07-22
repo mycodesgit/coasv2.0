@@ -148,6 +148,7 @@ CISS V.1.0 || Higher Education Billing
                                     <td>{{ $student['studUnit'] }}</td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                     <td>{{ $student['fees']['ATHLETIC FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['COMPUTER LAB FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['CULTURAL FEE'] ?? '' }}</td>
