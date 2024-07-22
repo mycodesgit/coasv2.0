@@ -132,8 +132,9 @@ CISS V.1.0 || Higher Education Billing
                                     }
                                     $students[$studentID]['fees'][$datastudfeesbill->account] = $datastudfeesbill->amount;
                                 }
+                                $studentsCollection = collect($students)->sortBy('lname')->values()->all();
                             @endphp
-                            @foreach($students as $student)
+                            @foreach($studentsCollection as $student)
                                 <tr>
                                     <td>{{ $student['studentID'] }}</td>
                                     <td>{{ $student['lname'] }}</td>
