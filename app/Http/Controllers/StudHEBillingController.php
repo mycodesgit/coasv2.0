@@ -92,6 +92,7 @@ class StudHEBillingController extends Controller
                             //'coasv2_db_assessment.studpayment.amountpaid',
                             //DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) as totalamount')
                         )
+                        ->orderBy('students.lname', 'ASC')
                         ->get();
 
         return view('assessment.assessreports.hebilling_listsearch', compact('sy', 'studfeesbill'));
