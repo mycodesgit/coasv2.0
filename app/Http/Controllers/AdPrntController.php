@@ -69,6 +69,11 @@ class AdPrntController extends Controller
         return view('admission.examinee.printPreEnrolmentView')->with('examinee', $examinee);
     }
 
+    public function acceptedpre_enrolment_print_srch($id)
+    {
+        return redirect()->route('genPreEnrolment', [encrypt($id)]);
+    }
+
     public function genPreEnrolment(Request $request, $id)
     {
         $examinee = Applicant::findOrFail($id); 
