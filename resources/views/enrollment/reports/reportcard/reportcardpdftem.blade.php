@@ -190,7 +190,12 @@
                     <th colspan="2" style="font-weight: bold; font-size: 10pt;">SCHOOL SEAL</th>
                 </thead>
                 <thead>
-                    <th colspan="2" style="font-weight: bold; font-size: 11pt; padding-left: 355px;">LOBRIQUE, RHONELO M., MPA<br><span style="padding-left: 30px;">University Registrar</span></th>
+                    <th colspan="2" style="font-weight: bold; font-size: 11pt; padding-left: 355px;">
+                        @if(Auth::guard('web')->user()->campus == 'MC')
+                            LOBRIQUE, RHONELO M., MPA<br><span style="padding-left: 30px;">University Registrar</span>
+                        @elseif(Auth::guard('web')->user()->campus == 'VC')
+                            PAJARILLO, JUNO T., DPA<br><span style="padding-left: 30px;">University Registrar</span>
+                    </th>
                 </thead>
                 <tbody>
                 </tbody>
