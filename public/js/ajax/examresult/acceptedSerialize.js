@@ -84,7 +84,7 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
-                            dropdown += '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
+                            dropdown += '<a href="acceptedList/printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>';
 
