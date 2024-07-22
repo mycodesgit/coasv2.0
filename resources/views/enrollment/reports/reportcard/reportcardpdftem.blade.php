@@ -194,7 +194,7 @@
                         @if(Auth::guard('web')->user()->campus == 'MC')
                             LOBRIQUE, RHONELO M., MPA<br><span style="padding-left: 30px;">University Registrar</span>
                         @elseif(Auth::guard('web')->user()->campus == 'VC')
-                            PAJARILLO, JUNO T., DPA<br><span style="padding-left: 30px;">University Registrar</span>
+                            PAJARILLO, JUNO T., DPA<br><span style="padding-left: 30px;">Campus Registrar</span>
                         @endif
                     </th>
                 </thead>
