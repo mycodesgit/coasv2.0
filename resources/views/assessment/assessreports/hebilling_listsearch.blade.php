@@ -135,6 +135,13 @@ CISS V.1.0 || Higher Education Billing
                                 $studentsCollection = collect($students)->sortBy('lname')->values()->all();
                             @endphp
                             @foreach($studentsCollection as $student)
+                                @php
+                                    // Calculate the total of all fees
+                                    $totalFee = 0;
+                                    foreach ($student['fees'] as $feeType => $amount) {
+                                        $totalFee += $amount;
+                                    }
+                                @endphp
                                 <tr>
                                     <td>{{ $student['studentID'] }}</td>
                                     <td>{{ $student['lname'] }}</td>
@@ -166,7 +173,7 @@ CISS V.1.0 || Higher Education Billing
                                     <td>{{ $student['fees']['MEDICAL/DENTAL FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['REGISTRATION FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['SCHOOL ID FEE'] ?? '' }}</td>
-                                    <td></td>
+                                    <td>{{ number_format($totalFee, 2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
