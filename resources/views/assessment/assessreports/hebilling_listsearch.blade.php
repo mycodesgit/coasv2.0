@@ -147,7 +147,11 @@ CISS V.1.0 || Higher Education Billing
                                     <td></td>
                                     <td>{{ $student['studUnit'] }}</td>
                                     <td></td>
-                                    <td></td>
+                                    @foreach($student['fees'] as $feeType => $amount)
+            @if(strpos($feeType, 'TUITION -') === 0)
+                <td>{{ $amount }}</td>
+            @endif
+        @endforeach
                                     <td></td>
                                     <td>{{ $student['fees']['ATHLETIC FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['COMPUTER LAB FEE'] ?? '' }}</td>
