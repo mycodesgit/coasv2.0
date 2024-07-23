@@ -231,12 +231,12 @@ class EnstudgradeController extends Controller
         return redirect()->back()->with('success', 'Grades Submitted Successfully.');
     }
 
-    public function editGrade(Request $request, $id)
+    public function editGrade(Request $request, $subjID)
     {
         $guard = $this->getGuard();
         $user = Auth::guard($guard)->user();
 
-        $grade = Grade::find($id);
+        $grade = Grade::find($subjID);
         if (!$grade) {
             return redirect()->back()->with('error', 'Grade not found.');
         }
