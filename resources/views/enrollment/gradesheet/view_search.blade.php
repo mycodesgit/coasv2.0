@@ -235,7 +235,7 @@ CISS V.1.0 || Grading
                                         <a class="dropdown-item" id="editgradeid" data-toggle="modal" data-target="#editgrades">
                                             <i class="fas fa-pen"></i> Edit Grades
                                         </a>
-                                    @endif
+                                    </form>
                                     @if ($datagenstud->compstat == 2 || empty($datagenstud->compstat))
                                     <form method="POST" action="{{ route('editCompletion', ['id' => $datagenstud->sgid]) }}" id="editCompletionForm">
                                         @csrf
