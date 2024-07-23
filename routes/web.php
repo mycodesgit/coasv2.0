@@ -282,7 +282,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/list/view/studgrde/save', [EnstudgradeController::class, 'registrarsave_grades'])->name('registrarsave_grades');
             Route::post('/list/view/studgrdeComp/save', [EnstudgradeController::class, 'registrarsave_gradesComp'])->name('registrarsave_gradesComp');
             Route::post('/list/view/studgrde/submit/{subjID}', [EnstudgradeController::class, 'registrarupdateStatus_gradessubmit'])->name('registrarupdateStatus_gradessubmit');
-            Route::post('/list/view/studgrde/edit/{subjID}', [EnstudgradeController::class, 'editGrade'])->name('editGrade');
+            Route::post('/list/view/studgrde/edit/{id}', [EnstudgradeController::class, 'editGrade'])->name('editGrade');
             Route::post('/list/view/studgrde/editcompletion/{id}', [EnstudgradeController::class, 'editCompletion'])->name('editCompletion');
             Route::post('/check-grade-password', [EnstudgradeController::class, 'checkPassword'])->name('checkPassword');
         });
