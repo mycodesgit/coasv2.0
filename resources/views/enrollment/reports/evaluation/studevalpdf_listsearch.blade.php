@@ -101,7 +101,7 @@
     <div>
         @foreach($subjectsData as $schoolYear => $semesters)
             @foreach($semesters as $semester => $subjects)
-                <div style="text-align: center; margin-top: 10px; margin-bottom: 5px; font-weight: initial;">
+                <div style="text-align: center; margin-top: 12px; margin-bottom: 5px; font-weight: bold;">
                     @if($semester == '1' ) First Semester @elseif ($semester == '2' ) Second Semester @elseif ($semester == '3' ) Summer @endif  {{ $schoolYear }}
                 </div>
                 <table>
