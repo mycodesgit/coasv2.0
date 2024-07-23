@@ -236,13 +236,8 @@ class EnstudgradeController extends Controller
         $guard = $this->getGuard();
         $user = Auth::guard($guard)->user();
 
-        $grade = Grade::find($id);
-        if (!$grade) {
-            return redirect()->back()->with('error', 'Grade not found.');
-        }
-
-        // Update the grade's status to 1
-        $grade->update(['status' => 1]);
+        Grade::where('id', $id)
+        ->update(['status' => 1]);
 
         return redirect()->back()->with('success', 'Now you can edit the grade.');
     }
