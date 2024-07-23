@@ -266,9 +266,9 @@ CISS V.1.0 || Grading
     var passgradeTokenRoute = "{{ csrf_token() }}";
 </script>
 
-<script>
+{{-- <script>
 function showIdAlert(id) {
     alert("The ID is: " + id);
 }
-</script>
+</script> --}}
 @endsection
