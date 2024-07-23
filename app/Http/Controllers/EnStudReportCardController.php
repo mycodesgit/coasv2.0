@@ -251,6 +251,8 @@ class EnStudReportCardController extends Controller
                     ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
                     ->where('studgrades.studID', $stud_id)
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
+                    ->orderBy('coasv2_db_schedule.sub_offered.semester', 'ASC')
+                    ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')
                     ->get();
 
         $totalCredits = 0;
