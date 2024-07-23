@@ -271,7 +271,14 @@ class EnStudReportCardController extends Controller
             $totalCredits += $creditEarned;
             $weightedSum += $weightedSumPerSubject;
 
-            $subjectsData[] = [
+            $semester = $subject->semester;
+            $schoolYear = $subject->schlyear;
+
+            if (!isset($subjectsData[$schoolYear][$semester])) {
+                $subjectsData[$schoolYear][$semester] = [];
+            }
+
+            $subjectsData[$schoolYear][$semester][] = [
                 'subject' => $subject,
                 'weightedSumPerSubject' => $weightedSumPerSubject
             ];

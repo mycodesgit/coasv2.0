@@ -99,17 +99,24 @@
     <div style="border-top: 1px solid #000; margin-top: 0px;"></div>
 
     <div>
-        <table>
-            @foreach($subjectsData as $data)
-            <tr>
-                <td style="font-weight: initial; font-size: 10pt; width: 20%">{{ $data['subject']->sub_name }}</td>
-                <td class="" style="font-weight: initial; font-size: 10pt; width: 48%;">{{ $data['subject']->sub_title }}</td>
-                <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->subjFgrade }}</td>
-                <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->subjComp }}</td>
-                <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->creditEarned }}</td>
-            </tr>
+        @foreach($subjectsData as $schoolYear => $semesters)
+            @foreach($semesters as $semester => $subjects)
+                <div style="text-align: center; margin-top: 10px; margin-bottom: 5px; font-weight: initial;">
+                    @if($semester == '1' ) First Semester @elseif ($semester == '2' ) Second Semester @elseif ($semester == '3' ) Summer @endif  {{ $schoolYear }}
+                </div>
+                <table>
+                    @foreach($subjects as $data)
+                    <tr>
+                        <td style="font-weight: initial; font-size: 10pt; width: 20%">{{ $data['subject']->sub_name }}</td>
+                        <td class="" style="font-weight: initial; font-size: 10pt; width: 48%;">{{ $data['subject']->sub_title }}</td>
+                        <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->subjFgrade }}</td>
+                        <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->subjComp }}</td>
+                        <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->creditEarned }}</td>
+                    </tr>
+                    @endforeach
+                </table>
             @endforeach
-        </table>
+        @endforeach
     </div>
 </body>
 </html>
