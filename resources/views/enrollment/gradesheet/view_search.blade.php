@@ -228,14 +228,16 @@ CISS V.1.0 || Grading
                                 <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu" style="">
-                                    
-                                    <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm">
-                                        @csrf
-                                        <input type="hidden" name="subjID" value="{{ $datagenstud->sgid }}">
-                                        <a class="dropdown-item" id="editgradeid" data-toggle="modal" data-target="#editgrades">
-                                            <i class="fas fa-pen"></i> Edit Grades
-                                        </a>
-                                    </form>
+
+                                     @if ($datagenstud->subjFgrade != 'FAILURE' && $datagenstud->subjFgrade != 'INC' && $datagenstud->subjFgrade != 'Inc.' && $datagenstud->subjFgrade != 'inc')
+                                        <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm">
+                                            @csrf
+                                            <input type="hidden" name="subjID" value="{{ $datagenstud->sgid }}">
+                                            <a class="dropdown-item" id="editgradeid" data-toggle="modal" data-target="#editgrades" onclick="showIdAlert({{ $datagenstud->sgid }})">
+                                                <i class="fas fa-pen"></i> Edit Grades
+                                            </a>
+                                        </form>
+                                    @endif
                                     @if ($datagenstud->compstat == 2 || empty($datagenstud->compstat))
                                     <form method="POST" action="{{ route('editCompletion', ['id' => $datagenstud->sgid]) }}" id="editCompletionForm">
                                         @csrf
@@ -262,5 +264,11 @@ CISS V.1.0 || Grading
 <script>
     var passgradeRoute = "{{ route('checkPassword') }}";
     var passgradeTokenRoute = "{{ csrf_token() }}";
+</script>
+
+<script>
+function showIdAlert(id) {
+    alert("The ID is: " + id);
+}
 </script>
 @endsection
