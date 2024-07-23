@@ -228,7 +228,7 @@ CISS V.1.0 || Grading
                                 <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu" style="">
-                                    @if ($datagenstud->subjFgrade != 'INC' && $datagenstud->subjFgrade != 'Inc.' && $datagenstud->subjFgrade != 'inc' && $datagenstud->subjFgrade == 'NN')
+                                    @if ($datagenstud->subjFgrade != 'INC' && $datagenstud->subjFgrade != 'Inc.' && $datagenstud->subjFgrade != 'inc' && $datagenstud->subjFgrade == 'NN' && $datagenstud->subjFgrade == 'FAILURE')
                                     <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm">
                                         @csrf
                                         <input type="hidden" name="subjID" value="{{ $datagenstud->sgid }}">
