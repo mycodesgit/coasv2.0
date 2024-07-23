@@ -228,7 +228,7 @@ CISS V.1.0 || Grading
                                 <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu" style="">
-                                     @if ($datagenstud->subjFgrade != 'FAILURE' && $datagenstud->subjFgrade != 'INC' && $datagenstud->subjFgrade != 'Inc.' && $datagenstud->subjFgrade != 'inc')
+                                    @if ($datagenstud->subjFgrade != 'FAILURE' && $datagenstud->subjFgrade != 'INC' && $datagenstud->subjFgrade != 'Inc.' && $datagenstud->subjFgrade != 'inc')
                                         <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm">
                                             @csrf
                                             <input type="hidden" name="subjID" value="{{ $datagenstud->sgid }}">
@@ -239,12 +239,12 @@ CISS V.1.0 || Grading
                                     @endif
 
                                     @if ($datagenstud->compstat == 2 || empty($datagenstud->compstat))
-                                        <form method="POST" action="{{ route('editCompletion', ['id' => $datagenstud->sgid]) }}" id="editCompletionForm">
-                                            @csrf
-                                            <a class="dropdown-item" id="editgradecompletionid" data-toggle="modal" data-target="#editCompletiongrades">
-                                                <i class="fa-solid fa-envelopes-bulk"></i> Completion
-                                            </a>
-                                        </form>
+                                    <form method="POST" action="{{ route('editCompletion', ['id' => $datagenstud->sgid]) }}" id="editCompletionForm">
+                                        @csrf
+                                        <a class="dropdown-item" id="editgradecompletionid" data-toggle="modal" data-target="#editCompletiongrades">
+                                            <i class="fa-solid fa-envelopes-bulk"></i> Completion
+                                        </a>
+                                    </form>
                                     @endif
                                 </div>
                             </div>
