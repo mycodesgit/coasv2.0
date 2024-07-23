@@ -84,23 +84,32 @@
     </div>
 
     <div style="border-top: 1px solid #000; margin-top: 20px;"></div>
-        
-    <div style="border-top: 1px solid #000; margin-top: 10px;"></div>
 
-    <div style="margin-top: 10px">
+    <div style="margin-top: 0px">
         <table>
             <thead>
-                <th style="font-weight: bold; font-size: 10pt;" width="62%"><center>SUBJECTS</center></th>
-                <th class="" style="font-weight: bold; font-size: 10pt;">FINAL<br> GRADE</th>
-                <th class="" style="font-weight: bold; font-size: 10pt;">COMPL<br> GRADE</th>
-                <th class="" style="font-weight: bold; font-size: 10pt;">CREDITS</th>
+                <th style="font-weight: bold; font-size: 10pt; width: 20%">Subject Code</th>
+                <th class="" style="font-weight: bold; font-size: 10pt; width: 48%;">Decriptive Title</th>
+                <th class="" style="font-weight: bold; font-size: 10pt;">Rating</th>
+                <th class="" style="font-weight: bold; font-size: 10pt;">Comp.</th>
+                <th class="" style="font-weight: bold; font-size: 10pt;">Credits</th>
             </thead>
         </table>
     </div>
-    <div style="border-top: 1px solid #000; margin-top: 10px;"></div>
+    <div style="border-top: 1px solid #000; margin-top: 0px;"></div>
 
-    <div style="margin-top: 10px">
-        
+    <div>
+        <table>
+            @foreach($subjectsData as $data)
+            <tr>
+                <td style="font-weight: initial; font-size: 10pt; width: 20%">{{ $data['subject']->sub_name }}</td>
+                <td class="" style="font-weight: initial; font-size: 10pt; width: 48%;">{{ $data['subject']->sub_title }}</td>
+                <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->subjFgrade }}</td>
+                <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->subjComp }}</td>
+                <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->creditEarned }}</td>
+            </tr>
+            @endforeach
+        </table>
     </div>
 </body>
 </html>
