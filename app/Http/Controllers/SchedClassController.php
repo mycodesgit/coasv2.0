@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 use PDF;
 use Storage;
@@ -222,6 +223,12 @@ class SchedClassController extends Controller
                     'faculty_id' => $faculty_id,
                     'room_id' => $room_id,
                     'remarks' => $remarks,
+                ]);
+
+                FacultyLoad::create([
+                    'subjectID' => $subject_id,
+                    'facultyID' => $faculty_id,
+                    'remember_token' => Str::random(60),
                 ]);
 
                 return response()->json(['success' => true, 'message' => 'Class Schedule Set successfully'], 200);
