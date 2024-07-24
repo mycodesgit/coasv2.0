@@ -7,7 +7,7 @@
         var urlParams = new URLSearchParams(window.location.search);
         var schlyear = urlParams.get('schlyear') || ''; 
         var semester = urlParams.get('semester') || '';
-        var progCod = urlParams.get('progCod') || '';
+        var faculty_id = urlParams.get('faculty_id') || '';
 
         $('#refreshSchedule').click(function() {
             location.reload();
@@ -15,19 +15,19 @@
 
         function loadSchedule() {
             $.ajax({
-                url: '{{ route('fetchSchedule') }}',
+                url: '{{ route('fetchFacultySchedule') }}',
                 method: 'GET',
                 data: {
                     schlyear: schlyear,
                     semester: semester,
-                    progCod: progCod
+                    faculty_id: faculty_id
                 },
                 success: function(response) {
                     response.forEach(function(item) {
                         let day = item.schedday;
                         let startTime = item.start_time;
                         let endTime = item.end_time;
-                        let subjectInfo = item.sub_name + " " + item.subSec + " " + item.lname + ", " + item.room_name + " " + item.remarks;
+                        let subjectInfo = item.sub_name + " " + item.subSec + ", " + item.room_name + " " + item.remarks;
 
                         let timeIndexStart = times.indexOf(startTime);
                         let timeIndexEnd = times.indexOf(endTime);
@@ -225,6 +225,11 @@
             $('#schedule-view').html('<table class="table table-bordered schedule-table">' + scheduleHtml + '</table>');
             mergeCellsForView();
             $('#viewScheduleModal').modal('show');
+        });
+
+        // View Faculty Load button click handler
+        $('#viewFacultyLoad').click(function() {
+            $('#viewFacultyLoadModal').modal('show');
         });
 
         // Generate and download the schedule as PDF

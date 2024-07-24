@@ -164,6 +164,10 @@
         @include('scheduler.schedule.classsched_script')
     @endif
 
+    @if(request()->routeIs('facultySchedSetRead'))
+        @include('scheduler.schedule.facultysched_script')
+    @endif
+
 </body>
 </html>
    

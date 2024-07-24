@@ -32,7 +32,7 @@ CISS V.1.0 || Faculty Schedule
         </p>
 
         <div class="page-header">
-            <form method="GET" action="" id="classEnroll">
+            <form method="GET" action="{{ route('facultySchedSetRead') }}" id="classEnroll">
                 {{ csrf_field() }}
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -44,7 +44,11 @@ CISS V.1.0 || Faculty Schedule
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Academic Year</span></label>
-                                <select class="form-control form-control-sm" id="schlyear" name="schlyear"></select>
+                                <select class="form-control form-control-sm" name="schlyear" id="schlyear1">
+                                    @foreach($sy as $datasy)
+                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-4">
@@ -58,10 +62,10 @@ CISS V.1.0 || Faculty Schedule
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Campus</span></label>
-                                <select class="form-control form-control-sm" name="campus">
+                                <label><span class="badge badge-secondary">Faculty</span></label>
+                                <select class="form-control form-control-sm select2bs4" name="faculty_id">
                                     @foreach($fdata as $faculty)
-                                        <option value="">{{ $faculty->lname }}, {{ $faculty->fname }}</option>
+                                        <option value="{{ $faculty->id }}">{{ $faculty->lname }}, {{ $faculty->fname }}</option>
                                     @endforeach
                                 </select>
                             </div>

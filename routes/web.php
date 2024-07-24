@@ -36,6 +36,7 @@ use App\Http\Controllers\SchedFacultyListController;
 use App\Http\Controllers\SchedFacultyDesignationController;
 use App\Http\Controllers\SchedSubOfferController;
 use App\Http\Controllers\SchedClassController;
+use App\Http\Controllers\SchedFacultyController;
 use App\Http\Controllers\SchedReportsController;
 
 use App\Http\Controllers\StudFundAssessmentController;
@@ -405,7 +406,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/print-schedule', [SchedClassController::class, 'printSchedule'])->name('printSchedule');
 
 
-            Route::get('/faculty', [SchedClassController::class, 'facultySchedRead'])->name('facultySchedRead');
+            Route::get('/faculty', [SchedFacultyController::class, 'facultySchedRead'])->name('facultySchedRead');
+            Route::get('/faculty/set', [SchedFacultyController::class, 'facultySchedSetRead'])->name('facultySchedSetRead');
+            Route::get('/faculty/set/class/fetch', [SchedFacultyController::class, 'fetchFacultySchedule'])->name('fetchFacultySchedule');
+            Route::get('/faculty/set/view/load', [SchedFacultyController::class, 'facultyloadPDFTemplate'])->name('facultyloadPDFTemplate');
+
             Route::get('/room', [SchedClassController::class, 'roomSchedRead'])->name('roomSchedRead');
         });
 

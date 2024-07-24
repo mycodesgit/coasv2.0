@@ -196,13 +196,20 @@ class SchedClassController extends Controller
                         ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname')
                         ->get();
 
-            if ($conflicts->isNotEmpty()) {
+            $facultyConflicts = SetClassSchedule::where('subject_id', $subject_id)
+                                ->where('progcodename', $progcodename)
+                                ->where('progcodesection', $progcodesection)
+                                ->where('faculty_id', '<>', $faculty_id)
+                                ->exists();
+
+            if ($conflicts->isNotEmpty() || $facultyConflicts) {
                 $conflictDetails = $conflicts->map(function($conflict) {
                     return [
                         'subject' => $conflict->sub_name,
                         'course' => $conflict->subSec,
                         'faculty' => $conflict->lname,
                         'room' => $conflict->room_name,
+                        'conflict_subject' => $conflict->subject_id,
                     ];
                 });
                 return response()->json(['error' => true, 'message' => 'Schedule conflict detected.', 'conflicts' => $conflictDetails], 409);
@@ -358,13 +365,7 @@ class SchedClassController extends Controller
 
 
 
-    public function facultySchedRead() 
-    {
-        $fdata = Faculty::where('campus', '=', Auth::user()->campus)
-                    ->orderBy('lname', 'asc')
-                    ->get();
-        return view('scheduler.schedule.faculty_sched', compact('fdata'));
-    }
+    
 
     public function roomSchedRead() 
     {
