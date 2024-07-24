@@ -421,6 +421,7 @@ class EnrollmentController extends Controller
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
                     ->where('program_en_history.campus',  $campus)
+                    ->where('students.campus',  $campus)
                     ->where('program_en_history.studentID', $stud_id)->first();
 
         $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
