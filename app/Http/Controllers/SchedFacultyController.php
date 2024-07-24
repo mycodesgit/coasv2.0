@@ -148,7 +148,7 @@ class SchedFacultyController extends Controller
             'facultyName' => $facultyName,
             'facloadsched' => $facloadsched
         ];
-        $pdf = PDF::loadView('scheduler.schedule.pdf.facultyloadPDF', $data)->setPaper('Legal', 'landscape');
+        $pdf = PDF::loadView('scheduler.schedule.pdf.facultyloadPDF', $data)->setPaper('A4', 'landscape');
         return $pdf->stream();
     }
 }

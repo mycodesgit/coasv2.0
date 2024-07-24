@@ -179,9 +179,6 @@ CISS V.1.0 || Faculty Schedule
                         </span>
                     </h5>
                     <div>
-                        <button id="printSchedule" class="btn btn-info btn-md">
-                            <i class="fas fa-print"></i> Print Schedule
-                        </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>

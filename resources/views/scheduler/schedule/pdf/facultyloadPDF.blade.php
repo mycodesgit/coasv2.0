@@ -97,18 +97,37 @@
 				</tr>
 			</thead>
 			<tbody>
+				@php
+				    $totalSublecredit = 0;
+				    $totalSublabcredit = 0;
+				    $totalSubUnit = 0;
+				    $totalStudentCount = 0;
+				@endphp
 				@foreach($facloadsched as $datafacloadsched)
+				@php
+			        $totalSublecredit += $datafacloadsched->sublecredit;
+			        $totalSublabcredit += $datafacloadsched->sublabcredit;
+			        $totalSubUnit += $datafacloadsched->sub_unit;
+			        $totalStudentCount += $datafacloadsched->studentCount;
+			    @endphp
 				<tr>
-					<td>{{ $datafacloadsched->subCode }}</td>
-					<td>{{ $datafacloadsched->sub_name }}</td>
-					<td>{{ $datafacloadsched->subSec }}</td>
+					<td width="10%">{{ $datafacloadsched->subCode }}</td>
+					<td width="13%">{{ $datafacloadsched->sub_name }}</td>
+					<td width="13%">{{ $datafacloadsched->subSec }}</td>
 					<td>{{ $datafacloadsched->sub_title }}</td>
-					<td>{{ $datafacloadsched->sublecredit }}</td>
-					<td>{{ $datafacloadsched->sublabcredit }}</td>
-					<td>{{ $datafacloadsched->sub_unit }}</td>
-					<td>{{ $datafacloadsched->studentCount }}</td>
+					<td style="text-align: center;" width="5%">{{ $datafacloadsched->sublecredit }}</td>
+					<td style="text-align: center;" width="5%">{{ $datafacloadsched->sublabcredit }}</td>
+					<td style="text-align: center;" width="5%">{{ $datafacloadsched->sub_unit }}</td>
+					<td style="text-align: center;" width="5%">{{ $datafacloadsched->studentCount }}</td>
 				</tr>
 				@endforeach
+				<tr>
+				    <td style="text-align: right; border: none;" colspan="4"><strong>TOTAL(Teaching Unit):</strong></td>
+				    <td style="text-align: center; border: none;" width="5%"><strong>{{ $totalSublecredit }}</strong></td>
+				    <td style="text-align: center; border: none;" width="5%"><strong>{{ $totalSublabcredit }}</strong></td>
+				    <td style="text-align: center; border: none;" width="5%"><strong>{{ $totalSubUnit }}</strong></td>
+				    <td style="text-align: center; border: none;" width="5%"><strong>{{ $totalStudentCount }}</strong></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
