@@ -101,6 +101,7 @@
 		            $prevSubCode = '';
 		            $prevSubName = '';
 		            $prevSubSec = '';
+		            $prevSubTitle = '';
 		        @endphp
 
 		        @foreach($facloadsched as $datafacloadsched)
@@ -115,9 +116,6 @@
 		                        $prevSubSec = $datafacloadsched->subSec;
 		                    @endphp
 		                @else
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
 		                @endif
 		                <td>{{ $datafacloadsched->sub_title }}</td>
 		                <td>{{ $datafacloadsched->sublecredit }}</td>
