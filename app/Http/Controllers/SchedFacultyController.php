@@ -140,18 +140,9 @@ class SchedFacultyController extends Controller
                         ->groupBy(
                             'sub_offered.subSec',
                             'sub_offered.subCode',
-                            'scheduleclass.id',
-                            'subjects.sub_name',
-                            'subjects.sub_title',
-                            'subjects.sublecredit',
-                            'subjects.sublabcredit',
-                            'subjects.sub_unit',
-                            'faculty.lname',
-                            'faculty.fname',
-                            'rooms.room_name'
                         )
+                        ->orderBy('sub_offered.subSec')
                         ->get();
-                    $facloadsched = $facloadsched->sortBy(['subCode', 'sub_name', 'subSec', 'sub_title']);
 
         $data = [
             'facultyName' => $facultyName,
