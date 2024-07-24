@@ -106,11 +106,15 @@
 
 		        @foreach($facloadsched as $datafacloadsched)
 		            <tr>
-		                @if ($datafacloadsched->subCode != $prevSubCode || $datafacloadsched->sub_name != $prevSubName || $datafacloadsched->subSec != $prevSubSec)
+		                @if ($datafacloadsched->subCode != $prevSubCode || $datafacloadsched->sub_name != $prevSubName || $datafacloadsched->subSec != $prevSubSec || $datafacloadsched->sub_title != $prevSubTitle)
 		                    <td>{{ $datafacloadsched->subCode }}</td>
 		                    <td>{{ $datafacloadsched->sub_name }}</td>
 		                    <td>{{ $datafacloadsched->subSec }}</td>
 		                    <td>{{ $datafacloadsched->sub_title }}</td>
+		                    <td>{{ $datafacloadsched->sublecredit }}</td>
+			                <td>{{ $datafacloadsched->sublabcredit }}</td>
+			                <td>{{ $datafacloadsched->sub_unit }}</td>
+			                <td>{{ $datafacloadsched->studentCount }}</td>
 		                    @php
 		                        $prevSubCode = $datafacloadsched->subCode;
 		                        $prevSubName = $datafacloadsched->sub_name;
@@ -118,10 +122,6 @@
 		                        $prevSubTitle = $datafacloadsched->sub_title;
 		                    @endphp
 		                @endif
-		                <td>{{ $datafacloadsched->sublecredit }}</td>
-		                <td>{{ $datafacloadsched->sublabcredit }}</td>
-		                <td>{{ $datafacloadsched->sub_unit }}</td>
-		                <td>{{ $datafacloadsched->studentCount }}</td>
 		            </tr>
 		        @endforeach
 			</tbody>
