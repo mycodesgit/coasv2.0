@@ -121,8 +121,6 @@
 		                        $prevSubSec = $datafacloadsched->subSec;
 		                        $prevSubTitle = $datafacloadsched->sub_title;
 		                    @endphp
-		                @else
-		                	<td></td>
 		                @endif
 		            </tr>
 		        @endforeach
