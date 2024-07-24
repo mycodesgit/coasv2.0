@@ -135,9 +135,21 @@ class SchedFacultyController extends Controller
                                 'subjects.sub_unit', 
                                 'faculty.lname', 
                                 'faculty.fname', 
-                                'rooms.room_name')
-                        ->selectRaw('coasv2_db_enrollment.studgrades.*,
-                            COUNT(DISTINCT coasv2_db_enrollment.studgrades.studID) as studentCount')
+                                'rooms.room_name',
+                                DB::raw('COUNT(DISTINCT coasv2_db_enrollment.studgrades.studID) as studentCount'))
+                        ->groupBy(
+                            'sub_offered.subSec',
+                            'sub_offered.subCode',
+                            'scheduleclass.id',
+                            'subjects.sub_name',
+                            'subjects.sub_title',
+                            'subjects.sublecredit',
+                            'subjects.sublabcredit',
+                            'subjects.sub_unit',
+                            'faculty.lname',
+                            'faculty.fname',
+                            'rooms.room_name'
+                        )
                         ->get();
 
         $data = [
