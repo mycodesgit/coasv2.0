@@ -151,7 +151,7 @@ class SchedFacultyController extends Controller
                             'rooms.room_name'
                         )
                         ->get();
-                    $facloadsched = $facloadsched->sortBy(['subCode', 'sub_name', 'subSec']);
+                    $facloadsched = $facloadsched->sortBy(['subCode', 'sub_name', 'subSec', 'sub_title']);
 
         $data = [
             'facultyName' => $facultyName,

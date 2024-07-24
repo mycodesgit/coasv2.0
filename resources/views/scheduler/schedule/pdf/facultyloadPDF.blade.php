@@ -110,14 +110,14 @@
 		                    <td>{{ $datafacloadsched->subCode }}</td>
 		                    <td>{{ $datafacloadsched->sub_name }}</td>
 		                    <td>{{ $datafacloadsched->subSec }}</td>
+		                    <td>{{ $datafacloadsched->sub_title }}</td>
 		                    @php
 		                        $prevSubCode = $datafacloadsched->subCode;
 		                        $prevSubName = $datafacloadsched->sub_name;
 		                        $prevSubSec = $datafacloadsched->subSec;
+		                        $prevSubTitle = $datafacloadsched->sub_title;
 		                    @endphp
-		                @else
 		                @endif
-		                <td>{{ $datafacloadsched->sub_title }}</td>
 		                <td>{{ $datafacloadsched->sublecredit }}</td>
 		                <td>{{ $datafacloadsched->sublabcredit }}</td>
 		                <td>{{ $datafacloadsched->sub_unit }}</td>
