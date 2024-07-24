@@ -207,7 +207,6 @@ CISS V.1.0 || Faculty Schedule
                         <input type="hidden" class="form-control form-control-sm" id="day" name="schedday" readonly>
                         <input type="hidden" class="form-control form-control-sm" id="start_time" name="start_time" readonly>
                         <input type="hidden" class="form-control form-control-sm" id="end_time" name="end_time" readonly>
-                        <input type="hidden" class="form-control form-control-sm" id="progcodename" name="progcodename" value="{{ request('faculty_id') }}" readonly>
                         <input type="hidden" class="form-control form-control-sm" id="progschlyear" name="schlyear" value="{{ request('schlyear') }}" readonly>
                         <input type="hidden" class="form-control form-control-sm" id="progsemester" name="semester" value="{{ request('semester') }}" readonly>
                         <input type="hidden" class="form-control form-control-sm" id="progpostedBy" name="postedBy" value="{{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}" readonly>
@@ -221,8 +220,19 @@ CISS V.1.0 || Faculty Schedule
                                 <div class="col-md-12">
                                     <label for="faculty_id"><span class="badge badge-secondary">Faculty</span></label>
                                     <select class="form-control form-control-sm" name="faculty_id">
-                                        <option>{{ $facultyName }}</option>
+                                        <option value="{{ request('faculty_id') }}">{{ $facultyName }}</option>
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <label><span class="badge badge-secondary">Course</span></label>
+                                    <select class="form-control form-control-sm select2bs4" name="progcodename" id="progCod">
+                                        <option disabled selected>Select a course</option>
+                                    </select>
+                                    <input type="text" id="classSection" name="progcodesection" value="">
                                 </div>
                             </div>
                         </div>
@@ -270,6 +280,8 @@ CISS V.1.0 || Faculty Schedule
 
 <script>
     var classSubOfferSchedReadRoute = "{{ route('getSubjectsClassSchedFac') }}";
+    var classenrollyrsecReadRoute = "{{ route('getCoursesyearsecFac') }}";
+    var classenrollyrsecReadRoute = "{{ route('getCoursesyearsec') }}";
     var classRoomSchedReadRoute = "{{ route('getRoomClassSched') }}";
 </script>
 

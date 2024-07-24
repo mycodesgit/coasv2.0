@@ -350,28 +350,4 @@ class SchedClassController extends Controller
 
         return $pdf->stream('schedule.pdf');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    public function roomSchedRead() 
-    {
-        $rdata = Room::where('campus', '=', Auth::user()->campus)
-                    ->orderBy('room_name', 'asc')
-                    ->get();
-        return view('scheduler.schedule.room_sched', compact('rdata'));
-    }
 }

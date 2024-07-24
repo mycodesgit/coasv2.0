@@ -81,6 +81,23 @@ class SchedFacultyController extends Controller
         return view('scheduler.schedule.faculty_schedset', compact('sy', 'facultyName', 'fdata', 'days', 'times'));
     }
 
+    public function getCoursesyearsecFac(Request $request)
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $courses = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+            ->where('class_enroll.semester', $semester)
+            ->where('class_enroll.schlyear', $schlyear)
+            ->where('class_enroll.campus', $campus)
+            ->orderBy('class_enroll.progCode')
+            ->orderBy('class_enroll.classSection')
+            ->get();
+
+        return response()->json($courses);
+    }
+
     public function getSubjectsClassSchedFac(Request $request)
     {
         $schlyear = $request->input('schlyear');
@@ -97,7 +114,7 @@ class SchedFacultyController extends Controller
                             ->get();
 
         return response()->json($progsuboff);
-    }
+    }  
 
     public function fetchFacultySchedule(Request $request)
     {
@@ -118,6 +135,112 @@ class SchedFacultyController extends Controller
                         ->get();
 
         return response()->json($schedule);
+    }
+
+    public function classSchedCreate(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'schedday' => 'required',
+                'start_time' => 'required|string',
+                'end_time' => 'required|string',
+                'progcodename' => 'required|string',
+                'progcodesection' => 'required|string',
+                'schlyear' => 'required|string',
+                'semester' => 'required|string',
+                'postedBy' => 'required|string',
+                'campus' => 'required|string',
+                'subject_id' => 'required|string',
+                'faculty_id' => 'required|string',
+                'room_id' => 'required|string',
+            ]);
+
+            $day = $request->input('schedday');
+            $startTime = $request->input('start_time');
+            $endTime = $request->input('end_time');
+            $progcodename = $request->input('progcodename');
+            $progcodesection = $request->input('progcodesection');
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $request->input('campus');
+            $subject_id = $request->input('subject_id');
+            $faculty_id = $request->input('faculty_id');
+            $room_id = $request->input('room_id');
+            $remarks = $request->input('remarks');
+
+            $conflicts = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                        ->where('scheduleclass.schedday', $day)
+                        ->where('scheduleclass.schlyear', $schlyear)
+                        ->where('scheduleclass.semester', $semester)
+                        ->where('scheduleclass.campus', $campus)
+                        ->where(function($query) use ($startTime, $endTime) {
+                            $query->whereBetween('start_time', [$startTime, $endTime])
+                                  ->orWhereBetween('end_time', [$startTime, $endTime])
+                                  ->orWhere(function($query) use ($startTime, $endTime) {
+                                      $query->where('start_time', '<=', $startTime)
+                                            ->where('end_time', '>=', $endTime);
+                                  });
+                        })
+                        ->where(function($query) use ($progcodename, $progcodesection, $subject_id, $faculty_id, $room_id) {
+                            $query->where('progcodename', $progcodename)
+                                  ->where('progcodesection', $progcodesection)
+                                  ->orWhere('subject_id', $subject_id)
+                                  ->orWhere('faculty_id', $faculty_id)
+                                  ->orWhere('room_id', $room_id);
+                        })
+                        ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname')
+                        ->get();
+
+            $facultyConflicts = SetClassSchedule::where('subject_id', $subject_id)
+                                ->where('progcodename', $progcodename)
+                                ->where('progcodesection', $progcodesection)
+                                ->where('faculty_id', '<>', $faculty_id)
+                                ->exists();
+
+            if ($conflicts->isNotEmpty() || $facultyConflicts) {
+                $conflictDetails = $conflicts->map(function($conflict) {
+                    return [
+                        'subject' => $conflict->sub_name,
+                        'course' => $conflict->subSec,
+                        'faculty' => $conflict->lname,
+                        'room' => $conflict->room_name,
+                        'conflict_subject' => $conflict->subject_id,
+                    ];
+                });
+                return response()->json(['error' => true, 'message' => 'Schedule conflict detected.', 'conflicts' => $conflictDetails], 409);
+            }
+
+            try {
+                SetClassSchedule::create([
+                    'schedday' => $day,
+                    'start_time' => $startTime,
+                    'end_time' => $endTime,
+                    'progcodename' => $progcodename,
+                    'progcodesection' => $progcodesection,
+                    'schlyear' => $schlyear,
+                    'semester' => $semester,
+                    'postedBy' => $request->input('postedBy'),
+                    'campus' => $campus,
+                    'subject_id' => $subject_id,
+                    'faculty_id' => $faculty_id,
+                    'room_id' => $room_id,
+                    'remarks' => $remarks,
+                ]);
+
+                FacultyLoad::create([
+                    'subjectID' => $subject_id,
+                    'facultyID' => $faculty_id,
+                    'remember_token' => Str::random(60),
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Class Schedule Set successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to set Class Schedule'], 404);
+            }
+        }
     }
 
     public function facultyloadPDFTemplate(Request $request) 
@@ -231,7 +354,7 @@ class SchedFacultyController extends Controller
                         <img src="' . $headerImage . '" width="70%">
                     </div>
                     <div align="center">
-                        <h3>Class Schedule</h3>
+                        <h3>Faculty Schedule</h3>
                     </div>
                     <div class="margin-top: 50px">
                     ' . $breadcrumbHtml . '

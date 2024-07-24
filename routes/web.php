@@ -37,6 +37,7 @@ use App\Http\Controllers\SchedFacultyDesignationController;
 use App\Http\Controllers\SchedSubOfferController;
 use App\Http\Controllers\SchedClassController;
 use App\Http\Controllers\SchedFacultyController;
+use App\Http\Controllers\SchedRoomController;
 use App\Http\Controllers\SchedReportsController;
 
 use App\Http\Controllers\StudFundAssessmentController;
@@ -408,12 +409,16 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/faculty', [SchedFacultyController::class, 'facultySchedRead'])->name('facultySchedRead');
             Route::get('/faculty/set', [SchedFacultyController::class, 'facultySchedSetRead'])->name('facultySchedSetRead');
+            Route::get('/faculty/info/getcourseyrsec/ajax', [SchedFacultyController::class, 'getCoursesyearsecFac'])->name('getCoursesyearsecFac');
             Route::get('/faculty/set/suboff/class/ajax', [SchedFacultyController::class, 'getSubjectsClassSchedFac'])->name('getSubjectsClassSchedFac');
             Route::get('/faculty/set/class/fetch', [SchedFacultyController::class, 'fetchFacultySchedule'])->name('fetchFacultySchedule');
             Route::get('/faculty/set/view/load', [SchedFacultyController::class, 'facultyloadPDFTemplate'])->name('facultyloadPDFTemplate');
             Route::post('/print/faculty/schedule', [SchedFacultyController::class, 'printFacultySchedule'])->name('printFacultySchedule');
 
-            Route::get('/room', [SchedClassController::class, 'roomSchedRead'])->name('roomSchedRead');
+            Route::get('/room', [SchedRoomController::class, 'roomSchedRead'])->name('roomSchedRead');
+            Route::get('/room/set', [SchedRoomController::class, 'roomSchedSetRead'])->name('roomSchedSetRead');
+            Route::get('/room/set/class/fetch', [SchedRoomController::class, 'fetchRoomSchedule'])->name('fetchRoomSchedule');
+            Route::post('/print/room/schedule', [SchedRoomController::class, 'printRoomSchedule'])->name('printRoomSchedule');
         });
 
         Route::prefix('reports')->group(function () {

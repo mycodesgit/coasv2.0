@@ -147,7 +147,12 @@
     @endif
 
     @if(request()->routeIs('facultySchedSetRead'))
+        <script src="{{ asset('js/ajax/schedclass/getCourseYrSecSerializeFac.js') }}"></script>
         <script src="{{ asset('js/ajax/schedclass/getSubOffschedClassSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}"></script>
+    @endif
+
+    @if(request()->routeIs('roomSchedSetRead'))
         <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}"></script>
     @endif
 
@@ -171,6 +176,10 @@
 
     @if(request()->routeIs('facultySchedSetRead'))
         @include('scheduler.schedule.facultysched_script')
+    @endif
+
+    @if(request()->routeIs('roomSchedSetRead'))
+        @include('scheduler.schedule.roomsched_script')
     @endif
 
 </body>
