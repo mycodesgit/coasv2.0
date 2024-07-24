@@ -121,25 +121,24 @@ CISS V.1.0 || Faculty Schedule
     </div>
 
     <!-- Schedule View Modal -->
-    <div class="modal fade" id="viewScheduleModal" tabindex="-1" role="dialog" aria-labelledby="viewScheduleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="viewfacultyScheduleModal" tabindex="-1" role="dialog" aria-labelledby="viewfacultyScheduleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center">
-                    <h5 class="modal-title" id="viewScheduleModalLabel">
-                        <span>Faculty: {{ $progAcronym ?? 'Not Available' }} {{ $progCodSuffix ?? 'Not Available' }},</span>
-                            <span class="ml-2">School Year: {{ request('schlyear') }},</span>
-                            <span class="ml-2">
-                                Semester: 
-                                @if(request('semester') == 1)
-                                    1st Sem
-                                @elseif(request('semester') == 2)
-                                    2nd Sem
-                                @elseif(request('semester') == 3)
-                                    Summer
-                                @else
-                                    Unknown Semester
-                                @endif
-                            </span>
+                    <h5 class="modal-title" id="viewfacultyScheduleModalLabel">
+                        <span>Faculty: {{ $facultyName }},</span>
+                        <span class="ml-2">{{ request('schlyear') }},</span>
+                        <span class="ml-2">
+                            @if(request('semester') == 1)
+                                1st Sem
+                            @elseif(request('semester') == 2)
+                                2nd Sem
+                            @elseif(request('semester') == 3)
+                                Summer
+                            @else
+                                Unknown Semester
+                            @endif
+                        </span>
                     </h5>
                     <div>
                         <button id="printSchedule" class="btn btn-info btn-md">
@@ -220,9 +219,9 @@ CISS V.1.0 || Faculty Schedule
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-12">
-                                    <label for="subject_id"><span class="badge badge-secondary">Select Subject</span></label>
-                                    <select class="form-control form-control-sm select2bs4" data-placeholder="Select Subjects" id="subject_id" name="subject_id" >
-                                        
+                                    <label for="faculty_id"><span class="badge badge-secondary">Faculty</span></label>
+                                    <select class="form-control form-control-sm" name="faculty_id">
+                                        <option>{{ $facultyName }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -230,8 +229,9 @@ CISS V.1.0 || Faculty Schedule
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-12">
-                                    <label for="faculty_id"><span class="badge badge-secondary">Select Faculty</span></label>
-                                    <select class="form-control form-control-sm select2bs4" data-placeholder="Select Faculty" id="faculty_id" name="faculty_id" >
+                                    <label for="subject_id"><span class="badge badge-secondary">Select Subject</span></label>
+                                    <select class="form-control form-control-sm select2bs4" data-placeholder="Select Subjects" id="subject_id" name="subject_id" >
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -269,9 +269,7 @@ CISS V.1.0 || Faculty Schedule
 </div>
 
 <script>
-    var classenrollyrsecReadRoute = "{{ route('getCoursesyearsec') }}";
-    var classSubOfferSchedReadRoute = "{{ route('getSubjectsClassSched') }}";
-    var classFacultySchedReadRoute = "{{ route('getFacultyClassSched') }}";
+    var classSubOfferSchedReadRoute = "{{ route('getSubjectsClassSchedFac') }}";
     var classRoomSchedReadRoute = "{{ route('getRoomClassSched') }}";
 </script>
 

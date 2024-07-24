@@ -18,6 +18,9 @@
                 <a href="{{ route('setgradepassconfigure') }}" class="list-group-item {{ $gradeconfActive }}">Grades Password</a> 
                 <a href="{{ route('serverMaintenance') }}" class="list-group-item {{ $serverActive }}">Server</a>  
             @endif
+            @if(Auth::guard('web')->user()->fname == 'GMAR')
+                <a href="{{ route('usersRead') }}" class="list-group-item {{ $usersActive }}">User's Account</a>  
+            @endif
             @if(Auth::guard('web')->user()->role == '3')
                 <a href="{{ route('setgradepassconfigure') }}" class="list-group-item {{ $gradeconfActive }}">Grades Password</a>  
             @endif

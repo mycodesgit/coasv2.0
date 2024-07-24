@@ -224,7 +224,7 @@
             let scheduleHtml = $('#schedule-grid').html();
             $('#schedule-view').html('<table class="table table-bordered schedule-table">' + scheduleHtml + '</table>');
             mergeCellsForView();
-            $('#viewScheduleModal').modal('show');
+            $('#viewfacultyScheduleModal').modal('show');
         });
 
         // View Faculty Load button click handler
@@ -273,8 +273,8 @@
 
             form.append($('<input>', {
                 type: 'hidden',
-                name: 'progCod',
-                value: urlParams.get('progCod')
+                name: 'faculty_id',
+                value: urlParams.get('faculty_id')
             }));
 
             // Append form to body and submit

@@ -146,6 +146,11 @@
         <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}"></script>
     @endif
 
+    @if(request()->routeIs('facultySchedSetRead'))
+        <script src="{{ asset('js/ajax/schedclass/getSubOffschedClassSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}"></script>
+    @endif
+
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
