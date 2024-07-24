@@ -410,6 +410,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/faculty/set', [SchedFacultyController::class, 'facultySchedSetRead'])->name('facultySchedSetRead');
             Route::get('/faculty/set/class/fetch', [SchedFacultyController::class, 'fetchFacultySchedule'])->name('fetchFacultySchedule');
             Route::get('/faculty/set/view/load', [SchedFacultyController::class, 'facultyloadPDFTemplate'])->name('facultyloadPDFTemplate');
+            Route::post('/print/faculty/schedule', [SchedFacultyController::class, 'printFacultySchedule'])->name('printFacultySchedule');
 
             Route::get('/room', [SchedClassController::class, 'roomSchedRead'])->name('roomSchedRead');
         });
