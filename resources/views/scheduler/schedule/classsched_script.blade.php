@@ -240,6 +240,7 @@
                         $('#scheduleModal').modal('hide');
                         clearHighlights();
                         loadSchedule();
+                        $(document).trigger('subjplotAdded');
                     } else {
                         toastr.error('Error: ' + response.message);
                     }
