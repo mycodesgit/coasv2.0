@@ -411,6 +411,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/faculty/set', [SchedFacultyController::class, 'facultySchedSetRead'])->name('facultySchedSetRead');
             Route::get('/faculty/info/getcourseyrsec/ajax', [SchedFacultyController::class, 'getCoursesyearsecFac'])->name('getCoursesyearsecFac');
             Route::get('/faculty/set/suboff/class/ajax', [SchedFacultyController::class, 'getSubjectsClassSchedFac'])->name('getSubjectsClassSchedFac');
+            Route::post('/faculty/set/class/add', [SchedFacultyController::class, 'facultySchedCreate'])->name('facultySchedCreate');
             Route::get('/faculty/set/class/fetch', [SchedFacultyController::class, 'fetchFacultySchedule'])->name('fetchFacultySchedule');
             Route::get('/faculty/set/view/load', [SchedFacultyController::class, 'facultyloadPDFTemplate'])->name('facultyloadPDFTemplate');
             Route::post('/print/faculty/schedule', [SchedFacultyController::class, 'printFacultySchedule'])->name('printFacultySchedule');

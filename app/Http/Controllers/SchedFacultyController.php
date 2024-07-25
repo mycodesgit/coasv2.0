@@ -137,7 +137,7 @@ class SchedFacultyController extends Controller
         return response()->json($schedule);
     }
 
-    public function classSchedCreate(Request $request)
+    public function facultySchedCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -145,7 +145,6 @@ class SchedFacultyController extends Controller
                 'start_time' => 'required|string',
                 'end_time' => 'required|string',
                 'progcodename' => 'required|string',
-                'progcodesection' => 'required|string',
                 'schlyear' => 'required|string',
                 'semester' => 'required|string',
                 'postedBy' => 'required|string',
@@ -153,6 +152,7 @@ class SchedFacultyController extends Controller
                 'subject_id' => 'required|string',
                 'faculty_id' => 'required|string',
                 'room_id' => 'required|string',
+                'remarks' => 'required|string',
             ]);
 
             $day = $request->input('schedday');

@@ -155,6 +155,7 @@ class SchedClassController extends Controller
                 'subject_id' => 'required|string',
                 'faculty_id' => 'required|string',
                 'room_id' => 'required|string',
+                'remarks' => 'required|string',
             ]);
 
             $day = $request->input('schedday');

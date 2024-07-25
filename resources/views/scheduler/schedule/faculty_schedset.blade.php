@@ -26,7 +26,7 @@ CISS V.1.0 || Faculty Schedule
         </p>
 
         <div class="page-header">
-            <form method="GET" action="{{ route('facultySchedSetRead') }}" id="classEnroll">
+            <form method="GET" action="{{ route('facultySchedSetRead') }}" id="facultysched">
                 {{ csrf_field() }}
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -232,7 +232,7 @@ CISS V.1.0 || Faculty Schedule
                                     <select class="form-control form-control-sm select2bs4" name="progcodename" id="progCod">
                                         <option disabled selected>Select a course</option>
                                     </select>
-                                    <input type="text" id="classSection" name="progcodesection" value="">
+                                    <input type="hidden" id="classSection" name="progcodesection" value="">
                                 </div>
                             </div>
                         </div>

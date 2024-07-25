@@ -183,6 +183,50 @@
             }
         });
 
+        $(function () {
+            $('#scheduleForm').validate({
+                rules: {
+                    subject_id: {
+                        required: true,
+                    },
+                    faculty_id: {
+                        required: true,
+                    },
+                    room_id: {
+                        required: true,
+                    },
+                    remarks: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    subject_id: {
+                        required: "Select Subject",
+                    },
+                    faculty_id: {
+                        required: "Select Faculty",
+                    },
+                    room_id: {
+                        required: "Select Room",
+                    },
+                    remarks: {
+                        required: "Select Remarks",
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.col-md-12').append(error);        
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                },
+            });
+        });
+
         $('#saveSchedule').click(function() {
             // Save the schedule via AJAX
             let formData = $('#scheduleForm').serialize();
@@ -196,6 +240,7 @@
                         $('#scheduleModal').modal('hide');
                         clearHighlights();
                         loadSchedule();
+                        clearForm();
                     } else {
                         toastr.error('Error: ' + response.message);
                     }
@@ -211,6 +256,15 @@
                             icon: 'error',
                             title: 'Conflict',
                             text: 'Schedule conflict detected.\n' + conflictMessages,
+                        });
+                    } else if (response.status === 422) { // Validation error status code
+                        let errors = response.responseJSON.errors;
+                        // Loop through each validation error and show them
+                        $.each(errors, function(field, messages) {
+                            let element = $('[name="' + field + '"]');
+                            element.addClass('is-invalid');
+                            let errorElement = $('<span class="invalid-feedback"></span>').text(messages.join(' '));
+                            element.closest('.col-md-12').append(errorElement);
                         });
                     } else {
                         alert('Error saving schedule: ' + response.responseJSON.message);

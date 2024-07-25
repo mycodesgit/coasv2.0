@@ -26,7 +26,7 @@ CISS V.1.0 || Class Schedule
         </p>
 
         <div class="page-header">
-            <form method="GET" action="{{ route('classSchedSetRead') }}" id="classEnroll">
+            <form method="GET" action="{{ route('classSchedSetRead') }}" id="classsched">
                 {{ csrf_field() }}
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -164,7 +164,7 @@ CISS V.1.0 || Class Schedule
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="scheduleForm">
+                <form id="scheduleForm" class="addclasssched">
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" class="form-control form-control-sm" id="day" name="schedday" readonly>

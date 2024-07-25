@@ -32,7 +32,7 @@ CISS V.1.0 || Faculty Schedule
         </p>
 
         <div class="page-header">
-            <form method="GET" action="{{ route('facultySchedSetRead') }}" id="classEnroll">
+            <form method="GET" action="{{ route('facultySchedSetRead') }}" id="facultysched">
                 {{ csrf_field() }}
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
