@@ -99,6 +99,35 @@ class SchedClassController extends Controller
         return view('scheduler.schedule.class_schedset', compact('sy', 'studclass', 'progAcronym', 'progCodPart', 'progCodSuffix', 'days', 'times'));
     }
 
+    public function getschedclassplotted(Request $request)
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $progCod = $request->query('progCod');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $parts = preg_split('/[\+\s]/', $progCod);
+        $progCodPart = $parts[0];
+        $progCodSuffix = isset($parts[1]) ? $parts[1] : null;
+        $program = EnPrograms::whereRaw('LOWER(progCod) = ?', [strtolower($progCodPart)])->first();
+
+        $progAcronym = $program ? $program->progAcronym : 'N/A';
+
+        $data = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                    ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                    ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                    ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                    ->where('scheduleclass.schlyear', '=', $schlyear)
+                    ->where('scheduleclass.semester', '=', $semester)
+                    ->where('scheduleclass.progcodename', $progCodPart)
+                    ->where('scheduleclass.progcodesection', $progCodSuffix)
+                    ->where('scheduleclass.campus', $campus)
+                    ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'subjects.sub_title', 'faculty.lname', 'faculty.fname', 'faculty.fname', 'rooms.room_name')
+                    ->get();
+
+        return response()->json(['data' => $data]);
+    }
+
     public function getSubjectsClassSched(Request $request)
     {
         $schlyear = $request->input('schlyear');
@@ -350,5 +379,13 @@ class SchedClassController extends Controller
             ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
 
         return $pdf->stream('schedule.pdf');
+    }
+
+    public function schedclassplottedDelete($id) 
+    {
+        $schedplot = SetClassSchedule::find($id);
+        $schedplot->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 }

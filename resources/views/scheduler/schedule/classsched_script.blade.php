@@ -281,6 +281,11 @@
             $('#viewScheduleModal').modal('show');
         });
 
+        // View Schedule button click handler
+        $('#deleteSchedule').click(function() {
+            $('#viewScheduletoDeleteModal').modal('show');
+        });
+
         // Generate and download the schedule as PDF
         $('#printSchedule').click(function() {
             let scheduleHtml = $('#schedule-view').html();

@@ -104,7 +104,7 @@ CISS V.1.0 || Class Schedule
                                 <button type="button" id="refreshSchedule" class="btn btn-primary btn-xs ml-1">
                                     <i class="fas fa-sync"></i> Refresh
                                 </button>  
-                                <button class="btn btn-danger btn-xs ml-1">
+                                <button data-toggle="modal" data-target="#viewScheduletoDeleteModal" class="btn btn-danger btn-xs ml-1">
                                     <i class="fas fa-trash"></i> Delete Schedule
                                 </button>
                             </div>
@@ -229,6 +229,53 @@ CISS V.1.0 || Class Schedule
             </div>
         </div>
     </div>
+
+    <!-- Schedule View Modal -->
+    
+
+    <div class="modal fade" id="viewScheduletoDeleteModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title" id="viewScheduletoDeleteModalLabel">
+                        <span>Course: {{ $progAcronym ?? 'Not Available' }} {{ $progCodSuffix ?? 'Not Available' }},</span>
+                            <span class="ml-2">School Year: {{ request('schlyear') }},</span>
+                            <span class="ml-2">
+                                Semester: 
+                                @if(request('semester') == 1)
+                                    1st Sem
+                                @elseif(request('semester') == 2)
+                                    2nd Sem
+                                @elseif(request('semester') == 3)
+                                    Summer
+                                @else
+                                    Unknown Semester
+                                @endif
+                            </span>
+                    </h5>
+                    <div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <table id="asd" width="100%" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Subject Section</th>
+                                <th>Descriptive Title</th>
+                                <th>Faculty</th>
+                                <th>Day & Time</th>
+                                <th width="2%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table data goes here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -236,6 +283,9 @@ CISS V.1.0 || Class Schedule
     var classSubOfferSchedReadRoute = "{{ route('getSubjectsClassSched') }}";
     var classFacultySchedReadRoute = "{{ route('getFacultyClassSched') }}";
     var classRoomSchedReadRoute = "{{ route('getRoomClassSched') }}";
+
+    var classplottedReadRoute = "{{ route('getschedclassplotted') }}";
+    var classplottedDeleteRoute = "{{ route('schedclassplottedDelete', ['id' => ':id']) }}";
 </script>
 
 <script>

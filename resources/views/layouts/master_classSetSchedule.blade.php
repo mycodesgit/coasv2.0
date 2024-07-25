@@ -144,6 +144,7 @@
         <script src="{{ asset('js/ajax/schedclass/getSubOffschedClassSerialize.js') }}"></script>
         <script src="{{ asset('js/ajax/schedclass/getFacultyschedClassSerialize.js') }}"></script>
         <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/classplotdeleteSerialize.js') }}"></script>
     @endif
 
     @if(request()->routeIs('facultySchedSetRead'))

@@ -405,6 +405,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/class/set/class/add', [SchedClassController::class, 'classSchedCreate'])->name('classSchedCreate');
             Route::get('/class/set/class/fetch', [SchedClassController::class, 'fetchSchedule'])->name('fetchSchedule');
             Route::post('/print-schedule', [SchedClassController::class, 'printSchedule'])->name('printSchedule');
+            Route::get('/class/plotted/class/ajaxfetch', [SchedClassController::class, 'getschedclassplotted'])->name('getschedclassplotted');
+            Route::get('/class/plotted/list/delete{id}', [SchedClassController::class, 'schedclassplottedDelete'])->name('schedclassplottedDelete');
 
 
             Route::get('/faculty', [SchedFacultyController::class, 'facultySchedRead'])->name('facultySchedRead');
