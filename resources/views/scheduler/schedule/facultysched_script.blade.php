@@ -246,7 +246,6 @@
                         $('#scheduleModal').modal('hide');
                         clearHighlights();
                         loadSchedule();
-                        clearForm();
                     } else {
                         toastr.error('Error: ' + response.message);
                     }

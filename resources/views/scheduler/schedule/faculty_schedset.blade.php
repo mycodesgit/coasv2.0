@@ -80,7 +80,7 @@ CISS V.1.0 || Faculty Schedule
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <div class="breadcrumb" style="font-size: 13pt">
                                 <span>Faculty: {{ $facultyName }},</span>
                                 <span class="ml-2">{{ request('schlyear') }},</span>
@@ -97,7 +97,7 @@ CISS V.1.0 || Faculty Schedule
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="breadcrumb">
                                 <button id="viewSchedule" class="btn btn-secondary btn-xs ml-1">
                                     <i class="fas fa-eye"></i> View Schedule
@@ -108,9 +108,6 @@ CISS V.1.0 || Faculty Schedule
                                 <button type="button" id="refreshSchedule" class="btn btn-primary btn-xs ml-1">
                                     <i class="fas fa-sync"></i> Refresh
                                 </button>  
-                                <button class="btn btn-danger btn-xs ml-1">
-                                    <i class="fas fa-trash"></i> Delete Schedule
-                                </button>
                             </div>
                         </div>
                     </div>
