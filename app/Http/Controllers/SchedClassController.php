@@ -262,11 +262,11 @@ class SchedClassController extends Controller
                     'remarks' => $remarks,
                 ]);
 
-                FacultyLoad::create([
-                    'subjectID' => $subject_id,
-                    'facultyID' => $faculty_id,
-                    'remember_token' => Str::random(60),
-                ]);
+                // FacultyLoad::create([
+                //     'subjectID' => $subject_id,
+                //     'facultyID' => $faculty_id,
+                //     'remember_token' => Str::random(60),
+                // ]);
 
                 return response()->json(['success' => true, 'message' => 'Class Schedule Set successfully'], 200);
             } catch (\Exception $e) {
