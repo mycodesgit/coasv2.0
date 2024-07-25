@@ -318,7 +318,7 @@ class AdAdmissionController extends Controller
                 $examinee->created_at = $dt;
                 $examinee->save();
 
-                return redirect('emp/admission/applicant/add')->with('success', 'Applicant has been successfully created.')->with('admission_id' ,$admissionid);
+                return redirect()->route('applicant-add')->with('success', 'Applicant has been successfully created.')->with('admission_id' ,$admissionid);
             }
         } catch (\Exception $e) {
             return redirect()->route('applicant-add')->withErrors($validator)->withInput()->with('fail', $e->getMessage());
