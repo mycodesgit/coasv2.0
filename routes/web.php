@@ -105,7 +105,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     
         Route::prefix('applicant')->group(function () {
             Route::get('/add', [AdAdmissionController::class, 'applicant_add'])->name('applicant-add');
-            Route::post('applicant-add', [AdAdmissionController::class, 'post_applicant_add'])->name('post-applicant-add');
+            Route::post('applicant-add', [AdAdmissionController::class, 'applicantCreate'])->name('applicantCreate');
             Route::get('/list', [AdAdmissionController::class, 'applicant_list'])->name('applicant-list');
             // Route::get('/list/search', [AdAdmissionController::class, 'applicant_list_search'])->name('applicant_list_search');
             Route::get('/list/search/applicants', [AdAdmissionController::class, 'srchappList'])->name('srchappList');

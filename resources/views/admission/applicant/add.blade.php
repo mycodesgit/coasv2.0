@@ -26,13 +26,13 @@ CISS V.1.0 || Add Applicant
         <p>
             @if(Session::has('success'))
                 <div class="alert alert-success" id="alert">{{ Session::get('success')}} {{ Session::get('admission_id')}}</div>
-            @elseif (Session::has('fail'))
-                <div class="alert alert-danger" id="alert">{{Session::get('fail')}}</div>
+            @elseif (Session::has('error'))
+                <div class="alert alert-danger" id="alert">{{Session::get('error')}}</div>
             @endif
         </p>
 
         <div>
-            <form method="post" action="{{ route('post-applicant-add') }}" enctype="multipart/form-data" id="admissionApply">
+            <form method="post" action="{{ route('applicantCreate') }}" id="admissionApply">
                 @csrf
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -48,7 +48,7 @@ CISS V.1.0 || Add Applicant
 
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">Admission Type</span></label>
-                            <select class="form-control form-control-sm" name="type">
+                            <select class="form-control form-control-sm" name="type" id="admissionType">
                                 <option value="">Select</option>
                                 <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>New</option>
                                 <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Returnee</option>
@@ -182,48 +182,52 @@ CISS V.1.0 || Add Applicant
                     </div>
                 </div>
 
-                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                    <h4>For New Student <span style="font-size: 12pt;color:#ff0000;">(Input for New Applicant only)</span></h4>
-                </div>
+                <div class="new-returnee-form" id="newReturneeForm" style="display: none;">
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>For New Student <span style="font-size: 12pt;color:#ff0000;">(Input for New Applicant only)</span></h4>
+                    </div>
 
-                <div class="form-group mt-2">
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label><span class="badge badge-secondary">Last School Attended</span></label>
-                            <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" name="lstsch_attended" value="{{old('lstsch_attended')}}">
-                        </div>
+                    <div class="form-group mt-2">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Last School Attended</span></label>
+                                <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" name="lstsch_attended" value="{{old('lstsch_attended')}}">
+                            </div>
 
-                        <div class="col-md-6">
-                            <label><span class="badge badge-secondary">Strand</span></label>
-                            <select class="level form-control form-control-sm" name="strand" style="text-transform: uppercase;">
-                                <option value="">Select</option>
-                                @foreach ($strand as $strand)
-                                <option value="{{ $strand->code }}" @if (old('strand') == "{{ $strand->code }}") {{ 'selected' }} @endif>{{ $strand->strand }}</option>
-                                @endforeach
-                            </select>
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Strand</span></label>
+                                <select class="level form-control form-control-sm" name="strand" style="text-transform: uppercase;">
+                                    <option value="">Select</option>
+                                    @foreach ($strand as $strand)
+                                    <option value="{{ $strand->code }}" @if (old('strand') == $strand->code) {{ 'selected' }} @endif>{{ $strand->strand }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                    <h4>For Transferee <span style="font-size: 12pt;color:#ff0000;">(Input for Transferees only)</span></h4>
-                </div>
+                <div class="transferee-form" id="transfereeForm" style="display: none;">
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>For Transferee <span style="font-size: 12pt;color:#ff0000;">(Input for Transferees only)</span></h4>
+                    </div>
 
-                <div class="form-group mt-2">
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label><span class="badge badge-secondary">College/University last attended</span></label>
-                            <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" name="suc_lst_attended" value="{{old('suc_lst_attended')}}">
-                        </div>
+                    <div class="form-group mt-2">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">College/University last attended</span></label>
+                                <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" name="suc_lst_attended" value="{{old('suc_lst_attended')}}">
+                            </div>
 
-                        <div class="col-md-6">
-                            <label><span class="badge badge-secondary">Course</span></label>
-                            <select class="form-control form-control-sm" name="course" style="text-transform: uppercase;">
-                                <option value="">Select Course</option>
-                                @foreach ($program as $programs)
-                                <option value="{{ $programs->code }}" @if (old('course') == "{{ $programs->code }}") {{ 'selected' }} @endif>{{ $programs->program }}</option>
-                                @endforeach
-                            </select>
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Course</span></label>
+                                <select class="form-control form-control-sm" name="course" style="text-transform: uppercase;">
+                                    <option value="">Select Course</option>
+                                    @foreach ($program as $programs)
+                                    <option value="{{ $programs->code }}" @if (old('course') == $programs->code) {{ 'selected' }} @endif>{{ $programs->program }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -324,5 +328,34 @@ CISS V.1.0 || Add Applicant
 
         document.getElementById('age').value = age;
     }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var admissionType = document.getElementById('admissionType');
+        var newReturneeForm = document.getElementById('newReturneeForm');
+        var transfereeForm = document.getElementById('transfereeForm');
+
+        // Show/hide forms based on the initial value
+        toggleFormSections(admissionType.value);
+
+        // Add event listener for change event
+        admissionType.addEventListener('change', function() {
+            toggleFormSections(this.value);
+        });
+
+        function toggleFormSections(value) {
+            if (value == 1 || value == 2) { // New or Returnee
+                newReturneeForm.style.display = 'block';
+                transfereeForm.style.display = 'none';
+            } else if (value == 3) { // Transferee
+                newReturneeForm.style.display = 'none';
+                transfereeForm.style.display = 'block';
+            } else { // Hide all if no selection
+                newReturneeForm.style.display = 'none';
+                transfereeForm.style.display = 'none';
+            }
+        }
+    });
 </script>
 @endsection

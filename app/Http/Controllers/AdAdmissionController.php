@@ -181,67 +181,43 @@ class AdAdmissionController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function post_applicant_add(Request $request)
+    public function applicantCreate(Request $request)
     {
-
-        try {
-            $validator = Validator::make($request->all(), [
-                //'admissionid' => 'required|unique:ad_applicant_admission,admission_id|numeric',
-                'type' => 'required',
-                'lastname' => 'required|max:191',
-                'firstname' => 'required|max:191',
-                'email' => 'required|unique:ad_applicant_admission,email|max:191',
-                'gender' => 'required',
-                'age' => 'required',
-                'contact' => 'required|numeric|min:11',
-                'preference_1' => 'required',
-                'preference_2' => 'required',
+        if ($request->isMethod('post')) {
+            $request->validate([
             ]);
 
             $existingApplicantValidator = Validator::make([], []);
 
-            $existingApplicant = Applicant::where('lname', $request->input('lastname'))
-                ->where('fname', $request->input('firstname'))
+            $existingApplicant = Applicant::where('lname', $request->input('lname'))
+                ->where('fname', $request->input('fname'))
                 ->whereYear('created_at', Carbon::now()->year)
                 ->first();
 
             if ($existingApplicant) {
-                $existingApplicantValidator->errors()->add('existing_applicant', 'Error: You have already Registered this year.');
+                $existingApplicantValidator->errors()->add('existing_applicant', 'Error: You have already registered this year.');
             }
 
-            $validator->errors()->merge($existingApplicantValidator->errors());
-
-            if ($validator->fails()) {
-                if ($existingApplicantValidator->errors()->has('existing_applicant')) {
-                    return Redirect::route('admission-apply')
-                        ->withErrors($existingApplicantValidator)
-                        ->withInput()
-                        ->with('fail', $existingApplicantValidator->errors()->first('existing_applicant'));
-                } else {
-                    return Redirect::route('admission-apply')
-                        ->withErrors($validator)
-                        ->withInput()
-                        ->with('fail', 'Error in saving applicant data. Please check the inputs!');
-                }
+            if ($existingApplicantValidator->fails()) {
+                return Redirect::route('admission-apply')
+                    ->withErrors($existingApplicantValidator)
+                    ->withInput()
+                    ->with('fail', $existingApplicantValidator->errors()->first('existing_applicant'));
             }
 
             $todayRegistrations = Applicant::whereDate('created_at', today())->count();
 
             if ($todayRegistrations >= 500) {
-                return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Daily registration limit reached!');
+                return Redirect::route('admission-apply')->withInput()->with('fail', 'Error: Daily registration limit reached!');
             }
-                
-            $campus = $request->input('campus');
+
+            $campus = Auth::guard('web')->user()->campus;
             $year = Carbon::now()->format('Y');
-            $admissionid = '';
 
             $latestApplicant = Applicant::where('campus', $campus)->latest('created_at')->first();
-
-            if (empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $year) {
-                $latestId = 0;
-            } else {
-                $latestId = (int)substr($latestApplicant->admission_id, -4);
-            }
+            $latestId = empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $year
+                ? 0
+                : (int)substr($latestApplicant->admission_id, -4);
 
             $newId = $latestId + 1;
             $paddedValue = str_pad($newId, 4, '0', STR_PAD_LEFT);
@@ -253,75 +229,62 @@ class AdAdmissionController extends Controller
                 $admissionid = $existingAdID->admission_id + 1;
             }
 
-            $year = Carbon::now()->format('Y');
-            $applicant = new Applicant;
-            $applicant->year = $year;
-            $applicant->campus = Auth::user()->campus;
-            $applicant->admission_id = $admissionid;
-            $applicant->type = $request->input('type');
-            $applicant->lname = $request->input('lastname');
-            $applicant->fname = $request->input('firstname');
-            $applicant->mname = $request->input('mname');
-            $applicant->ext = $request->input('ext');
-            $applicant->gender = $request->input('gender');
-            $applicant->address = $request->input('address');
-            $applicant->bday = $request->input('bday');
-            $applicant->age = $request->input('age');
-            $applicant->contact = $request->input('contact');
-            $applicant->email = $request->input('email'); 
-            $applicant->civil_status = $request->input('civil_status'); 
-            $applicant->religion = $request->input('religion'); 
-            $applicant->monthly_income = $request->input('monthly_income'); 
-            $applicant->lstsch_attended = $request->input('lstsch_attended');
-            $applicant->strand = $request->input('strand');
-            $applicant->suc_lst_attended = $request->input('suc_lst_attended');
-            $applicant->course = $request->input('course');
-            $applicant->preference_1 = $request->input('preference_1');
-            $applicant->preference_2 = $request->input('preference_2');
-            $applicant->d_admission = $request->input('d_admission');
-            $applicant->time = $request->input('time');
-            $applicant->venue = $request->input('venue');
-            $dt = Carbon::now();  
-            $applicant->created_at = $dt;
-            $applicant->save();
+            try {
+                $applicantID = Applicant::create([
+                    'year' => Carbon::now()->format('Y'),
+                    'campus' => $request->input('campus'),
+                    'admission_id' => $admissionid,
+                    'type' => $request->input('type'),
+                    'lname' => $request->input('lname'),
+                    'fname' => $request->input('fname'),
+                    'mname' => $request->input('mname'),
+                    'ext' => $request->input('ext'),
+                    'gender' => $request->input('gender'),
+                    'address' => $request->input('address'),
+                    'bday' => $request->input('bday'),
+                    'age' => $request->input('age'),
+                    'contact' => $request->input('contact'),
+                    'email' => $request->input('email'),
+                    'civil_status' => $request->input('civil_status'),
+                    'religion' => $request->input('religion'),
+                    'monthly_income' => $request->input('monthly_income'),
+                    'lstsch_attended' => $request->input('lstsch_attended'),
+                    'strand' => $request->input('strand'),
+                    'suc_lst_attended' => $request->input('suc_lst_attended'),
+                    'course' => $request->input('course'),
+                    'preference_1' => $request->input('preference_1'),
+                    'preference_2' => $request->input('preference_2'),
+                ]);
 
-            if ($applicant->save()){
-                $appid = $applicant->id; 
-                $camp = $applicant->campus; 
+                ApplicantDocs::create([
+                    'app_id' => $applicantID->id,
+                    'campus' => $request->input('campus'),
+                    'admission_id' => $admissionid,
+                    'r_card' => $request->input('r_card'),
+                    'g_moral' => $request->input('g_moral'),
+                    't_record' => $request->input('t_record'),
+                    'b_cert' => $request->input('b_cert'),
+                    'h_dismissal' => $request->input('h_dismissal'),
+                    'm_cert' => $request->input('m_cert'),
+                ]);
 
-                $docs = new ApplicantDocs;
-                $docs->app_id = $appid;
-                $docs->camp = $camp;
-                $docs->admission_id = $admissionid;
-                $docs->r_card = $request->input('r_card');
-                $docs->g_moral = $request->input('g_moral');
-                $docs->t_record = $request->input('t_record');
-                $docs->b_cert = $request->input('b_cert');
-                $docs->h_dismissal = $request->input('h_dismissal');
-                $docs->m_cert = $request->input('m_cert');
-                $docs->created_at = $dt;
-                $docs->save();
+                ExamineeResult::create([
+                    'app_id' => $applicantID->id,
+                    'campus' => $request->input('campus'),
+                    'admission_id' => $admissionid,
+                ]);
 
-                $examinee = new ExamineeResult;
-                $examinee->app_id = $appid;
-                $examinee->camp = $camp;
-                $examinee->admission_id =  $admissionid;
-                $examinee->raw_score = $request->input('raw_score');
-                $examinee->percentile = $request->input('percentile');
-                $examinee->created_at = $dt;
-                $examinee->save();
-
-                $examinee = new DeptRating;
-                $examinee->app_id = $appid;
-                $examinee->camp = $camp;
-                $examinee->admission_id =  $admissionid;
-                $examinee->created_at = $dt;
-                $examinee->save();
-
-                return redirect()->route('applicant-add')->with('success', 'Applicant has been successfully created.')->with('admission_id' ,$admissionid);
+                DeptRating::create([
+                    'app_id' => $applicantID->id,
+                    'campus' => $request->input('campus'),
+                    'admission_id' => $admissionid,
+                ]);
+                return redirect()->route('applicant-add')->with('success', 'Applicant stored successfully!');
+                //return response()->json(['success' => true, 'message' => 'Applicant Added Successfully'], 200);
+            } catch (\Exception $e) {
+                //return response()->json(['error' => true, 'message' => 'Failed to add Applicant'], 404);
+                return redirect()->route('applicant-add')->with('error', 'Failed to store user!');
             }
-        } catch (\Exception $e) {
-            return redirect()->route('applicant-add')->withErrors($validator)->withInput()->with('fail', $e->getMessage());
         }
     }
 
@@ -347,7 +310,7 @@ class AdAdmissionController extends Controller
         
         $year = Carbon::now()->format('Y');
         $admissionid = Applicant::orderBy('admission_id', 'desc')->first();
-        $program = Programs::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
+        $program = Programs::orderBy('id', 'asc')->where('type', '=', Auth::user()->campus)->get();
         $strand = Strands::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
         $date = AdmissionDate::select('date', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('date')->get();
         $time = Time::select('time', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('time')->get();
