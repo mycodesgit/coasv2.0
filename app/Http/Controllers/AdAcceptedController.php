@@ -136,7 +136,7 @@ class AdAcceptedController extends Controller
         ->orWhere(function ($query) use ($applicant) {
             $query->where('fname', $applicant->fname)
                 ->where('mname', $applicant->mname)
-                ->where('lname', $applicant->lname);
+                ->where('lname', $applicant->lname)
                 ->where('campus', Auth::guard('web')->user()->campus);
         })
         ->first();
