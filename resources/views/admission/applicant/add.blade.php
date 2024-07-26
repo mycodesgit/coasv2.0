@@ -92,12 +92,12 @@ CISS V.1.0 || Add Applicant
 
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">Lastname</span></label>
-                            <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()"  name="lastname" value="{{old('lastname')}}">
+                            <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()"  name="lname" value="{{old('lname')}}">
                         </div>
 
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">Firstname</span></label>
-                            <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()"  name="firstname" value="{{old('firstname')}}">
+                            <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()"  name="fname" value="{{old('fname')}}">
                         </div>
 
                         <div class="col-md-2">

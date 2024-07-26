@@ -310,7 +310,7 @@ class AdAdmissionController extends Controller
         
         $year = Carbon::now()->format('Y');
         $admissionid = Applicant::orderBy('admission_id', 'desc')->first();
-        $program = Programs::orderBy('id', 'asc')->where('type', '=', Auth::user()->campus)->get();
+        $program = Programs::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
         $strand = Strands::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
         $date = AdmissionDate::select('date', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('date')->get();
         $time = Time::select('time', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('time')->get();
