@@ -229,6 +229,9 @@
     @if(request()->routeIs('collegeRead'))
         <script src="{{ asset('js/ajax/schedclass/collegeSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('faculty_list'))
+        <script src="{{ asset('js/ajax/schedclass/facultylistSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('programsRead'))
         <script src="{{ asset('js/ajax/schedclass/programsSerialize.js') }}"></script>
     @endif

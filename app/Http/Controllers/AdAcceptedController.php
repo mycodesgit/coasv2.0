@@ -137,6 +137,7 @@ class AdAcceptedController extends Controller
             $query->where('fname', $applicant->fname)
                 ->where('mname', $applicant->mname)
                 ->where('lname', $applicant->lname);
+                ->where('campus', Auth::guard('web')->user()->campus);
         })
         ->first();
 
