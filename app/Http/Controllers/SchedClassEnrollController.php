@@ -73,6 +73,40 @@ class SchedClassEnrollController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    // public function checkEnrollment(Request $request)
+    // {
+    //     $progCod = $request->input('progCod');
+    //     $schlyear = $request->input('schlyear');
+    //     $semester = $request->input('semester');
+    //     $campus = $request->input('campus');
+    //     $stud_id = $request->input('studentID');
+    //     $classSection = $request->input('classSection');
+
+    //     // Count the number of students enrolled in the specified program, school year, semester, and campus
+    //     $enrolledStudents = StudEnrolmentHistory::where('schlyear', $schlyear)
+    //                         ->where('semester', $semester)
+    //                         ->where('campus', $campus)
+    //                         ->where('studentID', $stud_id)
+    //                         ->count();
+
+    //     // Fetch the classno from the ClassEnroll model
+    //     $classEnroll = ClassEnroll::where('progCode', $progCod)
+    //                     ->where('classSection', $classSection)
+    //                     ->first();
+
+    //     if (!$classEnroll) {
+    //         return response()->json(['error' => 'Class not found'], 404);
+    //     }
+
+    //     $classNo = $classEnroll->classno;
+
+    //     return response()->json([
+    //         'enrolledStudents' => $enrolledStudents,
+    //         'classNo' => $classNo,
+    //         'isFull' => $enrolledStudents >= $classNo,
+    //     ]);
+    // }
+
     public function classEnrollCreate(Request $request) 
     {
         if ($request->isMethod('post')) {

@@ -63,7 +63,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.id + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '">' +
+                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.id + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '" data-deptname="' + row.dept + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item fund-delete">' +
@@ -94,6 +94,7 @@ $(document).on('click', '.btn-facultyedit', function() {
     var mName = $(this).data('fmname');
     var exName = $(this).data('fxname');
     var salName = $(this).data('adrname');
+    var deptName = $(this).data('deptname');
 
     $('#editFacultyId').val(id);
     $('#editLastname').val(lName);
@@ -101,6 +102,7 @@ $(document).on('click', '.btn-facultyedit', function() {
     $('#editMiddlename').val(mName);
     $('#editExtname').val(exName);
     $('#editSalutation').val(salName);
+    $('#editdept').val(deptName);
 
     $('#editFacultyModal').modal('show');
 });

@@ -143,7 +143,7 @@ CISS V.1.0 || List if Faculty
                         <select id="college_room" class="form-control form-control-sm" id="editdept" name="dept">
                             <option disabled selected> ---Select---</option>
                             @foreach($collegelist as $datacollegelist)
-                                <option value="{{ $datacollegelist->id }}">{{ $datacollegelist->college_name }}</option>
+                                <option value="{{ $datacollegelist->college_abbr }}">{{ $datacollegelist->college_name }}</option>
                             @endforeach
                         </select>
                     </div>

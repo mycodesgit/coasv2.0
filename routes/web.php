@@ -252,6 +252,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('search')->group(function () {
             Route::get('/student', [EnrollmentController::class, 'searchStud'])->name('searchStud');
             Route::get('/student/enroll', [EnrollmentController::class, 'searchStudEnroll'])->name('searchStudEnroll');
+            Route::get('/student/enroll/check-enrollment', [EnrollmentController::class, 'checkEnrollment'])->name('checkEnrollment');
             Route::get('/student/enroll/RF', [EnrollmentController::class, 'studrfprint'])->name('studrfprint');
             Route::get('/fetch-subjects', [EnrollmentController::class, 'fetchSubjects'])->name('fetchSubjects');
             Route::get('/editfetch-subjects', [EnrollmentController::class, 'editfetchSubjects'])->name('editfetchSubjects');

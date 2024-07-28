@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Rules\UniqueStudentID;
+use Illuminate\Support\Facades\Log;
 
 use PDF;
 use Storage;
@@ -135,6 +136,76 @@ class EnrollmentController extends Controller
 
         return view('enrollment.studenroll.index', compact('sy'));
     }
+
+    public function checkEnrollment(Request $request)
+    {
+        try {
+            Log::info('checkEnrollment called', $request->all());
+
+            $progCod = $request->input('programCode');
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $request->input('campus');
+            $stud_id = $request->input('stud_id');
+            $classSection = $request->input('classSection');
+
+            Log::info('Parameters received', [
+                'programCode' => $progCod,
+                'schlyear' => $schlyear,
+                'semester' => $semester,
+                'campus' => $campus,
+                'stud_id' => $stud_id,
+                'classSection' => $classSection
+            ]);
+
+            // Split classSection into studYear and studSec
+            $parts = explode('-', $classSection);
+            if (count($parts) !== 2) {
+                Log::error('Invalid classSection format', ['classSection' => $classSection]);
+                return response()->json(['error' => 'Invalid classSection format'], 400);
+            }
+            $studYear = $parts[0];
+            $studSec = $parts[1];
+
+            // Count the number of students enrolled in the specified program, school year, semester, and campus
+            $enrolledStudents = StudEnrolmentHistory::where('schlyear', $schlyear)
+                                ->where('semester', $semester)
+                                ->where('campus', $campus)
+                                ->where('progCod', $progCod)
+                                ->where('studYear', $studYear)
+                                ->where('studSec', $studSec)
+                                ->count();
+
+            Log::info('Enrolled students count', ['count' => $enrolledStudents]);
+
+            // Fetch the classno from the ClassEnroll model
+            $classEnroll = ClassEnroll::where('schlyear', $schlyear)
+                            ->where('semester', $semester)
+                            ->where('campus', $campus)
+                            ->where('progCode', $progCod)
+                            ->where('classSection', $classSection)
+                            ->first();
+
+            if (!$classEnroll) {
+                Log::error('Class not found', ['programCode' => $progCod, 'classSection' => $classSection]);
+                return response()->json(['error' => 'Class not found'], 404);
+            }
+
+            $classNo = $classEnroll->classno;
+
+            Log::info('Class details', ['classNo' => $classNo]);
+
+            return response()->json([
+                'enrolledStudents' => $enrolledStudents,
+                'classNo' => $classNo,
+                'isFull' => $enrolledStudents >= $classNo,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Exception occurred', ['message' => $e->getMessage()]);
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
 
     public function searchStudEnroll(Request $request)
     {

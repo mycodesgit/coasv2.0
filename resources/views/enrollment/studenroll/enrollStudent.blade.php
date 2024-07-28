@@ -371,6 +371,7 @@ CISS V.1.0 || Enroll Student
     var getfetchSubjectRoute  = "{{ route('coursefetchSubjects') }}";
     var fetchFeeDataRoute  = "{{ route('fetchFeeSubjects') }}";
     var saveEnrollmentRoute  = "{{ route('studEnrollmentCreate') }}";
+    var checkEnrollmentRoute  = "{{ route('checkEnrollment') }}";
 
     document.addEventListener('DOMContentLoaded', function() {
     var scrollableColumn = document.querySelector('.scrolling-column');

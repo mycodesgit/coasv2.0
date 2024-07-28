@@ -110,80 +110,32 @@ $(document).ready(function() {
     });
 });
 
+//for auto generate data needed in forms by selecting course
+$(document).ready(function() {
+    $('#programNameSelect').on('change', function() {
+        var selectedOption = $(this).find('option:selected');
+        var programCode = selectedOption.data('program-code');
+        var programID = selectedOption.data('program-classid');
+        var programName = selectedOption.data('program-name');
+        var yearSec = selectedOption.data('year-section');
+        var classSection = selectedOption.data('section');
 
-// $(document).ready(function() {
-//     $('#programNameSelect').on('change', function() {
-//         var selectedOption = $(this).find('option:selected');
-//         var programCode = selectedOption.data('program-code');
-//         var classSection = selectedOption.data('section');
-//         var programID = selectedOption.data('program-classid');
-//         var programName = selectedOption.data('program-name');
-//         var yearSec = selectedOption.data('year-section');
-//         var classNo = selectedOption.data('classno');
+        var parts = classSection.split('-');
 
-//         var studentID = $('#studentID').val();
-//         var schlyear = $('#schlyearInput').val();
-//         var semester = $('#semesterInput').val();
-//         var campus = $('#campusInput').val();
+        $('#programCodeInput').val(programCode);
+        $('#programIDInput').val(programID);
+        $('#programNameInput').val(programName);
+        $('#yearsectionInput').val(yearSec);
 
-//         var parts = classSection.split('-');
+        if (parts.length === 2) {
+            var numericPart = parts[0];
+            var alphabeticalPart = parts[1];
+            $('#numericPart').val(numericPart);
+            $('#alphabeticalPart').val(alphabeticalPart);
+        }
 
-//         $('#programCodeInput').val(programCode);
-//         $('#programIDInput').val(programID);
-//         $('#programNameInput').val(programName);
-//         $('#yearsectionInput').val(yearSec);
-
-//         if (parts.length === 2) {
-//             var numericPart = parts[0];
-//             var alphabeticalPart = parts[1];
-//             $('#numericPart').val(numericPart);
-//             $('#alphabeticalPart').val(alphabeticalPart);
-//         }
-
-//         // Construct URL
-//         var url = checkEnrollmentRoute + '?stud_id=' + studentID + 
-//                   '&schlyear=' + schlyear + 
-//                   '&semester=' + semester + 
-//                   '&campus=' + campus + 
-//                   '&programCode=' + programCode + 
-//                   '&classSection=' + classSection;
-
-//         // Perform AJAX request to check student enrollment
-//         $.ajax({
-//             url: url,
-//             method: 'GET',
-//             success: function(response) {
-//                 if (response.error) {
-//                     Swal.fire({
-//                         icon: 'error',
-//                         title: 'Error',
-//                         text: response.error,
-//                     });
-//                 } else {
-//                     var enrolledStudents = response.enrolledStudents;
-//                     var classNo = response.classNo;
-//                     if (response.isFull) {
-//                         Swal.fire({
-//                             icon: 'error',
-//                             title: 'Full Class',
-//                             text: 'The selected course is already full of' + ' ' + classNo,
-//                         });
-//                     } else {
-//                         // Proceed with your logic
-//                     }
-//                 }
-//             },
-//             error: function(jqXHR, textStatus, errorThrown) {
-//                 Swal.fire({
-//                     icon: 'error',
-//                     title: 'Request Error',
-//                     text: textStatus + ': ' + errorThrown,
-//                 });
-//             }
-//         });
-//     });
-// });
-
+    });
+});
 
 //for Selecting subject manually in modal 
 $(document).ready(function() {
@@ -225,101 +177,28 @@ function updateTotalsAndIDs() {
     document.getElementById('subjIDsInput').value = subjIDString;
 }
 
-//for auto generate data needed in forms by selecting course
 //for Selecting Course from option to generate subject offer using template
 document.getElementById('programNameSelect').addEventListener('change', function() {
-    var selectedOption = this.options[this.selectedIndex];
-    var programCode = selectedOption.getAttribute('data-program-code');
-    var classSection = selectedOption.getAttribute('data-section');
-    var programID = selectedOption.getAttribute('data-program-classid');
-    var programName = selectedOption.getAttribute('data-program-name');
-    var yearSec = selectedOption.getAttribute('data-year-section');
-    var classNo = selectedOption.getAttribute('data-classno');
-
-    var studentID = document.getElementById('studentID').value;
-    var schlyear = document.getElementById('schlyearInput').value;
-    var semester = document.getElementById('semesterInput').value;
-    var campus = document.getElementById('campusInput').value;
-
     var selectedCourse = this.value;
     var schlyear = document.getElementById('schlyearInput').value; 
     var semester = document.getElementById('semesterInput').value; 
 
-    var parts = classSection.split('-');
-
-    document.getElementById('programCodeInput').value = programCode;
-    document.getElementById('programIDInput').value = programID;
-    document.getElementById('programNameInput').value = programName;
-    document.getElementById('yearsectionInput').value = yearSec;
-
-    if (parts.length === 2) {
-        var numericPart = parts[0];
-        var alphabeticalPart = parts[1];
-        document.getElementById('numericPart').value = numericPart;
-        document.getElementById('alphabeticalPart').value = alphabeticalPart;
-    }
-
-    // Construct URL
-    var checkEnrollmentUrl = checkEnrollmentRoute + '?stud_id=' + encodeURIComponent(studentID) + 
-                             '&schlyear=' + encodeURIComponent(schlyear) + 
-                             '&semester=' + encodeURIComponent(semester) + 
-                             '&campus=' + encodeURIComponent(campus) + 
-                             '&programCode=' + encodeURIComponent(programCode) + 
-                             '&classSection=' + encodeURIComponent(classSection);
-                             console.log(checkEnrollmentUrl);
-
-    // Perform AJAX request to check student enrollment
-    var xhrEnrollment = new XMLHttpRequest();
-    xhrEnrollment.open('GET', checkEnrollmentUrl, true);
-    xhrEnrollment.onreadystatechange = function() {
-        if (xhrEnrollment.readyState === XMLHttpRequest.DONE) {
-            if (xhrEnrollment.status === 200) {
-                var response = JSON.parse(xhrEnrollment.responseText);
-                if (response.error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.error,
-                    });
-                } else {
-                    var enrolledStudents = response.enrolledStudents;
-                    var classNo = response.classNo;
-                    if (response.isFull) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Full Class',
-                            text: 'The selected course is already full of' + ' ' + classNo,
-                        });
-                    } else {
-                        // Proceed with fetching and generating subjects
-                        fetchAndGenerateSubjects(selectedCourse, schlyear, semester);
-                    }
-                }
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Request Error',
-                    text: 'Failed to check enrollment status.',
-                });
-            }
-        }
-    };
-    xhrEnrollment.send();
-});
-
-function fetchAndGenerateSubjects(selectedCourse, schlyear, semester) {
     if (selectedCourse === '--Select--') {
         return;
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', fetchTemplateRoute + '?course=' + encodeURIComponent(selectedCourse) + '&schlyear=' + encodeURIComponent(schlyear) + '&semester=' + encodeURIComponent(semester), true);
+    xhr.open('GET', fetchTemplateRoute +'?course=' + encodeURIComponent(selectedCourse) + '&schlyear=' + encodeURIComponent(schlyear) + '&semester=' + encodeURIComponent(semester), true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 var subjects = JSON.parse(xhr.responseText);
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
                 tableBody.innerHTML = '';
+                // var totalUnits = 0;
+                // var totalLecFee = 0;
+                // var totalLabFee = 0;
+                // var subjIDs = [];
 
                 subjects.forEach(function(subject) {
                     var row = tableBody.insertRow();
@@ -363,16 +242,30 @@ function fetchAndGenerateSubjects(selectedCourse, schlyear, semester) {
                         });
                     });
                     removeCell.appendChild(removeButton);
+
+                    // totalUnits += parseInt(subject.subUnit);
+                    // totalLecFee += parseFloat(subject.lecFee);
+                    // totalLabFee += parseFloat(subject.labFee);
+
+                    // subjIDs.push(subject.subjID);
                 });
                 updateTotalsAndIDs();
+                // document.getElementById('totalunitInput').value = totalUnits;
+                // document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
+                // document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
+
+                // var subjIDString = subjIDs.join(',');
+
+                // document.getElementById('subjIDsInput').value = subjIDString;
             } else {
                 alert('Failed to fetch subjects.');
             }
         }
     };
+    var tableBody = document.getElementById('studFeeTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = '';
     xhr.send();
-}
-
+});
 
 //for Manual Adding of Subject using Modal
 document.getElementById('addSubjectBtn').addEventListener('click', function() {
