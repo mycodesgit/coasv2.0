@@ -49,11 +49,7 @@ class SchedFacultyListController extends Controller
             ]);
 
             $lName = $request->input('lname'); 
-            $fName = $request->input('lname'); 
-            $mName = $request->input('lname'); 
             $existingFaculty = Faculty::where('lname', $lName)
-                          ->where('fname', $fName)
-                          ->where('mname', $mName)
                           ->first();
 
             if ($existingFaculty) {
