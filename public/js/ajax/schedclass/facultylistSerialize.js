@@ -102,7 +102,7 @@ $(document).on('click', '.btn-facultyedit', function() {
     $('#editMiddlename').val(mName);
     $('#editExtname').val(exName);
     $('#editSalutation').val(salName);
-    $('#editdept').val(deptName);
+    $('#college_room').val(deptName);
 
     $('#editFacultyModal').modal('show');
 });
