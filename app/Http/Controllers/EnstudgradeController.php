@@ -241,7 +241,7 @@ class EnstudgradeController extends Controller
         Grade::where('id', $prmID)
         ->update(['status' => $status]);
 
-        return redirect()->back()->with('success', 'Now you can edit the grade.');
+        //return redirect()->back()->with('success', 'Now you can edit the grade.');
     }
 
     public function editCompletion(Request $request, $id)
