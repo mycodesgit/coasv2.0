@@ -242,17 +242,17 @@ class EnstudgradeController extends Controller
     try {
         $grade = Grade::find($id);
         if (!$grade) {
-            return redirect()->back()->with('error', 'Grade not found.');
+            return back()->with('error', 'Grade not found.');
         }
 
         $grade->update(['status' => $status]);
 
         DB::commit();
 
-        return redirect()->back()->with('success', 'Now you can edit the grade.');
+        return back()->with('success', 'Now you can edit the grade.');
     } catch (\Exception $e) {
         DB::rollBack();
-        return redirect()->back()->with('error', 'Failed to update the grade: ' . $e->getMessage());
+        return back()->with('error', 'Failed to update the grade: ' . $e->getMessage());
     }
 }
 
