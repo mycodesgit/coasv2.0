@@ -56,7 +56,7 @@ CISS V.1.0 || Room Schedule
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Faculty</span></label>
+                                <label><span class="badge badge-secondary">Room</span></label>
                                 <select class="form-control form-control-sm select2bs4" data-placeholder="Select Room" id="room_id" name="room_id">
                                 </select>
                             </div>
