@@ -232,27 +232,29 @@ class EnstudgradeController extends Controller
     }
 
     public function editGrade(Request $request, $id)
-    {
-        $guard = $this->getGuard();
-        $user = Auth::guard($guard)->user();
-        $status = $request->input('status');
+{
+    $guard = $this->getGuard();
+    $user = Auth::guard($guard)->user();
+    $status = $request->input('status');
 
-        // Check if the record exists
+    DB::beginTransaction();
+
+    try {
         $grade = Grade::find($id);
         if (!$grade) {
             return redirect()->back()->with('error', 'Grade not found.');
         }
 
-        // Update the status
-        $updated = $grade->update(['status' => $status]);
+        $grade->update(['status' => $status]);
 
-        // Check if the update was successful
-        if ($updated) {
-            return redirect()->back()->with('success', 'Now you can edit the grade.');
-        } else {
-            return redirect()->back()->with('error', 'Failed to update the grade.');
-        }
+        DB::commit();
+
+        return redirect()->back()->with('success', 'Now you can edit the grade.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->back()->with('error', 'Failed to update the grade: ' . $e->getMessage());
     }
+}
 
 
     public function editCompletion(Request $request, $id)
