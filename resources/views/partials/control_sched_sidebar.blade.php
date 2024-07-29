@@ -22,7 +22,7 @@
     <ul class="list-group">
         <a href="{{ route('scheduler-index') }}" class="list-group-item {{ $dashSchedActive }}">Dashboard</a>
     </ul>
-    @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7]))
+    @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14]))
     <ul class="list-group mt-1">
         @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14]))
             <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
@@ -32,7 +32,9 @@
             <a href="{{ route('faculty_design') }}" class="list-group-item {{ $facDesigActive }}">Designation</a>
             <a href="{{ route('subjectsOffered') }}" class="list-group-item {{ $suboffActive }}">Subject Offered</a>
         @endif
-        <a href="{{ route('faculty_list') }}" class="list-group-item {{ $facultyActive }}">Faculty</a>
+        @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7]))
+            <a href="{{ route('faculty_list') }}" class="list-group-item {{ $facultyActive }}">Faculty</a>
+        @endif
     </ul>
     @endif
 </div>
