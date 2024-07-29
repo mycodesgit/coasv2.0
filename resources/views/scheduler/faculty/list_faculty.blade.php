@@ -185,6 +185,8 @@ CISS V.1.0 || List if Faculty
 <script>
     var facultyReadRoute = "{{ route('getfacultylistRead') }}";
     var facultyCreateRoute = "{{ route('facultyCreate') }}";
+    var facultyUpdateRoute = "{{ route('facultyUpdate', ['id' => ':id']) }}";
+    var facultyDeleteRoute = "{{ route('facultyDelete', ['id' => ':id']) }}";
     var roomidEncryptRoute = "{{ route('idcrypt') }}";
 </script>
 

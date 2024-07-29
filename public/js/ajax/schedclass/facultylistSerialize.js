@@ -57,16 +57,16 @@ $(document).ready(function() {
             {data: 'college_abbr'},
             {data: 'fcamp'},
             {
-                data: 'id',
+                data: 'fctyid',
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.id + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '" data-deptname="' + row.dept + '">' +
+                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '" data-deptname="' + row.dept + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item fund-delete">' +
+                            '<button type="button" value="' + data + '" class="dropdown-item faclty-delete">' +
                             '<i class="fas fa-trash"></i> Delete' +
                             '</button>' +
                             '</div>' +
@@ -79,7 +79,7 @@ $(document).ready(function() {
             },
         ],
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.id); 
+            $(row).attr('id', 'tr-' + data.fctyid); 
         }
     });
     $(document).on('facAdded', function() {
@@ -107,12 +107,12 @@ $(document).on('click', '.btn-facultyedit', function() {
     $('#editFacultyModal').modal('show');
 });
 
-$('#editFundForm').submit(function(event) {
+$('#editFacultyForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
     $.ajax({
-        url: fundUpdateRoute,
+        url: facultyUpdateRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -121,8 +121,8 @@ $('#editFundForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#editFundModal').modal('hide');
-                $(document).trigger('fundAdded');
+                $('#editFacultyModal').modal('hide');
+                $(document).trigger('facAdded');
             } else {
                 toastr.error(response.message);
             }
@@ -134,7 +134,7 @@ $('#editFundForm').submit(function(event) {
     });
 });
 
-$(document).on('click', '.fund-delete', function(e) {
+$(document).on('click', '.faclty-delete', function(e) {
     var id = $(this).val();
     $.ajaxSetup({
         headers: {
@@ -153,7 +153,7 @@ $(document).on('click', '.fund-delete', function(e) {
         if (result.isConfirmed) {
             $.ajax({
                 type: "GET",
-                url: fundDeleteRoute.replace(':id', id),
+                url: facultyDeleteRoute.replace(':id', id),
                 success: function(response) {
                     $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({

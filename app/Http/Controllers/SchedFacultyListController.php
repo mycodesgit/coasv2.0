@@ -30,7 +30,7 @@ class SchedFacultyListController extends Controller
         $data = Faculty::join('addressee', 'faculty.adrID', '=', 'addressee.id')
                 ->join('college', 'faculty.dept', '=', 'college.college_abbr')
                 ->where('faculty.campus', '=', Auth::guard('web')->user()->campus)
-                ->select('faculty.*', 'faculty.campus as fcamp', 'college.*', 'addressee.*', 'addressee.id as adrid')
+                ->select('faculty.*', 'faculty.id as fctyid', 'faculty.campus as fcamp', 'college.*', 'addressee.*', 'addressee.id as adrid')
                 ->orderBy('faculty.lname')
                 ->get();
 
@@ -73,6 +73,48 @@ class SchedFacultyListController extends Controller
                 return response()->json(['error' => true, 'message' => 'Failed to store Faculty'], 404);
             }
         }
+    }
+
+    public function facultyUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+            'lname' => 'required',
+            'fname' => 'required',
+            'mname' => 'required',
+            'dept' => 'required',
+            'adrID' => 'required',
+        ]);
+
+        try {
+            $lName = $request->input('lname'); 
+            $existingFaculty = Faculty::where('lname', $lName)->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingFaculty) {
+                return response()->json(['error' => true, 'message' => 'Faculty already exists'], 404);
+            }
+
+            $faclty = Faculty::findOrFail($request->input('id'));
+            $faclty->update([
+                'lname' => $request->input('lname'),
+                'fname' => $request->input('fname'),
+                'mname' => $request->input('mname'),
+                'ext' => $request->input('ext'),
+                'dept' => $request->input('dept'),
+                'adrID' => $request->input('adrID'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Faculty update successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to Update Faculty'], 404);
+        }
+    }
+
+    public function facultyDelete($id) 
+    {
+        $faclty = Faculty::find($id);
+        $faclty->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
 }

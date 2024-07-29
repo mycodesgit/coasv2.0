@@ -387,6 +387,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list', [SchedFacultyListController::class, 'faculty_list'])->name('faculty_list');
             Route::get('/flist/search/ajax', [SchedFacultyListController::class, 'getfacultylistRead'])->name('getfacultylistRead');
             Route::post('/flist/search/add', [SchedFacultyListController::class, 'facultyCreate'])->name('facultyCreate');
+            Route::post('/flist/search/update', [SchedFacultyListController::class, 'facultyUpdate'])->name('facultyUpdate');
+            Route::get('/flist/search/delete{id}', [SchedFacultyListController::class, 'facultyDelete'])->name('facultyDelete');
         });
 
         Route::prefix('designation')->group(function () {
