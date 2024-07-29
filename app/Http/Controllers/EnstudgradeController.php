@@ -231,14 +231,14 @@ class EnstudgradeController extends Controller
         return redirect()->back()->with('success', 'Grades Submitted Successfully.');
     }
 
-    public function editGrade(Request $request, $sgid)
+    public function editGrade(Request $request, $id)
     {
         //$guard = $this->getGuard();
         $user = Auth::guard('web')->user();
         $status = $request->input('status');
-        $prmID = $request->input('id');
+        //$prmID = $request->input('status');
 
-        Grade::where('id', $prmID)
+        Grade::where('id', $id)
         ->update(['status' => $status]);
 
         //return redirect()->back()->with('success', 'Now you can edit the grade.');
