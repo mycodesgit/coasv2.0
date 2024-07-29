@@ -26,13 +26,13 @@
     <ul class="list-group mt-1">
         @if(!in_array(Auth::guard('web')->user()->role, [0]))
             <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
+            <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
+            <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
+            <a href="{{ route('courseEnroll_list') }}" class="list-group-item {{ $classEnrollActive }}">Classes Enrolled</a>  
+            <a href="{{ route('faculty_design') }}" class="list-group-item {{ $facDesigActive }}">Designation</a>
+            <a href="{{ route('subjectsOffered') }}" class="list-group-item {{ $suboffActive }}">Subject Offered</a>
         @endif
-        <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
-        <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
-        <a href="{{ route('courseEnroll_list') }}" class="list-group-item {{ $classEnrollActive }}">Classes Enrolled</a>  
         <a href="{{ route('faculty_list') }}" class="list-group-item {{ $facultyActive }}">Faculty</a>
-        <a href="{{ route('faculty_design') }}" class="list-group-item {{ $facDesigActive }}">Designation</a>
-        <a href="{{ route('subjectsOffered') }}" class="list-group-item {{ $suboffActive }}">Subject Offered</a>
     </ul>
     @endif
 </div>
