@@ -379,7 +379,8 @@
                 data: 'id',
                     render: function(data, type, row) {
                         if (type === 'display') {
-                            var delLink = '<button type="button" value="' + data + '" class="btn btn-outline-danger btn-sm btn-plotdelete">' +
+                            var disableDelete = authUserFname !== row.postedBy;
+                            var delLink = '<button type="button" value="' + data + '" class="btn btn-outline-danger btn-sm btn-plotdelete" ' + (disableDelete ? 'disabled' : '') + '>' +
                                 '<i class="fas fa-trash"></i>' +
                                 '</button>';
                             return delLink;
