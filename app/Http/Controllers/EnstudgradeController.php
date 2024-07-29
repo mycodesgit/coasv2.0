@@ -235,9 +235,10 @@ class EnstudgradeController extends Controller
     {
         $guard = $this->getGuard();
         $user = Auth::guard($guard)->user();
+        $status = $request->input('status');
 
         Grade::where('id', $id)
-        ->update(['status' => 1]);
+        ->update(['status' => $status]);
 
         return redirect()->back()->with('success', 'Now you can edit the grade.');
     }
