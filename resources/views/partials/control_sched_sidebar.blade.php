@@ -24,7 +24,7 @@
     </ul>
     @if(in_array(Auth::guard('web')->user()->role, [5, 6, 7]))
     <ul class="list-group mt-1">
-        @if(!in_array(Auth::guard('web')->user()->role, [0]))
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
             <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
             <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
             <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
