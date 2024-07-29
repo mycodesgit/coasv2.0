@@ -55,7 +55,7 @@ $(document).ready(function() {
             },
             {data: 'adrDesc'},
             {data: 'college_abbr'},
-            {data: 'campus'},
+            {data: 'fcamp'},
             {
                 data: 'id',
                 render: function(data, type, row) {

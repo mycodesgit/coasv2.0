@@ -30,7 +30,7 @@ class SchedFacultyListController extends Controller
         $data = Faculty::join('addressee', 'faculty.adrID', '=', 'addressee.id')
                 ->join('college', 'faculty.dept', '=', 'college.college_abbr')
                 ->where('faculty.campus', '=', Auth::guard('web')->user()->campus)
-                ->select('faculty.*', 'college.*', 'addressee.*', 'addressee.id as adrid')
+                ->select('faculty.*', 'faculty.campus as fcamp', 'college.*', 'addressee.*', 'addressee.id as adrid')
                 ->orderBy('faculty.lname')
                 ->get();
 
