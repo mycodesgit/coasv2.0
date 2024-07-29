@@ -233,7 +233,7 @@ CISS V.1.0 || Grading
                                         <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm">
                                             @csrf
                                             <input type="hidden" name="subjID" value="{{ $datagenstud->sgid }}">
-                                            <input type="text" name="subjID" value="{{ $datagenstud->id }}">
+                                            <input type="text" name="subjID" value="{{ $datagenstud->sgid }}">
                                             <input type="hidden" name="status" value="1">
                                             <a class="dropdown-item" id="editgradeid" data-toggle="modal" data-target="#editgrades" onclick="showIdAlert({{ $datagenstud->sgid }})">
                                                 <i class="fas fa-pen"></i> Edit Grades
