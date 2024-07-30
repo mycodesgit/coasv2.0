@@ -4,21 +4,12 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-    $('#editBtn').click(function () {
-        $('#editConfirmForm').submit();
-    });
-});
-
-$(document).ready(function () {
-    $('#editCompletionBtn').click(function () {
-        $('#editCompletionForm').submit();
-    });
-});
+$(document).ready(function() {
+    $('[id^=gradeauthpass]').on('input', function() {
+        var id = $(this).attr('id').replace('gradeauthpass', '');
+        var password = $(this).val();
+        var editBtn = $('#editBtn' + id);
         
-$(document).ready(function() {
-    $('#gradeauthpass').on('input', function() {
-        var password = $(this).val();
         if (password) {
             $.ajax({
                 url: passgradeRoute,
@@ -29,39 +20,58 @@ $(document).ready(function() {
                 },
                 success: function(response) {
                     if (response.status === 'success') {
-                        $('#editBtn').prop('disabled', false);
+                        editBtn.prop('disabled', false);
                     } else {
-                        $('#editBtn').prop('disabled', true);
+                        editBtn.prop('disabled', true);
                     }
+                },
+                error: function() {
+                    editBtn.prop('disabled', true);
                 }
             });
         } else {
-            $('#editBtn').prop('disabled', true);
+            editBtn.prop('disabled', true);
         }
+    });
+
+    $('[id^=gradeauthpassCompletion]').on('input', function() {
+        var id = $(this).attr('id').replace('gradeauthpassCompletion', '');
+        var password = $(this).val();
+        var editCompletionBtn = $('#editCompletionBtn' + id);
+
+        if (password) {
+            $.ajax({
+                url: passgradeRoute,
+                type: "POST",
+                data: {
+                    _token: passgradeTokenRoute,
+                    password: password
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        editCompletionBtn.prop('disabled', false);
+                    } else {
+                        editCompletionBtn.prop('disabled', true);
+                    }
+                },
+                error: function() {
+                    editCompletionBtn.prop('disabled', true);
+                }
+            });
+        } else {
+            editCompletionBtn.prop('disabled', true);
+        }
+    });
+    
+    $('[id^=editBtn]').click(function () {
+        var id = $(this).attr('id').replace('editBtn', '');
+        $('#editConfirmForm' + id).submit();
+    });
+
+    $('[id^=editCompletionBtn]').click(function () {
+        var id = $(this).attr('id').replace('editCompletionBtn', '');
+        $('#editCompletionForm' + id).submit();
     });
 });
 
-$(document).ready(function() {
-    $('#gradeauthpassCompletion').on('input', function() {
-        var password = $(this).val();
-        if (password) {
-            $.ajax({
-                url: passgradeRoute,
-                type: "POST",
-                data: {
-                    _token: passgradeTokenRoute,
-                    password: password
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        $('#editCompletionBtn').prop('disabled', false);
-                    } else {
-                        $('#editCompletionBtn').prop('disabled', true);
-                    }
-                }
-            });
-        } else {
-            $('#editCompletionBtn').prop('disabled', true);
-        }
-    });
-});
+

@@ -236,12 +236,13 @@ class EnstudgradeController extends Controller
         //$guard = $this->getGuard();
         $user = Auth::guard('web')->user();
         $status = $request->input('status');
+        $id = $request->input('id');
         //$prmID = $request->input('status');
 
         Grade::where('id', $id)
         ->update(['status' => $status]);
 
-        //return redirect()->back()->with('success', 'Now you can edit the grade.');
+        return redirect()->back()->with('success', 'Now you can edit the grade.');
     }
 
     public function editCompletion(Request $request, $id)

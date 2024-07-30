@@ -1,4 +1,4 @@
-<div class="modal fade" id="editgrades" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="editgrades{{ $datagenstud->sgid }}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,25 +9,31 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            
-            <div class="modal-body">
-                Are you sure you want to Edit the Grades?
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="mt-2 col-md-12">
-                            <label><span class="badge badge-warning">Enter the password Password here</span></label>
-                            <input type="password" id="gradeauthpass" name="gradeauthpass" class="form-control form-control-sm">
+            <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm{{ $datagenstud->sgid }}">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="{{ $datagenstud->sgid }}">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" name="status" value="1">
+                    </div>
+                    Are you sure you want to Edit the Grades?
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="mt-2 col-md-12">
+                                <label><span class="badge badge-warning">Enter the password here</span></label>
+                                <input type="password" id="gradeauthpass{{ $datagenstud->sgid }}" name="gradeauthpass" class="form-control form-control-sm">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="modal-footer justify-content-between">
-                <div>
-                    <button type="submit" class="btn btn-primary" id="editBtn" disabled>Yes</button>
+                
+                <div class="modal-footer justify-content-between">
+                    <div>
+                        <button type="submit" class="btn btn-primary" id="editBtn{{ $datagenstud->sgid }}" disabled>Yes</button>
+                    </div>
+                    <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
                 </div>
-                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
