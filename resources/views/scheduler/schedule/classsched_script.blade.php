@@ -248,22 +248,22 @@
                 error: function(response) {
                     // Conflict status code
                     if (response.status === 409) {
-    let conflictMessages = response.responseJSON.conflicts.map(function(conflict) {
-        return `Conflict with:<br> 
-                Subject: ${conflict.subject}<br>
-                Course: ${conflict.course}<br>
-                Faculty: ${conflict.faculty}<br>
-                Room: ${conflict.room}<br>
-                Time: ${conflict.start_time} - ${conflict.end_time}<br><br>`;
-    }).join('');
+                        let conflictMessages = response.responseJSON.conflicts.map(function(conflict) {
+                            return `Conflict with:<br> 
+                                    Subject: ${conflict.subject}<br>
+                                    Course: ${conflict.course}<br>
+                                    Faculty: ${conflict.faculty}<br>
+                                    Room: ${conflict.room}<br>
+                                    Time: ${conflict.start_time} - ${conflict.end_time}<br><br>`;
+                        }).join('');
 
-    Swal.fire({
-        icon: 'error',
-        title: 'Conflict',
-        html: conflictMessages,  // Use `html` instead of `text`
-    });
-}
- else if (response.status === 422) { // Validation error status code
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Conflict',
+                            html: conflictMessages,  // Use `html` instead of `text`
+                        });
+                    }
+                    else if (response.status === 422) { // Validation error status code
                         let errors = response.responseJSON.errors;
                         // Loop through each validation error and show them
                         $.each(errors, function(field, messages) {
