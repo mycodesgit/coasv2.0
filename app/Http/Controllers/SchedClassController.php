@@ -169,60 +169,60 @@ class SchedClassController extends Controller
     }
 
     public function classSchedCreate(Request $request)
-{
-    if ($request->isMethod('post')) {
-        $request->validate([
-            'schedday' => 'required',
-            'start_time' => 'required|string',
-            'end_time' => 'required|string',
-            'progcodename' => 'required|string',
-            'progcodesection' => 'required|string',
-            'schlyear' => 'required|string',
-            'semester' => 'required|string',
-            'postedBy' => 'required|string',
-            'campus' => 'required|string',
-            'subject_id' => 'required|string',
-            'faculty_id' => 'required|string',
-            'room_id' => 'required|string',
-            'remarks' => 'required|string',
-        ]);
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'schedday' => 'required',
+                'start_time' => 'required|string',
+                'end_time' => 'required|string',
+                'progcodename' => 'required|string',
+                'progcodesection' => 'required|string',
+                'schlyear' => 'required|string',
+                'semester' => 'required|string',
+                'postedBy' => 'required|string',
+                'campus' => 'required|string',
+                'subject_id' => 'required|string',
+                'faculty_id' => 'required|string',
+                'room_id' => 'required|string',
+                'remarks' => 'required|string',
+            ]);
 
-        $day = $request->input('schedday');
-        $startTime = $request->input('start_time');
-        $endTime = $request->input('end_time');
-        $progcodename = $request->input('progcodename');
-        $progcodesection = $request->input('progcodesection');
-        $schlyear = $request->input('schlyear');
-        $semester = $request->input('semester');
-        $campus = $request->input('campus');
-        $subject_id = $request->input('subject_id');
-        $faculty_id = $request->input('faculty_id');
-        $room_id = $request->input('room_id');
-        $remarks = $request->input('remarks');
+            $day = $request->input('schedday');
+            $startTime = $request->input('start_time');
+            $endTime = $request->input('end_time');
+            $progcodename = $request->input('progcodename');
+            $progcodesection = $request->input('progcodesection');
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $request->input('campus');
+            $subject_id = $request->input('subject_id');
+            $faculty_id = $request->input('faculty_id');
+            $room_id = $request->input('room_id');
+            $remarks = $request->input('remarks');
 
-        $conflicts = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
-                    ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                    ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                    ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
-                    ->where('scheduleclass.schedday', $day)
-                    ->where('scheduleclass.schlyear', $schlyear)
-                    ->where('scheduleclass.semester', $semester)
-                    ->where('scheduleclass.campus', $campus)
-                    ->where(function($query) use ($startTime, $endTime) {
-                        $query->whereBetween('start_time', [$startTime, $endTime])
-                              ->orWhereBetween('end_time', [$startTime, $endTime])
-                              ->orWhere(function($query) use ($startTime, $endTime) {
-                                  $query->where('start_time', '<=', $startTime)
-                                        ->where('end_time', '>=', $endTime);
-                              });
-                    })
-                    ->where(function($query) use ($progcodename, $progcodesection, $subject_id, $faculty_id, $room_id) {
-                        $query->where('progcodename', $progcodename)
-                              ->where('progcodesection', $progcodesection)
-                              ->orWhere('subject_id', $subject_id)
-                              ->orWhere('faculty_id', $faculty_id)
-                              ->orWhere('room_id', $room_id);
-                    })
+            $conflicts = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                        ->where('scheduleclass.schedday', $day)
+                        ->where('scheduleclass.schlyear', $schlyear)
+                        ->where('scheduleclass.semester', $semester)
+                        ->where('scheduleclass.campus', $campus)
+                        ->where(function($query) use ($startTime, $endTime) {
+                            $query->whereBetween('start_time', [$startTime, $endTime])
+                                  ->orWhereBetween('end_time', [$startTime, $endTime])
+                                  ->orWhere(function($query) use ($startTime, $endTime) {
+                                      $query->where('start_time', '<=', $startTime)
+                                            ->where('end_time', '>=', $endTime);
+                                  });
+                        })
+                        ->where(function($query) use ($progcodename, $progcodesection, $subject_id, $faculty_id, $room_id) {
+                            $query->where('progcodename', $progcodename)
+                                  ->where('progcodesection', $progcodesection)
+                                  ->orWhere('subject_id', $subject_id)
+                                  ->orWhere('faculty_id', $faculty_id)
+                                  ->orWhere('room_id', $room_id);
+                        })
                     ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
                     ->get();
 

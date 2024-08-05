@@ -254,13 +254,18 @@
                     // Conflict status code
                     if (response.status === 409) {
                         let conflictMessages = response.responseJSON.conflicts.map(function(conflict) {
-                            return `Conflict with Subject: ${conflict.subject} - ${conflict.course}, Faculty: ${conflict.faculty}, Room: ${conflict.room}, ${conflict.conflict_subject} `;
-                        }).join('\n');
-                        
+                            return `Conflict with:<br> 
+                                    Subject: ${conflict.subject}<br>
+                                    Course: ${conflict.course}<br>
+                                    Faculty: ${conflict.faculty}<br>
+                                    Room: ${conflict.room}<br>
+                                    Time: ${conflict.start_time} - ${conflict.end_time}<br><br>`;
+                        }).join('');
+
                         Swal.fire({
                             icon: 'error',
                             title: 'Conflict',
-                            text: 'Schedule conflict detected.\n' + conflictMessages,
+                            html: conflictMessages,  // Use `html` instead of `text`
                         });
                     } else if (response.status === 422) { // Validation error status code
                         let errors = response.responseJSON.errors;

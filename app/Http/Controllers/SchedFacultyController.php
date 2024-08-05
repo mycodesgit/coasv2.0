@@ -191,26 +191,25 @@ class SchedFacultyController extends Controller
                                   ->orWhere('faculty_id', $faculty_id)
                                   ->orWhere('room_id', $room_id);
                         })
-                        ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname')
-                        ->get();
+                    ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
+                    ->get();
 
-            $facultyConflicts = SetClassSchedule::where('subject_id', $subject_id)
-                                ->where('progcodename', $progcodename)
-                                ->where('progcodesection', $progcodesection)
-                                ->where('faculty_id', '<>', $faculty_id)
-                                ->exists();
+            $roomConflicts = $conflicts->where('room_id', $room_id);
+            $facultyConflicts = $conflicts->where('faculty_id', $faculty_id);
+            $subjectConflicts = $conflicts->where('subject_id', $subject_id);
 
-            if ($conflicts->isNotEmpty() || $facultyConflicts) {
+            if ($roomConflicts->isNotEmpty() || $facultyConflicts->isNotEmpty() || $subjectConflicts->isNotEmpty()) {
                 $conflictDetails = $conflicts->map(function($conflict) {
                     return [
                         'subject' => $conflict->sub_name,
                         'course' => $conflict->subSec,
                         'faculty' => $conflict->lname,
                         'room' => $conflict->room_name,
-                        'conflict_subject' => $conflict->subject_id,
+                        'start_time' => $conflict->start_time,
+                        'end_time' => $conflict->end_time,
                     ];
                 });
-                return response()->json(['error' => true, 'message' => 'Schedule conflict detected.', 'conflicts' => $conflictDetails], 409);
+                return response()->json(['error' => true, 'message' => '', 'conflicts' => $conflictDetails], 409);
             }
 
             try {
