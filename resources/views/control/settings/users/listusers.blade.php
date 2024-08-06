@@ -104,9 +104,9 @@ CISS V.1.0 || User's List
                                         @elseif ($user->role == '13')
                                             <span class="badge badge-secondary">MIS Director</span>
                                         @elseif ($user->role == '14')
-                                            <span class="badge badge-purple">MIS Officer</span>
+                                            <span class="badge badge-secondary">MIS Officer</span>
                                         @elseif ($user->role == '15')
-                                            <span class="badge badge-secondary">Grad School Staff</span>
+                                            <span class="badge badge-warning">Grad School Staff</span>
                                         @else
                                             <span class="badge badge-light">Unknown Role</span>
                                         @endif
