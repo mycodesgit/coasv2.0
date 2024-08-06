@@ -70,7 +70,7 @@ class EnreportsController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $studlistgrad = Student::where('campus', '=', $campus)
-                    ->where('en_status', '=', 3)
+                    ->where('stud_id', 'LIKE', '%-G%')
                     ->get();
 
         return view('enrollment.reports.graduated.studinfograd_listsearch', compact('studlistgrad'));
@@ -81,7 +81,7 @@ class EnreportsController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $data = Student::where('campus', '=', $campus)
-                        ->where('en_status', '=', 3)
+                        ->where('stud_id', 'LIKE', '%-G%')
                         ->orderBy('lname', 'ASC')
                         ->get();
         
