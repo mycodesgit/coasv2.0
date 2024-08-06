@@ -219,12 +219,19 @@ class SchedClassController extends Controller
                         ->where(function($query) use ($progcodename, $progcodesection, $subject_id, $faculty_id, $room_id) {
                             $query->where('progcodename', $progcodename)
                                   ->where('progcodesection', $progcodesection)
-                                  ->Where('subject_id', $subject_id)
-                                  ->Where('faculty_id', $faculty_id)
-                                  ->Where('room_id', $room_id);
+                                  ->orWhere('subject_id', $subject_id)
+                                  ->orWhere('faculty_id', $faculty_id)
+                                  ->where('room_id', $room_id);
+                        })
+                        ->orWhere(function($query) use ($subject_id, $progcodename, $progcodesection, $faculty_id) {
+                            $query->where('subject_id', $subject_id)
+                                  ->where('progcodename', $progcodename)
+                                  ->where('progcodesection', $progcodesection)
+                                  ->where('faculty_id', '<>', $faculty_id);
                         })
                     ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
                     ->get();
+
 
             $roomConflicts = $conflicts->where('room_id', $room_id);
             $facultyConflicts = $conflicts->where('faculty_id', $faculty_id);
@@ -237,6 +244,7 @@ class SchedClassController extends Controller
                         'course' => $conflict->subSec,
                         'faculty' => $conflict->lname,
                         'room' => $conflict->room_name,
+                        'schedday' => $conflict->schedday,
                         'start_time' => $conflict->start_time,
                         'end_time' => $conflict->end_time,
                     ];

@@ -259,6 +259,7 @@
                                     Course: ${conflict.course}<br>
                                     Faculty: ${conflict.faculty}<br>
                                     Room: ${conflict.room}<br>
+                                    Day: ${conflict.schedday}<br>
                                     Time: ${conflict.start_time} - ${conflict.end_time}<br><br>`;
                         }).join('');
 

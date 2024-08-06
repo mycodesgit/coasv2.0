@@ -254,6 +254,7 @@
                                     Course: ${conflict.course}<br>
                                     Faculty: ${conflict.faculty}<br>
                                     Room: ${conflict.room}<br>
+                                    Day: ${conflict.schedday}<br>
                                     Time: ${conflict.start_time} - ${conflict.end_time}<br><br>`;
                         }).join('');
 
@@ -262,8 +263,7 @@
                             title: 'Conflict',
                             html: conflictMessages,  // Use `html` instead of `text`
                         });
-                    }
-                    else if (response.status === 422) { // Validation error status code
+                    } else if (response.status === 422) { // Validation error status code
                         let errors = response.responseJSON.errors;
                         // Loop through each validation error and show them
                         $.each(errors, function(field, messages) {
