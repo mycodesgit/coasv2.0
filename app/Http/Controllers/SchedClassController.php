@@ -359,21 +359,23 @@ class SchedClassController extends Controller
                         th, td {
                             border: 1px solid #000;
                             text-align: center;
+                            padding: 10px;
                         }
                         th {
                             // background-color: #e9ecef;
                         }
                         .highlighted {
                             background-color: #d9edf7;
+                            font-size: 10px;
                         }
                     </style>
                 </head>
                 <body>
                     <div align="center" style="margin-top: -20px">
-                        <img src="' . $headerImage . '" width="70%">
+                        <img src="' . $headerImage . '" width="60%">
                     </div>
                     <div align="center">
-                        <h3>Class Schedule</h3>
+                        <h5>Class Schedule</h5>
                     </div>
                     <div class="margin-top: 50px">
                     ' . $breadcrumbHtml . '

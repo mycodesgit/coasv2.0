@@ -142,12 +142,14 @@ class SchedRoomController extends Controller
                         th, td {
                             border: 1px solid #000;
                             text-align: center;
+                            padding: 10px;
                         }
                         th {
                             // background-color: #e9ecef;
                         }
                         .highlighted {
                             background-color: #d9edf7;
+                            font-size: 10px;
                         }
                     </style>
                 </head>
