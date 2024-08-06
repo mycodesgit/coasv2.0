@@ -219,9 +219,9 @@ class SchedClassController extends Controller
                         ->where(function($query) use ($progcodename, $progcodesection, $subject_id, $faculty_id, $room_id) {
                             $query->where('progcodename', $progcodename)
                                   ->where('progcodesection', $progcodesection)
-                                  ->orWhere('subject_id', $subject_id)
-                                  ->orWhere('faculty_id', $faculty_id)
-                                  ->orWhere('room_id', $room_id);
+                                  ->Where('subject_id', $subject_id)
+                                  ->Where('faculty_id', $faculty_id)
+                                  ->Where('room_id', $room_id);
                         })
                     ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
                     ->get();
