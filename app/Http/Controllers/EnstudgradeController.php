@@ -231,7 +231,7 @@ class EnstudgradeController extends Controller
         return redirect()->back()->with('success', 'Grades Submitted Successfully.');
     }
 
-    public function editGrade(Request $request, $id)
+    public function editGrade(Request $request)
     {
         //$guard = $this->getGuard();
         $user = Auth::guard('web')->user();

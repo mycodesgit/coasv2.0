@@ -36,6 +36,7 @@
                     </div>
                     <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
                 </div>
+            </form>
         </div>
     </div>
 </div>
