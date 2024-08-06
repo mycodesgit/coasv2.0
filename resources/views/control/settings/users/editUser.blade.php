@@ -65,6 +65,7 @@ CISS V.1.0 || Edit User
                                                 <option value="12" @if (old('role') == 12 || $user->role == '12') {{ 'selected' }} @endif>MIS Staff</option>
                                                 <option value="13" @if (old('role') == 13 || $user->role == '13') {{ 'selected' }} @endif>MIS Director</option>
                                                 <option value="14" @if (old('role') == 14 || $user->role == '14') {{ 'selected' }} @endif>MIS Officer</option>
+                                                <option value="15" @if (old('role') == 15 || $user->role == '15') {{ 'selected' }} @endif>Graduate School Staff</option>
                                             </select>
                                         </div>
 

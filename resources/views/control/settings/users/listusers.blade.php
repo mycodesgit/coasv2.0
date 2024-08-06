@@ -155,7 +155,11 @@ CISS V.1.0 || User's List
                                                             ($user->role == 8 ? 'Scholarship Head' :
                                                             ($user->role == 9 ? 'Scholarship Staff' :
                                                             ($user->role == 10 ? 'Assessment Head' :
-                                                            ($user->role == 11 ? 'Assessment Staff' : 'Unknown Role'))))))))))) 
+                                                            ($user->role == 11 ? 'Assessment Staff' :
+                                                            ($user->role == 12 ? 'MIS Staff' :
+                                                            ($user->role == 13 ? 'MIS Director' :
+                                                            ($user->role == 14 ? 'MIS Officer' :
+                                                            ($user->role == 15 ? 'Graduate School Staff' : 'Unknown Role'))))))))))))))) 
                                                         }}" readonly>
                                                     </div>
                                                     <div class="form-group" id="buttonSelection">
