@@ -97,6 +97,7 @@ class SchedRoomController extends Controller
 
     public function printRoomSchedule(Request $request)
     {
+        $scheduleHtml = $request->input('scheduleHtml');
         $schlyear = $request->input('schlyear', 'Not Available');
         $semester = $request->input('semester', 'Unknown Semester');
         $room_id = $request->input('room_id', 'Unknown Room');
@@ -109,67 +110,15 @@ class SchedRoomController extends Controller
             $roomName = 'Room not found';
         }
 
-        $breadcrumbHtml = '
-            
-            <table style="border: none; width: 100%; font-size: 10pt; background-color: none !important">
-                <thead>
-                    <tr>
-                        <th style="border: none; text-align: left; font-weight: bold; background-color: none !important">
-                            <span>Course: ' . htmlspecialchars($roomName) . '</span>
-                        </th>
-                        <th style="border: none; text-align: left; font-weight: bold; color: #000; background-color: none !important">
-                            <span>School Year: ' . htmlspecialchars($schlyear) . '</span>
-                        </th>
-                        <th style="border: none; text-align: left; font-weight: bold; color: #000; background-color: none !important">
-                            <span>Semester: ' . htmlspecialchars($semester) . '</span>
-                        </th>
-                    </tr>
-                </thead>
-            </table>
-        ';
-        $scheduleHtml = $request->input('scheduleHtml');
-        $headerImage = asset("template/img/schedclass/schedclassheaderMain.png");
+        $data = [
+            'scheduleHtml' => $scheduleHtml,
+            'schlyear' => $schlyear,
+            'semester' => $semester,
+            'roomName' => $roomName,
+        ];
 
-        $html = '
-            <html>
-                <head>
-                    <style>
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            font-size: 8px; /* Reduce font size for better fitting */
-                        }
-                        th, td {
-                            border: 1px solid #000;
-                            text-align: center;
-                            padding: 10px;
-                        }
-                        th {
-                            // background-color: #e9ecef;
-                        }
-                        .highlighted {
-                            background-color: #d9edf7;
-                            font-size: 10px;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div align="center" style="margin-top: -20px">
-                        <img src="' . $headerImage . '" width="70%">
-                    </div>
-                    <div align="center">
-                        <h3>Room Schedule</h3>
-                    </div>
-                    <div class="margin-top: 50px">
-                    ' . $breadcrumbHtml . '
-                    ' . $scheduleHtml . '
-                    </div>
-                </body>
-            </html>';
-
-        $pdf = PDF::loadHTML($html)
-            ->setPaper('Legal', 'portrait')
-            ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+        $pdf = PDF::loadView('scheduler.schedule.pdf.scheduleroom_pdf', $data);
+        $pdf->setPaper('A4', 'landscape');
 
         return $pdf->stream('schedule.pdf');
     }
