@@ -342,6 +342,7 @@
             form.submit();
         });
 
+
         var urlParams = new URLSearchParams(window.location.search);
         var schlyear = urlParams.get('schlyear') || ''; 
         var semester = urlParams.get('semester') || '';
