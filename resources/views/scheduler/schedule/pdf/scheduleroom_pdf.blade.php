@@ -56,7 +56,13 @@
 </head>
 <body>
     <div align="center" style="margin-top: -15px">
-        <img src="{{ public_path('template/img/schedclass/schedclassheaderMain.png') }}" width="40%">
+        @if(Auth::guard('web')->user()->campus == 'MC')
+            <img src="{{ public_path('template/img/schedclass/schedclassheaderMain.png') }}" width="40%">
+        @elseif(Auth::guard('web')->user()->campus == 'VC')
+            <img src="{{ public_path('template/img/schedclass/schedclassheaderVC.png') }}" width="40%">
+        @elseif(Auth::guard('web')->user()->campus == 'HinC')
+            <img src="{{ public_path('template/img/schedclass/schedclassheaderhinC.png') }}" width="40%">
+        @endif
     </div>
     <div class="header">
         <h5>Room Schedule: {{ $roomName }}, School Year: {{ $schlyear }}, Semester: {{ $semester }}</h5>
