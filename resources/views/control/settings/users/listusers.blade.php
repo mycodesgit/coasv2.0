@@ -108,7 +108,7 @@ CISS V.1.0 || User's List
                                         @elseif ($user->role == '15')
                                             <span class="badge badge-warning">Grad School Staff</span>
                                         @elseif ($user->role == '16')
-                                            <span class="badge badge-pink" style="color: #e83e8c;">OSSA Staff</span>
+                                            <span class="badge badge-pink" style="background-color: #e83e8c;">OSSA Staff</span>
                                         @else
                                             <span class="badge badge-light">Unknown Role</span>
                                         @endif
