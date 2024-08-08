@@ -164,7 +164,7 @@ CISS V.1.0 || User's List
                                                             ($user->role == 13 ? 'MIS Director' :
                                                             ($user->role == 14 ? 'MIS Officer' :
                                                             ($user->role == 15 ? 'Graduate School Staff' :
-                                                            ($user->role == 16 ? 'OSSA Staff' : 'Unknown Role'))))))))))))))))) 
+                                                            ($user->role == 16 ? 'OSSA Staff' : 'Unknown Role'))))))))))))))))
                                                         }}" readonly>
                                                     </div>
                                                     <div class="form-group" id="buttonSelection">
