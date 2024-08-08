@@ -50,11 +50,11 @@
         @endif
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Course</a>
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 5, 6, 7, 13, 14]))
         <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Students Attendance</a>
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
         @endif
-        
+
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
