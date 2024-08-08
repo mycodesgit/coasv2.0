@@ -66,6 +66,7 @@ CISS V.1.0 || Edit User
                                                 <option value="13" @if (old('role') == 13 || $user->role == '13') {{ 'selected' }} @endif>MIS Director</option>
                                                 <option value="14" @if (old('role') == 14 || $user->role == '14') {{ 'selected' }} @endif>MIS Officer</option>
                                                 <option value="15" @if (old('role') == 15 || $user->role == '15') {{ 'selected' }} @endif>Graduate School Staff</option>
+                                                <option value="16" @if (old('role') == 16 || $user->role == '16') {{ 'selected' }} @endif>OSSA Staff</option>
                                             </select>
                                         </div>
 
@@ -108,6 +109,7 @@ CISS V.1.0 || Edit User
                                                 <option value="Cashier Office" @if (old('dept') == 'Cashier Office' || $user->dept == 'Cashier Office') {{ 'selected' }} @endif>Cashier Office</option>
                                                 <option value="Graduate School Registar" @if (old('dept') == 'Graduate School Registar' || $user->dept == 'Graduate School Registar') {{ 'selected' }} @endif>Graduate School Registar</option>
                                                 <option value="MIS" @if (old('dept') == 'MIS' || $user->dept == 'MIS') {{ 'selected' }} @endif>MIS Office</option>
+                                                <option value="OSSA" @if (old('dept') == 'OSSA' || $user->dept == 'OSSA') {{ 'selected' }} @endif>OSSA</option>
                                             </select>
                                         </div>
                                     </div>

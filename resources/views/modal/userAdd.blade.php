@@ -96,6 +96,7 @@
                                     <option value="Cashier Office" @if (old('dept') == 'Cashier Office') {{ 'selected' }} @endif>Cashier Office</option>
                                     <option value="Graduate School Registar" @if (old('dept') == 'Graduate School Registar') {{ 'selected' }} @endif>Graduate School Registar</option>
                                     <option value="MIS Office" @if (old('dept') == 'MIS Office') {{ 'selected' }} @endif>MIS Office</option>
+                                    <option value="OSSA" @if (old('dept') == 'OSSA') {{ 'selected' }} @endif>OSSA</option>
                                 </select>
                             </div>
 
@@ -119,6 +120,7 @@
                                     <option value="13" @if (old('type') == 13) {{ 'selected' }} @endif>MIS Director</option>
                                     <option value="14" @if (old('type') == 14) {{ 'selected' }} @endif>MIS Officer</option>
                                     <option value="15" @if (old('type') == 15) {{ 'selected' }} @endif>Graduate School Staff</option>
+                                    <option value="16" @if (old('type') == 16) {{ 'selected' }} @endif>OSSA Staff</option>
                                 </select>
                             </div>
                         </div>
