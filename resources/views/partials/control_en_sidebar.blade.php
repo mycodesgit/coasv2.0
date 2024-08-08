@@ -49,13 +49,20 @@
         <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Graduated Students</a>
         @endif
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Course</a>
+
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
         <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Students Attendance</a>
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
+        @endif
+        
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
         @endif
+
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
         <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
         <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
+        @endif
     </ul>
 </div>
