@@ -75,8 +75,8 @@ class SchedFacultyController extends Controller
             $facultyName = 'Faculty not found';
         }
 
-        $days = Sday::all()->pluck('dayDesc')->toArray();
-        $times = Stime::all()->pluck('timeDesc')->toArray();
+        $days = Sday::whereIn('id', [1, 2, 3, 4, 5])->pluck('dayDesc')->toArray();
+        $times = Stime::whereIn('id', range(1, 26))->pluck('timeDesc')->toArray();
 
         return view('scheduler.schedule.faculty_schedset', compact('sy', 'facultyName', 'fdata', 'days', 'times'));
     }
@@ -300,6 +300,7 @@ class SchedFacultyController extends Controller
 
     public function printFacultySchedule(Request $request)
     {
+        $scheduleHtml = $request->input('scheduleHtml');
         $schlyear = $request->input('schlyear', 'Not Available');
         $semester = $request->input('semester', 'Unknown Semester');
         $faculty_id = $request->input('faculty_id', 'Unknown Faculty');
@@ -307,72 +308,61 @@ class SchedFacultyController extends Controller
 
         $faculty = Faculty::where('faculty.id', '=', $faculty_id)->first();
         if ($faculty) {
-            $facultyName = $faculty->fname . ' ' . substr($faculty->mname, 0, 1) . ' ' . $faculty->lname;
+            $facultyName = $faculty->lname . ', ' . $faculty->fname . ' ' . substr($faculty->mname, 0, 1);
         } else {
             $facultyName = 'Faculty not found';
         }
 
-        $breadcrumbHtml = '
-            
-            <table style="border: none; width: 100%; font-size: 10pt; background-color: none !important">
-                <thead>
-                    <tr>
-                        <th style="border: none; text-align: left; font-weight: bold; background-color: none !important">
-                            <span>Course: ' . htmlspecialchars($facultyName) . '</span>
-                        </th>
-                        <th style="border: none; text-align: left; font-weight: bold; color: #000; background-color: none !important">
-                            <span>School Year: ' . htmlspecialchars($schlyear) . '</span>
-                        </th>
-                        <th style="border: none; text-align: left; font-weight: bold; color: #000; background-color: none !important">
-                            <span>Semester: ' . htmlspecialchars($semester) . '</span>
-                        </th>
-                    </tr>
-                </thead>
-            </table>
-        ';
-        $scheduleHtml = $request->input('scheduleHtml');
-        $headerImage = asset("template/img/schedclass/schedclassheaderMain.png");
+        $facloadsched = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                        ->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+                        ->where('scheduleclass.schlyear', '=', $schlyear)
+                        ->where('scheduleclass.semester', '=', $semester)
+                        ->where('scheduleclass.faculty_id', $faculty_id)
+                        ->where('scheduleclass.campus', $campus)
+                        ->select('sub_offered.subSec', 
+                                'sub_offered.subCode', 
+                                'scheduleclass.*', 
+                                'subjects.sub_name', 
+                                'subjects.sub_title',
+                                'subjects.sublecredit',  
+                                'subjects.sublabcredit', 
+                                'subjects.sub_unit', 
+                                'faculty.lname', 
+                                'faculty.fname', 
+                                'rooms.room_name',
+                                DB::raw('COUNT(DISTINCT coasv2_db_enrollment.studgrades.studID) as studentCount'))
+                        ->groupBy(
+                            'sub_offered.subSec',
+                            'sub_offered.subCode',
+                        )
+                        ->orderBy('sub_offered.subSec')
+                        ->get();
+        $groupedFacloadsched = $facloadsched->groupBy('sub_name');
 
-        $html = '
-            <html>
-                <head>
-                    <style>
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            font-size: 8px; /* Reduce font size for better fitting */
-                        }
-                        th, td {
-                            border: 1px solid #000;
-                            text-align: center;
-                            padding: 10px;
-                        }
-                        th {
-                            // background-color: #e9ecef;
-                        }
-                        .highlighted {
-                            background-color: #d9edf7;
-                            font-size: 10px;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div align="center" style="margin-top: -20px">
-                        <img src="' . $headerImage . '" width="70%">
-                    </div>
-                    <div align="center">
-                        <h5>Faculty Schedule</h5>
-                    </div>
-                    <div class="margin-top: 50px">
-                    ' . $breadcrumbHtml . '
-                    ' . $scheduleHtml . '
-                    </div>
-                </body>
-            </html>';
+        $totalUnits = $facloadsched->sum('sub_unit');
+        $totalLeCredits = $facloadsched->sum('sublecredit');
+        $totalLabCredits = $facloadsched->sum('sublabcredit');
+        $totalContactHours = $facloadsched->sum(function($s) {
+            return $s->sublecredit + $s->sublabcredit;
+        });
 
-        $pdf = PDF::loadHTML($html)
-            ->setPaper('Legal', 'portrait')
-            ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+        $data = [
+            'scheduleHtml' => $scheduleHtml,
+            'schlyear' => $schlyear,
+            'semester' => $semester,
+            'facultyName' => $facultyName,
+            'groupedFacloadsched' => $groupedFacloadsched,
+            'totalUnits' => $totalUnits,
+            'totalLeCredits' => $totalLeCredits,
+            'totalLabCredits' => $totalLabCredits,
+            'totalContactHours' => $totalContactHours,
+        ];
+
+        $pdf = PDF::loadView('scheduler.schedule.pdf.schedulefaculty_pdf', $data);
+        $pdf->setPaper('Legal', 'portrait');
 
         return $pdf->stream('schedule.pdf');
     }
