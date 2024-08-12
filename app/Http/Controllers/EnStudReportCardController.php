@@ -148,10 +148,16 @@ class EnStudReportCardController extends Controller
         foreach ($studrepcardsub as $subject) {
             $creditEarned = (float)$subject->creditEarned;
             $subjFgrade = (float)$subject->subjFgrade;
+            $subjComp = (float)$subject->subjComp;
 
             // Convert numerical grades to GPA equivalents
             if (is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false) {
                 $subjFgrade = getEquivalentGPA($subjFgrade)['gpa'];
+                $weightedSumPerSubject = $subjFgrade * $creditEarned;
+            } else {
+                // If subjFgrade is not numeric, use subjComp for GPA
+                $subjComp = getEquivalentGPA($subjComp)['gpa'];
+                $weightedSumPerSubject = $subjComp * $creditEarned;
             }
 
             $weightedSumPerSubject = $subjFgrade * $creditEarned;
