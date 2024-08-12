@@ -72,7 +72,7 @@
     </div>
     <div class="footer">
         <span>Prepared By: ____________________</span>
-        <span>Recommending Approved: ____________________</span>
+        <span>Recommending Approval: ____________________</span>
         <span>Approved: ____________________</span>
     </div>
     <div class="footer">
