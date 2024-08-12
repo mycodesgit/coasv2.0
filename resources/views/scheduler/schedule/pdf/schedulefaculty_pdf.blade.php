@@ -166,7 +166,7 @@
                             <td>{{ $schedule->sublecredit + $schedule->sublabcredit }}</td>
                             
                             <!-- Make this  display in one row even i have more sub_name -->
-                            {{-- @if ($index === 0)
+                            {{-- @if ($loop->parent->first && $index === 0)
                                 <td rowspan="{{ $schedules->count() }}" class="remarks">
                                     Number of Preparations: <b>{{ $schedules->count() }}</b><br>
                                     <br>

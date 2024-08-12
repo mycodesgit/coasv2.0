@@ -60,7 +60,7 @@
     <div class="" style="margin-top: 35px">
         <table>
             <thead>
-                <th style="font-weight: bold; font-size: 10pt;">I hereby certify that: &nbsp;&nbsp;&nbsp; {{ $studrepcard->fname }} {{ strtoupper(substr($studrepcard->mname, 0, 1)) }}. {{ $studrepcard->lname }}</th>
+                <th style="font-weight: bold; font-size: 10pt;">I hereby certify that: &nbsp;&nbsp;&nbsp; {{ $studrepcard->fname }} {{ strtoupper(substr($studrepcard->mname, 0, 1)) }}. {{ $studrepcard->lname }} {{ $studrepcard->ext }}</th>
                 <th class="" style="text-align: right !important; font-size: 10pt; font-weight: initial; color: #000 !important;">has completed the following subjects in the</th>
             </thead>
             <thead>
