@@ -160,8 +160,6 @@ class EnStudReportCardController extends Controller
                 $weightedSumPerSubject = $subjComp * $creditEarned;
             }
 
-            $weightedSumPerSubject = $subjFgrade * $creditEarned;
-
             $totalCredits += $creditEarned;
             $weightedSum += $weightedSumPerSubject;
 
