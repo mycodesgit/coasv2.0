@@ -60,7 +60,7 @@ class EnstudgradeController extends Controller
             ->get();
             
         $grdCode = GradeCode::all();
-        return view('enrollment.gradesheet.list_studgrade',  compact('grdCode', 'sy'));
+        return view('enrollment.gradesheet.listgrad_studgrade',  compact('grdCode', 'sy'));
     }
 
     public function studgrade_searchlist(Request $request)
@@ -91,35 +91,7 @@ class EnstudgradeController extends Controller
         return view('enrollment.gradesheet.listsearch_studgrade', compact('sy', 'data', 'totalSearchResults', 'grdCode'));
     }
 
-    public function studgrade_searchlist(Request $request)
-    {
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
-
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
-
-        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
-        $semester = is_array($semester) ? $semester : [$semester];
-
-        $data = SubjectOffered::select('sub_offered.*', 'subjects.*', 'sub_offered.id as sid',)
-                        ->join('subjects', 'sub_offered.subcode', '=', 'subjects.sub_code')
-                        ->whereIn('sub_offered.schlyear', $schlyear)
-                        ->whereIn('sub_offered.semester', $semester)
-                        ->get();
-        $grdCode = GradeCode::all();
-        $totalSearchResults = count($data);
-
-        return view('enrollment.gradesheet.listsearch_studgrade', compact('sy', 'data', 'totalSearchResults', 'grdCode'));
-    }
-
-    public function studgrade_gradsearchlist(Request $request)
+    public function studgradegrad_searchlist(Request $request)
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {

@@ -5,7 +5,7 @@
     $searchStudActive = in_array($curr_route, ['searchStud', 'searchStudEnroll']) ? 'active' : '';
     $editEnrollStudActive = in_array($curr_route, ['editsearchStud', 'editsearchStudRead']) ? 'active' : '';
     $stuEnrollmentHisActive = in_array($curr_route, ['studentEnHistory', 'viewsearchenStudHistory']) ? 'active' : '';
-    $gradeStudActive = in_array($curr_route, ['studgrade_search', 'studgrade_gradsearch', 'studgrade_searchlist', 'geneStudent1']) ? 'active' : '';
+    $gradeStudActive = in_array($curr_route, ['studgrade_search', 'studgrade_gradsearch', 'studgrade_searchlist', 'studgradegrad_searchlist', 'geneStudent1']) ? 'active' : '';
     $subjectAllActive = in_array($curr_route, ['subjectsRead']) ? 'active' : '';
     $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
     $studinfogradActive = in_array($curr_route, ['studInfograduated', 'studInfograduated_search']) ? 'active' : '';

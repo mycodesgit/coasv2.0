@@ -281,7 +281,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/search', [EnstudgradeController::class, 'studgrade_search'])->name('studgrade_search');
             Route::get('/search/list', [EnstudgradeController::class, 'studgrade_searchlist'])->name('studgrade_searchlist');
             Route::get('/search/grad', [EnstudgradeController::class, 'studgrade_gradsearch'])->name('studgrade_gradsearch');
-            Route::get('/search/list/grad', [EnstudgradeController::class, 'studgrade_gradsearchlist'])->name('studgrade_gradsearchlist');
+            Route::get('/search/list/grad', [EnstudgradeController::class, 'studgradegrad_searchlist'])->name('studgradegrad_searchlist');
             Route::get('/search/list/ajax', [EnstudgradeController::class, 'studgrade_searchlistajax'])->name('studgrade_searchlistajax');
             Route::get('/search/list/studentsGrade/{id}', [EnstudgradeController::class, 'geneStudent1'])->name('geneStudent1');
             Route::post('/list/view/studgrde/save', [EnstudgradeController::class, 'registrarsave_grades'])->name('registrarsave_grades');
