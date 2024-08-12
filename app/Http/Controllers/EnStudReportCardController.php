@@ -256,47 +256,45 @@ class EnStudReportCardController extends Controller
                     ->get();
 
         $totalCredits = 0;
-$weightedSum = 0;
-$subjectsData = [];
+        $weightedSum = 0;
+        $subjectsData = [];
 
-foreach ($studrepcardsub as $subject) {
-    $creditEarned = (float)$subject->creditEarned;
+        foreach ($studrepcardsub as $subject) {
+            $creditEarned = (float)$subject->creditEarned;
+            $subjFgrade = (float)$subject->subjFgrade;
 
-    // Determine whether to use subjFgrade or subjComp based on whether subjFgrade is a string
-    if (is_numeric($subject->subjFgrade) && strpos($subject->subjFgrade, '.') === false) {
-        // Use the subjFgrade if it's numeric
-        $subjFgrade = (float)$subject->subjFgrade;
-    } else {
-        // Otherwise, use the subjComp
-        $subjFgrade = (float)$subject->subjComp;
-    }
+            // Convert numerical grades to GPA equivalents
+            if (is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false) {
+                $subjFgrade = getEquivalentGPA($subjFgrade)['gpa'];
+            }
 
-    // Calculate weighted sum per subject
-    $weightedSumPerSubject = $subjFgrade * $creditEarned;
+            $weightedSumPerSubject = $subjFgrade * $creditEarned;
 
-    // Accumulate totals
-    $totalCredits += $creditEarned;
-    $weightedSum += $weightedSumPerSubject;
+            $totalCredits += $creditEarned;
+            $weightedSum += $weightedSumPerSubject;
 
-    // Organize subjects by school year and semester
-    $semester = $subject->semester;
-    $schoolYear = $subject->schlyear;
+            $semester = $subject->semester;
+            $schoolYear = $subject->schlyear;
 
-    if (!isset($subjectsData[$schoolYear][$semester])) {
-        $subjectsData[$schoolYear][$semester] = [];
-    }
+            if (!isset($subjectsData[$schoolYear][$semester])) {
+                $subjectsData[$schoolYear][$semester] = [];
+            }
 
-    $subjectsData[$schoolYear][$semester][] = [
-        'subject' => $subject,
-        'weightedSumPerSubject' => $weightedSumPerSubject
-    ];
-}
+            $subjectsData[$schoolYear][$semester][] = [
+                'subject' => $subject,
+                'weightedSumPerSubject' => $weightedSumPerSubject
+            ];
+        }
 
-// Calculate average GPA
-$average = $totalCredits ? $weightedSum / $totalCredits : 0;
+        $average = $totalCredits ? $weightedSum / $totalCredits : 0;
 
-$pdf = PDF::loadView('student.evalpdf', compact('studrepcard', 'studrepcardsub', 'subjectsData', 'average'))->setPaper('a4', 'portrait');
-return $pdf->stream('Evaluation_Report.pdf');
+        $data = [
+            'studrepcard' => $studrepcard,
+            'subjectsData' => $subjectsData,
+            'average' => $average
+        ];
 
+        $pdf = PDF::loadView('enrollment.reports.evaluation.studevalpdf_listsearch', $data)->setPaper('Legal', 'portrait');
+        return $pdf->stream();
     }
 }
