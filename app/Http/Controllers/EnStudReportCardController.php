@@ -197,8 +197,8 @@ class EnStudReportCardController extends Controller
     }
 
     public function studevalRead_listsearchpdf(Request $request)
-{
-    $stud_id = $request->query('stud_id');
+    {
+        $stud_id = $request->query('stud_id');
     $campus = Auth::guard('web')->user()->campus;
 
     // Define a function to convert numerical grades to GPA equivalents
@@ -289,10 +289,13 @@ class EnStudReportCardController extends Controller
         ];
     }
 
-    $average = $totalCredits ? $weightedSum / $totalCredits : 0;
+        $data = [
+            'studrepcard' => $studrepcard,
+            'subjectsData' => $subjectsData,
+            'average' => $average
+        ];
 
-    $pdf = PDF::loadView('student.evalpdf', compact('studrepcard', 'studrepcardsub', 'subjectsData', 'average'))->setPaper('a4', 'portrait');
-    return $pdf->stream('Evaluation_Report.pdf');
-}
-
+        $pdf = PDF::loadView('enrollment.reports.evaluation.studevalpdf_listsearch', $data)->setPaper('Legal', 'portrait');
+        return $pdf->stream();
+    }
 }

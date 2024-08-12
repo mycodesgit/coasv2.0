@@ -114,73 +114,71 @@
                 </tr>
             </thead>
             <tbody>
-    @php 
-        function getEquivalentGrade($grade) {
-            if ($grade === 'INC') {
-                return ['gpa' => 'INC', 'status' => 'Incomplete'];
-            } elseif ($grade === 'NN') {
-                return ['gpa' => 'NN', 'status' => 'No Name'];
-            } elseif ($grade === 'NG') {
-                return ['gpa' => 'NG', 'status' => 'No Grade'];
-            } elseif ($grade === 'Drp..') {
-                return ['gpa' => 'Drp.', 'status' => 'Drop'];
-            } elseif ($grade >= 97 || $grade == 1) {
-                return ['gpa' => '1.00', 'status' => 'Passed'];
-            } elseif ($grade >= 94) {
-                return ['gpa' => '1.25', 'status' => 'Passed'];
-            } elseif ($grade >= 91) {
-                return ['gpa' => '1.50', 'status' => 'Passed'];
-            } elseif ($grade >= 88) {
-                return ['gpa' => '1.75', 'status' => 'Passed'];
-            } elseif ($grade >= 85 || $grade == 2) {
-                return ['gpa' => '2.00', 'status' => 'Passed'];
-            } elseif ($grade >= 82) {
-                return ['gpa' => '2.25', 'status' => 'Passed'];
-            } elseif ($grade >= 79) {
-                return ['gpa' => '2.50', 'status' => 'Passed'];
-            } elseif ($grade >= 76) {
-                return ['gpa' => '2.75', 'status' => 'Passed'];
-            } elseif ($grade >= 75 || $grade == 3) {
-                return ['gpa' => '3.00', 'status' => 'Passed'];
-            } elseif ($grade >= 70) {
-                return ['gpa' => '4.0', 'status' => 'Conditional'];
-            } else {
-                return ['gpa' => '5.0', 'status' => 'Failure'];
-            }
-        }
+                @php 
+                    function getEquivalentGrade($grade) {
+                        if ($grade === 'INC') {
+                            return ['gpa' => 'INC', 'status' => 'Incomplete'];
+                        } elseif ($grade === 'NN') {
+                            return ['gpa' => 'NN', 'status' => 'No Name'];
+                        } elseif ($grade === 'NG') {
+                            return ['gpa' => 'NG', 'status' => 'No Grade'];
+                        } elseif ($grade === 'Drp..') {
+                            return ['gpa' => 'Drp.', 'status' => 'Drop'];
+                        } elseif ($grade >= 97 || $grade == 1) {
+                            return ['gpa' => '1.00', 'status' => 'Passed'];
+                        } elseif ($grade >= 94) {
+                            return ['gpa' => '1.25', 'status' => 'Passed'];
+                        } elseif ($grade >= 91) {
+                            return ['gpa' => '1.50', 'status' => 'Passed'];
+                        } elseif ($grade >= 88) {
+                            return ['gpa' => '1.75', 'status' => 'Passed'];
+                        } elseif ($grade >= 85 || $grade == 2) {
+                            return ['gpa' => '2.00', 'status' => 'Passed'];
+                        } elseif ($grade >= 82) {
+                            return ['gpa' => '2.25', 'status' => 'Passed'];
+                        } elseif ($grade >= 79) {
+                            return ['gpa' => '2.50', 'status' => 'Passed'];
+                        } elseif ($grade >= 76) {
+                            return ['gpa' => '2.75', 'status' => 'Passed'];
+                        } elseif ($grade >= 75 || $grade == 3) {
+                            return ['gpa' => '3.00', 'status' => 'Passed'];
+                        } elseif ($grade >= 70) {
+                            return ['gpa' => '4.0', 'status' => 'Conditional'];
+                        } else {
+                            return ['gpa' => '5.0', 'status' => 'Failure'];
+                        }
+                    }
 
-        function displayGrade($grade, $compGrade) {
-            if (is_numeric($grade) && strpos($grade, '.') === false) {
-                $equivalent = getEquivalentGrade($grade);
-                return $equivalent['gpa'];
-            } elseif (!is_numeric($grade)) {
-                return displayGrade($compGrade, null);
-            }
-            return $grade;
-        }
-    @endphp
-    @foreach($subjectsData as $data)
-        <tr>
-            <td>{{ $data['subject']->sub_name }}</td>
-            <td>{{ $data['subject']->sub_title }}</td>
-            <td>{{ displayGrade($data['subject']->subjFgrade, $data['subject']->subjComp) }}</td>
-            <td>{{ displayGrade($data['subject']->subjComp, null) }}</td>
-            <td>{{ $data['subject']->creditEarned }}</td>
-        </tr>
-    @endforeach
-</tbody>
-</table>
+                    function displayGrade($grade) {
+                        if (is_numeric($grade) && strpos($grade, '.') === false) {
+                            $equivalent = getEquivalentGrade($grade);
+                            return $equivalent['gpa'];
+                        }
+                        return $grade;
+                    }
+                @endphp
+                @foreach($subjectsData as $data)
+                    <tr>
+                        <td>{{ $data['subject']->sub_name }}</td>
+                        <td>{{ $data['subject']->sub_title }}</td>
+                        <td>{{ displayGrade($data['subject']->subjFgrade) }}</td>
+                        <td>{{ displayGrade($data['subject']->subjComp) }}</td>
+                        <td>{{ $data['subject']->creditEarned }}</td>
+                        {{-- <td>{{ $data['weightedSumPerSubject'] }}</td> --}}
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-<div style="margin-top: 10px">
-    **********************************Nothing Follows**********************
-</div>
-<div>
-    AVERAGE: {{ number_format($average, 6) }}
-</div>
-<div style="border-top: 1px solid #000; margin-top: 80px">
-    <span style="font-size: 10pt; margin-top: 30px;"> Remarks: This is a system generated report. Valid for evaluation purposes only. </span>
-</div>
-
+        <div style="margin-top: 10px">
+            **********************************Nothing Follows**********************
+        </div>
+        <div>
+            AVERAGE: {{ number_format($average, 6) }}
+        </div>
+        <div style="border-top: 1px solid #000; margin-top: 80px">
+            <span style="font-size: 10pt; margin-top: 30px;"> Remarks: This is a system generated report. Valid for evaluation purposes only. </span>
+        </div>
 
         <div style="margin-top: 60px;">
             <table>
