@@ -264,14 +264,22 @@ class EnStudReportCardController extends Controller
             $subjFgrade = (float)$subject->subjFgrade;
 
             // Convert numerical grades to GPA equivalents
-            if (is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false) {
+            if (!is_numeric($subjFgrade) || strpos($subjFgrade, '.') !== false) {
+                $subjComp = $subject->subjComp;
+                // Use subjComp grade for calculation if it exists
+                $subjFgrade = is_numeric($subjComp) ? (float)$subjComp : $subjFgrade;
+            } else {
+                // Convert numerical grades to GPA equivalents
+                $subjFgrade = (float)$subjFgrade;
                 $subjFgrade = getEquivalentGPA($subjFgrade)['gpa'];
             }
 
-            $weightedSumPerSubject = $subjFgrade * $creditEarned;
+            if (is_numeric($subjFgrade)) {
+                $weightedSumPerSubject = $subjFgrade * $creditEarned;
 
-            $totalCredits += $creditEarned;
-            $weightedSum += $weightedSumPerSubject;
+                $totalCredits += $creditEarned;
+                $weightedSum += $weightedSumPerSubject;
+            }
 
             $semester = $subject->semester;
             $schoolYear = $subject->schlyear;
