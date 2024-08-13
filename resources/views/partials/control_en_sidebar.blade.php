@@ -29,12 +29,12 @@
         <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
         @endif
         <a href="{{ route('studentEnHistory') }}" class="list-group-item {{ $stuEnrollmentHisActive }}">Enrollment History</a>
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
         <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
         @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
+{{--         @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
         <a href="{{ route('studgrade_gradsearch') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
-        @endif
+        @endif --}}
         @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie')
         <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
         @endif
