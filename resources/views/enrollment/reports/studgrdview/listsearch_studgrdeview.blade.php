@@ -76,6 +76,7 @@ CISS V.1.0 || Student View Grades
                             <tr>
                                 <th>School Year</th>
                                 <th>Semester</th>
+                                <th>Course</th>
                                 <th>Subject</th>
                                 <th>Descriptive Title</th>
                                 <th>Final Grade</th>
@@ -154,6 +155,7 @@ CISS V.1.0 || Student View Grades
                                             <span class="badge badge-secondary">Summer</span>
                                         @endif
                                     </td>
+                                    <td>{{ $datastudsubowner->subSec }}</td>
                                     <td>{{ $datastudsubowner->sub_name }}</td>
                                     <td>{{ $datastudsubowner->sub_title }}</td>
                                     <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade) }}</b></td>
