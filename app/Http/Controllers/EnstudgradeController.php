@@ -88,6 +88,7 @@ class EnstudgradeController extends Controller
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
+                        ->where('subjects.subjdep', 'NOT LIKE', '%GSS')
                         ->get();
 
         // $grdCode = GradeCode::all();
