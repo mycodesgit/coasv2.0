@@ -176,6 +176,7 @@ class SchedFacultyController extends Controller
                         ->where('scheduleclass.schlyear', $schlyear)
                         ->where('scheduleclass.semester', $semester)
                         ->where('scheduleclass.campus', $campus)
+                        ->where('scheduleclass.remarks', $request->input('remarks'))
                         ->where(function($query) use ($startTime, $endTime) {
                             $query->whereBetween('start_time', [$startTime, $endTime])
                                   ->orWhereBetween('end_time', [$startTime, $endTime])
