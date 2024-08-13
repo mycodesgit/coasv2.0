@@ -90,6 +90,10 @@
         updateSelect("S");
     });
 
+    document.getElementById("btn-m").addEventListener("click", function () {
+        updateSelect("M");
+    });
+
     document.getElementById("btn-reset").addEventListener("click", function () {
         var inputElement = document.getElementById("studID_no");
         var currentValue = inputElement.value;
