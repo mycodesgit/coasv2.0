@@ -140,7 +140,7 @@ CISS V.1.0 || Grading
 </div>
 
 <script>
-    var studsubgradeoffered = "{{ route('studgrade_searchlistajax') }}";
+    var studsubgradeoffered = "{{ route('studgradegrad_searchlistajax') }}";
     var schlyear = "{{ request('schlyear') }}";
     var semester = "{{ request('semester') }}";
     var routeTemplate = "{{ route('geneStudent1', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
