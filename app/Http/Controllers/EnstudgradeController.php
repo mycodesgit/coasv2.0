@@ -139,6 +139,27 @@ class EnstudgradeController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function studgradegrad_searchlistajax(Request $request)
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+
+        $data = SubjectOffered::select('sub_offered.*', 'subjects.*', 'sub_offered.id as sid')
+                        ->join('subjects', 'sub_offered.subcode', '=', 'subjects.sub_code')
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
+                        ->where('sub_offered.campus', $campus)
+                        ->where('subjects.subjdep', 'LIKE', '%GSS')
+                        ->get();
+
+        // $grdCode = GradeCode::all();
+        // $totalSearchResults = count($data);
+
+        return response()->json(['data' => $data]);
+    }
+
     public function geneStudent1(Request $request, $id)
     {
         $id = $request->id;

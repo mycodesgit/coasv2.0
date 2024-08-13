@@ -298,7 +298,7 @@
     @if(request()->routeIs('studCurrsearch'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
     @endif
-    @if(request()->routeIs('studgrade_searchlist'))
+    @if(request()->routeIs('studgrade_searchlist', 'studgradegrad_searchlist'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('geneStudent1'))

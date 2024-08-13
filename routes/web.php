@@ -283,6 +283,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/search/grad', [EnstudgradeController::class, 'studgrade_gradsearch'])->name('studgrade_gradsearch');
             Route::get('/search/list/grad', [EnstudgradeController::class, 'studgradegrad_searchlist'])->name('studgradegrad_searchlist');
             Route::get('/search/list/ajax', [EnstudgradeController::class, 'studgrade_searchlistajax'])->name('studgrade_searchlistajax');
+            Route::get('/search/list/grad/ajax', [EnstudgradeController::class, 'studgradegrad_searchlistajax'])->name('studgradegrad_searchlistajax');
             Route::get('/search/list/studentsGrade/{id}', [EnstudgradeController::class, 'geneStudent1'])->name('geneStudent1');
             Route::post('/list/view/studgrde/save', [EnstudgradeController::class, 'registrarsave_grades'])->name('registrarsave_grades');
             Route::post('/list/view/studgrdeComp/save', [EnstudgradeController::class, 'registrarsave_gradesComp'])->name('registrarsave_gradesComp');
