@@ -161,9 +161,9 @@
                             <td>{{ $schedule->subSec }}</td>
                             <td>{{ $schedule->studentCount }}</td>
                             <td>{{ $schedule->sub_unit }}</td>
-                            <td>{{ $schedule->sublecredit }}</td>
-                            <td>{{ $schedule->sublabcredit }}</td>
-                            <td>{{ $schedule->sublecredit + $schedule->sublabcredit }}</td>
+                            <td>{{-- {{ $schedule->sublecredit }} --}}</td>
+                            <td>{{-- {{ $schedule->sublabcredit }} --}}</td>
+                            <td>{{-- {{ $schedule->sublecredit + $schedule->sublabcredit }} --}}</td>
                             
                             <!-- Make this  display in one row even i have more sub_name -->
                             {{-- @if ($loop->parent->first && $index === 0)
