@@ -116,7 +116,7 @@ class EnstudgradeController extends Controller
         $grdCode = GradeCode::all();
         $totalSearchResults = count($data);
 
-        return view('enrollment.gradesheet.listsearch_studgrade', compact('sy', 'data', 'totalSearchResults', 'grdCode'));
+        return view('enrollment.gradesheet.listsearchgrad_studgrade', compact('sy', 'data', 'totalSearchResults', 'grdCode'));
     }
 
     public function studgrade_searchlistajax(Request $request)
