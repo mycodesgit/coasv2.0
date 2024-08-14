@@ -209,37 +209,38 @@ class EnStudReportCardController extends Controller
 
         // Define a function to convert numerical grades to GPA equivalents
         function getEquivalentGPA($grade) {
+            // GPA conversion logic here
             if ($grade === 'INC') {
-                return ['gpa' => 'INC', 'status' => 'Incomplete'];
-            } elseif ($grade === 'NN') {
-                return ['gpa' => 'NN', 'status' => 'No Name'];
-            } elseif ($grade === 'NG') {
-                return ['gpa' => 'NG', 'status' => 'No Grade'];
-            } elseif ($grade === 'Drp..') {
-                return ['gpa' => 'Drp.', 'status' => 'Drop'];
-            } elseif ($grade >= 97 || $grade == 1) {
-                return ['gpa' => 1.0, 'status' => 'Passed'];
-            } elseif ($grade >= 94) {
-                return ['gpa' => 1.2, 'status' => 'Passed'];
-            } elseif ($grade >= 91) {
-                return ['gpa' => 1.5, 'status' => 'Passed'];
-            } elseif ($grade >= 88) {
-                return ['gpa' => 1.7, 'status' => 'Passed'];
-            } elseif ($grade >= 85 || $grade == 2) {
-                return ['gpa' => 2.0, 'status' => 'Passed'];
-            } elseif ($grade >= 82) {
-                return ['gpa' => 2.2, 'status' => 'Passed'];
-            } elseif ($grade >= 79) {
-                return ['gpa' => 2.5, 'status' => 'Passed'];
-            } elseif ($grade >= 76) {
-                return ['gpa' => 2.7, 'status' => 'Passed'];
-            } elseif ($grade >= 75 || $grade == 3) {
-                return ['gpa' => 3.0, 'status' => 'Passed'];
-            } elseif ($grade >= 70) {
-                return ['gpa' => 4.0, 'status' => 'Conditional'];
-            } else {
-                return ['gpa' => 5.0, 'status' => 'Failure'];
-            }
+                    return ['gpa' => 'INC', 'status' => 'Incomplete'];
+                } elseif ($grade === 'NN') {
+                    return ['gpa' => 'NN', 'status' => 'No Name'];
+                } elseif ($grade === 'NG') {
+                    return ['gpa' => 'NG', 'status' => 'No Grade'];
+                } elseif ($grade === 'Drp..') {
+                    return ['gpa' => 'Drp.', 'status' => 'Drop'];
+                } elseif ($grade >= 97 || $grade == 1) {
+                    return ['gpa' => 1.0, 'status' => 'Passed'];
+                } elseif ($grade >= 94) {
+                    return ['gpa' => 1.2, 'status' => 'Passed'];
+                } elseif ($grade >= 91) {
+                    return ['gpa' => 1.5, 'status' => 'Passed'];
+                } elseif ($grade >= 88) {
+                    return ['gpa' => 1.7, 'status' => 'Passed'];
+                } elseif ($grade >= 85 || $grade == 2) {
+                    return ['gpa' => 2.0, 'status' => 'Passed'];
+                } elseif ($grade >= 82) {
+                    return ['gpa' => 2.2, 'status' => 'Passed'];
+                } elseif ($grade >= 79) {
+                    return ['gpa' => 2.5, 'status' => 'Passed'];
+                } elseif ($grade >= 76) {
+                    return ['gpa' => 2.7, 'status' => 'Passed'];
+                } elseif ($grade >= 75 || $grade == 3) {
+                    return ['gpa' => 3.0, 'status' => 'Passed'];
+                } elseif ($grade >= 70) {
+                    return ['gpa' => 4.0, 'status' => 'Conditional'];
+                } else {
+                    return ['gpa' => 5.0, 'status' => 'Failure'];
+                }
         }
 
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
@@ -253,12 +254,12 @@ class EnStudReportCardController extends Controller
 
         $studrepcardsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                    ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->select('studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
                     ->where('studgrades.studID', $stud_id)
+                    ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')  // Sort by school year first
+                    ->orderByRaw("FIELD(coasv2_db_schedule.sub_offered.semester, '1', '2', '3') ASC") // Sort by semester: 1 (First), 2 (Second), 3 (Summer)
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
-                    ->orderBy('coasv2_db_schedule.sub_offered.semester', 'ASC')
-                    ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')
                     ->get();
 
         $totalCredits = 0;
