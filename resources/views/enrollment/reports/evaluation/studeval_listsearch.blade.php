@@ -55,7 +55,6 @@ CISS V.1.0 || Student Record
                             </div>
                         </div>
                     </form>
-                    <a href="{{ route('exportExcel') }}" class="btn btn-success">Export to Excel</a>
                 </div>
                 <div class="col-md-12">
                     <iframe src="{{ route('studevalRead_listsearchpdf', ['stud_id' => request('stud_id')]) }}" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe>

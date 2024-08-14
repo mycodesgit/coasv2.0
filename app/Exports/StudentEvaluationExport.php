@@ -2,9 +2,8 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Illuminate\Contracts\View\View;
 
 class StudentEvaluationExport implements FromView
 {
@@ -21,6 +20,7 @@ class StudentEvaluationExport implements FromView
 
     public function view(): View
     {
+        // Ensure the view is correctly set up to handle the provided data
         return view('enrollment.reports.evaluation.studevalpdf_listsearch', [
             'studrepcard' => $this->studrepcard,
             'subjectsData' => $this->subjectsData,
@@ -28,3 +28,4 @@ class StudentEvaluationExport implements FromView
         ]);
     }
 }
+
