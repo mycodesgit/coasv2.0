@@ -109,8 +109,8 @@
                     <tr>
                         <td style="font-weight: initial; font-size: 10pt; width: 20%">{{ $data['subject']->sub_name }}</td>
                         <td class="" style="font-weight: initial; font-size: 10pt; width: 48%;">{{ $data['subject']->sub_title }}</td>
-                        <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->subjFgrade }}</td>
-                        <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->subjComp }}</td>
+                        <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['gpaFgrade'] }}</td>
+                        <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['gpaComp'] }}</td>
                         <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->creditEarned }}</td>
                     </tr>
                     @endforeach
