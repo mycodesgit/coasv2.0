@@ -310,6 +310,7 @@ class EnStudReportCardController extends Controller
             $semester = $subject->semester;
             $schoolYear = $subject->schlyear;
             $fil = (strpos($schoolYear, '2021') !== false) ? 1 : 2;
+            dd($schoolYear);
             // GPA conversion for subjFgrade
             $subjFgrade = $subject->subjFgrade;
             if (is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false) {
