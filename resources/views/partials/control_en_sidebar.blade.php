@@ -53,7 +53,7 @@
         @endif
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Course</a>
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 2, 3, 4, 5, 6, 7, 12, 13, 14]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15]))
         <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Students Attendance</a>
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
         @endif

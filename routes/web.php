@@ -319,6 +319,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/info/students/subjects', [EnStudentPerSubjectController::class, 'studsubjectsRead'])->name('studsubjectsRead');
             Route::get('/info/students/subjects/search', [EnStudentPerSubjectController::class, 'listsearch_studsubjectsRead'])->name('listsearch_studsubjectsRead');
+            Route::get('/info/students/subjects/search/grad', [EnStudentPerSubjectController::class, 'listsearchgradschool_studsubjectsRead'])->name('listsearchgradschool_studsubjectsRead');
             Route::get('/info/students/subjects/search/view/{id}', [EnStudentPerSubjectController::class, 'listsearchview_studsubjectsRead'])->name('listsearchview_studsubjectsRead');
             Route::get('/info/students/subjects/search/view/pdf/{id}', [EnStudentPerSubjectController::class, 'studsubjectsReadPDF'])->name('studsubjectsReadPDF');
 

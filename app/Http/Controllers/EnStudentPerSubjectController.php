@@ -73,6 +73,32 @@ class EnStudentPerSubjectController extends Controller
         return view('enrollment.reports.studentsub.listsearch_studsub', compact('sy', 'substudnow'));
     }
 
+    public function listsearchgradschool_studsubjectsRead(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');   
+        $campus = Auth::guard('web')->user()->campus;
+
+        $substudnow = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                ->where('sub_offered.schlyear', $schlyear)
+                ->where('sub_offered.semester', $semester)
+                ->where('sub_offered.campus', $campus)
+                ->where('sub_offered.subCode', 'LIKE', '%-GSS-%')
+                ->select('subjects.sub_name', 'subjects.sub_title', 'sub_offered.*',  'sub_offered.id as sid')
+                ->get();
+
+        return view('enrollment.reports.studentsub.listsearch_studsub', compact('sy', 'substudnow'));
+    }
+
     public function listsearchview_studsubjectsRead(Request $request)
     {
         $id = $request->id;
