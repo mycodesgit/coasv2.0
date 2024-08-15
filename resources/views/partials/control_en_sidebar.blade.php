@@ -61,10 +61,10 @@
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
+        <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
         @endif
 
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
-        <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
         <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
         @endif
     </ul>
