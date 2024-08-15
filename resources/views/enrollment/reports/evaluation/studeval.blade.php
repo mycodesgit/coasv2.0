@@ -38,7 +38,7 @@ CISS V.1.0 || Student Record
         </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="GET" action="{{ route('studevalRead_listsearch') }}" id="enrollStud">
+                    <form method="GET" action="{{ Auth::guard('web')->user()->role == 15 ? route('studevalReadgradschool_listsearch') : route('studevalRead_listsearch') }}" id="enrollStud">
                         @csrf   
 
                         <div class="form-group mt-2" style="padding: 10px">

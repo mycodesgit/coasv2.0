@@ -202,6 +202,20 @@ class EnStudReportCardController extends Controller
         return view('enrollment.reports.evaluation.studeval_listsearch');
     }
 
+    public function studevalReadgradschool_listsearch(Request $request)
+    {
+            
+        $stud_id = $request->stud_id;
+        $campus = Auth::guard('web')->user()->campus;
+
+        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->where('stud_id', 'LIKE', '%-G')->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+
+        return view('enrollment.reports.evaluation.studeval_listsearch');
+    }
+
     public function studevalRead_listsearchpdf(Request $request)
     {
         $stud_id = $request->query('stud_id');
