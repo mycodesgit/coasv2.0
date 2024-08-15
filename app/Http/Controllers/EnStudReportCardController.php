@@ -272,7 +272,7 @@ class EnStudReportCardController extends Controller
             // GPA conversion for subjFgrade
             $subjFgrade = $subject->subjFgrade;
             if (is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false) {
-                $gpaFgrade = getEquivalentGPA($subjFgrade, $fil)['gpa'];
+                $gpaFgrade = getEquivalentGPA($subjFgrade)['gpa'];
             } else {
                 $gpaFgrade = $subjFgrade;
             }
@@ -280,7 +280,7 @@ class EnStudReportCardController extends Controller
             // GPA conversion for subjComp
             $subjComp = $subject->subjComp;
             if (is_numeric($subjComp) && strpos($subjComp, '.') === false) {
-                $gpaComp = getEquivalentGPA($subjComp, $fil)['gpa'];
+                $gpaComp = getEquivalentGPA($subjComp)['gpa'];
             } else {
                 $gpaComp = $subjComp;
             }
@@ -321,5 +321,5 @@ class EnStudReportCardController extends Controller
         $pdf = PDF::loadView('enrollment.reports.evaluation.studevalpdf_listsearch', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
     }
-    
+
 }
