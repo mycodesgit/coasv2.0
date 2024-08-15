@@ -88,7 +88,7 @@ class EnStudentPerCurriculumController extends Controller
                 ->where('program_en_history.campus', $campus)
                 ->where('program_en_history.progCod', 'LIKE', '%-GSS')
                 ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
-                ->select('coasv2_db_schedule.programs.progCod', 'coasv2_db_schedule.programs.progName', 'coasv2_db_schedule.programs.progAcronym', 'program_en_history.studYear', 'program_en_history.studYear', 'program_en_history.studSec', 'students.gender', 'program_en_history.id', 'program_en_history.schlyear', 'program_en_history.semester')
+                ->select(DB::raw("SUBSTRING(program_en_history.progCod, LOCATE('-GSS', program_en_history.progCod)) as progCod"),'coasv2_db_schedule.programs.progCod', 'coasv2_db_schedule.programs.progName', 'coasv2_db_schedule.programs.progAcronym', 'program_en_history.studYear', 'program_en_history.studYear', 'program_en_history.studSec', 'students.gender', 'program_en_history.id', 'program_en_history.schlyear', 'program_en_history.semester')
                 ->selectRaw('program_en_history.progCod,
                             program_en_history.studYear, 
                             program_en_history.studSec, 
