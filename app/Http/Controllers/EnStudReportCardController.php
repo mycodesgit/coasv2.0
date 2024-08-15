@@ -37,8 +37,6 @@ use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudentAppraisal;
 
 use App\Models\SettingDB\ConfigureCurrent;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\StudentEvaluationExport;
 
 class EnStudReportCardController extends Controller
 {
@@ -210,10 +208,9 @@ class EnStudReportCardController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         // Define a function to convert numerical grades to GPA equivalents
-        function getEquivalentGPA($grade, $fil) {
-            if($fil == 1){
-                // GPA conversion logic here
-                if ($grade === 'INC') {
+        function getEquivalentGPA($grade) {
+            // GPA conversion logic here
+            if ($grade === 'INC') {
                     return ['gpa' => 'INC', 'status' => 'Incomplete'];
                 } elseif ($grade === 'NN') {
                     return ['gpa' => 'NN', 'status' => 'No Name'];
@@ -244,39 +241,6 @@ class EnStudReportCardController extends Controller
                 } else {
                     return ['gpa' => 5.0, 'status' => 'Failure'];
                 }
-            }else{
-                if ($grade === 'INC') {
-                    return ['gpa' => 'INC', 'status' => 'Incomplete'];
-                } elseif ($grade === 'NN') {
-                    return ['gpa' => 'NN', 'status' => 'No Name'];
-                } elseif ($grade === 'NG') {
-                    return ['gpa' => 'NG', 'status' => 'No Grade'];
-                } elseif ($grade === 'Drp..') {
-                    return ['gpa' => 'Drp.', 'status' => 'Drop'];
-                } elseif ($grade >= 97 || $grade == 1) {
-                    return ['gpa' => 1.00, 'status' => 'Passed'];
-                } elseif ($grade >= 94) {
-                    return ['gpa' => 1.25, 'status' => 'Passed'];
-                } elseif ($grade >= 91) {
-                    return ['gpa' => 1.50, 'status' => 'Passed'];
-                } elseif ($grade >= 88) {
-                    return ['gpa' => 1.75, 'status' => 'Passed'];
-                } elseif ($grade >= 85 || $grade == 2) {
-                    return ['gpa' => 2.00, 'status' => 'Passed'];
-                } elseif ($grade >= 82) {
-                    return ['gpa' => 2.25, 'status' => 'Passed'];
-                } elseif ($grade >= 79) {
-                    return ['gpa' => 2.50, 'status' => 'Passed'];
-                } elseif ($grade >= 76) {
-                    return ['gpa' => 2.75, 'status' => 'Passed'];
-                } elseif ($grade >= 75 || $grade == 3) {
-                    return ['gpa' => 3.00, 'status' => 'Passed'];
-                } elseif ($grade >= 70) {
-                    return ['gpa' => 4.00, 'status' => 'Conditional'];
-                } else {
-                    return ['gpa' => 5.00, 'status' => 'Failure'];
-                }
-            }
         }
 
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
@@ -298,8 +262,6 @@ class EnStudReportCardController extends Controller
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
                     ->get();
 
-
-
         $totalCredits = 0;
         $weightedSum = 0;
         $subjectsData = [];
@@ -307,17 +269,10 @@ class EnStudReportCardController extends Controller
         foreach ($studrepcardsub as $subject) {
             $creditEarned = (float)$subject->creditEarned;
 
-            $semester = $subject->semester;
-            $schoolYear = $subject->schlyear;
-
-            $startYear = (int)explode('-', $schoolYear)[0];
-
-            $fil = 1;
-
             // GPA conversion for subjFgrade
             $subjFgrade = $subject->subjFgrade;
             if (is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false) {
-                $gpaFgrade = getEquivalentGPA($subjFgrade, $fil)['gpa'];
+                $gpaFgrade = getEquivalentGPA($subjFgrade)['gpa'];
             } else {
                 $gpaFgrade = $subjFgrade;
             }
@@ -325,22 +280,18 @@ class EnStudReportCardController extends Controller
             // GPA conversion for subjComp
             $subjComp = $subject->subjComp;
             if (is_numeric($subjComp) && strpos($subjComp, '.') === false) {
-                $gpaComp = getEquivalentGPA($subjComp, $fil)['gpa'];
+                $gpaComp = getEquivalentGPA($subjComp)['gpa'];
             } else {
                 $gpaComp = $subjComp;
             }
 
-            // Check if gpaFgrade is numeric before performing multiplication
-            if (is_numeric($gpaFgrade)) {
-                $weightedSumPerSubject = $gpaFgrade * $creditEarned;
-            } else {
-                // Handle the case where gpaFgrade is not numeric
-                $weightedSumPerSubject = 0; // or any other appropriate value
-            }
+            $weightedSumPerSubject = $gpaFgrade * $creditEarned;
 
             $totalCredits += $creditEarned;
             $weightedSum += $weightedSumPerSubject;
 
+            $semester = $subject->semester;
+            $schoolYear = $subject->schlyear;
 
             if (!isset($subjectsData[$schoolYear][$semester])) {
                 $subjectsData[$schoolYear][$semester] = [];
@@ -352,7 +303,6 @@ class EnStudReportCardController extends Controller
                 'gpaComp' => $gpaComp       // Include the GPA for subjComp
             ];
         }
-
 
         $average = $totalCredits ? $weightedSum / $totalCredits : 0;
 
