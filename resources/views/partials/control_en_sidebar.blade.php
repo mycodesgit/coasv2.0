@@ -10,7 +10,7 @@
     $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
     $studinfogradActive = in_array($curr_route, ['studInfograduated', 'studInfograduated_search']) ? 'active' : '';
     $studcurrActive = in_array($curr_route, ['studCurr', 'studCurrsearch']) ? 'active' : '';
-    $studsubjActive = in_array($curr_route, ['studsubjectsRead', 'listsearch_studsubjectsRead', 'listsearchview_studsubjectsRead']) ? 'active' : '';
+    $studsubjActive = in_array($curr_route, ['studsubjectsRead', 'listsearch_studsubjectsRead', 'listsearchgradschool_studsubjectsRead', 'listsearchview_studsubjectsRead']) ? 'active' : '';
     $studviewgrdeActive = in_array($curr_route, ['studviewgradeRead', 'search_studviewgradeRead', 'searchgradschool_studviewgradeRead']) ? 'active' : '';
     $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
     $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
