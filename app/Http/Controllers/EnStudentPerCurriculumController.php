@@ -82,20 +82,28 @@ class EnStudentPerCurriculumController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $data = StudEnrolmentHistory::leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-                ->join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-                ->where('program_en_history.schlyear', $schlyear)
-                ->where('program_en_history.semester', $semester)
-                ->where('program_en_history.campus', $campus)
-                ->where('program_en_history.progCod', 'LIKE', '%-%-%')
-                ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
-                ->select(DB::raw("SUBSTRING_INDEX(SUBSTRING_INDEX(program_en_history.progCod, '-', 2), '-', -1) as progCod"),'coasv2_db_schedule.programs.progCod', 'coasv2_db_schedule.programs.progName', 'coasv2_db_schedule.programs.progAcronym', 'program_en_history.studYear', 'program_en_history.studYear', 'program_en_history.studSec', 'students.gender', 'program_en_history.id', 'program_en_history.schlyear', 'program_en_history.semester')
-                ->selectRaw('program_en_history.progCod,
-                            program_en_history.studYear, 
-                            program_en_history.studSec, 
-                            COUNT(DISTINCT students.stud_id) as studentCount,
-                            COUNT(DISTINCT CASE WHEN students.gender = "Male" THEN students.stud_id END) as maleCount,
-                            COUNT(DISTINCT CASE WHEN students.gender = "Female" THEN students.stud_id END) as femaleCount')
-                ->get();
+            ->join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.schlyear', $schlyear)
+            ->where('program_en_history.semester', $semester)
+            ->where('program_en_history.campus', $campus)
+            ->where('program_en_history.progCod', 'LIKE', '%-%-%') // Ensure format with two hyphens
+            ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
+            ->select(
+                DB::raw("SUBSTRING_INDEX(SUBSTRING_INDEX(program_en_history.progCod, '-', 2), '-', -1) as progCod"), 
+                'coasv2_db_schedule.programs.progName', 
+                'coasv2_db_schedule.programs.progAcronym', 
+                'program_en_history.studYear', 
+                'program_en_history.studSec', 
+                'students.gender', 
+                'program_en_history.id', 
+                'program_en_history.schlyear', 
+                'program_en_history.semester'
+            )
+            ->selectRaw('COUNT(DISTINCT students.stud_id) as studentCount,
+                         COUNT(DISTINCT CASE WHEN students.gender = "Male" THEN students.stud_id END) as maleCount,
+                         COUNT(DISTINCT CASE WHEN students.gender = "Female" THEN students.stud_id END) as femaleCount')
+            ->get();
+
 
         return response()->json(['data' => $data]);
     }
