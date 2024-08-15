@@ -40,7 +40,7 @@ CISS V.1.0 || Student View Grades
 
         <div class="row">
             <div class="col-md-12">
-                <form method="GET" action="{{ route('search_studviewgradeRead') }}" id="viewstudgrd">
+                <form method="GET" action="{{ Auth::guard('web')->user()->role == 15 ? route('searchgradschool_studviewgradeRead') : route('search_studviewgradeRead') }}" id="viewstudgrd">
                     {{ csrf_field() }}
 
                     <div class="form-group mt-2" style="padding: 10px">

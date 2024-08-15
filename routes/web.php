@@ -325,6 +325,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/info/stud/view/stud/grades', [EnStudGrdeViewController::class, 'studviewgradeRead'])->name('studviewgradeRead');
             Route::get('/info/stud/view/stud/grades/search', [EnStudGrdeViewController::class, 'search_studviewgradeRead'])->name('search_studviewgradeRead');
+            Route::get('/info/stud/view/stud/grades/search/grad', [EnStudGrdeViewController::class, 'searchgradschool_studviewgradeRead'])->name('searchgradschool_studviewgradeRead');
 
             Route::get('/info/stud/reportcard', [EnStudReportCardController::class, 'reportCard_list'])->name('reportCard_list');
             Route::get('/info/stud/reportcard/search', [EnStudReportCardController::class, 'reportCard_listsearch'])->name('reportCard_listsearch');

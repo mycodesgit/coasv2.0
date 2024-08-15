@@ -49,4 +49,28 @@ class EnStudGrdeViewController extends Controller
 
         return view('enrollment.reports.studgrdview.listsearch_studgrdeview', compact('studauth', 'studsubviewgrd'));
     }
+
+    public function searchgradschool_studviewgradeRead(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+
+        $studauth = Student::where('stud_id', '=', $stud_id)->first();
+
+        $studsubviewgrd = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('studgrades.studID', $stud_id)
+                    ->where('studgrades.studID', 'LIKE', '%-G')
+                    ->where('studgrades.campus', '=', Auth::guard('web')->user()->campus)
+                    ->orderBy('coasv2_db_schedule.sub_offered.id', 'ASC')
+                    ->get();
+
+        return view('enrollment.reports.studgrdview.listsearch_studgrdeview', compact('studauth', 'studsubviewgrd'));
+    }
 }
