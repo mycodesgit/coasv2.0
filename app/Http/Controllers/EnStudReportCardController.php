@@ -315,4 +315,5 @@ class EnStudReportCardController extends Controller
         $pdf = PDF::loadView('enrollment.reports.evaluation.studevalpdf_listsearch', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
     }
+    
 }
