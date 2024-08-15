@@ -207,12 +207,7 @@ class EnStudReportCardController extends Controller
         $stud_id = $request->query('stud_id');
         $campus = Auth::guard('web')->user()->campus;
 
-        // Function to determine if old system is used based on the earliest schlyear
-        function isOldSystem($earliestYear) {
-            return version_compare($earliestYear, '2022-2023', '<');
-        }
-
-        // GPA conversion function with system check
+        // Define a function to convert numerical grades to GPA equivalents
         function getEquivalentGPA($grade, $isOldSystem) {
             if ($isOldSystem) {
                 // Old GPA conversion logic here
@@ -283,77 +278,71 @@ class EnStudReportCardController extends Controller
             }
         }
 
-        // Fetch the student's earliest schlyear
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-            ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-            ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
-            ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
-            ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-            ->select('students.*', 'program_en_history.*', 'coasv2_db_schedule.programs.progName', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
-            ->where('program_en_history.campus', $campus)
-            ->where('program_en_history.studentID', $stud_id)
-            ->first();
+                    ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
+                    ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select('students.*', 'program_en_history.*', 'coasv2_db_schedule.programs.progName', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('program_en_history.campus',  $campus)
+                    ->where('program_en_history.studentID', $stud_id)->first();
 
-        $earliestYear = StudEnrolmentHistory::where('studentID', $stud_id)
-            ->orderBy('schlyear', 'ASC')
-            ->value('schlyear');
-
-        $isOldSystem = isOldSystem($earliestYear);
-
-        // Fetch the student's grades and process them
         $studrepcardsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
-            ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-            ->select('studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
-            ->where('coasv2_db_schedule.sub_offered.campus', $campus)
-            ->where('studgrades.studID', $stud_id)
-            ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')  // Sort by school year first
-            ->orderByRaw("FIELD(coasv2_db_schedule.sub_offered.semester, '1', '2', '3') ASC") // Sort by semester: 1 (First), 2 (Second), 3 (Summer)
-            ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
-            ->get();
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select('studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    ->where('studgrades.studID', $stud_id)
+                    ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')  // Sort by school year first
+                    ->orderByRaw("FIELD(coasv2_db_schedule.sub_offered.semester, '1', '2', '3') ASC") // Sort by semester: 1 (First), 2 (Second), 3 (Summer)
+                    ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
+                    ->get();
 
         $totalCredits = 0;
         $weightedSum = 0;
         $subjectsData = [];
 
+        $firstYear = !empty($studrepcardsub) ? $studrepcardsub->first()->schlyear : '2024-2025';
+        $isOldSystem = (intval(substr($firstYear, 0, 4)) < 2022);
+
         foreach ($studrepcardsub as $subject) {
             $creditEarned = (float)$subject->creditEarned;
 
-            // GPA conversion for subjFgrade
             $subjFgrade = $subject->subjFgrade;
             $gpaFgrade = is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false
                 ? getEquivalentGPA($subjFgrade, $isOldSystem)['gpa']
                 : $subjFgrade;
 
-            // GPA conversion for subjComp
             $subjComp = $subject->subjComp;
             $gpaComp = is_numeric($subjComp) && strpos($subjComp, '.') === false
                 ? getEquivalentGPA($subjComp, $isOldSystem)['gpa']
                 : $subjComp;
 
-            // Compute for GPA (ensure both are numbers)
-            $gpaEarned = $gpaFgrade === 'INC' || $gpaFgrade === 'NN' || $gpaFgrade === 'NG' || $gpaFgrade === 'Drp.'
-                ? 0
-                : (float)$gpaFgrade;
+            $weightedSumPerSubject = is_numeric($gpaFgrade) ? $gpaFgrade * $creditEarned : 0;
 
             $totalCredits += $creditEarned;
-            $weightedSum += $gpaEarned * $creditEarned;
+            $weightedSum += $weightedSumPerSubject;
 
-            $subjectsData[] = [
-                'subjCode' => $subject->subjCode,
-                'subjTitle' => $subject->subjTitle,
-                'creditEarned' => $creditEarned,
-                'subjFgrade' => $gpaFgrade,
-                'subjComp' => $gpaComp,
-                'gpa' => number_format($gpaEarned, 2),
+            $semester = $subject->semester;
+            $schoolYear = $subject->schlyear;
+
+            if (!isset($subjectsData[$schoolYear][$semester])) {
+                $subjectsData[$schoolYear][$semester] = [];
+            }
+
+            $subjectsData[$schoolYear][$semester][] = [
+                'subject' => $subject,
+                'gpaFgrade' => $gpaFgrade,
+                'gpaComp' => $gpaComp
             ];
         }
 
-        $gpa = $totalCredits > 0 ? number_format($weightedSum / $totalCredits, 2) : 0;
+
+        $average = $totalCredits ? $weightedSum / $totalCredits : 0;
 
         $data = [
-            'student' => $studrepcard,
-            'subjects' => $subjectsData,
-            'gpa' => $gpa,
+            'studrepcard' => $studrepcard,
+            'subjectsData' => $subjectsData,
+            'average' => $average
         ];
 
         $pdf = PDF::loadView('enrollment.reports.evaluation.studevalpdf_listsearch', $data)->setPaper('Legal', 'portrait');
