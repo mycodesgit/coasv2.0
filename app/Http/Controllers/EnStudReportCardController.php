@@ -272,7 +272,7 @@ class EnStudReportCardController extends Controller
             // GPA conversion for subjFgrade
             $subjFgrade = $subject->subjFgrade;
             if (is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false) {
-                $gpaFgrade = getEquivalentGPA($subjFgrade)['gpa'];
+                $gpaFgrade = getEquivalentGPA($subjFgrade, $fil)['gpa'];
             } else {
                 $gpaFgrade = $subjFgrade;
             }
@@ -280,7 +280,7 @@ class EnStudReportCardController extends Controller
             // GPA conversion for subjComp
             $subjComp = $subject->subjComp;
             if (is_numeric($subjComp) && strpos($subjComp, '.') === false) {
-                $gpaComp = getEquivalentGPA($subjComp)['gpa'];
+                $gpaComp = getEquivalentGPA($subjComp, $fil)['gpa'];
             } else {
                 $gpaComp = $subjComp;
             }
