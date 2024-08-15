@@ -201,44 +201,54 @@ class SchedClassController extends Controller
             $remarks = $request->input('remarks');
 
             $conflicts = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
-                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
-                        ->where('scheduleclass.schedday', $day)
-                        ->where('scheduleclass.schlyear', $schlyear)
-                        ->where('scheduleclass.semester', $semester)
-                        ->where('scheduleclass.campus', $campus)
-                        ->where('scheduleclass.remarks', $request->input('remarks'))
-                        ->where(function($query) use ($startTime, $endTime) {
-                            $query->whereBetween('start_time', [$startTime, $endTime])
-                                  ->orWhereBetween('end_time', [$startTime, $endTime])
-                                  ->orWhere(function($query) use ($startTime, $endTime) {
-                                      $query->where('start_time', '<=', $startTime)
-                                            ->where('end_time', '>=', $endTime);
-                                  });
-                        })
-                        ->where(function($query) use ($progcodename, $progcodesection, $subject_id, $faculty_id, $room_id) {
-                            $query->where('progcodename', $progcodename)
-                                  ->where('progcodesection', $progcodesection)
-                                  ->where('subject_id', $subject_id)
-                                  ->where('faculty_id', $faculty_id)
-                                  ->where('room_id', $room_id);
-                        })
-                        ->orWhere(function($query) use ($subject_id, $progcodename, $progcodesection, $faculty_id) {
-                            $query->where('subject_id', $subject_id)
-                                  ->where('progcodename', $progcodename)
-                                  ->where('progcodesection', $progcodesection)
-                                  ->where('faculty_id', '<>', $faculty_id);
-                        })
-                    ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
-                    ->get();
+                ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                ->where('scheduleclass.schedday', $day)
+                ->where('scheduleclass.schlyear', $schlyear)
+                ->where('scheduleclass.semester', $semester)
+                ->where('scheduleclass.campus', $campus)
+                ->where(function($query) use ($startTime, $endTime) {
+                    $query->whereBetween('scheduleclass.start_time', [$startTime, $endTime])
+                          ->orWhereBetween('scheduleclass.end_time', [$startTime, $endTime])
+                          ->orWhere(function($query) use ($startTime, $endTime) {
+                              $query->where('scheduleclass.start_time', '<=', $startTime)
+                                    ->where('scheduleclass.end_time', '>=', $endTime);
+                          });
+                })
+                ->where(function($query) use ($progcodename, $progcodesection, $subject_id, $faculty_id, $room_id) {
+                    $query->where('progcodename', $progcodename)
+                          ->where('progcodesection', $progcodesection)
+                          ->where('subject_id', $subject_id)
+                          ->where('faculty_id', $faculty_id)
+                          ->where('room_id', $room_id);
+                })
+                ->orWhere(function($query) use ($subject_id, $progcodename, $progcodesection, $faculty_id) {
+                    $query->where('subject_id', $subject_id)
+                          ->where('progcodename', $progcodename)
+                          ->where('progcodesection', $progcodesection)
+                          ->where('faculty_id', '<>', $faculty_id);
+                })
+                ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
+                ->get();
 
+            // Check for room conflicts
+            $roomConflicts = $conflicts->filter(function($conflict) use ($room_id) {
+    return $conflict->room_id == $room_id;
+});
 
-            $roomConflicts = $conflicts->where('room_id', $room_id);
-            $facultyConflicts = $conflicts->where('faculty_id', $faculty_id);
-            $subjectConflicts = $conflicts->where('subject_id', $subject_id);
+            // Check if the same subject is assigned to different faculties on different days
+            $facultyConflicts = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                ->where('scheduleclass.subject_id', $subject_id)
+                ->where('scheduleclass.schlyear', $schlyear)
+                ->where('scheduleclass.semester', $semester)
+                ->where('scheduleclass.progcodename', $progcodename)
+                ->where('scheduleclass.progcodesection', $progcodesection)
+                ->where('scheduleclass.faculty_id', '<>', $faculty_id)
+                ->where('scheduleclass.schedday', '<>', $day) // Different day
+                ->exists();
 
-            if ($roomConflicts->isNotEmpty() || $facultyConflicts->isNotEmpty() || $subjectConflicts->isNotEmpty()) {
+            if ($roomConflicts->isNotEmpty() || $facultyConflicts) {
                 $conflictDetails = $conflicts->map(function($conflict) {
                     return [
                         'subject' => $conflict->sub_name,
@@ -250,8 +260,19 @@ class SchedClassController extends Controller
                         'end_time' => $conflict->end_time,
                     ];
                 });
-                return response()->json(['error' => true, 'message' => '', 'conflicts' => $conflictDetails], 409);
+
+                $message = '';
+                if ($roomConflicts->isNotEmpty()) {
+                    $message .= 'Room is already occupied by another course. ';
+                }
+                if ($facultyConflicts) {
+                    $message .= 'Subject assigned to different faculties on different days.';
+                }
+
+                return response()->json(['error' => true, 'message' => $message, 'conflicts' => $conflictDetails], 409);
             }
+
+
 
             try {
                 SetClassSchedule::create([
