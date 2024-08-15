@@ -285,7 +285,13 @@ class EnStudReportCardController extends Controller
                 $gpaComp = $subjComp;
             }
 
-            $weightedSumPerSubject = $gpaFgrade * $creditEarned;
+            // Check if gpaFgrade is numeric before performing multiplication
+            if (is_numeric($gpaFgrade)) {
+                $weightedSumPerSubject = $gpaFgrade * $creditEarned;
+            } else {
+                // Handle the case where gpaFgrade is not numeric
+                $weightedSumPerSubject = 0; // or any other appropriate value
+            }
 
             $totalCredits += $creditEarned;
             $weightedSum += $weightedSumPerSubject;
