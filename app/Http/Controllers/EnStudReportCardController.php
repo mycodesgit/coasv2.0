@@ -312,7 +312,7 @@ class EnStudReportCardController extends Controller
 
             $startYear = (int)explode('-', $schoolYear)[0];
 
-            $fil = ($startYear <= 2021) ? 1 : 2;
+            $fil = 1;
 
             // GPA conversion for subjFgrade
             $subjFgrade = $subject->subjFgrade;
