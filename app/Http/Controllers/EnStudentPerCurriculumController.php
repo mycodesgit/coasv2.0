@@ -75,6 +75,31 @@ class EnStudentPerCurriculumController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function getstudCurrSearchGradSchool(Request $request)
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');   
+        $campus = Auth::guard('web')->user()->campus;
+
+        $data = StudEnrolmentHistory::leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                ->join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                ->where('program_en_history.schlyear', $schlyear)
+                ->where('program_en_history.semester', $semester)
+                ->where('program_en_history.campus', $campus)
+                ->where('program_en_history.progCod', 'LIKE', '%-GSS')
+                ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
+                ->select('coasv2_db_schedule.programs.progCod', 'coasv2_db_schedule.programs.progName', 'coasv2_db_schedule.programs.progAcronym', 'program_en_history.studYear', 'program_en_history.studYear', 'program_en_history.studSec', 'students.gender', 'program_en_history.id', 'program_en_history.schlyear', 'program_en_history.semester')
+                ->selectRaw('program_en_history.progCod,
+                            program_en_history.studYear, 
+                            program_en_history.studSec, 
+                            COUNT(DISTINCT students.stud_id) as studentCount,
+                            COUNT(DISTINCT CASE WHEN students.gender = "Male" THEN students.stud_id END) as maleCount,
+                            COUNT(DISTINCT CASE WHEN students.gender = "Female" THEN students.stud_id END) as femaleCount')
+                ->get();
+
+        return response()->json(['data' => $data]);
+    }
+
     public function fetchStudEnrollmentlist(Request $request)
     {
         $progCode = $request->input('progCod');

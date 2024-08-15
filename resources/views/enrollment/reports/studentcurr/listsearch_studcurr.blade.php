@@ -151,7 +151,11 @@ CISS V.1.0 || Student List per Curriculum
 
 
 <script>
-    var courseEnrollReadRoute  = "{{ route('getstudCurrSearch') }}";
+    var courseEnrollReadRoute = @if(Auth::guard('web')->user()->role == 15)
+        "{{ route('getstudCurrSearchGradSchool') }}";
+    @else
+        "{{ route('getstudCurrSearch') }}";
+    @endif
     var studentcourseEnrollReadRoute = "{{ route('fetchStudEnrollmentlist') }}";
     var studentcourseEnrollPDFReadRoute = "{{ route('exportEnrollmentPDF') }}";
 </script>
