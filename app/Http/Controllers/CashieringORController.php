@@ -10,14 +10,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
+use App\Models\EnrollmentDB\Student;
+use App\Models\EnrollmentDB\StudentLevel;
+use App\Models\EnrollmentDB\YearLevel;
+use App\Models\EnrollmentDB\MajorMinor;
+use App\Models\EnrollmentDB\StudentStatus;
+use App\Models\EnrollmentDB\StudentType;
+use App\Models\EnrollmentDB\StudentShifTrans;
+use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
+
 use App\Models\AssessmentDB\Funds;
 use App\Models\AssessmentDB\AccountCoa;
 use App\Models\AssessmentDB\AccountAppraisal;
 
 use App\Models\ScheduleDB\College;
 use App\Models\ScheduleDB\EnPrograms;
-
-use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
 use App\Models\SettingDB\ConfigureCurrent;
 
@@ -74,6 +82,30 @@ class CashieringORController extends Controller
 
     public function list_orRead()
     {
-        return view('cashier.officialreceipt.list_or');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('cashier.officialreceipt.list_or', compact('sy'));
+    }
+
+    public function listsearch_orRead(Request $request)
+    {
+        $stud_id = $request->stud_id;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+
+        return view('cashier.officialreceipt.list_or', compact('sy'));
     }
 }

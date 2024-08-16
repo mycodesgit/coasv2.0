@@ -39,7 +39,7 @@ CISS V.1.0 || OR
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <form method="post" action="{{ route('fundCreate') }}" id="adFund">
+                        <form method="post" action="{{ route('listsearch_orRead') }}" id="adOR">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                 <h5>Official Receipt</h5>
@@ -49,29 +49,50 @@ CISS V.1.0 || OR
                                 <div class="form-row">
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">O.R. Number</span></label>
-                                        <input type="number" name="fund_name" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                        <input type="text" name="orno" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" autofocus>
                                     </div>
 
                                     <div class="mt-2 col-md-12">
-                                        <label><span class="badge badge-secondary">O.R. Number</span></label>
-                                        <input type="number" name="fund_name" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                        <label><span class="badge badge-secondary">Semester</span></label>
+                                        <select class="form-control form-control-sm" name="semester">
+                                            <option disabled selected>---Select---</option>
+                                            <option value="1">First Semester</option>
+                                            <option value="2">Second Semester</option>
+                                            <option value="3">Summer</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">School Year</span></label>
+                                        <select class="form-control form-control-sm" name="schlyear">
+                                            @foreach($sy as $datasy)
+                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Student ID Number</span></label>
+                                        <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()">
                                     </div>
 
                                     <div class="col-md-12">
                                         <label>&nbsp;</label>
-                                        <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Save</button>
+                                        <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">OK</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
                         </form>
                     </div>
                 </div>
             </div>
             <div class="col-md-9">
-                <table id="fund" class="table table-hover">
+                <table id="ortable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Fund Name</th>
+                            <th>Fund</th>
+                            <th>Account Name</th>
+                            <th>Amount</th>
                             <th width="10%">Action</th>
                         </tr>
                     </thead>
@@ -109,5 +130,27 @@ CISS V.1.0 || OR
         </div>
     </div>
 </div>
+
+<script>
+    function formatInput(input) {
+        let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
+        
+        if (cleaned.length > 0) {
+            let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
+            input.value = formatted;
+        } else {
+            input.value = '';
+        }
+    }
+
+    function handleDelete(event) {
+        if (event.key === 'Backspace') {
+            let input = event.target;
+            let value = input.value;
+            input.value = value.substring(0, value.length - 1);
+            formatInput(input);
+        }
+    }
+</script>
 
 @endsection

@@ -61,7 +61,7 @@
         @elseif(Auth::guard('web')->user()->campus == 'VC')
             <img src="{{ public_path('template/img/schedclass/schedclassheaderVC.png') }}" width="40%">
         @elseif(Auth::guard('web')->user()->campus == 'HinC')
-            <img src="{{ public_path('template/img/schedclass/schedclassheaderhinC.png') }}" width="40%">
+            <img src="{{ public_path('template/img/schedclass/schedclassheaderHinC.png') }}" width="40%">
         @endif
     </div>
     <div class="header">

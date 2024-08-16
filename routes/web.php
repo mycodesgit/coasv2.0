@@ -496,6 +496,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('official')->group(function () {
             Route::get('/receipt', [CashieringORController::class, 'list_orRead'])->name('list_orRead');
+            Route::get('/receipt/search', [CashieringORController::class, 'listsearch_orRead'])->name('listsearch_orRead');
         });
     }); 
 
