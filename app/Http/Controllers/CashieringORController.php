@@ -106,6 +106,10 @@ class CashieringORController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
-        return view('cashier.officialreceipt.list_or', compact('sy'));
+        $orstud = Student::where('stud_id', $stud_id)->select('fname', 'mname', 'lname')->get();
+        $studfund = Funds::orderBy('id', 'DESC')->get();
+        $studAccntap = AccountAppraisal::orderBy('account_name', 'ASC')->get();
+
+        return view('cashier.officialreceipt.listsearch_or', compact('orstud', 'studfund', 'studAccntap'));
     }
 }

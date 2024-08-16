@@ -42,41 +42,77 @@ CISS V.1.0 || OR
                         <form method="get" action="{{ route('listsearch_orRead') }}" id="adOR">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                <h5>Official Receipt</h5>
+                                <h5>Information</h5>
                             </div>
 
                             <div class="form-group">
                                 <div class="form-row">
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">O.R. Number</span></label>
-                                        <input type="text" name="orno" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" autofocus>
+                                        <input type="text" name="orno" class="form-control form-control-sm" value="{{ request('orno') }}" oninput="this.value = this.value.toUpperCase()" readonly>
                                     </div>
 
-                                    <div class="mt-2 col-md-12">
+                                    <div class="mt-2 col-md-6">
                                         <label><span class="badge badge-secondary">Semester</span></label>
-                                        <select class="form-control form-control-sm" name="semester">
-                                            <option disabled selected>---Select---</option>
-                                            <option value="1">First Semester</option>
-                                            <option value="2">Second Semester</option>
-                                            <option value="3">Summer</option>
-                                        </select>
+                                        <input type="text" name="semester" class="form-control form-control-sm" value="{{ request('semester') }}" readonly>
+                                    </div>
+
+                                    <div class="mt-2 col-md-6">
+                                        <label><span class="badge badge-secondary">School Year</span></label>
+                                        <input type="text" name="semester" class="form-control form-control-sm" value="{{ request('schlyear') }}" readonly>
                                     </div>
 
                                     <div class="mt-2 col-md-12">
-                                        <label><span class="badge badge-secondary">School Year</span></label>
-                                        <select class="form-control form-control-sm" name="schlyear">
-                                            @foreach($sy as $datasy)
-                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                        <label><span class="badge badge-secondary">Student ID Number</span></label>
+                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ request('stud_id') }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Fullname</span></label>
+                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->lname }}, {{ $orstud->first()->fname }} {{ $orstud->first()->mname }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                    </div>
+                                </div>
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="get" action="{{ route('listsearch_orRead') }}" id="adOR">
+                            @csrf
+                            <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                                <h5>Select</h5>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Fund</span></label>
+                                        <select id="fundname_code" class="form-control form-control-sm" name="fundname_code">
+                                            <option disabled selected> ---Select---</option>
+                                            @foreach($studfund as $fund)
+                                                <option value="{{ $fund->fund_name }}">{{ $fund->fund_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div class="mt-2 col-md-12">
-                                        <label><span class="badge badge-secondary">Student ID Number</span></label>
-                                        <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()">
+                                        <label><span class="badge badge-secondary">Account</span></label>
+                                        <select class="form-control form-control-sm select2bs4" data-placeholder="--Select--" name="accountName">
+                                            @foreach($studAccntap as $studapp)
+                                                <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Amount</span></label>
+                                        <input type="number" name="amountFee" class="form-control form-control-sm">
+                                    </div>
+
+                                    <div class="mt-1 col-md-12">
                                         <label>&nbsp;</label>
                                         <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">OK</button>
                                     </div>
@@ -86,7 +122,7 @@ CISS V.1.0 || OR
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-6">
                 <table id="ortable" class="table table-hover">
                     <thead>
                         <tr>

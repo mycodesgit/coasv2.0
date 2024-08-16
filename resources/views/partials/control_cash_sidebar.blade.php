@@ -2,7 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $dashCashActive = in_array($curr_route, ['cashiering-index']) ? 'active' : '';
-    $orActive = in_array($curr_route, ['list_orRead']) ? 'active' : '';
+    $orActive = in_array($curr_route, ['list_orRead', 'listsearch_orRead']) ? 'active' : '';
 
     $hebillingActive = in_array($curr_route, ['hebillingRead', 'hebillingRead_search']) ? 'active' : '';
 
