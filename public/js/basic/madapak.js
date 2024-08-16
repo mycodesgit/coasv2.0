@@ -18,6 +18,10 @@ $('#assessment-url').click(function() {
     window.location.href = assessmentRoute;
 });
 
+$('#cashiering-url').click(function() {
+    window.location.href = cashierRoute;
+});
+
 $('#scholarship-url').click(function() {
     window.location.href = scholarshipRoute;
 });

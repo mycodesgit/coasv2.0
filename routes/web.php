@@ -45,6 +45,8 @@ use App\Http\Controllers\StudFeeAssessmentController;
 use App\Http\Controllers\StudStateAccntAssessmentController;
 use App\Http\Controllers\StudHEBillingController;
 
+use App\Http\Controllers\CashieringORController;
+
 use App\Http\Controllers\ScholarshipController;
 
 use App\Http\Controllers\GradingController;
@@ -485,6 +487,15 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/he/billing', [StudHEBillingController::class, 'hebillingRead'])->name('hebillingRead');
             Route::get('/he/billing/search', [StudHEBillingController::class, 'hebillingRead_search'])->name('hebillingRead_search');
+        });
+    });
+
+    Route::prefix('cash/collection')->group(function () {
+        
+        Route::get('/', [CashieringORController::class, 'index'])->name('cashiering-index');
+
+        Route::prefix('official')->group(function () {
+            Route::get('/receipt', [CashieringORController::class, 'list_orRead'])->name('list_orRead');
         });
     }); 
 
