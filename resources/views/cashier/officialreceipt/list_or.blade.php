@@ -5,7 +5,7 @@ CISS V.1.0 || OR
 @endsection
 
 @section('sideheader')
-<h4>Official Receipt</h4>
+<h4>Cashier</h4>
 @endsection
 
 @yield('sidemenu')
