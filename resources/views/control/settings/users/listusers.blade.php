@@ -109,6 +109,10 @@ CISS V.1.0 || User's List
                                             <span class="badge badge-warning">Grad School Staff</span>
                                         @elseif ($user->role == '16')
                                             <span class="badge badge-pink" style="background-color: #e83e8c; color: #fff">OSSA Staff</span>
+                                        @elseif ($user->role == '17')
+                                            <span class="badge badge-info">Cashier</span>
+                                        @elseif ($user->role == '18')
+                                            <span class="badge badge-info">Cashier Staff</span>
                                         @else
                                             <span class="badge badge-light">Unknown Role</span>
                                         @endif
@@ -164,7 +168,9 @@ CISS V.1.0 || User's List
                                                             ($user->role == 13 ? 'MIS Director' :
                                                             ($user->role == 14 ? 'MIS Officer' :
                                                             ($user->role == 15 ? 'Graduate School Staff' :
-                                                            ($user->role == 16 ? 'OSSA Staff' : 'Unknown Role'))))))))))))))))
+                                                            ($user->role == 16 ? 'OSSA Staff' :
+                                                            ($user->role == 17 ? 'Cashier' :
+                                                            ($user->role == 18 ? 'Cashier Staff' : 'Unknown Role'))))))))))))))))))
                                                         }}" readonly>
                                                     </div>
                                                     <div class="form-group" id="buttonSelection">

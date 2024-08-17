@@ -63,6 +63,10 @@ CISS V.1.0 || User's List
                                                         @elseif($user->role == 12) MIS Staff
                                                         @elseif($user->role == 13) MIS Director
                                                         @elseif($user->role == 14) MIS Officer
+                                                        @elseif($user->role == 15) Graduate School Staff
+                                                        @elseif($user->role == 16) OSSA Staff
+                                                        @elseif($user->role == 17) Cashier
+                                                        @elseif($user->role == 18) Cashier Staff
                                                     @endif
                                                 </option>
                                                 <option value="0" @if (old('role') == 0 || $user->role == '0') {{ 'selected' }} @endif>Administrator</option>
@@ -80,6 +84,10 @@ CISS V.1.0 || User's List
                                                 <option value="12" @if (old('role') == 12 || $user->role == '12') {{ 'selected' }} @endif>MIS Staff</option>
                                                 <option value="13" @if (old('role') == 13 || $user->role == '13') {{ 'selected' }} @endif>MIS Director</option>
                                                 <option value="14" @if (old('role') == 14 || $user->role == '14') {{ 'selected' }} @endif>MIS Officer</option>
+                                                <option value="15" @if (old('role') == 15 || $user->role == '15') {{ 'selected' }} @endif>Graduate School Staff</option>
+                                                <option value="16" @if (old('role') == 16 || $user->role == '16') {{ 'selected' }} @endif>OSSA Staff</option>
+                                                <option value="17" @if (old('role') == 17 || $user->role == '17') {{ 'selected' }} @endif>Cashier</option>
+                                                <option value="18" @if (old('role') == 18 || $user->role == '18') {{ 'selected' }} @endif>Cashier Staff</option>
                                             </select>
                                         </div>
 
@@ -120,6 +128,7 @@ CISS V.1.0 || User's List
                                                 <option value="Cashier Office" @if (old('dept') == 'Cashier Office' || $user->dept == 'Cashier Office') {{ 'selected' }} @endif>Cashier Office</option>
                                                 <option value="Graduate School Registar" @if (old('dept') == 'Graduate School Registar' || $user->dept == 'Graduate School Registar') {{ 'selected' }} @endif>Graduate School Registar</option>
                                                 <option value="MIS Office" @if (old('dept') == 'MIS Office' || $user->dept == 'MIS Office') {{ 'selected' }} @endif>MIS Office</option>
+                                                <option value="OSSA" @if (old('dept') == 'OSSA' || $user->dept == 'OSSA') {{ 'selected' }} @endif>OSSA</option>
                                             </select>
                                         </div>
                                     </div>

@@ -121,6 +121,8 @@
                                     <option value="14" @if (old('type') == 14) {{ 'selected' }} @endif>MIS Officer</option>
                                     <option value="15" @if (old('type') == 15) {{ 'selected' }} @endif>Graduate School Staff</option>
                                     <option value="16" @if (old('type') == 16) {{ 'selected' }} @endif>OSSA Staff</option>
+                                    <option value="17" @if (old('type') == 17) {{ 'selected' }} @endif>Cashier</option>
+                                    <option value="18" @if (old('type') == 18) {{ 'selected' }} @endif>Cashier Staff</option>
                                 </select>
                             </div>
                         </div>

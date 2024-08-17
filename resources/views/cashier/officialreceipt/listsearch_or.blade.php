@@ -114,7 +114,7 @@ CISS V.1.0 || OR
 
                                     <div class="mt-1 col-md-12">
                                         <label>&nbsp;</label>
-                                        <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">OK</button>
+                                        <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Add</button>
                                     </div>
                                 </div>
                             </div>  
