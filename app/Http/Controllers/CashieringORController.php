@@ -112,4 +112,23 @@ class CashieringORController extends Controller
 
         return view('cashier.officialreceipt.listsearch_or', compact('orstud', 'studfund', 'studAccntap'));
     }
+
+    public function getorpaymentRead(Request $request) 
+    {
+        $campus = $request->query('campus');
+        $progCode = $request->query('prog_Code');
+        $yrlevel = $request->query('yrlevel');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+    
+        $data = StudentFee::where('campus', '=', $campus)
+                ->where('prog_Code','=',  $progCode)
+                ->where('yrlevel', '=', $yrlevel)
+                ->where('schlyear', '=', $schlyear)
+                ->where('semester', '=', $semester)
+                ->orderBy('accountName', 'ASC')
+                ->get();
+
+        return response()->json(['data' => $data]);
+    }
 }

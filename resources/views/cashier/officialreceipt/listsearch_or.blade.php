@@ -189,4 +189,8 @@ CISS V.1.0 || OR
     }
 </script>
 
+<script>
+    var studfeeReadRoute = "{{ route('getstudFeeRead') }}";
+</script>
+
 @endsection
