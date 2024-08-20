@@ -23,6 +23,7 @@ use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
 use App\Models\AssessmentDB\Funds;
 use App\Models\AssessmentDB\AccountCoa;
 use App\Models\AssessmentDB\AccountAppraisal;
+use App\Models\AssessmentDB\StudPayment;
 
 use App\Models\ScheduleDB\College;
 use App\Models\ScheduleDB\EnPrograms;
@@ -101,10 +102,10 @@ class CashieringORController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
-        if (!$student) {
-            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
-        }
+        // $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
+        // if (!$student) {
+        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        // }
 
         $orstud = Student::where('stud_id', $stud_id)->select('fname', 'mname', 'lname')->get();
         $studfund = Funds::orderBy('id', 'DESC')->get();
@@ -115,20 +116,69 @@ class CashieringORController extends Controller
 
     public function getorpaymentRead(Request $request) 
     {
-        $campus = $request->query('campus');
-        $progCode = $request->query('prog_Code');
-        $yrlevel = $request->query('yrlevel');
+        $orno = $request->query('orno');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
     
-        $data = StudentFee::where('campus', '=', $campus)
-                ->where('prog_Code','=',  $progCode)
-                ->where('yrlevel', '=', $yrlevel)
+        $data = StudPayment::where('orno', '=', $orno)
                 ->where('schlyear', '=', $schlyear)
                 ->where('semester', '=', $semester)
-                ->orderBy('accountName', 'ASC')
                 ->get();
 
         return response()->json(['data' => $data]);
+    }
+
+    public function orCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'orno' => 'required',
+                'studID' => 'required',
+                'semester' => 'required',
+                'schlyear' => 'required',
+                'campus' => 'required',
+                'datepaid' => 'required',
+                'fund' => 'required',
+                'account' => 'required',
+                'amountpaid' => 'required',
+            ]);
+
+            $orno = $request->input('orno');
+            $studID = $request->input('studID');
+            $semester = $request->input('semester');
+            $schlyear = $request->input('schlyear');
+            $campus = $request->input('campus');
+            $datepaid = $request->input('datepaid');
+
+            // $studaccount = $request->input('account'); 
+            // $existingStudFeeOR = StudPayment::where('account', $studaccount)
+            //                 ->where('campus', $campus)
+            //                 ->where('schlyear', $schlyear)
+            //                 ->where('semester', $semester)
+            //                 ->first();
+
+            // if ($existingStudFeeOR) {
+            //     return response()->json(['error' => true, 'message' => 'Account Name in Student Fee already exists'], 404);
+            // }
+
+            try {
+                StudPayment::create([
+                    'orno' => $request->input('orno'),
+                    'studID' => $request->input('studID'),
+                    'semester' => $request->input('semester'),
+                    'schlyear' => $request->input('schlyear'),
+                    'campus' => $request->input('campus'),
+                    'fund' => $request->input('fund'),
+                    'account' => $request->input('account'),
+                    'amountpaid' => $request->input('amountpaid'),
+                    'datepaid' => $request->input('datepaid'),
+                    'postedBy' => Auth::guard('web')->user()->id,
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Payment stored successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Fund'], 404);
+            }
+        }
     }
 }

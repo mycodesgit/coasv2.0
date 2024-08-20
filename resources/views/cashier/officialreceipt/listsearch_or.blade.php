@@ -39,7 +39,7 @@ CISS V.1.0 || OR
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <form method="get" action="{{ route('listsearch_orRead') }}" id="adOR">
+                        <form method="get">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                 <h5>Information</h5>
@@ -80,17 +80,24 @@ CISS V.1.0 || OR
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <form method="get" action="{{ route('listsearch_orRead') }}" id="adOR">
+                        <form method="post" action="{{ route('orCreate') }}" id="adOR">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                 <h5>Select</h5>
                             </div>
 
+                            <input type="hidden" name="orno" value="{{ request('orno') }}">
+                            <input type="hidden" name="studID" value="{{ request('stud_id') }}">
+                            <input type="hidden" name="semester" value="{{ request('semester') }}">
+                            <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                            <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
+                            <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
+
                             <div class="form-group">
                                 <div class="form-row">
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Fund</span></label>
-                                        <select id="fundname_code" class="form-control form-control-sm" name="fundname_code">
+                                        <select id="fund" class="form-control form-control-sm" name="fund">
                                             <option disabled selected> ---Select---</option>
                                             @foreach($studfund as $fund)
                                                 <option value="{{ $fund->fund_name }}">{{ $fund->fund_name }}</option>
@@ -100,7 +107,7 @@ CISS V.1.0 || OR
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Account</span></label>
-                                        <select class="form-control form-control-sm select2bs4" data-placeholder="--Select--" name="accountName">
+                                        <select class="form-control form-control-sm select2bs4" data-placeholder="--Select--" name="account">
                                             @foreach($studAccntap as $studapp)
                                                 <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
                                             @endforeach
@@ -109,7 +116,7 @@ CISS V.1.0 || OR
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Amount</span></label>
-                                        <input type="number" name="amountFee" class="form-control form-control-sm">
+                                        <input type="number" name="amountpaid" class="form-control form-control-sm">
                                     </div>
 
                                     <div class="mt-1 col-md-12">
@@ -136,6 +143,14 @@ CISS V.1.0 || OR
                         
                     </tbody>
                 </table>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="float-right">
+                            <h5>Grand Total: <span id="grandTotal"></span></h5>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -190,7 +205,8 @@ CISS V.1.0 || OR
 </script>
 
 <script>
-    var studfeeReadRoute = "{{ route('getstudFeeRead') }}";
+    var studorReadRoute = "{{ route('getorpaymentRead') }}";
+    var studorCreateRoute = "{{ route('orCreate') }}";
 </script>
 
 @endsection

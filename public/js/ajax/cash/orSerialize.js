@@ -4,20 +4,20 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#studFeeAssess').submit(function(event) {
+    $('#adOR').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: studfeeCreateRoute,
+            url: studorCreateRoute,
             type: "POST",
             data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('studFeeAdded');
-                    $('input[name="amountFee"]').val('');
+                    $(document).trigger('studOrAdded');
+                    $('input[name="amountpaid"]').val('');
                 } else {
                     toastr.error(response.message);
                     console.log(response);
@@ -31,19 +31,15 @@ $(document).ready(function() {
     });
 
     var urlParams = new URLSearchParams(window.location.search);
-    var campus = urlParams.get('campus') || ''; 
-    var progCode = urlParams.get('prog_Code') || ''; 
-    var yrlevel = urlParams.get('yrlevel') || ''; 
+    var orno = urlParams.get('orno') || ''; 
     var schlyear = urlParams.get('schlyear') || ''; 
     var semester = urlParams.get('semester') || '';
-    var dataTable = $('#studentFees').DataTable({
+    var dataTable = $('#ortable').DataTable({
         "ajax": {
-            "url": studfeeReadRoute,
+            "url": studorReadRoute,
             "type": "GET",
             "data": { 
-                "campus": campus,
-                "prog_Code": progCode,
-                "yrlevel": yrlevel,
+                "orno": orno,
                 "schlyear": schlyear,
                 "semester": semester
             }
@@ -54,10 +50,10 @@ $(document).ready(function() {
         searching: false,
         paging: false,
         "columns": [
-            {data: 'fundname_code'},
-            {data: 'accountName'},
+            {data: 'fund'},
+            {data: 'account'},
             {
-                data: 'amountFee',
+                data: 'amountpaid',
                 render: function (data, type, row) {
                     return '<strong>' + parseFloat(data).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</strong>';
                 }
@@ -69,10 +65,10 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-studfee" data-id="' + row.id + '" data-fundcode="' + row.fundname_code + '" data-fundstudname="' + row.accountName + '" data-fundstudamount="' + row.amountFee + '">' +
+                            '<a href="#" class="dropdown-item btn-studor" data-id="' + row.id + '" data-fundcode="' + row.fundname_code + '" data-fundstudname="' + row.accountName + '" data-fundstudamount="' + row.amountFee + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item studfees-delete">' +
+                            '<button type="button" value="' + data + '" class="dropdown-item studor-delete">' +
                             '<i class="fas fa-trash"></i> Delete' +
                             '</button>' +
                             '</div>' +
@@ -96,7 +92,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('studFeeAdded', function() {
+    $(document).on('studOrAdded', function() {
         dataTable.ajax.reload();
     });
 });

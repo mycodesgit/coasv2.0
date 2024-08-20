@@ -105,6 +105,9 @@
 		.accnt-or {
 			text-align: center !important;
 		}
+		.accnt-orpaid {
+			text-align: right !important;
+		}
 		.signatories-rf {
 			font-size: 10pt !important;
 			font-family: Arial !important;
@@ -321,12 +324,24 @@
     							</tr>
     						</thead>
     						<tbody>
+    							@php
+								    $totalPaidFee = 0;
+								@endphp
+    							@foreach($studor as $feesor)
     							<tr>
-    								<td></td>
-    								<td class="accnt-amount"></td>
-    								<td class="accnt-or"></td>
-    								<td class="accnt-amount"></td>
+    								<td>{{ $feesor->account }}</td>
+    								<td class="accnt-amount">{{ $feesor->datepaid }}</td>
+    								<td class="accnt-or">{{ $feesor->orno }}</td>
+    								<td class="accnt-orpaid">{{ number_format($feesor->amountpaid, 2) }}</td>
     							</tr>
+    							@php
+							        $totalPaidFee += $feesor->amountpaid;
+							    @endphp
+    							@endforeach
+    							<tr>
+								    <td colspan="3"></td>
+								    <td class="accnt-orpaid">{{ number_format($totalPaidFee, 2) }}</td>
+								</tr>
     						</tbody>
     					</table>
     				</td>

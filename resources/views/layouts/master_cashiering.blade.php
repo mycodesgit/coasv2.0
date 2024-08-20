@@ -212,8 +212,8 @@
         </script>
         <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
     @endif
-    @if(request()->routeIs('chedscholarlist'))
-        <script src="{{ asset('js/ajax/scholars/chedScholarSerialize.js') }}"></script>
+    @if(request()->routeIs('listsearch_orRead'))
+        <script src="{{ asset('js/ajax/cash/orSerialize.js') }}"></script>
     @endif
 
     <script>

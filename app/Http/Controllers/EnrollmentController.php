@@ -37,6 +37,7 @@ use App\Models\ScholarshipDB\Scholar;
 
 use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudentAppraisal;
+use App\Models\AssessmentDB\StudPayment;
 
 use App\Models\SettingDB\ConfigureCurrent;
 
@@ -513,11 +514,19 @@ class EnrollmentController extends Controller
                     ->orderBy('student_appraisal.account', 'ASC')
                     ->get();
 
+        $studor = StudPayment::select('studpayment.*')
+                    ->where('studpayment.studID', $stud_id)
+                    ->where('studpayment.schlyear',  $schlyear)
+                    ->where('studpayment.semester',  $semester)
+                    ->get();
+
         $data = [
             'student' => $student,
             'studsub' => $studsub,
-            'studfees' => $studfees
+            'studfees' => $studfees,
+            'studor' => $studor
         ];
+        
         $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRF', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
     }
