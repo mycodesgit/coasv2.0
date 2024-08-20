@@ -27,6 +27,7 @@ use App\Http\Controllers\EnStudGrdeViewController;
 use App\Http\Controllers\EnStudReportCardController;
 use App\Http\Controllers\EnStudELPLController;
 use App\Http\Controllers\EnStudNoEnrolleeController;
+use App\Http\Controllers\DeletedLogEnrollmentController;
 
 use App\Http\Controllers\SchedClassCollegeController;
 use App\Http\Controllers\SchedClassProgramsController;
@@ -345,6 +346,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/stud/record/eval/search', [EnStudReportCardController::class, 'studevalRead_listsearch'])->name('studevalRead_listsearch');
             Route::get('/info/stud/record/eval/search/grad', [EnStudReportCardController::class, 'studevalReadgradschool_listsearch'])->name('studevalReadgradschool_listsearch');
             Route::get('/info/stud/record/eval/searchPDF', [EnStudReportCardController::class, 'studevalRead_listsearchpdf'])->name('studevalRead_listsearchpdf');
+
+            Route::get('/deleted/enrollment/logs', [DeletedLogEnrollmentController::class, 'delenrlmntlogsRead'])->name('delenrlmntlogsRead');
+            Route::get('/deleted/enrollment/logs/search', [DeletedLogEnrollmentController::class, 'search_delenrlmntlogsRead'])->name('search_delenrlmntlogsRead');
         });
 
     });

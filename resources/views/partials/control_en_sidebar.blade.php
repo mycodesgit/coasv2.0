@@ -16,6 +16,7 @@
     $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
     $numenrolledActive = in_array($curr_route, ['studnoenrollee', 'studnoenrollee_searchList']) ? 'active' : '';
     $studevalActive = in_array($curr_route, ['studevalRead', 'studevalReadgradschool_listsearch', 'studevalRead_listsearch']) ? 'active' : '';
+    $delenrlmntlogsActive = in_array($curr_route, ['delenrlmntlogsRead', 'search_delenrlmntlogsRead']) ? 'active' : '';
 
 @endphp
 
@@ -66,6 +67,9 @@
 
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
         <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
+        @endif
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
+        <a href="{{ route('delenrlmntlogsRead') }}" class="list-group-item {{ $delenrlmntlogsActive }}">Deleted Logs</a>
         @endif
     </ul>
 </div>

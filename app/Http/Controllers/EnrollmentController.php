@@ -835,7 +835,18 @@ class EnrollmentController extends Controller
         $stuGradesIds = explode(',', $request->input('stuGradesIds'));
         
         if ($programEnHistoryId) {
-            StudEnrolmentHistory::where('id', $programEnHistoryId)->delete();
+            $enrollmentHistory = StudEnrolmentHistory::find($programEnHistoryId);
+            
+            if ($enrollmentHistory) {
+                DeleteEnrollmentLogs::create([
+                    'delstudentID' => $enrollmentHistory->studentID,
+                    'delMC' => $enrollmentHistory->campus,
+                    'delemployeename' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
+                    'delsemester' => $enrollmentHistory->semester,
+                    'delschlyear' => $enrollmentHistory->schlyear,
+                ]);
+                $enrollmentHistory->delete();
+            }
         }
 
         if (!empty($studentAppraisalIds)) {
