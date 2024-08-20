@@ -28,7 +28,15 @@ $(document).ready(function() {
             {data: 'ext'},
             {data: 'gender'},
             {data: 'delemployeename'},
-            {data: 'delcrt'},
+            { data: 'delcrt',
+                render: function (data, type, row) {
+                    if (type === 'display') {
+                        return moment(data).format('MMMM D, YYYY h:mm A');
+                    } else {
+                        return data;
+                    }
+                }
+            },
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
