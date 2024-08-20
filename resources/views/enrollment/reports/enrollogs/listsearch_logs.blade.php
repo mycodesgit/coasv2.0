@@ -98,6 +98,7 @@ CISS V.1.0 || Deleted Enrollment Logs
                                 <th>Ext</th>
                                 <th>Gender</th>
                                 <th>Deleted By</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>

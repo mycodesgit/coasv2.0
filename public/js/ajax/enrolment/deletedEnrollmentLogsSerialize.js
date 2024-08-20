@@ -28,6 +28,7 @@ $(document).ready(function() {
             {data: 'ext'},
             {data: 'gender'},
             {data: 'delemployeename'},
+            {data: 'delcrt'},
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
