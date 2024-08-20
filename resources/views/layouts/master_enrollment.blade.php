@@ -319,6 +319,9 @@
     @if(request()->routeIs('studnoenrollee'))
         <script src="{{ asset('js/ajax/enrolment/enrolleescountSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('search_delenrlmntlogsRead'))
+        <script src="{{ asset('js/ajax/enrolment/deletedEnrollmentLogsSerialize.js') }}"></script>
+    @endif
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>

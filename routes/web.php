@@ -349,6 +349,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/deleted/enrollment/logs', [DeletedLogEnrollmentController::class, 'delenrlmntlogsRead'])->name('delenrlmntlogsRead');
             Route::get('/deleted/enrollment/logs/search', [DeletedLogEnrollmentController::class, 'search_delenrlmntlogsRead'])->name('search_delenrlmntlogsRead');
+            Route::get('/deleted/enrollment/logs/search/ajax', [DeletedLogEnrollmentController::class, 'getdelenrlmntlogsRead'])->name('getdelenrlmntlogsRead');
         });
 
     });

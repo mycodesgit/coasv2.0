@@ -62,6 +62,23 @@ CISS V.1.0 || Deleted Enrollment Logs
                                     </select>
                                 </div>
 
+                                <div class="col-md-2">
+                                    <label><span class="badge badge-secondary">Campus</span></label>
+                                    <select class="form-control form-control-sm" name="campus" id="campus">
+                                        <option value="MC">Main</option>
+                                        <option value="VC">Victorias</option>
+                                        <option value="SCC">San Carlos</option>
+                                        <option value="HC">Hinigaran</option>
+                                        <option value="MP">Moises Padilla</option>
+                                        <option value="IC">Ilog</option>
+                                        <option value="CA">Candoni</option>
+                                        <option value="CC">Cauayan</option>
+                                        <option value="SC">Sipalay</option>
+                                        <option value="HinC">Hinobaan</option>
+                                        <option value="VE">Valladolid</option>
+                                    </select>
+                                </div>
+
                                 <div class="col-md-3">
                                     <label>&nbsp;</label>
                                     <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
@@ -71,7 +88,7 @@ CISS V.1.0 || Deleted Enrollment Logs
                     </form>
                 </div>
                 <div class="col-md-12 mt-3">
-                    <table id="elpltable" class="table table-striped">
+                    <table id="deletedlogstable" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>StudID</th>
@@ -80,42 +97,21 @@ CISS V.1.0 || Deleted Enrollment Logs
                                 <th>Middle Name</th>
                                 <th>Ext</th>
                                 <th>Gender</th>
-                                <th>Course</th>
-                                <th>Yr.Lvl</th>
                                 <th>Deleted By</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach($studelpl as $studentData)
-                                @php
-                                    $studentPrinted = false;
-                                @endphp
-                                @foreach($studentData as $subject)
-                                    <tr>
-                                        @if(!$studentPrinted)
-                                            <td>{{ $subject->studentID }}</td>
-                                            <td>{{ $subject->lname }}</td>
-                                            <td>{{ $subject->fname }}</td>
-                                            <td>{{ $subject->mname }}</td>
-                                            <td>{{ $subject->ext }}</td>
-                                            <td>{{ $subject->gender }}</td>
-                                            @php
-                                                $studentPrinted = true;
-                                            @endphp
-                                        @else
-                                            <td colspan="6"></td>
-                                        @endif
-                                        <td>{{ $subject->sub_name }}</td>
-                                    </tr>
-                                @endforeach
-                            @endforeach --}}
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
+
+<script>
+    var studDeleteEnrollogsRoute = "{{ route('getdelenrlmntlogsRead') }}";
+</script>
 
 @endsection

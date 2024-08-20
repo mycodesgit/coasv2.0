@@ -80,9 +80,11 @@ class DeletedLogEnrollmentController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus');
     
-        $data = DeleteEnrollmentLogs::where('campus', '=', $campus)
-                ->where('schlyear', '=', $schlyear)
-                ->where('semester', '=', $semester)
+        $data = DeleteEnrollmentLogs::join('students', 'delete_enrollment_logs.delstudentID', '=', 'students.stud_id')
+                ->select('students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'delete_enrollment_logs.*')
+                ->where('delMC', '=', $campus)
+                ->where('delschlyear', '=', $schlyear)
+                ->where('delsemester', '=', $semester)
                 ->get();
 
         return response()->json(['data' => $data]);
