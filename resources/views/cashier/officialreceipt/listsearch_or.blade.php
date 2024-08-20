@@ -151,26 +151,48 @@ CISS V.1.0 || OR
                         </div>
                     </div>
                 </div>
+                <hr>
+                <button type="submit" class="btn btn-primary float-right">
+                    <i class="fas fa-print"></i> Print OR
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editFundModal" tabindex="-1" role="dialog" aria-labelledby="editFundModalLabel" aria-hidden="true">
+<div class="modal fade" id="editorStudFeeModal" role="dialog" aria-labelledby="editorStudFeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editFundModalLabel">Edit Fund Name</h5>
+                <h5 class="modal-title" id="editorFundModalLabel">Edit</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editFundForm">
+            <form id="editorStudFeeForm">
                 <div class="modal-body">
-                    <input type="hidden" name="id" id="editFundId">
+                    <input type="hidden" name="id" id="editorStudFeeId">
                     <div class="form-group">
-                        <label for="editFundName">Fund Name</label>
-                        <input type="text" class="form-control" id="editFundName" name="fund_name">
+                        <label for="editorstudfeeFund">Fund</label>
+                        <select id="fundname_code" class="form-control form-control-sm" id="editorstudfeeFund" name="fund">
+                            <option disabled selected> ---Select---</option>
+                            @foreach($studfund as $fund)
+                                <option value="{{ $fund->fund_name }}" {{ $fund->fund_name == '164' ? 'selected' : '' }}>{{ $fund->fund_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editorstudfeeaccount">Account Name</label>
+                        <select class="form-control form-control-sm select2bs4" id="editorstudfeeaccount" name="account">
+                            <option disabled selected> ---Select---</option>
+                            @foreach($studAccntap as $studapp)
+                                <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editstudfeeamountFee">Amount</label>
+                        <input type="number" class="form-control" id="editorstudfeeamountFee" name="amountpaid">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -207,6 +229,8 @@ CISS V.1.0 || OR
 <script>
     var studorReadRoute = "{{ route('getorpaymentRead') }}";
     var studorCreateRoute = "{{ route('orCreate') }}";
+    var studorUpdateRoute = "{{ route('orUpdate', ['id' => ':id']) }}";
+    var studorDeleteRoute = "{{ route('orDelete', ['id' => ':id']) }}";
 </script>
 
 @endsection

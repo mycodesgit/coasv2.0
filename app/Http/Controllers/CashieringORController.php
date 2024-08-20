@@ -102,10 +102,10 @@ class CashieringORController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
-        if (!$student) {
-            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
-        }
+        // $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
+        // if (!$student) {
+        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        // }
 
         $orstud = Student::where('stud_id', $stud_id)->select('fname', 'mname', 'lname')->get();
         $studfund = Funds::orderBy('id', 'DESC')->get();
@@ -180,5 +180,74 @@ class CashieringORController extends Controller
                 return response()->json(['error' => true, 'message' => 'Failed to store Fund'], 404);
             }
         }
+    }
+
+    public function orUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+            'fund' => 'required',
+            'account' => 'required',
+            'amountpaid' => 'required',
+        ]);
+
+        $orno = $request->input('orno');
+        $studID = $request->input('studID');
+        $semester = $request->input('semester');
+        $schlyear = $request->input('schlyear');
+        $campus = $request->input('campus');
+        $datepaid = $request->input('datepaid');
+
+        try {
+            $studaccount = $request->input('account');
+            $existingorStudFee = StudPayment::where('account', $studaccount)
+                            ->where('campus', $campus)
+                            ->where('schlyear', $schlyear)
+                            ->where('semester', $semester)
+                            ->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingorStudFee) {
+                return response()->json(['error' => true, 'message' => 'Student Fee already exists'], 404);
+            }
+
+            $studorfee = StudPayment::findOrFail($request->input('id'));
+            $studorfee->update([
+                'fund' => $request->input('fund'),
+                'account' => $request->input('account'),
+                'amountpaid' => $request->input('amountpaid'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Student Payment updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to store Student Payment'], 404);
+        }
+    }
+
+    public function orDelete($id) 
+    {
+        $studorfee = StudPayment::find($id);
+        $studorfee->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
+    }
+
+    public function orprint(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $studor = StudPayment::select('studpayment.*')
+                    ->where('studpayment.studID', $stud_id)
+                    ->where('studpayment.schlyear',  $schlyear)
+                    ->where('studpayment.semester',  $semester)
+                    ->get();
+
+        $data = [
+            'studor' => $studor
+        ];
+        
+        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper('A5', 'portrait');
+        return $pdf->stream();
     }
 }

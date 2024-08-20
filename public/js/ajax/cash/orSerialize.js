@@ -65,7 +65,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-studor" data-id="' + row.id + '" data-fundcode="' + row.fundname_code + '" data-fundstudname="' + row.accountName + '" data-fundstudamount="' + row.amountFee + '">' +
+                            '<a href="#" class="dropdown-item btn-studor" data-id="' + row.id + '" data-fundcode="' + row.fund + '" data-fundstudname="' + row.account + '" data-fundstudamount="' + row.amountpaid + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item studor-delete">' +
@@ -95,4 +95,83 @@ $(document).ready(function() {
     $(document).on('studOrAdded', function() {
         dataTable.ajax.reload();
     });
+});
+
+$(document).on('click', '.btn-studor', function() {
+    var id = $(this).data('id');
+    var fundStudfee = $(this).data('fundcode');
+    var acountorStud = $(this).data('fundstudname');
+    var amountorStud = $(this).data('fundstudamount');
+    $('#editorStudFeeId').val(id);
+    $('#editorstudfeeFund').val(fundStudfee);
+    $('#editorstudfeeaccount').val(acountorStud);
+    $('#editorstudfeeamountFee').val(amountorStud);
+    $('#editorStudFeeModal').modal('show');
+});
+
+$('#editorStudFeeForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: studorUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#editorStudFeeModal').modal('hide');
+                $(document).trigger('studOrAdded');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
+    });
+});
+
+$(document).on('click', '.studor-delete', function(e) {
+    var id = $(this).val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to recover this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "GET",
+                url: studorDeleteRoute.replace(':id', id),
+                success: function(response) {
+                    $("#tr-" + id).delay(1000).fadeOut();
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Successfully Deleted!',
+                        icon: 'warning',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    $(document).trigger('studOrAdded');
+                    if(response.success) {
+                        toastr.success(response.message);
+                        console.log(response);
+                    }
+                }
+            });
+        }
+    })
 });

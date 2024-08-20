@@ -504,6 +504,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/receipt/search', [CashieringORController::class, 'listsearch_orRead'])->name('listsearch_orRead');
             Route::get('/receipt/search/list/ajaxorfee', [CashieringORController::class, 'getorpaymentRead'])->name('getorpaymentRead');
             Route::post('/receipt/search/list/add', [CashieringORController::class, 'orCreate'])->name('orCreate');
+            Route::post('/receipt/search/list/update', [CashieringORController::class, 'orUpdate'])->name('orUpdate');
+            Route::get('/receipt/search/list/delete{id}', [CashieringORController::class, 'orDelete'])->name('orDelete');
         });
     }); 
 
