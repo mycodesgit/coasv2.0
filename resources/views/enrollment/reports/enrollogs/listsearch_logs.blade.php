@@ -92,11 +92,10 @@ CISS V.1.0 || Deleted Enrollment Logs
                         <thead>
                             <tr>
                                 <th>StudID</th>
-                                <th>Last Name</th>
-                                <th>First Name</th>
-                                <th>Middle Name</th>
-                                <th>Ext</th>
+                                <th>Name</th>
                                 <th>Gender</th>
+                                <th>Semester</th>
+                                <th>Schlyear</th>
                                 <th>Deleted By</th>
                                 <th>Date</th>
                             </tr>

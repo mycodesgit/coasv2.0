@@ -22,11 +22,18 @@ $(document).ready(function() {
         paging: true,
         "columns": [
             {data: 'delstudentID'},
-            {data: 'lname'},
-            {data: 'fname'},
-            {data: 'mname'},
-            {data: 'ext'},
+            { 
+                data: null,
+                render: function(data, type, row) {
+                    var firstname = data.fname;
+                    var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
+                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
+                }
+            },
             {data: 'gender'},
+            {data: 'delsemester'},
+            {data: 'delschlyear'},
             {data: 'delemployeename'},
             { data: 'delcrt',
                 render: function (data, type, row) {
