@@ -25,13 +25,14 @@ $(document).ready(function() {
             ],
         "columns": [
             {data: 'studentID'},
-            { 
+            {
                 data: null,
                 render: function(data, type, row) {
-                    var firstname = data.fname;
-                    var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
-                    return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
+                    var firstname = data.fname.toUpperCase(); // Convert first name to uppercase
+                    var middleInitial = data.mname ? data.mname.substr(0, 1).toUpperCase() + '.' : ''; // Get middle initial and add period
+                    var lastName = data.lname.toUpperCase(); // Convert last name to uppercase
+                    var extension = data.ext && data.ext !== 'N/A' ? data.ext : ''; // Check if extension is not null and not 'N/A'
+                    return lastName + ', ' + firstname + ' ' + middleInitial + (extension ? ' ' + extension : ''); // Return formatted string
                 }
             },
             {data: 'progAcronym'},
