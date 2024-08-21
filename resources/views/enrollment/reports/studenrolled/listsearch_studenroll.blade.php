@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-CISS V.1.0 || Deleted Enrollment Logs
+CISS V.1.0 || Student Enrolled
 @endsection
 
 @section('sideheader')
