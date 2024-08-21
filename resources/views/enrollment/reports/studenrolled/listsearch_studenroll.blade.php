@@ -97,6 +97,7 @@ CISS V.1.0 || Deleted Enrollment Logs
                                 <th>YearLv</th>
                                 <th>Schlyear</th>
                                 <th>Semester</th>
+                                <th>Region</th>
                             </tr>
                         </thead>
                         <tbody>

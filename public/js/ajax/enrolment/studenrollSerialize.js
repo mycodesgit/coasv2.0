@@ -39,6 +39,7 @@ $(document).ready(function() {
             {data: 'studYear'},
             {data: 'schlyear'},
             {data: 'semester'},
+            {data: 'region'},
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
