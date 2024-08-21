@@ -152,9 +152,15 @@ CISS V.1.0 || OR
                     </div>
                 </div>
                 <hr>
-                <button type="submit" class="btn btn-primary float-right">
-                    <i class="fas fa-print"></i> Print OR
-                </button>
+                <form action="{{ route('orprint') }}" method="get" target="_blank">
+                    @csrf
+                    <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
+                    <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                    <input type="hidden" name="semester" value="{{ request('semester') }}">
+                    <button type="submit" class="btn btn-primary float-right">
+                        <i class="fas fa-print"></i> Print OR
+                    </button>
+                </form>
             </div>
         </div>
     </div>

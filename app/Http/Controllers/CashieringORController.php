@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use PDF;
 
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
@@ -247,7 +248,56 @@ class CashieringORController extends Controller
             'studor' => $studor
         ];
         
-        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper('A5', 'portrait');
+        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper([0, 0, 396, 612], 'portrait');
         return $pdf->stream();
+    }
+
+    public function listall_orRead()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $campus = Auth::guard('web')->user()->campus;
+    
+        $data = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->where('studpayment.campus', '=', $campus)
+                ->select('coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'studpayment.*')
+                ->limit('10')
+                ->get();
+
+        return view('cashier.officialreceipt.listall_or', compact('sy', 'data'));
+    }
+
+    public function getlistallorRead() 
+    {
+        $campus = Auth::guard('web')->user()->campus;
+    
+        $data = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->where('studpayment.campus', '=', $campus)
+                ->select(
+                'coasv2_db_enrollment.students.lname', 
+                'coasv2_db_enrollment.students.fname', 
+                'coasv2_db_enrollment.students.mname', 
+                'studpayment.orno', 
+                'studpayment.studID', 
+                DB::raw('SUM(studpayment.amountpaid) as total_amount')
+            )
+            ->groupBy(
+                'coasv2_db_enrollment.students.lname', 
+                'coasv2_db_enrollment.students.fname', 
+                'coasv2_db_enrollment.students.mname', 
+                'studpayment.orno', 
+                'studpayment.studID'
+            )
+                ->limit('100')
+                ->get();
+
+        return response()->json(['data' => $data]);
     }
 }

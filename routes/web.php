@@ -28,6 +28,7 @@ use App\Http\Controllers\EnStudReportCardController;
 use App\Http\Controllers\EnStudELPLController;
 use App\Http\Controllers\EnStudNoEnrolleeController;
 use App\Http\Controllers\DeletedLogEnrollmentController;
+use App\Http\Controllers\EnStudEnrolledController;
 
 use App\Http\Controllers\SchedClassCollegeController;
 use App\Http\Controllers\SchedClassProgramsController;
@@ -350,6 +351,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/deleted/enrollment/logs', [DeletedLogEnrollmentController::class, 'delenrlmntlogsRead'])->name('delenrlmntlogsRead');
             Route::get('/deleted/enrollment/logs/search', [DeletedLogEnrollmentController::class, 'search_delenrlmntlogsRead'])->name('search_delenrlmntlogsRead');
             Route::get('/deleted/enrollment/logs/search/ajax', [DeletedLogEnrollmentController::class, 'getdelenrlmntlogsRead'])->name('getdelenrlmntlogsRead');
+
+            Route::get('/stud/enrolled/list/all/per/sem', [EnStudEnrolledController::class, 'studenrollRead'])->name('studenrollRead');
+            Route::get('/stud/enrolled/list/all/per/sem/search', [EnStudEnrolledController::class, 'search_studenrollRead'])->name('search_studenrollRead');
+            Route::get('/stud/enrolled/list/all/per/sem/search/ajax', [EnStudEnrolledController::class, 'getsearchstudenrollRead'])->name('getsearchstudenrollRead');
         });
 
     });
@@ -506,6 +511,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/receipt/search/list/add', [CashieringORController::class, 'orCreate'])->name('orCreate');
             Route::post('/receipt/search/list/update', [CashieringORController::class, 'orUpdate'])->name('orUpdate');
             Route::get('/receipt/search/list/delete{id}', [CashieringORController::class, 'orDelete'])->name('orDelete');
+            Route::get('/receipt/search/viewor/print', [CashieringORController::class, 'orprint'])->name('orprint');
+
+            Route::get('/receipt/all', [CashieringORController::class, 'listall_orRead'])->name('listall_orRead');
+            Route::get('/receipt/all/or/list/ajaxorstudfee', [CashieringORController::class, 'getlistallorRead'])->name('getlistallorRead');
         });
     }); 
 

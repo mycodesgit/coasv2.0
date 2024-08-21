@@ -3,6 +3,7 @@
 
     $dashCashActive = in_array($curr_route, ['cashiering-index']) ? 'active' : '';
     $orActive = in_array($curr_route, ['list_orRead', 'listsearch_orRead']) ? 'active' : '';
+    $orallActive = in_array($curr_route, ['listall_orRead']) ? 'active' : '';
 
     $hebillingActive = in_array($curr_route, ['hebillingRead', 'hebillingRead_search']) ? 'active' : '';
 
@@ -14,6 +15,7 @@
     </ul>
     <ul class="list-group mt-1">
         <a href="{{ route('list_orRead') }}" class="list-group-item {{ $orActive }}">Official Receipt</a>  
+        <a href="{{ route('listall_orRead') }}" class="list-group-item {{ $orallActive }}">Official Receipt List</a>  
     </ul>
 </div>
 

@@ -215,6 +215,9 @@
     @if(request()->routeIs('listsearch_orRead'))
         <script src="{{ asset('js/ajax/cash/orSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('listall_orRead'))
+        <script src="{{ asset('js/ajax/cash/orallSerialize.js') }}"></script>
+    @endif
 
     <script>
         $(document).ready(function () {

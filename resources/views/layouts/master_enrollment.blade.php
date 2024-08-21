@@ -322,6 +322,9 @@
     @if(request()->routeIs('search_delenrlmntlogsRead'))
         <script src="{{ asset('js/ajax/enrolment/deletedEnrollmentLogsSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('search_studenrollRead'))
+        <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}"></script>
+    @endif
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
