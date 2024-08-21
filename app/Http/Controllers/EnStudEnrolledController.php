@@ -84,6 +84,7 @@ class EnStudEnrolledController extends Controller
                 ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                 ->select('students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.region', 'program_en_history.progCod', 'program_en_history.studentID', 'program_en_history.studYear', 'program_en_history.studSec', 'program_en_history.schlyear', 'program_en_history.semester', 'coasv2_db_schedule.programs.progAcronym')
                 ->where('program_en_history.campus', '=', $campus)
+                ->where('students.stud_id', 'NOT LIKE', '%-G')
                 ->where('program_en_history.schlyear', '=', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
                 ->get();
