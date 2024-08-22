@@ -189,7 +189,7 @@ CISS V.1.0 || Grading
                             @endif
                         </td>
                         <td>
-                            @if ($datagenstud->subjFgrade == 'INC' || $datagenstud->subjFgrade == 'Inc.' || $datagenstud->subjFgrade == 'inc')
+                            @if ($datagenstud->subjFgrade == 'FAILURE' || $datagenstud->subjFgrade == 'INC' || $datagenstud->subjFgrade == 'Inc.' || $datagenstud->subjFgrade == 'inc')
                             @if ($datagenstud->compstat == 1 || empty($datagenstud->subjComp) || empty($datagenstud->compstat) && $datagenstud->status == '2')
                                 @if (!empty($datagenstud->subjComp))
                                     <select class="form-control form-control-sm" name="subjComp" id="{{ $datagenstud->sgid }}" onchange="updateGradeComp(this.id, this.value)">
