@@ -813,22 +813,65 @@ class EnrollmentController extends Controller
 
                 $primIDs = $request->input('primIDs');
 
-                if ($primIDs && $fndCodes && $accntNames && $amntFees) {
-                    foreach ($primIDs as $index => $primID) {
-                        // Find the record with the given primary key ID
-                        $studappfees = StudentAppraisal::find($primID);
+                // if ($primIDs && $fndCodes && $accntNames && $amntFees) {
+                //     foreach ($primIDs as $index => $primID) {
+                //         // Find the record with the given primary key ID
+                //         $studappfees = StudentAppraisal::find($primID);
 
-                        if ($studappfees) {
-                            // Update the existing record
-                            $studappfees->update([
-                                'fundID' => $fndCodes[$index],
-                                'account' => $accntNames[$index],
-                                'amount' => $amntFees[$index],
-                                'postedBy' => $postedBy,
+                //         if ($studappfees) {
+                //             // Update the existing record
+                //             $studappfees->update([
+                //                 'fundID' => $fndCodes[$index],
+                //                 'account' => $accntNames[$index],
+                //                 'amount' => $amntFees[$index],
+                //                 'postedBy' => $postedBy,
+                //             ]);
+                //         }
+                //     }
+                // }
+                
+                if ($fndCodes && $accntNames && $amntFees) {
+                    foreach ($fndCodes as $index => $fndCode) {
+                        $account = $accntNames[$index];
+                        $amount = $amntFees[$index];
+                        $primID = $primIDs[$index] ?? null; // Handle cases where primID might not be set
+
+                        \Log::info('Processing:', [
+                            'primID' => $primID,
+                            'fundID' => $fndCode,
+                            'account' => $account,
+                            'amount' => $amount,
+                        ]);
+
+                        if ($primID) {
+                            // Find and update the existing record
+                            $studappfees = StudentAppraisal::find($primID);
+
+                            if ($studappfees) {
+                                $studappfees->update([
+                                    'fundID' => $fndCode,
+                                    'account' => $account,
+                                    'amount' => $amount,
+                                    'postedBy' => $postedBy,
+                                ]);
+                            }
+                        } else {
+                            // Insert new record
+                            StudentAppraisal::create([
+                                'studID' => $request->input('studentID'),
+                                'semester' => $request->input('semester'),
+                                'schlyear' => $request->input('schlyear'),
+                                'campus' => $request->input('campus'),
+                                'fundID' => $fndCode,
+                                'account' => $account,
+                                'dateAssess' => $request->input('postedDate'),
+                                'amount' => $amount,
+                                'postedBy' => $request->input('postedBy'),
                             ]);
                         }
                     }
                 }
+
 
                 return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
             } catch (\Exception $e) {
