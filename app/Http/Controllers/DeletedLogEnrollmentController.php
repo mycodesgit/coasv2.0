@@ -85,6 +85,7 @@ class DeletedLogEnrollmentController extends Controller
                 ->where('delMC', '=', $campus)
                 ->where('delschlyear', '=', $schlyear)
                 ->where('delsemester', '=', $semester)
+                ->orderBy('delete_enrollment_logs.created_at', 'DESC')
                 ->get();
 
         return response()->json(['data' => $data]);

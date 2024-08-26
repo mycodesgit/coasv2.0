@@ -91,13 +91,13 @@ CISS V.1.0 || Deleted Enrollment Logs
                     <table id="deletedlogstable" class="table table-striped">
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>StudID</th>
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Semester</th>
                                 <th>Schlyear</th>
                                 <th>Deleted By</th>
-                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>

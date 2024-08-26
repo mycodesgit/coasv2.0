@@ -21,6 +21,15 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
+            { data: 'delcrt',
+                render: function (data, type, row) {
+                    if (type === 'display') {
+                        return moment(data).format('MMMM D, YYYY h:mm A');
+                    } else {
+                        return data;
+                    }
+                }
+            },
             {data: 'delstudentID'},
             { 
                 data: null,
@@ -35,16 +44,8 @@ $(document).ready(function() {
             {data: 'delsemester'},
             {data: 'delschlyear'},
             {data: 'delemployeename'},
-            { data: 'delcrt',
-                render: function (data, type, row) {
-                    if (type === 'display') {
-                        return moment(data).format('MMMM D, YYYY h:mm A');
-                    } else {
-                        return data;
-                    }
-                }
-            },
         ],
+        "order": [[0, 'desc']],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
         }

@@ -71,7 +71,18 @@
         @endif
         @if(in_array(Auth::guard('web')->user()->role, [0]))
         <a href="{{ route('studenrollRead') }}" class="list-group-item {{ $studenpersemActive }}">Students Enrolled</a>
-        <a href="{{ route('delenrlmntlogsRead') }}" class="list-group-item {{ $delenrlmntlogsActive }}">Deleted Logs</a>
+        @endif
+    </ul>
+</div>
+
+<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
+    <h5>Logs</h5>
+</div>
+<div class="ml-2 mr-2 mt-3 mb-3">
+    <ul class="list-group">
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
+        <a href="" class="list-group-item">Updated Enroll. Logs</a>
+        <a href="{{ route('delenrlmntlogsRead') }}" class="list-group-item {{ $delenrlmntlogsActive }}">Deleted Enroll. Logs</a>
         @endif
     </ul>
 </div>
