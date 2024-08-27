@@ -4,7 +4,7 @@
     $dashCashActive = in_array($curr_route, ['cashiering-index']) ? 'active' : '';
     $orActive = in_array($curr_route, ['list_orRead', 'listsearch_orRead']) ? 'active' : '';
     $orEditActive = in_array($curr_route, ['listedit_orRead', 'listsearchedit_orRead']) ? 'active' : '';
-    $orperdayActive = in_array($curr_route, ['listorperdayRead']) ? 'active' : '';
+    $orperdayActive = in_array($curr_route, ['listorperdayRead', 'listsearch_orperdayRead']) ? 'active' : '';
 
 @endphp
 
