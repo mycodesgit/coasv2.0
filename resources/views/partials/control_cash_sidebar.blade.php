@@ -15,6 +15,7 @@
     </ul>
     <ul class="list-group mt-1">
         <a href="{{ route('list_orRead') }}" class="list-group-item {{ $orActive }}">Official Receipt</a>  
+        <a href="" class="list-group-item">Edit Official Receipt</a>  
         <a href="{{ route('listall_orRead') }}" class="list-group-item {{ $orallActive }}">Official Receipt List</a>  
     </ul>
 </div>

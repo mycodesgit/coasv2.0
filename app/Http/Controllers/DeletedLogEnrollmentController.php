@@ -90,4 +90,36 @@ class DeletedLogEnrollmentController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    public function updateEnrlmntlogsRead()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('enrollment.reports.enrollogs.listupdate_enrollogs', compact('sy'));
+    }
+
+    public function search_uptadeEnrlmntlogsRead(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = $request->query('campus'); 
+
+        return view('enrollment.reports.enrollogs.listupdatesearch_enrollogs', compact('sy'));
+    }
 }

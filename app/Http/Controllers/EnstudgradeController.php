@@ -147,8 +147,11 @@ class EnstudgradeController extends Controller
         //             ->where('coasv2_db_schedule.sub_offered.semester', $semester)
         //             ->get();
 
-
-        $grdpercentage = range(44, 80); 
+        if(Auth::guard('web')->user()->role == '15') {
+            $grdpercentage = range(2, 43);
+        } else {
+            $grdpercentage = range(44, 80); 
+        }
         $grdCode = GradeCode::whereIn('id', $grdpercentage)
                 ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
                 ->get();
