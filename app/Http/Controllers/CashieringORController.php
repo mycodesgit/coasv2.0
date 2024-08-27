@@ -252,6 +252,52 @@ class CashieringORController extends Controller
         return $pdf->stream();
     }
 
+    public function listedit_orRead()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('cashier.officialreceipt.list_oredit', compact('sy'));
+    }
+
+    public function listsearchedit_orRead(Request $request)
+    {
+        $orno = $request->orno;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        // $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
+        // if (!$student) {
+        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        // }
+
+        $orstud = Student::where('orno', $orno)->select('fname', 'mname', 'lname')->get();
+        $studfund = Funds::orderBy('id', 'DESC')->get();
+        $studAccntap = AccountAppraisal::orderBy('account_name', 'ASC')->get();
+
+        return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap'));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function listall_orRead()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
