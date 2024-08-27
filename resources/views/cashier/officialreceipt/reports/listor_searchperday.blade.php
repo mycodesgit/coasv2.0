@@ -75,7 +75,7 @@ CISS V.1.0 || OR
                                 <td>{{ $d->datepaid }}</td>
                                 <td>{{ $d->orno }}</td>
                                 <td>{{ $d->studID }}</td>
-                                <td>{{ $d->lname }}</td>
+                                <td>{{ $d->lname }}, {{ $d->fname }} {{ substr($d->lname, 0,1) }}.</td>
                                 <td>{{ $d->total_amount }}</td>
                             </tr>
                         @endforeach
