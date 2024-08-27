@@ -1,7 +1,7 @@
 @extends('layouts.master_cashiering')
 
 @section('title')
-CISS V.1.0 || OR
+CISS V.1.0 || Edit OR
 @endsection
 
 @section('sideheader')
@@ -64,7 +64,7 @@ CISS V.1.0 || OR
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Student ID Number</span></label>
-                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ request('stud_id') }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->studID }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
                                     </div>
 
                                     <div class="mt-2 col-md-12">
@@ -87,7 +87,7 @@ CISS V.1.0 || OR
                             </div>
 
                             <input type="hidden" name="orno" value="{{ request('orno') }}">
-                            <input type="hidden" name="studID" value="{{ request('stud_id') }}">
+                            <input type="hidden" name="studID" value="{{ $orstud->first()->studID }}">
                             <input type="hidden" name="semester" value="{{ request('semester') }}">
                             <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                             <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
@@ -161,6 +161,13 @@ CISS V.1.0 || OR
                         <i class="fas fa-print"></i> Print OR
                     </button>
                 </form>
+                <br><br>
+                <hr>
+                <button class="btn btn-outline-danger studorspec-delete float-right"
+                    data-orno="{{ request('orno') }}"
+                    data-schlyear="{{ request('schlyear') }}"
+                    data-semester="{{ request('semester') }}"><i class="fas fa-trash"></i> Delete Official Receipt
+                </button>
             </div>
         </div>
     </div>
@@ -209,6 +216,7 @@ CISS V.1.0 || OR
         </div>
     </div>
 </div>
+
 
 <script>
     function formatInput(input) {

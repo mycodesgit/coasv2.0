@@ -519,8 +519,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/receipt/edit', [CashieringORController::class, 'listedit_orRead'])->name('listedit_orRead');
             Route::get('/receipt/search/edit', [CashieringORController::class, 'listsearchedit_orRead'])->name('listsearchedit_orRead');
+            Route::get('/delete-payment', [CashieringORController::class, 'deletePayment'])->name('deletePayment');
 
-            Route::get('/receipt/all', [CashieringORController::class, 'listall_orRead'])->name('listall_orRead');
+
+            Route::get('/receipt/per/date', [CashieringORController::class, 'listorperdayRead'])->name('listorperdayRead');
+            Route::get('/receipt/all', [CashieringORController::class, 'listsearch_orperdayRead'])->name('listsearch_orperdayRead');
             Route::get('/receipt/all/or/list/ajaxorstudfee', [CashieringORController::class, 'getlistallorRead'])->name('getlistallorRead');
         });
     }); 

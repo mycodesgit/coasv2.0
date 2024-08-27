@@ -268,21 +268,46 @@ class CashieringORController extends Controller
 
     public function listsearchedit_orRead(Request $request)
     {
-        $orno = $request->orno;
+        $orno = $request->query('orno');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        // $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
-        // if (!$student) {
-        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
-        // }
+        $student = StudPayment::where('orno', $orno)->where('campus', $campus)->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Official Receipt Number <strong>' . $orno . '</strong> does not exist.');
+        }
 
-        $orstud = Student::where('orno', $orno)->select('fname', 'mname', 'lname')->get();
+        $orstud = Student::join('coasv2_db_assessment.studpayment', 'students.stud_id', '=', 'coasv2_db_assessment.studpayment.studID')
+                ->where('coasv2_db_assessment.studpayment.orno', $orno)
+                ->select('fname', 'mname', 'lname', 'studID')
+                ->get();
         $studfund = Funds::orderBy('id', 'DESC')->get();
         $studAccntap = AccountAppraisal::orderBy('account_name', 'ASC')->get();
 
         return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap'));
+    }
+
+    public function deletePayment(Request $request)
+    {
+        $orno = $request->input('orno');
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+
+        if (!$orno || !$schlyear || !$semester) {
+            return response()->json(['success' => false, 'message' => 'Invalid parameters.'], 400);
+        }
+
+        $deletedRows = StudPayment::where('orno', $orno)
+            ->where('schlyear', $schlyear)
+            ->where('semester', $semester)
+            ->delete();
+
+        if ($deletedRows) {
+            return redirect()->route('listedit_orRead')->with('success', 'Payment records deleted successfully.');
+        } else {
+            return response()->json(['error' => true, 'message' => 'No records found to delete.'], 404);
+        }
     }
 
 
@@ -295,10 +320,7 @@ class CashieringORController extends Controller
 
 
 
-
-
-
-    public function listall_orRead()
+    public function listorperdayRead()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
@@ -309,15 +331,44 @@ class CashieringORController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+        return view('cashier.officialreceipt.reports.listor_perday', compact('sy'));
+    }
+
+    public function listsearch_orperdayRead(Request $request)
+    {
+        $datepaid = $request->query('datepaid');
         $campus = Auth::guard('web')->user()->campus;
     
         $data = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                 ->where('studpayment.campus', '=', $campus)
-                ->select('coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'studpayment.*')
-                ->limit('10')
+                ->where('studpayment.datepaid', '=', $datepaid)
+                ->select(
+                    'coasv2_db_enrollment.students.lname',
+                    'coasv2_db_enrollment.students.fname',
+                    'coasv2_db_enrollment.students.mname',
+                    'studpayment.orno',
+                    'studpayment.studID',
+                    'studpayment.datepaid',
+                    'studpayment.campus',
+                    'studpayment.semester',
+                    'studpayment.schlyear',
+                    DB::raw('SUM(studpayment.amountpaid) as total_amount')
+                )
+                ->groupBy(
+                    'coasv2_db_enrollment.students.lname',
+                    'coasv2_db_enrollment.students.fname',
+                    'coasv2_db_enrollment.students.mname',
+                    'studpayment.orno',
+                    'studpayment.studID',
+                    'studpayment.datepaid',
+                    'studpayment.campus',
+                    'studpayment.semester',
+                    'studpayment.schlyear'
+                )
                 ->get();
 
-        return view('cashier.officialreceipt.listall_or', compact('sy', 'data'));
+
+        return view('cashier.officialreceipt.reports.listor_searchperday', compact('data'));
     }
 
     public function getlistallorRead() 

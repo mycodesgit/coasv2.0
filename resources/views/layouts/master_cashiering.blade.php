@@ -202,6 +202,8 @@
     <script src="{{ asset('js/validation/scholars/studscholarValidation.js') }}"></script>
     <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}"></script>
 
+    <script src="{{ asset('js/validation/cash/perDayValidation.js') }}"></script>
+
     <!-- Basic -->
     @if(request()->routeIs('cashiering-index'))
         <script> 
@@ -212,11 +214,74 @@
         </script>
         <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
     @endif
-    @if(request()->routeIs('listsearch_orRead'))
+    @if(request()->routeIs('listsearch_orRead', 'listsearchedit_orRead'))
         <script src="{{ asset('js/ajax/cash/orSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('listall_orRead'))
         <script src="{{ asset('js/ajax/cash/orallSerialize.js') }}"></script>
+    @endif
+
+    @if(request()->routeIs('listsearchedit_orRead'))
+    <script>
+        $(document).on('click', '.studorspec-delete', function(e) {
+        e.preventDefault(); // Prevent default behavior
+
+        var orno = $(this).data('orno');
+        var schlyear = $(this).data('schlyear');
+        var semester = $(this).data('semester');
+
+        var deleteUrl = `{{ route('deletePayment') }}?orno=${orno}&schlyear=${schlyear}&semester=${semester}`;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+        });
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to recover this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: deleteUrl,
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Successfully Deleted!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $(document).trigger('studOrAdded');
+                        if (response.success) {
+                            toastr.success(response.message);
+                            console.log(response);
+                            location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Something went wrong.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    });
+    </script>
     @endif
 
     <script>

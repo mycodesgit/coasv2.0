@@ -1,7 +1,7 @@
 @extends('layouts.master_cashiering')
 
 @section('title')
-CISS V.1.0 || OR
+CISS V.1.0 || Edit OR
 @endsection
 
 @section('sideheader')
