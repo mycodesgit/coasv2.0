@@ -76,9 +76,11 @@
     </ul>
 </div>
 
+@if(in_array(Auth::guard('web')->user()->role, [0]))
 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
     <h5>Logs</h5>
 </div>
+@endif
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
         @if(in_array(Auth::guard('web')->user()->role, [0]))
