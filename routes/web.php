@@ -250,6 +250,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/billing', [AdBillingController::class, 'adbillingRead'])->name('adbillingRead');
             Route::get('/billing/search', [AdBillingController::class, 'adbillingRead_search'])->name('adbillingRead_search');
+            Route::get('/billing/search/ajax', [AdBillingController::class, 'getadbillingRead_search'])->name('getadbillingRead_search');
         });
     });
 

@@ -66,16 +66,16 @@ CISS V.1.0 || Higher Education Billing
                 <table id="example1" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Sequence No.</th>
+                            <th>Sequence #</th>
                             <th>Lastname</th>
                             <th>Givenname</th>
-                            <th>Middle Initial</th>
+                            <th>Initial</th>
                             <th>Gender</th>
                             <th>Birthdate</th>
                             <th>Degree</th>
-                            <th>Year Level</th>
-                            <th>Phone Number</th>
-                            <th>Entrance/Admission Fee</th>
+                            <th>Year Lv.</th>
+                            <th>Contact</th>
+                            <th>Admission Fee</th>
                             <th>Remarks</th>
                         </tr>
                     </thead>
@@ -103,4 +103,7 @@ CISS V.1.0 || Higher Education Billing
     </div>
 </div>
 
+<script>
+    var adbillReadRoute = "{{ route('getadbillingRead_search') }}";
+</script>
 @endsection

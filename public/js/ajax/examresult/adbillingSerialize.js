@@ -1,0 +1,56 @@
+toastr.options = {
+    "closeButton": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right"
+};
+$(document).ready(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var year = urlParams.get('year') || ''; 
+
+    var dataTable = $('#schstud').DataTable({
+        "ajax": {
+            "url": adbillReadRoute,
+            "type": "GET",
+            "data": { 
+                "year": year,
+            },
+            "dataSrc": function(json) {
+                var no = 1;
+                return json.map(function(adbildata) {
+                    return {
+                        no: no++,
+                        lname: adbildata.lname,
+                        fname: adbildata.fname,
+                        mname: adbildata.mname ? adbildata.mname.charAt(0) : '',
+                        gender: adbildata.gender,
+                        bday: moment(adbildata.bday).format('MM/DD/YYYY'),  // Format date using moment.js
+                        progAcronym: adbildata.progAcronym,
+                        contact: adbildata.contact,
+                        percentile: adbildata.percentile || 'N/A'  // Handle null values
+                    };
+                });
+            }
+        },
+        responsive: true,
+        lengthChange: true,
+        searching: true,
+        paging: true,
+        "columns": [
+            { data: 'no' },
+            { data: 'lname' },
+            { data: 'fname' },
+            { data: 'mname' },
+            { data: 'unisch_name' },
+            { data: 'gender' },
+            { data: 'bday' },
+            { data: 'progAcronym' },
+            { data: null, render: function() { return 1; } },
+            { data: 'contact' },
+            { data: null, render: function() { return 250; } },
+            { data: 'percentile' },
+        ],
+    });
+    $(document).on('billAdded', function() {
+        dataTable.ajax.reload();
+    });
+});
