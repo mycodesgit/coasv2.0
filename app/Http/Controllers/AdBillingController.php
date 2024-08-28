@@ -41,7 +41,7 @@ class AdBillingController extends Controller
 
         $year = $request->query('year');
 
-        $admsnstud = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+        $admsnstud = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
                     ->join('coasv2_db_enrollment.students', 'ad_applicant_admission.id', '=', 'coasv2_db_enrollment.students.app_id')
                     ->join('coasv2_db_enrollment.program_en_history as en_history1', 'coasv2_db_enrollment.students.stud_id', '=', 'en_history1.studentID')
                     ->join('coasv2_db_schedule.programs', 'en_history1.progCod', '=', 'coasv2_db_schedule.programs.progCod')
