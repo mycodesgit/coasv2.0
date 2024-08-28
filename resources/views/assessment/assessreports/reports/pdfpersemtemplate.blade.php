@@ -40,15 +40,9 @@
     </div>
 
     <div class="studinfolabel" style="margin-top: 25px">
-        <span style="font-weight: bold;">STUDENT ID NO.:</span> <span class="studinfoID"><strong> {{ $studfees->stud_id }}</strong></span>
+        <span style="font-weight: bold;">STUDENT ID NO.:</span> <span class="studinfoID"><strong> {{ $studfees->first()->stud_id }}</strong></span>
         <span style="font-weight: bold; text-align: right !important; margin-left: 300px;">DATE:</span> <span><strong>{{ strtoupper(\Carbon\Carbon::now()->format('F j, Y')) }}</strong></span>
     </div> 
-    <div class="studinfolabel" style="margin-top: 5px">
-        <span style="font-weight: bold;">COURSE:</span> <span class="">&nbsp;&nbsp;&nbsp; <strong>{{ $studfees->progName }}</strong></span>
-    </div>
-    <div class="studinfolabel" style="margin-top: 5px">
-        <span style="font-weight: bold;">YEAR  & SECTION:</span> <span class="">&nbsp;&nbsp;&nbsp; <strong>{{ $studfees->studYear }}-{{ $studfees->studSec }}</strong></span>
-    </div>
 
 </body>
 </html>
