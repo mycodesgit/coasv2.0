@@ -24,7 +24,7 @@ $(document).ready(function() {
                         mname: adbildata.mname ? adbildata.mname.charAt(0) : '',
                         gender: adbildata.gender,
                         bday: moment(adbildata.bday).format('MM/DD/YYYY'),
-                        progAcronym: adbildata.progAcronym,
+                        progAcronym: adbildata.progAcronym ? adbildata.progAcronym : 'N/A', 
                         contact: adbildata.contact,
                         percentile: adbildata.percentile || 'N/A'
                     };
