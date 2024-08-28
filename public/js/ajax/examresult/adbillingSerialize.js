@@ -16,17 +16,17 @@ $(document).ready(function() {
             },
             "dataSrc": function(json) {
                 var no = 1;
-                return json.map(function(adbildata) {
+                return json.data.map(function(adbildata) {  // Accessing the array inside 'data'
                     return {
                         no: no++,
                         lname: adbildata.lname,
                         fname: adbildata.fname,
                         mname: adbildata.mname ? adbildata.mname.charAt(0) : '',
                         gender: adbildata.gender,
-                        bday: moment(adbildata.bday).format('MM/DD/YYYY'),  // Format date using moment.js
+                        bday: moment(adbildata.bday).format('MM/DD/YYYY'),
                         progAcronym: adbildata.progAcronym,
                         contact: adbildata.contact,
-                        percentile: adbildata.percentile || 'N/A'  // Handle null values
+                        percentile: adbildata.percentile || 'N/A'
                     };
                 });
             }
