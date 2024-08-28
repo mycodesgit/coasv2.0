@@ -40,7 +40,9 @@
     </div>
 
     <div class="studinfolabel" style="margin-top: 25px">
-        <span style="font-weight: bold;">STUDENT ID NO.:</span> <span class="studinfoID"><strong> {{ $studfees->studID }}</strong></span>
+        @foreach($studfees as $fee)
+		    <span style="font-weight: bold;">STUDENT ID NO.:</span> <span class="studinfoID"><strong>{{ $fee->studID }}</strong></span>
+		@endforeach
         <span style="font-weight: bold; text-align: right !important; margin-left: 300px;">DATE:</span> <span><strong>{{ strtoupper(\Carbon\Carbon::now()->format('F j, Y')) }}</strong></span>
     </div> 
 
