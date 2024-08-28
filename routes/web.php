@@ -15,6 +15,7 @@ use App\Http\Controllers\AdExamineeController;
 use App\Http\Controllers\AdConfirmController;
 use App\Http\Controllers\AdAcceptedController;
 use App\Http\Controllers\AdChangeCampusController;
+use App\Http\Controllers\AdBillingController;
 
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\EnStudHistoryController;
@@ -246,6 +247,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/accepted', [AdPrntController::class, 'accepted_printing'])->name('accepted_printing');
             Route::get('/acceptedReports', [AdPrntController::class, 'accepted_reports'])->name('accepted_reports');
             Route::get('/acceptedReports/PDF', [AdPrntController::class, 'acceptedPDF_reports'])->name('acceptedPDF_reports');
+
+            Route::get('/billing', [AdBillingController::class, 'adbillingRead'])->name('adbillingRead');
+            Route::get('/billing/search', [AdBillingController::class, 'adbillingRead_search'])->name('adbillingRead_search');
         });
     });
 
