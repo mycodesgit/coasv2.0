@@ -112,7 +112,7 @@ class StudStateAccntAssessmentController extends Controller
                         $query->where('student_appraisal.studID', 'LIKE', '%-G');
                     }
 
-                    $studfees = $query->get();
+                    $studfees = $query->first();
 
         $query = StudPayment::where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
@@ -125,7 +125,7 @@ class StudStateAccntAssessmentController extends Controller
                         $query->where('studpayment.studID', 'LIKE', '%-G');
                     }
 
-                    $studpayment = $query->get();
+                    $studpayment = $query->first();
 
         $data = [
             'studfees' => $studfees,
