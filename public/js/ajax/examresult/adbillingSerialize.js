@@ -52,8 +52,8 @@ $(document).ready(function() {
             { data: 'percentile' },
         ],
         dom: 'Bfrtip'
-    });
+    }).buttons().container().appendTo('#adbilltable_wrapper .col-md-6:eq(0)');
     $(document).on('billAdded', function() {
         dataTable.ajax.reload();
-    }).buttons().container().appendTo('#adbilltable_wrapper .col-md-6:eq(0)');
+    });
 });
