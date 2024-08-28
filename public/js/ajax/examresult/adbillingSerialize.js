@@ -35,6 +35,9 @@ $(document).ready(function() {
         lengthChange: true,
         searching: true,
         paging: true,
+        buttons: [
+                'excel', 'pdf'
+            ],
         "columns": [
             { data: 'no' },
             { data: 'lname' },
@@ -48,8 +51,9 @@ $(document).ready(function() {
             { data: null, render: function() { return 250; } },
             { data: 'percentile' },
         ],
+        dom: 'Bfrtip'
     });
     $(document).on('billAdded', function() {
         dataTable.ajax.reload();
-    });
+    }).buttons().container().appendTo('#courseEn_wrapper .col-md-6:eq(0)');
 });
