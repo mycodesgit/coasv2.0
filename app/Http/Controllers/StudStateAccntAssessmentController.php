@@ -85,15 +85,6 @@ class StudStateAccntAssessmentController extends Controller
 
     public function stateaccntpersem_searchpdf(Request $request)
     {
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
-
         $stud_id = $request->query('stud_id');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
