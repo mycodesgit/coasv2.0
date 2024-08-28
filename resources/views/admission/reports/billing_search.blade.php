@@ -93,7 +93,7 @@ CISS V.1.0 || Higher Education Billing
                                 <td>1</td>
                                 <td>{{ $adbildata->contact }}</td>
                                 <td>250</td>
-                                <td>{{ $adbildata->result ? $adbildata->result->percentile : 'N/A' }}</td>
+                                <td>{{ $adbildata->percentile }}</td>
                             </tr>
                         @endforeach
                     </tbody>
