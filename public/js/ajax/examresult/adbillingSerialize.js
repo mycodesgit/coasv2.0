@@ -40,7 +40,6 @@ $(document).ready(function() {
             { data: 'lname' },
             { data: 'fname' },
             { data: 'mname' },
-            { data: 'unisch_name' },
             { data: 'gender' },
             { data: 'bday' },
             { data: 'progAcronym' },
