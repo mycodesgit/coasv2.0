@@ -44,7 +44,7 @@ class AdBillingController extends Controller
         $admsnstud = Applicant::join('coasv2_db_enrollment.students', 'ad_applicant_admission.id', '=', 'coasv2_db_enrollment.students.app_id')
                       ->join('coasv2_db_enrollment.program_en_history as en_history1', 'coasv2_db_enrollment.students.stud_id', '=', 'en_history1.studentID')
                       ->join('coasv2_db_schedule.programs', 'en_history1.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-                      ->select('ad_applicant_admission.lname', 'ad_applicant_admission.fname', 'ad_applicant_admission.mname', 'ad_applicant_admission.gender', 'ad_applicant_admission.bday', 'ad_applicant_admission.contact', 'coasv2_db_schedule.programs.progAcronym')
+                      ->select('ad_applicant_admission.lname', 'ad_applicant_admission.fname', 'ad_applicant_admission.mname', 'ad_applicant_admission.gender', 'ad_applicant_admission.bday', 'ad_applicant_admission.contact', 'coasv2_db_schedule.programs.progAcronym', 'results.percentile')
                       ->where('ad_applicant_admission.year', $year)
                       ->whereIn('ad_applicant_admission.p_status', ['3', '4', '5', '6'])
                       ->get();
