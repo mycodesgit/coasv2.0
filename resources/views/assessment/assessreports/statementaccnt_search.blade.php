@@ -104,13 +104,19 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                     <label><span class="badge badge-warning">Firstname</span></label>
                                     <input type="text" class="form-control form-control-sm text-bold" value="{{ $studfees->first()->fname }}" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-1">
                                     <label><span class="badge badge-warning">Middle Initial</span></label>
                                     <input type="text" class="form-control form-control-sm text-bold" value="{{ $studfees->first()->mname }}" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label><span class="badge badge-warning">Lastname</span></label>
                                     <input type="text" class="form-control form-control-sm text-bold" value="{{ $studfees->first()->lname }}" readonly>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>&nbsp;</label>
+                                    <a href="" class="btn btn-success">
+                                        <i class="fas fa-print"></i> Print
+                                    </a>
                                 </div>
                             </div>
                         </div>
