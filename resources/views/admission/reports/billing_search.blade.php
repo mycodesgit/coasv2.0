@@ -80,19 +80,20 @@ CISS V.1.0 || Higher Education Billing
                         </tr>
                     </thead>
                     <tbody>
+                        @php $no = 1; @endphp
                         @foreach($admsnstud as $adbildata)
                             <tr>
-                                <td></td>
+                                <td>{{ $no++ }}</td>
                                 <td>{{ $adbildata->lname }}</td>
                                 <td>{{ $adbildata->fname }}</td>
                                 <td>{{ substr($adbildata->mname, 0,1) }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $adbildata->gender }}</td>
+                                <td>{{ \Carbon\Carbon::parse($adbildata->bday)->format('m/d/Y') }}</td>
+                                <td>{{ $adbildata->progAcronym }}</td>
+                                <td>1</td>
+                                <td>{{ $adbildata->contact }}</td>
+                                <td>250</td>
+                                <td>{{ $adbildata->result->percentile }}</td>
                             </tr>
                         @endforeach
                     </tbody>
