@@ -63,7 +63,7 @@ CISS V.1.0 || Higher Education Billing
 
         <div class="mt-3 row">
             <div class="col-md-12">
-                <table id="example1" class="table table-hover">
+                <table id="adbilltable" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Sequence #</th>
@@ -80,22 +80,7 @@ CISS V.1.0 || Higher Education Billing
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
-                        @foreach($admsnstud as $adbildata)
-                            <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $adbildata->lname }}</td>
-                                <td>{{ $adbildata->fname }}</td>
-                                <td>{{ substr($adbildata->mname, 0,1) }}</td>
-                                <td>{{ $adbildata->gender }}</td>
-                                <td>{{ \Carbon\Carbon::parse($adbildata->bday)->format('m/d/Y') }}</td>
-                                <td>{{ $adbildata->progAcronym }}</td>
-                                <td>1</td>
-                                <td>{{ $adbildata->contact }}</td>
-                                <td>250</td>
-                                <td>{{ $adbildata->percentile }}</td>
-                            </tr>
-                        @endforeach
+                        
                     </tbody>
                 </table>
             </div>

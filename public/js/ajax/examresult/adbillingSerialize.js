@@ -7,7 +7,7 @@ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var year = urlParams.get('year') || ''; 
 
-    var dataTable = $('#schstud').DataTable({
+    var dataTable = $('#adbilltable').DataTable({
         "ajax": {
             "url": adbillReadRoute,
             "type": "GET",
