@@ -114,7 +114,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                 </div>
                                 <div class="col-md-2">
                                     <label>&nbsp;</label>
-                                    <a href="" class="btn btn-success form-control">
+                                    <a href="" class="btn btn-success form-control form-control-sm">
                                         <i class="fas fa-print"></i> Print
                                     </a>
                                 </div>
