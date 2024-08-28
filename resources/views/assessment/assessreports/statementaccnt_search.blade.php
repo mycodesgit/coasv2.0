@@ -92,7 +92,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
 
         <div class="mt-3 row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card" style="background-color: #dfdfdf;">
                     <div class="card-body">
                         <div class="form-group">
                             <div class="form-row">
@@ -121,7 +121,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 <table id="" class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <center>
+                            <center class="mt-3">
                                 <h4>Appraisal</h4>
                             </center>
                         </tr>
@@ -154,7 +154,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-5 card" style="background-color: #afafaf;">
+            <div class="col-md-5 card" style="background-color: #dfdfdf;">
                 <table id="" class="table table-hover table-striped">
                     <thead>
                         <tr>
