@@ -158,7 +158,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 <table id="" class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <center>
+                            <center class="mt-3">
                                 <h4>Payment</h4>
                             </center>
                         </tr>
