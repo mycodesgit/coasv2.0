@@ -118,8 +118,8 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card card-success card-outline">
-                    <table id="" class="table table-hover table-striped table-bordered">
+                <div class="card card-secondary card-outline">
+                    <table id="" class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <center class="mt-3">
@@ -157,7 +157,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card card-success card-outline">
+                <div class="card card-secondary card-outline">
                     <table id="" class="table table-hover table-striped table-bordered">
                         <thead>
                             <tr>
