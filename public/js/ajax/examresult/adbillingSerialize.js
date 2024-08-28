@@ -55,5 +55,5 @@ $(document).ready(function() {
     });
     $(document).on('billAdded', function() {
         dataTable.ajax.reload();
-    }).buttons().container().appendTo('#courseEn_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#adbilltable_wrapper .col-md-6:eq(0)');
 });
