@@ -72,7 +72,9 @@ class EnStudEncodeGradesLogController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus'); 
 
-        $data = EncodedGrade::where('campus', $campus)
+        $data = EncodedGrade::join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
+                ->select('studgrades_logs.*', 'studgrades.*',)
+                ->where('studgrades_logs.campus', $campus)
                 ->get();
 
         return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy', 'data'));
