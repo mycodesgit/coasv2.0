@@ -75,7 +75,7 @@ class EnStudEncodeGradesLogController extends Controller
         $data = EncodedGrade::join('students', 'studgrades_logs.studsID', '=', 'students.stud_id')
                 ->join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
                 ->join('coasv2_db_schedule.sub_offered', 'studgrades_logs.subjctsID', '=', 'coasv2_db_schedule.sub_offered.id')
-                ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                 ->select('studgrades_logs.*', 'studgrades.*', 'students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'coasv2_db_schedule.subjects.sub_name', 'coasv2_db_schedule.sub_offered.subSec', 'coasv2_db_schedule.sub_offered.semester', 'coasv2_db_schedule.sub_offered.schlyear')
                 ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
                 ->where('coasv2_db_schedule.sub_offered.semester', $semester)
