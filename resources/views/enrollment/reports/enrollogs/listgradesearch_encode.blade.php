@@ -89,7 +89,7 @@ CISS V.1.0 || Encode Grades Logs
                 </div>
                 <div class="col-md-12" style="border-top: 1px solid #04401f;">
                     <div class="mt-5">
-                        <table id="example1" class="table table-striped">
+                        <table id="xsf" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>StudID</th>
