@@ -534,12 +534,7 @@ class EnrollmentController extends Controller
     public function editsearchStud()
     {   
         $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
+            ->where('id', 18)
             ->get();
             
         return view('enrollment.studenroll.editenroll', compact('sy'));
