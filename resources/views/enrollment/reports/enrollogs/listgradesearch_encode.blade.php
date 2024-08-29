@@ -104,19 +104,7 @@ CISS V.1.0 || Encode Grades Logs
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($data as $logdata)
-                                    <tr>
-                                        <td>{{ $logdata->studsID }}</td>
-                                        <td>{{ $logdata->lname }}</td>
-                                        <td>{{ $logdata->gender }}</td>
-                                        <td>{{ $logdata->datefgrade }}</td>
-                                        <td>{{ $logdata->datecgrade }}</td>
-                                        <td>{{ $logdata->sub_name }}</td>
-                                        <td>{{ $logdata->fgrade }}</td>
-                                        <td>{{ $logdata->cgrade }}</td>
-                                        <td>{{ $logdata->encodedBy }}</td>
-                                    </tr>
-                                @endforeach
+                               sdsdsd
                             </tbody>
                         </table>
                     </div>
@@ -127,30 +115,6 @@ CISS V.1.0 || Encode Grades Logs
     </div>
 </div>
 
-<script>
-    var studGradeEncodedpersemRoute = "{{ route('getsearchEncode_gradeRead') }}";
-</script>
 
-<script>
-    function formatInput(input) {
-        let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-        
-        if (cleaned.length > 0) {
-            let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
-            input.value = formatted;
-        } else {
-            input.value = '';
-        }
-    }
-
-    function handleDelete(event) {
-        if (event.key === 'Backspace') {
-            let input = event.target;
-            let value = input.value;
-            input.value = value.substring(0, value.length - 1);
-            formatInput(input);
-        }
-    }
-</script>
 
 @endsection
