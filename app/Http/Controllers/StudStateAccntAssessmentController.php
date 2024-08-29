@@ -97,7 +97,6 @@ class StudStateAccntAssessmentController extends Controller
                     ->where('student_appraisal.schlyear',  $schlyear)
                     ->where('student_appraisal.semester',  $semester)
                     ->where('student_appraisal.campus',  $campus)
-                    ->where('student_appraisal.studID', $stud_id)
                     ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym')
                     ->orderBy('student_appraisal.account', 'ASC');
 
