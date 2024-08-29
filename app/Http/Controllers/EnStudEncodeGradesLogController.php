@@ -70,10 +70,42 @@ class EnStudEncodeGradesLogController extends Controller
             
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = $request->query('campus'); 
+        $campus = $request->query('campus');
+        $studsID = $request->query('studsID');  
 
-        $encdedgrade = 
+        $encdedgrade = EncodedGrade::join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
+                ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
+                ->join('students', 'studgrades_logs.studsID', '=', 'students.stud_id')
+                ->leftJoin('coasv2_db_schedule.subjects as s', 'so.subCode', '=', 's.sub_code')
+                ->select('so.*', 'studgrades_logs.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
+                ->where('so.schlyear', $schlyear)
+                ->where('so.semester', $semester)
+                ->where('so.campus', $campus)
+                ->where('studgrades_logs.studsID', $studsID)
+                ->get();
 
-        return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy'));
+        return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy', 'encdedgrade'));
+    }
+
+    public function getsearchEncode_gradeRead(Request $request)
+    {
+            
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = $request->query('campus');
+        $studsID = $request->query('studsID');  
+
+        $data = EncodedGrade::join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
+                ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
+                ->join('students', 'studgrades_logs.studsID', '=', 'students.stud_id')
+                ->leftJoin('coasv2_db_schedule.subjects as s', 'so.subCode', '=', 's.sub_code')
+                ->select('so.*', 'studgrades_logs.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
+                ->where('so.schlyear', $schlyear)
+                ->where('so.semester', $semester)
+                ->where('so.campus', $campus)
+                ->where('studgrades_logs.studsID', $studsID)
+                ->get();
+
+        return response()->json(['data' => $data]);
     }
 }

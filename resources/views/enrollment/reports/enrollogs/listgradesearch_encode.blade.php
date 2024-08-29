@@ -38,7 +38,7 @@ CISS V.1.0 || Encode Grades Logs
         </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="GET" action="{{ route('searchEncode_gradeRead') }}" id="enrollStud">
+                    <form method="GET" action="{{ route('searchEncode_gradeRead') }}" id="encodedgrade">
                         @csrf   
 
                         <div class="form-group mt-2" style="padding: 10px">
@@ -79,7 +79,12 @@ CISS V.1.0 || Encode Grades Logs
                                     </select>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
+                                    <label><span class="badge badge-secondary">Student ID Number</span></label>
+                                    <input type="text" name="studsID" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()">
+                                </div>
+
+                                <div class="col-md-2">
                                     <label>&nbsp;</label>
                                     <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
                                 </div>
@@ -87,31 +92,58 @@ CISS V.1.0 || Encode Grades Logs
                         </div>
                     </form>
                 </div>
-                <div class="col-md-12 mt-3">
-                    <table id="example1" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>StudID</th>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>Semester</th>
-                                <th>Schlyear</th>
-                                <th>Course</th>
-                                <th>Subject</th>
-                                <th>Grade</th>
-                                <th>Encoded By</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
+                <div class="col-md-12" style="border-top: 1px solid #04401f;">
+                    <div class="mt-5">
+                        <table id="encodegrdeLogs" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>StudID</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>DateSFgrade</th>
+                                    <th>DateSCgrade</th>
+                                    <th>Subject</th>
+                                    <th>Grade</th>
+                                    <th>Comp</th>
+                                    <th>Encoded By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
         
     </div>
 </div>
+
+<script>
+    var studGradeEncodedpersemRoute = "{{ route('getsearchEncode_gradeRead') }}";
+</script>
+
+<script>
+    function formatInput(input) {
+        let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
+        
+        if (cleaned.length > 0) {
+            let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
+            input.value = formatted;
+        } else {
+            input.value = '';
+        }
+    }
+
+    function handleDelete(event) {
+        if (event.key === 'Backspace') {
+            let input = event.target;
+            let value = input.value;
+            input.value = value.substring(0, value.length - 1);
+            formatInput(input);
+        }
+    }
+</script>
 
 @endsection
