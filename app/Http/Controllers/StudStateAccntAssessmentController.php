@@ -94,6 +94,7 @@ class StudStateAccntAssessmentController extends Controller
         $query = StudentAppraisal::leftJoin('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                     ->leftJoin('coasv2_db_enrollment.program_en_history', 'coasv2_db_enrollment.students.stud_id', '=', 'coasv2_db_enrollment.program_en_history.studentID')
                     ->leftJoin('coasv2_db_schedule.programs', 'coasv2_db_enrollment.program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->where('student_appraisal.studID', $stud_id)
                     ->where('student_appraisal.schlyear',  $schlyear)
                     ->where('student_appraisal.semester',  $semester)
                     ->where('student_appraisal.campus',  $campus)
