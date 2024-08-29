@@ -107,7 +107,7 @@ CISS V.1.0 || Encode Grades Logs
                                 @foreach($data as $logdata)
                                     <tr>
                                         <td>{{ $logdata->studsID }}</td>
-                                        <td>{{ $logdata->lname }}</td>
+                                        <td>{{ $logdata->lname }}, {{ $logdata->fname }} {{ $logdata->mname }} {{ $logdata->ext }}</td>
                                         <td>{{ $logdata->gender }}</td>
                                         <td>{{ $logdata->datefgrade }}</td>
                                         <td>{{ $logdata->datecgrade }}</td>
