@@ -72,11 +72,9 @@ class EnStudEncodeGradesLogController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus'); 
 
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
-        $campus = $request->query('campus');
+        $data = EncodedGrade::all();
 
-        return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy'));
+        return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy', 'data'));
     }
 
     public function getsearchEncode_gradeRead(Request $request)
