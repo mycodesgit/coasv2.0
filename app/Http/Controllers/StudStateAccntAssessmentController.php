@@ -100,7 +100,7 @@ class StudStateAccntAssessmentController extends Controller
                 ->where('student_appraisal.campus',  $campus)
                 ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym')
                 ->orderBy('student_appraisal.account', 'ASC')
-                ->groupBy('student_appraisal.account', 'student_appraisal.id', 'student_appraisal.studID', 'student_appraisal.fundID', 'student_appraisal.amount', 'student_appraisal.dateAssess', 'student_appraisal.schlyear', 'student_appraisal.semester', 'student_appraisal.campus', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym');
+                ->groupBy('student_appraisal.account', 'student_appraisal.id', 'student_appraisal.studID', 'student_appraisal.fundID', 'student_appraisal.amount', 'student_appraisal.dateAssess', 'student_appraisal.postedBy', 'student_appraisal.schlyear', 'student_appraisal.semester', 'student_appraisal.campus', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym');
 
             if ($category == '2') {
                 $query->where('student_appraisal.studID', 'LIKE', '%-G');
