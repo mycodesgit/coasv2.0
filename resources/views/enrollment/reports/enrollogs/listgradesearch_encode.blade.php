@@ -93,14 +93,6 @@ CISS V.1.0 || Encode Grades Logs
                             <thead>
                                 <tr>
                                     <th>StudID</th>
-                                    <th>Name</th>
-                                    <th>Gender</th>
-                                    <th>DateSFgrade</th>
-                                    <th>DateSCgrade</th>
-                                    <th>Subject</th>
-                                    <th>Grade</th>
-                                    <th>Comp</th>
-                                    <th>Encoded By</th>
                                 </tr>
                             </thead>
                             <tbody>
