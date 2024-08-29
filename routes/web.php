@@ -30,6 +30,7 @@ use App\Http\Controllers\EnStudELPLController;
 use App\Http\Controllers\EnStudNoEnrolleeController;
 use App\Http\Controllers\DeletedLogEnrollmentController;
 use App\Http\Controllers\EnStudEnrolledController;
+use App\Http\Controllers\EnStudEncodeGradesLogController;
 
 use App\Http\Controllers\SchedClassCollegeController;
 use App\Http\Controllers\SchedClassProgramsController;
@@ -359,6 +360,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/updated/enrollment/logs', [DeletedLogEnrollmentController::class, 'updateEnrlmntlogsRead'])->name('updateEnrlmntlogsRead');
             Route::get('/updated/enrollment/logs/search', [DeletedLogEnrollmentController::class, 'search_uptadeEnrlmntlogsRead'])->name('search_uptadeEnrlmntlogsRead');
+
+            Route::get('/encoded/enrollment/grades/logs', [EnStudEncodeGradesLogController::class, 'searchEncode_grade'])->name('searchEncode_grade');
+            Route::get('/encoded/enrollment/grades/logs/search', [EnStudEncodeGradesLogController::class, 'searchEncode_gradeRead'])->name('searchEncode_gradeRead');
 
             Route::get('/deleted/enrollment/logs', [DeletedLogEnrollmentController::class, 'delenrlmntlogsRead'])->name('delenrlmntlogsRead');
             Route::get('/deleted/enrollment/logs/search', [DeletedLogEnrollmentController::class, 'search_delenrlmntlogsRead'])->name('search_delenrlmntlogsRead');

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('creditEarned')->nullable();
             $table->enum('status', array(1, 2))->nullable();
             $table->string('postedBy')->nullable();
-            $table->string('postedDate')->nullable();
+            $table->string('campus')->nullable();
             $table->timestamps();
         });
     }

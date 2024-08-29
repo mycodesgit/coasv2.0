@@ -16,6 +16,7 @@ use App\Models\ScheduleDB\SubjectOffered;
 use App\Models\EnrollmentDB\Grade;
 use App\Models\EnrollmentDB\GradeCode;
 use App\Models\EnrollmentDB\Student;
+use App\Models\EnrollmentDB\EncodedGrade;
 
 use App\Models\AdmissionDB\Programs;
 
@@ -210,6 +211,18 @@ class EnstudgradeController extends Controller
             $gradeCount = Grade::where('subjID', $gradecheck->subjID)
                 ->where('status', '!=', '')
                 ->count();
+
+            EncodedGrade::create([
+                'grdeprimID' => $gradecheck->id, 
+                'studsID' => $gradecheck->studID, 
+                'subjctsID' => $gradecheck->subjID,
+                'datefgrade' => \Carbon\Carbon::now(), 
+                'campus' => $gradecheck->campus, 
+                'fgrade' => $grade,
+                'encodedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
+            ]);
+        } else {
+            $gradeCount = 0;
         }
 
         return response()->json(['success' => true, 'gradeCount' => $gradeCount]);
@@ -234,6 +247,18 @@ class EnstudgradeController extends Controller
             $gradeCount = Grade::where('subjID', $gradecheck->subjID)
                 ->where('status', '!=', '')
                 ->count();
+
+            EncodedGrade::where('grdeprimID', $gradecheck->id)
+            ->update([
+                'studsID' => $gradecheck->studID, 
+                'subjctsID' => $gradecheck->subjID,
+                'datecgrade' => \Carbon\Carbon::now(), 
+                'campus' => $gradecheck->campus, 
+                'cgrade' => $grade,
+                'encodedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
+            ]);
+        } else {
+            $gradeCount = 0;
         }
 
         return response()->json(['success' => true, 'gradeCount' => $gradeCount]);
