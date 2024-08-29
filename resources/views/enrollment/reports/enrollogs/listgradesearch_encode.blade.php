@@ -89,14 +89,34 @@ CISS V.1.0 || Encode Grades Logs
                 </div>
                 <div class="col-md-12" style="border-top: 1px solid #04401f;">
                     <div class="mt-5">
-                        <table id="encodegrdeLogs" class="table table-striped">
+                        <table id="example1" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>StudID</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>DateSFgrade</th>
+                                    <th>DateSCgrade</th>
+                                    <th>Subject</th>
+                                    <th>Grade</th>
+                                    <th>Comp</th>
+                                    <th>Encoded By</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+                                @foreach($data as $logdata)
+                                    <tr>
+                                        <td>{{ $logdata->studsID }}</td>
+                                        <td>{{ $logdata->lname }}</td>
+                                        <td>{{ $logdata->gender }}</td>
+                                        <td>{{ $logdata->datefgrade }}</td>
+                                        <td>{{ $logdata->datecgrade }}</td>
+                                        <td>{{ $logdata->sub_name }}</td>
+                                        <td>{{ $logdata->fgrade }}</td>
+                                        <td>{{ $logdata->cgrade }}</td>
+                                        <td>{{ $logdata->encodedBy }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
