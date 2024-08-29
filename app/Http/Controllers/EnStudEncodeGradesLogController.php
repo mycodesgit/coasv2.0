@@ -70,8 +70,7 @@ class EnStudEncodeGradesLogController extends Controller
             
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = $request->query('campus');
-        $studsID = $request->query('studsID');  
+        $campus = $request->query('campus'); 
 
         $encdedgrade = EncodedGrade::join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
                 ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
@@ -81,7 +80,6 @@ class EnStudEncodeGradesLogController extends Controller
                 ->where('so.schlyear', $schlyear)
                 ->where('so.semester', $semester)
                 ->where('so.campus', $campus)
-                ->where('studgrades_logs.studsID', $studsID)
                 ->get();
 
         return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy', 'encdedgrade'));
@@ -93,7 +91,6 @@ class EnStudEncodeGradesLogController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = $request->query('campus');
-        $studsID = $request->query('studsID');  
 
         $data = EncodedGrade::join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
                 ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
@@ -103,7 +100,6 @@ class EnStudEncodeGradesLogController extends Controller
                 ->where('so.schlyear', $schlyear)
                 ->where('so.semester', $semester)
                 ->where('so.campus', $campus)
-                ->where('studgrades_logs.studsID', $studsID)
                 ->get();
 
         return response()->json(['data' => $data]);

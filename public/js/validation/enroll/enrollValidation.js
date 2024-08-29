@@ -109,9 +109,6 @@ $(function () {
 $(function () {
     $('#encodedgrade').validate({
         rules: {
-            studsID: {
-                required: true,
-            },
             schlyear: {
                 required: true,
             },
@@ -120,9 +117,6 @@ $(function () {
             },
         },
         messages: {
-            studsID: {
-                required: "Please Enter Student ID",
-            },
             schlyear: {
                 required: "Select School Year",
             },

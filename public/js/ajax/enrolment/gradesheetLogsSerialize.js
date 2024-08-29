@@ -3,7 +3,6 @@ $(document).ready(function() {
     var schlyear = urlParams.get('schlyear') || ''; 
     var semester = urlParams.get('semester') || '';
     var campus = urlParams.get('campus') || '';
-    var studsID = urlParams.get('studsID') || ''; 
 
     var dataTable = $('#encodegrdeLogs').DataTable({
         "ajax": {
@@ -13,7 +12,6 @@ $(document).ready(function() {
                 "schlyear": schlyear,
                 "semester": semester,
                 "campus": campus,
-                "studsID": studsID,
             }
         },
         destroy: true,
