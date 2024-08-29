@@ -127,9 +127,9 @@ CISS V.1.0 || Encode Grades Logs
     </div>
 </div>
 
-<script>
+{{-- <script>
     var studGradeEncodedpersemRoute = "{{ route('getsearchEncode_gradeRead') }}";
-</script>
+</script> --}}
 
 <script>
     function formatInput(input) {
