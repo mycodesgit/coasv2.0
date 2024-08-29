@@ -80,11 +80,6 @@ CISS V.1.0 || Encode Grades Logs
                                 </div>
 
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Student ID Number</span></label>
-                                    <input type="text" name="studsID" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()">
-                                </div>
-
-                                <div class="col-md-2">
                                     <label>&nbsp;</label>
                                     <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
                                 </div>
