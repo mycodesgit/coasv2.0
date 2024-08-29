@@ -54,7 +54,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="text-align: center; background-color: #e9ecef;" colspan="6"><h4>Appraisal</h4></th>
+                            <th style="text-align: center; background-color: #e9ecef;" colspan="6"><h4>Student Appraisal</h4></th>
                         </tr>
                         <tr>
                             <th>Code</th>
@@ -98,7 +98,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="text-align: center; background-color: #e9ecef;" colspan="5"><h4>Payment</h4></th>
+                            <th style="text-align: center; background-color: #e9ecef;" colspan="5"><h4>Student Payment</h4></th>
                         </tr>
                         <tr>
                             <th>OR</th>
