@@ -100,6 +100,7 @@ class StudStateAccntAssessmentController extends Controller
                     ->where('student_appraisal.campus',  $campus)
                     ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym')
                     ->orderBy('student_appraisal.account', 'ASC');
+                    ->groupBy('student_appraisal.account')
 
                     if ($category == '2') {
                         $query->where('student_appraisal.studID', 'LIKE', '%-G');
