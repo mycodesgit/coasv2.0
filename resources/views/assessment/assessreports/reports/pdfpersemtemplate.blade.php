@@ -135,6 +135,13 @@
                 </table>
             </div>
         </div>
+
+        <div class="col-md-12">
+            @php
+                $totalBalance = $totalAmount - $totalAmountPaid;
+            @endphp
+            <div class="card-body"><h4><strong>Balance: </strong>{{ number_format($totalBalance, 2) }}</h4></div>
+        </div>
     </div>
 
 </body>
