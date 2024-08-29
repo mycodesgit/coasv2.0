@@ -104,7 +104,7 @@ CISS V.1.0 || Encode Grades Logs
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($xsd as $logdata)
+                                @foreach($data as $logdata)
                                     <tr>
                                         <td>{{ $logdata->studsID }}</td>
                                         <td>{{ $logdata->studsID }}</td>
