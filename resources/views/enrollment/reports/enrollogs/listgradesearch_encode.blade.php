@@ -111,7 +111,7 @@ CISS V.1.0 || Encode Grades Logs
                                         <td>{{ $logdata->gender }}</td>
                                         <td>{{ $logdata->datefgrade }}</td>
                                         <td>{{ $logdata->datecgrade }}</td>
-                                        <td>{{ $logdata->sub_name }}</td>
+                                        <td>{{ $logdata->sub_name }} - {{ $logdata->subSec }}</td>
                                         <td>{{ $logdata->fgrade }}</td>
                                         <td>{{ $logdata->cgrade }}</td>
                                         <td>{{ $logdata->encodedBy }}</td>
