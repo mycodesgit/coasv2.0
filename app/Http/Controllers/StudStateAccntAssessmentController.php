@@ -62,6 +62,46 @@ class StudStateAccntAssessmentController extends Controller
                     ->orderBy('student_appraisal.account', 'ASC');
 
                     if ($category == '2') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
+                    }
+
+                    $studfees = $query->get();
+
+        $query = StudPayment::where('studpayment.schlyear',  $schlyear)
+                    ->where('studpayment.semester',  $semester)
+                    ->where('studpayment.campus',  $campus)
+                    ->where('studpayment.studID', $stud_id)
+                    ->select('studpayment.*')
+                    ->orderBy('studpayment.account', 'ASC');
+
+                    if ($category == '2') {
+                        $query->where('studpayment.studID', 'NOT LIKE', '%-G');
+                    }
+
+                    $studpayment = $query->get();
+
+        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studfees', 'studpayment'));
+    }
+
+    public function stateaccntpersem_searchpdf(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $category = $request->query('category');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $query = StudentAppraisal::join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                    ->join('coasv2_db_enrollment.program_en_history', 'coasv2_db_enrollment.students.stud_id', '=', 'coasv2_db_enrollment.program_en_history.studentID')
+                    ->join('coasv2_db_schedule.programs', 'coasv2_db_enrollment.program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->where('student_appraisal.schlyear',  $schlyear)
+                    ->where('student_appraisal.semester',  $semester)
+                    ->where('student_appraisal.campus',  $campus)
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym')
+                    ->orderBy('student_appraisal.account', 'ASC');
+
+                    if ($category == '2') {
                         $query->where('student_appraisal.studID', 'LIKE', '%-G');
                     }
 
@@ -80,50 +120,12 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studpayment = $query->get();
 
-        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studfees', 'studpayment'));
-    }
-
-    public function stateaccntpersem_searchpdf(Request $request)
-    {
-        $stud_id = $request->query('stud_id');
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
-        $category = $request->query('category');
-        $campus = Auth::guard('web')->user()->campus;
-
-        $query = StudentAppraisal::join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
-                    ->where('student_appraisal.schlyear',  $schlyear)
-                    ->where('student_appraisal.semester',  $semester)
-                    ->where('student_appraisal.campus',  $campus)
-                    ->where('student_appraisal.studID', $stud_id)
-                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname')
-                    ->orderBy('student_appraisal.account', 'ASC');
-
-                    if ($category == '2') {
-                        $query->where('student_appraisal.studID', 'LIKE', '%-G');
-                    }
-
-                    $studfees = $query->first();
-
-        $query = StudPayment::where('studpayment.schlyear',  $schlyear)
-                    ->where('studpayment.semester',  $semester)
-                    ->where('studpayment.campus',  $campus)
-                    ->where('studpayment.studID', $stud_id)
-                    ->select('studpayment.*')
-                    ->orderBy('studpayment.account', 'ASC');
-
-                    if ($category == '2') {
-                        $query->where('studpayment.studID', 'LIKE', '%-G');
-                    }
-
-                    $studpayment = $query->first();
-
         $data = [
             'studfees' => $studfees,
             'studpayment' => $studpayment,
         ];
 
-        $pdf = PDF::loadView('assessment.assessreports.reports.pdfpersemtemplate', $data)->setPaper('Legal', 'portrait');
+        $pdf = PDF::loadView('assessment.assessreports.reports.pdfpersemtemplate', $data)->setPaper('A4', 'portrait');
         return $pdf->stream();
     }
 

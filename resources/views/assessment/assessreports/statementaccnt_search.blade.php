@@ -113,10 +113,17 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                     <input type="text" class="form-control form-control-sm text-bold" value="{{ $studfees->first()->lname }}" readonly>
                                 </div>
                                 <div class="col-md-2">
-                                    <label>&nbsp;</label>
-                                    <a href="{{ route('stateaccntpersem_searchpdf') }}" class="btn btn-secondary form-control form-control-sm">
-                                        <i class="fas fa-print"></i> Print
-                                    </a>
+                                    <form action="{{ route('stateaccntpersem_searchpdf') }}" method="get" target="_blank">
+                                        @csrf
+                                            <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
+                                            <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                                            <input type="hidden" name="semester" value="{{ request('semester') }}">
+                                            <input type="hidden" name="category" value="{{ request('category') }}">
+                                            <label>&nbsp;</label>
+                                        <button type="submit" class="btn btn-secondary form-control form-control-sm" target="_blank">
+                                            <i class="fas fa-print"></i> Print
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
