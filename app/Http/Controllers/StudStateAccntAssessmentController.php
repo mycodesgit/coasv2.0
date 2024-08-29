@@ -62,7 +62,7 @@ class StudStateAccntAssessmentController extends Controller
                     ->orderBy('student_appraisal.account', 'ASC');
 
                     if ($category == '2') {
-                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
+                        $query->where('student_appraisal.studID', 'LIKE', '%-G');
                     }
 
                     $studfees = $query->get();
@@ -75,7 +75,7 @@ class StudStateAccntAssessmentController extends Controller
                     ->orderBy('studpayment.account', 'ASC');
 
                     if ($category == '2') {
-                        $query->where('studpayment.studID', 'NOT LIKE', '%-G');
+                        $query->where('studpayment.studID', 'LIKE', '%-G');
                     }
 
                     $studpayment = $query->get();
