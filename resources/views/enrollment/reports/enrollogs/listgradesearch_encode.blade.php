@@ -89,7 +89,7 @@ CISS V.1.0 || Encode Grades Logs
                 </div>
                 <div class="col-md-12" style="border-top: 1px solid #04401f;">
                     <div class="mt-5">
-                        <table id="example1" class="table table-striped">
+                        <table id="encodegrdeLogs" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>StudID</th>
@@ -104,17 +104,19 @@ CISS V.1.0 || Encode Grades Logs
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>sds</td>
-                                    <td>sds</td>
-                                    <td>sds</td>
-                                    <td>sds</td>
-                                    <td>sds</td>
-                                    <td>sds</td>
-                                    <td>sds</td>
-                                    <td>sds</td>
-                                    <td>sds</td>
-                                </tr>
+                                {{-- @foreach($xsd as $logdata)
+                                    <tr>
+                                        <td>{{ $logdata->studsID }}</td>
+                                        <td>{{ $logdata->lname }}</td>
+                                        <td>{{ $logdata->gender }}</td>
+                                        <td>{{ $logdata->datefgrade }}</td>
+                                        <td>{{ $logdata->datecgrade }}</td>
+                                        <td>{{ $logdata->sub_name }}</td>
+                                        <td>{{ $logdata->fgrade }}</td>
+                                        <td>{{ $logdata->cgrade }}</td>
+                                        <td>{{ $logdata->encodedBy }}</td>
+                                    </tr>
+                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
