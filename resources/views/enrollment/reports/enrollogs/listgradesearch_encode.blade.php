@@ -89,7 +89,7 @@ CISS V.1.0 || Encode Grades Logs
                 </div>
                 <div class="col-md-12" style="border-top: 1px solid #04401f;">
                     <div class="mt-5">
-                        <table id="example1" class="table table-striped">
+                        <table id="encodegrdeLogs" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>StudID</th>
@@ -104,7 +104,7 @@ CISS V.1.0 || Encode Grades Logs
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($xsd as $logdata)
+                                {{-- @foreach($xsd as $logdata)
                                     <tr>
                                         <td>{{ $logdata->studsID }}</td>
                                         <td>{{ $logdata->lname }}</td>
@@ -116,7 +116,7 @@ CISS V.1.0 || Encode Grades Logs
                                         <td>{{ $logdata->cgrade }}</td>
                                         <td>{{ $logdata->encodedBy }}</td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
