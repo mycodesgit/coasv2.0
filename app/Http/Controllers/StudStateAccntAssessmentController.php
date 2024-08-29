@@ -92,22 +92,20 @@ class StudStateAccntAssessmentController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $query = StudentAppraisal::leftJoin('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
-            ->leftJoin('coasv2_db_enrollment.program_en_history', 'coasv2_db_enrollment.students.stud_id', '=', 'coasv2_db_enrollment.program_en_history.studentID')
-            ->leftJoin('coasv2_db_schedule.programs', 'coasv2_db_enrollment.program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-            ->where('student_appraisal.schlyear', $schlyear)
-            ->where('student_appraisal.semester', $semester)
-            ->where('student_appraisal.campus', $campus)
-            ->where(function($query) use ($stud_id, $category) {
-                if ($category == '2') {
-                    $query->where('student_appraisal.studID', 'LIKE', '%-G');
-                } else {
-                    $query->where('student_appraisal.studID', $stud_id);
-                }
-            })
-            ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym')
-            ->orderBy('student_appraisal.account', 'ASC');
+                    ->leftJoin('coasv2_db_enrollment.program_en_history', 'coasv2_db_enrollment.students.stud_id', '=', 'coasv2_db_enrollment.program_en_history.studentID')
+                    ->leftJoin('coasv2_db_schedule.programs', 'coasv2_db_enrollment.program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->where('student_appraisal.schlyear',  $schlyear)
+                    ->where('student_appraisal.semester',  $semester)
+                    ->where('student_appraisal.campus',  $campus)
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym')
+                    ->orderBy('student_appraisal.account', 'ASC');
 
-        $studfees = $query->get();
+                    if ($category == '2') {
+                        $query->where('student_appraisal.studID', 'LIKE', '%-G');
+                    }
+
+                    $studfees = $query->get();
 
         $query = StudPayment::where('schlyear',  $schlyear)
                     ->where('semester',  $semester)
