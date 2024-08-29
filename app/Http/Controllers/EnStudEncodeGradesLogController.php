@@ -72,17 +72,7 @@ class EnStudEncodeGradesLogController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus'); 
 
-        $encdedgrade = EncodedGrade::join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
-                ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
-                ->join('students', 'studgrades_logs.studsID', '=', 'students.stud_id')
-                ->leftJoin('coasv2_db_schedule.subjects as s', 'so.subCode', '=', 's.sub_code')
-                ->select('so.*', 'studgrades_logs.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
-                ->where('so.schlyear', $schlyear)
-                ->where('so.semester', $semester)
-                ->where('so.campus', $campus)
-                ->get();
-
-        return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy', 'encdedgrade'));
+        return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy'));
     }
 
     public function getsearchEncode_gradeRead(Request $request)
