@@ -77,6 +77,8 @@ class EnStudEncodeGradesLogController extends Controller
                 ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades_logs.subjctsID', '=', 'coasv2_db_schedule.sub_offered.id')
                 ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                 ->select('studgrades_logs.*', 'studgrades.*', 'students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'coasv2_db_schedule.subjects.sub_name', 'coasv2_db_schedule.sub_offered.subSec')
+                ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+                ->where('coasv2_db_schedule.sub_offered.semester', $semester)
                 ->where('studgrades_logs.campus', $campus)
                 ->get();
 
