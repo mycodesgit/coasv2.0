@@ -91,14 +91,24 @@ class StudStateAccntAssessmentController extends Controller
         $category = $request->query('category');
         $campus = Auth::guard('web')->user()->campus;
 
-        $query = StudentAppraisal::leftJoin('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
-                    ->leftJoin('coasv2_db_enrollment.program_en_history', 'coasv2_db_enrollment.students.stud_id', '=', 'coasv2_db_enrollment.program_en_history.studentID')
-                    ->leftJoin('coasv2_db_schedule.programs', 'coasv2_db_enrollment.program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-                    ->where('student_appraisal.studID', $stud_id)
+        $query = Student::leftJoin('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
+                    ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->where('students.stud_id', $stud_id)
+                    ->where('students.campus',  $campus)
+                    ->select('students.lname', 'students.fname', 'students.mname', 'coasv2_db_schedule.programs.progAcronym');
+
+                    if ($category == '2') {
+                        $query->where('students.stud_id', 'LIKE', '%-G');
+                    }
+
+                    $studinfo = $query->get();
+
+        $query = StudentAppraisal::join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                     ->where('student_appraisal.schlyear',  $schlyear)
                     ->where('student_appraisal.semester',  $semester)
                     ->where('student_appraisal.campus',  $campus)
-                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname', 'coasv2_db_schedule.programs.progAcronym')
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname')
                     ->orderBy('student_appraisal.account', 'ASC');
 
                     if ($category == '2') {
@@ -107,24 +117,26 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studfees = $query->get();
 
-        $query = StudPayment::where('schlyear',  $schlyear)
-                    ->where('semester',  $semester)
-                    ->where('campus',  $campus)
-                    ->where('studID', $stud_id)
-                    ->orderBy('account', 'ASC');
+        $query = StudPayment::where('studpayment.schlyear',  $schlyear)
+                    ->where('studpayment.semester',  $semester)
+                    ->where('studpayment.campus',  $campus)
+                    ->where('studpayment.studID', $stud_id)
+                    ->select('studpayment.*')
+                    ->orderBy('studpayment.account', 'ASC');
 
                     if ($category == '2') {
-                        $query->where('studID', 'LIKE', '%-G');
+                        $query->where('studpayment.studID', 'LIKE', '%-G');
                     }
 
                     $studpayment = $query->get();
 
         $data = [
+            'studinfo' => $studinfo,
             'studfees' => $studfees,
             'studpayment' => $studpayment,
         ];
 
-        $pdf = PDF::loadView('assessment.assessreports.reports.pdfpersemtemplate', $data)->setPaper('A4', 'portrait');
+        $pdf = PDF::loadView('assessment.assessreports.reports.pdfpersemtemplate', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
     }
 

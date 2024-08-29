@@ -44,8 +44,8 @@
         <span style="font-weight: bold; text-align: right !important; margin-left: 240px;">DATE:</span> <span><strong>{{ strtoupper(\Carbon\Carbon::now()->format('F j, Y')) }}</strong></span>
     </div> 
     <div class="studinfolabel" style="margin-top: 5px">
-        <span style="font-weight: bold;">NAME:</span> <span class="">&nbsp;&nbsp;&nbsp; <strong>{{ $studfees->first()->lname }}, {{ $studfees->first()->fname }} {{ substr($studfees->first()->lname, 0,1) }}.</strong></span>
-        <span style="font-weight: bold; text-align: right !important; margin-left: 200px;">COURSE:</span> <span><strong>{{ $studfees->first()->progAcronym }}</strong></span>
+        <span style="font-weight: bold;">NAME:</span> <span class="">&nbsp;&nbsp;&nbsp; <strong>{{ $studinfo->first()->lname }}, {{ $studinfo->first()->fname }} {{ substr($studinfo->first()->lname, 0,1) }}.</strong></span>
+        <span style="font-weight: bold; text-align: right !important; margin-left: 200px;">COURSE:</span> <span><strong>{{ $studinfo->first()->progAcronym }}</strong></span>
     </div>
 
     <div class="row">
@@ -74,12 +74,12 @@
                                 $totalAmount += $datastudfeesview->amount;
                             @endphp
                             <tr>
-                                <td>{{ $datastudfeesview->first()->fundID }}</td>
-                                <td>{{ $datastudfeesview->first()->account }}</td>
-                                <td>{{ $datastudfeesview->first()->amount  }}</td>
-                                <td>{{ $datastudfeesview->first()->schlyear }}</td>
-                                <td>{{ $datastudfeesview->first()->semester }}</td>
-                                <td>{{ Carbon\Carbon::parse($datastudfeesview->first()->dateAssess)->format('M j, Y') }}</td>
+                                <td>{{ $datastudfeesview->fundID }}</td>
+                                <td>{{ $datastudfeesview->account }}</td>
+                                <td>{{ $datastudfeesview->amount  }}</td>
+                                <td>{{ $datastudfeesview->schlyear }}</td>
+                                <td>{{ $datastudfeesview->semester }}</td>
+                                <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
