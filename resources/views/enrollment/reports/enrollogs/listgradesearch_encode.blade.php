@@ -89,7 +89,7 @@ CISS V.1.0 || Encode Grades Logs
                 </div>
                 <div class="col-md-12" style="border-top: 1px solid #04401f;">
                     <div class="mt-5">
-                        <table id="example1" class="table table-striped">
+                        <table id="encodegrdeLogs" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>StudID</th>
@@ -104,7 +104,7 @@ CISS V.1.0 || Encode Grades Logs
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($data as $logdata)
+                                {{-- @foreach($data as $logdata)
                                     <tr>
                                         <td>{{ $logdata->studsID }}</td>
                                         <td>{{ $logdata->lname }}, {{ $logdata->fname }} {{ $logdata->mname }} {{ $logdata->ext }}</td>
@@ -116,7 +116,7 @@ CISS V.1.0 || Encode Grades Logs
                                         <td>{{ $logdata->cgrade }}</td>
                                         <td>{{ $logdata->encodedBy }}</td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
@@ -127,9 +127,9 @@ CISS V.1.0 || Encode Grades Logs
     </div>
 </div>
 
-{{-- <script>
+<script>
     var studGradeEncodedpersemRoute = "{{ route('getsearchEncode_gradeRead') }}";
-</script> --}}
+</script>
 
 <script>
     function formatInput(input) {

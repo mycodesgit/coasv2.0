@@ -72,17 +72,17 @@ class EnStudEncodeGradesLogController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus'); 
 
-        $data = EncodedGrade::join('students', 'studgrades_logs.studsID', '=', 'students.stud_id')
-                ->join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
-                ->join('coasv2_db_schedule.sub_offered', 'studgrades_logs.subjctsID', '=', 'coasv2_db_schedule.sub_offered.id')
-                ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                ->select('studgrades_logs.*', 'studgrades.*', 'students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'coasv2_db_schedule.subjects.sub_name', 'coasv2_db_schedule.sub_offered.subSec', 'coasv2_db_schedule.sub_offered.semester', 'coasv2_db_schedule.sub_offered.schlyear')
-                ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
-                ->where('coasv2_db_schedule.sub_offered.semester', $semester)
-                ->where('studgrades_logs.campus', $campus)
-                ->get();
+        // $data = EncodedGrade::join('students', 'studgrades_logs.studsID', '=', 'students.stud_id')
+        //         ->join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
+        //         ->join('coasv2_db_schedule.sub_offered', 'studgrades_logs.subjctsID', '=', 'coasv2_db_schedule.sub_offered.id')
+        //         ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+        //         ->select('studgrades_logs.*', 'studgrades.*', 'students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'coasv2_db_schedule.subjects.sub_name', 'coasv2_db_schedule.sub_offered.subSec', 'coasv2_db_schedule.sub_offered.semester', 'coasv2_db_schedule.sub_offered.schlyear')
+        //         ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+        //         ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+        //         ->where('studgrades_logs.campus', $campus)
+        //         ->get();
 
-        return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy', 'data'));
+        return view('enrollment.reports.enrollogs.listgradesearch_encode', compact('sy'));
     }
 
     public function getsearchEncode_gradeRead(Request $request)
@@ -92,14 +92,14 @@ class EnStudEncodeGradesLogController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus');
 
-        $data = EncodedGrade::join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
-                ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
-                ->join('students', 'studgrades_logs.studsID', '=', 'students.stud_id')
-                ->leftJoin('coasv2_db_schedule.subjects as s', 'so.subCode', '=', 's.sub_code')
-                ->select('so.*', 'studgrades_logs.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
-                ->where('so.schlyear', $schlyear)
-                ->where('so.semester', $semester)
-                ->where('so.campus', $campus)
+        $data = EncodedGrade::join('students', 'studgrades_logs.studsID', '=', 'students.stud_id')
+                ->join('studgrades', 'studgrades_logs.grdeprimID', '=', 'studgrades.id')
+                ->join('coasv2_db_schedule.sub_offered', 'studgrades_logs.subjctsID', '=', 'coasv2_db_schedule.sub_offered.id')
+                ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                ->select('studgrades_logs.*', 'studgrades.*', 'students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'coasv2_db_schedule.subjects.sub_name', 'coasv2_db_schedule.sub_offered.subSec', 'coasv2_db_schedule.sub_offered.semester', 'coasv2_db_schedule.sub_offered.schlyear')
+                ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+                ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+                ->where('studgrades_logs.campus', $campus)
                 ->get();
 
         return response()->json(['data' => $data]);
