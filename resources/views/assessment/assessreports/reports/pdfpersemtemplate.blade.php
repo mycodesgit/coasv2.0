@@ -74,12 +74,12 @@
                                 $totalAmount += $datastudfeesview->amount;
                             @endphp
                             <tr>
-                                <td>{{ $datastudfeesview->fundID }}</td>
-                                <td>{{ $datastudfeesview->account }}</td>
-                                <td>{{ $datastudfeesview->amount  }}</td>
-                                <td>{{ $datastudfeesview->schlyear }}</td>
-                                <td>{{ $datastudfeesview->semester }}</td>
-                                <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
+                                <td>{{ $datastudfeesview->first()->fundID }}</td>
+                                <td>{{ $datastudfeesview->first()->account }}</td>
+                                <td>{{ $datastudfeesview->first()->amount  }}</td>
+                                <td>{{ $datastudfeesview->first()->schlyear }}</td>
+                                <td>{{ $datastudfeesview->first()->semester }}</td>
+                                <td>{{ Carbon\Carbon::parse($datastudfeesview->first()->dateAssess)->format('M j, Y') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
