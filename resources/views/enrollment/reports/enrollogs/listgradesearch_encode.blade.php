@@ -104,7 +104,19 @@ CISS V.1.0 || Encode Grades Logs
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                @foreach($data as $logdata)
+                                    <tr>
+                                        <td>{{ $logdata->studsID }}</td>
+                                        <td>{{ $logdata->lname }}</td>
+                                        <td>{{ $logdata->gender }}</td>
+                                        <td>{{ $logdata->datefgrade }}</td>
+                                        <td>{{ $logdata->datecgrade }}</td>
+                                        <td>{{ $logdata->sub_name }}</td>
+                                        <td>{{ $logdata->fgrade }}</td>
+                                        <td>{{ $logdata->cgrade }}</td>
+                                        <td>{{ $logdata->encodedBy }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
