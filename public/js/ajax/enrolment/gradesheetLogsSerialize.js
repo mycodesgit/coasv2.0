@@ -65,7 +65,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('delLog', function() {
+    $(document).on('encodedgradeLog', function() {
         dataTable.ajax.reload();
     });
 });
