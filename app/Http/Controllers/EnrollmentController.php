@@ -533,10 +533,13 @@ class EnrollmentController extends Controller
 
     public function editsearchStud()
     {   
-        // $sy = ConfigureCurrent::select('id', 'schlyear')
-        //     ->where('id', 18)
-        //     ->get();
+        if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC'])) {
+            $sy = ConfigureCurrent::select('id', 'schlyear')
+                ->where('id', 18)
+                ->get();
+        }
 
+        if(Auth::guard('web')->user()->campus == 'CA') {
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -545,6 +548,7 @@ class EnrollmentController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
+        }
             
         return view('enrollment.studenroll.editenroll', compact('sy'));
     }
