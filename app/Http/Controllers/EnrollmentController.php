@@ -533,8 +533,17 @@ class EnrollmentController extends Controller
 
     public function editsearchStud()
     {   
+        // $sy = ConfigureCurrent::select('id', 'schlyear')
+        //     ->where('id', 18)
+        //     ->get();
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->where('id', 18)
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
             ->get();
             
         return view('enrollment.studenroll.editenroll', compact('sy'));
@@ -701,19 +710,25 @@ class EnrollmentController extends Controller
             $subjIDs = $request->input('subjIDs');
             $fullSubjects = [];
             foreach ($subjIDs as $subjID) {
-                $subject = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')->find($subjID);
-                if ($subject) {
-                    $currentEnrollmentCount = Grade::where('subjID', $subjID)->count();
-                    if ($currentEnrollmentCount >= $subject->maxstud) {
-                        $fullSubjects[] = [
-                            //'id' => $subjID,
-                            'name' => $subject->sub_name, // Assuming you have a name attribute
-                            'section' => $subject->subSec,
-                            'maxstud' => $subject->maxstud
-                        ];
+                $alreadyEnrolled = Grade::where('subjID', $subjID)
+                            ->where('studID', $studentID) // Assuming studentID is the column for the student's ID
+                            ->exists();
+                if (!$alreadyEnrolled) {
+                    $subject = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')->find($subjID);
+                    $subject = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')->find($subjID);
+                    if ($subject) {
+                        $currentEnrollmentCount = Grade::where('subjID', $subjID)->count();
+                        if ($currentEnrollmentCount >= $subject->maxstud) {
+                            $fullSubjects[] = [
+                                //'id' => $subjID,
+                                'name' => $subject->sub_name, // Assuming you have a name attribute
+                                'section' => $subject->subSec,
+                                'maxstud' => $subject->maxstud
+                            ];
+                        }
+                    } else {
+                        return response()->json(['error' => true, 'message' => 'Subject ID ' . $subjID . ' not found'], 404);
                     }
-                } else {
-                    return response()->json(['error' => true, 'message' => 'Subject ID ' . $subjID . ' not found'], 404);
                 }
             }
 
