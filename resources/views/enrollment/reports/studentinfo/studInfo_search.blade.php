@@ -262,7 +262,7 @@ CISS V.1.0 || Student Info
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Guardian's Name</span></label>
-                                <input type="text" class="form-control form-control-sm" name="stud_mother" id="viewdatastudguardian">
+                                <input type="text" class="form-control form-control-sm" name="stud_guardian" id="viewdatastudguardian">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Monthly Income</span></label>
