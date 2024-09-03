@@ -94,12 +94,10 @@ $(function () {
         fontColor: '#495057',
         fontStyle: 'bold'
     }
-
     var mode = 'index';
     var intersect = true;
 
     var $salesChart = $('#enrlmntpercamp-chart');
-    // eslint-disable-next-line no-unused-vars
     var salesChart = new Chart($salesChart, {
         type: 'bar',
         data: {

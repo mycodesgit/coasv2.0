@@ -131,9 +131,57 @@ class EnrollmentController extends Controller
                             ->where('program_en_history.semester', 'LIKE', $semesteractive)
                             ->where('program_en_history.campus', '=', 'VC')
                             ->count();
+        $SccEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'SCC')
+                            ->count();
+
+        $HcEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'HC')
+                            ->count();
+
+        $MpEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'MP')
+                            ->count();
+
+        $IcEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'IC')
+                            ->count();
+
+        $CaEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'CA')
+                            ->count();
+
+        $CcEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'CC')
+                            ->count();
+
+        $ScEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'SC')
+                            ->count();
+
+        $HinCEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'HinC')
+                            ->count();
 
 
-        return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount'));
+
+        return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount', 'SccEnrollmentCount', 'HcEnrollmentCount', 'MpEnrollmentCount', 'IcEnrollmentCount', 'CaEnrollmentCount', 'CcEnrollmentCount', 'ScEnrollmentCount', 'HinCEnrollmentCount'));
     }
 
     public function searchStud()

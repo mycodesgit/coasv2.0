@@ -219,25 +219,43 @@
 
                                                 <div class="col-md-12">
                                                     <div class="card">
-                                                        <div class="position-relative mb-4">
-                                                            <canvas id="enrlmntpercamp-chart"
-                                                                    data-main="{!! $MainEnrollmentCount !!}"
-                                                                    data-victorias="{!! $VcEnrollmentCount !!}"  
-                                                                    height="200">
-                                                            </canvas>
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Enrollment for this current Semester in All Campuses</h3>
+                                                            <div class="card-tools">
+                                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                        <div class="d-flex flex-row justify-content-end">
-                                                            {{-- <span class="mr-2">
-                                                                <i class="fas fa-square" style="color: #ffc107"></i> PPE
-                                                            </span>
+                                                        <div class="card-body">
+                                                            <div class="position-relative mb-4">
+                                                                <canvas id="enrlmntpercamp-chart"
+                                                                        data-main="{!! $MainEnrollmentCount !!}"
+                                                                        data-victorias="{!! $VcEnrollmentCount !!}" 
+                                                                        data-sancarlos="{!! $SccEnrollmentCount !!}"  
+                                                                        data-hinigaran="{!! $HcEnrollmentCount !!}"  
+                                                                        data-moises="{!! $MpEnrollmentCount !!}"  
+                                                                        data-ilog="{!! $IcEnrollmentCount !!}"  
+                                                                        data-candoni="{!! $CaEnrollmentCount !!}"  
+                                                                        data-cauayan="{!! $CcEnrollmentCount !!}"  
+                                                                        data-siplay="{!! $ScEnrollmentCount !!}"  
+                                                                        data-hinobaan="{!! $HinCEnrollmentCount !!}"  
+                                                                        height="200">
+                                                                </canvas>
+                                                            </div>
+                                                            <div class="d-flex flex-row justify-content-end">
+                                                                {{-- <span class="mr-2">
+                                                                    <i class="fas fa-square" style="color: #ffc107"></i> PPE
+                                                                </span>
 
-                                                            <span class="mr-2">
-                                                                <i class="fas fa-square" style="color: #00a65a"></i> High Value
-                                                            </span>
+                                                                <span class="mr-2">
+                                                                    <i class="fas fa-square" style="color: #00a65a"></i> High Value
+                                                                </span>
 
-                                                            <span>
-                                                                <i class="fas fa-square" style="color: #90ee90"></i> Low Value
-                                                            </span> --}}
+                                                                <span>
+                                                                    <i class="fas fa-square" style="color: #90ee90"></i> Low Value
+                                                                </span> --}}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
