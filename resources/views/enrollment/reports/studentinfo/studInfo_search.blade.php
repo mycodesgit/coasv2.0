@@ -124,12 +124,12 @@ CISS V.1.0 || Student Info
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="">
+            <form id="editStudInfoForm">
                 <div class="modal-body">
                     <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                         <h4>Student Information</h4>
                     </div>
-                    <input type="hidden" name="id" id="viewdatastudIdprim">
+                    <input type="text" name="id" id="viewdatastudIdprim">
                     <div class="form-group mt-3">
                         <div class="form-row">
                             <div class="col-md-2">
@@ -138,15 +138,15 @@ CISS V.1.0 || Student Info
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Firstname</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudFname">
+                                <input type="text" name="fname" class="form-control form-control-sm" id="viewdatastudFname">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Middlename</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudMname">
+                                <input type="text" name="mname" class="form-control form-control-sm" id="viewdatastudMname">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Lastname</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudLname">
+                                <input type="text" name="lname" class="form-control form-control-sm" id="viewdatastudLname">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Ext. name</span></label>
@@ -154,7 +154,7 @@ CISS V.1.0 || Student Info
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Gender</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudGender">
+                                <input type="text" name="gender" class="form-control form-control-sm" id="viewdatastudGender">
                             </div>
                         </div>
                     </div>
@@ -163,32 +163,43 @@ CISS V.1.0 || Student Info
                         <div class="form-row">
                             <div class="col-md-6">
                                 <label><span class="badge badge-secondary">Birth Place</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBdayp">
+                                <input type="text" name="pbirth" class="form-control form-control-sm" id="viewdatastudBdayp">
                             </div>
                             <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Mobile</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudMobile">
+                                <label><span class="badge badge-success">Mobile</span></label>
+                                <input type="text" name="contact" class="form-control form-control-sm" id="viewdatastudMobile">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Email Address</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudEmail">
+                                <input type="text" name="email" class="form-control form-control-sm" id="viewdatastudEmail">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Religion</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudReligion">
+                                <input type="text" name="religion" class="form-control form-control-sm" id="viewdatastudReligion">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <label><span class="badge badge-secondary">Address</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudAddress">
+                                <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Civil Status</span></label>
+                                <select class="form-control form-control-sm" name="civil_status" id="viewdatastudcivilstat">
+                                    <option disabled selected>Select</option>
+                                    @foreach($civilStatuses as $status)
+                                        <option value="{{ $status->cvlstat_name }}">
+                                            {{ $status->cvlstat_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Update Birthday</span></label>
-                                <input type="date" class="form-control form-control-sm" name="" id="">
+                                <input type="date" name="bday" class="form-control form-control-sm" id="">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-warning">Birthday</span></label>
@@ -201,29 +212,29 @@ CISS V.1.0 || Student Info
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">House No.</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudHnum">
+                                <input type="text" name="hnum" class="form-control form-control-sm" id="viewdatastudHnum">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Street/Barangay</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBrgy">
+                                <input type="text" name="brgy" class="form-control form-control-sm" id="viewdatastudBrgy">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Munipality/City</span></label>
-                                <select class="form-control form-control-sm" id="viewdatastudCity">
+                                <select name="city" class="form-control form-control-sm" id="viewdatastudCity">
                                     <option value="">Select City</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Province</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudProvince">
+                                <input type="text" name="province" class="form-control form-control-sm" id="viewdatastudProvince">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Region</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudRegion">
+                                <input type="text" name="region" class="form-control form-control-sm" id="viewdatastudRegion">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Zip Code</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudZcode">
+                                <input type="text" name="zcode" class="form-control form-control-sm" id="viewdatastudZcode">
                             </div>
                         </div>
                     </div>
@@ -265,25 +276,26 @@ CISS V.1.0 || Student Info
                         <div class="form-row">
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Last School Attended</span></label>
-                                <input type="text" class="form-control form-control-sm" name="stud_father" id="">
+                                <input type="text" class="form-control form-control-sm" name="lstsch_attended" id="viewdatastudlstschattended">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Last School Year Attended</span></label>
-                                <input type="text" class="form-control form-control-sm" name="stud_father" id="">
+                                <input type="text" class="form-control form-control-sm" name="lst_sch_attended_year" id="viewdatastudlstschattendedyear">
                             </div>
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Last University Attended</span></label>
-                                <input type="text" class="form-control form-control-sm" name="stud_father" id="">
+                                <input type="text" class="form-control form-control-sm" name="suc_lst_attended" id="viewdatastudlstsucattnded">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Date of Admission</span></label>
-                                <input type="text" class="form-control form-control-sm" name="stud_father" id="">
+                                <input type="text" class="form-control form-control-sm" name="date_admission" id="viewdatastuddateadmission" readonly>
                             </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </form>
@@ -294,6 +306,7 @@ CISS V.1.0 || Student Info
 <script>
     var studentlistinfoRoute = "{{ route('getstudInfo_search') }}";
     var appidEncryptRoute = "{{ route('idcrypt') }}";
+    var studInfoUpdateRoute = "{{ route('studInfoUpdate', ['id' => ':id']) }}";
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
     var requestedCampus = '{{ request('campus') }}'

@@ -32,10 +32,10 @@ $(document).ready(function() {
             {data: 'civil_status'},
             {data: 'city'},
             {
-            data: 'id',
+            data: 'stuDsid',
                 render: function(data, type, row) {
                     if (type === 'display') {
-                        var editLink = '<a href="#" class="btn btn-primary btn-sm btn-studdataview"  data-id="' + row.id + '" data-studid="' + row.stud_id + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-pbirth="' + row.pbirth + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-religion="' + row.religion + '" data-address="' + row.address + '" data-hnum="' + row.hnum + '" data-brgy="' + row.brgy + '" data-city="' + row.city + '" data-province="' + row.province + '" data-region="' + row.region + '" data-zcode="' + row.zcode + '" data-father="' + row.stud_father + '" data-mother="' + row.stud_mother + '" data-guardian="' + row.stud_guardian + '" data-income="' + row.monthly_income + '" data-pcontact="' + row.guardian_contact + '">' +
+                        var editLink = '<a href="#" class="btn btn-primary btn-sm btn-studdataview"  data-id="' + row.stuDsid + '" data-studid="' + row.stud_id + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-pbirth="' + row.pbirth + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-religion="' + row.religion + '" data-address="' + row.address + '" data-civil="' + row.civil_status + '" data-hnum="' + row.hnum + '" data-brgy="' + row.brgy + '" data-city="' + row.city + '" data-province="' + row.province + '" data-region="' + row.region + '" data-zcode="' + row.zcode + '" data-father="' + row.stud_father + '" data-mother="' + row.stud_mother + '" data-guardian="' + row.stud_guardian + '" data-income="' + row.monthly_income + '" data-pcontact="' + row.guardian_contact + '" data-lstschattended="' + row.lstsch_attended + '" data-lstschattendedyear="' + row.lst_sch_attended_year + '" data-suclstattended="' + row.suc_lst_attended + '" data-dateadmission="' + row.date_admission + '">' +
                             '<i class="fas fa-eye"></i>' +
                             '</a>';
                         return editLink;
@@ -284,6 +284,7 @@ $(document).on('click', '.btn-studdataview', function() {
     var email = $(this).data('email');
     var religion = $(this).data('religion');
     var address = $(this).data('address');
+    var civilstatus = $(this).data('civil');
     var hnum = $(this).data('hnum');
     var brgy = $(this).data('brgy');
     var city = $(this).data('city');
@@ -296,6 +297,10 @@ $(document).on('click', '.btn-studdataview', function() {
     var studguardian = $(this).data('guardian');
     var income = $(this).data('income');
     var pcontact = $(this).data('pcontact');
+    var lstschattended = $(this).data('lstschattended');
+    var lstschattendedyear = $(this).data('lstschattendedyear');
+    var suclstattended = $(this).data('suclstattended');
+    var dateadmission = $(this).data('dateadmission');
 
     $('#viewdatastudIdprim').val(id);
     $('#viewdatastudID').val(studid);
@@ -310,6 +315,7 @@ $(document).on('click', '.btn-studdataview', function() {
     $('#viewdatastudEmail').val(email);
     $('#viewdatastudReligion').val(religion);
     $('#viewdatastudAddress').val(address);
+    $('#viewdatastudcivilstat').val(civilstatus);
     $('#viewdatastudHnum').val(hnum);
     $('#viewdatastudBrgy').val(brgy);
     $('#viewdatastudCity').val(city);
@@ -323,6 +329,11 @@ $(document).on('click', '.btn-studdataview', function() {
     $('#viewdatastudprntincome').val(income);
     $('#viewdatastudpcontact').val(pcontact);
 
+    $('#viewdatastudlstschattended').val(lstschattended);
+    $('#viewdatastudlstschattendedyear').val(lstschattendedyear);
+    $('#viewdatastudlstsucattnded').val(suclstattended);
+    $('#viewdatastuddateadmission').val(dateadmission);
+
     $('#viewdatastudModal').modal('show');
     
     $('#viewdatastudCity').val(city).trigger('change');
@@ -330,16 +341,43 @@ $(document).on('click', '.btn-studdataview', function() {
     $.ajax({
         url: appidEncryptRoute,
         type: "POST",
-        data: { data: $('#viewdataresultexamId').val() },
+        data: { data: $('#viewdatastudIdprim').val() },
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
             //alert(response); 
-            $('#viewdataresultexamId').val(response)
+            $('#viewdatastudIdprim').val(response)
         },
         error: function(xhr, status, error) {
             alert('Error: ' + error); 
+        }
+    });
+});
+
+$('#editStudInfoForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: studInfoUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#viewdatastudModal').modal('hide');
+                $(document).trigger('studlistTable');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
         }
     });
 });

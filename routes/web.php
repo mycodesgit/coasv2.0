@@ -315,6 +315,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/searchList', [EnreportsController::class, 'studInfo_search'])->name('studInfo_search');
             Route::get('/info/students/searchListajax', [EnreportsController::class, 'getstudInfo_search'])->name('getstudInfo_search');
             Route::get('/info/students/view/{id}', [EnreportsController::class, 'studInfo_view'])->name('studInfo_view');
+            Route::post('/info/students/view/update', [EnreportsController::class, 'studInfoUpdate'])->name('studInfoUpdate');
 
             Route::get('/info/students/graduated', [EnreportsController::class, 'studInfograduated'])->name('studInfograduated');
             Route::get('/info/students/graduated/search/list', [EnreportsController::class, 'studInfograduated_search'])->name('studInfograduated_search');

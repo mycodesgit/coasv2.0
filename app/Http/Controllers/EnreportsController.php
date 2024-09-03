@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 use Storage;
 use Carbon\Carbon;
 use App\Models\EnrollmentDB\Student;
+use App\Models\EnrollmentDB\StudentCvlStatus;
 
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\ApplicantDocs;
@@ -28,17 +30,20 @@ class EnreportsController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $studlist = Student::where('campus', '=', $campus)->where('stud_id', 'NOT LIKE', '%-G%')->get();
+        $civilStatuses = StudentCvlStatus::all();
 
-        return view('enrollment.reports.studentinfo.studInfo_search', compact('studlist'));
+        return view('enrollment.reports.studentinfo.studInfo_search', compact('studlist', 'civilStatuses'));
     }
 
     public function getstudInfo_search(Request $request) 
     {
         $campus = Auth::guard('web')->user()->campus;
 
-        $data = Student::where('campus', '=', $campus)
-                        ->where('stud_id', 'NOT LIKE', '%-G%')
-                        ->orderBy('lname', 'ASC')
+        $data = Student::join('studcivilstat', 'students.civil_status', '=', 'studcivilstat.cvlstat_name')
+                        ->where('students.campus', '=', $campus)
+                        ->where('students.stud_id', 'NOT LIKE', '%-G%')
+                        ->select('students.*', 'studcivilstat.*', 'students.id as stuDsid')
+                        ->orderBy('students.lname', 'ASC')
                         ->get();
         
         return response()->json(['data' => $data]);
@@ -60,6 +65,25 @@ class EnreportsController extends Controller
         ->with('docs', $docs)
         ->with('selectedProgram', $selectedProgram);
     }
+
+    public function studInfoUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+        ]);
+
+        try {
+            $decryptedId = Crypt::decrypt($request->input('id'));
+            $studfee = Student::findOrFail($decryptedId);
+            $studfee->update([
+                'lname' => $request->input('lname'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Student Information updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to Update Student Info'], 404);
+        }
+    }
+
 
     public function studInfograduated() {
         return view('enrollment.reports.graduated.studinfograd');
