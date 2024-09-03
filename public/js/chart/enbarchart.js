@@ -88,6 +88,7 @@ $(function () {
 });
 
 
+
 $(function () {
     var ticksStyle = {
         fontColor: '#495057',
@@ -149,7 +150,16 @@ $(function () {
                         display: true
                     },
                     ticks: ticksStyle
-                }]
+                }],
+                yAxes: [{
+                    display: true,
+                    gridLines: {
+                        display: true
+                    },
+                    ticks: {
+                        display: false
+                    }
+                }],
             }
         }
     });
