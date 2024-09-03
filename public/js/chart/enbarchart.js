@@ -103,7 +103,7 @@ $(function () {
     var salesChart = new Chart($salesChart, {
         type: 'bar',
         data: {
-            labels: ['Main', 'Ilog', 'Cauayan', 'Sipalay', 'Hinobaan', 'Hinigaran', 'Moises', 'San Carlos', 'Victorias'],
+            labels: ['Main', 'Victorias', 'San Carlos', 'Hinigaran', 'Moises Padilla', 'Ilog', 'Candoni', 'Cauayan', 'Sipalay', 'Hinobaan'],
             datasets: [
                 {
                     backgroundColor: '#00a65a',
@@ -111,13 +111,14 @@ $(function () {
                     data: [
                         $salesChart.data('main'),
                         $salesChart.data('victorias'),
+                        $salesChart.data('sancarlos'),
+                        $salesChart.data('hinigaran'),
+                        $salesChart.data('moises'),
                         $salesChart.data('ilog'),
+                        $salesChart.data('candoni'),
                         $salesChart.data('cauayan'),
                         $salesChart.data('siplay'),
                         $salesChart.data('hinobaan'),
-                        $salesChart.data('hinigaran'),
-                        $salesChart.data('moises'),
-                        $salesChart.data('sancarlos'),
                     ],
                 },
             ]
