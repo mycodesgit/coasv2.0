@@ -309,6 +309,7 @@ $(document).on('click', '.btn-studdataview', function() {
     $('#viewdatastudLname').val(lname);
     $('#viewdatastudExt').val(ext);
     $('#viewdatastudGender').val(gender);
+    $('#viewdatastudBdaynotformat').val(bday);
     $('#viewdatastudBday').val(formattedDate);
     $('#viewdatastudBdayp').val(pbirth);
     $('#viewdatastudMobile').val(contact);

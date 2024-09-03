@@ -206,11 +206,11 @@ CISS V.1.0 || Student Info
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Update Birthday</span></label>
-                                <input type="date" name="bday" class="form-control form-control-sm" id="">
+                                <input type="date" name="bday" class="form-control form-control-sm" id="viewdatastudBdaynotformat">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-warning">Birthday</span></label>
-                                <input type="text" class="form-control form-control-sm" name="bday" id="viewdatastudBday" readonly>
+                                <input type="text" class="form-control form-control-sm" id="viewdatastudBday" readonly>
                             </div>
                         </div>
                     </div>
