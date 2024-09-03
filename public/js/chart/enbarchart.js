@@ -86,3 +86,71 @@ $(function () {
         options: secondSemesterBarOptions
     });
 });
+
+
+$(function () {
+    var ticksStyle = {
+        fontColor: '#495057',
+        fontStyle: 'bold'
+    }
+
+    var mode = 'index';
+    var intersect = true;
+
+    var $salesChart = $('#sales-chart');
+    // eslint-disable-next-line no-unused-vars
+    var salesChart = new Chart($salesChart, {
+        type: 'bar',
+        data: {
+            labels: ['Main', 'Ilog', 'Cauayan', 'Sipalay', 'Hinobaan', 'Hinigaran', 'Moises', 'San Carlos', 'Victorias'],
+            datasets: [
+                {
+                    backgroundColor: '#00a65a',
+                    borderColor: '#ced4da',
+                    data: [
+                        $salesChart.data('main'),
+                        $salesChart.data('ilog-high'),
+                        $salesChart.data('cauayan-high'),
+                        $salesChart.data('siplay-high'),
+                        $salesChart.data('hinobaan-high'),
+                        $salesChart.data('hinigaran-high'),
+                        $salesChart.data('moises-high'),
+                        $salesChart.data('sancarlos-high'),
+                        $salesChart.data('victorias-high'),
+                    ],
+                },
+            ]
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                mode: mode,
+                intersect: intersect,
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        return data.labels[tooltipItem[0].index];
+                    },
+                    label: function (tooltipItem, data) {
+                        return 'Count: ' + tooltipItem.value;
+                    }
+                }
+            },
+            hover: {
+                mode: mode,
+                intersect: intersect
+            },
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    gridLines: {
+                        display: true
+                    },
+                    ticks: ticksStyle
+                }]
+            }
+        }
+    });
+});
