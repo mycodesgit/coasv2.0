@@ -129,7 +129,7 @@ CISS V.1.0 || Student Info
                     <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                         <h4>Student Information</h4>
                     </div>
-                    <input type="text" name="id" id="viewdatastudIdprim">
+                    <input type="hidden" name="id" id="viewdatastudIdprim">
                     <div class="form-group mt-3">
                         <div class="form-row">
                             <div class="col-md-2">
