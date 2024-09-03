@@ -98,7 +98,7 @@ $(function () {
     var mode = 'index';
     var intersect = true;
 
-    var $salesChart = $('#sales-chart');
+    var $salesChart = $('#enrlmntpercamp-chart');
     // eslint-disable-next-line no-unused-vars
     var salesChart = new Chart($salesChart, {
         type: 'bar',
@@ -110,14 +110,14 @@ $(function () {
                     borderColor: '#ced4da',
                     data: [
                         $salesChart.data('main'),
-                        $salesChart.data('ilog-high'),
-                        $salesChart.data('cauayan-high'),
-                        $salesChart.data('siplay-high'),
-                        $salesChart.data('hinobaan-high'),
-                        $salesChart.data('hinigaran-high'),
-                        $salesChart.data('moises-high'),
-                        $salesChart.data('sancarlos-high'),
-                        $salesChart.data('victorias-high'),
+                        $salesChart.data('victorias'),
+                        $salesChart.data('ilog'),
+                        $salesChart.data('cauayan'),
+                        $salesChart.data('siplay'),
+                        $salesChart.data('hinobaan'),
+                        $salesChart.data('hinigaran'),
+                        $salesChart.data('moises'),
+                        $salesChart.data('sancarlos'),
                     ],
                 },
             ]

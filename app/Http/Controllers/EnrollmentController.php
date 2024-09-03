@@ -126,8 +126,14 @@ class EnrollmentController extends Controller
                             ->where('program_en_history.campus', '=', 'MC')
                             ->count();
 
+        $VcEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.campus', '=', 'VC')
+                            ->count();
 
-        return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount'));
+
+        return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount'));
     }
 
     public function searchStud()

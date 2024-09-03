@@ -220,13 +220,14 @@
                                                 <div class="col-md-12">
                                                     <div class="card">
                                                         <div class="position-relative mb-4">
-                                                            <canvas id="sales-chart"
-                                                                    data-main="{!! $MainEnrollmentCount !!}"  
+                                                            <canvas id="enrlmntpercamp-chart"
+                                                                    data-main="{!! $MainEnrollmentCount !!}"
+                                                                    data-victorias="{!! $VcEnrollmentCount !!}"  
                                                                     height="200">
                                                             </canvas>
                                                         </div>
                                                         <div class="d-flex flex-row justify-content-end">
-                                                            <span class="mr-2">
+                                                            {{-- <span class="mr-2">
                                                                 <i class="fas fa-square" style="color: #ffc107"></i> PPE
                                                             </span>
 
@@ -236,14 +237,11 @@
 
                                                             <span>
                                                                 <i class="fas fa-square" style="color: #90ee90"></i> Low Value
-                                                            </span>
+                                                            </span> --}}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
                                             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                                         </div>
                                     </div>
