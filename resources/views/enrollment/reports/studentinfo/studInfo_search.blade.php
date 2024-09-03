@@ -161,11 +161,7 @@ CISS V.1.0 || Student Info
 
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Birthday</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBday">
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label><span class="badge badge-secondary">Birth Place</span></label>
                                 <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBdayp">
                             </div>
@@ -186,9 +182,17 @@ CISS V.1.0 || Student Info
 
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-8">
                                 <label><span class="badge badge-secondary">Address</span></label>
                                 <input type="text" name="" class="form-control form-control-sm" id="viewdatastudAddress">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Update Birthday</span></label>
+                                <input type="date" class="form-control form-control-sm" name="" id="">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-warning">Birthday</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBday" readonly>
                             </div>
                         </div>
                     </div>
@@ -223,6 +227,61 @@ CISS V.1.0 || Student Info
                             </div>
                         </div>
                     </div>
+
+                    <div class="page-header mt-5" style="border-bottom: 1px solid #04401f;">
+                        <h4>Family Information</h4>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Father's Name</span></label>
+                                <input type="text" class="form-control form-control-sm" name="stud_father" id="viewdatastudfather">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Mother's Name</span></label>
+                                <input type="text" class="form-control form-control-sm" name="stud_mother" id="viewdatastudmother">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Guardian's Name</span></label>
+                                <input type="text" class="form-control form-control-sm" name="stud_mother" id="viewdatastudguardian">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Monthly Income</span></label>
+                                <input type="text" class="form-control form-control-sm" name="monthly_income" id="viewdatastudprntincome">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Contact Number</span></label>
+                                <input type="text" class="form-control form-control-sm" name="monthly_income" id="viewdatastudpcontact">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header mt-5" style="border-bottom: 1px solid #04401f;">
+                        <h4>Other Information</h4>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Last School Attended</span></label>
+                                <input type="text" class="form-control form-control-sm" name="stud_father" id="">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Last School Year Attended</span></label>
+                                <input type="text" class="form-control form-control-sm" name="stud_father" id="">
+                            </div>
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Last University Attended</span></label>
+                                <input type="text" class="form-control form-control-sm" name="stud_father" id="">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Date of Admission</span></label>
+                                <input type="text" class="form-control form-control-sm" name="stud_father" id="">
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
