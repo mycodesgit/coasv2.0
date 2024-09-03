@@ -210,7 +210,7 @@ CISS V.1.0 || Student Info
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-warning">Birthday</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdatastudBday" readonly>
+                                <input type="text" class="form-control form-control-sm" name="bday" id="viewdatastudBday" readonly>
                             </div>
                         </div>
                     </div>

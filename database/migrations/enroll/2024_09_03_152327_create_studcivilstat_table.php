@@ -20,11 +20,11 @@ return new class extends Migration
         });
 
         DB::table('studcivilstat')->insert([
-            ['cvlstat_name' => 'SINGLE', 'created_at' => now(), 'updated_at' => now()],
-            ['cvlstat_name' => 'MARRIED', 'created_at' => now(), 'updated_at' => now()],
-            ['cvlstat_name' => 'DIVORCED', 'created_at' => now(), 'updated_at' => now()],
-            ['cvlstat_name' => 'WIDOWED', 'created_at' => now(), 'updated_at' => now()],
-            ['cvlstat_name' => 'SEPERATED', 'created_at' => now(), 'updated_at' => now()],
+            ['cvlstat_name' => 'Single', 'created_at' => now(), 'updated_at' => now()],
+            ['cvlstat_name' => 'Married', 'created_at' => now(), 'updated_at' => now()],
+            ['cvlstat_name' => 'Divorced', 'created_at' => now(), 'updated_at' => now()],
+            ['cvlstat_name' => 'Widowed', 'created_at' => now(), 'updated_at' => now()],
+            ['cvlstat_name' => 'Separated', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 
