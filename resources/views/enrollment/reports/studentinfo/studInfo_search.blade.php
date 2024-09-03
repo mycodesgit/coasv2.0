@@ -154,7 +154,14 @@ CISS V.1.0 || Student Info
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Gender</span></label>
-                                <input type="text" name="gender" class="form-control form-control-sm" id="viewdatastudGender">
+                                <select class="form-control form-control-sm" name="gender" id="viewdatastudGender">
+                                    <option disabled selected>Select</option>
+                                    @foreach($genderStatuses as $gdrstatus)
+                                        <option value="{{ $gdrstatus->genderstat_name }}">
+                                            {{ $gdrstatus->genderstat_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

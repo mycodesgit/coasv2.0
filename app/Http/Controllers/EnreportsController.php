@@ -13,6 +13,7 @@ use Storage;
 use Carbon\Carbon;
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentCvlStatus;
+use App\Models\EnrollmentDB\StudentGnderStatus;
 
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\ApplicantDocs;
@@ -31,8 +32,9 @@ class EnreportsController extends Controller
 
         $studlist = Student::where('campus', '=', $campus)->where('stud_id', 'NOT LIKE', '%-G%')->get();
         $civilStatuses = StudentCvlStatus::all();
+        $genderStatuses = StudentGnderStatus::all();
 
-        return view('enrollment.reports.studentinfo.studInfo_search', compact('studlist', 'civilStatuses'));
+        return view('enrollment.reports.studentinfo.studInfo_search', compact('studlist', 'civilStatuses', 'genderStatuses'));
     }
 
     public function getstudInfo_search(Request $request) 
@@ -40,9 +42,10 @@ class EnreportsController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $data = Student::join('studcivilstat', 'students.civil_status', '=', 'studcivilstat.cvlstat_name')
+                        ->leftJoin('studgenderstat', 'students.gender', '=', 'studgenderstat.genderstat_name')
                         ->where('students.campus', '=', $campus)
                         ->where('students.stud_id', 'NOT LIKE', '%-G%')
-                        ->select('students.*', 'studcivilstat.*', 'students.id as stuDsid')
+                        ->select('students.*', 'studcivilstat.*', 'studgenderstat.*', 'students.id as stuDsid')
                         ->orderBy('students.lname', 'ASC')
                         ->get();
         
@@ -77,6 +80,38 @@ class EnreportsController extends Controller
             $studfee = Student::findOrFail($decryptedId);
             $studfee->update([
                 'lname' => $request->input('lname'),
+                'fname' => $request->input('fname'),
+                'mname' => $request->input('mname'),
+                'ext' => $request->input('ext'),
+                'course' => $request->input('course'),
+                'gender' => $request->input('gender'),
+                'civil_status' => $request->input('civil_status'),
+                'contact' => $request->input('contact'),
+                'email' => $request->input('email'),
+                'religion' => $request->input('religion'),
+                'address' => $request->input('address'),
+                'bday' => $request->input('bday'),
+                'pbirth' => $request->input('pbirth'),
+                'monthly_income' => $request->input('monthly_income'),
+                'hnum' => $request->input('hnum'),
+                'brgy' => $request->input('brgy'),
+                'city' => $request->input('city'),
+                'province' => $request->input('province'),
+                'region' => $request->input('region'),
+                'zcode' => $request->input('zcode'),
+                'lstsch_attended' => $request->input('lstsch_attended'),
+                'suc_lst_attended' => $request->input('suc_lst_attended'),
+                'stud_father' => $request->input('stud_father'),
+                'stud_mother' => $request->input('stud_mother'),
+                'stud_guardian' => $request->input('stud_guardian'),
+                'guardian_contact' => $request->input('guardian_contact'),
+                'lst_sch_attended_year' => $request->input('lst_sch_attended_year'),
+                'date_admission' => $request->input('date_admission'),
+                // 'graduation_date' => $request->input('graduation_date'),
+                // 'graduation_schlyear' => $request->input('graduation_schlyear'),
+                // 'graduation_semester' => $request->input('graduation_semester'),
+                // 'graduation_course' => $request->input('graduation_course'),
+                // 'lst_sch_type' => $request->input('lst_sch_type'),
         ]);
             return response()->json(['success' => true, 'message' => 'Student Information updated successfully'], 200);
         } catch (\Exception $e) {
