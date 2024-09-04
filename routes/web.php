@@ -528,6 +528,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/receipt/search/list/update', [CashieringORController::class, 'orUpdate'])->name('orUpdate');
             Route::get('/receipt/search/list/delete{id}', [CashieringORController::class, 'orDelete'])->name('orDelete');
             Route::get('/receipt/search/viewor/print', [CashieringORController::class, 'orprint'])->name('orprint');
+            Route::get('/receipt/search/viewor/print/edit', [CashieringORController::class, 'orprintedit'])->name('orprintedit');
 
             Route::get('/receipt/edit', [CashieringORController::class, 'listedit_orRead'])->name('listedit_orRead');
             Route::get('/receipt/search/edit', [CashieringORController::class, 'listsearchedit_orRead'])->name('listsearchedit_orRead');

@@ -152,13 +152,13 @@ CISS V.1.0 || Edit OR
                     </div>
                 </div>
                 <hr>
-                <form action="{{ route('orprint') }}" method="get" target="_blank">
+                <form action="{{ route('orprintedit') }}" method="get" target="_blank">
                     @csrf
-                    <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
+                    <input type="text" name="stud_id" value="{{ $orstud->first()->studID }}">
                     <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                     <input type="hidden" name="semester" value="{{ request('semester') }}">
                     <button type="submit" class="btn btn-primary float-right">
-                        <i class="fas fa-print"></i> Print OR
+                        <i class="fas fa-print" onclick="printPDF()"></i> Print OR
                     </button>
                 </form>
                 <br><br>
@@ -237,6 +237,9 @@ CISS V.1.0 || Edit OR
             input.value = value.substring(0, value.length - 1);
             formatInput(input);
         }
+    }
+    function printPDF() {
+        window.print();
     }
 </script>
 

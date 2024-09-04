@@ -12,7 +12,7 @@
             margin: 1mm;
         }
         table, th, td {
-            border: 1px solid #000;
+            border: 1px solid #fff;
         }
         th, td {
             padding: 2px;
@@ -71,7 +71,8 @@
 				<tr>
 					<th>
 						<div align="center" style="margin-top:">
-				        	<img src="{{ public_path('template/img/cashier/orheader.png') }}" width="95%" height="13%">
+				        	{{-- <img src="{{ public_path('template/img/cashier/orheader.png') }}" width="95%" height="13%"> --}}
+				        	<br><br><br><br><br>
 				    	</div>
 				    </th>
 				</tr>
@@ -80,27 +81,27 @@
 		<table>
 			<thead>
 				<tr>
-					<th style="font-size: 10pt; font-family: unset; text-align: center;" width="50%">Accountable From No. 51<br>(Revised January 1992)</th>
-					<th rowspan="2"><center><span style="font-size: 10pt; font-family: unset; text-align: center !important;">ORIGINAL</span></center><br><span style="text-align: left;">No.</span></th>
+					<th style="font-size: 10pt; font-family: unset; text-align: center; color: #fff !important;" width="50%">Accountable From No. 51<br>(Revised January 1992)</th>
+					<th rowspan="2"><center><span style="font-size: 10pt; font-family: unset; text-align: center !important; color: #fff !important;">ORIGINAL</span></center><br><span style="text-align: left; color: #fff !important;">No.</span></th>
 				</tr>
 				<tr>
-					<th style="font-size: 10pt; font-family: unset; text-align: left;">DATE<br><br><br></th>
+					<th style="font-size: 10pt; font-family: unset; text-align: left;"><span style="color: #fff !important;">DATE</span><br><br><br></th>
 				</tr>
 			</thead>
 		</table>
 		<table>
 			<thead>
 				<tr>
-					<th colspan="2" style="font-weight: thin;">Campus<br><br></th>
-					<th style="font-weight: thin;">Fund<br><br></th>
+					<th colspan="2" style="font-weight: thin;"><span style="color: #fff !important;">Campus</span><br><br></th>
+					<th style="font-weight: thin;"><span style="color: #fff !important;">Fund</span><br><br></th>
 				</tr>
 				<tr>
-					<th colspan="3" style="font-weight: thin;">Payor<br><br></th>
+					<th colspan="3" style="font-weight: thin;"><span style="color: #fff !important;">Payor</span><br><br></th>
 				</tr>
 				<tr>
-					<th style="font-size: 10pt; font-family: sans-serif; text-align: center; font-weight: thin;">NATURE OF<br> COLLECTION</th>
-					<th style="font-size: 10pt; font-family: unset; text-align: center; font-weight: thin;">ACCOUNT CODE</th>
-					<th width="30%" style="font-size: 10pt; font-family: unset; text-align: center; font-weight: thin;"><span class="hidden">AMOUNT</span></th>
+					<th style="font-size: 10pt; font-family: sans-serif; text-align: center; font-weight: thin; color: #fff !important;">NATURE OF<br> COLLECTION</th>
+					<th style="font-size: 10pt; font-family: unset; text-align: center; font-weight: thin; color: #fff !important;">ACCOUNT CODE</th>
+					<th width="30%" style="font-size: 10pt; font-family: unset; text-align: center; font-weight: thin; color: #fff !important;"><span class="hidden">AMOUNT</span></th>
 				</tr>
 			</thead>
 			<tbody>

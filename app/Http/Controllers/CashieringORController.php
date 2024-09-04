@@ -252,6 +252,27 @@ class CashieringORController extends Controller
         return $pdf->stream();
     }
 
+    public function orprintedit(Request $request)
+    {
+        $stud_id = $request->stud_id;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $studor = StudPayment::select('studpayment.*')
+                    ->where('studpayment.studID', $stud_id)
+                    ->where('studpayment.schlyear',  $schlyear)
+                    ->where('studpayment.semester',  $semester)
+                    ->get();
+
+        $data = [
+            'studor' => $studor
+        ];
+        
+        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper([0, 0, 396, 612], 'portrait');
+        return $pdf->stream();
+    }
+
     public function listedit_orRead()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
