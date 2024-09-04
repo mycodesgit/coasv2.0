@@ -160,12 +160,31 @@ $(document).ready(function() {
         $('#labUnit').val(labUnit);
         $('#subUnit').val(subUnit);
 
+        if (subcode.startsWith('KAB-GSS')) {
+            $('#lecFee').removeAttr('readonly');
+        } else {
+            $('#lecFee').attr('readonly', 'readonly');
+        }
+
         calculateFees(subcode, subUnit, labUnit);
     });
 
     function calculateFees(subcode, subUnit, labUnit) {
         var specialCodes = ["KAB-SER-076", "KAB-SER-077", "KAB-SER-144", "KAB-SER-145", "KAB-SER-146", "KAB-SER-147", "KAB-SER-148", "KAB-SER-149"];
-        var lecFee = specialCodes.includes(subcode) ? 270 : subUnit * 180;
+        // var lecFee = specialCodes.includes(subcode) ? 270 : subUnit * 180;
+        // var labFee = labUnit > 0 ? 500 : 0;
+
+        var lecFee = 0;
+
+        // Set lecFee to 0 if subcode starts with "KAB-GSS"
+        if (subcode.startsWith('KAB-GSS')) {
+            lecFee = 0;
+        } else if (specialCodes.includes(subcode)) {
+            lecFee = 270;
+        } else {
+            lecFee = subUnit * 180;
+        }
+
         var labFee = labUnit > 0 ? 500 : 0;
 
         $('#lecFee').val(lecFee);

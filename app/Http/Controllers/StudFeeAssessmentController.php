@@ -36,7 +36,9 @@ class StudFeeAssessmentController extends Controller
     public function list_searchStudfee(Request $request)
     {   
         $studfund = Funds::orderBy('id', 'DESC')->get();
-        $studAccntap = AccountAppraisal::orderBy('account_name', 'ASC')->get();
+        $studAccntap = AccountAppraisal::whereIn('id', ['2', '7', '42', '44', '49', '79', '85', '90', '91', '92', '93', '151', '152', '153', '154', '155', '156', '159', '161'])
+                    ->orderBy('account_name', 'ASC')
+                    ->get();
 
         $data = StudentFee::query()
             ->select('student_fee.*', 'coasv2_db_schedule.programs.progAcronym')
