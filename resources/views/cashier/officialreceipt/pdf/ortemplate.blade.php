@@ -114,7 +114,7 @@
 
 				    $totalInWords = $numberTransformer->toWords($totalAmount);
 				    $rowCount = 0; 
-    				$maxRows = 9;
+    				$maxRows = 10;
 				@endphp
 				@foreach($studor as $orfees)
 				    @if($rowCount < $maxRows)
@@ -143,6 +143,6 @@
 			
 		</table>
 	</div>
-	<div style="font-weight: normal; margin-left: 80px; margin-top: 100px; text-align: left; font-family: 'monospace;', sans-serif; position: fixed !important;">{{ ucfirst($totalInWords) }} pesos only</div>
+	<div style="font-weight: normal; margin-left: 80px; margin-top: 60px; text-align: left; font-family: 'monospace;', sans-serif; position: fixed !important;">{{ ucfirst($totalInWords) }} pesos only</div>
 </body>
 </html>
