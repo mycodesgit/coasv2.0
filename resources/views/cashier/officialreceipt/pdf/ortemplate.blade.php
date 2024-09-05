@@ -107,23 +107,38 @@
 			<tbody>
 				@php
 					use NumberToWords\NumberToWords;
-				    // Calculate total amount paid
-				    $totalAmount = $studor->sum('amountpaid');
 
-				    // Create a new instance of the NumberToWords class
+				    $totalAmount = $studor->sum('amountpaid');
 				    $numberToWords = new NumberToWords();
 				    $numberTransformer = $numberToWords->getNumberTransformer('en');
 
-				    // Convert total amount to words
 				    $totalInWords = $numberTransformer->toWords($totalAmount);
+				    $rowCount = 0; 
+    				$maxRows = 9;
 				@endphp
 				@foreach($studor as $orfees)
-				<tr class="print-only">
-					<td style="font-weight: bold; text-align: right; font-family: 'monospace;', sans-serif;">{{ $orfees->account }}</td>
-					<td style="font-weight: bold; text-align: center; font-family: 'monospace;', sans-serif;">{{ $orfees->fund }}</td>
-					<td style="font-weight: bold; font-family: 'monospace;', sans-serif;">{{ $orfees->amountpaid }}</td>
-				</tr>
-				@endforeach
+				    @if($rowCount < $maxRows)
+				        <tr class="print-only">
+				            <td style="font-weight: bold; text-align: right; font-family: 'monospace;', sans-serif;">{{ $orfees->account }}</td>
+				            <td style="font-weight: bold; text-align: center; font-family: 'monospace;', sans-serif;">{{ $orfees->fund }}</td>
+				            <td style="font-weight: bold; font-family: 'monospace;', sans-serif;">{{ number_format($orfees->amountpaid, 2) }}</td>
+				        </tr>
+				        @php
+				            $rowCount++; 
+				        @endphp
+				    @endif
+			    @endforeach
+
+			    @while($rowCount < $maxRows)
+				    <tr class="print-only">
+				        <td style="font-weight: bold; text-align: right; font-family: 'monospace;', sans-serif;">&nbsp;</td>
+				        <td style="font-weight: bold; text-align: center; font-family: 'monospace;', sans-serif;">&nbsp;</td>
+				        <td style="font-weight: bold; font-family: 'monospace;', sans-serif;">&nbsp;</td>
+				    </tr>
+				    @php
+				        $rowCount++;
+				    @endphp
+			    @endwhile
 			</tbody>
 			
 		</table>
