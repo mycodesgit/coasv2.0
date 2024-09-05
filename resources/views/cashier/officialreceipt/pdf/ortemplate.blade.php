@@ -85,18 +85,18 @@
 					<th rowspan="2"><center><span style="font-size: 10pt; font-family: unset; text-align: center !important; color: #fff !important;">ORIGINAL</span></center><br><span style="text-align: left; color: #fff !important;">No.</span></th>
 				</tr>
 				<tr>
-					<th style="font-size: 10pt; font-family: unset; text-align: left;"><span style="color: #fff !important;">DATE</span><br><br><br></th>
+					<th style="font-size: 10pt; font-family: unset; text-align: left;"><span style="color: #fff !important;">DATE</span><span style="margin-left: 90px;">{{ \Carbon\Carbon::now()->format('M j, Y') }}</span><br><br><br></th>
 				</tr>
 			</thead>
 		</table>
 		<table>
 			<thead>
 				<tr>
-					<th colspan="2" style="font-weight: thin;"><span style="color: #fff !important;">Campus</span><br><br></th>
-					<th style="font-weight: thin;"><span style="color: #fff !important;">Fund</span><br><br></th>
+					<th colspan="2" style="font-weight: normal;"><span style="color: #fff !important; margin-left: 80px;">Campus</span>{{ Auth::guard('web')->user()->campus }}<br><br></th>
+					<th style="font-weight: thin;"><span style="color: #fff !important;">Fund</span>IGF<br><br></th>
 				</tr>
 				<tr>
-					<th colspan="3" style="font-weight: thin;"><span style="color: #fff !important;">Payor</span><br><br></th>
+					<th colspan="3" style="font-weight: thin; margin-left: ; font-family: 'monospace;', sans-serif;"><span style="color: #fff !important;">Payor</span><span style="margin-left: 60px;">{{ $studor->first()->fname }} {{ $studor->first()->lname }}</span><br><br></th>
 				</tr>
 				<tr>
 					<th style="font-size: 10pt; font-family: sans-serif; text-align: center; font-weight: thin; color: #fff !important;">NATURE OF<br> COLLECTION</th>
@@ -105,15 +105,30 @@
 				</tr>
 			</thead>
 			<tbody>
+				@php
+					use NumberToWords\NumberToWords;
+				    // Calculate total amount paid
+				    $totalAmount = $studor->sum('amountpaid');
+
+				    // Create a new instance of the NumberToWords class
+				    $numberToWords = new NumberToWords();
+				    $numberTransformer = $numberToWords->getNumberTransformer('en');
+
+				    // Convert total amount to words
+				    $totalInWords = $numberTransformer->toWords($totalAmount);
+				@endphp
 				@foreach($studor as $orfees)
 				<tr class="print-only">
 					<td style="font-weight: bold; text-align: right; font-family: 'monospace;', sans-serif;">{{ $orfees->account }}</td>
-					<td style="font-weight: bold; text-align: center; font-family: 'Roboto', sans-serif;">{{ $orfees->fund }}</td>
-					<td style="font-weight: bold; font-family: 'Roboto', sans-serif;">{{ $orfees->amountpaid }}</td>
+					<td style="font-weight: bold; text-align: center; font-family: 'monospace;', sans-serif;">{{ $orfees->fund }}</td>
+					<td style="font-weight: bold; font-family: 'monospace;', sans-serif;">{{ $orfees->amountpaid }}</td>
 				</tr>
 				@endforeach
 			</tbody>
+			
 		</table>
+		<br><br><br><br><br><br><br><br><br><br><br><br>
+		<div style="font-weight: normal; margin-left: 80px; text-align: left; font-family: 'monospace;', sans-serif;">{{ ucfirst($totalInWords) }} pesos only</div>
 	</div>
 </body>
 </html>

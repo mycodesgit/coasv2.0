@@ -240,10 +240,11 @@ class CashieringORController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $studor = StudPayment::select('studpayment.*')
+        $studor = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                     ->where('studpayment.studID', $stud_id)
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
+                    ->select('studpayment.*', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.lname')
                     ->get();
 
         $data = [
@@ -261,10 +262,11 @@ class CashieringORController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $studor = StudPayment::select('studpayment.*')
+        $studor = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                     ->where('studpayment.studID', $stud_id)
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
+                    ->select('studpayment.*', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.lname')
                     ->get();
 
         $data = [
