@@ -32,7 +32,12 @@ $(document).ready(function() {
                     return lastName + ', ' + firstname + ' ' + middleInitial + ext;
                 }
             },
-            {data: 'total_amount'},
+            { 
+                data: 'total_amount',
+                render: function (data, type, row) {
+                    return parseFloat(data).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }
+            },
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
