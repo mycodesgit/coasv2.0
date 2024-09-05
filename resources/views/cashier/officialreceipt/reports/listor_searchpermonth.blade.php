@@ -51,7 +51,7 @@ CISS V.1.0 || OR
                                                 <i class="far fa-calendar-alt"></i>
                                             </span>
                                         </div>
-                                        <input type="date" name="datepaid" class="form-control form-control-sm">
+                                        <input type="text" name="datepaid" class="form-control form-control-sm" id="reservation">
                                     </div>
                                 </div>
 
