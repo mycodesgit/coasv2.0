@@ -18,7 +18,15 @@ $(document).ready(function() {
                 'excel'
             ],
         "columns": [
-            {data: 'datepaid'},
+            { 
+                data: 'datepaid',
+                render: function (data, type, row) {
+                    // Convert the date string into a Date object
+                    var date = new Date(data);
+                    // Format the date as 'MMM DD, YYYY'
+                    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' });
+                }
+            },
             {data: 'orno'},
             {data: 'studID'},
             {
