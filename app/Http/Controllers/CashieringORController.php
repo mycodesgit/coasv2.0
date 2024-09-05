@@ -331,16 +331,6 @@ class CashieringORController extends Controller
         }
     }
 
-
-
-
-
-
-
-
-
-
-
     public function listorperdayRead()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
@@ -390,6 +380,62 @@ class CashieringORController extends Controller
 
 
         return view('cashier.officialreceipt.reports.listor_searchperday', compact('data'));
+    }
+
+    public function listorpermonthRead()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('cashier.officialreceipt.reports.listor_permonth', compact('sy'));
+    }
+
+    public function listsearch_orpermonthRead(Request $request)
+    {
+        $datepaid = $request->query('datepaid');
+        $campus = Auth::guard('web')->user()->campus;
+
+        [$startDate, $endDate] = explode(' - ', $datepaid);
+    
+        // Parse the dates to Carbon instances
+        $startDate = Carbon::parse($startDate)->startOfDay();
+        $endDate = Carbon::parse($endDate)->endOfDay();
+
+        $data = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->where('studpayment.campus', '=', $campus)
+                ->whereBetween('studpayment.datepaid', [$startDate, $endDate])
+                ->select(
+                    'coasv2_db_enrollment.students.lname',
+                    'coasv2_db_enrollment.students.fname',
+                    'coasv2_db_enrollment.students.mname',
+                    'studpayment.orno',
+                    'studpayment.studID',
+                    'studpayment.datepaid',
+                    'studpayment.campus',
+                    'studpayment.semester',
+                    'studpayment.schlyear',
+                    DB::raw('SUM(studpayment.amountpaid) as total_amount')
+                )
+                ->groupBy(
+                    'coasv2_db_enrollment.students.lname',
+                    'coasv2_db_enrollment.students.fname',
+                    'coasv2_db_enrollment.students.mname',
+                    'studpayment.orno',
+                    'studpayment.studID',
+                    'studpayment.datepaid',
+                    'studpayment.campus',
+                    'studpayment.semester',
+                    'studpayment.schlyear'
+                )
+                ->get();
+
+        return view('cashier.officialreceipt.reports.listor_searchpermonth', compact('data'));
     }
 
     public function getlistallorRead() 

@@ -5,6 +5,7 @@
     $orActive = in_array($curr_route, ['list_orRead', 'listsearch_orRead']) ? 'active' : '';
     $orEditActive = in_array($curr_route, ['listedit_orRead', 'listsearchedit_orRead']) ? 'active' : '';
     $orperdayActive = in_array($curr_route, ['listorperdayRead', 'listsearch_orperdayRead']) ? 'active' : '';
+    $orpermonthActive = in_array($curr_route, ['listorpermonthRead', 'listsearch_orpermonthRead']) ? 'active' : '';
 
 @endphp
 
@@ -25,6 +26,7 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        <a href="{{ route('listorperdayRead') }}" class="list-group-item {{ $orperdayActive }}">Official Receipt Per Date</a>  
+        <a href="{{ route('listorperdayRead') }}" class="list-group-item {{ $orperdayActive }}">Official Receipt Per Date</a>
+        <a href="{{ route('listorpermonthRead') }}" class="list-group-item {{ $orpermonthActive }}">Official Receipt Per Month</a>  
     </ul>
 </div>

@@ -31,6 +31,9 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/daterangepicker/daterangepicker.css') }}">
+
     <style>
         .sticky-column {
           position: sticky;
@@ -193,6 +196,8 @@
     <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
+    <!-- date-range-picker -->
+    <script src="{{ asset('template/plugins/daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
@@ -316,6 +321,18 @@
         @endif
     </script>
 
+    <script>
+        $(function () {
+            //Date range picker
+            $('#reservation').daterangepicker({
+                opens: 'right',
+                autoApply: false,
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+        })
+    </script>
 </body>
 </html>
    

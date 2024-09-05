@@ -37,14 +37,14 @@ CISS V.1.0 || OR
 
         <div class="mt-3 row">
             <div class="col-md-12">
-                <form method="GET" action="{{ route('listsearch_orperdayRead') }}" id="perdayorno">
+                <form method="GET" action="{{ route('listsearch_orpermonthRead') }}" id="perdayorno">
                     @csrf
 
                     <div class="">
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-4">
-                                    <label><span class="badge badge-secondary">Select Date</span></label>
+                                    <label><span class="badge badge-secondary">Date Range</span></label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">

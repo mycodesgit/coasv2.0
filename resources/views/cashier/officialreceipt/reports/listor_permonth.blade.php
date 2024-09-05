@@ -20,7 +20,7 @@ CISS V.1.0 || OR
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Cashier</li>
-            <li class="breadcrumb-item active mt-1">Official Receipt Per Date</li>
+            <li class="breadcrumb-item active mt-1">Official Receipt Per Month</li>
         </ol>
 
         <p>
@@ -32,26 +32,26 @@ CISS V.1.0 || OR
         </p>
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <h4>Official Receipt Per Date</h4>
+            <h4>Official Receipt Per Month</h4>
         </div>
 
         <div class="mt-3 row">
             <div class="col-md-12">
-                <form method="GET" action="{{ route('listsearch_orperdayRead') }}" id="perdayorno">
+                <form method="GET" action="{{ route('listsearch_orpermonthRead') }}" id="perdayorno">
                     @csrf
 
                     <div class="">
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-4">
-                                    <label><span class="badge badge-secondary">Select Date</span></label>
+                                    <label><span class="badge badge-secondary">Date Range</span></label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
                                                 <i class="far fa-calendar-alt"></i>
                                             </span>
                                         </div>
-                                        <input type="date" name="datepaid" class="form-control form-control-sm">
+                                        <input type="text" name="datepaid" class="form-control form-control-sm" id="reservation">
                                     </div>
                                 </div>
 
@@ -63,34 +63,6 @@ CISS V.1.0 || OR
                         </div>
                     </div>
                 </form>
-            </div>
-
-            <div class="col-md-12 mt-2">
-                <div class="page-header" style="border-top: 1px solid #04401f;"></div>
-                <div class="mt-3">
-                    <table id="example1" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Date Paid</th>
-                                <th>OR No</th>
-                                <th>Student ID No.</th>
-                                <th>Student Name</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($data as $d)
-                                <tr>
-                                    <td>{{ $d->datepaid }}</td>
-                                    <td>{{ $d->orno }}</td>
-                                    <td>{{ $d->studID }}</td>
-                                    <td>{{ $d->lname }}, {{ $d->fname }} {{ substr($d->lname, 0,1) }}.</td>
-                                    <td>{{ $d->total_amount }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
@@ -117,7 +89,5 @@ CISS V.1.0 || OR
         }
     }
 </script>
-
-
 
 @endsection

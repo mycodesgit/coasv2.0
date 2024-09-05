@@ -44,8 +44,15 @@ CISS V.1.0 || OR
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-4">
-                                    <label><span class="badge badge-secondary">Date</span></label>
-                                    <input type="date" name="datepaid" class="form-control form-control-sm">
+                                    <label><span class="badge badge-secondary">Select Date</span></label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="date" name="datepaid" class="form-control form-control-sm">
+                                    </div>
                                 </div>
 
                                 <div class="col-md-2">
