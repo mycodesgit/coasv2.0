@@ -72,7 +72,7 @@
 					<th>
 						<div align="center" style="margin-top:">
 				        	{{-- <img src="{{ public_path('template/img/cashier/orheader.png') }}" width="95%" height="13%"> --}}
-				        	<br><br><br><br><br><br><br>
+				        	<br><br><br><br><br><br>
 				    	</div>
 				    </th>
 				</tr>
