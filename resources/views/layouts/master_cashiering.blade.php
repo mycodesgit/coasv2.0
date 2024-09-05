@@ -289,6 +289,10 @@
     </script>
     @endif
 
+    @if(request()->routeIs('listsearch_orpermonthRead'))
+        <script src="{{ asset('js/ajax/cash/orMonthSerialize.js') }}"></script>
+    @endif
+
     <script>
         $(document).ready(function () {
             $('#searchDropdown').select2({

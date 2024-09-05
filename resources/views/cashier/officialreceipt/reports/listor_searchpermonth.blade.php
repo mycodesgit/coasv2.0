@@ -68,7 +68,7 @@ CISS V.1.0 || OR
             <div class="col-md-12 mt-2">
                 <div class="page-header" style="border-top: 1px solid #04401f;"></div>
                 <div class="mt-3">
-                    <table id="example1" class="table table-hover">
+                    <table id="permonthORtable" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Date Paid</th>
@@ -79,7 +79,7 @@ CISS V.1.0 || OR
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($data as $d)
+                            {{-- @foreach($data as $d)
                                 <tr>
                                     <td>{{ $d->datepaid }}</td>
                                     <td>{{ $d->orno }}</td>
@@ -87,7 +87,7 @@ CISS V.1.0 || OR
                                     <td>{{ $d->lname }}, {{ $d->fname }} {{ substr($d->lname, 0,1) }}.</td>
                                     <td>{{ $d->total_amount }}</td>
                                 </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -118,6 +118,9 @@ CISS V.1.0 || OR
     }
 </script>
 
+<script>
+    var permonthOrReadRoute = "{{ route('getlistsearch_orpermonthRead') }}";
+</script>
 
 
 @endsection

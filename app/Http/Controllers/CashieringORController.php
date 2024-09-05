@@ -401,6 +401,15 @@ class CashieringORController extends Controller
         $datepaid = $request->query('datepaid');
         $campus = Auth::guard('web')->user()->campus;
 
+        return view('cashier.officialreceipt.reports.listor_searchpermonth');
+    }
+
+
+    public function getlistsearch_orpermonthRead(Request $request) 
+    {
+        $datepaid = $request->query('datepaid');
+        $campus = Auth::guard('web')->user()->campus;
+
         [$startDate, $endDate] = explode(' - ', $datepaid);
     
         // Parse the dates to Carbon instances
@@ -433,9 +442,9 @@ class CashieringORController extends Controller
                     'studpayment.semester',
                     'studpayment.schlyear'
                 )
-                ->get();
+            ->get();
 
-        return view('cashier.officialreceipt.reports.listor_searchpermonth', compact('data'));
+        return response()->json(['data' => $data]);
     }
 
     public function getlistallorRead() 
