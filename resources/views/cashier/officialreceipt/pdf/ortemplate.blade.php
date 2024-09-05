@@ -107,7 +107,7 @@
 			<tbody>
 				@foreach($studor as $orfees)
 				<tr class="print-only">
-					<td style="font-weight: bold; text-align: right; font-family: 'Roboto', sans-serif;">{{ $orfees->account }}</td>
+					<td style="font-weight: bold; text-align: right; font-family: 'monospace;', sans-serif;">{{ $orfees->account }}</td>
 					<td style="font-weight: bold; text-align: center; font-family: 'Roboto', sans-serif;">{{ $orfees->fund }}</td>
 					<td style="font-weight: bold; font-family: 'Roboto', sans-serif;">{{ $orfees->amountpaid }}</td>
 				</tr>

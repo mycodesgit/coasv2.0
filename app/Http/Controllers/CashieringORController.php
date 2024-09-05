@@ -110,7 +110,9 @@ class CashieringORController extends Controller
 
         $orstud = Student::where('stud_id', $stud_id)->select('fname', 'mname', 'lname')->get();
         $studfund = Funds::orderBy('id', 'DESC')->get();
-        $studAccntap = AccountAppraisal::orderBy('account_name', 'ASC')->get();
+        $studAccntap = AccountAppraisal::whereIn('id', ['2', '7', '33', '42', '44', '49', '74', '76', '79', '85', '90', '91', '92', '93', '99', '118', '133', '134', '151', '152', '153', '154', '155', '156', '159', '161'])
+                    ->orderBy('account_name', 'ASC')
+                    ->get();
 
         return view('cashier.officialreceipt.listsearch_or', compact('orstud', 'studfund', 'studAccntap'));
     }
@@ -248,7 +250,7 @@ class CashieringORController extends Controller
             'studor' => $studor
         ];
         
-        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper([0, 0, 396, 612], 'portrait');
+        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper([0, 0, 420, 595], 'portrait');
         return $pdf->stream();
     }
 
@@ -269,7 +271,7 @@ class CashieringORController extends Controller
             'studor' => $studor
         ];
         
-        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper([0, 0, 396, 612], 'portrait');
+        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper([0, 0, 420, 595], 'portrait');
         return $pdf->stream();
     }
 
@@ -304,7 +306,9 @@ class CashieringORController extends Controller
                 ->select('fname', 'mname', 'lname', 'studID')
                 ->get();
         $studfund = Funds::orderBy('id', 'DESC')->get();
-        $studAccntap = AccountAppraisal::orderBy('account_name', 'ASC')->get();
+        $studAccntap = AccountAppraisal::whereIn('id', ['2', '7', '33', '42', '44', '49', '74', '76', '79', '85', '90', '91', '92', '93', '99', '118', '133', '134', '151', '152', '153', '154', '155', '156', '159', '161'])
+                    ->orderBy('account_name', 'ASC')
+                    ->get();
 
         return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap'));
     }

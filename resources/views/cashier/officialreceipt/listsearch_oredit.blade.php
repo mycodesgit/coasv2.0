@@ -154,7 +154,7 @@ CISS V.1.0 || Edit OR
                 <hr>
                 <form action="{{ route('orprintedit') }}" method="get" target="_blank">
                     @csrf
-                    <input type="text" name="stud_id" value="{{ $orstud->first()->studID }}">
+                    <input type="hidden" name="stud_id" value="{{ $orstud->first()->studID }}">
                     <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                     <input type="hidden" name="semester" value="{{ request('semester') }}">
                     <button type="submit" class="btn btn-primary float-right">
