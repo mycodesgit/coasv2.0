@@ -9,11 +9,11 @@ $(document).ready(function() {
                 "datepaid": datepaid,
             }
         },
-        info: false,
+        info: true,
         responsive: true,
-        lengthChange: false,
-        searching: false,
-        paging: false,
+        lengthChange: true,
+        searching: true,
+        paging: true,
         "columns": [
             {data: 'datepaid'},
             {data: 'orno'},
