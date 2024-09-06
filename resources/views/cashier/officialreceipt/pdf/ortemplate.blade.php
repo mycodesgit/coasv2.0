@@ -143,6 +143,6 @@
 			
 		</table>
 	</div>
-	<div style="font-weight: normal; margin-left: 80px; margin-top: 30px; text-align: left; font-family: 'monospace;', sans-serif; position: fixed !important;">{{ ucfirst($totalInWords) }} pesos only</div>
+	<div style="font-weight: normal; margin-left: 80px; margin-top: 30px; text-align: left; font-family: arial; position: fixed !important;">{{ ucfirst($totalInWords) }} pesos only</div>
 </body>
 </html>
