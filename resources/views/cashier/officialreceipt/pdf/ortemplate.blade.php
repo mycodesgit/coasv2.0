@@ -85,18 +85,18 @@
 					<th rowspan="2"><center><span style="font-size: 10pt; font-family: unset; text-align: center !important; color: #fff !important;">ORIGINAL</span></center><br><span style="text-align: left; color: #fff !important;">No.</span></th>
 				</tr>
 				<tr>
-					<th style="font-size: 10pt; font-family: unset; text-align: left;"><span style="color: #fff !important;">DATE</span><span style="margin-left: 90px;">{{ \Carbon\Carbon::now()->format('M j, Y') }}</span><br><br><br></th>
+					<th style="font-family: 'monospace'; font-weight: bold; text-align: left;"><span style="color: #fff !important;">DATE</span><span style="margin-left: 90px;">{{ \Carbon\Carbon::now()->format('M j, Y') }}</span><br><br><br></th>
 				</tr>
 			</thead>
 		</table>
 		<table>
 			<thead>
 				<tr>
-					<th colspan="2" style="font-weight: normal;"><span style="color: #fff !important; margin-left: 80px;">Campus</span>{{ Auth::guard('web')->user()->campus }}<br><br></th>
-					<th style="font-weight: thin;"><span style="color: #fff !important;">Fund</span>IGF<br><br></th>
+					<th colspan="2" style="font-weight: bold; font-family: 'monospace';"><span style="color: #fff !important; margin-left: 80px;">Campus</span>{{ Auth::guard('web')->user()->campus }}<br><br></th>
+					<th style="font-weight: bold; font-family: 'monospace';"><span style="color: #fff !important;">Fund</span>IGF<br><br></th>
 				</tr>
 				<tr>
-					<th colspan="3" style="font-weight: thin; margin-left: ; font-family: 'monospace;', sans-serif;"><span style="color: #fff !important;">Payor</span><span style="margin-left: 60px;">{{ $studor->first()->fname }} {{ $studor->first()->lname }}</span><br><br></th>
+					<th colspan="3" style="font-weight: bold; margin-left: ; font-family: 'monospace';"><span style="color: #fff !important;">Payor</span><span style="margin-left: 60px;">{{ $studor->first()->fname }} {{ $studor->first()->lname }}</span><br><br></th>
 				</tr>
 				<tr>
 					<th style="font-size: 10pt; font-family: sans-serif; text-align: center; font-weight: thin; color: #fff !important;">NATURE OF<br> COLLECTION</th>
@@ -115,6 +115,7 @@
 				    $totalInWords = $numberTransformer->toWords($totalAmount);
 				    $rowCount = 0; 
     				$maxRows = 10;
+    				$totalamnt = 0;
 				@endphp
 				@foreach($studor as $orfees)
 				    @if($rowCount < $maxRows)
@@ -124,7 +125,8 @@
 				            <td style="font-weight: bold; font-family: 'monospace;', sans-serif;">{{ number_format($orfees->amountpaid, 2) }}</td>
 				        </tr>
 				        @php
-				            $rowCount++; 
+				            $rowCount++;
+				            $totalamnt += $orfees->amountpaid; 
 				        @endphp
 				    @endif
 			    @endforeach
@@ -140,9 +142,9 @@
 				    @endphp
 			    @endwhile
 			</tbody>
-			
 		</table>
 	</div>
-	<div style="font-weight: normal; margin-left: 80px; margin-top: 30px; text-align: left; font-family: arial; position: fixed !important;">{{ ucfirst($totalInWords) }} pesos only</div>
+	<div style="font-weight: bold; margin-left: 380px; margin-top: -30px; text-align: right !important; font-family: 'monospace'; position: fixed !important;">{{ number_format($totalamnt, 2) }}</div>
+	<div style="font-weight: normal; margin-left: 100px; margin-top: 30px; text-align: left; font-family: arial; position: fixed !important;">{{ ucfirst($totalInWords) }} pesos only</div>
 </body>
 </html>

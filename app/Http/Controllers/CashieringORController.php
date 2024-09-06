@@ -251,7 +251,7 @@ class CashieringORController extends Controller
             'studor' => $studor
         ];
         
-        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper([0, 0, 420, 595], 'portrait');
+        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper('A5', 'portrait');
         return $pdf->stream();
     }
 
@@ -273,7 +273,7 @@ class CashieringORController extends Controller
             'studor' => $studor
         ];
         
-        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper([0, 0, 420, 595], 'portrait');
+        $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper('A5', 'portrait');
         return $pdf->stream();
     }
 
