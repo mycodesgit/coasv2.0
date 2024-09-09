@@ -64,11 +64,27 @@ class EnStudentPerSubjectController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $substudnow = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                ->where('sub_offered.schlyear', $schlyear)
-                ->where('sub_offered.semester', $semester)
-                ->where('sub_offered.campus', $campus)
-                ->select('subjects.sub_name', 'subjects.sub_title', 'sub_offered.*',  'sub_offered.id as sid')
-                ->get();
+            ->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+            ->where('sub_offered.schlyear', $schlyear)
+            ->where('sub_offered.semester', $semester)
+            ->where('sub_offered.campus', $campus)
+            ->select(
+                'subjects.sub_name',
+                'subjects.sub_title',
+                'sub_offered.*',
+                'sub_offered.id as sid',
+                DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
+            )
+            ->groupBy(
+                'subjects.sub_name',
+                'subjects.sub_title',
+                'sub_offered.id',
+                'sub_offered.subCode',
+                'sub_offered.schlyear',
+                'sub_offered.semester',
+                'sub_offered.campus'
+            )
+            ->get();
 
         return view('enrollment.reports.studentsub.listsearch_studsub', compact('sy', 'substudnow'));
     }

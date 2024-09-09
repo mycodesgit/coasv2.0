@@ -79,6 +79,7 @@ CISS V.1.0 || Student List per Subjects
                                     <th>Subject</th>
                                     <th>Descriptive</th>
                                     <th>Course Yr&Section</th>
+                                    <th>No of Stud</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -88,6 +89,7 @@ CISS V.1.0 || Student List per Subjects
                                         <td>{{ $datasubstudnow->sub_name }}</td>
                                         <td>{{ $datasubstudnow->sub_title }}</td>
                                         <td>{{ $datasubstudnow->subSec }}</td>
+                                        <td>{{ $datasubstudnow->countstud }}</td>
                                         <td>
                                             <a href="{{ route('listsearchview_studsubjectsRead', ['id' => $datasubstudnow->sid, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="btn btn-primary btn-sm">
                                                 <i class="fas fa-eye"></i>
