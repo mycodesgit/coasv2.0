@@ -595,7 +595,7 @@ class EnrollmentController extends Controller
     {   
         if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC'])) {
             $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->where('id', 18)
+                ->whereIn('id', ['17', '18'])
                 ->get();
         }
 
