@@ -77,7 +77,7 @@ class EnStudentPerSubjectController extends Controller
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
-            ->where('sub_offered.sub_code', '=', 'KAB-SER-076')
+            ->where('sub_offered.subCode', 'KAB-SER-076')
             ->select(
                 'subjects.sub_name',
                 'subjects.sub_title',
