@@ -83,17 +83,17 @@ class EnStudentPerSubjectController extends Controller
                 'subjects.sub_title',
                 'sub_offered.*',
                 'sub_offered.id as sid',
-                DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
+                //DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
             )
-            ->groupBy(
-                'subjects.sub_name',
-                'subjects.sub_title',
-                'sub_offered.id',
-                'sub_offered.subCode',
-                'sub_offered.schlyear',
-                'sub_offered.semester',
-                'sub_offered.campus'
-            )
+            // ->groupBy(
+            //     'subjects.sub_name',
+            //     'subjects.sub_title',
+            //     'sub_offered.id',
+            //     'sub_offered.subCode',
+            //     'sub_offered.schlyear',
+            //     'sub_offered.semester',
+            //     'sub_offered.campus'
+            // )
             ->get();
 
         return response()->json(['data' => $data]);
