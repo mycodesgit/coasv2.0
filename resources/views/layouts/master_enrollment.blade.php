@@ -343,6 +343,9 @@
     @if(request()->routeIs('studgrade_searchlist', 'studgradegrad_searchlist'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('listsearch_studsubjectsRead'))
+        <script src="{{ asset('js/ajax/enrolment/studenrollAttendanceSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('geneStudent1'))
         <script src="{{ asset('js/ajax/enrolment/passwordGrade.js') }}"></script>
     @endif

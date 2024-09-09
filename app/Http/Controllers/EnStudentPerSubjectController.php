@@ -63,7 +63,16 @@ class EnStudentPerSubjectController extends Controller
         $semester = $request->query('semester');   
         $campus = Auth::guard('web')->user()->campus;
 
-        $substudnow = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+        return view('enrollment.reports.studentsub.listsearch_studsub', compact('sy'));
+    }
+
+    public function getlistsearch_studsubjectsRead(Request $request)
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');   
+        $campus = Auth::guard('web')->user()->campus;
+
+        $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
             ->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
@@ -86,7 +95,7 @@ class EnStudentPerSubjectController extends Controller
             )
             ->get();
 
-        return view('enrollment.reports.studentsub.listsearch_studsub', compact('sy', 'substudnow'));
+        return response()->json(['data' => $data]);
     }
 
     public function listsearchgradschool_studsubjectsRead(Request $request)

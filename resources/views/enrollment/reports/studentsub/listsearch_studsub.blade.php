@@ -73,7 +73,7 @@ CISS V.1.0 || Student List per Subjects
 
                 <div class="col-md-12">
                     <div>
-                        <table id="example1" class="table table-hover">
+                        <table id="attendanceTable" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Subject</th>
@@ -84,7 +84,7 @@ CISS V.1.0 || Student List per Subjects
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($substudnow as $datasubstudnow)
+                                {{-- @foreach($substudnow as $datasubstudnow)
                                     <tr>
                                         <td>{{ $datasubstudnow->sub_name }}</td>
                                         <td>{{ $datasubstudnow->sub_title }}</td>
@@ -96,7 +96,7 @@ CISS V.1.0 || Student List per Subjects
                                             </a>
                                         </td> 
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
@@ -107,5 +107,11 @@ CISS V.1.0 || Student List per Subjects
     </div>
 </div>
 
+<script>
+    var attendanceReadRoute = "{{ route('getlistsearch_studsubjectsRead') }}";
 
+    var schlyear = "{{ request('schlyear') }}";
+    var semester = "{{ request('semester') }}";
+    var routeTemplate = "{{ route('geneStudent1', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
+</script>
 @endsection
