@@ -73,11 +73,11 @@ class EnStudentPerSubjectController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-            ->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+            //->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
-            ->where('sub_offered.subCode', 'KAB-SER-076')
+            //->where('sub_offered.subCode', 'KAB-SER-076')
             ->select(
                 'subjects.sub_name',
                 'subjects.sub_title',
