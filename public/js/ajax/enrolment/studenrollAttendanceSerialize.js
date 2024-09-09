@@ -20,6 +20,9 @@ $(document).ready(function() {
         lengthChange: true,
         searching: true,
         paging: true,
+        buttons: [
+                'excel', 'pdf'
+            ],
         "columns": [
             {data: 'sub_name'},
             {data: 'sub_title'},
@@ -54,7 +57,8 @@ $(document).ready(function() {
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
-        }
+        },
+        dom: 'Bfrtip'
     });
     $(document).on('fundAdded', function() {
         dataTable.ajax.reload();
