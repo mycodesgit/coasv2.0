@@ -149,6 +149,14 @@ class EnStudELPLController extends Controller
             }
         }
 
+        function displayGrade($grade) {
+            if (is_numeric($grade) && strpos($grade, '.') === false) {
+                $equivalent = getEquivalentGrade($grade);
+                return $equivalent['gpa'];
+            }
+            return $grade;
+        }}
+
         $data = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                         ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
                         ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
@@ -163,13 +171,11 @@ class EnStudELPLController extends Controller
                         ->orderBy('program_en_history.studYear', 'ASC')
                         ->get();
 
-        $data = $data->map(function ($item) {
-            $equivalent = getEquivalentGPA($item->subjFgrade); // Get GPA and status
-            $item->subjFgrade = $equivalent['gpa']; // Update subjFgrade with the GPA
-            $item->gradeStatus = $equivalent['status']; // Add the status as a new field
+        $data = $data->map(function($item) {
+            $item->subjFgrade = displayGrade($item->subjFgrade); // Convert the grade
             return $item;
         });
-        
+
        return response()->json(['data' => $data]);
     }
 }
