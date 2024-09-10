@@ -151,11 +151,11 @@ class EnStudELPLController extends Controller
 
         function displayGrade($grade) {
             if (is_numeric($grade) && strpos($grade, '.') === false) {
-                $equivalent = getEquivalentGrade($grade);
+                $equivalent = getEquivalentGPA($grade);
                 return $equivalent['gpa'];
             }
             return $grade;
-        }}
+        }
 
         $data = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                         ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
