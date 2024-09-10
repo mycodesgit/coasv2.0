@@ -28,19 +28,24 @@
         <a href="{{ route('enrollment-index') }}" class="list-group-item {{ $dashEnActive }}">Dashboard</a>
     </ul>
     <ul class="list-group mt-1">
+        @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
+            <a href="" class="list-group-item">Add Student</a>
+        @endif
+
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 11, 12, 13, 14, 15]))
-        <a href="{{ route('searchStud') }}" class="list-group-item {{ $searchStudActive }}">Enroll Student</a>  
+            <a href="{{ route('searchStud') }}" class="list-group-item {{ $searchStudActive }}">Enroll Student</a>  
         <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
         @endif
+
         <a href="{{ route('studentEnHistory') }}" class="list-group-item {{ $stuEnrollmentHisActive }}">Enrollment History</a>
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
-        <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
+            <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
         @endif
 {{--         @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
         <a href="{{ route('studgrade_gradsearch') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
         @endif --}}
         @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie')
-        <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
+            <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
         @endif
     </ul>
 </div>

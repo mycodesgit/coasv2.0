@@ -115,6 +115,40 @@ class EnStudELPLController extends Controller
         $progCod = $request->query('progCod');
         $campus = Auth::guard('web')->user()->campus;
 
+        function getEquivalentGPA($grade) {
+            if ($grade === 'INC') {
+                return ['gpa' => 'INC', 'status' => 'Incomplete'];
+            } elseif ($grade === 'NN') {
+                return ['gpa' => 'NN', 'status' => 'No Name'];
+            } elseif ($grade === 'NG') {
+                return ['gpa' => 'NG', 'status' => 'No Grade'];
+            } elseif ($grade === 'Drp..') {
+                return ['gpa' => 'Drp.', 'status' => 'Drop'];
+            } elseif ($grade >= 97 || $grade == 1) {
+                return ['gpa' => 1.0, 'status' => 'Passed'];
+            } elseif ($grade >= 94) {
+                return ['gpa' => 1.2, 'status' => 'Passed'];
+            } elseif ($grade >= 91) {
+                return ['gpa' => 1.5, 'status' => 'Passed'];
+            } elseif ($grade >= 88) {
+                return ['gpa' => 1.7, 'status' => 'Passed'];
+            } elseif ($grade >= 85 || $grade == 2) {
+                return ['gpa' => 2.0, 'status' => 'Passed'];
+            } elseif ($grade >= 82) {
+                return ['gpa' => 2.2, 'status' => 'Passed'];
+            } elseif ($grade >= 79) {
+                return ['gpa' => 2.5, 'status' => 'Passed'];
+            } elseif ($grade >= 76) {
+                return ['gpa' => 2.7, 'status' => 'Passed'];
+            } elseif ($grade >= 75 || $grade == 3) {
+                return ['gpa' => 3.0, 'status' => 'Passed'];
+            } elseif ($grade >= 70) {
+                return ['gpa' => 4.0, 'status' => 'Conditional'];
+            } else {
+                return ['gpa' => 5.0, 'status' => 'Failure'];
+            }
+        }
+
         $data = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                         ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
                         ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
@@ -129,6 +163,13 @@ class EnStudELPLController extends Controller
                         ->orderBy('program_en_history.studYear', 'ASC')
                         ->get();
 
+        $data = $data->map(function ($item) {
+            $equivalent = getEquivalentGPA($item->subjFgrade); // Get GPA and status
+            $item->subjFgrade = $equivalent['gpa']; // Update subjFgrade with the GPA
+            $item->gradeStatus = $equivalent['status']; // Add the status as a new field
+            return $item;
+        });
+        
        return response()->json(['data' => $data]);
     }
 }
