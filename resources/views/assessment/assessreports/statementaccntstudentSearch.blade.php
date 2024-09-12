@@ -98,7 +98,7 @@ CISS V.1.0 || Student Statements of Accounts Summary
                             $currentRoute = Route::currentRouteName();
                             $actionRoute = ($currentRoute == 'stateaccntperstudentid_search') 
                                            ? route('stateaccntperstudent_searchpdf') 
-                                           : route('stateaccntperstudentname_searchpdf'); // Replace 'another_route_name' with the default route you want to use
+                                           : route('stateaccntperstudentname_searchpdf');
                         @endphp
                         @foreach($data as $datasumstudfeesen)
                             <tr>
