@@ -514,6 +514,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/statement/per/search', [StudStateAccntAssessmentController::class, 'stateaccntpersem_search'])->name('stateaccntpersem_search');
             Route::get('/statement/per/search/pdf', [StudStateAccntAssessmentController::class, 'stateaccntpersem_searchpdf'])->name('stateaccntpersem_searchpdf');
 
+            Route::get('/statement/per/student', [StudStateAccntAssessmentController::class, 'stateaccntperstudent'])->name('stateaccntperstudent');
+            Route::get('/statement/per/student/search', [StudStateAccntAssessmentController::class, 'stateaccntperstudent_search'])->name('stateaccntperstudent_search');
+
             Route::get('/statement/summary', [StudStateAccntAssessmentController::class, 'stateaccntpersum'])->name('stateaccntpersum');
             Route::get('/statement/summary/search', [StudStateAccntAssessmentController::class, 'stateaccntpersum_search'])->name('stateaccntpersum_search');
             Route::get('/statement/summary/searchajax', [StudStateAccntAssessmentController::class, 'getstateaccntpersum_search'])->name('getstateaccntpersum_search');

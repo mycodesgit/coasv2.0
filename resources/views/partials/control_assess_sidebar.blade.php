@@ -8,6 +8,7 @@
     $studFeeActive = in_array($curr_route, ['searchStudfee', 'list_searchStudfee']) ? 'active' : '';
 
     $studStateAccntActive = in_array($curr_route, ['stateaccntpersem', 'stateaccntpersem_search']) ? 'active' : '';
+    $studStateAccntStudActive = in_array($curr_route, ['stateaccntperstudent', 'stateaccntperstudent_search']) ? 'active' : '';
     $studStateAccntSumActive = in_array($curr_route, ['stateaccntpersum', 'stateaccntpersum_search']) ? 'active' : '';
 
     $hebillingActive = in_array($curr_route, ['hebillingRead', 'hebillingRead_search']) ? 'active' : '';
@@ -33,7 +34,7 @@
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
         <a href="{{ route('stateaccntpersem') }}" class="list-group-item {{ $studStateAccntActive }}">Accounts Per Semester</a>
-        <a href="" class="list-group-item ">Accounts Per Date</a>
+        <a href="{{ route('stateaccntperstudent') }}" class="list-group-item {{ $studStateAccntStudActive }}">Accounts Per Student</a>
         <a href="{{ route('stateaccntpersum') }}" class="list-group-item {{ $studStateAccntSumActive }}">Accounts Summary</a>
         <a href="{{ route('hebillingRead') }}" class="list-group-item {{ $hebillingActive }}">HE Billing Details</a>
     </ul>
