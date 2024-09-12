@@ -49,7 +49,7 @@ CISS V.1.0 || Student Statements of Accounts Summary
                         </div>
 
                         <div class="col-md-10">
-                            <form method="GET" action="{{ route('stateaccntperstudent_search') }}" id="idField" style="display:none;">
+                            <form method="GET" action="{{ route('stateaccntperstudentid_search') }}" id="idField" style="display:none;">
                                 @csrf
 
                                 <div class="">
@@ -69,7 +69,7 @@ CISS V.1.0 || Student Statements of Accounts Summary
                                 </div>
                             </form>
 
-                            <form method="GET" action="" id="nameFieldLast" style="display:none;">
+                            <form method="GET" action="{{ route('stateaccntperstudentname_search') }}" id="nameFieldLast" style="display:none;">
                                 @csrf
 
                                 <div class="">

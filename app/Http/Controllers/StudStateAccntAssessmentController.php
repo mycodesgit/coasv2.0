@@ -177,7 +177,7 @@ class StudStateAccntAssessmentController extends Controller
         return view('assessment.assessreports.statementaccntstudent');
     }
 
-    public function stateaccntperstudent_search(Request $request)
+    public function stateaccntperstudentid_search(Request $request)
     {
         $stud_id = $request->query('stud_id');
         $campus = Auth::guard('web')->user()->campus;
@@ -197,9 +197,32 @@ class StudStateAccntAssessmentController extends Controller
         return view('assessment.assessreports.statementaccntstudentSearch',compact('data'));
     }
 
+    public function stateaccntperstudentname_search(Request $request)
+    {
+        $lname = $request->query('lname');
+        $fname = $request->query('fname');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $student = Student::where('lname', $lname)->where('fname', $fname)->where('campus', $campus)->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student <strong>' . $lname . ' ' . $fname . '</strong> does not exist.');
+        }
+
+        $data = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
+                ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                ->where('students.lname', $lname)
+                ->where('students.fname', $fname)
+                ->select('students.*', 'program_en_history.progCod', 'coasv2_db_schedule.programs.progAcronym')
+                ->groupBy('program_en_history.studentID', 'program_en_history.progCod', 'coasv2_db_schedule.programs.progAcronym')
+                ->get();
+
+        return view('assessment.assessreports.statementaccntstudentSearch',compact('data'));
+    }
+
     public function stateaccntperstudent_searchpdf(Request $request)
     {
         $stud_id = $request->query('stud_id');
+        $category = $request->query('category');
         $campus = Auth::guard('web')->user()->campus;
 
         $query = Student::leftJoin('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
@@ -209,7 +232,10 @@ class StudStateAccntAssessmentController extends Controller
                     ->select('students.lname', 'students.fname', 'students.mname', 'coasv2_db_schedule.programs.progAcronym');
 
                     if ($category == '2') {
-                        $query->where('students.stud_id', 'LIKE', '%-G');
+                        $query->where(function($q) {
+                            $q->where('students.stud_id', 'LIKE', '%-G')
+                              ->orWhere('students.stud_id', 'LIKE', '%-N');
+                        });
                     }
 
                     $studinfo = $query->get();
@@ -217,24 +243,88 @@ class StudStateAccntAssessmentController extends Controller
         $query = StudentAppraisal::join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                     ->where('student_appraisal.campus',  $campus)
                     ->where('student_appraisal.studID', $stud_id)
-                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname')
-                    ->orderBy('student_appraisal.account', 'ASC');
+                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname');
+                    //->orderBy('student_appraisal.account', 'ASC');
 
                     if ($category == '2') {
-                        $query->where('student_appraisal.studID', 'LIKE', '%-G');
+                        $query->where(function($q) {
+                            $q->where('student_appraisal.studID', 'LIKE', '%-G')
+                              ->orWhere('student_appraisal.studID', 'LIKE', '%-N');
+                        });
                     }
 
                     $studfees = $query->get();
 
-        $query = StudPayment::where('studpayment.schlyear',  $schlyear)
-                    ->where('studpayment.semester',  $semester)
-                    ->where('studpayment.campus',  $campus)
+        $query = StudPayment::where('studpayment.campus',  $campus)
                     ->where('studpayment.studID', $stud_id)
                     ->select('studpayment.*')
                     ->orderBy('studpayment.account', 'ASC');
 
                     if ($category == '2') {
-                        $query->where('studpayment.studID', 'LIKE', '%-G');
+                        $query->where(function($q) {
+                            $q->where('studpayment.studID', 'LIKE', '%-G')
+                              ->orWhere('studpayment.studID', 'LIKE', '%-N');
+                        });
+                    }
+
+                    $studpayment = $query->get();
+
+        $data = [
+            'studinfo' => $studinfo,
+            'studfees' => $studfees,
+            'studpayment' => $studpayment,
+        ];
+
+        $pdf = PDF::loadView('assessment.assessreports.reports.pdfpersemtemplate', $data)->setPaper('Legal', 'portrait');
+        return $pdf->stream();
+    }
+
+    public function stateaccntperstudentname_searchpdf(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        $category = $request->query('category');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $query = Student::leftJoin('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
+                    ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->where('students.stud_id', $stud_id)
+                    ->where('students.campus',  $campus)
+                    ->select('students.lname', 'students.fname', 'students.mname', 'coasv2_db_schedule.programs.progAcronym');
+
+                    if ($category == '2') {
+                        $query->where(function($q) {
+                            $q->where('students.stud_id', 'LIKE', '%-G')
+                              ->orWhere('students.stud_id', 'LIKE', '%-N');
+                        });
+                    }
+
+                    $studinfo = $query->get();
+
+        $query = StudentAppraisal::join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                    ->where('student_appraisal.campus',  $campus)
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname');
+                    //->orderBy('student_appraisal.account', 'ASC');
+
+                    if ($category == '2') {
+                        $query->where(function($q) {
+                            $q->where('student_appraisal.studID', 'LIKE', '%-G')
+                              ->orWhere('student_appraisal.studID', 'LIKE', '%-N');
+                        });
+                    }
+
+                    $studfees = $query->get();
+
+        $query = StudPayment::where('studpayment.campus',  $campus)
+                    ->where('studpayment.studID', $stud_id)
+                    ->select('studpayment.*')
+                    ->orderBy('studpayment.account', 'ASC');
+
+                    if ($category == '2') {
+                        $query->where(function($q) {
+                            $q->where('studpayment.studID', 'LIKE', '%-G')
+                              ->orWhere('studpayment.studID', 'LIKE', '%-N');
+                        });
                     }
 
                     $studpayment = $query->get();

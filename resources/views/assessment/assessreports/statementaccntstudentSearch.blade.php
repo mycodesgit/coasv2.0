@@ -37,7 +37,7 @@ CISS V.1.0 || Student Statements of Accounts Summary
 
         <div class="mt-2 row">
             <div class="col-md-12">
-                <form method="GET" action="{{ route('stateaccntperstudent_search') }}" id="studstatesum">
+                <form method="GET" action="{{ route('stateaccntperstudentid_search') }}" id="studstatesum">
                     @csrf
 
                     <div class="">
@@ -94,15 +94,33 @@ CISS V.1.0 || Student Statements of Accounts Summary
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $currentRoute = Route::currentRouteName();
+                            $actionRoute = ($currentRoute == 'stateaccntperstudentid_search') 
+                                           ? route('stateaccntperstudent_searchpdf') 
+                                           : route('stateaccntperstudentname_searchpdf'); // Replace 'another_route_name' with the default route you want to use
+                        @endphp
                         @foreach($data as $datasumstudfeesen)
                             <tr>
                                 <td>{{ $datasumstudfeesen->stud_id }}</td>
                                 <td>{{ $datasumstudfeesen->lname }}, {{ $datasumstudfeesen->fname }}</td>
                                 <td>{{ $datasumstudfeesen->progAcronym }}</td>
                                 <td>
-                                    <a href="" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
+                                    <form action="{{ $actionRoute }}" method="GET" target="_blank">
+                                        @csrf
+
+                                        @if($currentRoute == 'stateaccntperstudentid_search')
+                                            <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
+                                        @endif
+
+                                        @if($currentRoute == 'stateaccntperstudentname_search')
+                                            <input type="hidden" name="stud_id" value="{{ $datasumstudfeesen->stud_id }}">
+                                        @endif
+
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
