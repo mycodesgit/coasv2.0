@@ -35,7 +35,7 @@
     <ul class="list-group">
         <a href="{{ route('stateaccntpersem') }}" class="list-group-item {{ $studStateAccntActive }}">Accounts Per Semester</a>
         <a href="{{ route('stateaccntperstudent') }}" class="list-group-item {{ $studStateAccntStudActive }}">Accounts Per Student</a>
-        <a href="{{ route('stateaccntpersum') }}" class="list-group-item {{ $studStateAccntSumActive }}">Accounts Summary</a>
+        {{-- <a href="{{ route('stateaccntpersum') }}" class="list-group-item {{ $studStateAccntSumActive }}">Accounts Summary</a> --}}
         <a href="{{ route('hebillingRead') }}" class="list-group-item {{ $hebillingActive }}">HE Billing Details</a>
     </ul>
 </div>
