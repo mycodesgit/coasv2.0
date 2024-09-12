@@ -121,7 +121,10 @@ class StudStateAccntAssessmentController extends Controller
                     ->select('students.lname', 'students.fname', 'students.mname', 'coasv2_db_schedule.programs.progAcronym');
 
                     if ($category == '2') {
-                        $query->where('students.stud_id', 'LIKE', '%-G');
+                        $query->where(function($q) {
+                            $q->where('students.stud_id', 'LIKE', '%-G')
+                              ->orWhere('students.stud_id', 'LIKE', '%-N');
+                        });
                     }
 
                     $studinfo = $query->get();
