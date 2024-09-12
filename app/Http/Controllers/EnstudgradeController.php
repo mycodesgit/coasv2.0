@@ -149,7 +149,7 @@ class EnstudgradeController extends Controller
         //             ->get();
 
         if(Auth::guard('web')->user()->role == '15') {
-            $grdpercentage = range(2, 43);
+            $grdpercentage = array_merge(range(2, 43), [76]);
         } else {
             $grdpercentage = range(44, 80); 
         }
