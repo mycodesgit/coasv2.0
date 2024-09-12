@@ -201,7 +201,7 @@ class EnrollmentController extends Controller
     public function checkEnrollment(Request $request)
     {
         try {
-            Log::info('checkEnrollment called', $request->all());
+            //Log::info('checkEnrollment called', $request->all());
 
             $progCod = $request->input('programCode');
             $schlyear = $request->input('schlyear');
@@ -222,7 +222,7 @@ class EnrollmentController extends Controller
             // Split classSection into studYear and studSec
             $parts = explode('-', $classSection);
             if (count($parts) !== 2) {
-                Log::error('Invalid classSection format', ['classSection' => $classSection]);
+                //Log::error('Invalid classSection format', ['classSection' => $classSection]);
                 return response()->json(['error' => 'Invalid classSection format'], 400);
             }
             $studYear = $parts[0];
@@ -237,7 +237,7 @@ class EnrollmentController extends Controller
                                 ->where('studSec', $studSec)
                                 ->count();
 
-            Log::info('Enrolled students count', ['count' => $enrolledStudents]);
+            //Log::info('Enrolled students count', ['count' => $enrolledStudents]);
 
             // Fetch the classno from the ClassEnroll model
             $classEnroll = ClassEnroll::where('schlyear', $schlyear)
@@ -248,13 +248,13 @@ class EnrollmentController extends Controller
                             ->first();
 
             if (!$classEnroll) {
-                Log::error('Class not found', ['programCode' => $progCod, 'classSection' => $classSection]);
+                //Log::error('Class not found', ['programCode' => $progCod, 'classSection' => $classSection]);
                 return response()->json(['error' => 'Class not found'], 404);
             }
 
             $classNo = $classEnroll->classno;
 
-            Log::info('Class details', ['classNo' => $classNo]);
+            //Log::info('Class details', ['classNo' => $classNo]);
 
             return response()->json([
                 'enrolledStudents' => $enrolledStudents,
@@ -262,7 +262,7 @@ class EnrollmentController extends Controller
                 'isFull' => $enrolledStudents >= $classNo,
             ]);
         } catch (\Exception $e) {
-            Log::error('Exception occurred', ['message' => $e->getMessage()]);
+            //Log::error('Exception occurred', ['message' => $e->getMessage()]);
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }

@@ -1,60 +1,34 @@
 $(document).ready(function() {
+    $('#addStudentApply').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
 
-    var urlParams = new URLSearchParams(window.location.search);
-    var campus = urlParams.get('campus') || '';
-
-    var dataTable = $('#studinfoall').DataTable({
-        "ajax": {
-            "url": studentlistinfoRoute,
-            "type": "GET",
-            "data": { 
-                "campus": campus,
-            }
-        },
-        responsive: true,
-        lengthChange: true,
-        searching: true,
-        paging: true,
-        "columns": [
-            {
-                data: null,
-                render: function(data, type, row) {
-                    var firstname = data.fname;
-                    var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastName = data.lname;
-                    var ext = data.ext && data.ext !== 'N/A' ? ' ' + data.ext : ' ';
-                    
-                    return lastName + ', ' + firstname + ' ' + middleInitial + ext;
+        $.ajax({
+            url: studentAddNewRoute,
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if(response.success) {
+                    toastr.success(response.message);
+                    Swal.fire({
+                        title: 'Success!',
+                        html: 'Student ID: <strong>' + response.student_id + '</strong>',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
+                    console.log(response);
+                } else {
+                    toastr.error(response.message);
+                    console.log(response);
                 }
             },
-            {data: 'stud_id'},
-            {data: 'gender'},
-            {data: 'civil_status'},
-            {data: 'city'},
-            {
-            data: 'stuDsid',
-                render: function(data, type, row) {
-                    if (type === 'display') {
-                        var editLink = '<a href="#" class="btn btn-primary btn-sm btn-studdataview"  data-id="' + row.stuDsid + '" data-studid="' + row.stud_id + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-pbirth="' + row.pbirth + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-religion="' + row.religion + '" data-address="' + row.address + '" data-civil="' + row.civil_status + '" data-hnum="' + row.hnum + '" data-brgy="' + row.brgy + '" data-city="' + row.city + '" data-province="' + row.province + '" data-region="' + row.region + '" data-zcode="' + row.zcode + '" data-father="' + row.stud_father + '" data-mother="' + row.stud_mother + '" data-guardian="' + row.stud_guardian + '" data-income="' + row.monthly_income + '" data-pcontact="' + row.guardian_contact + '" data-lstschattended="' + row.lstsch_attended + '" data-lstschattendedyear="' + row.lst_sch_attended_year + '" data-suclstattended="' + row.suc_lst_attended + '" data-dateadmission="' + row.date_admission + '">' +
-                            '<i class="fas fa-eye"></i>' +
-                            '</a>';
-                        return editLink;
-                    } else {
-                        return data;
-                    }
-                },
-            },
-        ],
-        "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.id); 
-        }
+            error: function(xhr, status, error, message) {
+                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                toastr.error(errorMessage);
+            }
+        });
     });
-    $(document).on('studlistTable', function() {
-        dataTable.ajax.reload();
-    });
-});
 
-$(document).ready(function() {
     var cityData = {
         "Manila": { province: "Metro Manila", region: "NCR", zcode: "1000" },
         "Quezon City": { province: "Metro Manila", region: "NCR", zcode: "1100" },
@@ -234,6 +208,32 @@ $(document).ready(function() {
     var $regionInput = $('#viewdatastudRegion');
     var $zcodeInput = $('#viewdatastudZcode');
 
+    function updateAddress() {
+        var hnum = document.getElementById('viewdatastudHnum').value;
+        var brgy = document.getElementById('viewdatastudBrgy').value;
+        var city = document.getElementById('viewdatastudCity').value;
+        var province = document.getElementById('viewdatastudProvince').value;
+        var region = document.getElementById('viewdatastudRegion').value;
+        var zcode = document.getElementById('viewdatastudZcode').value;
+
+        // Concatenate the values with commas
+        var address = [hnum, brgy, city, province, region, zcode].filter(Boolean).join(', ');
+
+        // Update the Address field
+        document.getElementById('viewdatastudAddress').value = address;
+    }
+
+    // Add event listeners to input fields to trigger the updateAddress function
+    document.getElementById('viewdatastudHnum').addEventListener('input', updateAddress);
+    document.getElementById('viewdatastudBrgy').addEventListener('input', updateAddress);
+    document.getElementById('viewdatastudCity').addEventListener('change', updateAddress);
+    document.getElementById('viewdatastudProvince').addEventListener('input', updateAddress);
+    document.getElementById('viewdatastudRegion').addEventListener('input', updateAddress);
+    document.getElementById('viewdatastudZcode').addEventListener('input', updateAddress);
+
+    // Run the function once to ensure the Address is updated if the form is pre-filled
+    updateAddress();
+
     // Populate the city dropdown
     var sortedCities = Object.keys(cityData).sort();
 
@@ -262,124 +262,6 @@ $(document).ready(function() {
             $regionInput.val('');
             $zcodeInput.val('');
         }
+        updateAddress();
     });
 });
-
-$(document).on('click', '.btn-studdataview', function() {
-    var id = $(this).data('id');
-    var studid = $(this).data('studid');;
-    var fname = $(this).data('fname');
-    var mname = $(this).data('mname');
-    var lname = $(this).data('lname');
-    var ext = $(this).data('ext');
-    var gender = $(this).data('gender');
-
-    var bday = $(this).data('bday');
-    var date = new Date(bday);
-    var options = { year: 'numeric', month: 'long', day: 'numeric' };
-    var formattedDate = date.toLocaleDateString('en-US', options);
-    
-    var pbirth = $(this).data('pbirth');
-    var contact = $(this).data('contact');
-    var email = $(this).data('email');
-    var religion = $(this).data('religion');
-    var address = $(this).data('address');
-    var civilstatus = $(this).data('civil');
-    var hnum = $(this).data('hnum');
-    var brgy = $(this).data('brgy');
-    var city = $(this).data('city');
-    var province = $(this).data('province');
-    var region = $(this).data('region');
-    var zcode = $(this).data('zcode');
-
-    var studfather = $(this).data('father');
-    var studmother = $(this).data('mother');
-    var studguardian = $(this).data('guardian');
-    var income = $(this).data('income');
-    var pcontact = $(this).data('pcontact');
-    var lstschattended = $(this).data('lstschattended');
-    var lstschattendedyear = $(this).data('lstschattendedyear');
-    var suclstattended = $(this).data('suclstattended');
-    var dateadmission = $(this).data('dateadmission');
-
-    $('#viewdatastudIdprim').val(id);
-    $('#viewdatastudID').val(studid);
-    $('#viewdatastudFname').val(fname);
-    $('#viewdatastudMname').val(mname);
-    $('#viewdatastudLname').val(lname);
-    $('#viewdatastudExt').val(ext);
-    $('#viewdatastudGender').val(gender);
-    $('#viewdatastudBdaynotformat').val(bday);
-    $('#viewdatastudBday').val(formattedDate);
-    $('#viewdatastudBdayp').val(pbirth);
-    $('#viewdatastudMobile').val(contact);
-    $('#viewdatastudEmail').val(email);
-    $('#viewdatastudReligion').val(religion);
-    $('#viewdatastudAddress').val(address);
-    $('#viewdatastudcivilstat').val(civilstatus);
-    $('#viewdatastudHnum').val(hnum);
-    $('#viewdatastudBrgy').val(brgy);
-    $('#viewdatastudCity').val(city);
-    $('#viewdatastudProvince').val(province);
-    $('#viewdatastudRegion').val(region);
-    $('#viewdatastudZcode').val(zcode);
-
-    $('#viewdatastudfather').val(studfather);
-    $('#viewdatastudmother').val(studmother);
-    $('#viewdatastudguardian').val(studguardian);
-    $('#viewdatastudprntincome').val(income);
-    $('#viewdatastudpcontact').val(pcontact);
-
-    $('#viewdatastudlstschattended').val(lstschattended);
-    $('#viewdatastudlstschattendedyear').val(lstschattendedyear);
-    $('#viewdatastudlstsucattnded').val(suclstattended);
-    $('#viewdatastuddateadmission').val(dateadmission);
-
-    $('#viewdatastudModal').modal('show');
-    
-    $('#viewdatastudCity').val(city).trigger('change');
-
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#viewdatastudIdprim').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#viewdatastudIdprim').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
-});
-
-$('#editStudInfoForm').submit(function(event) {
-    event.preventDefault();
-    var formData = $(this).serialize();
-
-    $.ajax({
-        url: studInfoUpdateRoute,
-        type: "POST",
-        data: formData,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            if(response.success) {
-                toastr.success(response.message);
-                $('#viewdatastudModal').modal('hide');
-                $(document).trigger('studlistTable');
-            } else {
-                toastr.error(response.message);
-            }
-        },
-        error: function(xhr, status, error, message) {
-            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
-            toastr.error(errorMessage);
-        }
-    });
-});
-

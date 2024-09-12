@@ -2,6 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $dashEnActive = in_array($curr_route, ['enrollment-index']) ? 'active' : '';
+    $studAddActive = in_array($curr_route, ['studentCreate']) ? 'active' : '';
     $searchStudActive = in_array($curr_route, ['searchStud', 'searchStudEnroll']) ? 'active' : '';
     $editEnrollStudActive = in_array($curr_route, ['editsearchStud', 'editsearchStudRead']) ? 'active' : '';
     $stuEnrollmentHisActive = in_array($curr_route, ['studentEnHistory', 'viewsearchenStudHistory']) ? 'active' : '';
@@ -28,8 +29,8 @@
         <a href="{{ route('enrollment-index') }}" class="list-group-item {{ $dashEnActive }}">Dashboard</a>
     </ul>
     <ul class="list-group mt-1">
-        @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
-            <a href="" class="list-group-item">Add Student</a>
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
+            <a href="{{ route('studentCreate') }}" class="list-group-item {{ $studAddActive }}">Add Student</a>
         @endif
 
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 11, 12, 13, 14, 15]))

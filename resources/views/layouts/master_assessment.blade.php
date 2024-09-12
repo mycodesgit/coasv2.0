@@ -218,6 +218,29 @@
         }, 0); 
     </script>
 
+    <script>
+        @if(Session::has('success'))
+            toastr.options = {
+                "closeButton":true,
+                "progressBar":true,
+                'positionClass': 'toast-top-right'
+            }
+            toastr.success("{{ session('success') }}")
+        @endif
+        @if(session('error'))
+            Swal.fire({
+                icon: 'warning',
+                // title: 'Waring',
+                html: '{!! session('error') !!}',
+                // showClass: {
+                //     popup: 'my-custom-show-animation'
+                // },
+                // hideClass: {
+                //     popup: ''
+                // }
+            });
+        @endif
+    </script>
 
 
 </body>

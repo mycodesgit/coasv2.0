@@ -328,6 +328,9 @@
     @if(request()->routeIs('subjectsRead'))
         <script src="{{ asset('js/ajax/enrolment/subjectSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('studentCreate'))
+        <script src="{{ asset('js/ajax/enrolment/studentAddSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('searchStudEnroll'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}"></script>
     @endif
@@ -378,6 +381,7 @@
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
+    <script src="{{ asset('js/validation/enroll/addStudValidation.js') }}"></script>
     <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}"></script>
     <script src="{{ asset('js/validation/enroll/gradesheetValidation.js') }}"></script>
     <script src="{{ asset('js/validation/enroll/subjectValidation.js') }}"></script>

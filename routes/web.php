@@ -17,6 +17,7 @@ use App\Http\Controllers\AdAcceptedController;
 use App\Http\Controllers\AdChangeCampusController;
 use App\Http\Controllers\AdBillingController;
 
+use App\Http\Controllers\EnStudAddController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\EnStudHistoryController;
 use App\Http\Controllers\EnstudgradeController;
@@ -258,6 +259,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('enmod/enrollment')->group(function () {
         
         Route::get('/', [EnrollmentController::class, 'index'])->name('enrollment-index');
+
+        Route::prefix('addnew')->group(function () {
+            Route::get('/student', [EnStudAddController::class, 'studentCreate'])->name('studentCreate');
+            Route::post('/student/add', [EnStudAddController::class, 'studentStore'])->name('studentStore');
+        });
 
         Route::prefix('search')->group(function () {
             Route::get('/student', [EnrollmentController::class, 'searchStud'])->name('searchStud');
