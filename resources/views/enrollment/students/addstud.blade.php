@@ -155,6 +155,10 @@ CISS V.1.0 || Add Applicant
                             <label><span class="badge badge-secondary">Religion</span></label>
                             <input type="text" name="religion" class="form-control form-control-sm" id="viewdatastudReligion">
                         </div>
+                        <div class="col-md-4" @if(!Auth::guard('web')->user()->role == 15) style="display:none" @endif>
+                            <label><span class="badge badge-secondary">Spouse/Parent/Guardian</span></label>
+                            <input type="text" name="religion" class="form-control form-control-sm" id="viewdatastudReligion">
+                        </div>
                         <div class="col-md-6">
                             <label><span class="badge badge-secondary">Address</span></label>
                             <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
@@ -204,6 +208,19 @@ CISS V.1.0 || Add Applicant
                         </div>
                         <div class="col-md-4">
                             <label><span class="badge badge-warning">Year Graduated</span></label>
+                            <input type="text" name="" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <div class="form-row">
+                        <div class="col-md-8">
+                            <label><span class="badge badge-secondary">Course</span></label>
+                            <input type="text" name="" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                        </div>
+                        <div class="col-md-4">
+                            <label><span class="badge badge-warning">Major</span></label>
                             <input type="text" name="" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>

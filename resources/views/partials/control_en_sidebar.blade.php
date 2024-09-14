@@ -29,7 +29,7 @@
         <a href="{{ route('enrollment-index') }}" class="list-group-item {{ $dashEnActive }}">Dashboard</a>
     </ul>
     <ul class="list-group mt-1">
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
             <a href="{{ route('studentCreate') }}" class="list-group-item {{ $studAddActive }}">Add Student</a>
         @endif
 
