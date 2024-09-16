@@ -14,6 +14,7 @@ use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\Strands;
 
 use App\Models\EnrollmentDB\Student;
+use App\Models\EnrollmentDB\StudentInfoGrad;
 use App\Models\EnrollmentDB\StudentCvlStatus;
 use App\Models\EnrollmentDB\StudentGnderStatus;
 
@@ -41,13 +42,12 @@ class EnStudAddController extends Controller
                 'bday' => 'required',
                 'contact' => 'required',
                 'civil_status' => 'required',
-                'religion' => 'required',
             ]);
 
             $campus = Auth::guard('web')->user()->campus;
             $studentId = $this->generateAdmissionId($campus);
             //try {
-                Student::create([
+                $newstudID = Student::create([
                     'app_id' => $request->input('app_id'),
                     'status' => $request->input('status'),
                     'en_status' => $request->input('en_status'),
@@ -74,6 +74,30 @@ class EnStudAddController extends Controller
                     'region' => $request->input('region'),
                     'zcode' => $request->input('zcode'),
                     'posted_by' => Auth::guard('web')->user()->id,
+                ]);
+
+                StudentInfoGrad::create([
+                    'studIDprim' => $newstudID->id,
+                    'studIDno' => $studentId,
+                    'elementary' => $request->input('elementary'),
+                    'elemyeargrad' => $request->input('elemyeargrad'),
+                    'highschool' => $request->input('highschool'),
+                    'highschoolyeargrad' => $request->input('highschoolyeargrad'),
+                    'tertiary' => $request->input('tertiary'),
+                    'tertiaryyeargrad' => $request->input('tertiaryyeargrad'),
+                    'tertiarycourse' => $request->input('tertiarycourse'),
+                    'tertiarymajor' => $request->input('tertiarymajor'),
+                    'masterspeciallization' => $request->input('masterspeciallization'),
+                    'masterschool' => $request->input('masterschool'),
+                    'masternounit' => $request->input('masternounit'),
+                    'masteraddress' => $request->input('masteraddress'),
+                    'masterinclyear' => $request->input('masterinclyear'),
+                    'doctorcourse' => $request->input('doctorcourse'),
+                    'doctorspecialization' => $request->input('doctorspecialization'),
+                    'doctorschool' => $request->input('doctorschool'),
+                    'doctornounit' => $request->input('doctornounit'),
+                    'doctoraddress' => $request->input('doctoraddress'),
+                    'doctorinclyear' => $request->input('doctorinclyear'),
                 ]);
 
                 return response()->json(['success' => true, 'message' => 'Student stored successfully', 'student_id' => $studentId], 200);
