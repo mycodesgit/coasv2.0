@@ -595,20 +595,20 @@ class EnrollmentController extends Controller
     {   
         if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC'])) {
             $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->whereIn('id', ['17', '18'])
+                ->whereIn('id', ['18'])
                 ->orderBy('id', 'DESC')
                 ->get();
         }
 
         if(Auth::guard('web')->user()->campus == 'CA') {
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
+            $sy = ConfigureCurrent::select('id', 'schlyear')
+                ->whereIn('id', function($query) {
+                    $query->select(DB::raw('MAX(id)'))
+                        ->from('settings_conf')
+                        ->groupBy('schlyear');
+                })
+                ->orderBy('id', 'DESC')
+                ->get();
         }
             
         return view('enrollment.studenroll.editenroll', compact('sy'));

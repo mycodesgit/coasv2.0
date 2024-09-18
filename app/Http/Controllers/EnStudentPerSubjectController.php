@@ -76,6 +76,7 @@ class EnStudentPerSubjectController extends Controller
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
+            ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
             ->select(
                 'subjects.sub_name',
                 'subjects.sub_title',
