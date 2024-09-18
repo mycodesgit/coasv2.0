@@ -187,7 +187,7 @@
     </div>
 
     <div class="studinfolabel">
-    	<span style="font-weight: bold;">Curriculum, Yr. & Section:</span> <span class="studinfoCourse">{{ $student->course }}</span>
+    	<span style="font-weight: bold;">Curriculum, Yr. & Section:</span> <span class="studinfoCourse">{{ $student->progAcronym }} {{ $student->studYear }}-{{ $student->studSec }}</span>
     </div>
 
     <div class="studinfolabel">
