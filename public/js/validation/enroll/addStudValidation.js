@@ -25,9 +25,6 @@ $(function () {
             pbirth: {
                 required: true,
             },
-            email: {
-                required: true,
-            },
             contact: {
                 required: true,
             },
@@ -75,7 +72,7 @@ $(function () {
             bday: {
                 required: "Please Enter Student Birthday",
             },
-            pbirht: {
+            pbirth: {
                 required: "Please Enter Student Birthplace",
             },
             contact: {

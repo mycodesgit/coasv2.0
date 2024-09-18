@@ -192,7 +192,7 @@ CISS V.1.0 || Add Applicant
                         </div>
                         <div class="col-md-4">
                             <label><span class="badge badge-warning">Year Graduated</span></label>
-                            <input type="text" name="elemyeargrad" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            <input type="number" name="elemyeargrad" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
                 </div>
@@ -205,7 +205,7 @@ CISS V.1.0 || Add Applicant
                         </div>
                         <div class="col-md-4">
                             <label><span class="badge badge-warning">Year Graduated</span></label>
-                            <input type="text" name="highschoolyeargrad" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            <input type="number" name="highschoolyeargrad" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
                 </div>
@@ -218,7 +218,7 @@ CISS V.1.0 || Add Applicant
                         </div>
                         <div class="col-md-4">
                             <label><span class="badge badge-warning">Year Graduated</span></label>
-                            <input type="text" name="tertiaryyeargrad" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            <input type="number" name="tertiaryyeargrad" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
                 </div>
@@ -266,7 +266,7 @@ CISS V.1.0 || Add Applicant
                     <div class="form-row">
                         <div class="col-md-2">
                             <label for="masternounit">Number of Units:</label>
-                            <input type="text" name="masternounit" id="masternounit" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            <input type="number" name="masternounit" id="masternounit" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
                         </div>
                         <div class="col-md-8">
                             <label for="masteraddress">Address:</label>
@@ -274,7 +274,7 @@ CISS V.1.0 || Add Applicant
                         </div>
                         <div class="col-md-2">
                             <label for="masterinclyear">Inclusive years:</label>
-                            <input type="text" name="masterinclyear" id="masterinclyear" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            <input type="text" name="masterinclyear" id="masterinclyear" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase(); formatYear(this)" maxlength="9">
                         </div>
                     </div>
                 </div>
@@ -305,7 +305,7 @@ CISS V.1.0 || Add Applicant
                     <div class="form-row">
                         <div class="col-md-2">
                             <label for="doctornounit">Number of Units:</label>
-                            <input type="text" name="doctornounit" id="doctornounit" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            <input type="number" name="doctornounit" id="doctornounit" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
                         </div>
                         <div class="col-md-8">
                             <label for="doctoraddress">Address:</label>
@@ -313,7 +313,7 @@ CISS V.1.0 || Add Applicant
                         </div>
                         <div class="col-md-2">
                             <label for="doctorinclyear">Inclusive years:</label>
-                            <input type="text" name="doctorinclyear" id="doctorinclyear" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            <input type="text" name="doctorinclyear" id="doctorinclyear" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase(); formatYear(this)" maxlength="9">
                         </div>
                     </div>
                 </div>
@@ -352,29 +352,14 @@ CISS V.1.0 || Add Applicant
 </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var admissionType = document.getElementById('admissionType');
-        var newReturneeForm = document.getElementById('newReturneeForm');
-        var transfereeForm = document.getElementById('transfereeForm');
-
-        toggleFormSections(admissionType.value);
-
-        admissionType.addEventListener('change', function() {
-            toggleFormSections(this.value);
-        });
-
-        function toggleFormSections(value) {
-            if (value == 1 || value == 2) { // New or Returnee
-                newReturneeForm.style.display = 'block';
-                transfereeForm.style.display = 'none';
-            } else if (value == 3) { // Transferee
-                newReturneeForm.style.display = 'none';
-                transfereeForm.style.display = 'block';
-            } else { // Hide all if no selection
-                newReturneeForm.style.display = 'none';
-                transfereeForm.style.display = 'none';
-            }
+    function formatYear(input) {
+        let value = input.value.replace(/[^\d]/g, '');
+        if (value.length >= 4) {
+            input.value = value.substring(0, 4) + '-' + value.substring(4, 8);
+        } else {
+            input.value = value;
         }
-    });
+    }
 </script>
+
 @endsection
