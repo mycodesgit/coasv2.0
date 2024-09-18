@@ -38,7 +38,7 @@ CISS V.1.0 || Student List per Subjects
         </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="GET" action="{{ Auth::guard('web')->user()->role == 15 ? route('listsearchgradschool_studsubjectsRead') : route('listsearch_studsubjectsRead') }}" id="enrollStud">
+                    <form method="GET" action="{{ route('listsearch_studsubjectsRead') }}" id="enrollStud">
                         @csrf   
 
                         <div class="form-group mt-2" style="padding: 10px">
@@ -108,7 +108,7 @@ CISS V.1.0 || Student List per Subjects
 </div>
 
 <script>
-    var attendanceReadRoute = "{{ route('getlistsearch_studsubjectsRead') }}";
+    var attendanceReadRoute = "{{ Auth::guard('web')->user()->role == 15 ? route('gradschoolgetlistsearch_studsubjectsRead') : route('getlistsearch_studsubjectsRead') }}";
 
     var schlyear = "{{ request('schlyear') }}";
     var semester = "{{ request('semester') }}";

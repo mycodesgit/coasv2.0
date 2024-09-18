@@ -60,7 +60,7 @@ $(document).ready(function() {
         },
         dom: 'Bfrtip'
     });
-    $(document).on('fundAdded', function() {
+    $(document).on('studAttendanceAdded', function() {
         dataTable.ajax.reload();
     });
 });

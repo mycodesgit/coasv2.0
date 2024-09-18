@@ -73,11 +73,9 @@ class EnStudentPerSubjectController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-            //->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
-            //->where('sub_offered.subCode', 'KAB-SER-076')
             ->select(
                 'subjects.sub_name',
                 'subjects.sub_title',
@@ -85,44 +83,32 @@ class EnStudentPerSubjectController extends Controller
                 'sub_offered.id as sid',
                 //DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
             )
-            // ->groupBy(
-            //     'subjects.sub_name',
-            //     'subjects.sub_title',
-            //     'sub_offered.id',
-            //     'sub_offered.subCode',
-            //     'sub_offered.schlyear',
-            //     'sub_offered.semester',
-            //     'sub_offered.campus'
-            // )
             ->get();
 
         return response()->json(['data' => $data]);
     }
 
-    public function listsearchgradschool_studsubjectsRead(Request $request)
+    public function gradschoolgetlistsearch_studsubjectsRead(Request $request)
     {
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
-
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');   
         $campus = Auth::guard('web')->user()->campus;
 
-        $substudnow = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                ->where('sub_offered.schlyear', $schlyear)
-                ->where('sub_offered.semester', $semester)
-                ->where('sub_offered.campus', $campus)
-                ->where('sub_offered.subCode', 'LIKE', '%-GSS-%')
-                ->select('subjects.sub_name', 'subjects.sub_title', 'sub_offered.*',  'sub_offered.id as sid')
-                ->get();
+        $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->where('sub_offered.schlyear', $schlyear)
+            ->where('sub_offered.semester', $semester)
+            ->where('sub_offered.campus', $campus)
+            ->where('sub_offered.subCode', 'LIKE', '%-GSS-%')
+            ->select(
+                'subjects.sub_name',
+                'subjects.sub_title',
+                'sub_offered.*',
+                'sub_offered.id as sid',
+                //DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
+            )
+            ->get();
 
-        return view('enrollment.reports.studentsub.listsearch_studsub', compact('sy', 'substudnow'));
+        return response()->json(['data' => $data]);
     }
 
     public function listsearchview_studsubjectsRead(Request $request)

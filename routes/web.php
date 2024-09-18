@@ -100,6 +100,7 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/info/kiosk/dashboard/view', [KioskDashController::class, 'kioskhome'])->name('kioskhome');
     });
 });
+
 Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('emp/control')->group(function () {
         Route::get('/', [ControlController::class, 'home'])->name('home');
@@ -337,7 +338,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/subjects', [EnStudentPerSubjectController::class, 'studsubjectsRead'])->name('studsubjectsRead');
             Route::get('/info/students/subjects/search', [EnStudentPerSubjectController::class, 'listsearch_studsubjectsRead'])->name('listsearch_studsubjectsRead');
             Route::get('/info/students/subjects/search/ajax', [EnStudentPerSubjectController::class, 'getlistsearch_studsubjectsRead'])->name('getlistsearch_studsubjectsRead');
-            Route::get('/info/students/subjects/search/grad', [EnStudentPerSubjectController::class, 'listsearchgradschool_studsubjectsRead'])->name('listsearchgradschool_studsubjectsRead');
+            Route::get('/info/students/subjects/search/grad/ajax', [EnStudentPerSubjectController::class, 'gradschoolgetlistsearch_studsubjectsRead'])->name('gradschoolgetlistsearch_studsubjectsRead');
             Route::get('/info/students/subjects/search/view/{id}', [EnStudentPerSubjectController::class, 'listsearchview_studsubjectsRead'])->name('listsearchview_studsubjectsRead');
             Route::get('/info/students/subjects/search/view/pdf/{id}', [EnStudentPerSubjectController::class, 'studsubjectsReadPDF'])->name('studsubjectsReadPDF');
 
