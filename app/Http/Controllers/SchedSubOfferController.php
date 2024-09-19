@@ -166,12 +166,14 @@ class SchedSubOfferController extends Controller
             $campus = $request->input('campus');
             $subSec = $request->input('subSec');
             $subCode = $request->input('subCode');
+            $isType = $request->input('isType');
 
             $existingSubjectOff = SubjectOffered::where('schlyear', $schlyear)
                     ->where('semester', $semester)
                     ->where('campus', $campus)
                     ->where('subCode', $subCode)
                     ->where('subSec', $subSec)
+                    ->where('isType', $isType)
                     ->first();
 
             if ($existingSubjectOff) {

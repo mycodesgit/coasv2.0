@@ -217,10 +217,13 @@
     							<tr>
     								<th width="15%">Subj Code</th>
     								<th>Subject Name</th>
-    								<th width="35%" style="padding-left: 10px !important;">Descriptive Title</th>
-    								<th width="7%">Credit</th>
+    								<th @if(Auth::guard('web')->user()->role == 15) width="32%" @elseif(Auth::guard('web')->user()->role != 15) width="35%" @endif style="padding-left: 10px !important;">Descriptive Title</th>
+    								<th width="6%">Credit</th>
     								<th width="7%">Lec Fee</th>
     								<th width="7%">Lab Fee</th>
+    								@if(Auth::guard('web')->user()->role == 15)
+    								<th width="">Cycle</th>
+    								@endif
     							</tr>
     						</thead>
     						<tbody>
@@ -232,11 +235,14 @@
     							@foreach($studsub as $sub)
 	    							<tr>
 	    								<td style="padding-left: 7px;">{{ $sub->subCode }}</td>
-	    								<td>{{ $sub->sub_name }}-{{ $sub->subSec }} @if(Auth::guard('web')->user()->role == 15) {{ $sub->isType }} @endif</td>
+	    								<td>{{ $sub->sub_name }}-{{ $sub->subSec }}</td>
 	    								<td>{{ $sub->sub_title }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->subUnit }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->lecFee }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->labFee }}</td>
+	    								@if(Auth::guard('web')->user()->role == 15)
+	    									<td class="cred-lec-lab">{{ substr($sub->isType, 0, 3) }}</td>
+	    								@endif
 	    							</tr>
 	    							@php
 	    								$totalsubUnit += $sub->subUnit;
