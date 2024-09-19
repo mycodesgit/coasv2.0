@@ -65,14 +65,27 @@ class SchedSubOfferController extends Controller
 
         $subjects = Subject::where('sub_code', 'not like', 'VIC%')->get();
 
-        $class = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
-                ->select('class_enroll.*', 'programs.*' )
-                ->where('class_enroll.schlyear', $schlyear)
-                ->where('class_enroll.semester', $semester)
-                ->where('class_enroll.campus', $campus)
-                ->orderBy('programs.progAcronym', 'ASC')
-                ->orderBy('class_enroll.classSection', 'ASC')
-                ->get();
+        if(Auth::guard('web')->user()->role == 15) 
+        {
+            $class = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                    ->select('class_enroll.*', 'programs.*' )
+                    ->where('class_enroll.schlyear', $schlyear)
+                    ->where('class_enroll.semester', $semester)
+                    ->where('class_enroll.campus', $campus)
+                    ->where('class_enroll.progCode', 'LIKE', '%-GSS-%')
+                    ->orderBy('programs.progAcronym', 'ASC')
+                    ->orderBy('class_enroll.classSection', 'ASC')
+                    ->get();
+        } else {
+            $class = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                    ->select('class_enroll.*', 'programs.*' )
+                    ->where('class_enroll.schlyear', $schlyear)
+                    ->where('class_enroll.semester', $semester)
+                    ->where('class_enroll.campus', $campus)
+                    ->orderBy('programs.progAcronym', 'ASC')
+                    ->orderBy('class_enroll.classSection', 'ASC')
+                    ->get();
+        }
 
         $funds = AccountAppraisal::whereIn('id', [85, 105])->get();
 
@@ -91,6 +104,24 @@ class SchedSubOfferController extends Controller
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
+                        ->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function getGradsubjectsOfferedRead(Request $request) 
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+    
+        $data = SubjectOffered::select('sub_offered.*', 'subjects.*')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid')
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
+                        ->where('sub_offered.campus', $campus)
+                        ->where('sub_offered.subCode', 'LIKE', '%-GSS-%')
                         ->get();
 
         return response()->json(['data' => $data]);

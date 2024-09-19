@@ -410,6 +410,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list', [SchedClassEnrollController::class, 'courseEnroll_list'])->name('courseEnroll_list');
             Route::get('/list/search', [SchedClassEnrollController::class, 'courseEnroll_list_search'])->name('courseEnroll_list_search');
             Route::get('/list/search/ajaxviewclass', [SchedClassEnrollController::class, 'getclassEnRead'])->name('getclassEnRead');
+            Route::get('/list/search/grad/ajaxviewclass', [SchedClassEnrollController::class, 'getGradclassEnRead'])->name('getGradclassEnRead');
             Route::post('/list/Add', [SchedClassEnrollController::class, 'classEnrollCreate'])->name('classEnrollCreate');
             Route::post('/list/update', [SchedClassEnrollController::class, 'classEnrolledUpdate'])->name('classEnrolledUpdate');
             Route::get('/list/delete{id}', [SchedClassEnrollController::class, 'classEnrolledDelete'])->name('classEnrolledDelete');
@@ -419,6 +420,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/', [SchedSubOfferController::class, 'subjectsOffered'])->name('subjectsOffered');
             Route::get('/list/search', [SchedSubOfferController::class, 'subjectsOffered_search'])->name('subjectsOffered_search');
             Route::get('/list/search/ajaxsuboff', [SchedSubOfferController::class, 'getsubjectsOfferedRead'])->name('getsubjectsOfferedRead');
+            Route::get('/list/search/grad/ajaxsuboff', [SchedSubOfferController::class, 'getGradsubjectsOfferedRead'])->name('getGradsubjectsOfferedRead');
             Route::get('/get-subname-subcode', [SchedSubOfferController::class, 'fetchSubjectName'])->name('fetchSubjectName');
             Route::post('/list/search/add', [SchedSubOfferController::class, 'subjectsOfferedCreate'])->name('subjectsOfferedCreate');
             Route::post('/list/search/suboff/update', [SchedSubOfferController::class, 'subjectsOfferedUpdate'])->name('subjectsOfferedUpdate');

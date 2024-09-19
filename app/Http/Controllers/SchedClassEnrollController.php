@@ -33,8 +33,14 @@ class SchedClassEnrollController extends Controller
         return view('scheduler.classenroll.list_classenroll', compact('sy'));
     }
 
-    public function courseEnroll_list_search(Request $request) {
-        $program = EnPrograms::all();
+    public function courseEnroll_list_search(Request $request) 
+    {
+        if(Auth::guard('web')->user()->role == 15) 
+        {
+            $program = EnPrograms::where('progCod', 'LIKE', '%-GSS-%')->get();
+        } else {
+            $program = EnPrograms::all();
+        }
 
         $data = ClassEnroll::query();
         if ($request->schlyear) {
@@ -73,39 +79,24 @@ class SchedClassEnrollController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    // public function checkEnrollment(Request $request)
-    // {
-    //     $progCod = $request->input('progCod');
-    //     $schlyear = $request->input('schlyear');
-    //     $semester = $request->input('semester');
-    //     $campus = $request->input('campus');
-    //     $stud_id = $request->input('studentID');
-    //     $classSection = $request->input('classSection');
+    public function getGradclassEnRead(Request $request) 
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+    
+        $data = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                ->select('class_enroll.*', 'programs.progAcronym')
+                ->where('schlyear', '=', $schlyear)
+                ->where('semester', '=', $semester)
+                ->where('campus', '=', $campus)
+                ->where('class_enroll.progCode', 'LIKE', '%-GSS-%')
+                ->orderBy('programs.progAcronym', 'ASC')
+                ->orderBy('class_enroll.classSection', 'ASC')
+                ->get();
 
-    //     // Count the number of students enrolled in the specified program, school year, semester, and campus
-    //     $enrolledStudents = StudEnrolmentHistory::where('schlyear', $schlyear)
-    //                         ->where('semester', $semester)
-    //                         ->where('campus', $campus)
-    //                         ->where('studentID', $stud_id)
-    //                         ->count();
-
-    //     // Fetch the classno from the ClassEnroll model
-    //     $classEnroll = ClassEnroll::where('progCode', $progCod)
-    //                     ->where('classSection', $classSection)
-    //                     ->first();
-
-    //     if (!$classEnroll) {
-    //         return response()->json(['error' => 'Class not found'], 404);
-    //     }
-
-    //     $classNo = $classEnroll->classno;
-
-    //     return response()->json([
-    //         'enrolledStudents' => $enrolledStudents,
-    //         'classNo' => $classNo,
-    //         'isFull' => $enrolledStudents >= $classNo,
-    //     ]);
-    // }
+        return response()->json(['data' => $data]);
+    }
 
     public function classEnrollCreate(Request $request) 
     {

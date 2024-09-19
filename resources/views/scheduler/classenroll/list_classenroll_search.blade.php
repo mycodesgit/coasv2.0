@@ -187,7 +187,7 @@ CISS V.1.0 || Classes Enrolled
 </div>
 
 <script>
-    var classEnReadRoute = "{{ route('getclassEnRead') }}";
+    var classEnReadRoute = "{{ Auth::guard('web')->user()->role == 15 ? route('getGradclassEnRead') : route('getclassEnRead') }}";
     var classEnCreateRoute = "{{ route('classEnrollCreate') }}";
     var classEnUpdateRoute = "{{ route('classEnrolledUpdate', ['id' => ':id']) }}";
     var classEnDeleteRoute = "{{ route('classEnrolledDelete', ['id' => ':id']) }}";

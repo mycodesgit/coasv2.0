@@ -393,7 +393,7 @@ CISS V.1.0 || Subject Offered
 </div>
 
 <script>
-    var subOfferedReadRoute = "{{ route('getsubjectsOfferedRead') }}";
+    var subOfferedReadRoute = "{{ Auth::guard('web')->user()->role == 15 ? route('getGradsubjectsOfferedRead') : route('getsubjectsOfferedRead') }}";
     var subOfferedNameReadRoute = "{{ route('fetchSubjectName') }}";
     var subOfferedCreateRoute = "{{ route('subjectsOfferedCreate') }}";
     var subOfferedUpdateRoute = "{{ route('subjectsOfferedUpdate') }}";
