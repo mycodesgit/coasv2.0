@@ -119,6 +119,7 @@ CISS V.1.0 || Subject Offered
                                         <th>MaxStud</th>
                                         <th>LecFee</th>
                                         <th>LabFee</th>
+                                        <th>Type</th>
                                         <th>FundAccount</th>
                                         <th>Action</th>
                                     </tr>
@@ -218,6 +219,9 @@ CISS V.1.0 || Subject Offered
                                                 <select class="form-control form-control-sm" name="isType">
                                                     <option value="No">No</option>
                                                     <option value="Special">Special Class</option>
+                                                    <option value="1st Cycle">1st Cycle</option>
+                                                    <option value="2nd Cycle">2nd Cycle</option>
+                                                    <option value="3rd Cycle">3rd Cycle</option>
                                                 </select>
                                             </div>
 
@@ -354,6 +358,9 @@ CISS V.1.0 || Subject Offered
                                     <select class="form-control form-control-sm" name="isType" id="isTypeSelect">
                                         <option value="No">No</option>
                                         <option value="Special">Special Class</option>
+                                        <option value="1st Cycle">1st Cycle</option>
+                                        <option value="2nd Cycle">2nd Cycle</option>
+                                        <option value="3rd Cycle">3rd Cycle</option>
                                     </select>
                                 </div>
 

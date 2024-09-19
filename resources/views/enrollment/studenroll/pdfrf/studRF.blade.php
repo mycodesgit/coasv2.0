@@ -232,7 +232,7 @@
     							@foreach($studsub as $sub)
 	    							<tr>
 	    								<td style="padding-left: 7px;">{{ $sub->subCode }}</td>
-	    								<td>{{ $sub->sub_name }}-{{ $sub->subSec }}</td>
+	    								<td>{{ $sub->sub_name }}-{{ $sub->subSec }} @if(Auth::guard('web')->user()->role == 15) {{ $sub->isType }} @endif</td>
 	    								<td>{{ $sub->sub_title }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->subUnit }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->lecFee }}</td>

@@ -325,7 +325,7 @@ function fetchAndGenerateSubjects(selectedCourse, schlyear, semester) {
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = subject.subjID;
                     row.insertCell(1).textContent = subject.subCode;
-                    row.insertCell(2).textContent = subject.sub_name + ' - ' + subject.subSec;
+                    row.insertCell(2).textContent = subject.sub_name + ' - ' + subject.subSec + ' - ' + subject.isType;
                     row.insertCell(3).textContent = subject.sub_title;
                     row.insertCell(4).textContent = subject.subUnit;
                     row.insertCell(5).textContent = subject.lecFee;

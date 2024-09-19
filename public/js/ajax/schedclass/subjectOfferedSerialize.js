@@ -70,6 +70,7 @@ $(document).ready(function() {
             {data: 'maxstud'},
             {data: 'lecFee'},
             {data: 'labFee'},
+            {data: 'isType'},
             {
                 data: 'fundAccount',
                 render: function(data, type, row) {
