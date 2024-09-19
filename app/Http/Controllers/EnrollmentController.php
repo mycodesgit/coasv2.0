@@ -270,7 +270,13 @@ class EnrollmentController extends Controller
 
     public function searchStudEnroll(Request $request)
     {
-        $studlvl = StudentLevel::all();
+        if(Auth::guard('web')->user()->role == 15) 
+        {
+            $studlvl = StudentLevel::whereIn('id', ['80', '90'])->get();
+        } else {
+            $studlvl = StudentLevel::all();
+        }
+
         $studscholar = Scholar::all();
         $mamisub = MajorMinor::all();
         $studstat = StudentStatus::all();
@@ -298,17 +304,33 @@ class EnrollmentController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
         }
 
-        $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
-                ->join('coasv2_db_enrollment.yearlevel', function($join) {
-                    $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
-                })
-                ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
-                ->where('schlyear', '=', $schlyear)
-                ->where('semester', '=', $semester)
-                ->where('campus', '=', $campus)
-                ->orderBy('programs.progAcronym', 'ASC')
-                ->orderBy('class_enroll.classSection', 'ASC')
-                ->get();
+        if(Auth::guard('web')->user()->role == 15) 
+        {
+            $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                    ->join('coasv2_db_enrollment.yearlevel', function($join) {
+                        $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
+                    })
+                    ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                    ->where('schlyear', '=', $schlyear)
+                    ->where('semester', '=', $semester)
+                    ->where('campus', '=', $campus)
+                    ->where('class_enroll.progCode', 'LIKE', '%-GSS-%')
+                    ->orderBy('programs.progAcronym', 'ASC')
+                    ->orderBy('class_enroll.classSection', 'ASC')
+                    ->get();
+        } else { 
+                $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                    ->join('coasv2_db_enrollment.yearlevel', function($join) {
+                        $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
+                    })
+                    ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                    ->where('schlyear', '=', $schlyear)
+                    ->where('semester', '=', $semester)
+                    ->where('campus', '=', $campus)
+                    ->orderBy('programs.progAcronym', 'ASC')
+                    ->orderBy('class_enroll.classSection', 'ASC')
+                    ->get();
+        }
         
         $subjOffer = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
                         ->select('subjects.*', 'sub_offered.*',)
