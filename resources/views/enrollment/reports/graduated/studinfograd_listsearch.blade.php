@@ -33,7 +33,7 @@ CISS V.1.0 || Student Info Graduated
         </p>
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <form method="GET" action="{{ route('studInfo_search') }}">
+            <form method="GET" action="{{ route('studInfograduated_search') }}">
                 {{ csrf_field() }}
 
                 <div class="">
