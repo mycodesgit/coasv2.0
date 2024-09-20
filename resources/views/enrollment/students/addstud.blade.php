@@ -79,7 +79,14 @@ CISS V.1.0 || Add Applicant
                         </div>
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">Ext. name</span></label>
-                            <input type="text" name="ext" class="form-control form-control-sm" id="viewdatastudExt">
+                            <select class="form-control form-control-sm" name="ext" id="viewdatastudExt">
+                                <option disabled selected> --Select-- </option>
+                                <option value="">N/A</option>
+                                <option value="Jr.">Jr.</option>
+                                <option value="Sr.">Sr.</option>
+                                <option value="III">III</option>
+                                <option value="IV">IV</option>
+                            </select>
                         </div>
                         <div class="col-md-2">
                             <label><span class="badge badge-secondary">Gender</span></label>
@@ -167,7 +174,7 @@ CISS V.1.0 || Add Applicant
                         </div>
                         <div class="col-md-4" @if(!Auth::guard('web')->user()->role == 15) style="display:none" @endif>
                             <label><span class="badge badge-secondary">Spouse/Parent/Guardian</span></label>
-                            <input type="text" name="religion" class="form-control form-control-sm" id="viewdatastudReligion">
+                            <input type="text" name="spouseparent" class="form-control form-control-sm" id="viewdatastudSpouseParent">
                         </div>
                         <div class="col-md-6">
                             <label><span class="badge badge-secondary">Address</span></label>

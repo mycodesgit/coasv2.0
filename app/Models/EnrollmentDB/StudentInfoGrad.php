@@ -15,6 +15,7 @@ class StudentInfoGrad extends Model
     protected $fillable = [
         'studIDprim',
         'studIDno',
+        'spouseparent',
         'elementary',
         'elemyeargrad',
         'highschool',

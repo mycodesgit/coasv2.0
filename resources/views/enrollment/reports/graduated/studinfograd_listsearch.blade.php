@@ -108,8 +108,302 @@ CISS V.1.0 || Student Info Graduated
     </div>
 </div>
 
+<div class="modal fade" id="viewdatastudModal" role="dialog" aria-labelledby="viewdatastudModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewdatastudModalLabel">View Student Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editStudInfoForm">
+                <div class="modal-body">
+                    <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                        <h4>Student Information</h4>
+                    </div>
+                    <input type="hidden" name="id" id="viewdatastudIdprim">
+                    <div class="form-group mt-3">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-warning">Student ID No.</span></label>
+                                <input type="text" class="form-control form-control-sm text-bold" name="" id="viewdatastudID" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Firstname</span></label>
+                                <input type="text" name="fname" class="form-control form-control-sm" id="viewdatastudFname">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Middlename</span></label>
+                                <input type="text" name="mname" class="form-control form-control-sm" id="viewdatastudMname">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Lastname</span></label>
+                                <input type="text" name="lname" class="form-control form-control-sm" id="viewdatastudLname">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Ext. name</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdatastudExt">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Gender</span></label>
+                                <select class="form-control form-control-sm" name="gender" id="viewdatastudGender">
+                                    <option disabled selected>Select</option>
+                                    @foreach($genderStatuses as $gdrstatus)
+                                        <option value="{{ $gdrstatus->genderstat_name }}">
+                                            {{ $gdrstatus->genderstat_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Civil Status</span></label>
+                                <select class="form-control form-control-sm" name="civil_status" id="viewdatastudcivilstat">
+                                    <option disabled selected>Select</option>
+                                    @foreach($civilStatuses as $status)
+                                        <option value="{{ $status->cvlstat_name }}">
+                                            {{ $status->cvlstat_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Update Birthday</span></label>
+                                <input type="date" name="bday" class="form-control form-control-sm" id="viewdatastudBdaynotformat">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-success">Birthday</span></label>
+                                <input type="text" class="form-control form-control-sm" id="viewdatastudBday" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Birth Place</span></label>
+                                <input type="text" name="pbirth" class="form-control form-control-sm" id="viewdatastudBdayp">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Mobile</span></label>
+                                <input type="text" name="contact" class="form-control form-control-sm" id="viewdatastudMobile">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">House No.</span></label>
+                                <input type="text" name="hnum" class="form-control form-control-sm" id="viewdatastudHnum">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Street/Barangay</span></label>
+                                <input type="text" name="brgy" class="form-control form-control-sm" id="viewdatastudBrgy">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Munipality/City</span></label>
+                                <select name="city" class="form-control form-control-sm" id="viewdatastudCity">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Province</span></label>
+                                <input type="text" name="province" class="form-control form-control-sm" id="viewdatastudProvince">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Region</span></label>
+                                <input type="text" name="region" class="form-control form-control-sm" id="viewdatastudRegion">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Zip Code</span></label>
+                                <input type="text" name="zcode" class="form-control form-control-sm" id="viewdatastudZcode">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Spouse/Parent/Guardian</span></label>
+                                <input type="text" name="spouseparent" class="form-control form-control-sm" id="viewdatastudSpouseParent">
+                            </div>
+                            <div class="col-md-8">
+                                <label><span class="badge badge-secondary">Address</span></label>
+                                <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>School Records</h4>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <div class="form-row">
+                            <div class="col-md-8">
+                                <label><span class="badge badge-secondary">Elementary</span></label>
+                                <input type="text" name="elementary" id="viewdatastudElem" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-4">
+                                <label><span class="badge badge-warning">Year Graduated</span></label>
+                                <input type="number" name="elemyeargrad" id="viewdatastudElemgradyear" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-8">
+                                <label><span class="badge badge-secondary">Secondary</span></label>
+                                <input type="text" name="highschool" id="viewdatastudHighschool" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-4">
+                                <label><span class="badge badge-warning">Year Graduated</span></label>
+                                <input type="text" name="highschoolyeargrad" id="viewdatastudHighgradyear" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-8">
+                                <label><span class="badge badge-secondary">Tertiary</span></label>
+                                <input type="text" name="tertiary" id="viewdatastudTertiary" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-4">
+                                <label><span class="badge badge-warning">Year Graduated</span></label>
+                                <input type="number" name="tertiaryyeargrad" id="viewdatastudTergradyear" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-8">
+                                <label><span class="badge badge-secondary">Course</span></label>
+                                <input type="text" name="tertiarycourse" id="viewdatastudtertiarycourse" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-4">
+                                <label><span class="badge badge-warning">Major</span></label>
+                                <input type="text" name="tertiarymajor" id="viewdatastudtertiarymajor" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header mt-5" style="border-bottom: 1px solid #04401f;">
+                        <h4>Other Information</h4>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label for="masterscourse">Master's Course (<span style="font-style: italic;">if with master's degree/units</span>):</label>
+                                <input type="text" name="masterscourse" id="masterscourse" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="masterspeciallization">Major/Area of Specialization:</label>
+                                <input type="text" name="masterspeciallization" id="masterspeciallization" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="masterschool">School:</label>
+                                <input type="text" name="masterschool" id="masterschool" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label for="masternounit">Number of Units:</label>
+                                <input type="number" name="masternounit" id="masternounit" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-8">
+                                <label for="masteraddress">Address:</label>
+                                <input type="text" name="masteraddress" id="masteraddress" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="masterinclyear">Inclusive years:</label>
+                                <input type="text" name="masterinclyear" id="masterinclyear" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase(); formatYear(this)" maxlength="9">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-5">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label for="doctorcourse">Doctorate's Course (<span style="font-style: italic;">if with Doctorate's degree/units</span>):</label>
+                                <input type="text" name="doctorcourse" id="doctorcourse" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="mastersCourse">Major/Area of Specialization:</label>
+                                <input type="text" name="doctorspecialization" id="doctorspecialization" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="doctorschool">School:</label>
+                                <input type="text" name="doctorschool" id="doctorschool" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label for="doctornounit">Number of Units:</label>
+                                <input type="number" name="doctornounit" id="doctornounit" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-8">
+                                <label for="doctoraddress">Address:</label>
+                                <input type="text" name="doctoraddress" id="doctoraddress" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase()">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="doctorinclyear">Inclusive years:</label>
+                                <input type="text" name="doctorinclyear" id="doctorinclyear" class="form-control form-control-sm input-details text-bold" oninput="this.value = this.value.toUpperCase(); formatYear(this)" maxlength="9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{-- <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var gradstudentlistinfoRoute = "{{ route('getstudInfograduated_search') }}";
+    var appidEncryptRoute = "{{ route('idcrypt') }}";
+    var studInfoUpdateRoute = "{{ route('studInfoUpdate', ['id' => ':id']) }}";
+
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+    var requestedCampus = '{{ request('campus') }}'
 </script>
 
+
+<script>
+    function formatYear(input) {
+        let value = input.value.replace(/[^\d]/g, '');
+        if (value.length >= 4) {
+            input.value = value.substring(0, 4) + '-' + value.substring(4, 8);
+        } else {
+            input.value = value;
+        }
+    }
+</script>
 @endsection

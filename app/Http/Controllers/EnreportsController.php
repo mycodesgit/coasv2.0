@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 use Storage;
 use Carbon\Carbon;
 use App\Models\EnrollmentDB\Student;
+use App\Models\EnrollmentDB\StudentInfoGrad;
 use App\Models\EnrollmentDB\StudentCvlStatus;
 use App\Models\EnrollmentDB\StudentGnderStatus;
 
@@ -128,20 +129,23 @@ class EnreportsController extends Controller
     {
         $campus = Auth::guard('web')->user()->campus;
 
-        $studlistgrad = Student::where('campus', '=', $campus)
-                    ->where('stud_id', 'LIKE', '%-G%')
-                    ->get();
+        $civilStatuses = StudentCvlStatus::all();
+        $genderStatuses = StudentGnderStatus::all();
 
-        return view('enrollment.reports.graduated.studinfograd_listsearch', compact('studlistgrad'));
+        return view('enrollment.reports.graduated.studinfograd_listsearch', compact('civilStatuses', 'genderStatuses'));
     }
 
     public function getstudInfograduated_search(Request $request) 
     {
         $campus = Auth::guard('web')->user()->campus;
 
-        $data = Student::where('campus', '=', $campus)
-                        ->where('stud_id', 'LIKE', '%-G%')
-                        ->orderBy('lname', 'ASC')
+        $data = Student::join('studcivilstat', 'students.civil_status', '=', 'studcivilstat.cvlstat_name')
+                        ->leftJoin('studgenderstat', 'students.gender', '=', 'studgenderstat.genderstat_name')
+                        ->leftJoin('studentsgradinfo', 'students.id', '=', 'studentsgradinfo.studIDprim')
+                        ->where('students.campus', '=', $campus)
+                        ->where('students.stud_id', 'LIKE', '%-G%')
+                        ->select('students.*', 'studcivilstat.*', 'studgenderstat.*', 'students.id as stuDsid', 'studentsgradinfo.*')
+                        ->orderBy('students.lname', 'ASC')
                         ->get();
         
         return response()->json(['data' => $data]);

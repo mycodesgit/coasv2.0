@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('studIDprim')->nullable();
             $table->string('studIDno')->nullable();
+            $table->string('spouseparent')->nullable();
             $table->string('elementary')->nullable();
             $table->string('elemyeargrad')->nullable();
             $table->string('highschool')->nullable();

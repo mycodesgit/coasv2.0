@@ -232,7 +232,7 @@ $(document).ready(function() {
     document.getElementById('viewdatastudZcode').addEventListener('input', updateAddress);
 
     // Run the function once to ensure the Address is updated if the form is pre-filled
-    updateAddress();
+    //updateAddress();
 
     // Populate the city dropdown
     var sortedCities = Object.keys(cityData).sort();
