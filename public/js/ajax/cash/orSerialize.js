@@ -30,6 +30,31 @@ $(document).ready(function() {
         });
     });
 
+    $('#adORcomment').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: studorCommentCreateRoute,
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if(response.success) {
+                    toastr.success(response.message);
+                    console.log(response);
+                    //$('input[name="comments"]').val('');
+                } else {
+                    toastr.error(response.message);
+                    console.log(response);
+                }
+            },
+            error: function(xhr, status, error, message) {
+                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                toastr.error(errorMessage);
+            }
+        });
+    });
+
     var urlParams = new URLSearchParams(window.location.search);
     var orno = urlParams.get('orno') || ''; 
     var schlyear = urlParams.get('schlyear') || ''; 

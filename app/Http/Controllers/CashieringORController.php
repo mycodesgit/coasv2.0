@@ -25,6 +25,7 @@ use App\Models\AssessmentDB\Funds;
 use App\Models\AssessmentDB\AccountCoa;
 use App\Models\AssessmentDB\AccountAppraisal;
 use App\Models\AssessmentDB\StudPayment;
+use App\Models\AssessmentDB\ORComments;
 
 use App\Models\ScheduleDB\College;
 use App\Models\ScheduleDB\EnPrograms;
@@ -102,6 +103,7 @@ class CashieringORController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
+        $orno = $request->query('orno');
 
         // $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
         // if (!$student) {
@@ -113,8 +115,13 @@ class CashieringORController extends Controller
         $studAccntap = AccountAppraisal::whereIn('id', ['2', '7', '33', '42', '44', '49', '74', '76', '79', '85', '90', '91', '92', '93', '99', '118', '133', '134', '151', '152', '153', '154', '155', '156', '159', '161'])
                     ->orderBy('account_name', 'ASC')
                     ->get();
+        $dataprimidOR = StudPayment::where('orno', '=', $orno)
+                ->where('schlyear', '=', $schlyear)
+                ->where('semester', '=', $semester)
+                ->select('id as studorprimID')
+                ->first();
 
-        return view('cashier.officialreceipt.listsearch_or', compact('orstud', 'studfund', 'studAccntap'));
+        return view('cashier.officialreceipt.listsearch_or', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR'));
     }
 
     public function getorpaymentRead(Request $request) 
@@ -165,7 +172,7 @@ class CashieringORController extends Controller
             // }
 
             try {
-                StudPayment::create([
+                $studpayor = StudPayment::create([
                     'orno' => $request->input('orno'),
                     'studID' => $request->input('studID'),
                     'semester' => $request->input('semester'),
@@ -180,6 +187,59 @@ class CashieringORController extends Controller
 
                 return response()->json(['success' => true, 'message' => 'Payment stored successfully'], 200);
             } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Fund'], 404);
+            }
+        }
+    }
+
+    public function orCommentsCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'studpayID' => 'required',
+                'orno' => 'required',
+                'studID' => 'required',
+                'semester' => 'required',
+                'schlyear' => 'required',
+                'campus' => 'required',
+                'datepaid' => 'required',
+                'comments' => 'required',
+            ]);
+
+            $orno = $request->input('orno');
+            $studID = $request->input('studID');
+            $semester = $request->input('semester');
+            $schlyear = $request->input('schlyear');
+            $campus = $request->input('campus');
+            $datepaid = $request->input('datepaid');
+
+            $studaccountcomments = $request->input('comments'); 
+            $existingStudFeeORcomment = ORComments::where('comments', $studaccountcomments)
+                            ->where('studID', $studID)
+                            ->where('campus', $campus)
+                            ->where('schlyear', $schlyear)
+                            ->where('semester', $semester)
+                            ->first();
+
+            if ($existingStudFeeORcomment) {
+                return response()->json(['error' => true, 'message' => 'Comments for this Account is already exists'], 404);
+            }
+
+            try {
+                ORComments::create([
+                    'studpayID' => $request->input('studpayID'),
+                    'orno' => $request->input('orno'),
+                    'studID' => $request->input('studID'),
+                    'semester' => $request->input('semester'),
+                    'schlyear' => $request->input('schlyear'),
+                    'campus' => $request->input('campus'),
+                    'datepaid' => $request->input('datepaid'),
+                    'comments' => $request->input('comments'),
+                    'postedBy' => Auth::guard('web')->user()->id,
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Payment stored successfully'], 200);
+           } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Fund'], 404);
             }
         }

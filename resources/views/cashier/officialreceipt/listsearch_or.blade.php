@@ -162,6 +162,42 @@ CISS V.1.0 || OR
                     </button>
                 </form>
             </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" action="{{ route('orCommentsCreate') }}" id="adORcomment">
+                            @csrf
+                            <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                                <h5 class="text-bold">Comments</h5>
+                            </div>
+
+                            <input type="hidden" name="orno" value="{{ request('orno') }}">
+                            <input type="hidden" name="studID" value="{{ request('stud_id') }}">
+                            <input type="hidden" name="semester" value="{{ request('semester') }}">
+                            <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                            <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
+                            <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
+                            <input type="hidden" name="studpayID" value="{{ $dataprimidOR->studorprimID }}">
+
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="mt-2 col-md-10">
+                                        <label><span class="badge badge-secondary">Add Comments</span></label>
+                                        <input type="text" name="comments" class="form-control form-control-md">
+                                    </div>
+
+                                    <div class="mt-2 col-md-2">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" class="form-control form-control-md btn btn-outline-danger btn-md text-bold">
+                                            <i class="fas fa-save"></i> Save Comments
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -234,6 +270,7 @@ CISS V.1.0 || OR
 
 <script>
     var studorReadRoute = "{{ route('getorpaymentRead') }}";
+    var studorCommentCreateRoute = "{{ route('orCommentsCreate') }}";
     var studorCreateRoute = "{{ route('orCreate') }}";
     var studorUpdateRoute = "{{ route('orUpdate', ['id' => ':id']) }}";
     var studorDeleteRoute = "{{ route('orDelete', ['id' => ':id']) }}";
