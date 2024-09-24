@@ -173,7 +173,7 @@ CISS V.1.0 || Edit OR
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <form method="post" action="" id="adORcomment">
+                        <form method="post" action="{{ route('orCommentsUpdate') }}" id="adEditORcomment">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                 <h5 class="text-bold">Comments</h5>
@@ -185,7 +185,7 @@ CISS V.1.0 || Edit OR
                             <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                             <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
                             <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
-                            <input type="text" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
+                            <input type="hidden" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
 
                             <div class="form-group">
                                 <div class="form-row">
@@ -285,6 +285,8 @@ CISS V.1.0 || Edit OR
     var studorCreateRoute = "{{ route('orCreate') }}";
     var studorUpdateRoute = "{{ route('orUpdate', ['id' => ':id']) }}";
     var studorDeleteRoute = "{{ route('orDelete', ['id' => ':id']) }}";
+
+    var studorcommentsUpdateRoute = "{{ route('orCommentsUpdate', ['id' => ':id']) }}";
 </script>
 
 @endsection

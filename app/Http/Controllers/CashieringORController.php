@@ -390,6 +390,61 @@ class CashieringORController extends Controller
         return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR', 'datacommentOR'));
     }
 
+    public function orCommentsUpdate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'orno' => 'required',
+                'studID' => 'required',
+                'semester' => 'required',
+                'schlyear' => 'required',
+                'campus' => 'required',
+                'datepaid' => 'required',
+                'comments' => 'required',
+            ]);
+
+            $orno = $request->input('orno');
+            $studID = $request->input('studID');
+            $semester = $request->input('semester');
+            $schlyear = $request->input('schlyear');
+            $campus = $request->input('campus');
+            $datepaid = $request->input('datepaid');
+
+            try {
+
+                $studaccountcomments = $request->input('comments'); 
+                $existingStudFeeORcomment = ORComments::where('comments', $studaccountcomments)
+                                ->where('studID', $studID)
+                                ->where('campus', $campus)
+                                ->where('schlyear', $schlyear)
+                                ->where('semester', $semester)
+                                ->where('id', '!=', $request->input('id'))->first();
+                                ->first();
+
+                if ($existingStudFeeORcomment) {
+                    return response()->json(['error' => true, 'message' => 'Comments for this Account is already exists'], 404);
+                }
+
+                $studorfeecomments = ORComments::findOrFail($request->input('id'));
+                $studorfeecomments->update([
+                    'studpayID' => $request->input('studpayID'),
+                    'orno' => $request->input('orno'),
+                    'studID' => $request->input('studID'),
+                    'semester' => $request->input('semester'),
+                    'schlyear' => $request->input('schlyear'),
+                    'campus' => $request->input('campus'),
+                    'datepaid' => $request->input('datepaid'),
+                    'comments' => $request->input('comments'),
+                    'postedBy' => Auth::guard('web')->user()->id,
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Comments updated successfully'], 200);
+           } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to update Comments'], 404);
+            }
+        }
+    }
+
     public function deletePayment(Request $request)
     {
         $orno = $request->input('orno');

@@ -161,6 +161,31 @@ $('#editorStudFeeForm').submit(function(event) {
     });
 });
 
+$('#adEditORcomment').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: studorcommentsUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
+    });
+});
+
 $(document).on('click', '.studor-delete', function(e) {
     var id = $(this).val();
     $.ajaxSetup({
