@@ -170,6 +170,42 @@ CISS V.1.0 || Edit OR
                     data-semester="{{ request('semester') }}"><i class="fas fa-trash"></i> Delete Official Receipt
                 </button>
             </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" action="" id="adORcomment">
+                            @csrf
+                            <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                                <h5 class="text-bold">Comments</h5>
+                            </div>
+
+                            <input type="hidden" name="orno" value="{{ request('orno') }}">
+                            <input type="hidden" name="studID" value="{{ request('stud_id') }}">
+                            <input type="hidden" name="semester" value="{{ request('semester') }}">
+                            <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                            <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
+                            <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
+                            <input type="hidden" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
+
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="mt-2 col-md-10">
+                                        <label><span class="badge badge-secondary">Add Comments</span></label>
+                                        <input type="text" name="comments" value="{{ $dataprimidOR->comments }}" class="form-control form-control-md">
+                                    </div>
+
+                                    <div class="mt-2 col-md-2">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" class="form-control form-control-md btn btn-outline-danger btn-md text-bold">
+                                            <i class="fas fa-save"></i> Save Comments
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

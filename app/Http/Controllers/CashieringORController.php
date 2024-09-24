@@ -375,7 +375,13 @@ class CashieringORController extends Controller
                     ->orderBy('account_name', 'ASC')
                     ->get();
 
-        return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap'));
+        $dataprimidOR = StudPayment::where('orno', '=', $orno)
+                ->where('schlyear', '=', $schlyear)
+                ->where('semester', '=', $semester)
+                ->select('id as studorprimID')
+                ->first();
+
+        return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR'));
     }
 
     public function deletePayment(Request $request)
