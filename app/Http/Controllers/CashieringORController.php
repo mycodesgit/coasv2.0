@@ -237,9 +237,9 @@ class CashieringORController extends Controller
                     'postedBy' => Auth::guard('web')->user()->id,
                 ]);
 
-                return response()->json(['success' => true, 'message' => 'Payment stored successfully'], 200);
+                return response()->json(['success' => true, 'message' => 'Comments stored successfully'], 200);
            } catch (\Exception $e) {
-                return response()->json(['error' => true, 'message' => 'Failed to store Fund'], 404);
+                return response()->json(['error' => true, 'message' => 'Failed to store Comments'], 404);
             }
         }
     }
