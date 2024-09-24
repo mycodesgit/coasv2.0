@@ -179,14 +179,14 @@ CISS V.1.0 || Edit OR
                                 <h5 class="text-bold">Comments</h5>
                             </div>
 
-                            <input type="text" name="id" value="{{ $datacommentOR->studorcomentsprimID }}">
+                            <input type="hidden" name="id" value="{{ $datacommentOR->studorcomentsprimID }}">
                             <input type="hidden" name="orno" value="{{ request('orno') }}">
                             <input type="hidden" name="studID" value="{{ request('stud_id') }}">
                             <input type="hidden" name="semester" value="{{ request('semester') }}">
                             <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                             <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
                             <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
-                            <input type="text" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
+                            <input type="hidden" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
 
                             <div class="form-group">
                                 <div class="form-row">
