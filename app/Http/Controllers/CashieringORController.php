@@ -427,7 +427,6 @@ class CashieringORController extends Controller
 
                 $studorfeecomments = ORComments::findOrFail($request->input('id'));
                 $studorfeecomments->update([
-                    'studpayID' => $request->input('studpayID'),
                     'orno' => $request->input('orno'),
                     'studID' => $request->input('studID'),
                     'semester' => $request->input('semester'),
