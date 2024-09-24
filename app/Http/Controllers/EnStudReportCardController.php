@@ -151,6 +151,10 @@ class EnStudReportCardController extends Controller
             // Check if subjFgrade is numeric, otherwise use subjComp
             if (is_numeric($subject->subjFgrade)) {
                 $subjFgrade = (float)$subject->subjFgrade;
+
+                if ($subjFgrade >= 3.1 && $subjFgrade <= 5.0) {
+                    $subjFgrade = (float)$subject->subjComp;
+                }
             } else {
                 $subjFgrade = (float)$subject->subjComp;
             }
