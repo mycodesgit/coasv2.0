@@ -418,7 +418,7 @@ class CashieringORController extends Controller
                                 ->where('campus', $campus)
                                 ->where('schlyear', $schlyear)
                                 ->where('semester', $semester)
-                                ->where('id', '!=', $request->input('id'))->first();
+                                ->where('id', '!=', $request->input('id'))
                                 ->first();
 
                 if ($existingStudFeeORcomment) {
