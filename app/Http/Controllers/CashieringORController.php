@@ -295,12 +295,14 @@ class CashieringORController extends Controller
     public function orprint(Request $request)
     {
         $stud_id = $request->query('stud_id');
+        $orno = $request->query('orno');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
         $studor = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                     ->where('studpayment.studID', $stud_id)
+                    ->where('studpayment.orno', $orno)
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
                     ->select('studpayment.*', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.lname')
@@ -317,12 +319,14 @@ class CashieringORController extends Controller
     public function orprintedit(Request $request)
     {
         $stud_id = $request->stud_id;
+        $orno = $request->query('orno');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
         $studor = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                     ->where('studpayment.studID', $stud_id)
+                    ->where('studpayment.orno', $orno)
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
                     ->select('studpayment.*', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.lname')

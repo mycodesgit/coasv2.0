@@ -157,6 +157,7 @@ CISS V.1.0 || Edit OR
                     <input type="hidden" name="stud_id" value="{{ $orstud->first()->studID }}">
                     <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                     <input type="hidden" name="semester" value="{{ request('semester') }}">
+                    <input type="hidden" name="orno" value="{{ request('orno') }}">
                     <button type="submit" class="btn btn-primary float-right">
                         <i class="fas fa-print" onclick="printPDF()"></i> Print OR
                     </button>
