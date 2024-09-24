@@ -375,13 +375,19 @@ class CashieringORController extends Controller
                     ->orderBy('account_name', 'ASC')
                     ->get();
 
-        $dataprimidOR = ORComments::where('orno', '=', $orno)
+        $dataprimidOR = StudPayment::where('orno', '=', $orno)
+                ->where('schlyear', '=', $schlyear)
+                ->where('semester', '=', $semester)
+                ->select('id as studorprimID')
+                ->first();
+
+        $datacommentOR = ORComments::where('orno', '=', $orno)
                 ->where('schlyear', '=', $schlyear)
                 ->where('semester', '=', $semester)
                 ->select('id as studorcomentsprimID', 'comments')
                 ->first();
 
-        return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR'));
+        return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR', 'datacommentOR'));
     }
 
     public function deletePayment(Request $request)
