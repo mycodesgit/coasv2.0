@@ -185,7 +185,7 @@ CISS V.1.0 || Edit OR
                             <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                             <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
                             <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
-                            <input type="hidden" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
+                            <input type="text" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
 
                             <div class="form-group">
                                 <div class="form-row">
