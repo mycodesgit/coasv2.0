@@ -375,10 +375,10 @@ class CashieringORController extends Controller
                     ->orderBy('account_name', 'ASC')
                     ->get();
 
-        $dataprimidOR = StudPayment::where('orno', '=', $orno)
+        $dataprimidOR = ORComments::where('orno', '=', $orno)
                 ->where('schlyear', '=', $schlyear)
                 ->where('semester', '=', $semester)
-                ->select('id as studorprimID', 'orcomments.comments')
+                ->select('id as studorcomentsprimID', 'comments')
                 ->first();
 
         return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR'));
