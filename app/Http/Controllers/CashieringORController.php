@@ -394,12 +394,6 @@ class CashieringORController extends Controller
     {
         if ($request->isMethod('post')) {
             $request->validate([
-                'orno' => 'required',
-                'studID' => 'required',
-                'semester' => 'required',
-                'schlyear' => 'required',
-                'campus' => 'required',
-                'datepaid' => 'required',
                 'comments' => 'required',
             ]);
 
