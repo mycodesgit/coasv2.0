@@ -51,7 +51,7 @@ class EnStudAddController extends Controller
             $fname = $request->input('fname');
             $mname = $request->input('mname');
 
-            $existingStud = StudentFee::where('campus', $campus)
+            $existingStud = Student::where('campus', $campus)
                             ->where('lname', $lname)
                             ->where('fname', $fname)
                             ->where('mname', $mname)
