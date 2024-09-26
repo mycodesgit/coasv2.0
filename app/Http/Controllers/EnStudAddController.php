@@ -46,7 +46,7 @@ class EnStudAddController extends Controller
 
             $campus = Auth::guard('web')->user()->campus;
             $studentId = $this->generateAdmissionId($campus);
-            
+
             $lname = $request->input('lname');
             $fname = $request->input('fname');
             $mname = $request->input('mname');
@@ -55,6 +55,7 @@ class EnStudAddController extends Controller
                             ->where('lname', $lname)
                             ->where('fname', $fname)
                             ->where('mname', $mname)
+                            ->where('stud_id', 'NOT LIKE', '%-G')
                             ->first();
 
             if ($existingStud) {
