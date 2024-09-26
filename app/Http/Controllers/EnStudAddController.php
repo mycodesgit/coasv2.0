@@ -46,8 +46,7 @@ class EnStudAddController extends Controller
 
             $campus = Auth::guard('web')->user()->campus;
             $studentId = $this->generateAdmissionId($campus);
-
-            $campus = Auth::guard('web')->user()->campus;
+            
             $lname = $request->input('lname');
             $fname = $request->input('fname');
             $mname = $request->input('mname');
