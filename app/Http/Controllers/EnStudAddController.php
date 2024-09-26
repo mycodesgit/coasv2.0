@@ -55,7 +55,7 @@ class EnStudAddController extends Controller
                             ->where('lname', $lname)
                             ->where('fname', $fname)
                             ->where('mname', $mname)
-                            ->where('stud_id', 'NOT LIKE', '%-G')
+                            ->where('stud_id', 'LIKE', '%-G')
                             ->first();
 
             if ($existingStud) {
