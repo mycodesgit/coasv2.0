@@ -46,7 +46,23 @@ class EnStudAddController extends Controller
 
             $campus = Auth::guard('web')->user()->campus;
             $studentId = $this->generateAdmissionId($campus);
-            //try {
+
+            $campus = Auth::guard('web')->user()->campus;
+            $lname = $request->input('lname');
+            $fname = $request->input('fname');
+            $mname = $request->input('mname');
+
+            $existingStud = StudentFee::where('campus', $campus)
+                            ->where('lname', $lname)
+                            ->where('fname', $fname)
+                            ->where('mname', $mname)
+                            ->first();
+
+            if ($existingStud) {
+                return response()->json(['error' => true, 'message' => 'Student already exists'], 404);
+            }
+
+            try {
                 $newstudID = Student::create([
                     'app_id' => $request->input('app_id'),
                     'status' => $request->input('status'),
@@ -101,9 +117,9 @@ class EnStudAddController extends Controller
                 ]);
 
                 return response()->json(['success' => true, 'message' => 'Student stored successfully', 'student_id' => $studentId], 200);
-            //} catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Student'], 404);
-            //}
+            }
         }
     }
 
