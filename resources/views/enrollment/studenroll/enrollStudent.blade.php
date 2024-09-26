@@ -325,7 +325,7 @@ CISS V.1.0 || Enroll Student
                                             data-sub-unit="{{ $subs->subUnit }}" 
                                             data-lec-fee="{{ $subs->lecFee }}" 
                                             data-lab-fee="{{ $subs->labFee }}">
-                                        {{ $subs->sub_name }} - {{ $subs->subSec }}
+                                        {{ $subs->sub_name }} - {{ $subs->subSec }} {{ $subs->isType }}
                                     </option>
                                 @endforeach
                             </select>
