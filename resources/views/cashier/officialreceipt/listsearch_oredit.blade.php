@@ -192,7 +192,7 @@ CISS V.1.0 || Edit OR
                                 <div class="form-row">
                                     <div class="mt-2 col-md-10">
                                         <label><span class="badge badge-secondary">Add Comments</span></label>
-                                        <input type="text" name="comments" value="{{ $datacommentOR->comments }}" class="form-control form-control-md">
+                                        <input type="text" name="comments" value="{{ $datacommentOR->comments ?? 'null' }}" class="form-control form-control-md">
                                     </div>
 
                                     <div class="mt-2 col-md-2">
