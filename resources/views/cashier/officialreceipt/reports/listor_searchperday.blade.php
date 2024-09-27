@@ -73,6 +73,8 @@ CISS V.1.0 || OR
                             <tr>
                                 <th>Date Paid</th>
                                 <th>OR No</th>
+                                <th>Schlyear</th>
+                                <th>Semester</th>
                                 <th>Student ID No.</th>
                                 <th>Student Name</th>
                                 <th>Amount</th>
@@ -82,6 +84,18 @@ CISS V.1.0 || OR
                             @foreach($data as $d)
                                 <tr>
                                     <td>{{ $d->datepaid }}</td>
+                                    <td>{{ $d->schlyear }}</td>
+                                    <td>
+                                        @if($d->semester == 1)
+                                            1st Semester
+                                        @elseif($d->semester == 2)
+                                            2nd Semester
+                                        @elseif($d->semester == 3)
+                                            Summer
+                                        @else
+                                            Unknown Semester
+                                        @endif
+                                    </td>
                                     <td>{{ $d->orno }}</td>
                                     <td>{{ $d->studID }}</td>
                                     <td>{{ $d->lname }}, {{ $d->fname }} {{ substr($d->lname, 0,1) }}.</td>
