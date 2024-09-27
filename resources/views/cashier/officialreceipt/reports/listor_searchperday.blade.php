@@ -84,6 +84,7 @@ CISS V.1.0 || OR
                             @foreach($data as $d)
                                 <tr>
                                     <td>{{ $d->datepaid }}</td>
+                                    <td>{{ $d->orno }}</td>
                                     <td>{{ $d->schlyear }}</td>
                                     <td>
                                         @if($d->semester == 1)
@@ -96,7 +97,6 @@ CISS V.1.0 || OR
                                             Unknown Semester
                                         @endif
                                     </td>
-                                    <td>{{ $d->orno }}</td>
                                     <td>{{ $d->studID }}</td>
                                     <td>{{ $d->lname }}, {{ $d->fname }} {{ substr($d->lname, 0,1) }}.</td>
                                     <td>{{ number_format($d->total_amount, 2) }}</td>
