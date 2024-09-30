@@ -57,16 +57,16 @@ $(document).ready(function() {
 
     var urlParams = new URLSearchParams(window.location.search);
     var orno = urlParams.get('orno') || ''; 
-    var schlyear = urlParams.get('schlyear') || ''; 
-    var semester = urlParams.get('semester') || '';
+    // var schlyear = urlParams.get('schlyear') || ''; 
+    // var semester = urlParams.get('semester') || '';
     var dataTable = $('#ortable').DataTable({
         "ajax": {
             "url": studorReadRoute,
             "type": "GET",
             "data": { 
                 "orno": orno,
-                "schlyear": schlyear,
-                "semester": semester
+                // "schlyear": schlyear,
+                // "semester": semester
             }
         },
         info: false,

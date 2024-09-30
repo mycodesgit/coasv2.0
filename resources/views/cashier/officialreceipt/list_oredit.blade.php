@@ -52,7 +52,7 @@ CISS V.1.0 || Edit OR
                                         <input type="text" name="orno" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" autofocus>
                                     </div>
 
-                                    <div class="mt-2 col-md-12">
+                                    {{-- <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">School Year</span></label>
                                         <select class="form-control form-control-sm" name="schlyear">
                                             @foreach($sy as $datasy)
@@ -69,7 +69,7 @@ CISS V.1.0 || Edit OR
                                             <option value="2">Second Semester</option>
                                             <option value="3">Summer</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-md-12">
                                         <label>&nbsp;</label>

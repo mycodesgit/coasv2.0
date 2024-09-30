@@ -17,6 +17,7 @@ use App\Models\EnrollmentDB\Student;
 use App\Models\AssessmentDB\AccountAppraisal;
 use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\AssessmentDB\StudPayment;
+use App\Models\AssessmentDB\ORComments;
 
 use App\Models\SettingDB\ConfigureCurrent;
 
@@ -146,11 +147,12 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studfees = $query->get();
 
-        $query = StudPayment::where('studpayment.schlyear',  $schlyear)
+        $query = StudPayment::leftJoin('orcomments', 'studpayment.id', '=', 'orcomments.studpayID')
+                    ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
                     ->where('studpayment.campus',  $campus)
                     ->where('studpayment.studID', $stud_id)
-                    ->select('studpayment.*')
+                    ->select('studpayment.*', 'orcomments.comments')
                     ->orderBy('studpayment.account', 'ASC');
 
                     if ($category == '2') {

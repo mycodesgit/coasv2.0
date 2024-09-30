@@ -131,8 +131,8 @@ class CashieringORController extends Controller
         $semester = $request->query('semester');
     
         $data = StudPayment::where('orno', '=', $orno)
-                ->where('schlyear', '=', $schlyear)
-                ->where('semester', '=', $semester)
+                // ->where('schlyear', '=', $schlyear)
+                // ->where('semester', '=', $semester)
                 ->get();
 
         return response()->json(['data' => $data]);
@@ -381,13 +381,17 @@ class CashieringORController extends Controller
                 ->select('id as studorprimID')
                 ->first();
 
+        $dataprimidORdataget = StudPayment::where('orno', '=', $orno)
+                ->select('id as studorprimID', 'semester', 'schlyear')
+                ->first();
+
         $datacommentOR = ORComments::where('orno', '=', $orno)
                 ->where('schlyear', '=', $schlyear)
                 ->where('semester', '=', $semester)
                 ->select('id as studorcomentsprimID', 'comments')
                 ->first();
 
-        return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR', 'datacommentOR'));
+        return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR', 'datacommentOR', 'dataprimidORdataget'));
     }
 
     public function orCommentsUpdate(Request $request) 

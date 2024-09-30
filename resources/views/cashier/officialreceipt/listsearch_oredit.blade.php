@@ -54,12 +54,12 @@ CISS V.1.0 || Edit OR
 
                                     <div class="mt-2 col-md-6">
                                         <label><span class="badge badge-secondary">Semester</span></label>
-                                        <input type="text" name="semester" class="form-control form-control-sm" value="{{ request('semester') }}" readonly>
+                                        <input type="text" name="semester" class="form-control form-control-sm" value="{{ $dataprimidORdataget->semester }}" readonly>
                                     </div>
 
                                     <div class="mt-2 col-md-6">
                                         <label><span class="badge badge-secondary">School Year</span></label>
-                                        <input type="text" name="semester" class="form-control form-control-sm" value="{{ request('schlyear') }}" readonly>
+                                        <input type="text" name="semester" class="form-control form-control-sm" value="{{ $dataprimidORdataget->schlyear }}" readonly>
                                     </div>
 
                                     <div class="mt-2 col-md-12">
@@ -88,8 +88,8 @@ CISS V.1.0 || Edit OR
 
                             <input type="hidden" name="orno" value="{{ request('orno') }}">
                             <input type="hidden" name="studID" value="{{ $orstud->first()->studID }}">
-                            <input type="hidden" name="semester" value="{{ request('semester') }}">
-                            <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                            <input type="hidden" name="semester" value="{{ $dataprimidORdataget->semester }}">
+                            <input type="hidden" name="schlyear" value="{{ $dataprimidORdataget->schlyear }}">
                             <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
                             <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
 
@@ -155,8 +155,8 @@ CISS V.1.0 || Edit OR
                 <form action="{{ route('orprintedit') }}" method="get" target="_blank">
                     @csrf
                     <input type="hidden" name="stud_id" value="{{ $orstud->first()->studID }}">
-                    <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
-                    <input type="hidden" name="semester" value="{{ request('semester') }}">
+                    <input type="hidden" name="schlyear" value="{{ $dataprimidORdataget->schlyear }}">
+                    <input type="hidden" name="semester" value="{{ $dataprimidORdataget->semester }}">
                     <input type="hidden" name="orno" value="{{ request('orno') }}">
                     <button type="submit" class="btn btn-primary float-right">
                         <i class="fas fa-print" onclick="printPDF()"></i> Print OR
@@ -166,8 +166,8 @@ CISS V.1.0 || Edit OR
                 <hr>
                 <button class="btn btn-outline-danger studorspec-delete float-right"
                     data-orno="{{ request('orno') }}"
-                    data-schlyear="{{ request('schlyear') }}"
-                    data-semester="{{ request('semester') }}"><i class="fas fa-trash"></i> Delete Official Receipt
+                    data-schlyear="{{ $dataprimidORdataget->schlyear }}"
+                    data-semester="{{ $dataprimidORdataget->semester }}"><i class="fas fa-trash"></i> Delete Official Receipt
                 </button>
             </div>
             <div class="col-md-12">
@@ -182,8 +182,8 @@ CISS V.1.0 || Edit OR
                             <input type="hidden" name="id" value="{{ $datacommentOR->studorcomentsprimID ?? 'null' }}">
                             <input type="hidden" name="orno" value="{{ request('orno') }}">
                             <input type="hidden" name="studID" value="{{ request('stud_id') }}">
-                            <input type="hidden" name="semester" value="{{ request('semester') }}">
-                            <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                            <input type="hidden" name="semester" value="{{ $dataprimidORdataget->semester }}">
+                            <input type="hidden" name="schlyear" value="{{ $dataprimidORdataget->schlyear }}">
                             <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
                             <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
                             <input type="hidden" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
@@ -192,7 +192,7 @@ CISS V.1.0 || Edit OR
                                 <div class="form-row">
                                     <div class="mt-2 col-md-10">
                                         <label><span class="badge badge-secondary">Add Comments</span></label>
-                                        <input type="text" name="comments" value="{{ $datacommentOR->comments ?? 'null' }}" class="form-control form-control-md">
+                                        <input type="text" name="comments" value="{{ $datacommentOR->comments ?? ' ' }}" class="form-control form-control-md">
                                     </div>
 
                                     <div class="mt-2 col-md-2">

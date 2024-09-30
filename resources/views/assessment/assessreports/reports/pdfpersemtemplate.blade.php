@@ -98,13 +98,16 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="text-align: center; background-color: #e9ecef;" colspan="5"><h4>Student Payment</h4></th>
+                            <th style="text-align: center; background-color: #e9ecef;" colspan="8"><h4>Student Payment</h4></th>
                         </tr>
                         <tr>
                             <th>OR</th>
                             <th>Code</th>
                             <th>Fund</th>
                             <th>Amount</th>
+                            <th>Semester</th>
+                            <th>Schlyear</th>
+                            <th>Comments</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -121,6 +124,9 @@
                                 <td>{{ $datastudpaymentview->fund }}</td>
                                 <td>{{ $datastudpaymentview->account }}</td>
                                 <td>{{ $datastudpaymentview->amountpaid  }}</td>
+                                <td>{{ $datastudpaymentview->semester  }}</td>
+                                <td>{{ $datastudpaymentview->schlyear  }}</td>
+                                <td>{{ $datastudpaymentview->comments  }}</td>
                                 <td>{{ Carbon\Carbon::parse($datastudpaymentview->datepaid)->format('M j, Y') }}</td>
                             </tr>
                         @endforeach
@@ -129,6 +135,9 @@
                         <tr>
                             <td colspan="3" style="text-align: right;"><strong>Total Amount:</strong></td>
                             <td><strong style="font-size: 15px">{{ number_format($totalAmountPaid, 2) }}</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                         </tr>
                     </tfoot>
