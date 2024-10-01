@@ -126,6 +126,7 @@ class EnstudgradeController extends Controller
 
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
 
         $gradereg = Grade::where('subjID', $id)
                         ->where('status', '!=', '')
@@ -138,6 +139,7 @@ class EnstudgradeController extends Controller
                 ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
                 ->where('so.schlyear', $schlyear)
                 ->where('so.semester', $semester)
+                ->where('so.campus', $campus)
                 ->where('studgrades.subjID', $id)
                 ->orderBy('students.lname', 'ASC')
                 ->get();
