@@ -167,7 +167,7 @@ CISS V.1.0 || Edit OR
                 <button class="btn btn-outline-danger studorspec-delete float-right"
                     data-orno="{{ request('orno') }}"
                     data-schlyear="{{ $dataprimidORdataget->schlyear }}"
-                    data-semester="{{ $dataprimidORdataget->semester }}"><i class="fas fa-trash"></i> Delete Official Receipt
+                    data-semester="{{ $dataprimidORdataget->semester }}" data-id="{{ $dataprimidORdataget->studorprimID }}"><i class="fas fa-trash"></i> Delete Official Receipt
                 </button>
             </div>
             <div class="col-md-12">

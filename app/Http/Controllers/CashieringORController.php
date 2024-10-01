@@ -127,8 +127,8 @@ class CashieringORController extends Controller
     public function getorpaymentRead(Request $request) 
     {
         $orno = $request->query('orno');
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
+        // $schlyear = $request->query('schlyear');
+        // $semester = $request->query('semester');
     
         $data = StudPayment::where('orno', '=', $orno)
                 // ->where('schlyear', '=', $schlyear)
@@ -160,16 +160,16 @@ class CashieringORController extends Controller
             $campus = $request->input('campus');
             $datepaid = $request->input('datepaid');
 
-            // $studaccount = $request->input('account'); 
-            // $existingStudFeeOR = StudPayment::where('account', $studaccount)
-            //                 ->where('campus', $campus)
-            //                 ->where('schlyear', $schlyear)
-            //                 ->where('semester', $semester)
-            //                 ->first();
+            $studaccount = $request->input('account'); 
+            $existingStudFeeOR = StudPayment::where('orno', $orno)
+                            // ->where('campus', $campus)
+                            // ->where('schlyear', $schlyear)
+                            // ->where('semester', $semester)
+                            ->first();
 
-            // if ($existingStudFeeOR) {
-            //     return response()->json(['error' => true, 'message' => 'Account Name in Student Fee already exists'], 404);
-            // }
+            if ($existingStudFeeOR) {
+                return response()->json(['error' => true, 'message' => 'Account Name in Student Fee already exists'], 404);
+            }
 
             try {
                 $studpayor = StudPayment::create([
@@ -452,7 +452,8 @@ class CashieringORController extends Controller
             ->delete();
 
         if ($deletedRows) {
-            return redirect()->route('listedit_orRead')->with('success', 'Payment records deleted successfully.');
+            //return redirect()->route('list_oredit')->with('success', 'Payment records deleted successfully.');
+            return response()->json(['success' => true, 'message' => 'Payment records deleted successfully.'], 404);
         } else {
             return response()->json(['error' => true, 'message' => 'No records found to delete.'], 404);
         }
