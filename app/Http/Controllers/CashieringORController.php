@@ -511,6 +511,7 @@ class CashieringORController extends Controller
                     'coasv2_db_admission.users.fname',
                     'coasv2_db_admission.users.lname',
                 )
+                ->orderBy('studpayment.orno', 'DESC')
                 ->get();
 
 

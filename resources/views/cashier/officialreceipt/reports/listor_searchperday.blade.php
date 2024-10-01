@@ -71,8 +71,8 @@ CISS V.1.0 || OR
                     <table id="example1" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Date Paid</th>
                                 <th>OR No</th>
+                                <th>Date Paid</th>
                                 <th>Schlyear</th>
                                 <th>Semester</th>
                                 <th>Student ID No.</th>
@@ -84,8 +84,8 @@ CISS V.1.0 || OR
                         <tbody>
                             @foreach($data as $d)
                                 <tr>
-                                    <td>{{ $d->datepaid }}</td>
                                     <td>{{ $d->orno }}</td>
+                                    <td>{{ $d->datepaid }}</td>
                                     <td>{{ $d->schlyear }}</td>
                                     <td>
                                         @if($d->semester == 1)
