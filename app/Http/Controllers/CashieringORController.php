@@ -162,16 +162,16 @@ class CashieringORController extends Controller
             $campus = $request->input('campus');
             $datepaid = $request->input('datepaid');
 
-            $studaccount = $request->input('account'); 
-            $existingStudFeeOR = StudPayment::where('orno', $orno)
-                            // ->where('campus', $campus)
-                            // ->where('schlyear', $schlyear)
-                            // ->where('semester', $semester)
-                            ->first();
+            // $studaccount = $request->input('account'); 
+            // $existingStudFeeOR = StudPayment::where('orno', $orno)
+            //                 // ->where('campus', $campus)
+            //                 // ->where('schlyear', $schlyear)
+            //                 // ->where('semester', $semester)
+            //                 ->first();
 
-            if ($existingStudFeeOR) {
-                return response()->json(['error' => true, 'message' => 'OR Number already exists'], 404);
-            }
+            // if ($existingStudFeeOR) {
+            //     return response()->json(['error' => true, 'message' => 'OR Number already exists'], 404);
+            // }
 
             try {
                 $studpayor = StudPayment::create([
