@@ -92,7 +92,17 @@
 		<table>
 			<thead>
 				<tr>
-					<th colspan="2" style="font-weight: bold; font-family: 'monospace';"><span style="color: #fff !important; margin-left: 80px;">Campus</span>{{ Auth::guard('web')->user()->campus }}<br><br></th>
+					<th colspan="2" style="font-weight: bold; font-family: 'monospace';"><span style="color: #fff !important; margin-left: 30px;">Campus</span>{{ Auth::guard('web')->user()->campus }} 
+						@if($studor->first()->semester == 1)
+						    1st Sem
+						@elseif($studor->first()->semester == 2)
+						    2nd Sem
+						@elseif($studor->first()->semester == 3)
+						    Summer
+						@endif
+						- {{ $studor->first()->schlyear }}
+						<br><br>
+					</th>
 					<th style="font-weight: bold; font-family: 'monospace';"><span style="color: #fff !important; margin-left: -40px;">Fund</span>IGF<br><br></th>
 				</tr>
 				<tr>
