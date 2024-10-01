@@ -141,7 +141,6 @@ class EnstudgradeController extends Controller
                 ->where('so.semester', $semester)
                 ->where('so.campus', $campus)
                 ->where('studgrades.campus', $campus)
-                ->where('studgrades.studID', $campus)
                 ->where('studgrades.subjID', $id)
                 ->orderBy('students.lname', 'ASC')
                 ->get();
