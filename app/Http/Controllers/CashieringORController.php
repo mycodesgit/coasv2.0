@@ -105,10 +105,12 @@ class CashieringORController extends Controller
         $campus = Auth::guard('web')->user()->campus;
         $orno = $request->query('orno');
 
-        // $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->where('stud_id', 'LIKE', '%-G')->first();
-        // if (!$student) {
-        //     return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
-        // }
+        $existingStudFeeOR = StudPayment::where('orno', $orno)
+                            ->first();
+
+        if ($existingStudFeeOR) {
+            return redirect()->back()->with('error', 'OR Number <strong>' . $orno . '</strong> already exist.');
+        }
 
         $orstud = Student::where('stud_id', $stud_id)->select('fname', 'mname', 'lname')->get();
         $studfund = Funds::orderBy('id', 'DESC')->get();
@@ -168,7 +170,7 @@ class CashieringORController extends Controller
                             ->first();
 
             if ($existingStudFeeOR) {
-                return response()->json(['error' => true, 'message' => 'Account Name in Student Fee already exists'], 404);
+                return response()->json(['error' => true, 'message' => 'OR Number already exists'], 404);
             }
 
             try {
