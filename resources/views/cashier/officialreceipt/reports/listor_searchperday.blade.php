@@ -78,6 +78,7 @@ CISS V.1.0 || OR
                                 <th>Student ID No.</th>
                                 <th>Student Name</th>
                                 <th>Amount</th>
+                                <th>PostedBy</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,6 +101,7 @@ CISS V.1.0 || OR
                                     <td>{{ $d->studID }}</td>
                                     <td>{{ $d->lname }}, {{ $d->fname }} {{ substr($d->lname, 0,1) }}.</td>
                                     <td>{{ number_format($d->total_amount, 2) }}</td>
+                                    <td>{{ $d->fname }} {{ $d->lname }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

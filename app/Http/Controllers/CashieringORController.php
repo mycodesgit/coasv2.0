@@ -481,6 +481,7 @@ class CashieringORController extends Controller
         $campus = Auth::guard('web')->user()->campus;
     
         $data = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->leftJoin('coasv2_db_admission.users', 'studpayment.postedBy', '=', 'coasv2_db_admission.users.id')
                 ->where('studpayment.campus', '=', $campus)
                 ->where('studpayment.datepaid', '=', $datepaid)
                 ->select(
@@ -493,6 +494,8 @@ class CashieringORController extends Controller
                     'studpayment.campus',
                     'studpayment.semester',
                     'studpayment.schlyear',
+                    'coasv2_db_admission.users.fname',
+                    'coasv2_db_admission.users.lname',
                     DB::raw('SUM(studpayment.amountpaid) as total_amount')
                 )
                 ->groupBy(
@@ -504,7 +507,9 @@ class CashieringORController extends Controller
                     'studpayment.datepaid',
                     'studpayment.campus',
                     'studpayment.semester',
-                    'studpayment.schlyear'
+                    'studpayment.schlyear',
+                    'coasv2_db_admission.users.fname',
+                    'coasv2_db_admission.users.lname',
                 )
                 ->get();
 
