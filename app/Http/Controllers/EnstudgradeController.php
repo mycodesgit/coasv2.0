@@ -134,7 +134,7 @@ class EnstudgradeController extends Controller
 
         $genstud = Grade::select('so.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
                 ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
-                ->join('students', 'studgrades.studID', '=', 'students.stud_id')
+                ->leftJoin('students', 'studgrades.studID', '=', 'students.stud_id')
                 ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
                 ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
                 ->where('so.schlyear', $schlyear)
