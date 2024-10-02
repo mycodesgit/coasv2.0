@@ -75,6 +75,7 @@ class StudHEBillingController extends Controller
                         ->where('coasv2_db_assessment.student_appraisal.semester',  $semester)
                         ->where('coasv2_db_assessment.student_appraisal.campus',  $campus)
                         ->where('program_en_history.studentID', 'NOT LIKE', '%-G')
+                        ->where('program_en_history.studentID', 'NOT LIKE', '%-N')
                         ->select(
                             'program_en_history.studentID',
                             'students.lname',
