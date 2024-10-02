@@ -99,7 +99,7 @@ CISS V.1.0 || OR
                                         @endif
                                     </td>
                                     <td>{{ $d->studID }}</td>
-                                    <td>{{ $d->lname }}, {{ $d->fname }} {{ substr($d->lname, 0,1) }}.</td>
+                                    <td>{{ $d->slname }}, {{ $d->sfname }} {{ substr($d->smname, 0,1) }}.</td>
                                     <td>{{ number_format($d->total_amount, 2) }}</td>
                                     <td>{{ $d->fname }} {{ $d->lname }}</td>
                                 </tr>

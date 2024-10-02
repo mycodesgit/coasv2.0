@@ -485,9 +485,9 @@ class CashieringORController extends Controller
                 ->where('studpayment.campus', '=', $campus)
                 ->where('studpayment.datepaid', '=', $datepaid)
                 ->select(
-                    'coasv2_db_enrollment.students.lname',
-                    'coasv2_db_enrollment.students.fname',
-                    'coasv2_db_enrollment.students.mname',
+                    'coasv2_db_enrollment.students.lname as slname',
+                    'coasv2_db_enrollment.students.fname as sfname',
+                    'coasv2_db_enrollment.students.mname as smname',
                     'studpayment.orno',
                     'studpayment.studID',
                     'studpayment.datepaid',
