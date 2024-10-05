@@ -65,9 +65,9 @@
 	    <div class="studinfolabel">
 		    <div class="info-row">
 		        <span class="info-label">Subjects:</span>
-		        <span class="info-data">{{ $substudnowviewpdf->first()->sub_name }}</span>
+		        <span class="info-data">{{ $substudnowviewpdf->first()->sub_name ?? '' }}</span>
 		        <span class="info-label">Course:</span>
-		        <span class="info-data">{{ $substudnowviewpdf->first()->subSec }}</span>
+		        <span class="info-data">{{ $substudnowviewpdf->first()->subSec ?? '' }}</span>
 		        <span class="info-label">Date:</span>
 		        <span class="info-data1">______________</span>
 		    </div>
