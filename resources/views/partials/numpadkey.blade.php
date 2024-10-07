@@ -55,6 +55,9 @@
             <a id="btn-m" class="btn btn-app" style="border: 2px solid #252525; background-color: #ffff66 !important;">
                 <i class="fas fa-m mt-1 text-dark"></i>
             </a>
+            <a id="btn-n" class="btn btn-app" style="border: 2px solid #252525; background-color: #ffff66 !important;">
+                <i class="fas fa-n mt-1 text-dark"></i>
+            </a>
         </div>
         
     </div>
