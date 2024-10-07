@@ -55,7 +55,7 @@ class EnStudGrdeViewController extends Controller
         $stud_id = $request->query('stud_id');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->where('stud_id', 'LIKE', '%-G')->first();
+        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->where('stud_id', 'LIKE', '%-G')->where('stud_id', 'LIKE', '%-N')->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
