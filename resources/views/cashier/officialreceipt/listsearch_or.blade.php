@@ -166,7 +166,7 @@ CISS V.1.0 || OR
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <form method="post" action="{{ route('orCommentsCreate') }}" id="adORcomment">
+                        <form method="post" action="{{ route('orCommentsCreate') }}" id="studOrAdded">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                 <h5 class="text-bold">Comments</h5>
@@ -178,7 +178,7 @@ CISS V.1.0 || OR
                             <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                             <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
                             <input type="hidden" name="datepaid" value="{{ now()->format('Y-m-d') }}">
-                            <input type="hidden" name="studpayID" value="{{ $dataprimidOR->studorprimID ?? 'null' }}">
+                            <input type="hidden" name="studpayID" value="">
 
                             <div class="form-group">
                                 <div class="form-row">

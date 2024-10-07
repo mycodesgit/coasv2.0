@@ -15,7 +15,9 @@ $(document).ready(function() {
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
+                    $('input[name="studpayID"]').val(response.studpayID);
                     console.log(response);
+                    console.log('studpayID:', response.studpayID);
                     $(document).trigger('studOrAdded');
                     $('input[name="amountpaid"]').val('');
                 } else {
@@ -30,7 +32,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#adORcomment').submit(function(event) {
+    $('#studOrAdded').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 

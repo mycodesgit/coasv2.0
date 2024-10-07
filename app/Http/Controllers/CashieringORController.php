@@ -388,8 +388,8 @@ class CashieringORController extends Controller
                 ->first();
 
         $datacommentOR = ORComments::where('orno', '=', $orno)
-                ->where('schlyear', '=', $schlyear)
-                ->where('semester', '=', $semester)
+                // ->where('schlyear', '=', $schlyear)
+                // ->where('semester', '=', $semester)
                 ->select('id as studorcomentsprimID', 'comments')
                 ->first();
 
@@ -425,13 +425,27 @@ class CashieringORController extends Controller
                     return response()->json(['error' => true, 'message' => 'Comments for this Account is already exists'], 404);
                 }
 
-                $studorfeecomments = ORComments::findOrFail($request->input('id'));
-                $studorfeecomments->update([
-                    'comments' => $request->input('comments'),
-                    'postedBy' => Auth::guard('web')->user()->id,
-                ]);
+                if ($existingStudFeeORcomment) {
+                    $existingStudFeeORcomment->update([
+                        'comments' => $request->input('comments'),
+                        'postedBy' => Auth::guard('web')->user()->id,
+                    ]);
 
-                return response()->json(['success' => true, 'message' => 'Comments updated successfully'], 200);
+                    return response()->json(['success' => true, 'message' => 'Comments updated successfully'], 200);
+                } else {
+                    ORComments::create([
+                        'orno' => $orno,
+                        'studID' => $studID,
+                        'semester' => $semester,
+                        'schlyear' => $schlyear,
+                        'campus' => $campus,
+                        'datepaid' => $datepaid,
+                        'comments' => $request->input('comments'),
+                        'postedBy' => Auth::guard('web')->user()->id,
+                    ]);
+
+                    return response()->json(['success' => true, 'message' => 'Comments created successfully'], 201);
+                }
            } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to update Comments'], 404);
             }
