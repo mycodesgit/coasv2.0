@@ -54,7 +54,7 @@ class StudStateAccntAssessmentController extends Controller
         $category = $request->query('category');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
+        $student = Student::where('stud_id', $stud_id)->where('stud_id', 'LIKE', '%-G')->where('campus', $campus)->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
