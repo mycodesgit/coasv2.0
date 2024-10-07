@@ -378,8 +378,8 @@ class CashieringORController extends Controller
                     ->get();
 
         $dataprimidOR = StudPayment::where('orno', '=', $orno)
-                ->where('schlyear', '=', $schlyear)
-                ->where('semester', '=', $semester)
+                // ->where('schlyear', '=', $schlyear)
+                // ->where('semester', '=', $semester)
                 ->select('id as studorprimID')
                 ->first();
 
