@@ -88,11 +88,12 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studfees = $query->get();
 
-        $query = StudPayment::where('studpayment.schlyear',  $schlyear)
+        $query = StudPayment::join('orcomments', 'studpayment.id', '=', 'orcomments.studpayID')
+                    ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
                     ->where('studpayment.campus',  $campus)
                     ->where('studpayment.studID', $stud_id)
-                    ->select('studpayment.*')
+                    ->select('studpayment.*', 'orcomments.comments')
                     ->orderBy('studpayment.account', 'ASC');
 
                     if ($category == '2') {

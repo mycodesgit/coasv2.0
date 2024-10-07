@@ -184,6 +184,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                 <th>Fund</th>
                                 <th>Amount</th>
                                 <th>Date</th>
+                                <th width="20%">Comments</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -200,6 +201,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                     <td>{{ $datastudpaymentview->account }}</td>
                                     <td>{{ number_format($datastudpaymentview->amountpaid, 2)  }}</td>
                                     <td>{{ Carbon\Carbon::parse($datastudpaymentview->datepaid)->format('M j, Y') }}</td>
+                                    <td>{{ $datastudpaymentview->comments }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
