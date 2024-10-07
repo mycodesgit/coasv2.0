@@ -88,7 +88,7 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studfees = $query->get();
 
-        $query = StudPayment::join('orcomments', 'studpayment.id', '=', 'orcomments.studpayID')
+        $query = StudPayment::leftJoin('orcomments', 'studpayment.id', '=', 'orcomments.studpayID')
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
                     ->where('studpayment.campus',  $campus)
