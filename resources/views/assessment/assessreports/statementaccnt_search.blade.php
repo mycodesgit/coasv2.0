@@ -208,7 +208,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     </table>
                 </div>
             </div>
-
+            
             @php
                 $totalBalance = $totalAmount - $totalAmountPaid;
             @endphp
