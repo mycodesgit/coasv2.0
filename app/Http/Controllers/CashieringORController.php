@@ -129,12 +129,8 @@ class CashieringORController extends Controller
     public function getorpaymentRead(Request $request) 
     {
         $orno = $request->query('orno');
-        // $schlyear = $request->query('schlyear');
-        // $semester = $request->query('semester');
     
         $data = StudPayment::where('orno', '=', $orno)
-                // ->where('schlyear', '=', $schlyear)
-                // ->where('semester', '=', $semester)
                 ->get();
 
         return response()->json(['data' => $data]);
@@ -378,8 +374,6 @@ class CashieringORController extends Controller
                     ->get();
 
         $dataprimidOR = StudPayment::where('orno', '=', $orno)
-                // ->where('schlyear', '=', $schlyear)
-                // ->where('semester', '=', $semester)
                 ->select('id as studorprimID')
                 ->first();
 
@@ -388,8 +382,6 @@ class CashieringORController extends Controller
                 ->first();
 
         $datacommentOR = ORComments::where('orno', '=', $orno)
-                // ->where('schlyear', '=', $schlyear)
-                // ->where('semester', '=', $semester)
                 ->select('id as studorcomentsprimID', 'comments')
                 ->first();
 
@@ -403,7 +395,6 @@ class CashieringORController extends Controller
                 'comments' => 'required',
             ]);
 
-            // Input fields
             $studpayID = $request->input('studpayID');
             $orno = $request->input('orno');
             $studID = $request->input('studID');
@@ -414,25 +405,22 @@ class CashieringORController extends Controller
             $commentId = $request->input('id');
 
             try {
-                // Check if similar comment exists except for the current one (for update)
                 $studaccountcomments = $request->input('comments'); 
                 $existingStudFeeORcomment = ORComments::where('comments', $studaccountcomments)
                                 ->where('studID', $studID)
                                 ->where('campus', $campus)
                                 ->where('schlyear', $schlyear)
                                 ->where('semester', $semester)
-                                ->where('studpayID', '!=', $commentId)  // Exclude the current comment being updated
+                                ->where('studpayID', '!=', $commentId)  
                                 ->first();
 
                 if ($existingStudFeeORcomment) {
                     return response()->json(['error' => true, 'message' => 'Comments for this Account already exist'], 404);
                 }
 
-                // Find the comment by ID for update, if not found create new
                 $studorfeecomments = ORComments::find($commentId);
 
                 if ($studorfeecomments) {
-                    // Update existing comment
                     $studorfeecomments->update([
                         'comments' => $request->input('comments'),
                         'postedBy' => Auth::guard('web')->user()->id,
@@ -440,8 +428,7 @@ class CashieringORController extends Controller
 
                     return response()->json(['success' => true, 'message' => 'Comments updated successfully'], 200);
                 } else {
-                    // Create a new comment if no existing comment was found
-                    ORComments::create([
+                    $neworcomment = ORComments::create([
                         'studpayID' =>  $studpayID,
                         'orno' => $orno,
                         'studID' => $studID,
@@ -453,7 +440,7 @@ class CashieringORController extends Controller
                         'postedBy' => Auth::guard('web')->user()->id,
                     ]);
 
-                    return response()->json(['success' => true, 'message' => 'Comments created successfully'], 201);
+                    return response()->json(['success' => true, 'id' => $neworcomment->id, 'message' => 'Comments created successfully'], 201);
                 }
             } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to update Comments'], 500);
