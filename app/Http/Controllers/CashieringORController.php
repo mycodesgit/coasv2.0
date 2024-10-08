@@ -404,6 +404,7 @@ class CashieringORController extends Controller
             ]);
 
             // Input fields
+            $studpayID = $request->input('studpayID');
             $orno = $request->input('orno');
             $studID = $request->input('studID');
             $semester = $request->input('semester');
@@ -420,7 +421,7 @@ class CashieringORController extends Controller
                                 ->where('campus', $campus)
                                 ->where('schlyear', $schlyear)
                                 ->where('semester', $semester)
-                                ->where('id', '!=', $commentId)  // Exclude the current comment being updated
+                                ->where('studpayID', '!=', $commentId)  // Exclude the current comment being updated
                                 ->first();
 
                 if ($existingStudFeeORcomment) {
@@ -441,6 +442,7 @@ class CashieringORController extends Controller
                 } else {
                     // Create a new comment if no existing comment was found
                     ORComments::create([
+                        'studpayID' =>  $studpayID,
                         'orno' => $orno,
                         'studID' => $studID,
                         'semester' => $semester,

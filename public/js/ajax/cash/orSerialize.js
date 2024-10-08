@@ -176,7 +176,9 @@ $('#adEditORcomment').submit(function(event) {
         },
         success: function(response) {
             if(response.success) {
+                $('input[name="id"]').val(response.id);
                 toastr.success(response.message);
+                $(document).trigger('adEditORcomment');
             } else {
                 toastr.error(response.message);
             }
