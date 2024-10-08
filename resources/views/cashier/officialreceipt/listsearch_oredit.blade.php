@@ -181,7 +181,7 @@ CISS V.1.0 || Edit OR
 
                             <input type="text" name="id" value="{{ $datacommentOR->studorcomentsprimID ?? 'null' }}">
                             <input type="text" name="orno" value="{{ request('orno') }}">
-                            <input type="text" name="studID" value="{{ $dataprimidORdataget->studorprimID }}">
+                            <input type="text" name="studID" value="{{ $dataprimidORdataget->studID }}">
                             <input type="text" name="semester" value="{{ $dataprimidORdataget->semester }}">
                             <input type="text" name="schlyear" value="{{ $dataprimidORdataget->schlyear }}">
                             <input type="text" name="campus" value="{{ Auth::guard('web')->user()->campus }}">

@@ -384,7 +384,7 @@ class CashieringORController extends Controller
                 ->first();
 
         $dataprimidORdataget = StudPayment::where('orno', '=', $orno)
-                ->select('id as studorprimID', 'semester', 'schlyear')
+                ->select('id as studorprimID', 'semester', 'schlyear', 'studID')
                 ->first();
 
         $datacommentOR = ORComments::where('orno', '=', $orno)
