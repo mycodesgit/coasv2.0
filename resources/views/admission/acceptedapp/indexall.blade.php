@@ -89,7 +89,7 @@ CISS V.1.0 || Accepted Applicants
         <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="" class="table table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
