@@ -19,7 +19,9 @@
     $noschedreportActive = in_array($curr_route, ['nosched_printing', 'nosched_reports']) ? 'active' : '';   
     $examreportActive = in_array($curr_route, ['examination_printing', 'examination_reports']) ? 'active' : '';  
     $qualreportActive = in_array($curr_route, ['qualified_printing']) ? 'active' : ''; 
-    $acceptedreportActive = in_array($curr_route, ['accepted_printing', 'accepted_reports']) ? 'active' : '';   
+    $acceptedreportActive = in_array($curr_route, ['accepted_printing', 'accepted_reports']) ? 'active' : ''; 
+
+    $courseprefreportActive = in_array($curr_route, ['indexcoursepref', 'indexcoursepref_search']) ? 'active' : '';   
 
     $billingreportActive = in_array($curr_route, ['adbillingRead', 'adbillingRead_search']) ? 'active' : '';    
 @endphp
@@ -65,6 +67,9 @@
         <a href="{{ route('qualified_printing') }}" class="list-group-item {{ $qualreportActive }}">Qualified Applicants</a>
         @endif
         <a href="{{ route('accepted_printing') }}" class="list-group-item {{ $acceptedreportActive }}">Accepted Applicants</a> 
+        @if(in_array(Auth::user()->id, [1, 36]))  
+            <a href="{{ route('indexcoursepref') }}" class="list-group-item {{ $courseprefreportActive }}">Course Preferences</a>
+        @endif
         @if(!in_array(Auth::user()->role, [5, 6, 7]))
         <a href="{{ route('adbillingRead') }}" class="list-group-item {{ $billingreportActive }}">Billing</a>
         @endif
