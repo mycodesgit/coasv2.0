@@ -115,7 +115,7 @@ class CashieringORController extends Controller
         $existingStudFeeORIDno = Student::where('stud_id', $stud_id)
                             ->first();
 
-        if ($existingStudFeeORIDno) {
+        if (!$existingStudFeeORIDno) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> doesn`t exist.');
         }
 
