@@ -112,6 +112,13 @@ class CashieringORController extends Controller
             return redirect()->back()->with('error', 'OR Number <strong>' . $orno . '</strong> already exist.');
         }
 
+        $existingStudFeeORIDno = Student::where('stud_id', $stud_id)
+                            ->first();
+
+        if ($existingStudFeeORIDno) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> doesn`t exist.');
+        }
+
         $orstud = Student::where('stud_id', $stud_id)->select('fname', 'mname', 'lname')->get();
         $studfund = Funds::orderBy('id', 'DESC')->get();
         $studAccntap = AccountAppraisal::whereIn('id', ['2', '7', '33', '42', '44', '49', '74', '76', '79', '85', '90', '91', '92', '93', '99', '118', '133', '134', '151', '152', '153', '154', '155', '156', '159', '161'])
