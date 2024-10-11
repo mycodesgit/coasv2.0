@@ -28,13 +28,13 @@
             <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
             <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
         @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14, 15]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 12, 14, 15]))
             <a href="{{ route('courseEnroll_list') }}" class="list-group-item {{ $classEnrollActive }}">Classes Enrolled</a>  
         @endif
         @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14]))
             <a href="{{ route('faculty_design') }}" class="list-group-item {{ $facDesigActive }}">Designation</a>
         @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14, 15]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 12, 14, 15]))
             <a href="{{ route('subjectsOffered') }}" class="list-group-item {{ $suboffActive }}">Subject Offered</a>
         @endif
         @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7, 12, 14]))
