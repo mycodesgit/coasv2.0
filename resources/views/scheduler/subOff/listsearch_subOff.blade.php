@@ -222,6 +222,9 @@ CISS V.1.0 || Subject Offered
                                                     <option value="1st Cycle">1st Cycle</option>
                                                     <option value="2nd Cycle">2nd Cycle</option>
                                                     <option value="3rd Cycle">3rd Cycle</option>
+                                                    <option value="SHA 1st">SHA 1st Cycle</option>
+                                                    <option value="SHA 2nd">SHA 2nd Cycle</option>
+                                                    <option value="SHA 3rd">SHA 3rd Cycle</option>
                                                 </select>
                                             </div>
 
@@ -361,10 +364,6 @@ CISS V.1.0 || Subject Offered
                                         <option value="1st Cycle">1st Cycle</option>
                                         <option value="2nd Cycle">2nd Cycle</option>
                                         <option value="3rd Cycle">3rd Cycle</option>
-                                        <option value="Special">Special Class</option>
-                                        <option value="SHA 1st">SHA 1st Cycle</option>
-                                        <option value="SHA 2nd">SHA 2nd Cycle</option>
-                                        <option value="SHA 3rd">SHA 3rd Cycle</option>
                                     </select>
                                 </div>
 
