@@ -617,18 +617,18 @@ class EnrollmentController extends Controller
     public function editsearchStud()
     {   
         if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC'])) {
-            $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->whereIn('id', ['18'])
-                ->orderBy('id', 'DESC')
-                ->get();
             // $sy = ConfigureCurrent::select('id', 'schlyear')
-            //     ->whereIn('id', function($query) {
-            //         $query->select(DB::raw('MAX(id)'))
-            //             ->from('settings_conf')
-            //             ->groupBy('schlyear');
-            //     })
+            //     ->whereIn('id', ['18'])
             //     ->orderBy('id', 'DESC')
             //     ->get();
+            $sy = ConfigureCurrent::select('id', 'schlyear')
+                ->whereIn('id', function($query) {
+                    $query->select(DB::raw('MAX(id)'))
+                        ->from('settings_conf')
+                        ->groupBy('schlyear');
+                })
+                ->orderBy('id', 'DESC')
+                ->get();
         }
 
         if(Auth::guard('web')->user()->campus == 'CA') {
