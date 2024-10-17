@@ -40,19 +40,23 @@ $(document).ready(function() {
             {data: 'schlyear'},
             {data: 'semester'},
             {
-                data: null,
-                render: function(data, type, row) {
-                    if (data.address && data.address.trim() !== '') {
-                        return data.address; // Return address if it's not null or empty
-                    } else {
-                        // Concatenate brgy, city, province, region, and zcode
-                        var brgy = data.brgy ? data.brgy : '';
-                        var city = data.city ? data.city : '';
-                        var province = data.province ? data.province : '';
-                        var region = data.region ? data.region : '';
-                        var zcode = data.zcode ? data.zcode : '';
-                        return brgy + ', ' + city + ', ' + province + ', ' + region + ' ' + zcode;
-                    }
+            data: null,
+            render: function(data, type, row) {
+                if (data.address && data.address.trim() !== '') {
+                    return data.address; // Return address if it's not null or empty
+                } else {
+                    // Concatenate brgy, city, province, region, and zcode if address is empty or null
+                    var brgy = data.brgy ? data.brgy : '';
+                    var city = data.city ? data.city : '';
+                    var province = data.province ? data.province : '';
+                    var region = data.region ? data.region : '';
+                    var zcode = data.zcode ? data.zcode : '';
+                    // Return formatted string
+                    return brgy + (brgy ? ', ' : '') +
+                           city + (city ? ', ' : '') + 
+                           province + (province ? ', ' : '') + 
+                           region + (region ? ' ' : '') + 
+                           zcode;
                 }
             },
             {data: 'region'},
