@@ -42,21 +42,27 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function(data, type, row) {
+                    // Prioritize displaying address if it exists
                     if (data.address && data.address.trim() !== '') {
-                        return data.address; // Return address if it's not null or empty
+                        return data.address; // Return the address
                     } else {
-                        // Concatenate brgy, city, province, region, and zcode if address is empty or null
+                        // If address is null or empty, concatenate brgy, city, province, region, and zcode
                         var brgy = data.brgy ? data.brgy : '';
                         var city = data.city ? data.city : '';
                         var province = data.province ? data.province : '';
                         var region = data.region ? data.region : '';
                         var zcode = data.zcode ? data.zcode : '';
-                        // Return formatted string
-                        return brgy + (brgy ? ', ' : '') +
-                               city + (city ? ', ' : '') + 
-                               province + (province ? ', ' : '') + 
-                               region + (region ? ' ' : '') + 
-                               zcode;
+                        
+                        // Concatenate the values, ensuring commas are used only when the value exists
+                        var fullAddress = [
+                            brgy,
+                            city,
+                            province,
+                            region,
+                            zcode
+                        ].filter(Boolean).join(', '); // Filter out empty values and join by commas
+
+                        return fullAddress || 'No address available'; // Fallback if no details are present
                     }
                 }
             },
