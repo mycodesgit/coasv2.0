@@ -97,6 +97,7 @@ CISS V.1.0 || Student Enrolled
                                 <th>YearLv</th>
                                 <th>Schlyear</th>
                                 <th>Semester</th>
+                                <th>Address</th>
                                 <th>Region</th>
                             </tr>
                         </thead>
