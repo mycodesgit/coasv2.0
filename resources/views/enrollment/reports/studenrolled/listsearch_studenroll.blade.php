@@ -98,7 +98,11 @@ CISS V.1.0 || Student Enrolled
                                 <th>Schlyear</th>
                                 <th>Semester</th>
                                 <th>Address</th>
+                                <th>Brgy</th>
+                                <th>City</th>
+                                <th>Province</th>
                                 <th>Region</th>
+                                <th>Zip</th>
                             </tr>
                         </thead>
                         <tbody>
