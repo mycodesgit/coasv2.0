@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/track-style.css') }}">
@@ -214,7 +217,38 @@
 
                                                     <div class="col-md-6">
                                                         <label><span class="badge badge-secondary">Address</span></label>
-                                                        <input type="text" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Present Address" name="address" value="{{old('address')}}">
+                                                        <input type="text" class="form-control form-control-sm" id="viewdatastudAddress" placeholder="Present Address" name="address" value="{{old('address')}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-2">
+                                                        <label><span class="badge badge-secondary">House No.</span></label>
+                                                        <input type="text" name="hnum" class="form-control form-control-sm" id="viewdatastudHnum" oninput="this.value = this.value.toUpperCase()">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label><span class="badge badge-secondary">Street/Barangay</span></label>
+                                                        <input type="text" name="brgy" class="form-control form-control-sm" id="viewdatastudBrgy" oninput="this.value = this.value.toUpperCase()">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label><span class="badge badge-secondary">Munipality/City</span></label>
+                                                        <select name="city" class="form-control form-control-sm select2bs4" id="viewdatastudCity">
+                                                            <option value="">Select City</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label><span class="badge badge-secondary">Province</span></label>
+                                                        <input type="text" name="province" class="form-control form-control-sm" id="viewdatastudProvince">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label><span class="badge badge-secondary">Region</span></label>
+                                                        <input type="text" name="region" class="form-control form-control-sm" id="viewdatastudRegion">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label><span class="badge badge-secondary">Zip Code</span></label>
+                                                        <input type="text" name="zcode" class="form-control form-control-sm" id="viewdatastudZcode">
                                                     </div>
                                                 </div>
                                             </div>
@@ -398,12 +432,16 @@
     <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
     <!-- Context -->
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <script src="{{ asset('js/validation/apply/applyValidation.js') }}"></script>
+
+    <script src="{{ asset('js/ajax/enrolment/studentAddSerialize.js') }}"></script>
 
     <script>
         function calculateAge() {
@@ -418,6 +456,16 @@
 
             document.getElementById('age').value = age;
         }
+        
+        $(function () {
+            $('.select2').select2();
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4',
+                height: '100'
+            })
+        });
     </script>
 
     <script>

@@ -14,9 +14,10 @@ class Applicant extends Model
     protected $fillable = [
         'year',
         'en_status',
+        'admission_id',
+        'status',
         'p_status',
         'campus',
-        'admission_id',
         'type',
         'fname', 
         'lname', 
