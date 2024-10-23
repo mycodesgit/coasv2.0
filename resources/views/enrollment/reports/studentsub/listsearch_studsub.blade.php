@@ -112,6 +112,6 @@ CISS V.1.0 || Student List per Subjects
 
     var schlyear = "{{ request('schlyear') }}";
     var semester = "{{ request('semester') }}";
-    var routeTemplate = "{{ route('listsearchview_studsubjectsRead', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
+    var routeTemplate = "{{ route('studsubjectsReadPDF', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
 </script>
 @endsection
