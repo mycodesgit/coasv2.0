@@ -45,7 +45,7 @@ class EnStudGrdeViewController extends Controller
                     ->where('studgrades.studID', $stud_id)
                     ->where('studgrades.campus', '=', Auth::guard('web')->user()->campus)
                     ->orderBy('coasv2_db_schedule.sub_offered.id', 'ASC')
-                    ->orderBy('coasv2_db_schedule.schlyear', 'ASC')
+                    ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')
                     ->get();
 
         return view('enrollment.reports.studgrdview.listsearch_studgrdeview', compact('studauth', 'studsubviewgrd'));
