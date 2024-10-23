@@ -367,6 +367,9 @@
     @if(request()->routeIs('studnoenrollee'))
         <script src="{{ asset('js/ajax/enrolment/enrolleescountSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('studnoNSTPenrollee'))
+        <script src="{{ asset('js/ajax/enrolment/enrolleesnstpcountSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('searchEncode_gradeRead'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetLogsSerialize.js') }}"></script>
     @endif

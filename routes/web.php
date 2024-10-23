@@ -363,6 +363,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/number/enrollees', [EnStudNoEnrolleeController::class, 'studnoenrollee'])->name('studnoenrollee');
             Route::post('/info/number/enrollees', [EnStudNoEnrolleeController::class, 'studnoenrollee_searchList'])->name('studnoenrollee_searchList');
 
+            Route::get('/info/number/enrollees/nstp', [EnStudNoEnrolleeController::class, 'studnoNSTPenrollee'])->name('studnoNSTPenrollee');
+            Route::post('/info/number/enrollees/nstp', [EnStudNoEnrolleeController::class, 'studnoenrolleenstp_searchList'])->name('studnoenrolleenstp_searchList');
+
             Route::get('/info/stud/record/eval', [EnStudReportCardController::class, 'studevalRead'])->name('studevalRead');
             Route::get('/info/stud/record/eval/search', [EnStudReportCardController::class, 'studevalRead_listsearch'])->name('studevalRead_listsearch');
             Route::get('/info/stud/record/eval/search/grad', [EnStudReportCardController::class, 'studevalReadgradschool_listsearch'])->name('studevalReadgradschool_listsearch');

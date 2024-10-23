@@ -16,6 +16,7 @@
     $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
     $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
     $numenrolledActive = in_array($curr_route, ['studnoenrollee', 'studnoenrollee_searchList']) ? 'active' : '';
+    $numnstpenrolledActive = in_array($curr_route, ['studnoNSTPenrollee']) ? 'active' : '';
     $studevalActive = in_array($curr_route, ['studevalRead', 'studevalReadgradschool_listsearch', 'studevalRead_listsearch']) ? 'active' : '';
     $studenpersemActive = in_array($curr_route, ['studenrollRead', 'search_studenrollRead']) ? 'active' : '';
     $updenrlmntlogsActive = in_array($curr_route, ['updateEnrlmntlogsRead', 'search_uptadeEnrlmntlogsRead']) ? 'active' : '';
@@ -74,6 +75,10 @@
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
         <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
+        @endif
+
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
+        <a href="{{ route('studnoNSTPenrollee') }}" class="list-group-item {{ $numnstpenrolledActive }}">Cwts/Lts/Rotc</a>
         @endif
 
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
