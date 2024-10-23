@@ -131,7 +131,8 @@ class EnStudentPerSubjectController extends Controller
                 ->orderBy('students.lname', 'ASC')
                 ->get();
 
-        return view('enrollment.reports.studentsub.listsearchview_studsub', compact('substudnowview'));
+        // return view('enrollment.reports.studentsub.listsearchview_studsub', compact('substudnowview'));
+        return view('enrollment.reports.studentsub.pdf.attendancestud', compact('substudnowview'));
     }
 
     public function studsubjectsReadPDF(Request $request)
