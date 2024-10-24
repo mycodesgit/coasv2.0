@@ -27,7 +27,10 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function(data, type, row) {
-                    return row.sub_name + ' - ' + row.isType;
+                    if (row.isType === 'No') {
+                        return row.sub_name; // Only show sub_name if isType is 'No'
+                    }
+                    return row.sub_name + ' - ' + row.isType; // Show both if isType is not 'No'
                 }
             },
             {data: 'sub_title'},
