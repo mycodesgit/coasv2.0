@@ -24,7 +24,12 @@ $(document).ready(function() {
                 'excel', 'pdf'
             ],
         "columns": [
-            {data: 'sub_name'},
+            {
+                data: null,
+                render: function(data, type, row) {
+                    return row.sub_name + ' - ' + row.isType;
+                }
+            },
             {data: 'sub_title'},
             {data: 'subSec'},
             // {data: 'countstud'},

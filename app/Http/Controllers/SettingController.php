@@ -164,12 +164,11 @@ class SettingController extends Controller
     public function updateUser(Request $request)
     {
         $request->validate([
-            'isAdmin' => 'required',
             'campus' => 'required',
             'email' => 'required|string|email|max:255|unique:users,email,' . $request->input('id'),
             'lname' => 'required|string|max:255',
             'fname' => 'required|string|max:255',
-            'isAdmin' => 'required',
+            'role' => 'required',
         ]);
 
         try {
@@ -190,7 +189,7 @@ class SettingController extends Controller
                 'mname' => $request->input('mname'),
                 'ext' => $request->input('ext'),
                 'email' => $emailName,
-                'isAdmin' => $request->input('isAdmin'),
+                'role' => $request->input('role'),
             ]);
 
             return redirect()->route('edit_user', ['id' => encrypt($user->id)])->with('success', 'User Updated Successfully');
