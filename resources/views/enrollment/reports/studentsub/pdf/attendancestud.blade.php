@@ -65,7 +65,7 @@
 	    <div class="studinfolabel">
 		    <div class="info-row">
 		        <span class="info-label">Subjects:</span>
-		        <span class="info-data">{{ $substudnowviewpdf->first()->sub_name ?? '' }} - {{ $substudnowviewpdf->first()->sub_title ?? '' }}</span>
+		        <span class="info-data">{{ $substudnowviewpdf->first()->sub_name ?? '' }} - {{ Str::limit($substudnowviewpdf->first()->sub_title ?? '', 16) }}</span>
 		        <span class="info-label">Course:</span>
 		        <span class="info-data">{{ $substudnowviewpdf->first()->subSec ?? '' }}</span>
 		        <span class="info-label">Date:</span>
