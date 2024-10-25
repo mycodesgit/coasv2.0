@@ -14,6 +14,7 @@ use App\Models\AdmissionDB\ExamineeResult;
 use App\Models\AdmissionDB\DeptRating;
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\Strands;
+use App\Models\AdmissionDB\Time;
 
 
 class PortalController extends Controller
@@ -28,13 +29,11 @@ class PortalController extends Controller
         $admissionid = Applicant::orderBy('admission_id', 'desc')->first();
         $program = Programs::orderBy('id', 'asc')->get();
         $strand = Strands::orderBy('code', 'asc')->get();
+        $time = Time::whereYear('date', '2025')->get();
 
         //$todayRegistrations = Applicant::whereDate('created_at', today())->count();
 
-        return view('portal.apply')
-        ->with('admissionid', $admissionid)
-        ->with('program', $program)
-        ->with('strand', $strand);
+        return view('portal.apply', compact('admissionid','program', 'strand', 'time'));
         //->with('todayRegistrations', $todayRegistrations);
     }
 
@@ -96,7 +95,8 @@ class PortalController extends Controller
         }
             
         $campus = $request->input('campus');
-        $year = Carbon::now()->format('Y');
+        //$year = Carbon::now()->format('Y');
+        $year = '2025';
         $admissionid = '';
 
         $latestApplicant = Applicant::where('campus', $campus)->latest('created_at')->first();
@@ -117,7 +117,8 @@ class PortalController extends Controller
             $admissionid = $existingAdID->admission_id + 1;
         }
 
-        $year = Carbon::now()->format('Y');
+        // $year = Carbon::now()->format('Y');
+        $year = '2025';
         $applicant = new Applicant;
         $applicant->year = $year;
         $applicant->campus = $request->input('campus');

@@ -305,6 +305,9 @@
     @if(request()->routeIs('indexcoursepref_search'))
         <script src="{{ asset('js/ajax/examresult/allcourseprefSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('configure_admission'))
+        <script src="{{ asset('js/ajax/admssion/configureAdSerialize.js') }}"></script>
+    @endif
 
     @php $curr_route = request()->route()->getName(); @endphp
         @if($curr_route == 'admission-index')

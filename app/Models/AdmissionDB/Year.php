@@ -5,15 +5,13 @@ namespace App\Models\AdmissionDB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Venue extends Model
+class Year extends Model
 {
     use HasFactory;
-
-    protected $table = 'ad_venue';
+    protected $table = 'admission_year';
 
     protected $fillable = [
-        'campus', 
         'adyear', 
-        'venue', 
+        'status', 
     ];
 }

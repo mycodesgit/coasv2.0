@@ -11,6 +11,8 @@ CISS V.1.0 || Configure Admission
 @yield('sidemenu')
 
 @section('workspace')
+
+
 <div class="card">
     <div class="card-body">
         <ol class="breadcrumb">
@@ -74,7 +76,7 @@ CISS V.1.0 || Configure Admission
                                     </div>
                                 </div>
                                 <div class="col-md-9">
-                                    <table id="example1" class="table table-hover">
+                                    <table id="confprog" class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Code</th>
@@ -83,7 +85,7 @@ CISS V.1.0 || Configure Admission
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($program as $programs)
+                                            {{-- @foreach ($program as $programs)
                                                 <tr style="">
                                                 <td>{{ $programs->code }}</td>
                                                 <td>{{ $programs->program }}</td>
@@ -112,7 +114,7 @@ CISS V.1.0 || Configure Admission
                                                     </div>
                                                 </td>
                                             </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -155,16 +157,16 @@ CISS V.1.0 || Configure Admission
                                     </div>
                                 </div>
                                 <div class="col-md-9">
-                                    <table id="strand" class="table table-hover">
+                                    <table id="confstrand" class="table table-hover" style="width: 100% !important">
                                         <thead>
                                             <tr>
                                                 <th>Code</th>
                                                 <th>Strand</th>
-                                                <th>Action</th>
+                                                <th style="text-align: center !important;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($strand as $strand)
+                                            {{-- @foreach ($strand as $strand)
                                                 <tr>
                                                     <td>{{ $strand->code}}</td>
                                                     <td>{{ $strand->strand }}</td>
@@ -192,7 +194,7 @@ CISS V.1.0 || Configure Admission
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -230,16 +232,16 @@ CISS V.1.0 || Configure Admission
                                     </div>
                                 </div>
                                 <div class="col-md-9">
-                                    <table id="adDate" class="table table-hover">
+                                    <table id="adDate" class="table table-hover" style="width: 100% !important">
                                         <thead>
                                             <tr>
                                                 <th>Campus</th>
                                                 <th>Date</th>
-                                                <th>Action</th>
+                                                <th style="text-align: center !important;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($date as $date)
+                                            {{-- @foreach ($date as $date)
                                                 <tr>
                                                     <td>
                                                         @if ($date->campus == 'MC') Main 
@@ -279,7 +281,7 @@ CISS V.1.0 || Configure Admission
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -334,7 +336,7 @@ CISS V.1.0 || Configure Admission
                                     </div>
                                 </div>
                                 <div class="col-md-9">
-                                    <table id="adTime" class="table table-hover">
+                                    <table id="adTime" class="table table-hover" style="width: 100% !important">
                                         <thead>
                                             <tr>
                                                 <th>Campus</th>
@@ -345,7 +347,7 @@ CISS V.1.0 || Configure Admission
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($time as $time)
+                                            {{-- @foreach ($time as $time)
                                             <tr>
                                                 <td>
                                                     @if ($time->campus == 'MC') Main 
@@ -387,7 +389,7 @@ CISS V.1.0 || Configure Admission
                                                     </div>
                                                 </td>
                                             </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -480,6 +482,52 @@ CISS V.1.0 || Configure Admission
                                 </div>
                             </div>
                         </div>
+
+                        <div class="tab-pane fade" id="vert-tabs-right-six" role="tabpanel" aria-labelledby="vert-tabs-right-six-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form method="post" action="{{ route('add_admission_venue') }}" id="adYearCon">
+                                                @csrf
+                                                <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                                                    <h5>Add Year</h5>
+                                                </div>
+
+                                                <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
+
+                                                <div class="form-group">
+                                                    <div class="form-row">
+                                                        <div class="mt-2 col-md-12">
+                                                            <label><span class="badge badge-secondary">Admission Year</span></label>
+                                                            <input type="number" name="adyear" class="form-control form-control-sm">
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <label>&nbsp;</label>
+                                                            <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <table id="adYear" class="table table-hover" style="width: 100% !important">
+                                        <thead>
+                                            <tr>
+                                                <th>Year</th>
+                                                <th>Status</th>
+                                                <th style="text-align: center !important;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -496,6 +544,7 @@ CISS V.1.0 || Configure Admission
                                     <a class="nav-link" id="vert-tabs-right-three-tab" data-toggle="pill" href="#vert-tabs-right-three" role="tab" aria-controls="vert-tabs-right-three" aria-selected="false">Admission Date</a>
                                     <a class="nav-link" id="vert-tabs-right-four-tab" data-toggle="pill" href="#vert-tabs-right-four" role="tab" aria-controls="vert-tabs-right-four" aria-selected="false">Schedule Time</a>
                                     <a class="nav-link" id="vert-tabs-right-five-tab" data-toggle="pill" href="#vert-tabs-right-five" role="tab" aria-controls="vert-tabs-right-five" aria-selected="false">Venue</a>
+                                    <a class="nav-link" id="vert-tabs-right-six-tab" data-toggle="pill" href="#vert-tabs-right-six" role="tab" aria-controls="vert-tabs-right-six" aria-selected="false">Year</a>
                                 </div>
                                 </div>
                         </div>
@@ -507,7 +556,186 @@ CISS V.1.0 || Configure Admission
     </div>
 </div>
 
+<div class="modal fade" id="editProgramModal" tabindex="-1" role="dialog" aria-labelledby="editProgramModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProgramModalLabel">Edit Program Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editProgramForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editProgramId">
+                    <div class="form-group">
+                        <label for="editProgramcode">Program Code</label>
+                        <input type="text" class="form-control" id="editProgramcode" name="code" oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                    <div class="form-group">
+                        <label for="editProgram">Program Name</label>
+                        <input type="text" class="form-control" id="editProgram" name="program" oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="editStrandModal" tabindex="-1" role="dialog" aria-labelledby="editStrandModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStrandModalLabel">Edit Strand Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editStrandForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editStrandId">
+                    <div class="form-group">
+                        <label for="editStrandcode">Strand Code</label>
+                        <input type="text" class="form-control" id="editStrandcode" name="code" oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStrand">Strand Name</label>
+                        <input type="text" class="form-control" id="editStrand" name="strand" oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editDateModal" tabindex="-1" role="dialog" aria-labelledby="editDateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDateModalLabel">Edit Date Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editDateForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editDateId">
+                    <div class="form-group">
+                        <label for="editDate">Admission Date</label>
+                        <input type="date" class="form-control" id="editDate" name="date">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editDateTimeModal" tabindex="-1" role="dialog" aria-labelledby="editDateTimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDateTimeModalLabel">Edit DateTime</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editDateTimeForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editDateTimeId">
+                    <div class="form-group">
+                        <label for="editDateAssign">Admission Date</label>
+                        <input type="date" class="form-control" id="editDateAssign" name="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="editTimeAssign">Admission Time</label>
+                        <input type="time" class="form-control" id="editTimeAssign" name="time">
+                    </div>
+                    <div class="form-group">
+                        <label for="editSlotAssign">Admission Slot</label>
+                        <input type="text" class="form-control" id="editSlotAssign" name="slots">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editYearModal" tabindex="-1" role="dialog" aria-labelledby="editYearModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editYearModalLabel">Edit Year Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editYearForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editYearId">
+                    <div class="form-group">
+                        <label for="editYear">Admission Year</label>
+                        <input type="text" class="form-control" id="editYear" name="adyear">
+                    </div>
+                    <div class="form-group">
+                        <label for="editYear">Admission Year Status</label>
+                        <select class="form-control form-control-sm" name="status" id="editYearStatus">
+                            <option value="On">On</option>
+                            <option value="Off">Off</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var adProgramRoute = "{{ route('add_Program') }}";
+    var fetchProgramRoute = "{{ route('configure_admissionajax') }}";
+    var programUpdateRoute = "{{ route('programUpdate', ['id' => ':id']) }}";
+    var programDeleteRoute = "{{ route('programDelete', ['id' => ':id']) }}";
+
+    var adStrandRoute = "{{ route('add_Strand') }}";
+    var fetchStrandRoute = "{{ route('configure_admissionstrandajax') }}";
+    var strandUpdateRoute = "{{ route('strandUpdate', ['id' => ':id']) }}";
+    var strandDeleteRoute = "{{ route('strandDelete', ['id' => ':id']) }}";
+
+    var adDateRoute = "{{ route('add_admission_date') }}";
+    var fetchDateRoute = "{{ route('configure_admissiondateajax') }}";
+    var dateUpdateRoute = "{{ route('dateUpdate', ['id' => ':id']) }}";
+    var dateDeleteRoute = "{{ route('dateDelete', ['id' => ':id']) }}";
+
+    var adDateTimeRoute = "{{ route('add_admission_time') }}";
+    var fetchDateTimeRoute = "{{ route('configure_admissiondatetimeajax') }}";
+    var dateTimeUpdateRoute = "{{ route('timeUpdate', ['id' => ':id']) }}";
+
+    var adYearRoute = "{{ route('add_admission_year') }}";
+    var fetchYearRoute = "{{ route('configure_admissionyearajax') }}";
+    var yearUpdateRoute = "{{ route('yearUpdate', ['id' => ':id']) }}";
+
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
+</script>
 
 @endsection
 

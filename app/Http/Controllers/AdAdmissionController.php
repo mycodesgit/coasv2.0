@@ -21,6 +21,8 @@ use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\AdmissionDate;
 use App\Models\AdmissionDB\Time;
 use App\Models\AdmissionDB\Venue;
+use App\Models\AdmissionDB\Year;
+
 use App\Models\ScheduleDB\Faculty;
 
 class AdAdmissionController extends Controller
@@ -580,6 +582,90 @@ class AdAdmissionController extends Controller
         ->with('venue', $venue);
     }
 
+    public function configure_admissionajax()
+    {
+        $currentYear = now()->year;
+
+        $program = Programs::orderBy('id', 'asc')->get();
+
+        // $venue = Venue::orderBy('id', 'asc')
+        //     ->where('campus', Auth::user()->campus)
+        //     ->whereYear('created_at', $currentYear)
+        //     ->get();
+
+        return response()->json([
+            'data' => $program,
+            // 'strand' => $strand,
+            // 'date' => $date,
+            // 'dates' => $dates,
+            // 'time' => $time,
+            // 'venue' => $venue
+        ]);
+    }
+
+    public function configure_admissionstrandajax()
+    {
+        $currentYear = now()->year;
+
+        $strand = Strands::orderBy('id', 'asc')->get();
+
+        return response()->json([
+            'data' => $strand
+        ]);
+    }
+
+    public function configure_admissiondateajax()
+    {
+        $currentYear = now()->year;
+
+        $date = AdmissionDate::orderBy('id', 'asc')
+            ->where('campus', Auth::user()->campus)
+            ->whereYear('created_at', $currentYear)
+            ->get();
+
+        return response()->json([
+            'data' => $date,
+        ]);
+    }
+
+    public function configure_admissiondatetimeajax()
+    {
+        $currentYear = now()->year;
+
+        $time = Time::orderBy('id', 'asc')
+            ->where('campus', Auth::user()->campus)
+            ->whereYear('created_at', $currentYear)
+            ->get();
+
+        return response()->json([
+            'data' => $time,
+        ]);
+    }
+
+    public function configure_admissionvenueajax()
+    {
+        $currentYear = now()->year;
+
+        $venue = Venue::orderBy('id', 'asc')
+            ->where('campus', Auth::user()->campus)
+            ->whereYear('created_at', $currentYear)
+            ->get();
+
+        return response()->json([
+            'data' => $venue,
+        ]);
+    }
+
+    public function configure_admissionyearajax()
+    {
+        $curryear = Year::orderBy('updated_at', 'DESC')->get();
+
+        return response()->json([
+            'data' => $curryear,
+        ]);
+    }
+
+
     public function add_Program(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -592,7 +678,8 @@ class AdAdmissionController extends Controller
             $existingCode = Programs::where('code', $codeName)->first();
 
             if ($existingCode) {
-                return redirect()->route('configure_admission')->with('fail', 'Code already exists!');
+                //return redirect()->route('configure_admission')->with('fail', 'Code already exists!');
+                return response()->json(['error' => true, 'message' => 'Code already exists']);
             }
 
             $dt = Carbon::now();
@@ -605,9 +692,11 @@ class AdAdmissionController extends Controller
                     'created_at' => $dt,
                 ]);
 
-                return redirect()->route('configure_admission')->with('success', 'Program stored successfully!');
+                //return redirect()->route('configure_admission')->with('success', 'Program stored successfully!');
+                return response()->json(['success' => true, 'message' => 'Program stored successfully']);
             } catch (\Exception $e) {
-                return redirect()->route('configure_admission')->with('fail', 'Failed to store program!');
+                //return redirect()->route('configure_admission')->with('fail', 'Failed to store program!');
+                return response()->json(['error' => true, 'message' => 'Failed to store program!']);
             }
         }
     }
@@ -624,7 +713,7 @@ class AdAdmissionController extends Controller
             $existingCode = Strands::where('code', $codeName)->first();
 
             if ($existingCode) {
-                return redirect()->route('configure_admission')->with('fail', 'Code already exists!');
+                return response()->json(['erro' => true, 'message' => 'Code already exist!']);
             }
 
             $dt = Carbon::now();
@@ -637,9 +726,9 @@ class AdAdmissionController extends Controller
                     'created_at' => $dt,
                 ]);
 
-                return redirect()->route('configure_admission')->with('success', 'Strand stored successfully!');
+                return response()->json(['success' => true, 'message' => 'Strand stored successfully']);
             } catch (\Exception $e) {
-                return redirect()->route('configure_admission')->with('fail', 'Failed to store strand!');
+                return response()->json(['error' => true, 'message' => 'Failed to stored strand']);
             }
         }
     }
@@ -655,7 +744,7 @@ class AdAdmissionController extends Controller
             $existingDate = AdmissionDate::where('date', $dateName)->first();
 
             if ($existingDate) {
-                return redirect()->route('configure_admission')->with('fail', 'Date already exists!');
+                return response()->json(['error' => true, 'message' => 'Date already exists!']);
             }
 
             $dt = Carbon::now();
@@ -667,22 +756,14 @@ class AdAdmissionController extends Controller
                     'created_at' => $dt,
                 ]);
 
-                return redirect()->route('configure_admission')->with('success', 'Date stored successfully!');
+                return response()->json(['success' => true, 'message' => 'Date stored successfully']);
             } catch (\Exception $e) {
-                return redirect()->route('configure_admission')->with('fail', 'Failed to store date!');
+                return response()->json(['error' => true, 'message' => 'Failed to store date']);
             }
         }
     }
 
-    public function edit_program($id)
-    {
-        $progID = decrypt($id);
-        $program = Programs::find($progID);
-
-        return view('admission.configure.editProgram', compact('program'));
-    }
-
-    public function programEdit(Request $request)
+    public function programUpdate(Request $request)
     {   
         $request->validate([
             'code' => 'required',
@@ -694,7 +775,8 @@ class AdAdmissionController extends Controller
             $existingCode = Programs::where('code', $codeName)->where('id', '!=', $request->input('id'))->first();
 
             if ($existingCode) {
-                return redirect()->back()->with('fail', 'Program Code already exists!');
+                //return redirect()->back()->with('fail', 'Program Code already exists!');
+                return response()->json(['error' => true, 'message' => 'Program Code exist!']);
             }
 
             $program = Programs::findOrFail($request->input('id'));
@@ -703,39 +785,23 @@ class AdAdmissionController extends Controller
                 'program' => $request->input('program'),
             ]);
 
-            return redirect()->route('edit_program', ['id' => encrypt($program->id)])->with('success', 'Updated Successfully');
+            //return redirect()->route('edit_program', ['id' => encrypt($program->id)])->with('success', 'Updated Successfully');
+            return response()->json(['success' => true, 'message' => 'Program Update successfully']);
         } catch (\Exception $e) {
-            return redirect()->back()->with('fail', 'Failed to update Program!');
+            //return redirect()->back()->with('fail', 'Failed to update Program!');
+            return response()->json(['error' => true, 'message' => 'Failed to update Program']);
         }
     }
 
     public function programDelete($id)
     {
-        $program = Programs::findOrFail($id);
+        $prgrm = Programs::find($id);
+        $prgrm->delete();
 
-        if ($program == null)
-        {
-            return back()->with('fail', 'The program data does not exist.');
-        }
-        if ($program->delete())
-        {
-            return Redirect::route('configure_admission')->with('success', 'The program data was successfully deleted.');
-        }
-        else
-        {
-            return back()->with('fail', 'An error was occured while deleting the data.');
-        }
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
-    public function edit_strand($id)
-    {
-        $strandID = decrypt($id);
-        $strand = Strands::find($strandID);
-
-        return view('admission.configure.editStrand', compact('strand'));
-    }
-
-    public function strandEdit(Request $request)
+    public function strandUpdate(Request $request)
     {
         $request->validate([
             'code' => 'required',
@@ -744,10 +810,10 @@ class AdAdmissionController extends Controller
 
         try {
             $codeName = $request->input('code');
-            $existingCode = Programs::where('code', $codeName)->where('id', '!=', $request->input('id'))->first();
+            $existingCode = Strands::where('code', $codeName)->where('id', '!=', $request->input('id'))->first();
 
             if ($existingCode) {
-                return redirect()->back()->with('fail', 'Strand Code already exists!');
+                return response()->json(['error' => true, 'message' => 'Strand Code exist!']);
             }
 
             $strand = Strands::findOrFail($request->input('id'));
@@ -756,39 +822,21 @@ class AdAdmissionController extends Controller
                 'strand' => $request->input('strand'),
             ]);
 
-            return redirect()->route('edit_strand', ['id' => encrypt($strand->id)])->with('success', 'Updated Successfully');
+            return response()->json(['success' => true, 'message' => 'Strand Updated Successfully!']);
         } catch (\Exception $e) {
-            return redirect()->back()->with('fail', 'Failed to update Strand!');
+            return response()->json(['error' => true, 'message' => 'Failed to update Strand!']);
         }
     }
 
     public function strandDelete($id)
     {
-        $strand = Strands::findOrFail($id);
+        $strnd = Strands::find($id);
+        $strnd->delete();
 
-        if ($strand == null)
-        {
-            return back()->with('fail', 'The strand data does not exist.');
-        }
-        if ($strand->delete())
-        {
-            return Redirect::route('configure_admission')->with('success', 'The strand data was successfully deleted.');
-        }
-        else
-        {
-            return back()->with('fail', 'An error was occured while deleting the data.');
-        }
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
-    public function edit_date($id)
-    {
-        $dateID = decrypt($id);
-        $dates = AdmissionDate::find($dateID);
-
-        return view('admission.configure.editDate', compact('dates'));
-    }
-
-    public function dateEdit(Request $request)
+    public function dateUpdate(Request $request)
     {
         $request->validate([
             'date' => 'required',
@@ -799,7 +847,7 @@ class AdAdmissionController extends Controller
             $existingDate = AdmissionDate::where('date', $dateName)->where('id', '!=', $request->input('id'))->first();
 
             if ($existingDate) {
-                return redirect()->back()->with('fail', 'Admission Date already exists!');
+                return response()->json(['error' => true, 'message' => 'Admission Date already exists!']);
             }
 
             $dates = AdmissionDate::findOrFail($request->input('id'));
@@ -807,28 +855,18 @@ class AdAdmissionController extends Controller
                 'date' => $request->input('date'),
             ]);
 
-            return redirect()->route('edit_date', ['id' => encrypt($dates->id)])->with('success', 'Admission Date Updated Successfully');
+            return response()->json(['success' => true, 'message' => 'Admission Date Updated Successfully']);
         } catch (\Exception $e) {
-            return redirect()->back()->with('fail', 'Failed to update Admission Date!');
+            return response()->json(['error' => true, 'message' => 'Failed to update Admission Date!']);
         }
     }
 
     public function dateDelete($id)
     {
-        $date = AdmissionDate::findOrFail($id);
+        $dte = AdmissionDate::find($id);
+        $dte->delete();
 
-        if ($date == null)
-        {
-            return back()->with('fail', 'The strand data does not exist.');
-        }
-        if ($date->delete())
-        {
-            return Redirect::route('configure_admission')->with('success', 'The date data was successfully deleted.');
-        }
-        else
-        {
-            return back()->with('fail', 'An error was occured while deleting the data.');
-        }
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
     public function add_admission_time(Request $request)
@@ -847,7 +885,7 @@ class AdAdmissionController extends Controller
                                 ->first();
 
             if ($existingTime) {
-                return redirect()->route('configure_admission')->with('fail', 'Datetime already exists!');
+                return response()->json(['error' => true, 'message' => 'Datetime already exists!']);
             }
 
             $dt = Carbon::now();
@@ -861,22 +899,14 @@ class AdAdmissionController extends Controller
                     'created_at' => $dt,
                 ]);
 
-                return redirect()->route('configure_admission')->with('success', 'Datetime stored successfully!');
+                return response()->json(['success' => true, 'message' => 'Datetime stored successfully']);
             } catch (\Exception $e) {
-                return redirect()->route('configure_admission')->with('fail', 'Failed to store Datetime!');
+                return response()->json(['success' => true, 'message' => 'Failed to store Datetime!']);
             }
         }
     }
 
-    public function edit_time($id)
-    {
-        $timeID = decrypt($id);
-        $times = Time::find($timeID);
-
-        return view('admission.configure.editTime', compact('times'));
-    }
-
-    public function timeEdit(Request $request)
+    public function timeUpdate(Request $request)
     {
         $request->validate([
             'date' => 'required',
@@ -893,7 +923,7 @@ class AdAdmissionController extends Controller
                     ->first();
 
                 if ($existingTime) {
-                    return redirect()->back()->with('fail', 'Admission Time already exists!');
+                    return response()->json(['error' => true, 'message' => 'Admission Time already exists!']);
                 }
             }
 
@@ -903,29 +933,19 @@ class AdAdmissionController extends Controller
                 'slots' => $request->input('slots'),
             ]);
 
-            return redirect()->route('edit_time', ['id' => encrypt($dates->id)])->with('success', 'Admission Time Updated Successfully');
+            return response()->json(['success' => true, 'message' => 'Admission Date and Time Updated Successfully!']);
         } catch (\Exception $e) {
-            return redirect()->back()->with('fail', 'Failed to update Admission Time!');
+            return response()->json(['error' => true, 'message' => 'Failed to update Admission Date and Time!']);
         }
     }
 
 
     public function timeDelete($id)
     {
-        $time = Time::findOrFail($id);
+        $dtime = Time::find($id);
+        $dtime->delete();
 
-        if ($time == null)
-        {
-            return back()->with('fail', 'The time data does not exist.');
-        }
-        if ($time->delete())
-        {
-            return Redirect::route('configure_admission')->with('success', 'The time data was successfully deleted.');
-        }
-        else
-        {
-            return back()->with('fail', 'An error was occured while deleting the data.');
-        }
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
     public function add_admission_venue(Request $request)
@@ -1009,5 +1029,57 @@ class AdAdmissionController extends Controller
         }
     }
 
+    public function add_admission_year(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'adyear' => 'required',
+            ]);
 
+            $yearName = $request->input('adyear'); 
+            $existingYear = Year::where('adyear', $yearName)->first();
+
+            if ($existingYear) {
+                return response()->json(['error' => true, 'message' => 'Year already exists!']);
+            }
+
+            try {
+                Year::create([
+                    'adyear' => $yearName,
+                    'status' => 'Off',
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Year stored successfully']);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store year']);
+            }
+        }
+    }
+
+    public function yearUpdate(Request $request)
+    {
+        $request->validate([
+            'adyear' => 'required',
+            'status' => 'required',
+        ]);
+
+        try {
+            $yearName = $request->input('adyear');
+            $existingYear = Year::where('adyear', $yearName)->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingYear) {
+                return response()->json(['error' => true, 'message' => 'Year already exist!']);
+            }
+
+            $curryear = Year::findOrFail($request->input('id'));
+            $curryear->update([
+                'adyear' => $request->input('adyear'),
+                'status' => $request->input('status'),
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Year Updated Successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to update Year!']);
+        }
+    }
 }

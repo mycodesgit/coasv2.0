@@ -41,7 +41,6 @@ return new class extends Migration
             $table->string('zcode')->nullable();
             $table->string('religion')->nullable();
             $table->string('monthly_income')->nullable();
-            $table->string('email')->nullable();
             $table->string('lstsch_attended')->nullable();
             $table->string('strand')->nullable();
             $table->string('suc_lst_attended')->nullable();

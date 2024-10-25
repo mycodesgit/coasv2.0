@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ad_time', function (Blueprint $table) {
+        Schema::create('admission_year', function (Blueprint $table) {
             $table->id();
-            $table->string('campus');
-            $table->string('date');
-            $table->string('time');
-            $table->integer('slots')->nullable();
+            $table->string('adyear')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ad_time');
+        Schema::dropIfExists('admission_year');
     }
 };

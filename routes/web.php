@@ -197,30 +197,37 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('configure')->group(function () {    
             Route::get('/', [AdAdmissionController::class, 'configure_admission'])->name('configure_admission');
             Route::post('add', [AdAdmissionController::class, 'add_Program'])->name('add_Program');
-            Route::post('addStrand', [AdAdmissionController::class, 'add_Strand'])->name('add_Strand');
-            Route::post('addAdmissionDate', [AdAdmissionController::class, 'add_admission_date'])->name('add_admission_date');
-            Route::post('addAdmissionTime', [AdAdmissionController::class, 'add_admission_time'])->name('add_admission_time');
+            Route::get('/ajax', [AdAdmissionController::class, 'configure_admissionajax'])->name('configure_admissionajax');
+            Route::post('/programEdit/update', [AdAdmissionController::class, 'programUpdate'])->name('programUpdate');
+            Route::get('/programDelete/{id}/delete', [AdAdmissionController::class, 'programDelete'])->name('programDelete');
+            
+            
+            
+            
             Route::post('addAdmissionVenue', [AdAdmissionController::class, 'add_admission_venue'])->name('add_admission_venue');
 
-            Route::get('/programEdit/edit/{id}', [AdAdmissionController::class, 'edit_program'])->name('edit_program');
-            Route::post('/programEdit/update', [AdAdmissionController::class, 'programEdit'])->name('programEdit');
-            Route::get('/programDelete/{id}/delete', [AdAdmissionController::class, 'programDelete'])->name('programDelete');
-
-            Route::get('/strandEdit/{id}/edit', [AdAdmissionController::class, 'edit_strand'])->name('edit_strand');
-            Route::post('/strandEdit/update', [AdAdmissionController::class, 'strandEdit'])->name('strandEdit');
+            Route::post('addstrand', [AdAdmissionController::class, 'add_Strand'])->name('add_Strand');
+            Route::get('/ajax/strand', [AdAdmissionController::class, 'configure_admissionstrandajax'])->name('configure_admissionstrandajax');
+            Route::post('/strandEdit/update', [AdAdmissionController::class, 'strandUpdate'])->name('strandUpdate');
             Route::get('/strandDelete/{id}/delete', [AdAdmissionController::class, 'strandDelete'])->name('strandDelete');
 
-            Route::get('/dateEdit/{id}/edit', [AdAdmissionController::class, 'edit_date'])->name('edit_date');
-            Route::post('/dateEdit/update', [AdAdmissionController::class, 'dateEdit'])->name('dateEdit');
-             Route::get('/dateDelete/{id}/delete', [AdAdmissionController::class, 'dateDelete'])->name('dateDelete');
+            Route::get('/ajax/date', [AdAdmissionController::class, 'configure_admissiondateajax'])->name('configure_admissiondateajax');
+            Route::post('addAdmissionDate', [AdAdmissionController::class, 'add_admission_date'])->name('add_admission_date');
+            Route::post('/dateEdit/update', [AdAdmissionController::class, 'dateUpdate'])->name('dateUpdate');
+            Route::get('/dateDelete/{id}/delete', [AdAdmissionController::class, 'dateDelete'])->name('dateDelete');
 
-            Route::get('/timeEdit/{id}/edit', [AdAdmissionController::class, 'edit_time'])->name('edit_time');
-            Route::post('/timeEdit/update', [AdAdmissionController::class, 'timeEdit'])->name('timeEdit');
+            Route::get('/ajax/datetime', [AdAdmissionController::class, 'configure_admissiondatetimeajax'])->name('configure_admissiondatetimeajax');
+            Route::post('addAdmissionTime', [AdAdmissionController::class, 'add_admission_time'])->name('add_admission_time');
+            Route::post('/timeEdit/update', [AdAdmissionController::class, 'timeUpdate'])->name('timeUpdate');
             Route::get('/timeDelete/{id}/delete', [AdAdmissionController::class, 'timeDelete'])->name('timeDelete');
 
-            Route::get('/venueEdit/{id}/edit', [AdAdmissionController::class, 'edit_venue'])->name('edit_venue');
+            Route::get('/ajax/venue', [AdAdmissionController::class, 'configure_admissionvenueajax'])->name('configure_admissionvenueajax');
             Route::post('/venueEdit/update', [AdAdmissionController::class, 'venueEdit'])->name('venueEdit');
             Route::get('/venueDelete/{id}/delete', [AdAdmissionController::class, 'venueDelete'])->name('venueDelete');
+
+            Route::get('/ajax/yearadmission', [AdAdmissionController::class, 'configure_admissionyearajax'])->name('configure_admissionyearajax');
+            Route::post('addAdmissionYear', [AdAdmissionController::class, 'add_admission_year'])->name('add_admission_year');
+            Route::post('/yearEdit/update', [AdAdmissionController::class, 'yearUpdate'])->name('yearUpdate');
 
             Route::get('/change/applicant/campus', [AdChangeCampusController::class, 'alllistappRead'])->name('alllistappRead');
             Route::get('/change/applicant/campus/search', [AdChangeCampusController::class, 'alllistappRead_search'])->name('alllistappRead_search');

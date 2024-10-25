@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('ad_venue', function (Blueprint $table) {
             $table->id();
             $table->string('campus');
+            $table->string('adyear');
             $table->string('venue')->nullable();
             $table->timestamps();
         });
