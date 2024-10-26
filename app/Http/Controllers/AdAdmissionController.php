@@ -1082,4 +1082,12 @@ class AdAdmissionController extends Controller
             return response()->json(['error' => true, 'message' => 'Failed to update Year!']);
         }
     }
+
+    public function yearDelete($id)
+    {
+        $dyear = Year::find($id);
+        $dyear->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
+    }
 }

@@ -544,7 +544,9 @@ CISS V.1.0 || Configure Admission
                                     <a class="nav-link" id="vert-tabs-right-three-tab" data-toggle="pill" href="#vert-tabs-right-three" role="tab" aria-controls="vert-tabs-right-three" aria-selected="false">Admission Date</a>
                                     <a class="nav-link" id="vert-tabs-right-four-tab" data-toggle="pill" href="#vert-tabs-right-four" role="tab" aria-controls="vert-tabs-right-four" aria-selected="false">Schedule Time</a>
                                     <a class="nav-link" id="vert-tabs-right-five-tab" data-toggle="pill" href="#vert-tabs-right-five" role="tab" aria-controls="vert-tabs-right-five" aria-selected="false">Venue</a>
-                                    <a class="nav-link" id="vert-tabs-right-six-tab" data-toggle="pill" href="#vert-tabs-right-six" role="tab" aria-controls="vert-tabs-right-six" aria-selected="false">Year</a>
+                                    @if(Auth::guard('web')->user()->role == '0')
+                                        <a class="nav-link" id="vert-tabs-right-six-tab" data-toggle="pill" href="#vert-tabs-right-six" role="tab" aria-controls="vert-tabs-right-six" aria-selected="false">Year</a>
+                                    @endif
                                 </div>
                                 </div>
                         </div>
@@ -733,6 +735,7 @@ CISS V.1.0 || Configure Admission
     var adYearRoute = "{{ route('add_admission_year') }}";
     var fetchYearRoute = "{{ route('configure_admissionyearajax') }}";
     var yearUpdateRoute = "{{ route('yearUpdate', ['id' => ':id']) }}";
+    var yearDeleteRoute = "{{ route('yearDelete', ['id' => ':id']) }}";
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
 </script>

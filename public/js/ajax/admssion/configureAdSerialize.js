@@ -164,6 +164,7 @@ $(document).on('click', '.confprog-delete', function(e) {
 
 
 
+
 // Stand
 $(document).ready(function() {
     $('#adStrand').submit(function(event) {
@@ -324,6 +325,9 @@ $(document).on('click', '.confstrand-delete', function(e) {
 });
 
 
+
+
+
 // Date
 $(document).ready(function() {
     $('#adDateCon').submit(function(event) {
@@ -478,6 +482,9 @@ $(document).on('click', '.confdate-delete', function(e) {
         }
     })
 });
+
+
+
 
 // Time
 $(document).ready(function() {
@@ -658,6 +665,10 @@ $(document).on('click', '.confdatetime-delete', function(e) {
     })
 });
 
+
+
+
+
 // Venue
 $(document).ready(function() {
     $('#adTimeCon').submit(function(event) {
@@ -837,6 +848,10 @@ $(document).on('click', '.confdatetime-delete', function(e) {
     })
 });
 
+
+
+
+
 // Year
 $(document).ready(function() {
     $('#adYearCon').submit(function(event) {
@@ -878,7 +893,17 @@ $(document).ready(function() {
         order: [[1, 'desc']],
         "columns": [
             {data: 'adyear'},
-            {data: 'status'},
+            {
+                data: 'status',
+                render: function (data, type, row) {
+                    if (type === 'display') {
+                        var badgeClass = data === 'On' ? 'badge-success' : 'badge-danger';
+                        return '<span class="badge ' + badgeClass + '">' + data + '</span>';
+                    } else {
+                        return data;
+                    }
+                }
+            },
             {
                 data: 'id',
                 render: function(data, type, row) {
@@ -889,7 +914,7 @@ $(document).ready(function() {
                             '<a href="#" class="dropdown-item btn-yearedit" data-id="' + row.id + '" data-year="' + row.adyear + '" data-status="' + row.status + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item fund-delete">' +
+                            '<button type="button" value="' + data + '" class="dropdown-item adyear-delete">' +
                             '<i class="fas fa-trash"></i> Delete' +
                             '</button>' +
                             '</div>' +
@@ -948,7 +973,7 @@ $('#editYearForm').submit(function(event) {
     });
 });
 
-$(document).on('click', '.confdatetime-delete', function(e) {
+$(document).on('click', '.adyear-delete', function(e) {
     var id = $(this).val();
     $.ajaxSetup({
         headers: {
@@ -967,7 +992,7 @@ $(document).on('click', '.confdatetime-delete', function(e) {
         if (result.isConfirmed) {
             $.ajax({
                 type: "GET",
-                url: dateTimeDeleteRoute.replace(':id', id),
+                url: yearDeleteRoute.replace(':id', id),
                 success: function(response) {
                     $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({
