@@ -671,19 +671,19 @@ $(document).on('click', '.confdatetime-delete', function(e) {
 
 // Venue
 $(document).ready(function() {
-    $('#adTimeCon').submit(function(event) {
+    $('#adVenueCon').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: adDateTimeRoute,
+            url: adVenueRoute,
             type: "POST",
             data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('datetimeAdded');
+                    $(document).trigger('venueAdded');
                     $('input[name="date"]').val('');
                 } else {
                     toastr.error(response.message);
@@ -696,9 +696,9 @@ $(document).ready(function() {
             }
         });
     });
-    var dataTable = $('#adTime').DataTable({
+    var dataTable = $('#adVenue').DataTable({
         "ajax": {
-            "url": fetchDateRoute,
+            "url": fetchVenueRoute,
             "type": "GET",
         },
         destroy: true,
@@ -709,85 +709,53 @@ $(document).ready(function() {
         paging: true,
         "columns": [
             {data: 'campus'},
-            {
-                data: 'date',
-                render: function (data, type, row) {
-                    if (type === 'display') {
-                        return moment(data).format('MMMM D, YYYY');
-                    } else {
-                        return data;
-                    }
-                }
-            },
-            {
-                data: 'time',
-                render: function (data, type, row) {
-                    if (type === 'display') {
-                        return moment(data, 'HH:mm:ss').format('h:mm A');  // Corrected format
-                    } else {
-                        return data;
-                    }
-                }
-            },
-            {data: 'slots'},
+            {data: 'venue'},
             {
                 data: 'id',
                 render: function(data, type, row) {
-                    var allowedCampuses = ['MC', 'VC', 'SCC', 'MP', 'HC', 'IC', 'CA', 'CC', 'SC', 'HinC'];
-                    var userCampus = isCampus;
-
-                    if (allowedCampuses.includes(row.campus) && row.campus === userCampus) {
+                    if (type === 'display') {
                         var dropdown = '<div class="d-inline-block text-center w-100">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-confdatetimeedit" data-id="' + row.id + '" data-date="' + row.date + '" data-time="' + row.time + '" data-slot="' + row.slots + '">' +
+                            '<a href="#" class="dropdown-item btn-venueedit" data-id="' + row.id + '" data-venue="' + row.venue + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item confdatetime-delete">' +
+                            '<button type="button" value="' + data + '" class="dropdown-item advenue-delete">' +
                             '<i class="fas fa-trash"></i> Delete' +
                             '</button>' +
                             '</div>' +
                             '</div>';
                         return dropdown;
                     } else {
-                        return '<div class="d-inline-block text-center w-100">' +
-                            '<a class="btn btn-secondary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
-                            '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item">You don\'t have permission.</a>' +
-                            '</div>' +
-                            '</div>';
+                        return data;
                     }
-                }
-            }
+                },
+            },
 
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('datetimeAdded', function() {
+    $(document).on('venueAdded', function() {
         dataTable.ajax.reload();
     });
 });
 
-$(document).on('click', '.btn-confdatetimeedit', function() {
+$(document).on('click', '.btn-venueedit', function() {
     var id = $(this).data('id');
-    var date = $(this).data('date');
-    var time = $(this).data('time');
-    var slot = $(this).data('slot');
-    $('#editDateTimeId').val(id);
-    $('#editDateAssign').val(date);
-    $('#editTimeAssign').val(time);
-    $('#editSlotAssign').val(slot);
-    $('#editDateTimeModal').modal('show');
+    var venue = $(this).data('venue');
+    $('#editVenueId').val(id);
+    $('#editVenue').val(venue);
+    $('#editVenueModal').modal('show');
 });
 
-$('#editDateTimeForm').submit(function(event) {
+$('#editVenueForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
     $.ajax({
-        url: dateTimeUpdateRoute,
+        url: venueUpdateRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -796,8 +764,8 @@ $('#editDateTimeForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#editDateTimeModal').modal('hide');
-                $(document).trigger('datetimeAdded');
+                $('#editVenueModal').modal('hide');
+                $(document).trigger('venueAdded');
             } else {
                 toastr.error(response.message);
             }
@@ -809,7 +777,7 @@ $('#editDateTimeForm').submit(function(event) {
     });
 });
 
-$(document).on('click', '.confdatetime-delete', function(e) {
+$(document).on('click', '.advenue-delete', function(e) {
     var id = $(this).val();
     $.ajaxSetup({
         headers: {
@@ -828,7 +796,7 @@ $(document).on('click', '.confdatetime-delete', function(e) {
         if (result.isConfirmed) {
             $.ajax({
                 type: "GET",
-                url: dateTimeDeleteRoute.replace(':id', id),
+                url: venueDeleteRoute.replace(':id', id),
                 success: function(response) {
                     $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({

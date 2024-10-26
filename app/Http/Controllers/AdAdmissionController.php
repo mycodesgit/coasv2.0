@@ -567,19 +567,14 @@ class AdAdmissionController extends Controller
     {
         $currentYear = now()->year;
 
-        $program = Programs::orderBy('id', 'asc')->get();
-        $strand = Strands::orderBy('id', 'asc')->get();
-        $date = AdmissionDate::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->whereYear('created_at', $currentYear)->get();
+        //$program = Programs::orderBy('id', 'asc')->get();
+        // $strand = Strands::orderBy('id', 'asc')->get();
+        // $date = AdmissionDate::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->whereYear('created_at', $currentYear)->get();
         $dates = AdmissionDate::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->whereYear('created_at', $currentYear)->get();
-        $time = Time::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->whereYear('created_at', $currentYear)->get();
+        // $time = Time::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->whereYear('created_at', $currentYear)->get();
         $venue = Venue::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->whereYear('created_at', $currentYear)->get();
-        return view('admission.configure.index')
-        ->with('program', $program)
-        ->with('strand', $strand)
-        ->with('date', $date)
-        ->with('dates', $dates)
-        ->with('time', $time)
-        ->with('venue', $venue);
+        $curryear = Year::where('status', '=', 'On')->get();
+        return view('admission.configure.index', compact('dates', 'venue', 'curryear'));
     }
 
     public function configure_admissionajax()
@@ -588,18 +583,8 @@ class AdAdmissionController extends Controller
 
         $program = Programs::orderBy('id', 'asc')->get();
 
-        // $venue = Venue::orderBy('id', 'asc')
-        //     ->where('campus', Auth::user()->campus)
-        //     ->whereYear('created_at', $currentYear)
-        //     ->get();
-
         return response()->json([
             'data' => $program,
-            // 'strand' => $strand,
-            // 'date' => $date,
-            // 'dates' => $dates,
-            // 'time' => $time,
-            // 'venue' => $venue
         ]);
     }
 
@@ -952,6 +937,7 @@ class AdAdmissionController extends Controller
     {
         if ($request->isMethod('post')) {
             $request->validate([
+                'adyear' => 'required',
                 'venue' => 'required',
             ]);
 
@@ -959,34 +945,26 @@ class AdAdmissionController extends Controller
             $existingVenue = Venue::where('venue', $venueName)->first();
 
             if ($existingVenue) {
-                return redirect()->route('configure_admission')->with('fail', 'Venue already exists!');
+                return response()->json(['error' => true, 'message' => 'Venue already exists!']);
             }
 
-            $dt = Carbon::now();
 
             try {
                 Venue::create([
                     'campus' => Auth::user()->campus,
+                    'adyear' => $request->input('adyear'),
                     'venue' => $request->input('venue'),
-                    'created_at' => $dt,
                 ]);
 
-                return redirect()->route('configure_admission')->with('success', 'Venue stored successfully!');
+                return response()->json(['success' => true, 'message' => 'Venue stored successfully!']);
             } catch (\Exception $e) {
                 return redirect()->route('configure_admission')->with('fail', 'Failed to store Venue!');
+                return response()->json(['error' => true, 'message' => 'Date already exists!']);
             }
         }
     }
 
-    public function edit_venue($id)
-    {
-        $venueID = decrypt($id);
-        $venues = Venue::find($venueID);
-
-        return view('admission.configure.editVenue', compact('venues'));
-    }
-
-    public function venueEdit(Request $request)
+    public function venueUpdate(Request $request)
     {
         $request->validate([
             'venue' => 'required',
@@ -997,7 +975,7 @@ class AdAdmissionController extends Controller
             $existingVenue = Venue::where('venue', $venueName)->where('id', '!=', $request->input('id'))->first();
 
             if ($existingVenue) {
-                return redirect()->back()->with('fail', 'Admission Venue already exists!');
+                return response()->json(['error' => true, 'message' => 'Admission Venue already exists!']);
             }
 
             $venues = Venue::findOrFail($request->input('id'));
@@ -1005,28 +983,18 @@ class AdAdmissionController extends Controller
                 'venue' => $request->input('venue'),
             ]);
 
-            return redirect()->route('edit_venue', ['id' => encrypt($venues->id)])->with('success', 'Admission Venue Updated Successfully');
+            return response()->json(['success' => true, 'message' => 'Admission Venue Updated Successfully!']);
         } catch (\Exception $e) {
-            return redirect()->back()->with('fail', 'Failed to update Admission Venue!');
+            return response()->json(['error' => true, 'message' => 'Failed to update Admission Venue!']);
         }
     }
 
     public function venueDelete($id)
     {
-        $venue = Venue::findOrFail($id);
+        $dvenue = Venue::find($id);
+        $dvenue->delete();
 
-        if ($venue == null)
-        {
-            return back()->with('fail', 'The venue data does not exist.');
-        }
-        if ($venue->delete())
-        {
-            return Redirect::route('configure_admission')->with('success', 'The venue data was successfully deleted.');
-        }
-        else
-        {
-            return back()->with('fail', 'An error was occured while deleting the data.');
-        }
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
     public function add_admission_year(Request $request)

@@ -343,7 +343,7 @@ CISS V.1.0 || Configure Admission
                                                 <th>Date</th>
                                                 <th>Time</th>
                                                 <th>Slots</th>
-                                                <th>Action</th>
+                                                <th style="text-align: center !important;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -401,7 +401,7 @@ CISS V.1.0 || Configure Admission
                                 <div class="col-md-3">
                                     <div class="card">
                                         <div class="card-body">
-                                            <form method="post" action="{{ route('add_admission_venue') }}" enctype="multipart/form-data" id="adVenueCon">
+                                            <form method="post" action="{{ route('add_admission_venue') }}" id="adVenueCon">
                                                 @csrf
                                                 <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                                     <h5>Add Venue</h5>
@@ -411,6 +411,15 @@ CISS V.1.0 || Configure Admission
 
                                                 <div class="form-group">
                                                     <div class="form-row">
+                                                        <div class="mt-2 col-md-12">
+                                                            <label><span class="badge badge-secondary">Admission Year</span></label>
+                                                            <select class="form-control form-control-sm" name="adyear">
+                                                                @foreach($curryear as $datacurryear)
+                                                                    <option>{{ $datacurryear->adyear }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
                                                         <div class="mt-2 col-md-12">
                                                             <label><span class="badge badge-secondary">Admission Venue</span></label>
                                                             <input type="text" name="venue" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
@@ -427,16 +436,16 @@ CISS V.1.0 || Configure Admission
                                     </div>
                                 </div>
                                 <div class="col-md-9">
-                                    <table id="adVenue" class="table table-hover">
+                                    <table id="adVenue" class="table table-hover" style="width: 100% !important">
                                         <thead>
                                             <tr>
                                                 <th>Campus</th>
                                                 <th>Venue</th>
-                                                <th>Action</th>
+                                                <th style="text-align: center !important;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($venue as $venue)
+                                            {{-- @foreach ($venue as $venue)
                                                 <tr>
                                                     <td>
                                                         @if ($venue->campus == 'MC') Main 
@@ -476,7 +485,7 @@ CISS V.1.0 || Configure Admission
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -678,6 +687,32 @@ CISS V.1.0 || Configure Admission
     </div>
 </div>
 
+<div class="modal fade" id="editVenueModal" tabindex="-1" role="dialog" aria-labelledby="editVenueModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editVenueModalLabel">Edit Year Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editVenueForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editVenueId">
+                    <div class="form-group">
+                        <label for="editVenue">Admission Venue</label>
+                        <input type="text" class="form-control" id="editVenue" name="venue">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="editYearModal" tabindex="-1" role="dialog" aria-labelledby="editYearModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -695,7 +730,7 @@ CISS V.1.0 || Configure Admission
                         <input type="text" class="form-control" id="editYear" name="adyear">
                     </div>
                     <div class="form-group">
-                        <label for="editYear">Admission Year Status</label>
+                        <label for="editYearStatus">Admission Year Status</label>
                         <select class="form-control form-control-sm" name="status" id="editYearStatus">
                             <option value="On">On</option>
                             <option value="Off">Off</option>
@@ -731,6 +766,12 @@ CISS V.1.0 || Configure Admission
     var adDateTimeRoute = "{{ route('add_admission_time') }}";
     var fetchDateTimeRoute = "{{ route('configure_admissiondatetimeajax') }}";
     var dateTimeUpdateRoute = "{{ route('timeUpdate', ['id' => ':id']) }}";
+    var dateTimeDeleteRoute = "{{ route('timeDelete', ['id' => ':id']) }}";
+
+    var adVenueRoute = "{{ route('add_admission_venue') }}";
+    var fetchVenueRoute = "{{ route('configure_admissionvenueajax') }}";
+    var venueUpdateRoute = "{{ route('venueUpdate', ['id' => ':id']) }}";
+    var venueDeleteRoute = "{{ route('venueDelete', ['id' => ':id']) }}";
 
     var adYearRoute = "{{ route('add_admission_year') }}";
     var fetchYearRoute = "{{ route('configure_admissionyearajax') }}";

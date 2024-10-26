@@ -218,7 +218,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::post('addAdmissionVenue', [AdAdmissionController::class, 'add_admission_venue'])->name('add_admission_venue');
             Route::get('/ajax/venue', [AdAdmissionController::class, 'configure_admissionvenueajax'])->name('configure_admissionvenueajax');
-            Route::post('/venueEdit/update', [AdAdmissionController::class, 'venueEdit'])->name('venueEdit');
+            Route::post('/venueEdit/update', [AdAdmissionController::class, 'venueUpdate'])->name('venueUpdate');
             Route::get('/venueDelete/{id}/delete', [AdAdmissionController::class, 'venueDelete'])->name('venueDelete');
 
             Route::get('/ajax/yearadmission', [AdAdmissionController::class, 'configure_admissionyearajax'])->name('configure_admissionyearajax');
