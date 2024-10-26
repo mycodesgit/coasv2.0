@@ -73,7 +73,7 @@
 		    </div>
 		    <div class="info-row">
 		        <span class="info-label">Time Schedule:</span>
-		        <span class="info-data1" style="text-decoration: underline;">@if(Auth::guard('web')->user()->role == 15) {{ $substudnowviewpdf->first()->isType }} @endif</span>
+		        <span class="info-data1" style="text-decoration: underline;">{{ Auth::guard('web')->user()->role == 15 ? ($substudnowviewpdf->first()->isType ?? 'No') : ' ' }}</span>
 		        <span class="info-label" style="margin-left: 20px !important">Faculty in-charge:</span>
 		        <span class="info-data1">______________________________</span>
 		    </div>
