@@ -15,6 +15,7 @@ use App\Models\AdmissionDB\DeptRating;
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\Time;
+use App\Models\AdmissionDB\Year;
 
 
 class PortalController extends Controller
@@ -44,6 +45,15 @@ class PortalController extends Controller
         $programs = Programs::whereRaw("FIND_IN_SET('$selectedCampus', REPLACE(campus, ' ', '')) > 0")->get(['code', 'program']);
 
         return response()->json(['programs' => $programs]);
+    }
+
+    public function getExamSchedCampus(Request $request)
+    {
+        $selectedCampus = $request->input('campus');
+
+        $schedtest = Time::where('campus', $selectedCampus)->get(['date', 'time']);
+
+        return response()->json(['schedtest' => $schedtest]);
     }
 
     public function post_admission_apply(Request $request)

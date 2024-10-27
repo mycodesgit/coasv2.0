@@ -85,6 +85,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired']],function(){
         Route::get('/',[PortalController::class,'index'])->name('admission-portal');
         Route::get('/apply', [PortalController::class, 'admission_apply'])->name('admission-apply');
         Route::get('/getProgramsByCampus', [PortalController::class, 'getProgramsByCampus'])->name('getProgramsByCampus');
+        Route::get('/getTestSchedByCampus', [PortalController::class, 'getExamSchedCampus'])->name('getExamSchedCampus');
         Route::post('/post_admission_apply', [PortalController::class, 'post_admission_apply'])->name('post_admission_apply');
         Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
         Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
@@ -212,6 +213,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/dateDelete/{id}/delete', [AdAdmissionController::class, 'dateDelete'])->name('dateDelete');
 
             Route::get('/ajax/datetime', [AdAdmissionController::class, 'configure_admissiondatetimeajax'])->name('configure_admissiondatetimeajax');
+            Route::get('/ajax/dateajaxdrop', [AdAdmissionController::class, 'fetchDates'])->name('fetchDates');
             Route::post('addAdmissionTime', [AdAdmissionController::class, 'add_admission_time'])->name('add_admission_time');
             Route::post('/timeEdit/update', [AdAdmissionController::class, 'timeUpdate'])->name('timeUpdate');
             Route::get('/timeDelete/{id}/delete', [AdAdmissionController::class, 'timeDelete'])->name('timeDelete');

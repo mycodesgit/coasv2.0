@@ -330,6 +330,32 @@ $(document).on('click', '.confstrand-delete', function(e) {
 
 // Date
 $(document).ready(function() {
+    function refreshDateDropdown() {
+        $.ajax({
+            url: fetchDateAjaxRoute,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                const dates = response.dates;
+
+                const $dropdown = $('#dateDropdown');
+                $dropdown.empty().append('<option value="">Select Date</option>');
+
+                $.each(dates, function (index, date) {
+                    const formattedDate = moment(date.date).format('MMMM D, YYYY');
+                    $dropdown.append(
+                        `<option value="${date.date}">${formattedDate}</option>`
+                    );
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching dates:', error);
+            }
+        });
+    }
+
+    refreshDateDropdown();
+
     $('#adDateCon').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
@@ -344,6 +370,7 @@ $(document).ready(function() {
                     console.log(response);
                     $(document).trigger('dateAdded');
                     $('input[name="date"]').val('');
+                    refreshDateDropdown();
                 } else {
                     toastr.error(response.message);
                     console.log(response);
@@ -406,6 +433,7 @@ $(document).ready(function() {
     });
     $(document).on('dateAdded', function() {
         dataTable.ajax.reload();
+        refreshDateDropdown();
     });
 });
 

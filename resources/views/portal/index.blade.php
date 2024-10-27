@@ -65,7 +65,7 @@
                         <p class="login-box-msg text-light">Select Transaction</p>
 
                         <div>
-                            <a href="{{ route('admission-apply') }}" class="btn btn-warning btn-block text-bold">Application</a>
+                            <a href="" class="btn btn-warning btn-block text-bold disabled">Application</a>
                             <a href="{{ route('admission_track') }}" class="btn btn-warning btn-block text-bold">Track Admission</a>
                             <a href="http://localhost/cpsulms-app/public/" class="btn btn-warning btn-block text-bold">Student Portal</a>
                             {{-- <a href="" class="btn btn-warning btn-block text-bold">CPSU e-LMS</a>

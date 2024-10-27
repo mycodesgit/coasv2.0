@@ -577,6 +577,17 @@ class AdAdmissionController extends Controller
         return view('admission.configure.index', compact('dates', 'venue', 'curryear'));
     }
 
+    public function fetchDates()
+    {
+        $currentYear = now()->year;
+        $dates = AdmissionDate::orderBy('id', 'asc')
+                    ->where('campus', Auth::user()->campus)
+                    ->whereYear('created_at', $currentYear)
+                    ->get();
+
+        return response()->json(['dates' => $dates]);
+    }
+
     public function configure_admissionajax()
     {
         $currentYear = now()->year;

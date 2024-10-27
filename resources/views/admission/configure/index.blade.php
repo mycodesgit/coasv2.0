@@ -303,15 +303,10 @@ CISS V.1.0 || Configure Admission
 
                                                 <div class="form-group">
                                                     <div class="form-row">
-                                                        <div class="mt-2 col-md-12">
+                                                        <div class="mt-2 col-md-12" data-refresh="dateDropdown">
                                                             <label><span class="badge badge-secondary">Date</span></label>
-                                                            <select class="form-control form-control-sm" name="date" style="text-transform: uppercase;">
-                                                                <option value="">Select Date</option>
-                                                                @foreach ($dates as $date)
-                                                                <option value="{{ $date->date }}" @if (old('date') == "{{ $date->date }}") {{ 'selected' }} @endif>
-                                                                    {{ Carbon\Carbon::parse($date->date)->format('F j, Y') }}
-                                                                </option>
-                                                                @endforeach
+                                                            <select class="form-control form-control-sm" name="date" id="dateDropdown" style="text-transform: uppercase;">
+                                                                
                                                             </select>
                                                         </div>
 
@@ -765,6 +760,7 @@ CISS V.1.0 || Configure Admission
 
     var adDateTimeRoute = "{{ route('add_admission_time') }}";
     var fetchDateTimeRoute = "{{ route('configure_admissiondatetimeajax') }}";
+    var fetchDateAjaxRoute = "{{ route('fetchDates') }}";
     var dateTimeUpdateRoute = "{{ route('timeUpdate', ['id' => ':id']) }}";
     var dateTimeDeleteRoute = "{{ route('timeDelete', ['id' => ':id']) }}";
 
