@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('ad_applicant_docs', function (Blueprint $table) {
             $table->id();
+            $table->integer('app_id')->nullable();
+            $table->string('camp')->nullable();
             $table->integer('admission_id');
             $table->string('r_card')->nullable();
             $table->string('g_moral')->nullable();

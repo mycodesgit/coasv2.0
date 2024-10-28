@@ -50,8 +50,9 @@ class PortalController extends Controller
     public function getExamSchedCampus(Request $request)
     {
         $selectedCampus = $request->input('campus');
+        $curryear = Year::where('status', 'On')->value('adyear');
 
-        $schedtest = Time::where('campus', $selectedCampus)->get(['date', 'time']);
+        $schedtest = Time::where('campus', $selectedCampus)->whereYear('date', $curryear)->get(['date', 'time']);
 
         return response()->json(['schedtest' => $schedtest]);
     }

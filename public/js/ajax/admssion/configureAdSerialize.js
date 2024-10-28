@@ -347,6 +347,7 @@ $(document).ready(function() {
                         `<option value="${date.date}">${formattedDate}</option>`
                     );
                 });
+                $(document).trigger('scheduleUpdated');
             },
             error: function (xhr, status, error) {
                 console.error('Error fetching dates:', error);

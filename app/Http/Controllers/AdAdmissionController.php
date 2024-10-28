@@ -579,10 +579,10 @@ class AdAdmissionController extends Controller
 
     public function fetchDates()
     {
-        $currentYear = now()->year;
+        $currentYear = Year::where('status', 'On')->value('adyear');
         $dates = AdmissionDate::orderBy('id', 'asc')
                     ->where('campus', Auth::user()->campus)
-                    ->whereYear('created_at', $currentYear)
+                    ->whereYear('date', $currentYear)
                     ->get();
 
         return response()->json(['dates' => $dates]);
@@ -612,11 +612,11 @@ class AdAdmissionController extends Controller
 
     public function configure_admissiondateajax()
     {
-        $currentYear = now()->year;
+        $currentYear = Year::where('status', 'On')->value('adyear'); // Fetches only the 'year' column for the active year
 
         $date = AdmissionDate::orderBy('id', 'asc')
             ->where('campus', Auth::user()->campus)
-            ->whereYear('created_at', $currentYear)
+            ->whereYear('date', $currentYear)
             ->get();
 
         return response()->json([
@@ -626,11 +626,12 @@ class AdAdmissionController extends Controller
 
     public function configure_admissiondatetimeajax()
     {
-        $currentYear = now()->year;
+        //$currentYear = now()->year;
+        $currentYear = Year::where('status', 'On')->value('adyear');
 
         $time = Time::orderBy('id', 'asc')
             ->where('campus', Auth::user()->campus)
-            ->whereYear('created_at', $currentYear)
+            ->whereYear('date', $currentYear)
             ->get();
 
         return response()->json([

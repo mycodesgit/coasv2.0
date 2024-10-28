@@ -466,6 +466,19 @@
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-12">
+                                                        <label>Parent's Monthly Income <i style="color: red">*</i></label>
+                                                        <input type="number" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" name="monthly_income" value="{{old('monthly_income')}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
                                                         <label>Upload School ID <i style="color: red">*</i></label>
                                                         <input type="file" name="doc_image" class="form-control form-control-sm" id="fileInput" accept="image/*" onchange="handleFileUpload()">
                                                     </div>
@@ -605,13 +618,17 @@
             // Separate date and time based on the format "January 01, 2024 09:00 AM"
             const dateTime = moment(selectedText, 'MMMM D, YYYY hh:mm A'); 
 
-            // Format the date to 'YYYY-MM-DD' and time to 'HH:mm:ss'
             const formattedDate = dateTime.format('YYYY-MM-DD');
             const formattedTime = dateTime.format('HH:mm:ss');
 
-            // Populate the date and time input fields
             $('#selectedDate').val(formattedDate);
             $('#selectedTime').val(formattedTime);
+        });
+
+        // Listen for the 'scheduleUpdated' event
+        $(document).on('scheduleUpdated', function() {
+            const selectedCampus = $('#campus').val(); 
+            updateExamSchedule(selectedCampus); 
         });
 
         $('#campus').change(function () {
