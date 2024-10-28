@@ -511,7 +511,7 @@
         </div>
         <footer class="main-footer text-sm text-center" style="background-color: #daf1ea; border-top: none;">
             <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-dark">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
+            <i class="text-dark">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
     @include('portal.modal-terms')
