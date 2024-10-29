@@ -200,19 +200,6 @@
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <div class="form-row">
-                                                    <div class="col-md-12">
-                                                        <label>Email Address <i style="color: red">*</i></label>
-                                                        <input type="email" class="form-control form-control-sm" placeholder="e.g john@gmail.com" name="email" value="{{old('email')}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <div class="form-row">
                                                     <div class="col-md-6">
                                                         <label>Civil Status <i style="color: red">*</i></label>
                                                         <select class="form-control form-control-sm" name="civil_status">
@@ -346,6 +333,7 @@
                                                         </select>
                                                         <input type="hidden" id="selectedDate" name="d_admission" placeholder="Selected Date">
                                                         <input type="hidden" id="selectedTime" name="time" placeholder="Selected Time">
+                                                        <input type="hidden" id="selectedDateTimeID" name="dateID" placeholder="Selected Date Time ID">
                                                     </div>
                                                 </div>
                                             </div>
@@ -486,11 +474,28 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
+                                                        <label>Email Address <i style="color: red">*</i></label>
+                                                        <input type="email" class="form-control form-control-sm" placeholder="e.g john@gmail.com" name="email" id="email" value="{{old('email')}}">
+                                                    </div>
+                                                    <div id="verification-message" style="display: none; color: blue; margin-top: 5px;">
+                                                        Wait, email is verifying...
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="progress-section d-flex align-items-center justify-content-between mt-3">
                                     <button type="button" class="btn btn-default" id="back-btn" onclick="prevCard(currentCard - 1)" style="display: none;">Back</button>
-                                    <button type="button" class="btn btn-primary" id="next-btn" onclick="nextCard(currentCard + 1)">Next</button>
+                                    <button type="button" class="btn btn-primary" id="next-btn" onclick="nextCard(currentCard + 1)" disabled>Next</button>
+                                    <button type="button" class="btn btn-info" id="ok-btn">OK</button>
                                     <button type="submit" class="btn btn-primary" id="submit-btn" style="display: none;">Submit</button>
 
                                     <div class="progress-container d-flex align-items-center">
@@ -514,7 +519,9 @@
             <i class="text-dark">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
+
     @include('portal.modal-terms')
+
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
@@ -566,6 +573,51 @@
     </script>
 
     <script>
+        $(document).ready(function () {
+            $('#email').on('blur', function () {
+                let email = $(this).val();
+                if (email.endsWith('@gmail.com')) {
+                    $('#verification-message').show(); 
+                }
+
+                $('#submit-btn').hide(); 
+
+                $.ajax({
+                    url: '{{ route('checkEmail') }}',
+                    method: 'POST',
+                    data: { email: email, _token: '{{ csrf_token() }}' },
+                    success: function (response) {
+                        console.log("Server response:", response);
+                        $('#verification-message').hide(); 
+
+                        if (response.valid) {
+                            $('#submit-btn').show(); 
+                            $('#error-message').hide(); 
+                            $('#ok-btn').hide();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Valid Email',
+                                text: 'This email is registered with Google.',
+                            });
+                        } else {
+                            $('#submit-btn').hide(); 
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid Email',
+                                text: 'This email is not registered with Google.',
+                            });
+                        }
+                    },
+                    error: function () {
+                        $('#verification-message').hide(); 
+                        $('#submit-btn').hide(); 
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
         const programsRoute = '{{ route('getProgramsByCampus') }}';
         const examschedRoute = '{{ route('getExamSchedCampus') }}';
         function updateCoursePreferences(campus) {
@@ -608,21 +660,31 @@
             $.each(options, function (key, value) {
                 const formattedDate = moment(value.date).format('MMMM DD, YYYY');
                 const formattedTime = moment(value.time, 'HH:mm').format('hh:mm A');
+                const slots = value.slots;
+                const primDateTimeID = value.id;
 
-                select.append('<option value="' + value.date + '">' + formattedDate + ' ' + formattedTime + '</option>');
+                //select.append('<option value="' + value.date + '">' + formattedDate + ' ' + formattedTime + ' (Available Slots: ' + slots + ')</option>');
+                if (slots === 0) {
+                    select.append('<option disabled>' + formattedDate + ' ' + formattedTime + ' (Slots is Full)</option>');
+                } else {
+                    select.append('<option value="' + value.date + '" data-primdatetimeid="' + primDateTimeID + '">' + formattedDate + ' ' + formattedTime + ' (Available Slots: ' + slots + ')</option>');
+                }
             });
         }
         $('select[name="d_admissionselect"]').change(function() {
-            const selectedText = $(this).find('option:selected').text();
+            const selectedOption = $(this).find('option:selected');
+            const selectedText = selectedOption.text();
 
             // Separate date and time based on the format "January 01, 2024 09:00 AM"
             const dateTime = moment(selectedText, 'MMMM D, YYYY hh:mm A'); 
 
             const formattedDate = dateTime.format('YYYY-MM-DD');
             const formattedTime = dateTime.format('HH:mm:ss');
+            const dateTimeID = selectedOption.data('primdatetimeid');
 
             $('#selectedDate').val(formattedDate);
             $('#selectedTime').val(formattedTime);
+            $('#selectedDateTimeID').val(dateTimeID);
         });
 
         // Listen for the 'scheduleUpdated' event
@@ -644,49 +706,6 @@
         }, 0); 
     </script> --}}
 
-    <script>
-        // Initialize variables
-        let currentCard = 1;
-        const totalCards = document.querySelectorAll('[id^="card-"]').length;
-
-        // Display total pages dynamically
-        document.getElementById("total-pages").textContent = totalCards;
-
-        function updateProgressBar() {
-            const progressPercentage = (currentCard / totalCards) * 100;
-            document.getElementById("progress-bar").style.width = progressPercentage + "%";
-            document.getElementById("progress-text").textContent = `Page ${currentCard} of ${totalCards}`;
-
-            // Show or hide buttons based on current card
-            document.getElementById("back-btn").style.display = currentCard > 1 ? "inline-block" : "none";
-            document.getElementById("next-btn").style.display = currentCard < totalCards ? "inline-block" : "none";
-            document.getElementById("submit-btn").style.display = currentCard === totalCards ? "inline-block" : "none";
-        }
-
-        function nextCard(cardNumber) {
-            if (cardNumber > totalCards) return;
-            document.getElementById(`card-${currentCard}`).style.display = "none";
-            document.getElementById(`card-${cardNumber}`).style.display = "block";
-            currentCard = cardNumber;
-            updateProgressBar();
-        }
-
-        function prevCard(cardNumber) {
-            if (cardNumber < 1) return;
-            document.getElementById(`card-${currentCard}`).style.display = "none";
-            document.getElementById(`card-${cardNumber}`).style.display = "block";
-            currentCard = cardNumber;
-            updateProgressBar();
-        }
-
-        function clearForm() {
-            document.querySelectorAll("input").forEach(input => input.value = "");
-            currentCard = 1;
-            nextCard(currentCard);
-        }
-
-        updateProgressBar(); // Initialize progress bar on load
-    </script>
 
     <script>
         function uploadFile() {

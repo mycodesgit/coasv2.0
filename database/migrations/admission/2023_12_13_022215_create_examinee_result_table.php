@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('ad_examinee_result', function (Blueprint $table) {
             $table->id();
+            $table->integer('app_id')->nullable();
+            $table->string('camp')->nullable();
             $table->integer('admission_id');
             $table->integer('raw_score')->length(5)->nullable();
             $table->integer('percentile')->length(5)->nullable();

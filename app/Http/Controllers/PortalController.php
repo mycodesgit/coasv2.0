@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 use Carbon\Carbon;
 use App\Models\AdmissionDB\Applicant;
@@ -52,9 +53,47 @@ class PortalController extends Controller
         $selectedCampus = $request->input('campus');
         $curryear = Year::where('status', 'On')->value('adyear');
 
-        $schedtest = Time::where('campus', $selectedCampus)->whereYear('date', $curryear)->get(['date', 'time']);
+        $schedtest = Time::where('campus', $selectedCampus)
+                    ->whereYear('date', $curryear)
+                    ->get(['date', 'time', 'slots', 'id'])
+                    ->map(function ($sched) {
+                    // Count applicants with the same date and time
+                    $applicantCount = Applicant::where('d_admission', $sched->date)
+                        ->where('time', $sched->time)
+                        ->count();
+
+                    // Subtract from available slots
+                    $sched->slots = max($sched->slots - $applicantCount, 0); // Prevent negative slots
+                    return $sched;
+                });
 
         return response()->json(['schedtest' => $schedtest]);
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $email = $request->input('email');
+        $apiKey = 'd507dd74b8c3b63f38ca7789a3474964f40a75a7'; // Replace with your actual Hunter.io API key
+
+        // Hunter.io API URL
+        $url = "https://api.hunter.io/v2/email-verifier?email={$email}&api_key={$apiKey}";
+
+        // Making a GET request to Hunter.io
+        $response = Http::get($url);
+
+        if ($response->successful()) {
+            $data = $response->json();
+
+            // Check if the email is valid based on Hunter.io response
+            if ($data['data']['result'] === 'deliverable') {
+                return response()->json(['valid' => true]);
+            } else {
+                return response()->json(['valid' => false]);
+            }
+        } else {
+            // Handle any error that occurs during API request
+            return response()->json(['valid' => false], 500);
+        }
     }
 
     public function post_admission_apply(Request $request)
@@ -141,6 +180,12 @@ class PortalController extends Controller
         $applicant->ext = $request->input('ext');
         $applicant->gender = $request->input('gender');
         $applicant->address = $request->input('address');
+        $applicant->hnum = $request->input('hnum');
+        $applicant->brgy = $request->input('brgy');
+        $applicant->city = $request->input('city');
+        $applicant->province = $request->input('province');
+        $applicant->region = $request->input('region');
+        $applicant->zcode = $request->input('zcode');
         $applicant->bday = $request->input('bday');
         $applicant->age = $request->input('age');
         $applicant->contact = $request->input('contact');
@@ -155,6 +200,8 @@ class PortalController extends Controller
         $applicant->course = $request->input('course');
         $applicant->preference_1 = $request->input('preference_1');
         $applicant->preference_2 = $request->input('preference_2');
+        $applicant->d_admission = $request->input('d_admission');
+        $applicant->time = $request->input('time');
         $dt = Carbon::now();  
         $applicant->created_at = $dt;
         $applicant->save();

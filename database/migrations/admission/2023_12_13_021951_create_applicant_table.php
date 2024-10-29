@@ -47,6 +47,7 @@ return new class extends Migration
             $table->string('course')->nullable();
             $table->string('preference_1')->nullable();
             $table->string('preference_2')->nullable();
+            $table->string('dateID')->nullable();
             $table->string('d_admission')->nullable();
             $table->string('time')->nullable();
             $table->string('venue')->nullable();

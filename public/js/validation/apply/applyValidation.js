@@ -1,15 +1,10 @@
+let currentCard = 1;
+const totalCards = document.querySelectorAll('[id^="card-"]').length;
+
 $(function () {
-    $('#admissionApply').validate({
+    const validator = $('#admissionApply').validate({
         rules: {
-            // admissionid: {
-            //     required: true,
-            // },
-            type: {
-                required: true,
-            },
-            campus: {
-                required: true,
-            },
+            // Card 1 rules
             lastname: {
                 required: true,
             },
@@ -31,73 +26,64 @@ $(function () {
                 maxlength: 11,
                 digits: true, 
             },
-            email: {
-                required: true,
-                email: true,
-            },
-            lstsch_attended: {
-                required: {
-                    depends: function(element) {
-                        return $("#suc_lst_attended").val() === "" && $("#course").val() === ""; // Make "Last School Attended" required only if "College/University last attended" and "Course" are not filled
-                    }
-                },
-            },
-            strand: {
-                required: {
-                    depends: function(element) {
-                        return $("#suc_lst_attended").val() === "" && $("#course").val() === ""; // Make "Strand" required only if "College/University last attended" and "Course" are not filled
-                    }
-                },
-            },
-            suc_lst_attended: {
-                required: {
-                    depends: function(element) {
-                        return $("#lstsch_attended").val() === "" && $("#strand").val() === ""; // Make "College/University last attended" required only if "Last School Attended" and "Strand" are not filled
-                    }
-                },
-            },
-            course: {
-                required: {
-                    depends: function(element) {
-                        return $("#lstsch_attended").val() === "" && $("#strand").val() === ""; // Make "Course" required only if "Last School Attended" and "Strand" are not filled
-                    }
-                },
-            },
             civil_status: {
                 required: true,
             },
             religion: {
                 required: true,
             },
-            monthly_income: {
+            brgy: {
+                required: true,
+            },
+            city: {
                 required: true,
             },
             address: {
                 required: true,
             },
-            preference_1: {
-                required: true,
+
+            // Card 2 rules
+            type: { 
+                required: true 
             },
-            preference_2: {
+            campus: { 
+                required: true 
+            },
+            lstsch_attended: {
+                required: true
+            },
+            strand: {
+                required: true
+            },
+            suc_lst_attended: {
+                required: true
+            },
+            course: {
+                required: true
+            },
+            preference_1: { 
+                required: true 
+            },
+            preference_2: { 
+                required: true 
+            },
+
+
+            // Card 3 rules
+            monthly_income: {
                 required: true,
             },
             doc_image: {
                 required: true,
             },
-            remember: {
+            email: {
                 required: true,
+                email: true,
+                pattern: /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com)$/,
             },
         },
         messages: {
-            // admissionid: {
-            //     required: "Please Enter Admission ID",
-            // },
-            type: {
-                required: "Select Admission Type",
-            },
-            campus: {
-                required: "Select Preffered Campus",
-            },
+            // Card 1 messages
             lastname: {
                 required: "Enter Lastname",
             },
@@ -119,9 +105,28 @@ $(function () {
                 maxlength: "Contact number must be exactly 11 digits.",
                 digits: "Please enter only digits.",
             },
-            email: {
-                required: "Please enter a email address",
-                email: "Please enter a valid email address"
+            civil_status: {
+                required: "Select Status",
+            },
+            religion: {
+                required: "Select Religion",
+            },
+            brgy: {
+                required: "Enter Barangay",
+            },
+            city: {
+                required: "Select City or Municipality",
+            },
+            address: {
+                required: "Enter Present Address",
+            },
+
+            // Card 2 messages
+            type: { 
+                required: "Select Admission Type" 
+            },
+            campus: { 
+                required: "Select Preferred Campus" 
             },
             lstsch_attended: {
                 required: "Enter Last School Attended",
@@ -135,35 +140,33 @@ $(function () {
             course: {
                 required: "Select Course",
             },
-            civil_status: {
-                required: "Select Civil Status",
+            preference_1: { 
+                required: "Select Preferred Course" 
             },
-            religion: {
-                required: "Select Religion",
+            preference_2: { 
+                required: "Select Preferred Course" 
             },
+
+            // Card 3 messages
             monthly_income: {
                 required: "Enter Parent's Monthly Income",
-            },
-            address: {
-                required: "Enter Present Address",
-            },
-            preference_1: {
-                required: "Select Preffered Course",
-            },
-            preference_2: {
-                required: "Select Preffered Course",
             },
             doc_image: {
                 required: "Upload one image from the requirements",
             },
-            remember: {
-                required: "Please check to agree to the following terms and conditions",
+            email: {
+                required: "Please enter a email address",
+                email: "Please enter a valid email address",
+                pattern: "Please use only a popular email domain gmail.com",
             },
         },
+        onfocusout: false,
+        onkeyup: false,
         errorElement: 'span',
         errorPlacement: function (error, element) {
             error.addClass('invalid-feedback');
-            element.closest('.col-md-2, .col-md-6, .col-md-12').append(error);        },
+            element.closest('.col-md-2, .col-md-6, .col-md-12').append(error);        
+        },
         highlight: function (element, errorClass, validClass) {
             $(element).addClass('is-invalid');
         },
@@ -171,4 +174,68 @@ $(function () {
             $(element).removeClass('is-invalid');
         },
     });
+    $('#admissionApply').on('input change', 'input, select', function () {
+        toggleNextButton();
+    });
+
+    function toggleNextButton() {
+        // Check if current card's fields are valid
+        const isCurrentCardValid = $(getCurrentCardSelector()).find("input, select").valid();
+        document.getElementById("next-btn").disabled = !isCurrentCardValid;
+    }
+    // $("input[name='email']").on("blur", function() {
+    //     const email = $(this).val();
+    //     const validDomains = ["gmail.com", "yahoo.com", "outlook.com"];
+    //     const domain = email.split("@")[1];
+        
+    //     if (domain && !validDomains.includes(domain)) {
+    //         alert("Please use a valid email domain like gmail.com, yahoo.com, or outlook.com");
+    //     }
+    // });
 });
+
+function updateProgressBar() {
+    const progressPercentage = (currentCard / totalCards) * 100;
+    document.getElementById("progress-bar").style.width = progressPercentage + "%";
+    document.getElementById("progress-text").textContent = `Page ${currentCard} of ${totalCards}`;
+
+    // Show or hide buttons based on current card
+    document.getElementById("back-btn").style.display = currentCard > 1 ? "inline-block" : "none";
+    document.getElementById("next-btn").style.display = currentCard < totalCards ? "inline-block" : "none";
+    //document.getElementById("submit-btn").style.display = currentCard === totalCards ? "inline-block" : "none";
+    document.getElementById("ok-btn").style.display = currentCard === totalCards ? "inline-block" : "none";
+}
+
+function nextCard(cardNumber) {
+    if (cardNumber > totalCards) return;
+
+    if (!$(getCurrentCardSelector()).find("input, select").valid()) {
+        validator.focusInvalid(); // Focus on the first invalid input
+        return; // Stop moving to the next card if current card is invalid
+    }
+
+    // Hide current card and show next one
+    document.getElementById(`card-${currentCard}`).style.display = "none";
+    document.getElementById(`card-${cardNumber}`).style.display = "block";
+    
+    currentCard = cardNumber;
+    updateProgressBar();
+}
+
+function prevCard(cardNumber) {
+    if (cardNumber < 1) return;
+
+    document.getElementById(`card-${currentCard}`).style.display = "none";
+    document.getElementById(`card-${cardNumber}`).style.display = "block";
+    
+    currentCard = cardNumber;
+    updateProgressBar();
+}
+
+// Helper to get the current card selector
+function getCurrentCardSelector() {
+    return `#card-${currentCard}`;
+}
+
+// Initialize the progress bar on page load
+updateProgressBar();

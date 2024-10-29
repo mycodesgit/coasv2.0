@@ -86,6 +86,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired']],function(){
         Route::get('/apply', [PortalController::class, 'admission_apply'])->name('admission-apply');
         Route::get('/getProgramsByCampus', [PortalController::class, 'getProgramsByCampus'])->name('getProgramsByCampus');
         Route::get('/getTestSchedByCampus', [PortalController::class, 'getExamSchedCampus'])->name('getExamSchedCampus');
+        Route::post('/check-email', [PortalController::class, 'checkEmail'])->name('checkEmail');
         Route::post('/post_admission_apply', [PortalController::class, 'post_admission_apply'])->name('post_admission_apply');
         Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
         Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');

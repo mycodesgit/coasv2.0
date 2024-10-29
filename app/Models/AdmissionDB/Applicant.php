@@ -45,8 +45,8 @@ class Applicant extends Model
         'preference_1',
         'preference_2',
         'preference_3',
-        'd_admission',
         'dateID',
+        'd_admission',
         'time',
         'venue',
         'created_at'
