@@ -32,7 +32,11 @@ CISS V.1.0 || Applicant Search List
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
+                                <select class="form-control form-control-sm" id="year" name="year">
+                                    @foreach($curryear as $datacurryear)
+                                        <option>{{ $datacurryear->adyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-2">
@@ -96,10 +100,10 @@ CISS V.1.0 || Applicant Search List
                 </small>
             </h5>
         </div>
-        <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
+        <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
-                <table id="applistTable" class="table table-hover">
+                <table id="applistTable" class="table table-hover table-striped">
                     <thead>
                         <tr>
                             <th>App ID</th>
@@ -243,17 +247,24 @@ CISS V.1.0 || Applicant Search List
 
                     <div class="form-group">
                         <label><span class="badge badge-secondary">Date of Admission Test</span></label>
-                        <select class="form-control form-control-sm" name="dateID" id="editAssignDateIDs" style="text-transform: uppercase;" onchange="updateDateTime()">
+                        <select class="form-control form-control-sm" name="dateID" id="editAssignDateIDs" onchange="updateDateTime()">
                             <option disabled selected> ---Select--- </option>
                             @foreach ($time1 as $dateItem)
-                                <option value="{{ $dateItem->id }}">
-                                    {{ Carbon\Carbon::parse($dateItem->date . ' ' . $dateItem->time)->format('F j Y g:i A') }}
-                                </option>
+                                @if ($dateItem->slots === 0)
+                                    <option value="{{ $dateItem->id }}" disabled class="text-danger">
+                                        {{ Carbon\Carbon::parse($dateItem->date . ' ' . $dateItem->time)->format('F j Y g:i A') }} (Slots is Full)
+                                    </option>
+                                @else
+                                    <option value="{{ $dateItem->id }}">
+                                        {{ Carbon\Carbon::parse($dateItem->date . ' ' . $dateItem->time)->format('F j Y g:i A') }} (Available Slots: {{ $dateItem->slots }})
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
                     <input type="hidden" id="selectedDate" name="d_admission" class="form-control form-control-md" placeholder="Selected Date">
                     <input type="hidden" id="selectedTime" name="time" class="form-control form-control-md" placeholder="Selected Time">
+                    <input type="hidden" id="selectedDateTimeID" name="dateID" class="form-control form-control-md" placeholder="Selected DateTimeID">
 
                     <div class="form-group">
                         <label><span class="badge badge-secondary">Venue</span></label>

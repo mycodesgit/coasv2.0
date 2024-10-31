@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 use Carbon\Carbon;
 use App\Models\AdmissionDB\Applicant;
@@ -146,7 +147,8 @@ class PortalController extends Controller
             
         $campus = $request->input('campus');
         //$year = Carbon::now()->format('Y');
-        $year = '2025';
+        //$year = '2025';
+        $year = Year::where('status', 'On')->value('adyear');
         $admissionid = '';
 
         $latestApplicant = Applicant::where('campus', $campus)->latest('created_at')->first();
@@ -168,7 +170,8 @@ class PortalController extends Controller
         }
 
         // $year = Carbon::now()->format('Y');
-        $year = '2025';
+        //$year = '2025';
+        $year = Year::where('status', 'On')->value('adyear');
         $applicant = new Applicant;
         $applicant->year = $year;
         $applicant->campus = $request->input('campus');
@@ -248,11 +251,33 @@ class PortalController extends Controller
             $examinee->created_at = $dt;
             $examinee->save();
 
-            return Redirect::route('admission-apply')->withInput()->with('success', 'Application was successfully submitted. Check status in the (Track) Admission Page.')->with('admission_id' ,$admissionid);
+            return Redirect::route('submitsucapply')->withInput()->with('success', 'Application was successfully submitted. Check status in the (Track) Admission Page.')->with('admission_id' ,$admissionid)->with('email', $applicant->email);
         }
         else{
             return Redirect::route('admission-apply')->withErrors($validator)->withInput();
         }
+    }
+
+    public function submitsucapply()
+    {
+        $email = session('email');
+        return view('portal.applysubmit', compact('email'));
+    }
+
+    public function sendThankYouEmail(Request $request)
+    {
+        $email = $request->input('email');
+        
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        Mail::raw('Congratulations! You have successfully registered for the 2025 Admission Test', function ($message) use ($email) {
+            $message->to($email)
+                    ->subject('Thank You for Your Application');
+        });
+
+        return response()->json(['message' => 'Email sent successfully']);
     }
 
     public function admission_track()

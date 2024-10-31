@@ -89,6 +89,13 @@
                                 {{ csrf_field() }}
                                 
                                 <div id="card-1">
+                                    <p>
+                                        @if(Session::has('success'))
+                                            <div class="alert alert-success" id="alert">{{ Session::get('success')}} {{ Session::get('admission_id')}}</div>
+                                        @elseif (Session::has('fail'))
+                                            <div class="alert alert-danger" id="alert">{{Session::get('fail')}}</div>
+                                        @endif
+                                    </p>
                                     <div class="card card-secondary card-outline">
                                         <div class="card-body">
                                             <h6 class="card-title text-dark">
@@ -468,7 +475,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Upload School ID <i style="color: red">*</i></label>
-                                                        <input type="file" name="doc_image" class="form-control form-control-sm" id="fileInput" accept="image/*" onchange="handleFileUpload()">
+                                                        <input type="file" name="doc_image" class="form-control form-control-sm" id="fileInput" accept="image/*">
                                                     </div>
                                                 </div>
                                             </div>

@@ -134,54 +134,7 @@ class AdAdmissionController extends Controller
         ->with('venue', $venue);
     }
 
-    public function applicant_list()
-    {
-        $strand = Strands::all();
-        return view('admission.applicant.list', compact('strand'));
-    }
-
-    public function srchappList(Request $request)
-    {   
-        $year = $request->query('year');
-        $campus = $request->query('campus');
-        $strand = $request->query('strand');
-
-        $currentYear = now()->year;
-
-        $time1 = Time::select('ad_time.*')
-                ->where('campus', '=', Auth::user()->campus)
-                ->whereYear('created_at', $currentYear)
-                ->get();
-        $venue1 = Venue::select('venue', DB::raw('count(*) as total'))
-                ->where('campus', '=', Auth::user()->campus)
-                ->groupBy('venue')
-                ->whereYear('created_at', $currentYear)
-                ->get();
-        $strand = Strands::all();
-        return view('admission.applicant.list-search', compact('time1', 'venue1', 'strand'));
-    }
-
-    public function getsrchappList(Request $request)
-    {   
-        
-        $year = $request->query('year');
-        $campus = $request->query('campus');
-        $strand = $request->query('strand');
-
-        $query  = Applicant::join('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
-                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_docs.*')
-                        ->where('ad_applicant_admission.year', $year)
-                        ->where('ad_applicant_admission.campus', $campus)
-                        ->where('p_status', '=', 1);
-
-        if ($strand) {
-            $query->where('ad_applicant_admission.strand', $strand);
-        }
-
-        $data = $query->get();
-
-        return response()->json(['data' => $data]);
-    }
+    
 
     public function applicantCreate(Request $request)
     {
@@ -426,15 +379,7 @@ class AdAdmissionController extends Controller
     //     if ($applicant->delete()){$docts = ApplicantDocs::where('admission_id','=', $applicant->admission_id)->delete();return back()->with('success', 'The Applicant was successfully deleted.');}else{return back()->with('fail', 'An error was occured while deleting the data.');}
     // }
 
-    public function applicant_delete($id){
-        $applicant = Applicant::find($id);
-        $applicant->fill(['p_status' => 7])->save();
-
-        return response()->json([
-            'status'=>200,
-            'message'=>'Updated Successfully',
-        ]);
-    }
+    
     
     public function applicant_confirm($id)
     {
@@ -455,32 +400,7 @@ class AdAdmissionController extends Controller
         
     }
 
-    public function applicant_confirmajax(Request $request) 
-    {
-        $decryptedId = Crypt::decrypt($request->input('id'));
-        $applicantsWithoutSchedule = Applicant::where('p_status', 1)
-            ->where('id', $decryptedId)
-            ->where(function ($query) {
-                $query->whereNull('d_admission')
-                    ->where(function ($query) {
-                        $query->whereNull('time')
-                            ->orWhere('time', '00:00:00');
-                    });
-            })->exists();
-
-        if ($applicantsWithoutSchedule) {
-            return response()->json(['error' => true, 'message' => 'Please assign schedule and time for examination before pushing to examination list.'], 422);
-        }
-        $affectedRows = Applicant::where('p_status', 1)
-            ->where('id', $decryptedId)
-            ->update(['p_status' => 2]);
-
-        if ($affectedRows > 0) {
-            return response()->json(['success' => true, 'message' => 'Applicant schedule has been pushed to Examinee List'], 200);
-        } else {
-            return response()->json(['error' => true, 'message' => 'No applicant found with the provided ID or the applicant already has a schedule and time assigned.'], 422);
-        }
-    }
+    
 
     public function applicant_schedule($id)
     {
@@ -517,30 +437,7 @@ class AdAdmissionController extends Controller
         return response()->json(['success' => true, 'message' => 'Applicant schedule has been saved'], 200);
     }
 
-    public function applicant_schedulemod_save(Request $request) 
-    {   
-        $request->validate([
-            'id' => 'required',
-            'dateID' => 'required',
-            'd_admission' => 'required',
-            'time' => 'required',
-            'venue' => 'required',
-        ]);
-
-        try {
-            $decryptedId = Crypt::decrypt($request->input('id'));
-            $appsched = Applicant::findOrFail($decryptedId);
-            $appsched->update([
-                'dateID' => $request->input('dateID'),
-                'd_admission' => $request->input('d_admission'),
-                'time' => $request->input('time'),
-                'venue' => $request->input('venue'),
-            ]);
-            return response()->json(['success' => true, 'message' => 'Applicant schedule has been saved'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => true, 'message' => 'Failed to set Schedule!'], 404);
-        }
-    }
+    
     
     public function slots()
     {

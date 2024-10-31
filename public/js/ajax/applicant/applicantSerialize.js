@@ -195,6 +195,7 @@ $(document).on('click', '.btn-assignsched', function() {
 
     $('#editAssignSchedId').val(id);
     $('#editAssignDateID').val(dateSelected);
+    $('#selectedDateTimeID').val(dateSelected);
     $('#selectedDate').val(dadmissionSelected);
     $('#selectedTime').val(dtimeSelected);
     $('#selectedVenue').val(venueSelected);
@@ -295,13 +296,16 @@ $('#pushtoexamForm').submit(function(event) {
     });
 });
 
-$(document).on('click', '.examinee-delete', function(e){
+$(document).on('click', '.examinee-delete', function(e) {
     var id = $(this).val();
+    alert(id);
+    
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
+        }
     });
+    
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to recover this!",
@@ -310,23 +314,31 @@ $(document).on('click', '.examinee-delete', function(e){
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                type: "GET",
-                url: allAppDeleteRoute,
-                    success: function (response) {  
-                    $("#tr-"+id).delay(1000).fadeOut();
+                type: "POST",
+                url: allAppDeleteRoute.replace(':id', id),
+                success: function (response) {  
+                    $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({
-                        title:'Deleted!',
-                        text:'Successfully Deleted!',
+                        title: 'Deleted!',
+                        text: 'Successfully Deleted!',
                         icon: 'success',
                         showConfirmButton: false,
                         timer: 1000
-                    })
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Something went wrong. Please try again later.',
+                        icon: 'error'
+                    });
+                    console.error("Error:", error);
                 }
             });
         }
-    })
+    });
 });
 

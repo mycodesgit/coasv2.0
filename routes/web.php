@@ -9,6 +9,7 @@ use App\Http\Controllers\LoginFacultyController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\ForAllEncryptIDController;
 use App\Http\Controllers\AdAdmissionController;
+use App\Http\Controllers\AdAdmissionAppController;
 use App\Http\Controllers\AdPrntController;
 use App\Http\Controllers\AdCaptureImageController;
 use App\Http\Controllers\AdExamineeController;
@@ -88,6 +89,9 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired']],function(){
         Route::get('/getTestSchedByCampus', [PortalController::class, 'getExamSchedCampus'])->name('getExamSchedCampus');
         Route::post('/check-email', [PortalController::class, 'checkEmail'])->name('checkEmail');
         Route::post('/post_admission_apply', [PortalController::class, 'post_admission_apply'])->name('post_admission_apply');
+        Route::get('/apply/submit/successfully', [PortalController::class, 'submitsucapply'])->name('submitsucapply');
+        Route::post('/send-thank-you-email', [PortalController::class, 'sendThankYouEmail'])->name('sendThankYouEmail');
+        //Route::get('/apply/submit/successfully', function () { return view('portal.applysubmit');});
         Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
         Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
     });
@@ -115,20 +119,27 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/', [AdAdmissionController::class, 'index'])->name('admission-index'); 
     
         Route::prefix('applicant')->group(function () {
+            Route::post('/applist/encrypt', [ForAllEncryptIDController::class, 'idcrypt'])->name('idcrypt');
+
             Route::get('/add', [AdAdmissionController::class, 'applicant_add'])->name('applicant-add');
             Route::post('applicant-add', [AdAdmissionController::class, 'applicantCreate'])->name('applicantCreate');
-            Route::get('/list', [AdAdmissionController::class, 'applicant_list'])->name('applicant-list');
+
+            Route::get('/list', [AdAdmissionAppController::class, 'applicant_list'])->name('applicant-list');
             // Route::get('/list/search', [AdAdmissionController::class, 'applicant_list_search'])->name('applicant_list_search');
-            Route::get('/list/search/applicants', [AdAdmissionController::class, 'srchappList'])->name('srchappList');
-            Route::get('/list/search/applicants/ajax', [AdAdmissionController::class, 'getsrchappList'])->name('getsrchappList');
+            Route::get('/list/search/applicants', [AdAdmissionAppController::class, 'srchappList'])->name('srchappList');
+            Route::get('/list/search/applicants/ajax', [AdAdmissionAppController::class, 'getsrchappList'])->name('getsrchappList');
+            Route::post('/delete/{id}', [AdAdmissionAppController::class, 'applicant_delete'])->name('applicant_delete');
+            Route::post('/schedule/save', [AdAdmissionAppController::class, 'applicant_schedulemod_save'])->name('applicant_schedulemod_save');
+            Route::post('/confirm', [AdAdmissionAppController::class, 'applicant_confirmajax'])->name('applicant_confirmajax');
+
             Route::get('/list/search/edit/srch/{id}', [AdAdmissionController::class, 'applicant_edit_srch'])->name('applicant_edit_srch');
             Route::get('/list/search/edit/{id}', [AdAdmissionController::class, 'applicant_edit'])->name('applicant_edit');
-            Route::post('/applist/encrypt', [ForAllEncryptIDController::class, 'idcrypt'])->name('idcrypt');
+            
             Route::put('/list/search/update/{id}', [AdAdmissionController::class, 'applicant_update'])->name('applicant_update');
             Route::get('/{id}/schedule', [AdAdmissionController::class, 'applicant_schedule'])->name('applicant_schedule');
-            Route::get('/delete/{id}', [AdAdmissionController::class, 'applicant_delete'])->name('applicant_delete');
+            
             Route::get('/{id}/confirm', [AdAdmissionController::class, 'applicant_confirm'])->name('applicant_confirm');
-            Route::post('/confirm', [AdAdmissionController::class, 'applicant_confirmajax'])->name('applicant_confirmajax');
+            
             Route::get('/slots', [AdAdmissionController::class, 'slots'])->name('slots'); 
             Route::get('/slots/search', [AdAdmissionController::class, 'slots_search'])->name('slots_search');
 
@@ -139,7 +150,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::post('/capture/{id}/save', [AdCaptureImageController::class, 'applicant_save_image'])->name('applicant_save_image');
             Route::post('/schedule/{id}/save', [AdAdmissionController::class, 'applicant_schedule_save'])->name('applicant_schedule_save');
-            Route::post('/schedule/save', [AdAdmissionController::class, 'applicant_schedulemod_save'])->name('applicant_schedulemod_save');
+            
         });
 
         Route::prefix('examinee')->group(function () {
