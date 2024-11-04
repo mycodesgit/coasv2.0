@@ -145,22 +145,41 @@ class PortalController extends Controller
             return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Daily registration limit reached!');
         }
             
+        // $campus = $request->input('campus');
+        // $year = Year::where('status', 'On')->value('adyear');
+        // $admissionid = '';
+
+        // $latestApplicant = Applicant::where('campus', $campus)->latest('created_at')->first();
+
+        // if (empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $year) {
+        //     $latestId = 0;
+        // } else {
+        //     $latestId = (int)substr($latestApplicant->admission_id, -4);
+        // }
+
+        // $newId = $latestId + 1;
+        // $paddedValue = str_pad($newId, 4, '0', STR_PAD_LEFT);
+        // $admissionid = $year . $paddedValue;
+
         $campus = $request->input('campus');
-        //$year = Carbon::now()->format('Y');
-        //$year = '2025';
         $year = Year::where('status', 'On')->value('adyear');
-        $admissionid = '';
 
-        $latestApplicant = Applicant::where('campus', $campus)->latest('created_at')->first();
+        // Find the latest applicant for the campus
+        $latestApplicant = Applicant::where('campus', $campus)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->orderByDesc('admission_id')
+            ->first();
 
-        if (empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $year) {
-            $latestId = 0;
+        if (!$latestApplicant) {
+            // No previous admission ID for this campus and year, so start from 1
+            $latestId = 1;
         } else {
-            $latestId = (int)substr($latestApplicant->admission_id, -4);
+            // Extract the numeric part of the last admission ID and increment it
+            $latestId = (int)substr($latestApplicant->admission_id, -4) + 1;
         }
 
-        $newId = $latestId + 1;
-        $paddedValue = str_pad($newId, 4, '0', STR_PAD_LEFT);
+        // Pad the new ID to ensure it has 4 digits and concatenate with the year
+        $paddedValue = str_pad($latestId, 4, '0', STR_PAD_LEFT);
         $admissionid = $year . $paddedValue;
 
         $existingAdID = Applicant::where('admission_id', $admissionid)->where('campus', $campus)->first();
@@ -224,14 +243,25 @@ class PortalController extends Controller
             $docs->b_cert = $request->input('b_cert');
             $docs->h_dismissal = $request->input('h_dismissal');
             $docs->m_cert = $request->input('m_cert');
+            $docs->qstion1 = $request->input('qstion1');
+            $docs->qstion2 = $request->input('qstion2');
+            $docs->typefileproofupload = $request->input('typefileproofupload');
             $docs->created_at = $dt;
-            if ($request->hasFile('doc_image')) {
-                $file = $request->file('doc_image');
+            if ($request->hasFile('studiddoc_image')) {
+                $file = $request->file('studiddoc_image');
                 $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
                 $extension = $file->getClientOriginalExtension();
                 $filenameWithExtension = $filename . '.' . $extension;
-                $path = $file->storeAs('doc_images', $filenameWithExtension, 'public');
-                $docs->doc_image = $path;
+                $path = $file->storeAs('studentIDfolder', $filenameWithExtension, 'public');
+                $docs->studiddoc_image = $path;
+            }
+            if ($request->hasFile('proofdoc_image')) {
+                $file = $request->file('proofdoc_image');
+                $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
+                $extension = $file->getClientOriginalExtension();
+                $filenameWithExtension = $filename . '.' . $extension;
+                $path = $file->storeAs('prooffolder', $filenameWithExtension, 'public');
+                $docs->proofdoc_image = $path;
             }
             $docs->save();
 

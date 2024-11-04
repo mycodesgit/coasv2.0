@@ -220,7 +220,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label>Gender <i style="color: red">*</i></label>
-                                                        <select class="form-control form-control-sm" name="gender">
+                                                        <select class="form-control form-control-sm" name="gender" id="genderSelect">
                                                             <option value="">Select</option>
                                                             <option value="Male" @if (old('gender') == "Male") {{ 'selected' }} @endif>Male</option>
                                                             <option value="Female" @if (old('gender') == "Female") {{ 'selected' }} @endif>Female</option>
@@ -277,6 +277,54 @@
                                                     <div class="col-md-12">
                                                         <label>Your Address</label>
                                                         <input type="text" class="form-control form-control-sm" id="viewdatastudAddress" placeholder="Present Address" name="address" value="{{old('address')}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
+                                                        <label>Are you the first college student in your family? <i style="color: red">*</i></label>
+                                                        <div class="icheck-primary">
+                                                            <input type="radio" id="radioPrimaryQO1" name="qstion1" value="Yes">
+                                                            <label for="radioPrimaryQO1">
+                                                                Yes
+                                                            </label>
+                                                        </div>
+                                                        <div class="icheck-primary">
+                                                            <input type="radio" id="radioPrimaryQO2" name="qstion1" value="No">
+                                                            <label for="radioPrimaryQO2">
+                                                                No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card" id="genderQuestion" style="display: none;">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
+                                                        <label>Are you the first <span id="genderPlaceholder">FEMALE</span> student in your family to study in college? <i style="color: red">*</i></label>
+                                                        <div class="icheck-primary">
+                                                            <input type="radio" id="radioPrimaryQO3" name="qstion2" value="Yes">
+                                                            <label for="radioPrimaryQO3">
+                                                                Yes
+                                                            </label>
+                                                        </div>
+                                                        <div class="icheck-primary">
+                                                            <input type="radio" id="radioPrimaryQO4" name="qstion2" value="No">
+                                                            <label for="radioPrimaryQO4">
+                                                                No
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -475,7 +523,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Upload School ID <i style="color: red">*</i></label>
-                                                        <input type="file" name="doc_image" class="form-control form-control-sm" id="fileInput" accept="image/*">
+                                                        <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*">
                                                     </div>
                                                 </div>
                                             </div>
@@ -490,43 +538,43 @@
                                                         <label>Upload Proof/Evidence of Disadvantage Situation <i style="color: red">*</i></label>
                                                         <div class="form-group clearfix">
                                                             <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary1" name="r1">
+                                                                <input type="radio" id="radioPrimary1" name="typefileproofupload" value="4Ps">
                                                                 <label for="radioPrimary1">
                                                                     4P's: <span style="font-weight: normal;">4Ps ID or Certification from DSWD</span>
                                                                 </label>
                                                             </div>
                                                             <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary2" name="r1">
+                                                                <input type="radio" id="radioPrimary2" name="typefileproofupload" value="IPs">
                                                                 <label for="radioPrimary2">
                                                                     IP's: <span style="font-weight: normal;">Certification from IPMR</span>
                                                                 </label>
                                                             </div>
                                                             <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary3" name="r1">
+                                                                <input type="radio" id="radioPrimary3" name="typefileproofupload" value="PWD">
                                                                 <label for="radioPrimary3">
                                                                     PWD: <span style="font-weight: normal;">PWD ID or Certification from DSWD</span>
                                                                 </label>
                                                             </div>
                                                             <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary4" name="r1">
+                                                                <input type="radio" id="radioPrimary4" name="typefileproofupload" value="Solo Parent">
                                                                 <label for="radioPrimary4">
                                                                     Solo Parent: <span style="font-weight: normal;">Solo Parent ID or Certification from DSWD</span>
                                                                 </label>
                                                             </div>
                                                             <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary5" name="r1">
+                                                                <input type="radio" id="radioPrimary5" name="typefileproofupload" value="Senior Citizen">
                                                                 <label for="radioPrimary5">
                                                                     Senior Citizen: <span style="font-weight: normal;">Senior Citizen ID</span>
                                                                 </label>
                                                             </div>
                                                             <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary6" name="r1">
+                                                                <input type="radio" id="radioPrimary6" name="typefileproofupload" value="Guarduarsnhip">
                                                                 <label for="radioPrimary6">
                                                                     Under Guarduarsnhip: <span style="font-weight: normal;">Certification from DSWD</span>
                                                                 </label>
                                                             </div>
                                                             <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary7" name="r1">
+                                                                <input type="radio" id="radioPrimary7" name="typefileproofupload" value="Low Income">
                                                                 <label for="radioPrimary7">
                                                                     Low Income: <span style="font-weight: normal;">Income Tax Return from BIR</span> <span class="text-danger">(Barangay Indigency Certificate will not honored)</span>
                                                                 </label>
@@ -535,7 +583,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <label>Upload Proof/Evidence of Disadvantage Situation <i style="color: red">*</i></label>
-                                                        <input type="file" name="proof_image" class="form-control form-control-sm" accept="image/*">
+                                                        <input type="file" name="proofdoc_image" class="form-control form-control-sm" accept="image/*">
                                                     </div>
                                                 </div>
                                             </div>
@@ -772,7 +820,20 @@
             $("#alert").delay(4500).fadeOut(5000);
         }, 0); 
     </script> --}}
+    <script>
+        document.getElementById("genderSelect").addEventListener("change", function() {
+            const selectedGender = this.value;
+            const genderPlaceholder = document.getElementById("genderPlaceholder");
+            const genderQuestion = document.getElementById("genderQuestion");
 
+            if (selectedGender === "Female" || selectedGender === "Male") {
+                genderPlaceholder.textContent = selectedGender.toUpperCase(); // Set the gender dynamically
+                genderQuestion.style.display = "block";
+            } else {
+                genderQuestion.style.display = "none"; // Hide the question if no valid gender is selected
+            }
+        });
+    </script>
 
     <script>
         function uploadFile() {

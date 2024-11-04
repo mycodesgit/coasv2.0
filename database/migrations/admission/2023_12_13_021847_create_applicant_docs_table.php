@@ -17,14 +17,18 @@ return new class extends Migration
             $table->id();
             $table->integer('app_id')->nullable();
             $table->string('camp')->nullable();
-            $table->integer('admission_id');
+            $table->integer('admission_id')->unique();
             $table->string('r_card')->nullable();
             $table->string('g_moral')->nullable();
             $table->string('t_record')->nullable();
             $table->string('b_cert')->nullable();
             $table->string('h_dismissal')->nullable();
             $table->string('m_cert')->nullable();
-            $table->string('doc_image')->nullable();
+            $table->string('qstion1')->nullable();
+            $table->string('qstion2')->nullable();
+            $table->string('typefileproofupload')->nullable();
+            $table->string('studiddoc_image')->nullable();
+            $table->string('proofdoc_image')->nullable();
             $table->timestamps();
         });
     }

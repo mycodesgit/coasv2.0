@@ -84,7 +84,7 @@ $(document).ready(function() {
                             dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
-                                '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.doc_image + '">' +
+                                '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
                                 '<i class="fas fa-image"></i> Uploaded Photo' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-assignsched" data-id="' + row.adid + '" data-dateid="' + row.dateID + '" data-dadmission="' + row.d_admission + '" data-time="' + row.time + '" data-venue="' + row.venue + '">' +

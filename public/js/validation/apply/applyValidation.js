@@ -41,6 +41,12 @@ $(function () {
             address: {
                 required: true,
             },
+            qstion1: {
+                required: true,
+            },
+            qstion2: {
+                required: true,
+            },
 
             // Card 2 rules
             type: { 
@@ -119,6 +125,12 @@ $(function () {
             },
             address: {
                 required: "Enter Present Address",
+            },
+            qstion1: {
+                required: "Select Option",
+            },
+            qstion2: {
+                required: "Select Option",
             },
 
             // Card 2 messages

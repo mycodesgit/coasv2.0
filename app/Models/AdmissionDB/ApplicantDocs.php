@@ -20,6 +20,10 @@ class ApplicantDocs extends Model
         'b_cert',
         'h_dismissal',
         'm_cert',
-        'doc_image',
+        'qstion1',
+        'qstion2',
+        'typefileproofupload',
+        'studiddoc_image',
+        'proofdoc_image'
     ];
 }
