@@ -85,8 +85,8 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
-                            dropdown += '<a href="srchexamineeList/edit/srchexam/' + row.adid + '" class="dropdown-item btn-edit" data-id="' + row.adid + '">' +
-                                '<i class="fas fa-eye"></i> View' +
+                            dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
+                                '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-assignresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '">' +
                                 '<i class="fas fa-file-lines"></i> Assign Result' +
@@ -118,6 +118,106 @@ $(document).ready(function() {
     toggleActionColumn();
     $(document).on('examineeUpdate', function() {
         dataTable.ajax.reload();
+    });
+});
+
+$(document).on('click', '.btn-viewappdata', function() {
+    var id = $(this).data('id');
+    var admissionid = $(this).data('admissionid');
+    var type = $(this).data('type');
+    var campus = $(this).data('campus');
+    var fname = $(this).data('fname');
+    var mname = $(this).data('mname');
+    var lname = $(this).data('lname');
+    var ext = $(this).data('ext');
+    var gender = $(this).data('gender');
+    var bday = $(this).data('bday');
+    var civilstat = $(this).data('civilstat');
+    var contact = $(this).data('contact');
+    var email = $(this).data('email');
+    var address = $(this).data('address');
+    var lsa = $(this).data('lsa');
+    var strand = $(this).data('strand');
+    var cula = $(this).data('cula');
+    var culac = $(this).data('culac');
+    var cp1 = $(this).data('cp1');
+    var cp2 = $(this).data('cp2');
+
+    $('#viewdataresultexamId').val(id);
+
+    var typeDisplay;
+    if(type == 1) {
+        typeDisplay = "New";
+    } else if(type == 2) {
+        typeDisplay = "Returnee";
+    } else if(type == 3) {
+        typeDisplay = "Transferee";
+    } else {
+        typeDisplay = "Unknown";
+    }
+
+    $('#viewdataresultexamType').val(typeDisplay);
+
+    var campusDisplay;
+    if(campus == 'MC') {
+        campusDisplay = "Main";
+    } else if(campus == 'VC') {
+        campusDisplay = "Victorias";
+    } else if(campus == 'SCC') {
+        campusDisplay = "San Carlos";
+    } else if(campus == 'HC') {
+        campusDisplay = "Hinigaran";
+    } else if(campus == 'MP') {
+        campusDisplay = "Moises Padilla";
+    } else if(campus == 'IC') {
+        campusDisplay = "Ilog";
+    } else if(campus == 'CA') {
+        campusDisplay = "Candoni";
+    } else if(campus == 'CC') {
+        campusDisplay = "Cauayan";
+    } else if(campus == 'SC') {
+        campusDisplay = "Sipalay";
+    } else if(campus == 'HinC') {
+        campusDisplay = "Hinobaan";
+    } else {
+        campusDisplay = "Unknown";
+    }
+
+    $('#viewdataresultexamCampus').val(campusDisplay);
+    $('#viewdataresultexamAdID').val(admissionid);
+    $('#viewdataresultexamFname').val(fname);
+    $('#viewdataresultexamMname').val(mname);
+    $('#viewdataresultexamLname').val(lname);
+    $('#viewdataresultexamExt').val(ext);
+    $('#viewdataresultexamGender').val(gender);
+    $('#viewdataresultexamBday').val(bday);
+    $('#viewdataresultexamcvilstat').val(civilstat);
+    $('#viewdataresultexamMobile').val(contact);
+    $('#viewdataresultexamEmail').val(email);
+    $('#viewdataresultexamAddress').val(address);
+    $('#viewdataresultexamLSA').val(lsa);
+    $('#viewdataresultexamStrand').val(strand);
+    $('#viewdataresultexamCUla').val(cula);
+    $('#viewdataresultexamCUlac').val(culac);
+    $('#viewdataresultexamCP1').val(cp1);
+    $('#viewdataresultexamCP2').val(cp2);
+
+    $('#viewdataresultexamModal').modal('show');
+    
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#viewdataresultexamId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#viewdataresultexamId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
     });
 });
 
@@ -227,11 +327,13 @@ $('#pushtoresultForm').submit(function(event) {
 
 $(document).on('click', '.examinee-delete', function(e){
     var id = $(this).val();
+    alert(id);
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
+        }
     });
+    
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to recover this!",
@@ -240,24 +342,32 @@ $(document).on('click', '.examinee-delete', function(e){
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                type: "GET",
-                url: allAppDeleteRoute,
-                    success: function (response) {  
-                    $("#tr-"+id).delay(1000).fadeOut();
+                type: "POST",
+                url: allExamDeleteRoute.replace(':id', id),
+                success: function (response) {  
+                    $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({
-                        title:'Deleted!',
-                        text:'Successfully Deleted!',
+                        title: 'Deleted!',
+                        text: 'Successfully Deleted!',
                         icon: 'success',
                         showConfirmButton: false,
                         timer: 1000
-                    })
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Something went wrong. Please try again later.',
+                        icon: 'error'
+                    });
+                    console.error("Error:", error);
                 }
             });
         }
-    })
+    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {

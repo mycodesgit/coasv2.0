@@ -24,7 +24,7 @@ CISS v.1.0 || Examinee Results
         </ol>
 
         <div class="page-header">
-            <form method="GET" action="{{ route('srchexamineeResultList') }}">
+            <form method="GET" action="{{ route('resultlist_search') }}">
                 {{ csrf_field() }}
 
                 <div class="custom-container">
@@ -32,7 +32,11 @@ CISS v.1.0 || Examinee Results
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
+                                <select class="form-control form-control-sm" id="year" name="year">
+                                    @foreach($curryear as $datacurryear)
+                                        <option>{{ $datacurryear->adyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-2">

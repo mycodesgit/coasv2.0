@@ -24,7 +24,7 @@ CISS v.1.0 || Examinee Search List Result
         </ol>
 
         <div class="page-header">
-            <form method="GET" action="{{ route('srchexamineeResultList') }}">
+            <form method="GET" action="{{ route('resultlist_search') }}">
                 {{ csrf_field() }}
 
                 <div class="custom-container">
@@ -32,7 +32,11 @@ CISS v.1.0 || Examinee Search List Result
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
+                                <select class="form-control form-control-sm" id="year" name="year">
+                                    @foreach($curryear as $datacurryear)
+                                        <option>{{ $datacurryear->adyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-2">
@@ -127,7 +131,7 @@ CISS v.1.0 || Examinee Search List Result
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewdataresultexamModalLabel">View Examinee Data</h5>
+                <h5 class="modal-title" id="viewdataresultexamModalLabel">View Applicant Data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -142,27 +146,27 @@ CISS v.1.0 || Examinee Search List Result
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Admission ID</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamAdID" readonly>
+                                <input type="text" class="form-control form-control-sm" name="admission_id" id="viewdataresultexamAdID" readonly>
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Admission Type</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamType" readonly>
+                                <input type="text" class="form-control form-control-sm" name="type" id="viewdataresultexamType" readonly>
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Preffered Campus</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamCampus" readonly>
+                                <input type="text" class="form-control form-control-sm" name="campus" id="viewdataresultexamCampus" readonly>
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Firstname</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamFname" readonly>
+                                <input type="text" class="form-control form-control-sm" name="fname" id="viewdataresultexamFname">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Middlename</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamMname" readonly>
+                                <input type="text" name="mname" class="form-control form-control-sm" id="viewdataresultexamMname">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Lastname</span></label>
-                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamLname" readonly>
+                                <input type="text" name="lname" class="form-control form-control-sm" id="viewdataresultexamLname">
                             </div>
                         </div>
                     </div>
@@ -171,19 +175,36 @@ CISS v.1.0 || Examinee Search List Result
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Ext.</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamExt" readonly>
+                                <select class="form-control form-control-sm" name="ext" id="viewdataresultexamExt">
+                                    <option>N/A</option>
+                                    <option value="Jr." @if (old('ext') == "Jr.") {{ 'selected' }} @endif>Jr.</option>
+                                    <option value="Sr." @if (old('ext') == "Sr.") {{ 'selected' }} @endif>Sr.</option>
+                                    <option value="III" @if (old('ext') == "III") {{ 'selected' }} @endif>III</option>
+                                    <option value="IV" @if (old('ext') == "IV") {{ 'selected' }} @endif>IV</option>
+                                </select>
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Gender</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamGender" readonly>
+                                <select class="form-control form-control-sm" name="gender" id="viewdataresultexamGender">
+                                    <option value="">Select</option>
+                                    <option value="Male" @if (old('gender') == "Male") {{ 'selected' }} @endif>Male</option>
+                                    <option value="Female" @if (old('gender') == "Female") {{ 'selected' }} @endif>Female</option>
+                                </select>
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Birthday</span></label>
                                 <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamBday" readonly>
                             </div>
                             <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Age</span></label>
-                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamAge" readonly>
+                                <label><span class="badge badge-secondary">Civil Status</span></label>
+                                <select class="form-control form-control-sm" name="civil_status" id="viewdataresultexamcvilstat">
+                                    <option disabled selected>Select</option>
+                                    <option value="Single" @if (old('civil_status') == "Single") {{ 'selected' }} @endif>Single</option>
+                                    <option value="Married" @if (old('civil_status') == "Married") {{ 'selected' }} @endif>Married</option>
+                                    <option value="Divorced" @if (old('civil_status') == "Divorced") {{ 'selected' }} @endif>Divorced</option>
+                                    <option value="Widowed" @if (old('civil_status') == "Widowed") {{ 'selected' }} @endif>Widowed</option>
+                                    <option value="Separated" @if (old('civil_status') == "Separated") {{ 'selected' }} @endif>Separated</option>
+                                </select>
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Mobile</span></label>

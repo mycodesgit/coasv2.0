@@ -20,13 +20,15 @@ use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\AdmissionDate;
 use App\Models\AdmissionDB\Time;
 use App\Models\AdmissionDB\Venue;
+use App\Models\AdmissionDB\Year;
 
 class AdExamineeController extends Controller
 {
     public function examinee_list()
     {
         $strand = Strands::all();
-        return view('admission.examinee.list', compact('strand'));
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        return view('admission.examinee.list', compact('strand', 'curryear'));
     }
 
     public function srchexamineeList(Request $request)
@@ -36,7 +38,9 @@ class AdExamineeController extends Controller
         $campus = $request->query('campus');
         $strand = Strands::all();
 
-        return view('admission.examinee.list-search', compact('strand'));
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+
+        return view('admission.examinee.list-search', compact('strand', 'curryear'));
     }
 
     public function getsrchexamineeList(Request $request)
@@ -59,6 +63,102 @@ class AdExamineeController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    public function examinee_resultmod_save(Request $request) 
+    {   
+        $request->validate([
+            'id' => 'required',
+            'raw_score' => 'required|numeric',
+            'percentile' => 'required',
+        ]);
+
+        try {
+            $decryptedId = Crypt::decrypt($request->input('id'));
+            $appresult = ExamineeResult::where('app_id', $decryptedId)->first();
+            $appresult->update([
+                'raw_score' => $request->input('raw_score'),
+                'percentile' => $request->input('percentile'),
+                'qualifier' => $request->input('qualifier'),
+            ]);
+            return response()->json(['success' => true, 'message' => 'Examinee Result has been saved'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to assign result!'], 404);
+        }
+    }
+
+    public function examinee_confirmajax(Request $request) 
+    {
+        $decryptedId = Crypt::decrypt($request->input('id'));
+        
+        $applicantsWithoutResult = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+            ->where('ad_applicant_admission.p_status', 2)
+            ->where('ad_applicant_admission.id', $decryptedId)
+            ->where(function ($query) {
+                $query->whereNull('ad_examinee_result.raw_score')
+                    ->whereNull('ad_examinee_result.percentile');
+            })
+            ->exists();
+
+        if ($applicantsWithoutResult) {
+            return response()->json(['error' => true, 'message' => 'Please assign result before pushing to examination results list.'], 422);
+        }
+        
+        $affectedRows = Applicant::where('p_status', 2)
+            ->where('id', $decryptedId)
+            ->update(['p_status' => 3]);
+
+        if ($affectedRows > 0) {
+            return response()->json(['success' => true, 'message' => 'Examinee has been pushed to Examination Results'], 200);
+        } else {
+            return response()->json(['error' => true, 'message' => 'No applicant found with the provided ID or the applicant already has a result assigned.'], 422);
+        }
+    }
+
+    public function result_list()
+    {
+        $strand = Strands::all();
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        return view('admission.examinee.result', compact('strand', 'curryear'));
+    }
+
+    public function resultlist_search(Request $request)
+    {
+        $strand = Strands::all();
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        return view('admission.examinee.result-search', compact('strand', 'curryear'));
+    }
+
+    public function getsrchexamineeResultList(Request $request)
+    {   
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+        $strand =$request->query('strand');
+
+        $query = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_examinee_result.*')
+                        ->where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
+                        ->where('p_status', '=', 3);
+        
+        if ($strand) {
+            $query->where('ad_applicant_admission.strand', $strand);
+        }
+
+        $data = $query->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     // public function srchexamineeList(Request $request)
     // {
@@ -185,27 +285,7 @@ class AdExamineeController extends Controller
         }
     }
 
-    public function examinee_resultmod_save(Request $request) 
-    {   
-        $request->validate([
-            'id' => 'required',
-            'raw_score' => 'required|numeric',
-            'percentile' => 'required',
-        ]);
-
-        try {
-            $decryptedId = Crypt::decrypt($request->input('id'));
-            $appresult = ExamineeResult::where('app_id', $decryptedId)->first();
-            $appresult->update([
-                'raw_score' => $request->input('raw_score'),
-                'percentile' => $request->input('percentile'),
-                'qualifier' => $request->input('qualifier'),
-            ]);
-            return response()->json(['success' => true, 'message' => 'Examinee Result has been saved'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => true, 'message' => 'Failed to assign result!'], 404);
-        }
-    }
+    
 
     public function examinee_result_save_nd(Request $request, $id)
     {
@@ -233,33 +313,7 @@ class AdExamineeController extends Controller
         }
     }
 
-    public function examinee_confirmajax(Request $request) 
-    {
-        $decryptedId = Crypt::decrypt($request->input('id'));
-        
-        $applicantsWithoutResult = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
-            ->where('ad_applicant_admission.p_status', 2)
-            ->where('ad_applicant_admission.id', $decryptedId)
-            ->where(function ($query) {
-                $query->whereNull('ad_examinee_result.raw_score')
-                    ->whereNull('ad_examinee_result.percentile');
-            })
-            ->exists();
-
-        if ($applicantsWithoutResult) {
-            return response()->json(['error' => true, 'message' => 'Please assign result before pushing to examination results list.'], 422);
-        }
-        
-        $affectedRows = Applicant::where('p_status', 2)
-            ->where('id', $decryptedId)
-            ->update(['p_status' => 3]);
-
-        if ($affectedRows > 0) {
-            return response()->json(['success' => true, 'message' => 'Examinee has been pushed to Examination Results'], 200);
-        } else {
-            return response()->json(['error' => true, 'message' => 'No applicant found with the provided ID or the applicant already has a result assigned.'], 422);
-        }
-    }
+    
 
 
     public function examinee_confirm($id)
@@ -279,38 +333,11 @@ class AdExamineeController extends Controller
         }
     }
 
-    public function result_list()
-    {
-        $strand = Strands::all();
-        return view('admission.examinee.result', compact('strand'));
-    }
+    
 
-    public function srchexamineeResultList(Request $request)
-    {
-        $strand = Strands::all();
-        return view('admission.examinee.result-search', compact('strand'));
-    }
+    
 
-    public function getsrchexamineeResultList(Request $request)
-    {   
-        $year = $request->query('year');
-        $campus = $request->query('campus');
-        $strand =$request->query('strand');
-
-        $query = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
-                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_examinee_result.*')
-                        ->where('ad_applicant_admission.year', $year)
-                        ->where('ad_applicant_admission.campus', $campus)
-                        ->where('p_status', '=', 3);
-        
-        if ($strand) {
-            $query->where('ad_applicant_admission.strand', $strand);
-        }
-
-        $data = $query->get();
-
-        return response()->json(['data' => $data]);
-    }
+    
 
     public function confirmResult($id)
     {

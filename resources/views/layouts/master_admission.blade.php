@@ -284,7 +284,7 @@
     @if(request()->routeIs('examinee_edit'))
         <script src="{{ asset('js/ajax/examineeajax/examAssignRateSerialize.js') }}"></script>
     @endif
-    @if(request()->routeIs('srchexamineeResultList'))
+    @if(request()->routeIs('resultlist_search'))
         <script src="{{ asset('js/ajax/examresult/exresultSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('srchconfirmList'))
@@ -319,7 +319,9 @@
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-    <script src="{{ asset('js/validation/apply/applyValidation.js') }}"></script>
+    @if(request()->routeIs('applicant-add'))
+        <script src="{{ asset('js/validation/apply/applyValidation.js') }}"></script>
+    @endif
     <script src="{{ asset('js/validation/applicant/applicantValidation.js') }}"></script>
     <script src="{{ asset('js/validation/configureAd/progCon.js') }}"></script>
     <script src="{{ asset('js/validation/configureAd/strandCon.js') }}"></script>

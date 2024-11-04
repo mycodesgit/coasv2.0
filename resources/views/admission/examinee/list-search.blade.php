@@ -32,7 +32,11 @@ CISS v.1.0 || Examinee Search List
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
+                                <select class="form-control form-control-sm" id="year" name="year">
+                                    @foreach($curryear as $datacurryear)
+                                        <option>{{ $datacurryear->adyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-2">
@@ -118,6 +122,166 @@ CISS v.1.0 || Examinee Search List
     </div>
 </div>
 
+<div class="modal fade" id="viewdataresultexamModal" role="dialog" aria-labelledby="viewdataresultexamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewdataresultexamModalLabel">View Applicant Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="">
+                <div class="modal-body">
+                    <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
+                        <h4>Applicant Information</h4>
+                    </div>
+                    <input type="hidden" name="id" id="viewdataresultexamId">
+                    <div class="form-group mt-3">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Admission ID</span></label>
+                                <input type="text" class="form-control form-control-sm" name="admission_id" id="viewdataresultexamAdID" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Admission Type</span></label>
+                                <input type="text" class="form-control form-control-sm" name="type" id="viewdataresultexamType" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Preffered Campus</span></label>
+                                <input type="text" class="form-control form-control-sm" name="campus" id="viewdataresultexamCampus" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Firstname</span></label>
+                                <input type="text" class="form-control form-control-sm" name="fname" id="viewdataresultexamFname">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Middlename</span></label>
+                                <input type="text" name="mname" class="form-control form-control-sm" id="viewdataresultexamMname">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Lastname</span></label>
+                                <input type="text" name="lname" class="form-control form-control-sm" id="viewdataresultexamLname">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Ext.</span></label>
+                                <select class="form-control form-control-sm" name="ext" id="viewdataresultexamExt">
+                                    <option>N/A</option>
+                                    <option value="Jr." @if (old('ext') == "Jr.") {{ 'selected' }} @endif>Jr.</option>
+                                    <option value="Sr." @if (old('ext') == "Sr.") {{ 'selected' }} @endif>Sr.</option>
+                                    <option value="III" @if (old('ext') == "III") {{ 'selected' }} @endif>III</option>
+                                    <option value="IV" @if (old('ext') == "IV") {{ 'selected' }} @endif>IV</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Gender</span></label>
+                                <select class="form-control form-control-sm" name="gender" id="viewdataresultexamGender">
+                                    <option value="">Select</option>
+                                    <option value="Male" @if (old('gender') == "Male") {{ 'selected' }} @endif>Male</option>
+                                    <option value="Female" @if (old('gender') == "Female") {{ 'selected' }} @endif>Female</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Birthday</span></label>
+                                <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamBday" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Civil Status</span></label>
+                                <select class="form-control form-control-sm" name="civil_status" id="viewdataresultexamcvilstat">
+                                    <option disabled selected>Select</option>
+                                    <option value="Single" @if (old('civil_status') == "Single") {{ 'selected' }} @endif>Single</option>
+                                    <option value="Married" @if (old('civil_status') == "Married") {{ 'selected' }} @endif>Married</option>
+                                    <option value="Divorced" @if (old('civil_status') == "Divorced") {{ 'selected' }} @endif>Divorced</option>
+                                    <option value="Widowed" @if (old('civil_status') == "Widowed") {{ 'selected' }} @endif>Widowed</option>
+                                    <option value="Separated" @if (old('civil_status') == "Separated") {{ 'selected' }} @endif>Separated</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Mobile</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamMobile" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Email Address</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamEmail" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Address</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamAddress" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>For New Student <span style="font-size: 12pt;color:#ff0000;">(Input for New Applicant only)</span></h4>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Last School Attended</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamLSA" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Strand</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamStrand" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>For Transferee <span style="font-size: 12pt;color:#ff0000;">(Input for Transferees only)</span></h4>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">College/University last attended</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCUla" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Course</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCUlac" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <h4>Course Preference</h4>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Course Preference 1</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCP1" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><span class="badge badge-secondary">Course Preference 1</span></label>
+                                <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCP2" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="assignresultexamModal" role="dialog" aria-labelledby="assignresultexamModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
@@ -130,7 +294,7 @@ CISS v.1.0 || Examinee Search List
             </div>
             <form id="admissionAssignResult">
                 <div class="modal-body">
-                    <input type="hidden" name="id" id="assignresultexamId">
+                    <input type="text" name="id" id="assignresultexamId">
                     <div class="form-group">
                         <div class="col-md-12">
                             <label><span class="badge badge-secondary">Raw Score</span></label>

@@ -5,7 +5,7 @@
     $appAddActive = in_array($curr_route, ['applicant-add']) ? 'active' : '';
     $appListActive = in_array($curr_route, ['applicant-list', 'srchappList', 'applicant_edit']) ? 'active' : '';
     $examineeListActive = in_array($curr_route, ['examinee-list', 'srchexamineeList', 'examinee_edit']) ? 'active' : '';
-    $resultListActive = in_array($curr_route, ['result-list', 'srchexamineeResultList', 'assignresult', 'confirmResult']) ? 'active' : '';
+    $resultListActive = in_array($curr_route, ['result-list', 'resultlist_search', 'assignresult', 'confirmResult']) ? 'active' : '';
     $confirmAppListActive = in_array($curr_route, ['examinee-confirm', 'srchconfirmList', 'accept', 'deptInterview', 'pre_enrolment_print']) ? 'active' : '';
     $acceptedAppListActive = in_array($curr_route, ['applicant-accepted', 'srchacceptedList', 'accepted_push_enroll_applicant']) ? 'active' : '';
     $acceptedAppListAllActive = in_array($curr_route, ['applicant-acceptedall', 'srchacceptedListAll']) ? 'active' : '';
@@ -33,7 +33,7 @@
     <ul class="list-group mt-1">
         @if(in_array(Auth::user()->role, [0, 1, 2]))
             <a href="{{ route('applicant-add') }}" class="list-group-item {{ $appAddActive }}">Add Applicants</a>
-            <a href="{{ route('applicant-list') }}" class="list-group-item {{ $appListActive }}">Applicants</a>  
+            <a href="{{ route('applicant-list') }}" class="list-group-item {{ $appListActive }}">List of Applicants</a>  
             <a href="{{ route('examinee-list') }}" class="list-group-item {{ $examineeListActive }}">List of Examinees</a>
             <a href="{{ route('result-list') }}" class="list-group-item {{ $resultListActive }}">Examination Results</a>
         @endif

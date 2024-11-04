@@ -16,6 +16,7 @@ use App\Models\AdmissionDB\DeptRating;
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\ExamineeResult;
+use App\Models\AdmissionDB\Year;
 
 use App\Models\EnrollmentDB\Student;
 
@@ -25,7 +26,8 @@ class AdConfirmController extends Controller
     public function examinee_confirm()
     {
         $strand = Strands::all();
-        return view('admission.conapp.list', compact('strand'));
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        return view('admission.conapp.list', compact('strand', 'curryear'));
     }
 
     public function srchconfirmList(Request $request)
@@ -38,8 +40,9 @@ class AdConfirmController extends Controller
             ->orWhere('code', $preference_2)
             ->orderBy('id', 'asc')
             ->get();
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
 
-        return view('admission.conapp.list-search', compact('strand', 'program'));
+        return view('admission.conapp.list-search', compact('strand', 'program', 'curryear'));
     }
 
     public function getsrchconfirmList(Request $request)

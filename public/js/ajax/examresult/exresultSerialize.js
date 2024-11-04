@@ -86,7 +86,7 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
-                            dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-age="' + row.age + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
+                            dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
                                 '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
@@ -138,8 +138,8 @@ $(document).on('click', '.btn-viewappdata', function() {
     var ext = $(this).data('ext');
     var gender = $(this).data('gender');
     var bday = $(this).data('bday');
-    var age = $(this).data('age');
-    var contact = $(this).data('gender');
+    var civilstat = $(this).data('civilstat');
+    var contact = $(this).data('contact');
     var email = $(this).data('email');
     var address = $(this).data('address');
     var lsa = $(this).data('lsa');
@@ -197,7 +197,7 @@ $(document).on('click', '.btn-viewappdata', function() {
     $('#viewdataresultexamExt').val(ext);
     $('#viewdataresultexamGender').val(gender);
     $('#viewdataresultexamBday').val(bday);
-    $('#viewdataresultexamAge').val(age);
+    $('#viewdataresultexamcvilstat').val(civilstat);
     $('#viewdataresultexamMobile').val(contact);
     $('#viewdataresultexamEmail').val(email);
     $('#viewdataresultexamAddress').val(address);
