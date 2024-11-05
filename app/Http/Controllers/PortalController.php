@@ -135,7 +135,7 @@ class PortalController extends Controller
                 return Redirect::route('admission-apply')
                     ->withErrors($validator)
                     ->withInput()
-                    ->with('fail', 'Error in saving applicant data. Please check the inputs!');
+                    ->with('fail', 'Error in saving applicant data. Your Email already exist. Please check the inputs!');
             }
         }
 

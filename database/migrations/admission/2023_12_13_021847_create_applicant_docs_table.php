@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('app_id')->nullable();
             $table->string('camp')->nullable();
-            $table->integer('admission_id')->unique();
+            $table->integer('admission_id')->nullable();
             $table->string('r_card')->nullable();
             $table->string('g_moral')->nullable();
             $table->string('t_record')->nullable();
