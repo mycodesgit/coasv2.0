@@ -372,9 +372,20 @@ CISS V.1.0 || Applicant Search List
                 <div class="modal-body">
                     <input type="hidden" name="id" id="editUploadPhotoProofId">
                     <div class="form-group">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; font-size: 13pt;"><i>Selected Proof/Evidence of Disadvantage Situation: </i>
+                                        <input type="text" id="uploadedTypeProof" style="border: none; background-color: #fff !important; text-align: left; text-decoration: underline;" class="text-bold" readonly>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="form-group">
                         <input type="hidden" id="editUploadPhotoProofDoc" class="form-control form-control-sm" >
                         <img id="uploadedPhotoProof" class="img-square" width="90%" src="" alt="Image">
-                        <p id="noDocumentText" style="text-align: center;" class="big-text">No document uploaded</p>
+                        <p id="noDocumentTextProof" style="text-align: center;" class="big-text">No document uploaded</p>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -87,7 +87,7 @@ $(document).ready(function() {
                                 '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
                                 '<i class="fas fa-image"></i> School ID' +
                                 '</a>' +
-                                '<a href="#" class="dropdown-item btn-imageproof" data-id="' + row.adid + '" data-imageproof="' + row.proofdoc_image + '">' +
+                                '<a href="#" class="dropdown-item btn-imageproof" data-id="' + row.adid + '" data-imageproof="' + row.proofdoc_image + '" data-proof="' + row.typefileproofupload + '">' +
                                 '<i class="fas fa-image"></i> Proof/Evidence' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-assignsched" data-id="' + row.adid + '" data-dateid="' + row.dateID + '" data-dadmission="' + row.d_admission + '" data-time="' + row.time + '" data-venue="' + row.venue + '">' +
@@ -262,9 +262,11 @@ $(document).on('click', '.btn-image', function() {
 $(document).on('click', '.btn-imageproof', function() {
     var id = $(this).data('id');
     var imageproof = $(this).data('imageproof');
+    var typeproof = $(this).data('proof');
     
     $('#editUploadPhotoProofId').val(id);
     $('#editUploadPhotoProofDoc').val(imageproof);
+    $('#uploadedTypeProof').val(typeproof);
 
     if (imageproof) {
         $('#uploadedPhotoProof').attr('src', photoStorage + "/" + imageproof).show();
