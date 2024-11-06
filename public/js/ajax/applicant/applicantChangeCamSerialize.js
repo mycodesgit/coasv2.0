@@ -10,6 +10,10 @@ $(document).ready(function() {
     var campus = urlParams.get('campus') || ''; 
     var strand = urlParams.get('strand') || ''; 
 
+    if ($.fn.DataTable.isDataTable('#applistChangeTable')) {
+        $('#applistChangeTable').DataTable().destroy();
+    }
+
     var dataTable = $('#applistChangeTable').DataTable({
         "ajax": {
             "url": allApplicantchngecampRoute,
