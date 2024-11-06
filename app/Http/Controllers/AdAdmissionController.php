@@ -538,11 +538,11 @@ class AdAdmissionController extends Controller
 
     public function configure_admissionvenueajax()
     {
-        $currentYear = now()->year;
+        $currentYear = Year::where('status', 'On')->value('adyear');
 
         $venue = Venue::orderBy('id', 'asc')
             ->where('campus', Auth::user()->campus)
-            ->whereYear('created_at', $currentYear)
+            ->where('adyear', $currentYear)
             ->get();
 
         return response()->json([
