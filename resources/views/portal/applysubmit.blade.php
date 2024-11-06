@@ -76,7 +76,7 @@
                                 <div class="card-body">
                                     <h6 class="card-title text-dark">
                                         <h1 class="text-success"><strong>Thank you</strong><br><br></h1>
-                                        <h3>Your <strong>Application</strong> was submit successfully!</h3>
+                                        <h3>Your <strong>Application</strong> was submitted successfully!</h3>
                                         <h5>Please check your email for a copy of your application.</h5>
                                     </h6>
                                 </div>
