@@ -359,6 +359,32 @@ CISS V.1.0 || Applicant Search List
     </div>
 </div>
 
+<div class="modal fade" id="editUploadPhotoProofModal" role="dialog" aria-labelledby="editUploadPhotoProofModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUploadPhotoProofModalLabel">Uploaded Photo/Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editUploadPhotoProofId">
+                    <div class="form-group">
+                        <input type="hidden" id="editUploadPhotoProofDoc" class="form-control form-control-sm" >
+                        <img id="uploadedPhotoProof" class="img-square" width="90%" src="" alt="Image">
+                        <p id="noDocumentText" style="text-align: center;" class="big-text">No document uploaded</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="editAssignSchedModal" role="dialog" aria-labelledby="editAssignSchedModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

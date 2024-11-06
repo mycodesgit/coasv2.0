@@ -85,7 +85,10 @@ $(document).ready(function() {
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
-                                '<i class="fas fa-image"></i> Uploaded Photo' +
+                                '<i class="fas fa-image"></i> School ID' +
+                                '</a>' +
+                                '<a href="#" class="dropdown-item btn-imageproof" data-id="' + row.adid + '" data-imageproof="' + row.proofdoc_image + '">' +
+                                '<i class="fas fa-image"></i> Proof/Evidence' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-assignsched" data-id="' + row.adid + '" data-dateid="' + row.dateID + '" data-dadmission="' + row.d_admission + '" data-time="' + row.time + '" data-venue="' + row.venue + '">' +
                                 '<i class="fas fa-calendar"></i> Schedule' +
@@ -249,6 +252,42 @@ $(document).on('click', '.btn-image', function() {
         success: function(response) {
             //alert(response); 
             $('#editUploadPhotoId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
+    });
+});
+
+$(document).on('click', '.btn-imageproof', function() {
+    var id = $(this).data('id');
+    var imageproof = $(this).data('imageproof');
+    
+    $('#editUploadPhotoProofId').val(id);
+    $('#editUploadPhotoProofDoc').val(imageproof);
+
+    if (imageproof) {
+        $('#uploadedPhotoProof').attr('src', photoStorage + "/" + imageproof).show();
+        $('#uploadedPhotoProof').removeAttr('alt');
+        $('#noDocumentTextProof').hide();
+    } else {
+        $('#uploadedPhotoProof').attr('src', '').hide();
+        $('#noDocumentTextProof').show();
+        $('#noDocumentTextProof').css('font-size', '58px');
+    }
+
+    $('#editUploadPhotoProofModal').modal('show');
+
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#editUploadPhotoProofId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editUploadPhotoProofId').val(response)
         },
         error: function(xhr, status, error) {
             alert('Error: ' + error); 
