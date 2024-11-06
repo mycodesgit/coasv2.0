@@ -102,8 +102,8 @@ class PortalController extends Controller
         $validator = Validator::make($request->all(), [
             'type' => 'required',
             'campus' => 'required',
-            'lastname' => 'required|unique:ad_applicant_admission,lname|max:191',
-            'firstname' => 'required|unique:ad_applicant_admission,fname|max:191',
+            'lastname' => 'required',
+            'firstname' => 'required',
             'email' => 'required|unique:ad_applicant_admission,email|max:191',
             'gender' => 'required',
             'age' => 'required',
