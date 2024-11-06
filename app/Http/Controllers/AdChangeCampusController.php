@@ -21,13 +21,18 @@ use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\AdmissionDate;
 use App\Models\AdmissionDB\Time;
 use App\Models\AdmissionDB\Venue;
+use App\Models\AdmissionDB\Year;
+
 
 class AdChangeCampusController extends Controller
 {
     public function alllistappRead()
     {
         $strand = Strands::all();
-        return view('admission.configure.changecmp', compact('strand'));
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
+
+        return view('admission.configure.changecmp', compact('strand', 'curryear'));
     }
 
     public function alllistappRead_search(Request $request)

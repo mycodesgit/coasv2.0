@@ -441,7 +441,9 @@ class AdAdmissionController extends Controller
     
     public function slots()
     {
-        return view('admission.applicant.slots');
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
+        return view('admission.applicant.slots', compact('curryear'));
     }
 
     public function slots_search(Request $request)
@@ -450,6 +452,9 @@ class AdAdmissionController extends Controller
 
         $selectedYear = $request->input('date');
 
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
+
         $dateAd = DB::table('ad_time')
                 ->select('date', 'campus', DB::raw('count(*) as total'))
                 ->whereYear('date', $selectedYear)
@@ -457,7 +462,10 @@ class AdAdmissionController extends Controller
                 ->groupBy('date', 'campus')
                 ->get();
         $totalSearchResults = count($dateAd);
-        return view('admission.applicant.slot_search', compact('dateAd', 'admissionid', 'totalSearchResults'));
+
+        
+
+        return view('admission.applicant.slot_search', compact('dateAd', 'admissionid', 'totalSearchResults', 'curryear'));
     }
 
     public function configure_admission()

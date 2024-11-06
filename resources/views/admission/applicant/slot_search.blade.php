@@ -40,7 +40,11 @@ use App\Models\AdmissionDB\AdmissionDate;
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
+                                <select class="form-control form-control-sm" id="year" name="date">
+                                    @foreach($curryear as $datacurryear)
+                                        <option>{{ $datacurryear->adyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-2">
