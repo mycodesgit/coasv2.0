@@ -222,6 +222,7 @@ class PortalController extends Controller
         $applicant->course = $request->input('course');
         $applicant->preference_1 = $request->input('preference_1');
         $applicant->preference_2 = $request->input('preference_2');
+        $applicant->dateID = $request->input('dateID');
         $applicant->d_admission = $request->input('d_admission');
         $applicant->time = $request->input('time');
         $dt = Carbon::now();  

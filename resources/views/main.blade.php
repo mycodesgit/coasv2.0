@@ -65,7 +65,7 @@
                         <p class="login-box-msg text-light">Select Transaction</p>
 
                         <div>
-                            <a href="{{ route('admission-apply') }}" class="btn btn-warning btn-block text-bold">Apply</a>
+                            <a href="{{ route('admission-portal') }}" class="btn btn-warning btn-block text-bold">Apply</a>
                             <a href="" class="btn btn-warning btn-block text-bold disabled">Student</a>
                             <a href="{{ route('login') }}" class="btn btn-warning btn-block text-bold">Employee</a>
                         </div>

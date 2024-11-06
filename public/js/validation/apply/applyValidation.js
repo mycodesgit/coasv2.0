@@ -55,6 +55,9 @@ $(function () {
             campus: { 
                 required: true 
             },
+            d_admissionselect: {
+                required: true
+            },
             lstsch_attended: {
                 required: true
             },
@@ -79,7 +82,13 @@ $(function () {
             monthly_income: {
                 required: true,
             },
-            doc_image: {
+            studiddoc_image: {
+                required: true,
+            },
+            typefileproofupload: {
+                required: true,
+            },
+            proofdoc_image: {
                 required: true,
             },
             email: {
@@ -115,7 +124,7 @@ $(function () {
                 required: "Select Status",
             },
             religion: {
-                required: "Select Religion",
+                required: "Enter Religion",
             },
             brgy: {
                 required: "Enter Barangay",
@@ -140,6 +149,9 @@ $(function () {
             campus: { 
                 required: "Select Preferred Campus" 
             },
+            d_admissionselect: {
+                required: "Select Schedule of Examination"
+            },
             lstsch_attended: {
                 required: "Enter Last School Attended",
             },
@@ -163,7 +175,13 @@ $(function () {
             monthly_income: {
                 required: "Enter Parent's Monthly Income",
             },
-            doc_image: {
+            studiddoc_image: {
+                required: "Upload one image from the requirements",
+            },
+            typefileproofupload: {
+                required: "Select Proof/Evidence of Disadvantage Situation",
+            },
+            proofdoc_image: {
                 required: "Upload one image from the requirements",
             },
             email: {

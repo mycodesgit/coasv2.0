@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="carousel-item">
                                         <p class="lead" alt="Second slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Second slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="Second slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
                                         <p class="lead" alt="Third slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
@@ -57,7 +57,7 @@
 
                     <div class="col-md-5 pr-4 pl-4 pt-2 pb-2" style="background-color: #04401f; border-radius: 5px;">
                         <div class="login-logo mt-2">
-                            <a href="{{ route('main') }}">
+                            <a href="">
                                 <img src="{{ asset('template/img/cpsulogo.png') }}" class="img-circle" width="100px" height="100px">
                             </a>
                             
@@ -65,11 +65,8 @@
                         <p class="login-box-msg text-light">Select Transaction</p>
 
                         <div>
-                            <a href="" class="btn btn-warning btn-block text-bold disabled">Application</a>
+                            <a href="{{ route('admission-apply') }}" class="btn btn-warning btn-block text-bold">Apply Admission</a>
                             <a href="{{ route('admission_track') }}" class="btn btn-warning btn-block text-bold">Track Admission</a>
-                            <a href="http://localhost/cpsulms-app/public/" class="btn btn-warning btn-block text-bold">Student Portal</a>
-                            {{-- <a href="" class="btn btn-warning btn-block text-bold">CPSU e-LMS</a>
-                            <a href="" class="btn btn-warning btn-block text-bold">Student Manual</a> --}}
                         </div>
                         &nbsp;
                     </div>   

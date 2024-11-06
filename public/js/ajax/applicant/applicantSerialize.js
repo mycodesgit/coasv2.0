@@ -293,6 +293,13 @@ $(document).on('click', '.btn-assignsched', function() {
         $('#schedVenue').val('No venue');
     }
 
+    if (dtimeSchedule) {
+        $('#schedTime').val(dtimeSchedule);
+        $('#formdatesched').hide();
+    } else {
+        $('#formdatesched').show();
+    }
+
     $('#editAssignSchedId').val(id);
     $('#editAssignDateID').val(dateSelected);
     $('#selectedDateTimeID').val(dateSelected);

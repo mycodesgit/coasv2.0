@@ -406,7 +406,7 @@ CISS V.1.0 || Applicant Search List
                         <center><label style="text-align: center; font-size: 15pt;"><span class="badge badge-warning">If no Date and Venue Select below</span></label></center>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="formdatesched" onchange="updateDateTime()">
                         <label><span class="badge badge-secondary">Date of Admission Test</span></label>
                         <select class="form-control form-control-sm" name="dateID" id="editAssignDateIDs" onchange="updateDateTime()">
                             <option disabled selected> ---Select--- </option>
