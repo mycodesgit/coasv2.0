@@ -42,8 +42,8 @@ class AdChangeCampusController extends Controller
         $strand = $request->query('strand');
 
         $strand = Strands::all();
-
-        return view('admission.configure.changecamp', compact('strand'));
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        return view('admission.configure.changecamp', compact('strand', 'curryear'));
     }
 
     public function getalllistappRead_search(Request $request)
@@ -57,7 +57,7 @@ class AdChangeCampusController extends Controller
                         ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_docs.*')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
-                        ->whereIn('p_status', [3, 4]);
+                        ->whereIn('p_status', [1, 2, 3, 4]);
 
         if ($strand) {
             $query->where('ad_applicant_admission.strand', $strand);

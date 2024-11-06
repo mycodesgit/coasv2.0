@@ -105,7 +105,7 @@ CISS V.1.0 || Applicant Change Campus
 
         <div class="mt-5">
             <div class="">
-                <table id="" class="table table-hover">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>App ID</th>
