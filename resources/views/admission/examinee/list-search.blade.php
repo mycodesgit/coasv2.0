@@ -294,7 +294,7 @@ CISS v.1.0 || Examinee Search List
             </div>
             <form id="admissionAssignResult">
                 <div class="modal-body">
-                    <input type="text" name="id" id="assignresultexamId">
+                    <input type="hidden" name="id" id="assignresultexamId">
                     <div class="form-group">
                         <div class="col-md-12">
                             <label><span class="badge badge-secondary">Raw Score</span></label>
