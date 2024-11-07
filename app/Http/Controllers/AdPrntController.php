@@ -19,6 +19,7 @@ use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\AdmissionDate;
 use App\Models\AdmissionDB\Time;
 use App\Models\AdmissionDB\Venue;
+use App\Models\AdmissionDB\Year;
 use PDF;
 
 class AdPrntController extends Controller
@@ -80,9 +81,12 @@ class AdPrntController extends Controller
 
     public function applicant_printing()
     {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
+
         $repdates = AdmissionDate::groupBy('date')->pluck('date');
-        $time = Time::all();
-        return view('admission.reports.applicants', compact('repdates', 'time'));
+        $time = Time::whereYear('date', $currentYear)->get();
+        return view('admission.reports.applicants', compact('repdates', 'time', 'curryear'));
     }
 
     public function applicant_reports(Request $request)
@@ -145,8 +149,10 @@ class AdPrntController extends Controller
 
     public function schedules_printing()
     {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
         $repdates = AdmissionDate::orderBy('date', 'desc')->where('campus', '=', Auth::user()->campus)->groupBy('date')->pluck('date');
-        $time = Time::all();
+        $time = Time::whereYear('date', $currentYear)->get();
         $sortedTime = $time
             ->where('campus', '=', Auth::user()->campus)
             ->filter(function ($data) {
@@ -159,7 +165,7 @@ class AdPrntController extends Controller
         $date = AdmissionDate::select('date', DB::raw('count(*) as total'))->groupBy('date')->get();
         $venue = Venue::select('venue', DB::raw('count(*) as total'))->groupBy('venue')->get();
         
-        return view('admission.reports.schedules', compact('strand', 'date', 'time', 'sortedTime', 'venue', 'repdates'));
+        return view('admission.reports.schedules', compact('strand', 'date', 'time', 'sortedTime', 'venue', 'repdates', 'curryear'));
     }
 
 
@@ -222,9 +228,11 @@ class AdPrntController extends Controller
 
     public function nosched_printing()
     {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
         $repdates = AdmissionDate::groupBy('date')->pluck('date');
-        $time = Time::all();
-        return view('admission.reports.nosched', compact('repdates', 'time'));
+        $time = Time::whereYear('date', $currentYear)->get();
+        return view('admission.reports.nosched', compact('repdates', 'time', 'curryear'));
     }
 
     public function nosched_reports(Request $request)

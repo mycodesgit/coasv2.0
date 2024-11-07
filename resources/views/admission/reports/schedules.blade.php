@@ -27,12 +27,16 @@ CISS V.1.0 || Admission Schedules
             <form method="GET" action="{{ route('schedules_reports') }}" id="adSched">
                 {{ csrf_field() }}
 
-                <div class="container">
+                <div class="custom-container mb-2">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
+                                <select class="form-control form-control-sm" id="year" name="year">
+                                    @foreach($curryear as $datacurryear)
+                                        <option>{{ $datacurryear->adyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-2">
@@ -69,13 +73,11 @@ CISS V.1.0 || Admission Schedules
                                 <label><span class="badge badge-secondary">Admission Date</span></label>
                                 <select class="form-control form-control-sm select2bs4" name="date">
                                     <option disabled selected> --- Select --- </option>
-                                    @auth
-                                        @foreach($sortedTime as $data)
+                                        @foreach($time as $data)
                                             <option value="{{ $data->id }}">
                                                 {{ Carbon\Carbon::parse($data->date . ' ' . $data->time)->format('F j, Y g:i A') }}
                                             </option>
                                         @endforeach
-                                    @endauth
                                 </select>
                             </div>
 
@@ -90,7 +92,7 @@ CISS V.1.0 || Admission Schedules
         </div>
         <div class="mt-5">
             <div class="">
-                <table id="example1" class="table table-hover">
+                <table id="" class="table table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
