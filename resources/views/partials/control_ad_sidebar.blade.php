@@ -18,7 +18,7 @@
     $schedreportActive = in_array($curr_route, ['schedules_printing', 'schedules_reports']) ? 'active' : '';
     $noschedreportActive = in_array($curr_route, ['nosched_printing', 'nosched_reports']) ? 'active' : '';   
     $examreportActive = in_array($curr_route, ['examination_printing', 'examination_reports']) ? 'active' : '';  
-    $qualreportActive = in_array($curr_route, ['qualified_printing']) ? 'active' : ''; 
+    $qualreportActive = in_array($curr_route, ['qualified_printing', 'qualified_reports']) ? 'active' : ''; 
     $acceptedreportActive = in_array($curr_route, ['accepted_printing', 'accepted_reports']) ? 'active' : ''; 
 
     $courseprefreportActive = in_array($curr_route, ['indexcoursepref', 'indexcoursepref_search']) ? 'active' : '';   

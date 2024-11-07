@@ -151,21 +151,10 @@ class AdPrntController extends Controller
     {
         $curryear = Year::orderBy('adyear', 'DESC')->get();
         $currentYear = Year::where('status', 'On')->value('adyear');
-        $repdates = AdmissionDate::orderBy('date', 'desc')->where('campus', '=', Auth::user()->campus)->groupBy('date')->pluck('date');
+
         $time = Time::whereYear('date', $currentYear)->get();
-        $sortedTime = $time
-            ->where('campus', '=', Auth::user()->campus)
-            ->filter(function ($data) {
-                return Carbon::parse($data->date . ' ' . $data->time)->isCurrentYear();
-        })
-        ->sortBy(function ($data) {
-            return Carbon::parse($data->date . ' ' . $data->time)->format('YmH:i');
-        });
-        $strand = Strands::orderBy('id', 'asc')->get();
-        $date = AdmissionDate::select('date', DB::raw('count(*) as total'))->groupBy('date')->get();
-        $venue = Venue::select('venue', DB::raw('count(*) as total'))->groupBy('venue')->get();
         
-        return view('admission.reports.schedules', compact('strand', 'date', 'time', 'sortedTime', 'venue', 'repdates', 'curryear'));
+        return view('admission.reports.schedules', compact('time', 'curryear'));
     }
 
 
@@ -176,20 +165,15 @@ class AdPrntController extends Controller
         $strand = Strands::orderBy('id', 'asc')->get();
         $venue = Venue::select('venue', DB::raw('count(*) as total'))->groupBy('venue')->get();
 
-        $selectedYear = $request->query('year', []);
-        $selectedCampus = $request->query('campus', []);
-        $selectedDates = $request->query('date', []);
+        $selectedYear = $request->query('year');
+        $selectedCampus = $request->query('campus');
+        $selectedDates = $request->query('date');
 
-        $selectedYear = is_array($selectedYear) ? $selectedYear : [$selectedYear];
-        $selectedCampus = is_array($selectedCampus) ? $selectedCampus : [$selectedCampus];
-        $selectedDates = is_array($selectedDates) ? $selectedDates : [$selectedDates];
-
-        $data = Applicant::select('ad_applicant_admission.*', 'ad_time.*')
-                        ->join('ad_time', 'ad_applicant_admission.d_admission', '=', 'ad_time.date')
-                        ->whereIn('ad_applicant_admission.year', $selectedYear)
-                        ->whereIn('ad_applicant_admission.campus', $selectedCampus)
-                        ->whereIn('ad_time.id', $selectedDates)
-                        ->whereIn('p_status', [1, 2])
+        $data = Applicant::leftJoin('ad_time', 'ad_applicant_admission.dateID', '=', 'ad_time.id')
+                        ->where('ad_applicant_admission.year', $selectedYear)
+                        ->where('ad_applicant_admission.campus', $selectedCampus)
+                        ->where('ad_time.id', $selectedDates)
+                        ->select('ad_applicant_admission.*', 'ad_time.*')
                         ->get();
 
         $totalSearchResults = count($data);
@@ -282,8 +266,9 @@ class AdPrntController extends Controller
 
     public function examination_printing()
     {  
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
         $strand = Strands::orderBy('id', 'asc')->get();
-        return view('admission.reports.examination', compact('strand'));
+        return view('admission.reports.examination', compact('strand', 'curryear'));
     }
 
     public function examination_reports(Request $request)
@@ -346,10 +331,14 @@ class AdPrntController extends Controller
 
     public function qualified_printing()
     {
-        $repdates = AdmissionDate::orderBy('date', 'desc')->where('campus', '=', Auth::user()->campus)->groupBy('date')->pluck('date');
-        $time = Time::all();
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
         $strand = Strands::orderBy('id', 'asc')->get();
-        return view('admission.reports.qualified', compact('repdates', 'time', 'strand'));
+
+        $repdates = AdmissionDate::orderBy('date', 'desc')->where('campus', '=', Auth::user()->campus)->groupBy('date')->pluck('date');
+        $time = Time::whereYear('date', $currentYear)->get();
+        $strand = Strands::orderBy('id', 'asc')->get();
+        return view('admission.reports.qualified', compact('repdates', 'time', 'strand', 'curryear'));
     }
 
     public function qualified_reports(Request $request)

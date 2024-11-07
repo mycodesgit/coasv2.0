@@ -24,7 +24,7 @@ CISS V.1.0 || Admission Qualified Applicants
         </ol>
 
         <div class="page-header">
-            <form method="GET" action="{{ route('schedules_reports') }}" id="adSched">
+            <form method="GET" action="{{ route('qualified_reports') }}" id="adSched">
                 {{ csrf_field() }}
 
                 <div class="custom-container">
@@ -32,7 +32,11 @@ CISS V.1.0 || Admission Qualified Applicants
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
+                                <select class="form-control form-control-sm" id="year" name="year">
+                                    @foreach($curryear as $datacurryear)
+                                        <option>{{ $datacurryear->adyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-2">
