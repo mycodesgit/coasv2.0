@@ -498,7 +498,7 @@ CISS V.1.0 || Applicant Search List
             <form id="pushtoexamForm">
                 <div class="modal-body">
                     <input type="hidden" name="id" id="pushtoexamId">
-                    <input type="text" name="email" id="pushtoexamEmail">
+                    <input type="hidden" name="email" id="pushtoexamEmail">
                     <div class="form-group">
                         <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Examinee</button></center>
                     </div>
