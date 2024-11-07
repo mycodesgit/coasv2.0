@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApplicantConfirmationMail;
 
 use Storage;
 use Carbon\Carbon;
@@ -185,6 +187,20 @@ class AdAdmissionAppController extends Controller
             ->update(['p_status' => 2]);
 
         if ($affectedRows > 0) {
+            $applicant = Applicant::find($decryptedId);
+            $formattedDate = \Carbon\Carbon::parse($applicant->d_admission)->format('F d, Y'); // e.g., January 01, 2024
+            $formattedTime = \Carbon\Carbon::parse($applicant->time)->format('h:i A');         // e.g., 11:00 AM
+
+            // Prepare email data
+            $emailData = [
+                'date' => $formattedDate,
+                'time' => $formattedTime,
+                'venue' => $applicant->venue, // assuming 'venue' is a column in the Applicant model
+                'applicant_name' => $applicant->name // assuming 'name' is a column in the Applicant model
+            ];
+
+            // Send the email
+            Mail::to($applicant->email)->send(new \App\Mail\ApplicantConfirmationMail($emailData));
             return response()->json(['success' => true, 'message' => 'Applicant schedule has been pushed to Examinee List'], 200);
         } else {
             return response()->json(['error' => true, 'message' => 'No applicant found with the provided ID or the applicant already has a schedule and time assigned.'], 422);

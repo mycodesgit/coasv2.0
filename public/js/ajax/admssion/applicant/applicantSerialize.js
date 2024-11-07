@@ -93,7 +93,7 @@ $(document).ready(function() {
                                 '<a href="#" class="dropdown-item btn-assignsched" data-id="' + row.adid + '" data-dateid="' + row.dateID + '" data-dadmission="' + row.d_admission + '" data-time="' + row.time + '" data-venue="' + row.venue + '">' +
                                 '<i class="fas fa-calendar"></i> Schedule' +
                                 '</a>' +
-                                '<a href="#" class="dropdown-item btn-pushtoexam" data-id="' + row.adid + '">' +
+                                '<a href="#" class="dropdown-item btn-pushtoexam" data-id="' + row.adid + '" data-email="' + row.email + '">' +
                                 '<i class="fas fa-check"></i> Push Examinee' +
                                 '</a>' +
                                 '<button type="button" value="' + data + '" class="dropdown-item examinee-delete">' +
@@ -423,7 +423,10 @@ $('#editAssignSchedForm').submit(function(event) {
 
 $(document).on('click', '.btn-pushtoexam', function() {
     var id = $(this).data('id');
+    var email = $(this).data('email');
+
     $('#pushtoexamId').val(id);
+    $('#pushtoexamEmail').val(email);
     $('#pushtoexamModal').modal('show');
     
     $.ajax({
