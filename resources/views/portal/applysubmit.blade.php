@@ -82,7 +82,7 @@
                                 </div>
                                 <form method="post" action="{{ route('sendThankYouEmail') }}">
                                     @csrf
-                                    <input type="hidden" name="email" value="{{ old('email', $email) }}">
+                                    <input type="hidden" name="email" class="form-control" value="{{ old('email, $email') }}">
                                 </form>
                             </div>
                         </div>
@@ -120,12 +120,10 @@
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
     <script>
-        // Locking history to prevent back navigation
         let historyLock = setInterval(() => {
             history.pushState(null, null, location.href);
-        }, 100); // Push state every 100 milliseconds
+        }, 100); 
 
-        // Set a timeout for 5 seconds before showing the Swal alert
         setTimeout(() => {
             Swal.fire({
                 title: 'We received your application!',
@@ -134,39 +132,55 @@
                 confirmButtonText: 'Okay'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const emailInput = document.querySelector('input[name="email"]'); 
+                    clearTimeout(autoSendEmailTimeout);
 
+                    const emailInput = document.querySelector('input[name="email"]'); 
                     if (emailInput) { 
                         const email = emailInput.value;
-
-                        fetch('{{ route('sendThankYouEmail') }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for Laravel
-                            },
-                            body: JSON.stringify({ email: email })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log(data.message);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+                        sendEmail(email);
                     } else {
                         console.error('Email input not found');
                     }
                 }
             });
-        }, 5000);
-    </script>
 
+            // Set a timeout to automatically send the email if "Okay" is not clicked within 5 seconds
+            let autoSendEmailTimeout = setTimeout(() => {
+                const emailInput = document.querySelector('input[name="email"]'); 
+                if (emailInput) { 
+                    const email = emailInput.value;
+
+                    sendEmail(email);
+                } else {
+                    console.error('Email input not found');
+                }
+            }, 2000); 
+        }, 2000);
+
+        // Function to send the email
+        function sendEmail(email) {
+            fetch('{{ route('sendThankYouEmail') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </body>
 </html>
    
