@@ -88,6 +88,31 @@ class AdAdmissionAppController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function applicantUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+            'lname' => 'required',
+            'fname' => 'required',
+        ]);
+
+        try {
+            $decryptedId = Crypt::decrypt($request->input('id'));
+            $applicant = Applicant::find($decryptedId);
+            $applicant->update([
+                'lname' => $request->input('lname'),
+                'fname' => $request->input('fname'),
+                'mname' => $request->input('mname'),
+                'ext' => $request->input('ext'),
+                'gender' => $request->input('gender'),
+                'civil_status' => $request->input('civil_status'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Applicant Personal Information update successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to Update Applicant Personal Information'], 404);
+        }
+    }
+
     public function applicant_delete($id) {
         try {
             $applicant = Applicant::find($id);

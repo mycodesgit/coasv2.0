@@ -273,37 +273,37 @@
 
     <!-- Ajax -->
     @if(request()->routeIs('srchappList'))
-        <script src="{{ asset('js/ajax/applicant/applicantSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/applicant/applicantSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('applicant_edit'))
-        <script src="{{ asset('js/ajax/applicant/appAssignSchedSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/applicant/appAssignSchedSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('srchexamineeList'))
-        <script src="{{ asset('js/ajax/examineeajax/examineeSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/examineeajax/examineeSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('examinee_edit'))
-        <script src="{{ asset('js/ajax/examineeajax/examAssignRateSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/examineeajax/examAssignRateSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('resultlist_search'))
-        <script src="{{ asset('js/ajax/examresult/exresultSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/examresult/exresultSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('srchconfirmList'))
-        <script src="{{ asset('js/ajax/examresult/exconfirmSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/examresult/exconfirmSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('srchacceptedList'))
-        <script src="{{ asset('js/ajax/examresult/acceptedSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/examresult/acceptedSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('srchacceptedListAll'))
-        <script src="{{ asset('js/ajax/examresult/allacceptedSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/examresult/allacceptedSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('alllistappRead_search'))
-        <script src="{{ asset('js/ajax/applicant/applicantChangeCamSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/applicant/applicantChangeCamSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('alllistappRead_search'))
-        <script src="{{ asset('js/ajax/applicant/applicantChangeCamSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/applicant/applicantChangeCamSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('indexcoursepref_search'))
-        <script src="{{ asset('js/ajax/examresult/allcourseprefSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/examresult/allcourseprefSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('configure_admission'))
         <script src="{{ asset('js/ajax/admssion/configureAdSerialize.js') }}"></script>

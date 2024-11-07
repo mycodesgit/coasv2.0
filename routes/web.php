@@ -127,6 +127,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list', [AdAdmissionAppController::class, 'applicant_list'])->name('applicant-list');
             Route::get('/list/search/applicants', [AdAdmissionAppController::class, 'srchappList'])->name('srchappList');
             Route::get('/list/search/applicants/ajax', [AdAdmissionAppController::class, 'getsrchappList'])->name('getsrchappList');
+            Route::post('/list/search/applicants/update', [AdAdmissionAppController::class, 'applicantUpdate'])->name('applicantUpdate');
             Route::post('/delete/{id}', [AdAdmissionAppController::class, 'applicant_delete'])->name('applicant_delete');
             Route::post('/schedule/save', [AdAdmissionAppController::class, 'applicant_schedulemod_save'])->name('applicant_schedulemod_save');
             Route::post('/confirm', [AdAdmissionAppController::class, 'applicant_confirmajax'])->name('applicant_confirmajax');
