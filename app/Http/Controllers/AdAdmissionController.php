@@ -82,7 +82,7 @@ class AdAdmissionController extends Controller
         $this->shareCounts();
         $applicantCounts = $this->countApplicantsByCampus();
 
-        $currentYear = Carbon::now()->year;
+        $currentYear = Year::where('status', 'On')->value('adyear');
         $user = Auth::guard('web')->user()->dept;
         $campus = Auth::guard('web')->user()->campus;
 

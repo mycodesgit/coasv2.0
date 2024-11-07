@@ -298,11 +298,12 @@ class PortalController extends Controller
 
     public function sendThankYouEmail(Request $request)
     {
-        $email = $request->input('email');
-        
         $request->validate([
             'email' => 'required|email'
         ]);
+        
+        $email = $request->input('email');
+        
 
         Mail::raw('Congratulations! You have successfully registered for the 2025 Admission Test', function ($message) use ($email) {
             $message->to($email)
