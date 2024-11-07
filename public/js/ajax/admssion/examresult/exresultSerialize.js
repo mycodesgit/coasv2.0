@@ -227,6 +227,33 @@ $(document).on('click', '.btn-viewappdata', function() {
     });
 });
 
+$('#editAppDataPersonalinfoForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: allAppUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#viewdataresultexamModal').modal('hide');
+                $(document).trigger('rslttable');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
+    });
+});
+
 $(document).on('click', '.btn-updateresultexam', function() {
     var id = $(this).data('id');
     var uprawScore = $(this).data('rawscore');

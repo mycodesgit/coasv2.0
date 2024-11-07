@@ -131,12 +131,12 @@ CISS v.1.0 || Examinee Search List
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="">
+            <form id="editAppDataPersonalinfoForm">
                 <div class="modal-body">
                     <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                         <h4>Applicant Information</h4>
                     </div>
-                    <input type="hidden" name="id" id="viewdataresultexamId">
+                    <input type="text" name="id" id="viewdataresultexamId">
                     <div class="form-group mt-3">
                         <div class="form-row">
                             <div class="col-md-2">
@@ -153,15 +153,15 @@ CISS v.1.0 || Examinee Search List
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Firstname</span></label>
-                                <input type="text" class="form-control form-control-sm" name="fname" id="viewdataresultexamFname">
+                                <input type="text" class="form-control form-control-sm" name="fname" id="viewdataresultexamFname" oninput="this.value = this.value.toUpperCase()">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Middlename</span></label>
-                                <input type="text" name="mname" class="form-control form-control-sm" id="viewdataresultexamMname">
+                                <input type="text" name="mname" class="form-control form-control-sm" id="viewdataresultexamMname" oninput="this.value = this.value.toUpperCase()">
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Lastname</span></label>
-                                <input type="text" name="lname" class="form-control form-control-sm" id="viewdataresultexamLname">
+                                <input type="text" name="lname" class="form-control form-control-sm" id="viewdataresultexamLname" oninput="this.value = this.value.toUpperCase()">
                             </div>
                         </div>
                     </div>
@@ -277,6 +277,7 @@ CISS v.1.0 || Examinee Search List
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
         </div>
@@ -344,6 +345,7 @@ CISS v.1.0 || Examinee Search List
 <script>
     var allExamlicantRoute = "{{ route('getsrchexamineeList') }}";
     var allExamAssignResultRoute = "{{ route('examinee_resultmod_save', ['id' => ':id']) }}";
+    var allAppUpdateRoute = "{{ route('applicantUpdate', ['id' => ':id']) }}";
     var allExamDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
     var pushtoresultRoute = '{{ route('examinee_confirmajax',  ['id' => ':id']) }}';
     var appidEncryptRoute = "{{ route('idcrypt') }}";
