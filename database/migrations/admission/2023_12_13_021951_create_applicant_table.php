@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('ad_applicant_admission', function (Blueprint $table) {
             $table->id();
+            $table->string('studagree');
             $table->integer('year');
             $table->integer('admission_id')->length(11)->unique();
             $table->enum('status', array(1, 2, 3, 4))->default(1);

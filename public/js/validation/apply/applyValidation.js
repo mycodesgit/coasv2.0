@@ -5,6 +5,14 @@ $(function () {
     const validator = $('#admissionApply').validate({
         rules: {
             // Card 1 rules
+            studagree: {
+                required: true,
+            },
+            email: {
+                required: true,
+                email: true,
+                pattern: /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com)$/,
+            },
             lastname: {
                 required: true,
             },
@@ -91,14 +99,17 @@ $(function () {
             proofdoc_image: {
                 required: true,
             },
-            email: {
-                required: true,
-                email: true,
-                pattern: /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com)$/,
-            },
         },
         messages: {
             // Card 1 messages
+            studagree: {
+                required: "Check the checkbox for agreement",
+            },
+            email: {
+                required: "Please enter a email address",
+                email: "Please enter a valid email address",
+                pattern: "Please use only a popular email domain gmail.com",
+            },
             lastname: {
                 required: "Enter Lastname",
             },
@@ -184,18 +195,13 @@ $(function () {
             proofdoc_image: {
                 required: "Upload one image from the requirements",
             },
-            email: {
-                required: "Please enter a email address",
-                email: "Please enter a valid email address",
-                pattern: "Please use only a popular email domain gmail.com",
-            },
         },
         onfocusout: false,
         onkeyup: false,
         errorElement: 'span',
         errorPlacement: function (error, element) {
             error.addClass('invalid-feedback');
-            element.closest('.col-md-2, .col-md-6, .col-md-12').append(error);        
+            element.closest('.col-md-2, .col-md-6, .col-md-12, .icheck-primary').append(error);        
         },
         highlight: function (element, errorClass, validClass) {
             $(element).addClass('is-invalid');
@@ -229,22 +235,38 @@ function updateProgressBar() {
     document.getElementById("progress-bar").style.width = progressPercentage + "%";
     document.getElementById("progress-text").textContent = `Page ${currentCard} of ${totalCards}`;
 
-    // Show or hide buttons based on current card
+    // Show or hide navigation buttons based on current card
     document.getElementById("back-btn").style.display = currentCard > 1 ? "inline-block" : "none";
     document.getElementById("next-btn").style.display = currentCard < totalCards ? "inline-block" : "none";
-    //document.getElementById("submit-btn").style.display = currentCard === totalCards ? "inline-block" : "none";
-    document.getElementById("ok-btn").style.display = currentCard === totalCards ? "inline-block" : "none";
+    
+    // Show submit button only on the last card
+    document.getElementById("submit-btn").style.display = currentCard === totalCards ? "inline-block" : "none";
+
+    // Check field completion if on the last card
+    if (currentCard === totalCards) {
+        checkLastCardCompletion();
+    }
 }
 
+// Check if all fields in the last card are filled out
+function checkLastCardCompletion() {
+    const lastCardFields = document.querySelectorAll(`#card-${totalCards} input, #card-${totalCards} select`);
+    const allFilled = Array.from(lastCardFields).every(field => field.value.trim() !== "");
+    
+    // Enable submit button if all fields are filled
+    document.getElementById("submit-btn").disabled = !allFilled;
+}
+
+// Move to the next card
 function nextCard(cardNumber) {
     if (cardNumber > totalCards) return;
 
     if (!$(getCurrentCardSelector()).find("input, select").valid()) {
-        validator.focusInvalid(); // Focus on the first invalid input
+        validator.focusInvalid();
         return; // Stop moving to the next card if current card is invalid
     }
 
-    // Hide current card and show next one
+    // Hide current card and show the next one
     document.getElementById(`card-${currentCard}`).style.display = "none";
     document.getElementById(`card-${cardNumber}`).style.display = "block";
     
@@ -252,6 +274,7 @@ function nextCard(cardNumber) {
     updateProgressBar();
 }
 
+// Move to the previous card
 function prevCard(cardNumber) {
     if (cardNumber < 1) return;
 
@@ -266,6 +289,11 @@ function prevCard(cardNumber) {
 function getCurrentCardSelector() {
     return `#card-${currentCard}`;
 }
+
+// Add event listeners to check field completion on input
+document.querySelectorAll(`#card-${totalCards} input, #card-${totalCards} select`).forEach(field => {
+    field.addEventListener('input', checkLastCardCompletion);
+});
 
 // Initialize the progress bar on page load
 updateProgressBar();

@@ -99,16 +99,36 @@
                                     <div class="card card-secondary card-outline">
                                         <div class="card-body">
                                             <h6 class="card-title text-dark">
-                                                <p><strong>Dear Applicant:</strong><br><br>
-                                                 
-                                                <strong>Privacy policy</strong> explains how we collect, use, and protect your personal information. By using the service, you agree to the terms of the University privacy policy <br><br>
-
-                                                Thank you so much!   
-                                                </p>
+                                                <strong>In relation to the Data Privacy Act of 2012, I am willing to share the information for Admission Testing Application purposes only and to hold the University absolutely free from liability that may arise resulting from he sharing of the information to be gathered.<br><br>
+                                                <div class="icheck-primary col-md-12">
+                                                    <input type="checkbox" id="checkboxPrimaryAgree1" name="studagree" value="Yes I agree">
+                                                    <label for="checkboxPrimaryAgree1">
+                                                        <span style="font-weight: bold;">I agree</span>
+                                                    </label>
+                                                </div>
+                                                </strong>
                                             </h6>
                                         </div>
                                     </div>
 
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
+                                                        <label>Email Address <i style="color: red">*</i></label>
+                                                        <input type="email" class="form-control form-control-sm" placeholder="e.g john@gmail.com" name="email" id="email" value="{{old('email')}}">
+                                                    </div>
+                                                    <div id="verification-message" style="display: none; color: blue; margin-top: 5px;">
+                                                        Wait, email is verifying...
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="card-2" style="display: none;">
                                     <div class="card">
                                         <div class="card-header">
                                             <h5 class="card-title m-0">Personal Information</h5>
@@ -120,8 +140,8 @@
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-12">
-                                                        <label>Lastname <i style="color: red">*</i></label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Enter Lastname" oninput="this.value = this.value.toUpperCase()" value="{{old('lastname')}}" name="lastname">
+                                                        <label>Last Name <i style="color: red">*</i></label>
+                                                        <input type="text" class="form-control form-control-sm" placeholder="Enter Last Name" oninput="this.value = this.value.toUpperCase()" value="{{old('lastname')}}" name="lastname">
                                                     </div>
                                                 </div>
                                             </div>
@@ -133,8 +153,8 @@
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-12">
-                                                        <label>Firstname <i style="color: red">*</i></label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Enter Firstname" oninput="this.value = this.value.toUpperCase()"  name="firstname" value="{{old('firstname')}}">
+                                                        <label>First Name <i style="color: red">*</i></label>
+                                                        <input type="text" class="form-control form-control-sm" placeholder="Enter First Name" oninput="this.value = this.value.toUpperCase()"  name="firstname" value="{{old('firstname')}}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,8 +166,8 @@
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-12">
-                                                        <label>Middlename</label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Enter Middlename" oninput="this.value = this.value.toUpperCase()" value="{{old('mname')}}" name="mname">
+                                                        <label>Middle Name</label>
+                                                        <input type="text" class="form-control form-control-sm" placeholder="Enter Middle Name" oninput="this.value = this.value.toUpperCase()" value="{{old('mname')}}" name="mname">
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,7 +179,7 @@
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-12">
-                                                        <label>Ext</label>
+                                                        <label>Name Extension (Jr., Sr., II, III, IV)</label>
                                                         <select class="form-control form-control-sm" name="ext">
                                                             <option>N/A</option>
                                                             <option value="Jr." @if (old('ext') == "Jr.") {{ 'selected' }} @endif>Jr.</option>
@@ -219,7 +239,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label>Gender <i style="color: red">*</i></label>
+                                                        <label>Sex <i style="color: red">*</i></label>
                                                         <select class="form-control form-control-sm" name="gender" id="genderSelect">
                                                             <option value="">Select</option>
                                                             <option value="Male" @if (old('gender') == "Male") {{ 'selected' }} @endif>Male</option>
@@ -332,7 +352,7 @@
                                     </div>
                                 </div>
                                 
-                                <div id="card-2" style="display: none;">
+                                <div id="card-3" style="display: none;">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="form-group">
@@ -404,7 +424,7 @@
                                                 <div class="form-group mt-3">
                                                     <div class="form-row">
                                                         <div class="col-md-6">
-                                                            <label>Last School Attended <i style="color: red">*</i></label>
+                                                            <label>Full Name School Last Attended <i style="color: red">*</i></label>
                                                             <input type="text" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" name="lstsch_attended" value="{{old('lstsch_attended')}}">
                                                         </div>
 
@@ -478,26 +498,7 @@
                                     </div>
                                 </div>
 
-                                <div id="card-3" style="display: none;">
-                                    <div class="card card-secondary card-outline">
-                                        <div class="card-body">
-                                            <h6 class="card-title text-dark">
-                                                <p class="text-danger">(Upload any one(1) of the following Proof of Income & Evidence of Disadvantaged Stituation together with your valid School ID: )</p><br>
-                                                 
-                                                <strong><i class="fa-solid fa-caret-right"></i> Income Tax Return or Certificate of Tax Exemption from BIR</strong><br>
-                                                <strong><i class="fa-solid fa-caret-right"></i> NCIP: Certificate of IP Membership</strong><br>
-                                                <strong><i class="fa-solid fa-caret-right"></i> 4Ps: Certification from DSWD</strong><br>
-                                                <strong><i class="fa-solid fa-caret-right"></i> PWD: PWD ID or Certification from DSWD</strong><br>
-                                                <strong><i class="fa-solid fa-caret-right"></i> Solo Parent: Certification from DSWD</strong><br>
-                                                <strong><i class="fa-solid fa-caret-right"></i> Resident of Community in Armed Conflict: Certification from LGU</strong><br>
-                                                <strong><i class="fa-solid fa-caret-right"></i> Valid School ID</strong><br><br>
-
-                                                Thank you so much!   
-                                                </p>
-                                            </h6>
-                                        </div>
-                                    </div>
-
+                                <div id="card-4" style="display: none;">
                                     <div class="card">
                                         <div class="card-header">
                                             <h5 class="card-title m-0">Documents Information</h5>
@@ -589,28 +590,12 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <div class="form-row">
-                                                    <div class="col-md-12">
-                                                        <label>Email Address <i style="color: red">*</i></label>
-                                                        <input type="email" class="form-control form-control-sm" placeholder="e.g john@gmail.com" name="email" id="email" value="{{old('email')}}">
-                                                    </div>
-                                                    <div id="verification-message" style="display: none; color: blue; margin-top: 5px;">
-                                                        Wait, email is verifying...
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="progress-section d-flex align-items-center justify-content-between mt-3">
                                     <button type="button" class="btn btn-default" id="back-btn" onclick="prevCard(currentCard - 1)" style="display: none;">Back</button>
-                                    <button type="button" class="btn btn-primary" id="next-btn" onclick="nextCard(currentCard + 1)" disabled>Next</button>
-                                    <button type="button" class="btn btn-info" id="ok-btn">OK</button>
+                                    <button type="button" class="btn btn-primary" id="next-btn" onclick="nextCard(currentCard + 1)" style="display: none;" disabled>Next</button>
+                                    {{-- <button type="button" class="btn btn-info" id="ok-btn">OK</button> --}}
                                     <button type="submit" class="btn btn-primary" id="submit-btn" style="display: none;">Submit</button>
 
                                     <div class="progress-container d-flex align-items-center">
@@ -695,7 +680,7 @@
                     $('#verification-message').show(); 
                 }
 
-                $('#submit-btn').hide(); 
+                $('#next-btn').hide(); 
 
                 $.ajax({
                     url: '{{ route('checkEmail') }}',
@@ -706,16 +691,16 @@
                         $('#verification-message').hide(); 
 
                         if (response.valid) {
-                            $('#submit-btn').show(); 
+                            $('#next-btn').show(); 
                             $('#error-message').hide(); 
-                            $('#ok-btn').hide();
+                            //$('#ok-btn').hide();
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Valid Email',
                                 text: 'This email is registered with Google.',
                             });
                         } else {
-                            $('#submit-btn').hide(); 
+                            $('#next-btn').hide(); 
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Invalid Email',
@@ -725,7 +710,7 @@
                     },
                     error: function () {
                         $('#verification-message').hide(); 
-                        $('#submit-btn').hide(); 
+                        $('#next-btn').hide(); 
                     }
                 });
             });

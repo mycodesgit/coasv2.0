@@ -12,6 +12,7 @@ class Applicant extends Model
     protected $table = 'ad_applicant_admission';
 
     protected $fillable = [
+        'studagree',
         'year',
         'en_status',
         'admission_id',

@@ -192,6 +192,7 @@ class PortalController extends Controller
         //$year = '2025';
         $year = Year::where('status', 'On')->value('adyear');
         $applicant = new Applicant;
+        $applicant->studagree = $request->input('studagree');
         $applicant->year = $year;
         $applicant->campus = $request->input('campus');
         $applicant->admission_id = $admissionid;
