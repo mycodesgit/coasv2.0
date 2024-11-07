@@ -186,7 +186,7 @@ CISS V.1.0 || Applicant Search List
                     <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                         <h4>Applicant Information</h4>
                     </div>
-                    <input type="text" name="id" id="viewdataresultexamId">
+                    <input type="hidden" name="id" id="viewdataresultexamId">
                     <div class="form-group mt-3">
                         <div class="form-row">
                             <div class="col-md-2">
