@@ -327,15 +327,15 @@
         var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
 
         // Extract data for charts
-        var collbarprevYearRoute = collbar1Route.map(item => ({
-            college_abbr: item.college_abbr,
-            count: item.college_count
-        }));
+        // var collbarprevYearRoute = collbar1Route.map(item => ({
+        //     college_abbr: item.college_abbr,
+        //     count: item.college_count
+        // }));
 
-        var collbarnowYearRoute = collbar2Route.map(item => ({
-            college_abbr: item.college_abbr,
-            count: item.college_count
-        }));
+        // var collbarnowYearRoute = collbar2Route.map(item => ({
+        //     college_abbr: item.college_abbr,
+        //     count: item.college_count
+        // }));
     </script>
     <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
 @endif
