@@ -59,7 +59,7 @@
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
         @if(in_array(Auth::guard('web')->user()->role, [0, 2, 3, 4, 13, 14]))
-            <a href="{{ route('studInfo') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
+            <a href="{{ Auth::guard('web')->user()->role == 0 ? route('studInfo') : route('studInfo_search') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
         @endif
         @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
             <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Graduate School Students</a>

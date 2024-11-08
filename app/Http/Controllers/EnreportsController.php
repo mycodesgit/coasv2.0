@@ -29,7 +29,11 @@ class EnreportsController extends Controller
 
     public function studInfo_search(Request $request) 
     {
-        $campus = Auth::guard('web')->user()->campus;
+        if(Auth::guard('web')->user()->role == 0) {
+            $campus = $request->query('campus');    
+        } else {
+            $campus = Auth::guard('web')->user()->campus;
+        }
 
         $studlist = Student::where('campus', '=', $campus)->where('stud_id', 'NOT LIKE', '%-G%')->get();
         $civilStatuses = StudentCvlStatus::all();
@@ -40,7 +44,11 @@ class EnreportsController extends Controller
 
     public function getstudInfo_search(Request $request) 
     {
-        $campus = Auth::guard('web')->user()->campus;
+        if(Auth::guard('web')->user()->role == 0) {
+            $campus = $request->query('campus');    
+        } else {
+            $campus = Auth::guard('web')->user()->campus;
+        }
 
         $data = Student::join('studcivilstat', 'students.civil_status', '=', 'studcivilstat.cvlstat_name')
                         ->leftJoin('studgenderstat', 'students.gender', '=', 'studgenderstat.genderstat_name')

@@ -38,6 +38,7 @@ CISS V.1.0 || Student Info
             </div> 
         </div>
 
+        @if(Auth::guard('web')->user()->role == 0)
         <div class="mt-3" style="border-bottom: 1px solid #04401f;">
             <form method="GET" action="{{ route('studInfo_search') }}">
                 {{ csrf_field() }}
@@ -91,6 +92,7 @@ CISS V.1.0 || Student Info
                 </small>
             </h5>
         </div>
+        @endif
 
         <div class="mt-5">
             <div class="">
