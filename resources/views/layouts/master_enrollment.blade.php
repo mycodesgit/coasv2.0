@@ -315,15 +315,31 @@
     <script src="{{ asset('js/basic/subjects.js') }}"></script>
 
     <!-- Basic -->
-    @if(request()->routeIs('enrollment-index'))
-        <script> 
-            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
-            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
-            var collbarprevYearRoute = {!! json_encode($previousYear) !!}; 
-            var collbarnowYearRoute = {!! json_encode($currentYear) !!}; 
-        </script>
-        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
-    @endif
+    <!-- Basic -->
+@if(request()->routeIs('enrollment-index'))
+    <script>
+        // Convert PHP data to JavaScript variables
+        var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; // Previous school year data
+        var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; // Current school year data
+        var semesteractive = {!! json_encode($semesteractive) !!};
+        var semesteractive1 = {!! json_encode($semesteractive1) !!};
+        var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
+        var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+
+        // Extract data for charts
+        var collbarprevYearRoute = collbar1Route.map(item => ({
+            college_abbr: item.college_abbr,
+            count: item.college_count
+        }));
+
+        var collbarnowYearRoute = collbar2Route.map(item => ({
+            college_abbr: item.college_abbr,
+            count: item.college_count
+        }));
+    </script>
+    <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+@endif
+
     <!-- Ajax -->
     @if(request()->routeIs('subjectsRead'))
         <script src="{{ asset('js/ajax/enrolment/subjectSerialize.js') }}"></script>
