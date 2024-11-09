@@ -336,6 +336,7 @@
             var currenrolmentCounts = {!! json_encode($currenrolmentCounts) !!};
         </script>
         <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+        <script src="{{ asset('js/chart/enbarchartperyearlev.js') }}"></script>
     @endif
 
     <!-- Ajax -->

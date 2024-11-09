@@ -86,7 +86,7 @@ class StudFundAssessmentController extends Controller
                         ->groupBy('college.id')
                         ->get();
 
-        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',));
+        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive'));
     }
 
     public function fundsRead()
