@@ -43,7 +43,7 @@ CISS V.1.0 || College
                         <th>Acronym</th>
                         <th>College Name</th>
                         <th>Campus</th>
-                        <th width="10%">Action</th>
+                        <th id="actionColumnHeader" style="display: none;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,6 +108,8 @@ CISS V.1.0 || College
     var collegeReadRoute = "{{ route('getcollegeRead') }}";
     var collegeUpdateRoute = "{{ route('collegeUpdate', ['id' => ':id']) }}";
     var idEncryptRoute = "{{ route('idcrypt') }}";
+    var userRole = '{{ Auth::guard('web')->user()->role }}';
+    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
 </script>
 
 @endsection
