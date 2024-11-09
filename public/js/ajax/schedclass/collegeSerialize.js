@@ -5,15 +5,6 @@ toastr.options = {
 };
 
 $(document).ready(function() {
-    function toggleActionColumn() {
-        if (userRole === 0) {
-            $('#actionColumnHeader').show(); 
-            $('#collegeProg td.action-column').show();
-        } else {
-            $('#actionColumnHeader').hide(); 
-            $('#collegeProg td.action-column').hide(); 
-        }
-    }
     var dataTable = $('#collegeProg').DataTable({
         "ajax": {
             "url": collegeReadRoute,
@@ -29,15 +20,14 @@ $(document).ready(function() {
             {data: 'campus'},
             {
             data: 'id',
-            className: "action-column",
                 render: function(data, type, row) {
-                    if (userRole === 0) {
+                    if (type === 'display') {
                         var editLink = '<a href="#" class="btn btn-primary btn-sm btn-editcol" data-id="' + row.id + '" data-colabbr="' + row.college_abbr + '" data-colname="' + row.college_name + '" data-colcamp="' + row.campus + '">' +
                             '<i class="fas fa-eye"></i>' +
                             '</a>';
                         return editLink;
                     } else {
-                        return '';
+                        return data;
                     }
                 },
             },
@@ -46,7 +36,6 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    toggleActionColumn();
     $(document).on('collegeAdded', function() {
         dataTable.ajax.reload();
     });
