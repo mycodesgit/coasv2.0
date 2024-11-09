@@ -18,7 +18,7 @@ $(function () {
     var firstSemesterBarData = {
         labels: firstSemesterCollegeAbbrs,
         datasets: [{
-            label: 'No. of Students in ' + previousSemesterLabel + ' (' + previousSchlyearYear + ')',
+            label: 'No. of Students Enrolled in ' + previousSemesterLabel + ' (' + previousSchlyearYear + ')',
             data: firstSemesterCollegeCounts,
             backgroundColor: firstSemesterCollegeColors
         }]
@@ -47,7 +47,7 @@ $(function () {
     var secondSemesterCollegeAbbrs = [];
     var secondSemesterCollegeCounts = [];
     var secondSemesterCollegeColors = [];
-    var currentSemesterLabel = semesteractive1; // Store the semester label for current year
+    var currentSemesterLabel = prevsemesteractive; // Store the semester label for current year
 
     // Extract data for the second semester
     secondSemesterCollegesData.forEach(function(college) {
@@ -60,7 +60,7 @@ $(function () {
     var secondSemesterBarData = {
         labels: secondSemesterCollegeAbbrs,
         datasets: [{
-            label: 'No. of Students in ' + currentSemesterLabel + ' (' + schlyearActive + ')',
+            label: 'No. of Students Enrolled in ' + currentSemesterLabel + ' (' + schlyearActive + ')',
             data: secondSemesterCollegeCounts,
             backgroundColor: secondSemesterCollegeColors
         }]
@@ -83,6 +83,75 @@ $(function () {
         options: secondSemesterBarOptions
     });
 });
+
+
+
+
+$(function () {
+    // Canvas for the previous and current semester charts
+    var prevSemesterChartCanvas = $('#prevSemesterBarChart').get(0).getContext('2d');
+    var currSemesterChartCanvas = $('#currSemesterBarChart').get(0).getContext('2d');
+
+    // Define year levels
+    var yearLevels = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+    prevSemesterLabel = prevsemesteractive == 1 ? '1st Sem' : (prevsemesteractive == 2 ? '2nd Sem' : (prevsemesteractive == 3 ? 'Summer' : ''));
+    currSemesterLabel = semesteractive == 1 ? '1st Sem' : (semesteractive == 2 ? '2nd Sem' : (semesteractive == 3 ? 'Summer' : ''));
+    
+    // Chart data for the previous semester
+    var prevSemesterData = {
+        labels: yearLevels,
+        datasets: [{
+            label: 'No. of Students Enrolled in ' + prevSemesterLabel + ' (' + previousSchlyearYear + ')',
+            data: prevenrolmentCounts,
+            backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f']
+        }]
+    };
+
+    var prevSemesterOptions = {
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: { beginAtZero: true }
+            }]
+        }
+    };
+
+    // Initialize chart for the previous semester
+    new Chart(prevSemesterChartCanvas, {
+        type: 'bar',
+        data: prevSemesterData,
+        options: prevSemesterOptions
+    });
+
+    // Chart data for the current semester
+    var currSemesterData = {
+        labels: yearLevels,
+        datasets: [{
+            label: 'No. of Students Enrolled in ' + currSemesterLabel + ' (' + schlyearActive + ')',
+            data: currenrolmentCounts,
+            backgroundColor: ['#108d6d', '#e74c3c', '#2ecc71', '#f1c40f']
+        }]
+    };
+
+    var currSemesterOptions = {
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: { beginAtZero: true }
+            }]
+        }
+    };
+
+    // Initialize chart for the current semester
+    new Chart(currSemesterChartCanvas, {
+        type: 'bar',
+        data: currSemesterData,
+        options: currSemesterOptions
+    });
+});
+
+
+
 
 
 

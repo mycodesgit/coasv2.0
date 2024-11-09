@@ -65,7 +65,7 @@ class EnrollmentController extends Controller
         $schlyearactiveYear = $activeConfig->schlyear;
         $schlyearactive = $activeConfig->schlyear;
         $semesteractive = $activeConfig->semester;
-        $semesteractive1 = $previousConfig->semester;
+        $prevsemesteractive = $previousConfig->semester;
 
         $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
 
@@ -84,7 +84,7 @@ class EnrollmentController extends Controller
                     $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
                 }
             })
-            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive1)
+            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $prevsemesteractive)
             ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
             ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
             ->orderBy('college_name', 'ASC')
@@ -112,6 +112,26 @@ class EnrollmentController extends Controller
             ->groupBy('college.id')
             ->get();
 
+
+        $prevenrolmentCounts = [];
+        for ($year = 1; $year <= 4; $year++) {
+            $prevenrolmentCounts[] = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                ->where('program_en_history.schlyear', 'LIKE', $previousSchlyearYear)
+                ->where('program_en_history.semester', 'LIKE', $prevsemesteractive)
+                ->where('program_en_history.studYear', '=', $year)
+                ->where('program_en_history.campus', '=', $userCampus)
+                ->count();
+        }
+
+        $currenrolmentCounts = [];
+        for ($year = 1; $year <= 4; $year++) {
+            $currenrolmentCounts[] = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                ->where('program_en_history.studYear', '=', $year)
+                ->where('program_en_history.campus', '=', $userCampus)
+                ->count();
+        }
 
         $enrlstudcountfirst = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                             ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
@@ -203,7 +223,7 @@ class EnrollmentController extends Controller
 
 
 
-        return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount', 'SccEnrollmentCount', 'HcEnrollmentCount', 'MpEnrollmentCount', 'IcEnrollmentCount', 'CaEnrollmentCount', 'CcEnrollmentCount', 'ScEnrollmentCount', 'HinCEnrollmentCount', 'schlyearactive', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'semesteractive1'));
+        return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount', 'SccEnrollmentCount', 'HcEnrollmentCount', 'MpEnrollmentCount', 'IcEnrollmentCount', 'CaEnrollmentCount', 'CcEnrollmentCount', 'ScEnrollmentCount', 'HinCEnrollmentCount', 'schlyearactive', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',  'prevenrolmentCounts', 'currenrolmentCounts'));
     }
 
     public function searchStud()

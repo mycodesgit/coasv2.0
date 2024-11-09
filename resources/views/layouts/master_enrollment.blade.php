@@ -217,6 +217,25 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="col-md-6">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="chart-responsive pt-1">
+                                                                    <canvas id="prevSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="chart-responsive pt-1">
+                                                                    <canvas id="currSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="col-md-12">
                                                         <div class="card">
                                                             <div class="card-header">
@@ -244,17 +263,6 @@
                                                                     </canvas>
                                                                 </div>
                                                                 <div class="d-flex flex-row justify-content-end">
-                                                                    {{-- <span class="mr-2">
-                                                                        <i class="fas fa-square" style="color: #ffc107"></i> PPE
-                                                                    </span>
-
-                                                                    <span class="mr-2">
-                                                                        <i class="fas fa-square" style="color: #00a65a"></i> High Value
-                                                                    </span>
-
-                                                                    <span>
-                                                                        <i class="fas fa-square" style="color: #90ee90"></i> Low Value
-                                                                    </span> --}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -322,20 +330,11 @@
         var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; // Previous school year data
         var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; // Current school year data
         var semesteractive = {!! json_encode($semesteractive) !!};
-        var semesteractive1 = {!! json_encode($semesteractive1) !!};
+        var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
         var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
         var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
-
-        // Extract data for charts
-        // var collbarprevYearRoute = collbar1Route.map(item => ({
-        //     college_abbr: item.college_abbr,
-        //     count: item.college_count
-        // }));
-
-        // var collbarnowYearRoute = collbar2Route.map(item => ({
-        //     college_abbr: item.college_abbr,
-        //     count: item.college_count
-        // }));
+        var prevenrolmentCounts = {!! json_encode($prevenrolmentCounts) !!};
+        var currenrolmentCounts = {!! json_encode($currenrolmentCounts) !!};
     </script>
     <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
 @endif
