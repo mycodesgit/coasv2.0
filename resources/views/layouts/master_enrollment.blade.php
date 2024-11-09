@@ -323,21 +323,20 @@
     <script src="{{ asset('js/basic/subjects.js') }}"></script>
 
     <!-- Basic -->
-    <!-- Basic -->
-@if(request()->routeIs('enrollment-index'))
-    <script>
-        // Convert PHP data to JavaScript variables
-        var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; // Previous school year data
-        var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; // Current school year data
-        var semesteractive = {!! json_encode($semesteractive) !!};
-        var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
-        var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
-        var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
-        var prevenrolmentCounts = {!! json_encode($prevenrolmentCounts) !!};
-        var currenrolmentCounts = {!! json_encode($currenrolmentCounts) !!};
-    </script>
-    <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
-@endif
+    @if(request()->routeIs('enrollment-index'))
+        <script>
+            // Convert PHP data to JavaScript variables
+            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; // Previous school year data
+            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; // Current school year data
+            var semesteractive = {!! json_encode($semesteractive) !!};
+            var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
+            var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
+            var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+            var prevenrolmentCounts = {!! json_encode($prevenrolmentCounts) !!};
+            var currenrolmentCounts = {!! json_encode($currenrolmentCounts) !!};
+        </script>
+        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+    @endif
 
     <!-- Ajax -->
     @if(request()->routeIs('subjectsRead'))

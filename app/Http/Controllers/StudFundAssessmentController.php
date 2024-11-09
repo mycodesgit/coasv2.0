@@ -29,9 +29,26 @@ class StudFundAssessmentController extends Controller
         $previousYear = Carbon::now()->year;
         $userCampus = Auth::guard('web')->user()->campus;
 
-        $schlyearactive = ConfigureCurrent::where('set_status', 2)->first()->schlyear;
-        $schlyearactiveYear = explode('-', $schlyearactive)[0];
-        $semesteractive = ConfigureCurrent::where('set_status', 2)->first()->semester;
+        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        if (!$activeConfig) {
+            return back()->with('error', 'No active school year found.');
+        }
+        $activeConfigId = $activeConfig->id;
+        
+        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
+            ->orderBy('id', 'desc') // Get the most recent one
+            ->first();
+
+        $schlyearactiveYear = $activeConfig->schlyear;
+        $schlyearactive = $activeConfig->schlyear;
+        $semesteractive = $activeConfig->semester;
+        $prevsemesteractive = $previousConfig->semester;
+
+        $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
+
+        if (!$previousSchlyearYear) {
+            return back()->with('error', 'No previous school year found.');
+        }
 
         $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function($join) {
                             $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
@@ -43,11 +60,11 @@ class StudFundAssessmentController extends Controller
                                 $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
                             }
                         })
-                        ->where('coasv2_db_enrollment.program_en_history.semester', '=', 1)
-                        ->where(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.schlyear, '-', 1)"), $schlyearactiveYear)
+                        ->where('coasv2_db_enrollment.program_en_history.semester', '=', $prevsemesteractive)
+                        ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
                         ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
                         ->orderBy('college_name', 'ASC')
-                        ->select('college.*', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+                        ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
                         ->groupBy('college.id')
                         ->get();
 
@@ -61,15 +78,15 @@ class StudFundAssessmentController extends Controller
                                 $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
                             }
                         })
-                        ->where('coasv2_db_enrollment.program_en_history.semester', '=', 2)
-                        ->where(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.schlyear, '-', 1)"), $schlyearactiveYear)
+                        ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
+                        ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
                         ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
                         ->orderBy('college_name', 'ASC')
-                        ->select('college.*', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+                        ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
                         ->groupBy('college.id')
                         ->get();
 
-        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear'));
+        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',));
     }
 
     public function fundsRead()
