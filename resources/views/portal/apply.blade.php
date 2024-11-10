@@ -85,6 +85,23 @@
                                 </div>
                             </div>
 
+                            @php
+                                date_default_timezone_set('Asia/Manila');
+
+                                $now = now();
+                                $startTime = now()->setHour(8)->setMinute(0)->setSecond(0);
+                                $endTime = now()->setHour(17)->setMinute(0)->setSecond(0);
+                            @endphp
+
+                            {{-- Debugging statements --}}
+                            {{-- {{ "Current Time: " . $now->format('g:i A') }}
+                            {{ "Start Time: " . $startTime->format('g:i A') }}
+                            {{ "End Time: " . $endTime->format('g:i A') }} --}}
+
+                            @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+                                <img src="{{ asset('template/img/limit-has-been-reached.jpg') }}" width="100%" class="img-responsive">
+                            @else
+
                             <form method="post" action="{{ route('post_admission_apply') }}" enctype="multipart/form-data" id="admissionApply">
                                 {{ csrf_field() }}
                                 
@@ -609,6 +626,8 @@
                                 </div>
                                 <br><br>
                             </form>
+
+                            @endif
                         </div>
                     </div>
                 </div>
