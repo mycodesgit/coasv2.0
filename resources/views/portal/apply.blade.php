@@ -662,245 +662,214 @@
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
-    <script src="{{ asset('js/validation/apply/applyValidation.js') }}"></script>
+    @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+    @else
+        <script src="{{ asset('js/validation/apply/applyValidation.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/studentAddSerialize.js') }}"></script>
+    
 
-    <script src="{{ asset('js/ajax/enrolment/studentAddSerialize.js') }}"></script>
+        <script>
+            function calculateAge() {
+                var birthday = document.getElementById('bday').value;
+                var today = new Date();
+                var birthDate = new Date(birthday);
+                var age = today.getFullYear() - birthDate.getFullYear();
 
-    <script>
-        function calculateAge() {
-            var birthday = document.getElementById('bday').value;
-            var today = new Date();
-            var birthDate = new Date(birthday);
-            var age = today.getFullYear() - birthDate.getFullYear();
-
-            if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-
-            document.getElementById('age').value = age;
-        }
-        
-        $(function () {
-            $('.select2').select2();
-
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4',
-                height: '100'
-            })
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('#email').on('blur', function () {
-                let email = $(this).val();
-                if (email.endsWith('@gmail.com')) {
-                    $('#verification-message').show(); 
+                if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                    age--;
                 }
 
-                $('#next-btn').hide(); 
+                document.getElementById('age').value = age;
+            }
+            
+            $(function () {
+                $('.select2').select2();
 
-                $.ajax({
-                    url: '{{ route('checkEmail') }}',
-                    method: 'POST',
-                    data: { email: email, _token: '{{ csrf_token() }}' },
-                    success: function (response) {
-                        console.log("Server response:", response);
-                        $('#verification-message').hide(); 
+                //Initialize Select2 Elements
+                $('.select2bs4').select2({
+                    theme: 'bootstrap4',
+                    height: '100'
+                })
+            });
+        </script>
 
-                        if (response.valid) {
-                            $('#next-btn').show(); 
-                            $('#error-message').hide(); 
-                            //$('#ok-btn').hide();
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Valid Email',
-                                text: 'This email is registered with Google.',
-                            });
-                        } else {
-                            $('#next-btn').hide(); 
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Invalid Email',
-                                text: 'This email is not registered with Google.',
-                            });
-                        }
-                    },
-                    error: function () {
-                        $('#verification-message').hide(); 
-                        $('#next-btn').hide(); 
+        <script>
+            $(document).ready(function () {
+                $('#email').on('blur', function () {
+                    let email = $(this).val();
+                    if (email.endsWith('@gmail.com')) {
+                        $('#verification-message').show(); 
                     }
+
+                    $('#next-btn').hide(); 
+
+                    $.ajax({
+                        url: '{{ route('checkEmail') }}',
+                        method: 'POST',
+                        data: { email: email, _token: '{{ csrf_token() }}' },
+                        success: function (response) {
+                            console.log("Server response:", response);
+                            $('#verification-message').hide(); 
+
+                            if (response.valid) {
+                                $('#next-btn').show(); 
+                                $('#error-message').hide(); 
+                                //$('#ok-btn').hide();
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Valid Email',
+                                    text: 'This email is registered with Google.',
+                                });
+                            } else {
+                                $('#next-btn').hide(); 
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Invalid Email',
+                                    text: 'This email is not registered with Google.',
+                                });
+                            }
+                        },
+                        error: function () {
+                            $('#verification-message').hide(); 
+                            $('#next-btn').hide(); 
+                        }
+                    });
                 });
             });
-        });
-    </script>
+        </script>
 
-    <script>
-        const programsRoute = '{{ route('getProgramsByCampus') }}';
-        const examschedRoute = '{{ route('getExamSchedCampus') }}';
-        function updateCoursePreferences(campus) {
-            $.ajax({
-                url: programsRoute + '?campus=' + campus,
-                type: 'GET',
-                success: function (data) {
-                    updateOptions('preference_1', data.programs);
-                    updateOptions('preference_2', data.programs);
-                },
-                error: function () {
-                    console.error('Error fetching programs');
-                }
-            });
-        }
-        function updateExamSchedule(campus) {
-            $.ajax({
-                url: examschedRoute + '?campus=' + campus,
-                type: 'GET',
-                success: function (data) {
-                    updateSchedOptions('d_admissionselect', data.schedtest);
-                },
-                error: function () {
-                    console.error('Error fetching Schedule Test');
-                }
-            });
-        }
-        function updateOptions(selectName, options) {
-            const select = $('select[name=' + selectName + ']');
-            select.empty();
-            select.append('<option value="">Select Course Preference</option>');
-            $.each(options, function (key, value) {
-                select.append('<option value="' + value.code + '">' + value.program + '</option>');
-            });
-        }
-        function updateSchedOptions(selectName, options) {
-            const select = $('select[name=' + selectName + ']');
-            select.empty();
-            select.append('<option disabled selected> --Select Testing Schedule-- </option>');
-            $.each(options, function (key, value) {
-                const formattedDate = moment(value.date).format('MMMM DD, YYYY');
-                const formattedTime = moment(value.time, 'HH:mm').format('hh:mm A');
-                const slots = value.slots;
-                const primDateTimeID = value.id;
+        <script>
+            const programsRoute = '{{ route('getProgramsByCampus') }}';
+            const examschedRoute = '{{ route('getExamSchedCampus') }}';
+            function updateCoursePreferences(campus) {
+                $.ajax({
+                    url: programsRoute + '?campus=' + campus,
+                    type: 'GET',
+                    success: function (data) {
+                        updateOptions('preference_1', data.programs);
+                        updateOptions('preference_2', data.programs);
+                    },
+                    error: function () {
+                        console.error('Error fetching programs');
+                    }
+                });
+            }
+            function updateExamSchedule(campus) {
+                $.ajax({
+                    url: examschedRoute + '?campus=' + campus,
+                    type: 'GET',
+                    success: function (data) {
+                        updateSchedOptions('d_admissionselect', data.schedtest);
+                    },
+                    error: function () {
+                        console.error('Error fetching Schedule Test');
+                    }
+                });
+            }
+            function updateOptions(selectName, options) {
+                const select = $('select[name=' + selectName + ']');
+                select.empty();
+                select.append('<option value="">Select Course Preference</option>');
+                $.each(options, function (key, value) {
+                    select.append('<option value="' + value.code + '">' + value.program + '</option>');
+                });
+            }
+            function updateSchedOptions(selectName, options) {
+                const select = $('select[name=' + selectName + ']');
+                select.empty();
+                select.append('<option disabled selected> --Select Testing Schedule-- </option>');
+                $.each(options, function (key, value) {
+                    const formattedDate = moment(value.date).format('MMMM DD, YYYY');
+                    const formattedTime = moment(value.time, 'HH:mm').format('hh:mm A');
+                    const slots = value.slots;
+                    const primDateTimeID = value.id;
 
-                //select.append('<option value="' + value.date + '">' + formattedDate + ' ' + formattedTime + ' (Available Slots: ' + slots + ')</option>');
-                if (slots === 0) {
-                    select.append('<option disabled>' + formattedDate + ' ' + formattedTime + ' (Slots is Full)</option>');
+                    //select.append('<option value="' + value.date + '">' + formattedDate + ' ' + formattedTime + ' (Available Slots: ' + slots + ')</option>');
+                    if (slots === 0) {
+                        select.append('<option disabled>' + formattedDate + ' ' + formattedTime + ' (Slots is Full)</option>');
+                    } else {
+                        select.append('<option value="' + value.date + '" data-primdatetimeid="' + primDateTimeID + '">' + formattedDate + ' ' + formattedTime + ' (Available Slots: ' + slots + ')</option>');
+                    }
+                });
+            }
+            $('select[name="d_admissionselect"]').change(function() {
+                const selectedOption = $(this).find('option:selected');
+                const selectedText = selectedOption.text();
+
+                // Separate date and time based on the format "January 01, 2024 09:00 AM"
+                const dateTime = moment(selectedText, 'MMMM D, YYYY hh:mm A'); 
+
+                const formattedDate = dateTime.format('YYYY-MM-DD');
+                const formattedTime = dateTime.format('HH:mm:ss');
+                const dateTimeID = selectedOption.data('primdatetimeid');
+
+                $('#selectedDate').val(formattedDate);
+                $('#selectedTime').val(formattedTime);
+                $('#selectedDateTimeID').val(dateTimeID);
+            });
+
+            // Listen for the 'scheduleUpdated' event
+            $(document).on('scheduleUpdated', function() {
+                const selectedCampus = $('#campus').val(); 
+                updateExamSchedule(selectedCampus); 
+            });
+
+            $('#campus').change(function () {
+                const selectedCampus = $(this).val();
+                updateCoursePreferences(selectedCampus);
+                updateExamSchedule(selectedCampus);
+            });
+        </script>
+
+        {{-- <script type="text/javascript">
+            setTimeout(function () {
+                $("#alert").delay(4500).fadeOut(5000);
+            }, 0); 
+        </script> --}}
+        <script>
+            document.getElementById("genderSelect").addEventListener("change", function() {
+                const selectedGender = this.value;
+                const genderPlaceholder = document.getElementById("genderPlaceholder");
+                const genderQuestion = document.getElementById("genderQuestion");
+
+                if (selectedGender === "Female" || selectedGender === "Male") {
+                    genderPlaceholder.textContent = selectedGender.toUpperCase(); // Set the gender dynamically
+                    genderQuestion.style.display = "block";
                 } else {
-                    select.append('<option value="' + value.date + '" data-primdatetimeid="' + primDateTimeID + '">' + formattedDate + ' ' + formattedTime + ' (Available Slots: ' + slots + ')</option>');
+                    genderQuestion.style.display = "none"; // Hide the question if no valid gender is selected
                 }
             });
-        }
-        $('select[name="d_admissionselect"]').change(function() {
-            const selectedOption = $(this).find('option:selected');
-            const selectedText = selectedOption.text();
+        </script>
 
-            // Separate date and time based on the format "January 01, 2024 09:00 AM"
-            const dateTime = moment(selectedText, 'MMMM D, YYYY hh:mm A'); 
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var admissionType = document.getElementById('admissionType');
+                var newReturneeForm = document.getElementById('newReturneeForm');
+                var transfereeForm = document.getElementById('transfereeForm');
 
-            const formattedDate = dateTime.format('YYYY-MM-DD');
-            const formattedTime = dateTime.format('HH:mm:ss');
-            const dateTimeID = selectedOption.data('primdatetimeid');
+                // Show/hide forms based on the initial value
+                toggleFormSections(admissionType.value);
 
-            $('#selectedDate').val(formattedDate);
-            $('#selectedTime').val(formattedTime);
-            $('#selectedDateTimeID').val(dateTimeID);
-        });
+                // Add event listener for change event
+                admissionType.addEventListener('change', function() {
+                    toggleFormSections(this.value);
+                });
 
-        // Listen for the 'scheduleUpdated' event
-        $(document).on('scheduleUpdated', function() {
-            const selectedCampus = $('#campus').val(); 
-            updateExamSchedule(selectedCampus); 
-        });
-
-        $('#campus').change(function () {
-            const selectedCampus = $(this).val();
-            updateCoursePreferences(selectedCampus);
-            updateExamSchedule(selectedCampus);
-        });
-    </script>
-
-    {{-- <script type="text/javascript">
-        setTimeout(function () {
-            $("#alert").delay(4500).fadeOut(5000);
-        }, 0); 
-    </script> --}}
-    <script>
-        document.getElementById("genderSelect").addEventListener("change", function() {
-            const selectedGender = this.value;
-            const genderPlaceholder = document.getElementById("genderPlaceholder");
-            const genderQuestion = document.getElementById("genderQuestion");
-
-            if (selectedGender === "Female" || selectedGender === "Male") {
-                genderPlaceholder.textContent = selectedGender.toUpperCase(); // Set the gender dynamically
-                genderQuestion.style.display = "block";
-            } else {
-                genderQuestion.style.display = "none"; // Hide the question if no valid gender is selected
-            }
-        });
-    </script>
-
-    <script>
-        function uploadFile() {
-            document.getElementById('fileInput').click();
-        }
-
-        function handleFileUpload() {
-            var fileInput = document.getElementById('fileInput');
-            var uploadedFile = document.getElementById('uploadedFile');
-            var fileNameElement = document.getElementById('fileName');
-            var progressBar = document.getElementById('progressBar');
-
-            uploadedFile.style.display = 'flex';
-
-            fileNameElement.innerText = fileInput.files[0].name;
-
-            var progress = 0;
-            var interval = setInterval(function () {
-                progress += 10;
-                progressBar.style.width = progress + '%';
-
-                if (progress >= 100) {
-                    clearInterval(interval);
+                function toggleFormSections(value) {
+                    if (value == 1 || value == 2) { // New or Returnee
+                        newReturneeForm.style.display = 'block';
+                        transfereeForm.style.display = 'none';
+                    } else if (value == 3) { // Transferee
+                        newReturneeForm.style.display = 'none';
+                        transfereeForm.style.display = 'block';
+                    } else { // Hide all if no selection
+                        newReturneeForm.style.display = 'none';
+                        transfereeForm.style.display = 'none';
+                    }
                 }
-            }, 500);
-        }
-
-        function removeUploadedFile() {
-            var uploadedFile = document.getElementById('uploadedFile');
-            var progressBar = document.getElementById('progressBar');
-            uploadedFile.style.display = 'none';
-            progressBar.style.width = '0%';
-        }
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var admissionType = document.getElementById('admissionType');
-            var newReturneeForm = document.getElementById('newReturneeForm');
-            var transfereeForm = document.getElementById('transfereeForm');
-
-            // Show/hide forms based on the initial value
-            toggleFormSections(admissionType.value);
-
-            // Add event listener for change event
-            admissionType.addEventListener('change', function() {
-                toggleFormSections(this.value);
             });
-
-            function toggleFormSections(value) {
-                if (value == 1 || value == 2) { // New or Returnee
-                    newReturneeForm.style.display = 'block';
-                    transfereeForm.style.display = 'none';
-                } else if (value == 3) { // Transferee
-                    newReturneeForm.style.display = 'none';
-                    transfereeForm.style.display = 'block';
-                } else { // Hide all if no selection
-                    newReturneeForm.style.display = 'none';
-                    transfereeForm.style.display = 'none';
-                }
-            }
-        });
-    </script>
+        </script>
+    @endif
 </body>
 </html>
    
