@@ -74,7 +74,7 @@ class PortalController extends Controller
     public function checkEmail(Request $request)
     {
         $email = $request->input('email');
-        $apiKey = 'd507dd74b8c3b63f38ca7789a3474964f40a75a7'; // Replace with your actual Hunter.io API key
+        $apiKey = '34af5b04efbe14fc8999278e56521863b9909719'; // Replace with your actual Hunter.io API key
 
         // Hunter.io API URL
         $url = "https://api.hunter.io/v2/email-verifier?email={$email}&api_key={$apiKey}";
