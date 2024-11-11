@@ -179,8 +179,17 @@ class AdAdmissionAppController extends Controller
                     });
             })->exists();
 
+        $venueEmpty = Applicant::where('id', $decryptedId)
+            ->whereNull('venue')
+            ->orWhere('venue', '')
+            ->exists();
+
         if ($applicantsWithoutSchedule) {
             return response()->json(['error' => true, 'message' => 'Please assign schedule and time for examination before pushing to examination list.'], 422);
+        }
+
+        if ($venueEmpty) {
+            return response()->json(['error' => true, 'message' => 'Please assign a venue before pushing to examination list.'], 422);
         }
         $affectedRows = Applicant::where('p_status', 1)
             ->where('id', $decryptedId)
