@@ -116,7 +116,7 @@ class PortalController extends Controller
 
         $existingApplicant = Applicant::where('lname', $request->input('lastname'))
             ->where('fname', $request->input('firstname'))
-            ->whereYear('created_at', Carbon::now()->year)
+            ->whereYear('created_at', 2024)
             ->first();
 
         if ($existingApplicant) {
