@@ -693,7 +693,7 @@
             });
         </script>
 
-        <script>
+        {{-- <script>
             $(document).ready(function () {
                 $('#email').on('blur', function () {
                     let email = $(this).val();
@@ -736,7 +736,23 @@
                     });
                 });
             });
+        </script> --}}
+
+        <script>
+        $(document).ready(function () {
+            $('#email').on('blur', function () {
+                let email = $(this).val();
+
+                // Check if the email input is not empty
+                if (email.trim() !== '') {
+                    $('#next-btn').show(); // Enable the "Next" button
+                } else {
+                    $('#next-btn').hide(); // Hide the button if the email is empty
+                }
+            });
+        });
         </script>
+
 
         <script>
             const programsRoute = '{{ route('getProgramsByCampus') }}';
