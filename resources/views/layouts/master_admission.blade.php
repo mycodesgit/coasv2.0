@@ -209,6 +209,12 @@
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                        <div class="col-6 col-md-3 text-center">
+                                                            <input type="text" class="knob" value="150" data-min="-150" data-max="150" data-width="90"
+                                                                   data-height="90" data-fgColor="#00a65a">
+
+                                                            <div class="knob-label">Server Load</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endif
