@@ -479,6 +479,7 @@ CISS V.1.0 || Applicant Search List
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="changeTimeSchedButton" class="btn btn-info">Change Time Sched</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
@@ -522,6 +523,16 @@ CISS V.1.0 || Applicant Search List
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
     var requestedCampus = '{{ request('campus') }}'
+
+    document.getElementById('changeTimeSchedButton').addEventListener('click', function() {
+        var formDateSched = document.getElementById('formdatesched');
+        // Toggle the display between block and none
+        if (formDateSched.style.display === 'none') {
+            formDateSched.style.display = 'block';
+        } else {
+            formDateSched.style.display = 'none';
+        }
+    });
 </script>
 
 @endsection
