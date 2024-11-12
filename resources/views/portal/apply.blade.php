@@ -594,7 +594,7 @@
                                                             <div class="icheck-primary">
                                                                 <input type="radio" id="radioPrimary7" name="typefileproofupload" value="Low Income">
                                                                 <label for="radioPrimary7">
-                                                                    Low Income: <span style="font-weight: normal;">Income Tax Return from BIR</span> <span class="text-danger">(Barangay Indigency Certificate will not honored)</span>
+                                                                    Low Income: <span style="font-weight: normal;">Income Tax Return from BIR</span> <span class="text-danger">(Barangay Indigency Certificate will not be honored)</span>
                                                                 </label>
                                                             </div>
                                                         </div>
