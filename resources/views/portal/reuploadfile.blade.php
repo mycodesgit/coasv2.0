@@ -74,7 +74,7 @@
                         <div class="col-lg-6 offset-lg-3 col-lg-offset-4 col-lg-center px-3">
                             <br>
 
-                            <form id="admissionUploadDoc" method="post" action="{{ route('uploadDocuments') }}" enctype="multipart/form-data" >
+                            <form id="fileUploadForm" method="post" action="{{ route('uploadDocuments') }}" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="card">
@@ -119,9 +119,9 @@
                                         <div class="card-body">
                                             <label for="admissionid">Your Admission ID</label>
                                             <input type="text" id="admissionid" name="admissionid" class="form-control" readonly>
-                                            <input type="text" id="fname" name="fname" class="form-control" readonly>
-                                            <input type="text" id="lname" name="lname" class="form-control" readonly>
-                                            <input type="text" id="primaryid" name="id" class="form-control" readonly>
+                                            <input type="hidden" id="fname" name="fname" class="form-control" readonly>
+                                            <input type="hidden" id="lname" name="lname" class="form-control" readonly>
+                                            <input type="hidden" id="primaryid" name="id" class="form-control" readonly>
                                         </div>
                                     </div>
                                     
@@ -206,11 +206,7 @@
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
-    <script>
-        let historyLock = setInterval(() => {
-            history.pushState(null, null, location.href);
-        }, 100); 
-
+    <script> 
         document.getElementById('searchApplicant').addEventListener('click', function () {
             let lastname = document.getElementById('search_lastname').value.trim();
             let firstname = document.getElementById('search_firstname').value.trim();
@@ -270,32 +266,59 @@
             });
         });
 
-        $(document).ready(function() {
-            $('#admissionUploadDoc').submit(function(event) {
-                event.preventDefault();
-                var formData = $(this).serialize();
+        $(document).on('submit', '#fileUploadForm', function(e) {
+            e.preventDefault();
 
-                $.ajax({
-                    url: '{{ route('uploadDocuments') }}',
-                    type: "POST",
-                    data: formData,
-                    success: function(response) {
-                        if(response.success) {
-                            toastr.success(response.message);
-                            console.log(response);
-                            $(document).trigger('schedExamUpdated');
-                        } else {
-                            toastr.error(response.message);
-                            console.log(response);
-                        }
-                    },
-                    error: function(xhr, status, error, message) {
-                        var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
-                        toastr.error(errorMessage);
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: "{{ route('uploadDocuments') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        console.log('Updated files:', response.data);
+                        $(document).trigger('schedExamUpdated');
+
+                        // Show SweetAlert with countdown timer and redirect
+                        let countdown = 5; // Countdown in seconds
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Successful',
+                            html: `Your documents have been uploaded successfully.<br><b>Redirecting in <span id="countdown">${countdown}</span> seconds...</b>`,
+                            timer: countdown * 1000,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                // Update countdown every second
+                                const countdownElement = Swal.getHtmlContainer().querySelector('#countdown');
+                                const interval = setInterval(() => {
+                                    countdown--;
+                                    countdownElement.textContent = countdown;
+                                    if (countdown <= 0) {
+                                        clearInterval(interval);
+                                    }
+                                }, 1000);
+                            },
+                            willClose: () => {
+                                // Redirect after countdown
+                                window.location.href = "{{ route('repupredirectexpire') }}"; // Change this to your target route
+                            }
+                        });
                     }
-                });
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON.error || 'An error occurred. Please try again.'
+                    });
+                }
             });
         });
+
+
     </script>
 </body>
 </html>

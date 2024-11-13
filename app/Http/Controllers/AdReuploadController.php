@@ -105,4 +105,9 @@ class AdReuploadController extends Controller
             ]
         ]);
     }
+
+    public function repupredirectexpire()
+    {
+        return view('portal.uploadsuccesspage');
+    }
 }
