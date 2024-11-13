@@ -74,7 +74,7 @@
                         <div class="col-lg-6 offset-lg-3 col-lg-offset-4 col-lg-center px-3">
                             <br>
 
-                            <form method="post" action="" enctype="multipart/form-data" id="admissionApply">
+                            <form method="post" action="" enctype="multipart/form-data" id="admissionUploadDoc">
                                 {{ csrf_field() }}
 
                                 <div class="card">
@@ -85,11 +85,11 @@
                                         <div class="form-row">
                                             <div class="col-md-4">
                                                 <label for="search_lastname">Last Name</label>
-                                                <input type="text" id="search_lastname" class="form-control form-control-sm" name="lname" placeholder="Enter Last Name">
+                                                <input type="text" id="search_lastname" class="form-control form-control-sm" name="lname" placeholder="Enter Last Name" oninput="this.value = this.value.toUpperCase()">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="search_firstname">First Name</label>
-                                                <input type="text" id="search_firstname" class="form-control form-control-sm" name="fname" placeholder="Enter First Name">
+                                                <input type="text" id="search_firstname" class="form-control form-control-sm" name="fname" placeholder="Enter First Name" oninput="this.value = this.value.toUpperCase()">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Preferred Campus <i style="color: red">*</i></label>
@@ -118,6 +118,8 @@
                                     <div class="card-body">
                                         <label for="admissionid">Admission ID</label>
                                         <input type="text" id="admissionid" name="admissionid" class="form-control" readonly>
+                                        <input type="text" id="fname" name="fname" class="form-control" readonly>
+                                        <input type="text" id="lname" name="lname" class="form-control" readonly>
 
                                         <label for="primaryid" class="mt-3">Primary ID</label>
                                         <input type="text" id="primaryid" name="app_id" class="form-control" readonly>
@@ -287,6 +289,8 @@
                     // Auto-fill the fields with the retrieved data
                     document.getElementById('admissionid').value = data.applicant.admission_id;
                     document.getElementById('primaryid').value = data.applicant.primaryid;
+                    document.getElementById('search_lastname').value = data.applicant.lname;
+                    document.getElementById('search_firstname').value = data.applicant.fname;
                     document.getElementById('card-1').style.display = 'block';
                     Swal.fire({
                         icon: 'success',
@@ -314,6 +318,35 @@
             });
         });
 
+        $(document).ready(function() {
+            $('#admissionUploadDoc').submit(function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: '{{ route('uploadDocuments') }}',
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        if(response.success) {
+                            toastr.success(response.message);
+                            console.log(response);
+                            $(document).trigger('schedExamUpdated');
+                        } else {
+                            toastr.error(response.message);
+                            console.log(response);
+                        }
+                    },
+                    error: function(xhr, status, error, message) {
+                        var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                        toastr.error(errorMessage);
+                    }
+                });
+            });
+            $(document).on('schedExamUpdated', function() {
+                dataTable.ajax.reload();
+            });
+        });
     </script>
 </body>
 </html>

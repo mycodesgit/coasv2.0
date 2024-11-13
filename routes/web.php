@@ -98,6 +98,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired']],function(){
 
         Route::get('/xYcmd/upload.documents',[AdReuploadController::class,'repup'])->name('repup');
         Route::post('/xYcmd/upload.documents/search', [AdReuploadController::class, 'searchApplicant'])->name('searchApplicant');
+        Route::post('/xYcmd/upload.documents/search/uploaddocs', [AdReuploadController::class, 'uploadDocuments'])->name('uploadDocuments');
     });
 
 
