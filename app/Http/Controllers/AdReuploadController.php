@@ -58,8 +58,8 @@ class AdReuploadController extends Controller
     public function uploadDocuments(Request $request)
     {
         $request->validate([
-            'studiddoc_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'proofdoc_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'studiddoc_image' => 'nullable|image',
+            'proofdoc_image' => 'nullable|image',
         ]);
 
         $app_id = $request->input('id');
@@ -76,16 +76,6 @@ class AdReuploadController extends Controller
 
         // Generate a base filename using lname, fname, and admission ID
         $baseFilename = $lname . '_' . $fname . '_' . $admissionid;
-
-        // Check if the `studiddoc_image` is already uploaded (not null, empty, or 0)
-        if ($applicant->studiddoc_image && $applicant->studiddoc_image != '0' && !empty($applicant->studiddoc_image)) {
-            return response()->json(['error' => 'You have already uploaded the student ID document'], 400);
-        }
-
-        // Check if the `proofdoc_image` is already uploaded (not null, empty, or 0)
-        if ($applicant->proofdoc_image && $applicant->proofdoc_image != '0' && !empty($applicant->proofdoc_image)) {
-            return response()->json(['error' => 'You have already uploaded the proof document'], 400);
-        }
 
         // Update the `studiddoc_image` if a new file is uploaded
         if ($request->hasFile('studiddoc_image')) {

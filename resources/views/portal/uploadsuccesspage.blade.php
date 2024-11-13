@@ -120,22 +120,10 @@
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
     <script>
-        // Lock the history to prevent the user from going back
         let historyLock = setInterval(() => {
-            history.pushState(null, null, location.href); // Push the current state
+            history.pushState(null, null, location.href);
         }, 100); 
-
-        // Optionally, clear the interval after a certain duration if needed
-        setTimeout(() => {
-            clearInterval(historyLock); // Stop locking the history after 5 seconds
-        }, 5000); // Adjust duration based on your needs
-
-        // Optionally, you can add an event listener to handle the back button when attempted
-        window.onpopstate = function(event) {
-            history.pushState(null, null, location.href); // Keep pushing the state to prevent going back
-        };
     </script>
-
 </body>
 </html>
    

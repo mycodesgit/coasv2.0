@@ -119,9 +119,9 @@
                                         <div class="card-body">
                                             <label for="admissionid">Your Admission ID</label>
                                             <input type="text" id="admissionid" name="admissionid" class="form-control" readonly>
-                                            <input type="hidden" id="fname" name="fname" class="form-control" readonly>
-                                            <input type="hidden" id="lname" name="lname" class="form-control" readonly>
-                                            <input type="hidden" id="primaryid" name="id" class="form-control" readonly>
+                                            <input type="text" id="fname" name="fname" class="form-control" readonly>
+                                            <input type="text" id="lname" name="lname" class="form-control" readonly>
+                                            <input type="text" id="primaryid" name="id" class="form-control" readonly>
                                         </div>
                                     </div>
                                     
@@ -146,7 +146,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Upload School ID <i style="color: red">*</i></label>
-                                                        <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*" required>
+                                                        <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*">
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Upload Proof/Evidence of Disadvantage Situation <i style="color: red">*</i></label>
-                                                        <input type="file" name="proofdoc_image" class="form-control form-control-sm" accept="image/*" required>
+                                                        <input type="file" name="proofdoc_image" class="form-control form-control-sm" accept="image/*">
                                                     </div>
                                                 </div>
                                             </div>
@@ -206,7 +206,11 @@
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
-    <script> 
+    <script>
+        let historyLock = setInterval(() => {
+            history.pushState(null, null, location.href);
+        }, 100); 
+
         document.getElementById('searchApplicant').addEventListener('click', function () {
             let lastname = document.getElementById('search_lastname').value.trim();
             let firstname = document.getElementById('search_firstname').value.trim();
@@ -280,7 +284,6 @@
                 success: function(response) {
                     if (response.success) {
                         console.log('Updated files:', response.data);
-                        $(document).trigger('schedExamUpdated');
 
                         // Show SweetAlert with countdown timer and redirect
                         let countdown = 5; // Countdown in seconds
