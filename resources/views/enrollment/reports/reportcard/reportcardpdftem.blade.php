@@ -192,7 +192,7 @@
                 <thead>
                     <th colspan="2" style="font-weight: bold; font-size: 11pt; padding-left: 355px;">
                         @if(Auth::guard('web')->user()->campus == 'MC')
-                            ARLOS, ELYSA JANE S.<br><span style="padding-left: 30px;">University Registrar</span>
+                            ARLOS, ELYSA JANE S.<br><span style="padding-left: 50px;">OIC - University Registrar</span>
                         @elseif(Auth::guard('web')->user()->campus == 'VC')
                             PAJARILLO, JUNO E., DPA<br><span style="padding-left: 30px;">Campus Registrar</span>
                         @endif
