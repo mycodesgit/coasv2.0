@@ -18,6 +18,7 @@ use App\Http\Controllers\AdAcceptedController;
 use App\Http\Controllers\AdChangeCampusController;
 use App\Http\Controllers\AdCoursePreferenceController;
 use App\Http\Controllers\AdBillingController;
+use App\Http\Controllers\AdReuploadController;
 
 use App\Http\Controllers\EnStudAddController;
 use App\Http\Controllers\EnrollmentController;
@@ -94,6 +95,9 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired']],function(){
         //Route::get('/apply/submit/successfully', function () { return view('portal.applysubmit');});
         Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
         Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
+
+        Route::get('/xYcmd/upload.documents',[AdReuploadController::class,'repup'])->name('repup');
+        Route::post('/xYcmd/upload.documents/search', [AdReuploadController::class, 'searchApplicant'])->name('searchApplicant');
     });
 
 
