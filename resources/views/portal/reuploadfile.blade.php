@@ -119,9 +119,9 @@
                                         <div class="card-body">
                                             <label for="admissionid">Your Admission ID</label>
                                             <input type="text" id="admissionid" name="admissionid" class="form-control" readonly>
-                                            <input type="text" id="fname" name="fname" class="form-control" readonly>
-                                            <input type="text" id="lname" name="lname" class="form-control" readonly>
-                                            <input type="text" id="primaryid" name="id" class="form-control" readonly>
+                                            <input type="hidden" id="fname" name="fname" class="form-control" readonly>
+                                            <input type="hidden" id="lname" name="lname" class="form-control" readonly>
+                                            <input type="hidden" id="primaryid" name="id" class="form-control" readonly>
                                         </div>
                                     </div>
                                     

@@ -96,7 +96,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired']],function(){
         Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
         Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
 
-        Route::get('/xYcmd/upload.documents/asd',[AdReuploadController::class,'repup'])->name('repup');
+        Route::get('/xYcmd/upload.documents',[AdReuploadController::class,'repup'])->name('repup');
         Route::post('/xYcmd/upload.documents/search', [AdReuploadController::class, 'searchApplicant'])->name('searchApplicant');
         Route::post('/xYcmd/upload.documents/search/uploaddocs', [AdReuploadController::class, 'uploadDocuments'])->name('uploadDocuments');
         Route::get('/xYcmd/upload.documents/redirect/expire',[AdReuploadController::class,'repupredirectexpire'])->name('repupredirectexpire');
