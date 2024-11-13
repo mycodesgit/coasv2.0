@@ -74,8 +74,8 @@
                         <div class="col-lg-6 offset-lg-3 col-lg-offset-4 col-lg-center px-3">
                             <br>
 
-                            <form method="post" action="" enctype="multipart/form-data" id="admissionUploadDoc">
-                                {{ csrf_field() }}
+                            <form id="admissionUploadDoc" method="post" action="{{ route('uploadDocuments') }}" enctype="multipart/form-data" >
+                                @csrf
 
                                 <div class="card">
                                     <div class="card-header">
@@ -114,27 +114,26 @@
                                 </div>
 
                                 <!-- Auto-filled Applicant Information -->
-                                <div class="card mt-3">
-                                    <div class="card-body">
-                                        <label for="admissionid">Admission ID</label>
-                                        <input type="text" id="admissionid" name="admissionid" class="form-control" readonly>
-                                        <input type="text" id="fname" name="fname" class="form-control" readonly>
-                                        <input type="text" id="lname" name="lname" class="form-control" readonly>
-
-                                        <label for="primaryid" class="mt-3">Primary ID</label>
-                                        <input type="text" id="primaryid" name="app_id" class="form-control" readonly>
-                                    </div>
-                                </div>
-                                
-                                <p>
-                                    @if(Session::has('success'))
-                                        <div class="alert alert-success" id="alert">{{ Session::get('success')}} {{ Session::get('admission_id')}}</div>
-                                    @elseif (Session::has('fail'))
-                                        <div class="alert alert-danger" id="alert">{{Session::get('fail')}}</div>
-                                    @endif
-                                </p>
-
                                 <div id="card-1" style="display: none;">
+                                    <div class="card mt-3">
+                                        <div class="card-body">
+                                            <label for="admissionid">Your Admission ID</label>
+                                            <input type="text" id="admissionid" name="admissionid" class="form-control" readonly>
+                                            <input type="text" id="fname" name="fname" class="form-control" readonly>
+                                            <input type="text" id="lname" name="lname" class="form-control" readonly>
+                                            <input type="text" id="primaryid" name="id" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    
+                                    <p>
+                                        @if(Session::has('success'))
+                                            <div class="alert alert-success" id="alert">{{ Session::get('success')}} {{ Session::get('admission_id')}}</div>
+                                        @elseif (Session::has('fail'))
+                                            <div class="alert alert-danger" id="alert">{{Session::get('fail')}}</div>
+                                        @endif
+                                    </p>
+
+                                
                                     <div class="card">
                                         <div class="card-header">
                                             <h5 class="card-title m-0">Documents Information</h5>
@@ -160,53 +159,6 @@
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Upload Proof/Evidence of Disadvantage Situation <i style="color: red">*</i></label>
-                                                        <div class="form-group clearfix">
-                                                            <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary1" name="typefileproofupload" value="4Ps">
-                                                                <label for="radioPrimary1">
-                                                                    4P's: <span style="font-weight: normal;">4Ps ID or Certification from DSWD</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary2" name="typefileproofupload" value="IPs">
-                                                                <label for="radioPrimary2">
-                                                                    IP's: <span style="font-weight: normal;">Certification from IPMR</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary3" name="typefileproofupload" value="PWD">
-                                                                <label for="radioPrimary3">
-                                                                    PWD: <span style="font-weight: normal;">PWD ID or Certification from DSWD</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary4" name="typefileproofupload" value="Solo Parent">
-                                                                <label for="radioPrimary4">
-                                                                    Solo Parent: <span style="font-weight: normal;">Solo Parent ID or Certification from DSWD</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary5" name="typefileproofupload" value="Senior Citizen">
-                                                                <label for="radioPrimary5">
-                                                                    Senior Citizen: <span style="font-weight: normal;">Senior Citizen ID</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary6" name="typefileproofupload" value="Guarduarsnhip">
-                                                                <label for="radioPrimary6">
-                                                                    Under Guarduarsnhip: <span style="font-weight: normal;">Certification from DSWD</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="icheck-primary">
-                                                                <input type="radio" id="radioPrimary7" name="typefileproofupload" value="Low Income">
-                                                                <label for="radioPrimary7">
-                                                                    Low Income: <span style="font-weight: normal;">Income Tax Return from BIR</span> <span class="text-danger">(Barangay Indigency Certificate will not be honored)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label>Upload Proof/Evidence of Disadvantage Situation <i style="color: red">*</i></label>
                                                         <input type="file" name="proofdoc_image" class="form-control form-control-sm" accept="image/*">
                                                     </div>
                                                 </div>
@@ -214,7 +166,7 @@
                                         </div>
                                     </div>
                                     <div class="progress-section d-flex align-items-center justify-content-between mt-3">
-                                        <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
 
@@ -289,8 +241,8 @@
                     // Auto-fill the fields with the retrieved data
                     document.getElementById('admissionid').value = data.applicant.admission_id;
                     document.getElementById('primaryid').value = data.applicant.primaryid;
-                    document.getElementById('search_lastname').value = data.applicant.lname;
-                    document.getElementById('search_firstname').value = data.applicant.fname;
+                    document.getElementById('lname').value = data.applicant.lname;
+                    document.getElementById('fname').value = data.applicant.fname;
                     document.getElementById('card-1').style.display = 'block';
                     Swal.fire({
                         icon: 'success',
@@ -342,9 +294,6 @@
                         toastr.error(errorMessage);
                     }
                 });
-            });
-            $(document).on('schedExamUpdated', function() {
-                dataTable.ajax.reload();
             });
         });
     </script>

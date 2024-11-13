@@ -89,7 +89,7 @@
                                 date_default_timezone_set('Asia/Manila');
 
                                 $now = now();
-                                $startTime = now()->setHour(16)->setMinute(0)->setSecond(0);
+                                $startTime = now()->setHour(22)->setMinute(0)->setSecond(0);
                                 $endTime = now()->setHour(17)->setMinute(0)->setSecond(0);
                             @endphp
 

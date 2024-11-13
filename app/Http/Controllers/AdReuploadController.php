@@ -57,48 +57,52 @@ class AdReuploadController extends Controller
 
     public function uploadDocuments(Request $request)
     {
-        // Validate inputs (ensure the files are being uploaded)
         $request->validate([
-            'studiddoc_image' => 'nullable|mimes:jpeg,png,jpg,pdf|max:10240',
-            'proofdoc_image' => 'nullable|mimes:jpeg,png,jpg,pdf|max:10240',
-            'lname' => 'required',
-            'fname' => 'required',
+            'studiddoc_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'proofdoc_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Retrieve the application ID or admission ID
-        $app_id = $request->input('app_id'); // or app_id if you're using it
+        $app_id = $request->input('id');
         $admissionid = $request->input('admissionid');
-        // Create or update ApplicantDoc model for the current applicant
-        $docs = ApplicantDocs::firstOrNew(['app_id' => $app_id]);
+        $lname = $request->input('lname');
+        $fname = $request->input('fname');
 
-        // Handle the student ID document upload
+        // Fetch the applicant record by `app_id`
+        $applicant = ApplicantDocs::where('app_id', $app_id)->first();
+
+        if (!$applicant) {
+            return response()->json(['error' => 'Applicant not found'], 404);
+        }
+
+        // Generate a base filename using lname, fname, and admission ID
+        $baseFilename = $lname . '_' . $fname . '_' . $admissionid;
+
+        // Update the `studiddoc_image` if a new file is uploaded
         if ($request->hasFile('studiddoc_image')) {
-            $file = $request->file('studiddoc_image');
-            $filename = $request->input('lname') . '_' . $request->input('fname') . '_' . $admissionid;
-            $extension = $file->getClientOriginalExtension();
-            $filenameWithExtension = $filename . '.' . $extension;
-            $path = $file->storeAs('studentIDfolder', $filenameWithExtension, 'public');
-            $docs->studiddoc_image = $path;
+            $extension = $request->file('studiddoc_image')->getClientOriginalExtension();
+            $filename = $baseFilename . '_studid.' . $extension;
+            $studIdPath = $request->file('studiddoc_image')->storeAs('studentIDfolder', $filename, 'public');
+            $applicant->studiddoc_image = $studIdPath;
         }
 
-        // Handle the proof document upload
+        // Update the `proofdoc_image` if a new file is uploaded
         if ($request->hasFile('proofdoc_image')) {
-            $file = $request->file('proofdoc_image');
-            $filename = $request->input('lname') . '_' . $request->input('fname') . '_' . $admissionid;
-            $extension = $file->getClientOriginalExtension();
-            $filenameWithExtension = $filename . '.' . $extension;
-            $path = $file->storeAs('prooffolder', $filenameWithExtension, 'public');
-            $docs->proofdoc_image = $path;
+            $extension = $request->file('proofdoc_image')->getClientOriginalExtension();
+            $filename = $baseFilename . '_proof.' . $extension;
+            $proofPath = $request->file('proofdoc_image')->storeAs('prooffolder', $filename, 'public');
+            $applicant->proofdoc_image = $proofPath;
         }
 
-        // Save the document paths to the database
-        $docs->save();
+        // Save changes to the database
+        $applicant->save();
 
-        // Return response
         return response()->json([
             'success' => true,
-            'message' => 'Documents uploaded successfully.',
-            'data' => $docs
+            'message' => 'Files updated successfully',
+            'data' => [
+                'studiddoc_image' => $applicant->studiddoc_image,
+                'proofdoc_image' => $applicant->proofdoc_image,
+            ]
         ]);
     }
 }
