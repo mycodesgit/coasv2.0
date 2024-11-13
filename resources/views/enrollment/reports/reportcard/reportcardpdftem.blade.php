@@ -190,7 +190,7 @@
                     <th colspan="2" style="font-weight: bold; font-size: 10pt;">SCHOOL SEAL</th>
                 </thead>
                 <thead>
-                    <th colspan="2" style="font-weight: bold; font-size: 11pt; padding-left: 365px;">
+                    <th colspan="2" style="font-weight: bold; font-size: 11pt; padding-left: 380px;">
                         @if(Auth::guard('web')->user()->campus == 'MC')
                             ARLOS, ELYSA JANE S.<br><span style="padding-left: 20px;">OIC - University Registrar</span>
                         @elseif(Auth::guard('web')->user()->campus == 'VC')
