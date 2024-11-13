@@ -146,7 +146,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Upload School ID <i style="color: red">*</i></label>
-                                                        <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*">
+                                                        <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Upload Proof/Evidence of Disadvantage Situation <i style="color: red">*</i></label>
-                                                        <input type="file" name="proofdoc_image" class="form-control form-control-sm" accept="image/*">
+                                                        <input type="file" name="proofdoc_image" class="form-control form-control-sm" accept="image/*" required>
                                                     </div>
                                                 </div>
                                             </div>
