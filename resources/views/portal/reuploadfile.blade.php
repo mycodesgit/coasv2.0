@@ -72,6 +72,18 @@
                 <div class="">
                     <div class="row" style="padding-top: 15px;">
                         <div class="col-lg-6 offset-lg-3 col-lg-offset-4 col-lg-center px-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('admission-portal') }}" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-home"></i>
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active mt-1">Apply Admission</li>
+                                    </ol>
+                                </div>
+                            </div>
                             <div class="card card-secondary card-outline">
                                 <div class="card-body">
                                     <h6 class="card-title text-dark">
