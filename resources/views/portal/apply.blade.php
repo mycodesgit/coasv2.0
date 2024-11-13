@@ -76,7 +76,7 @@
                                 <div class="card-body">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item">
-                                            <a href="{{ route('main') }}" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('admission-portal') }}" class="btn btn-primary btn-sm">
                                                 <i class="fas fa-home"></i>
                                             </a>
                                         </li>
