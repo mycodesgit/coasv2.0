@@ -67,6 +67,7 @@
                         <div>
                             <a href="{{ route('admission-apply') }}" class="btn btn-warning btn-block text-bold">Apply Admission</a>
                             <a href="{{ route('admission_track') }}" class="btn btn-warning btn-block text-bold">Track Admission</a>
+                            <a href="{{ route('repup') }}" class="btn btn-warning btn-block text-bold">Re-upload Documents</a>
                         </div>
                         &nbsp;
                     </div>   

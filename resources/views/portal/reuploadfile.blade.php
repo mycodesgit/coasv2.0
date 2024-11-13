@@ -72,7 +72,20 @@
                 <div class="">
                     <div class="row" style="padding-top: 15px;">
                         <div class="col-lg-6 offset-lg-3 col-lg-offset-4 col-lg-center px-3">
-                            <br>
+                            <div class="card card-secondary card-outline">
+                                <div class="card-body">
+                                    <h6 class="card-title text-dark">
+                                        <strong>To all applicants who registered today, November 13, 2024, please re-upload your documents.<br><br>
+                                        <div>
+                                            <label for="checkboxPrimaryAgree1">
+                                                <span style="font-weight: bold;">Thank you.</span>
+                                            </label>
+                                        </div>
+                                        </strong>
+                                    </h6>
+                                </div>
+                            </div>
+
 
                             <form id="fileUploadForm" method="post" action="{{ route('uploadDocuments') }}" enctype="multipart/form-data">
                                 @csrf
