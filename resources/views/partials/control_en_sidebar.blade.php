@@ -29,9 +29,9 @@
     <ul class="list-group">
         <a href="{{ route('enrollment-index') }}" class="list-group-item {{ $dashEnActive }}">Dashboard</a>
     </ul>
-    @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
+    {{-- @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
         <a href="" class="list-group-item text-center">Sorry for the inconvenience, we are currently undergoing maintenance.</a>
-    @else
+    @else --}}
     <ul class="list-group mt-1">
         @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
             <a href="{{ route('studentCreate') }}" class="list-group-item {{ $studAddActive }}">Add Student</a>
@@ -53,7 +53,7 @@
             <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
         @endif
     </ul>
-    @endif
+    {{-- @endif --}}
 </div>
 
 
@@ -62,9 +62,9 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
+        {{-- @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
             <a href="" class="list-group-item text-center">Sorry for the inconvenience, we are currently undergoing maintenance.</a>
-        @else
+        @else --}}
         @if(in_array(Auth::guard('web')->user()->role, [0, 2, 3, 4, 13, 14]))
             <a href="{{ Auth::guard('web')->user()->role == 0 ? route('studInfo') : route('studInfo_search') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
         @endif
@@ -94,7 +94,7 @@
         @if(in_array(Auth::guard('web')->user()->role, [0]))
         <a href="{{ route('studenrollRead') }}" class="list-group-item {{ $studenpersemActive }}">Students Enrolled</a>
         @endif
-        @endif
+        {{-- @endif --}}
     </ul>
 </div>
 
