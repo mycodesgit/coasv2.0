@@ -1,7 +1,8 @@
 $(function () {
     // Canvas for the previous and current semester charts
     var prevSemesterChartCanvas = $('#prevSemesterBarChart').get(0).getContext('2d');
-    //var currSemesterChartCanvas = $('#currSemesterBarChart').get(0).getContext('2d');
+    var currSemesterChartCanvas = $('#currSemesterBarChart').get(0).getContext('2d');
+    var currSemesterUnderProgramChartCanvas = $('#currSemesterunderprogBarChart').get(0).getContext('2d');
 
     // Define year levels
     var yearLevels = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
@@ -57,6 +58,43 @@ $(function () {
     new Chart(currSemesterChartCanvas, {
         type: 'bar',
         data: currSemesterData,
+        options: currSemesterOptions
+    });
+
+
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    var barColors = undercolors.map(() => getRandomColor());
+
+    var currSemesterGradData = {
+        labels: underprogramAcronyms,
+        datasets: [{
+            label: 'No. of Students Enrolled in ' + currSemesterLabel + ' (' + schlyearActive + ')',
+            data: currunderprogramenrolmentCounts,
+            backgroundColor: barColors
+        }]
+    };
+
+    var currSemesterOptions = {
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    // Initialize chart for the current semester
+    new Chart(currSemesterUnderProgramChartCanvas, {
+        type: 'bar',
+        data: currSemesterGradData,
         options: currSemesterOptions
     });
 });

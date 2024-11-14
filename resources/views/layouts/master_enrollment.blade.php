@@ -239,6 +239,16 @@
 
                                                         <div class="col-md-12">
                                                             <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="chart-responsive pt-1">
+                                                                        <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="card">
                                                                 <div class="card-header">
                                                                     <h3 class="card-title">Enrollment for this current Semester in All Campuses</h3>
                                                                     <div class="card-tools">
@@ -367,6 +377,9 @@
                 var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
                 var prevenrolmentCounts = {!! json_encode($prevenrolmentCounts) !!};
                 var currenrolmentCounts = {!! json_encode($currenrolmentCounts) !!};
+                var currunderprogramenrolmentCounts = {!! json_encode($currunderprogramenrolmentCounts) !!};
+                var underprogramAcronyms = {!! json_encode($underprogramAcronyms) !!};
+                var undercolors = {!! json_encode($underprogramAcronyms) !!};
             </script>
             <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
             <script src="{{ asset('js/chart/enbarchartperyearlev.js') }}"></script>
