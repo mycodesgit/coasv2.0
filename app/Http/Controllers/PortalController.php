@@ -143,7 +143,7 @@ class PortalController extends Controller
 
         $todayRegistrations = Applicant::whereDate('created_at', today())->count();
 
-        if ($todayRegistrations >= 500) {
+        if ($todayRegistrations >= 750) {
             return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Daily registration limit reached!');
         }
             
