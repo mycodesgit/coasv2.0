@@ -136,133 +136,165 @@
                                         </ol>
                                         <div class="workspace-top" style="text-align: center;">
                                             <div class="row">
-                                                @if(request()->routeIs('enrollment-index'))
-                                                    <div class="col-lg-3 col-6">
-                                                        <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
-                                                            <div class="text-left">
-                                                                <div class="inner">
-                                                                    <h3>{{ $enrlstudcountfirst }}</h3>
-                                                                    <p>1st Stud Enrolled this Sem</p>
+                                                @if(!Auth::guard('web')->user()->role == 15)
+                                                    @if(request()->routeIs('enrollment-index'))
+                                                        <div class="col-lg-3 col-6">
+                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
+                                                                <div class="text-left">
+                                                                    <div class="inner">
+                                                                        <h3>{{ $enrlstudcountfirst }}</h3>
+                                                                        <p>1st Stud Enrolled this Sem</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="text-right">
-                                                                <div class="icon">
-                                                                    <i class="fa fa-users"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-3 col-6">
-                                                        <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important">
-                                                            <div class="text-left">
-                                                                <div class="inner">
-                                                                    <h3>{{ $enrlstudcountsecond }}</h3>
-                                                                    <p>2nd Stud Enrolled this Sem</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-right">
-                                                                <div class="icon">
-                                                                    <i class="fa fa-users"></i>
+                                                                <div class="text-right">
+                                                                    <div class="icon">
+                                                                        <i class="fa fa-users"></i>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-3 col-6">
-                                                        <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #9dcda8 !important">
-                                                            <div class="text-left">
-                                                                <div class="inner">
-                                                                    <h3>{{ $enrlstudcountthird }}</h3>
-                                                                    <p>3rd Stud Enrolled this Sem</p>
+                                                        <div class="col-lg-3 col-6">
+                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important">
+                                                                <div class="text-left">
+                                                                    <div class="inner">
+                                                                        <h3>{{ $enrlstudcountsecond }}</h3>
+                                                                        <p>2nd Stud Enrolled this Sem</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="text-right">
-                                                                <div class="icon">
-                                                                    <i class="fa fa-users"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-3 col-6">
-                                                        <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #008b51 !important">
-                                                            <div class="text-left">
-                                                                <div class="inner">
-                                                                    <h3>{{ $enrlstudcountfourth }}</h3>
-                                                                    <p>4th Stud Enrolled this Sem</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-right">
-                                                                <div class="icon">
-                                                                    <i class="fa fa-users"></i>
+                                                                <div class="text-right">
+                                                                    <div class="icon">
+                                                                        <i class="fa fa-users"></i>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                
-                                                    <div class="col-md-6">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="chart-responsive pt-1">
-                                                                    <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                        <div class="col-lg-3 col-6">
+                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #9dcda8 !important">
+                                                                <div class="text-left">
+                                                                    <div class="inner">
+                                                                        <h3>{{ $enrlstudcountthird }}</h3>
+                                                                        <p>3rd Stud Enrolled this Sem</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="text-right">
+                                                                    <div class="icon">
+                                                                        <i class="fa fa-users"></i>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="chart-responsive pt-1">
-                                                                    <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                        <div class="col-lg-3 col-6">
+                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #008b51 !important">
+                                                                <div class="text-left">
+                                                                    <div class="inner">
+                                                                        <h3>{{ $enrlstudcountfourth }}</h3>
+                                                                        <p>4th Stud Enrolled this Sem</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="text-right">
+                                                                    <div class="icon">
+                                                                        <i class="fa fa-users"></i>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="chart-responsive pt-1">
+                                                                        <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="chart-responsive pt-1">
+                                                                        <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                    <div class="col-md-6">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="chart-responsive pt-1">
-                                                                    <canvas id="prevSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="chart-responsive pt-1">
+                                                                        <canvas id="prevSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="chart-responsive pt-1">
-                                                                    <canvas id="currSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="chart-responsive pt-1">
+                                                                        <canvas id="currSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
+                                                        <div class="col-md-12">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    <h3 class="card-title">Enrollment for this current Semester in All Campuses</h3>
+                                                                    <div class="card-tools">
+                                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                        <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="position-relative mb-4">
+                                                                        <canvas id="enrlmntpercamp-chart"
+                                                                                data-main="{!! $MainEnrollmentCount !!}"
+                                                                                data-victorias="{!! $VcEnrollmentCount !!}" 
+                                                                                data-sancarlos="{!! $SccEnrollmentCount !!}"  
+                                                                                data-hinigaran="{!! $HcEnrollmentCount !!}"  
+                                                                                data-moises="{!! $MpEnrollmentCount !!}"  
+                                                                                data-ilog="{!! $IcEnrollmentCount !!}"  
+                                                                                data-candoni="{!! $CaEnrollmentCount !!}"  
+                                                                                data-cauayan="{!! $CcEnrollmentCount !!}"  
+                                                                                data-siplay="{!! $ScEnrollmentCount !!}"  
+                                                                                data-hinobaan="{!! $HinCEnrollmentCount !!}"  
+                                                                                height="200">
+                                                                        </canvas>
+                                                                    </div>
+                                                                    <div class="d-flex flex-row justify-content-end">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endif
+
+                                                @if(Auth::guard('web')->user()->role == 15)
+                                                    <div class="col-md-6">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="chart-responsive pt-1">
+                                                                    <canvas id="prevSemestergradBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="chart-responsive pt-1">
+                                                                    <canvas id="currSemestergradBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-12">
                                                         <div class="card">
-                                                            <div class="card-header">
-                                                                <h3 class="card-title">Enrollment for this current Semester in All Campuses</h3>
-                                                                <div class="card-tools">
-                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                                    <i class="fas fa-minus"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
                                                             <div class="card-body">
-                                                                <div class="position-relative mb-4">
-                                                                    <canvas id="enrlmntpercamp-chart"
-                                                                            data-main="{!! $MainEnrollmentCount !!}"
-                                                                            data-victorias="{!! $VcEnrollmentCount !!}" 
-                                                                            data-sancarlos="{!! $SccEnrollmentCount !!}"  
-                                                                            data-hinigaran="{!! $HcEnrollmentCount !!}"  
-                                                                            data-moises="{!! $MpEnrollmentCount !!}"  
-                                                                            data-ilog="{!! $IcEnrollmentCount !!}"  
-                                                                            data-candoni="{!! $CaEnrollmentCount !!}"  
-                                                                            data-cauayan="{!! $CcEnrollmentCount !!}"  
-                                                                            data-siplay="{!! $ScEnrollmentCount !!}"  
-                                                                            data-hinobaan="{!! $HinCEnrollmentCount !!}"  
-                                                                            height="200">
-                                                                    </canvas>
-                                                                </div>
-                                                                <div class="d-flex flex-row justify-content-end">
+                                                                <div class="chart-responsive pt-1">
+                                                                    <canvas id="currSemestergradprogBarChart" style="height:330px; min-height:330px"></canvas>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -322,21 +354,42 @@
     <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
     <script src="{{ asset('js/basic/subjects.js') }}"></script>
 
-    <!-- Basic -->
-    @if(request()->routeIs('enrollment-index'))
-        <script>
-            // Convert PHP data to JavaScript variables
-            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; // Previous school year data
-            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; // Current school year data
-            var semesteractive = {!! json_encode($semesteractive) !!};
-            var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
-            var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
-            var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
-            var prevenrolmentCounts = {!! json_encode($prevenrolmentCounts) !!};
-            var currenrolmentCounts = {!! json_encode($currenrolmentCounts) !!};
-        </script>
-        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
-        <script src="{{ asset('js/chart/enbarchartperyearlev.js') }}"></script>
+    @if(!Auth::guard('web')->user()->role == 15)
+        <!-- Basic -->
+        @if(request()->routeIs('enrollment-index'))
+            <script>
+                // Convert PHP data to JavaScript variables
+                var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; // Previous school year data
+                var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; // Current school year data
+                var semesteractive = {!! json_encode($semesteractive) !!};
+                var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
+                var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
+                var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+                var prevenrolmentCounts = {!! json_encode($prevenrolmentCounts) !!};
+                var currenrolmentCounts = {!! json_encode($currenrolmentCounts) !!};
+            </script>
+            <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+            <script src="{{ asset('js/chart/enbarchartperyearlev.js') }}"></script>
+        @endif
+    @endif
+
+    @if(Auth::guard('web')->user()->role == 15)
+        <!-- Basic -->
+        @if(request()->routeIs('enrollment-index'))
+            <script>
+                // Convert PHP data to JavaScript variables
+                var semesteractive = {!! json_encode($semesteractive) !!};
+                var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
+                var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
+                var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+                var prevgradenrolmentCounts = {!! json_encode($prevgradenrolmentCounts) !!};
+                var currgradenrolmentCounts = {!! json_encode($currgradenrolmentCounts) !!};
+                var currgradProgenrolmentCounts = {!! json_encode($currgradprogramenrolmentCounts) !!};
+                var programAcronyms = {!! json_encode($programAcronyms) !!};
+                var colors = {!! json_encode($programAcronyms) !!};
+            </script>
+            <script src="{{ asset('js/chart/gradenbarchart.js') }}"></script>
+        @endif
     @endif
 
     <!-- Ajax -->

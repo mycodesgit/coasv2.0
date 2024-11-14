@@ -1,7 +1,7 @@
 $(function () {
     // Canvas for the previous and current semester charts
     var prevSemesterChartCanvas = $('#prevSemesterBarChart').get(0).getContext('2d');
-    var currSemesterChartCanvas = $('#currSemesterBarChart').get(0).getContext('2d');
+    //var currSemesterChartCanvas = $('#currSemesterBarChart').get(0).getContext('2d');
 
     // Define year levels
     var yearLevels = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
