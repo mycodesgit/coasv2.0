@@ -73,7 +73,7 @@ class EnrollmentController extends Controller
             return back()->with('error', 'No previous school year found.');
         }
 
-        if(!Auth::guard('web')->user()->role == 15) 
+        @if(Auth::guard('web')->check() && Auth::guard('web')->user()->role >= 0 && Auth::guard('web')->user()->role <= 14)
         {
             // Query for the previous school year's first semester
             $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
