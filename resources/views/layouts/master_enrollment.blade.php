@@ -363,6 +363,7 @@
     <script src="{{ asset('js/basic/yearscript.js') }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
     <script src="{{ asset('js/basic/subjects.js') }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
     @if(Auth::guard('web')->check() && Auth::guard('web')->user()->role >= 0 && Auth::guard('web')->user()->role <= 14)
         <!-- Basic -->
