@@ -87,7 +87,7 @@
                             <div class="card card-secondary card-outline">
                                 <div class="card-body">
                                     <h6 class="card-title text-dark">
-                                        <strong>To all applicants who registered today, November 13, 2024, please re-upload your documents.<br><br>
+                                        <strong>To all applicants who registered on November 13, 2024, please re-upload your documents.<br><br>
                                         <div>
                                             <label for="checkboxPrimaryAgree1">
                                                 <span style="font-weight: bold;">Thank you.</span>
