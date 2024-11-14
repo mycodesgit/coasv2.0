@@ -364,7 +364,7 @@
     <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
     <script src="{{ asset('js/basic/subjects.js') }}"></script>
 
-    @if(!Auth::guard('web')->user()->role == 15)
+    @if(Auth::guard('web')->check() && Auth::guard('web')->user()->role >= 0 && Auth::guard('web')->user()->role <= 14)
         <!-- Basic -->
         @if(request()->routeIs('enrollment-index'))
             <script>
