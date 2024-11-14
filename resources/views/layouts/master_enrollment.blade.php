@@ -136,7 +136,7 @@
                                         </ol>
                                         <div class="workspace-top" style="text-align: center;">
                                             <div class="row">
-                                                @if(Auth::guard('web')->check() && collect([Auth::guard('web')->user()->role])->between(0, 14))
+                                                @if(Auth::guard('web')->check() && Auth::guard('web')->user()->role >= 0 && Auth::guard('web')->user()->role <= 14)
                                                     @if(request()->routeIs('enrollment-index'))
                                                         <div class="col-lg-3 col-6">
                                                             <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
