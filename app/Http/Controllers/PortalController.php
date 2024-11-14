@@ -110,8 +110,8 @@ class PortalController extends Controller
             'contact' => 'required|numeric|min:11',
             'preference_1' => 'required',
             'preference_2' => 'required',
-            // 'proofdoc_image' => 'required',
-            // 'studiddoc_image' => 'required',
+            'proofdoc_image' => 'required',
+            'studiddoc_image' => 'required',
         ]);
 
         $existingApplicantValidator = Validator::make([], []);
