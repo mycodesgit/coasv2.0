@@ -75,7 +75,7 @@
                 <th style="font-weight: initial; font-size: 10pt;">Date of Admission: &nbsp;&nbsp;&nbsp; {{ \Carbon\Carbon::parse($studrepcard->date_admission)->format('F j, Y') }}</th>
             </thead>
             <thead>
-                <th style="font-weight: initial; font-size: 10pt;">Degree/Curriculum: {{ $studrepcard->course }}</th>
+                <th style="font-weight: initial; font-size: 10pt;">Degree/Curriculum: {{ $studrepcard->progName }}</th>
             </thead>
             <thead>
                 <th style="font-weight: initial; font-size: 10pt;">Major: {{ $studrepcard->submamiName }}</th>
