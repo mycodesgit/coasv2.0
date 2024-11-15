@@ -149,7 +149,11 @@ class SettingController extends Controller
     {
         try {
             // Fetch user buttons based on $userId
-            $user = User::findOrFail($userId);
+            if(Auth::guard('web')->user()->role == '943')  {
+                $user = Faculty::findOrFail($userId);
+            } else {
+                $user = User::findOrFail($userId);
+            }
             $buttons = ButtonAccess::where('user_id', $user->id)->pluck('button_name')->toArray();
 
             return response()->json(['buttons' => $buttons]);

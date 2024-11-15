@@ -25,4 +25,8 @@ class ButtonAccess extends Model
     {
         return $this->belongsTo('App\Models\AdmissionDB\User', 'user_id');
     }
+    public function facultyUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\ScheduleDB\Faculty', 'user_id');
+    }
 }

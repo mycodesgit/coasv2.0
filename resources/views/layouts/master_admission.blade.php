@@ -56,13 +56,13 @@
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
                             @auth('web')
-                                @if(in_array(Auth::guard('web')->user()->isAdmin, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))
+                                @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))
                                     Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
                                 @endif
                             @endauth
 
                             @auth('faculty')
-                                @if(Auth::guard('faculty')->user()->isAdmin == '943')
+                                @if(Auth::guard('faculty')->user()->role == '943')
                                     Logged as: {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
                                 @endif
                             @endauth
@@ -105,7 +105,7 @@
                                         <div class="workspace-top" style="text-align: center;">
                                             @php $curr_route = request()->route()->getName(); @endphp
                                             @if($curr_route == 'admission-index')
-                                                @if(in_array(Auth::guard('web')->user()->isAdmin, [5, 6, 7]))
+                                                @if(in_array(Auth::guard('web')->user()->role, [5, 6, 7]))
                                                 <div class="row">
                                                     <div class="col-lg-3 col-6">
                                                         <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
@@ -184,6 +184,8 @@
                                                                         data-ilog-sched="{!! $IlogSchedCount !!}" 
                                                                         data-cauayan="{!! $CauayanRegCount !!}"
                                                                         data-cauayan-sched="{!! $CauayanSchedCount !!}" 
+                                                                        data-candoni="{!! $CandoniRegCount !!}"
+                                                                        data-candoni-sched="{!! $CandoniSchedCount !!}" 
                                                                         data-siplay="{!! $SipalayRegCount !!}"
                                                                         data-siplay-sched="{!! $SipalaySchedCount !!}" 
                                                                         data-hinobaan="{!! $HinobaanRegCount !!}"

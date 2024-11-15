@@ -56,6 +56,9 @@ class AdAdmissionController extends Controller
         $CauayanRegCount = Applicant::where('campus', 'CC')->where('p_status', '1')->count();
         $CauayanSchedCount = Applicant::where('campus', 'CC')->where('p_status', '2')->count();
 
+        $CandoniRegCount = Applicant::where('campus', 'CC')->where('p_status', '1')->count();
+        $CandoniSchedCount = Applicant::where('campus', 'CC')->where('p_status', '2')->count();
+
         $SipalayRegCount = Applicant::where('campus', 'SC')->where('p_status', '1')->count();
         $SipalaySchedCount = Applicant::where('campus', 'SC')->where('p_status', '2')->count();
 
@@ -74,7 +77,7 @@ class AdAdmissionController extends Controller
         $VictoriasRegCount = Applicant::where('campus', 'VC')->where('p_status', '1')->count();
         $VictoriasSchedCount = Applicant::where('campus', 'VC')->where('p_status', '2')->count();
 
-        view()->share(compact('MainRegCount', 'MainSchedCount', 'IlogRegCount', 'IlogSchedCount', 'CauayanRegCount', 'CauayanSchedCount', 'SipalayRegCount', 'SipalaySchedCount', 'HinobaanRegCount', 'HinobaanSchedCount', 'HinigaranRegCount', 'HinigaranSchedCount', 'MoisesRegCount', 'MoisesSchedCount', 'SancarlosRegCount', 'SancarlosSchedCount', 'VictoriasRegCount', 'VictoriasSchedCount'));
+        view()->share(compact('MainRegCount', 'MainSchedCount', 'IlogRegCount', 'IlogSchedCount', 'CauayanRegCount', 'CauayanSchedCount', 'CandoniRegCount', 'CandoniSchedCount', 'SipalayRegCount', 'SipalaySchedCount', 'HinobaanRegCount', 'HinobaanSchedCount', 'HinigaranRegCount', 'HinigaranSchedCount', 'MoisesRegCount', 'MoisesSchedCount', 'SancarlosRegCount', 'SancarlosSchedCount', 'VictoriasRegCount', 'VictoriasSchedCount'));
     }
 
     public function index()
