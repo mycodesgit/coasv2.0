@@ -129,10 +129,7 @@ class EnStudReportCardController extends Controller
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
                     ->where('program_en_history.campus',  $campus)
-                    ->where('program_en_history.studentID', $stud_id)
-                    ->orderBy('program_en_history.id', 'desc')
-                    ->orderBy('program_en_history.created_at', 'desc')
-                    ->first();
+                    ->where('program_en_history.studentID', $stud_id)->first();
 
         $studrepcardsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
@@ -306,7 +303,8 @@ class EnStudReportCardController extends Controller
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select('students.*', 'program_en_history.*', 'coasv2_db_schedule.programs.progName', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('program_en_history.campus',  $campus)
-                    ->where('program_en_history.studentID', $stud_id)->first();
+                    ->where('program_en_history.studentID', $stud_id)
+                    ->orderBy('program_en_history.id', 'desc')->first();
 
         $studrepcardsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
