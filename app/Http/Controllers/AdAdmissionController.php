@@ -56,8 +56,8 @@ class AdAdmissionController extends Controller
         $CauayanRegCount = Applicant::where('campus', 'CC')->where('p_status', '1')->count();
         $CauayanSchedCount = Applicant::where('campus', 'CC')->where('p_status', '2')->count();
 
-        $CandoniRegCount = Applicant::where('campus', 'CC')->where('p_status', '1')->count();
-        $CandoniSchedCount = Applicant::where('campus', 'CC')->where('p_status', '2')->count();
+        $CandoniRegCount = Applicant::where('campus', 'CA')->where('p_status', '1')->count();
+        $CandoniSchedCount = Applicant::where('campus', 'CA')->where('p_status', '2')->count();
 
         $SipalayRegCount = Applicant::where('campus', 'SC')->where('p_status', '1')->count();
         $SipalaySchedCount = Applicant::where('campus', 'SC')->where('p_status', '2')->count();
