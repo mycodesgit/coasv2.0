@@ -121,7 +121,7 @@ class EnStudReportCardController extends Controller
         }
 
         $latestProgram = DB::table('program_en_history')
-            ->select('studentID', 'progCod')
+            ->select('studentID', DB::raw("SUBSTRING_INDEX(course, ' ', 1) as course"))
             ->where('schlyear', $schlyear)
             ->where('semester', $semester)
             ->where('campus', $campus)
@@ -133,7 +133,7 @@ class EnStudReportCardController extends Controller
                     ->joinSub($latestProgram, 'latest_history', function ($join) {
                         $join->on('program_en_history.studentID', '=', 'latest_history.studentID');
                     })
-                    ->join('coasv2_db_schedule.programs', 'latest_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->join('coasv2_db_schedule.programs', DB::raw("SUBSTRING_INDEX(latest_history.course, ' ', 1)"), '=', 'coasv2_db_schedule.programs.progAcronym')
                     ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
                     ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
