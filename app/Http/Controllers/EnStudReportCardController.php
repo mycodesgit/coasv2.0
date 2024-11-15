@@ -131,6 +131,7 @@ class EnStudReportCardController extends Controller
                     ->where('program_en_history.campus',  $campus)
                     ->where('program_en_history.studentID', $stud_id)
                     ->orderBy('program_en_history.id', 'desc')
+                    ->orderBy('program_en_history.created_at', 'desc')
                     ->first();
 
         $studrepcardsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
