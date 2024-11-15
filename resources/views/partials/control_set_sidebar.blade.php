@@ -2,6 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $usersActive = in_array($curr_route, ['usersRead', 'edit_user']) ? 'active' : '';
+    $facultyActive = in_array($curr_route, ['facultiesRead']) ? 'active' : '';
     $curconfActive = in_array($curr_route, ['setconfigure']) ? 'active' : '';
     $gradeconfActive = in_array($curr_route, ['setgradepassconfigure']) ? 'active' : '';
     $usersAccntActive = in_array($curr_route, ['accountRead']) ? 'active' : '';
@@ -14,6 +15,7 @@
         @auth('web')
             @if(Auth::guard('web')->user()->role == '0')
                 <a href="{{ route('usersRead') }}" class="list-group-item {{ $usersActive }}">User's Account</a> 
+                <a href="{{ route('facultiesRead') }}" class="list-group-item {{ $facultyActive }}">Faculty Account</a> 
                 <a href="{{ route('setconfigure') }}" class="list-group-item {{ $curconfActive }}">Setting Configure</a>
                 <a href="{{ route('setgradepassconfigure') }}" class="list-group-item {{ $gradeconfActive }}">Grades Password</a> 
                 <a href="{{ route('serverMaintenance') }}" class="list-group-item {{ $serverActive }}">Server</a>  

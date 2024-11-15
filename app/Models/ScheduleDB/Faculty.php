@@ -46,6 +46,17 @@ class Faculty extends Authenticatable
 
     public function hasRole($isAdmin)
     {
-        return $this->isAdmin === $isAdmin;
+        return $this->role === $role;
+    }
+
+    public function buttonAccess(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne('App\Models\SettingDB\ButtonAccess', 'user_id');
+    }
+    public function hasPermissionToAccess($button)
+    {
+        $buttonAccess = $this->buttonAccess;
+        $buttons = $buttonAccess ? $buttonAccess->buttons : [];
+        return in_array($button, $buttons);
     }
 }

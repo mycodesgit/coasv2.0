@@ -120,8 +120,20 @@ class EnStudReportCardController extends Controller
             }
         }
 
+        $latestProgram = DB::table('program_en_history')
+            ->select('studentID', 'progCod')
+            ->where('schlyear', $schlyear)
+            ->where('semester', $semester)
+            ->where('campus', $campus)
+            ->where('studentID', $stud_id)
+            ->orderBy('created_at', 'desc') // Make sure to use the correct timestamp column
+            ->limit(1);
+
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-                    ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->joinSub($latestProgram, 'latest_history', function ($join) {
+                        $join->on('program_en_history.studentID', '=', 'latest_history.studentID');
+                    })
+                    ->leftJoin('coasv2_db_schedule.programs', 'latest_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                     ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
                     ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')

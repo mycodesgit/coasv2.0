@@ -113,6 +113,14 @@ class SettingController extends Controller
         return view('control.settings.users.editUser')->with('user', $user);
     }
 
+    public function facultiesRead() 
+    {
+        $data = Faculty::join('coasv2_db_settings.button_access', 'faculty.id', '=', 'coasv2_db_settings.button_access.user_id')
+                    ->select('faculty.*', 'coasv2_db_settings.button_access.*', 'coasv2_db_settings.button_access.id as baid')
+                    ->get();
+        return view('control.settings.faculty.listfaculties', compact('data'));
+    }
+
     public function filterButtons(Request $request)
     {
         $request->validate([
