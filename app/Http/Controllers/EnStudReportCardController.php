@@ -126,7 +126,8 @@ class EnStudReportCardController extends Controller
             ->where('semester', $semester)
             ->where('campus', $campus)
             ->where('studentID', $stud_id)
-            ->whereYear('created_at', Carbon::now()->year) // Make sure to use the correct timestamp column
+            ->whereYear('created_at', Carbon::now()->year)
+            ->orderBy('created_at', 'desc') // Make sure to use the correct timestamp column
             ->limit(1);
 
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
