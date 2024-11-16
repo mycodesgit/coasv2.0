@@ -1,8 +1,21 @@
 @php
-$user = Auth::user();
-$buttonAccess = $user->buttonAccess;
-$buttons = $buttonAccess ? $buttonAccess->buttons : [];
+// Check which guard is authenticated
+$user = Auth::guard('web')->user() ?: Auth::guard('faculty')->user();
+$buttons = [];
+
+if ($user) {
+    // Check if the authenticated user is an instance of either model
+    if ($user instanceof \App\Models\AdmissionDB\User) {
+        $buttonAccess = $user->buttonAccess;
+    } elseif ($user instanceof \App\Models\ScheduleDB\Faculty) {
+        $buttonAccess = $user->buttonAccess;
+    }
+    
+    // Retrieve buttons if access exists
+    $buttons = isset($buttonAccess) ? $buttonAccess->buttons : [];
+}
 @endphp
+
 
 <div class="row pt-2 card">
     <div class="col-sm-12">

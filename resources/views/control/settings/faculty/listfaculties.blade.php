@@ -36,15 +36,6 @@ CISS V.1.0 || User's List
 
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-success btn-sm mb-4" data-toggle="modal" data-target="#modal-user">
-                        <i class="fas fa-user-plus"></i> Add New
-                    </button>
-
-                    <button type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal" data-target="#buttonFilterModal">
-                      <i class="fas fa-filter"></i> Filter Menu
-                    </button>
-
-                    @include('modal.userAdd')
 
                     <table id="example1" class="table table-hover">
                         <thead>
@@ -113,6 +104,8 @@ CISS V.1.0 || User's List
                                             <span class="badge badge-info">Cashier</span>
                                         @elseif ($user->role == '18')
                                             <span class="badge badge-info">Cashier Staff</span>
+                                        @elseif ($user->role == '943')
+                                            <span class="badge badge-info">Faculty</span>
                                         @else
                                             <span class="badge badge-light">Unknown Role</span>
                                         @endif

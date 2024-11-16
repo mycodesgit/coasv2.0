@@ -41,10 +41,10 @@ class Faculty extends Authenticatable
     ];
 
     protected $casts = [
-        'isAdmin' => 'string',
+        'role' => 'string',
     ];
 
-    public function hasRole($isAdmin)
+    public function hasRole($role)
     {
         return $this->role === $role;
     }

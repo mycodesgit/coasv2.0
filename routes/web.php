@@ -687,6 +687,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/list/update', [SettingController::class, 'updateUser'])->name('updateUser');
             Route::post('/list/users/updatePass', [SettingController::class, 'userUpdatePassword'])->name('userUpdatePassword');
 
+            Route::get('/list/all/faculty/accounts', [SettingController::class, 'facultiesRead'])->name('facultiesRead');
+
             Route::get('/conf', [SettingController::class, 'setconfigure'])->name('setconfigure');
             Route::get('/conf/ajax', [SettingController::class, 'getsetconfigure'])->name('getsetconfigure');
             Route::post('/conf/add',[SettingController::class,'setconfCreate'])->name('setconfCreate');
