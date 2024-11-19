@@ -205,6 +205,16 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="chart-responsive pt-1">
+                                                                <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                                         </div>
@@ -275,8 +285,12 @@
             var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
             var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
             var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+            var currunderprogramenrolmentCounts = {!! json_encode($currunderprogramenrolmentCounts) !!};
+            var underprogramAcronyms = {!! json_encode($underprogramAcronyms) !!};
+            var undercolors = {!! json_encode($underprogramAcronyms) !!};
         </script>
         <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+        <script src="{{ asset('js/chart/enbarchartperyearlevscholar.js') }}"></script>
     @endif
     
     @if(request()->routeIs('chedscholarlist'))

@@ -129,7 +129,30 @@ class ScholarshipController extends Controller
                             ->where('program_en_history.studYear', '=', '4')
                             ->where('program_en_history.campus', '=', $userCampus)
                             ->count();
-        return view('scholar.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
+
+        $currunderprogramenrolmentCounts = [];
+        $underprogramAcronyms = [];
+
+        // Retrieve the count of students for each program acronym
+        $programs = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->whereNot(function ($query) {
+                $query->where('program_en_history.studentID', 'LIKE', '%G%')
+                      ->orWhere('program_en_history.studentID', 'LIKE', '%N%');
+            })
+            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+            ->where('program_en_history.campus', '=', $userCampus)
+            //->where('coasv2_db_schedule.programs.progDep', 'LIKE', '%GSS%')
+            ->select('coasv2_db_schedule.programs.progAcronym', DB::raw('COUNT(*) as count'))
+            ->groupBy('coasv2_db_schedule.programs.progAcronym')
+            ->get();
+
+        // Populate the labels and data arrays
+        foreach ($programs as $program) {
+            $underprogramAcronyms[] = $program->progAcronym;
+            $currunderprogramenrolmentCounts[] = $program->count;
+        }
+        return view('scholar.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'currunderprogramenrolmentCounts', 'underprogramAcronyms',));
     }
 
     public function chedscholarlist()
