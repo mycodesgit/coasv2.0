@@ -37,9 +37,6 @@ class SchedFacultyDesignationController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
 
-        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
-        $semester = is_array($semester) ? $semester : [$semester];
-
         $faclist = Faculty::all();
 
         $data = FacDesignation::select('fac_designation.*', 'faculty.*', 'fac_designation.id as fcdid')
@@ -49,63 +46,104 @@ class SchedFacultyDesignationController extends Controller
                         ->get();
         $totalSearchResults = count($data);
 
-        return view('scheduler.designation.list_designate_search', compact('data', 'faclist', 'totalSearchResults'));
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('scheduler.designation.list_designate_search', compact('data', 'faclist', 'totalSearchResults', 'sy'));
     }
 
-    public function faculty_designdAdd(Request $request)
+    public function getfacultyDesigRead(Request $request) 
     {
-        $faclist = Faculty::all();
-        $faclist = FacDesignation::all();
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
 
-        $schlyear = $request->input('schlyear');
-        $semester = $request->input('semester');
-        $campus = $request->input('campus');
-        $facdept = $request->input('facdept');
-        $fac_id = $request->input('fac_id');
-        $designation = $request->input('designation');
-        $dunit = $request->input('dunit');
+        $data = FacDesignation::join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
+                        ->leftJoin('college', 'fac_designation.facdept', '=', 'college.college_abbr')
+                        ->where('fac_designation.schlyear', $schlyear)
+                        ->where('fac_designation.semester', $semester)
+                        ->select('fac_designation.*', 'faculty.*', 'fac_designation.id as fcdid', 'college.college_name')
+                        ->get();
 
-        $existingRecord = FacDesignation::where('fac_id', $fac_id)
-            ->where('schlyear', $schlyear)
-            ->where('semester', $semester)
-            ->where('campus', $campus)
-            ->first();
+        return response()->json(['data' => $data]);
+    }
 
-        if ($existingRecord) {
-            return redirect()->back()->with('fail', 'Faculty Designation already exists.');
+    public function facdesignationCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'fac_id' => 'required',
+            ]);
+
+            $fac_id = $request->input('fac_id'); 
+            $schlyear = $request->input('schlyear'); 
+            $campus = $request->input('campus'); 
+            $existingFacDeg = FacDesignation::where('fac_id', $fac_id)->where('schlyear', $schlyear)->where('campus', $campus)->first();
+
+            if ($existingFacDeg) {
+                return response()->json(['error' => true, 'message' => 'Already exists'], 404);
+            }
+
+            try {
+                FacDesignation::create([
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'campus' => $request->input('campus'),
+                    'facdept' => $request->input('facdept'),
+                    'fac_id' => $request->input('fac_id'),
+                    'designation' => $request->input('designation'),
+                    'rankcomma' => $request->input('rankcomma'),
+                    'dunit' => $request->input('dunit'),
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Stored successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store'], 404);
+            }
         }
-
-        $facDesig = new FacDesignation();
-        $facDesig->schlyear = $schlyear;
-        $facDesig->semester = $semester;
-        $facDesig->campus = $campus;
-        $facDesig->facdept = $facdept;
-        $facDesig->fac_id = $fac_id;
-        $facDesig->designation = $designation;
-        $facDesig->dunit = $dunit;
-
-        $facDesig->save();
-
-        return redirect()->back()->with('success','Faculty Designation successfully saved in this semester');
     }
 
-    public function faculty_designdUpdate(Request $request)
+    public function facdesignationUpdate(Request $request) 
     {
-        $id = $request->input('edit_id');
-        $facdept = $request->input('edit_facdept');
-        $fac_id = $request->input('edit_fac_id');
-        $designation = $request->input('edit_designation');
-        $dunit = $request->input('edit_dunit');
+        $request->validate([
+            'id' => 'required',
+            'fac_id' => 'required',
+        ]);
 
-        $facDesig = FacDesignation::find($id);
-        $facDesig->facdept = $facdept;
-        $facDesig->fac_id = $fac_id;
-        $facDesig->designation = $designation;
-        $facDesig->dunit = $dunit;
+        try {
+            $fac_id = $request->input('fac_id'); 
+            $schlyear = $request->input('schlyear'); 
+            $campus = $request->input('campus'); 
+            $existingFacDeg = FacDesignation::where('fac_id', $fac_id)->where('schlyear', $schlyear)->where('campus', $campus)->where('id', '!=', $request->input('id'))->first();
 
-        $facDesig->save();
+            if ($existingFacDeg) {
+                return response()->json(['error' => true, 'message' => 'Already exists'], 404);
+            }
 
-        return redirect()->back()->with('success', 'Faculty Designation successfully updated.');
+            $fund = FacDesignation::findOrFail($request->input('id'));
+            $fund->update([
+                'facdept' => $request->input('facdept'),
+                'fac_id' => $request->input('fac_id'),
+                'designation' => $request->input('designation'),
+                'dunit' => $request->input('dunit'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Designation update successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to Update Designation'], 404);
+        }
+    }
+
+    public function designationDelete($id) 
+    {
+        $desig = FacDesignation::find($id);
+        $desig->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
 }

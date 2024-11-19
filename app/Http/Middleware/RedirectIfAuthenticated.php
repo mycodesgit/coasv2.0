@@ -29,9 +29,13 @@ class RedirectIfAuthenticated
         //     }
         // }
 
-        if (Auth::guard('web')->check() || Auth::guard('faculty')->check()) {
+        if (Auth::guard('web')->check()) {
             return redirect()->route('home');
-        } elseif (Auth::guard('kioskstudent')->check()) {
+        } 
+        elseif (Auth::guard('faculty')->check()) {
+            return redirect()->route('homefaculty');
+        }
+        elseif (Auth::guard('kioskstudent')->check()) {
             return redirect()->route('kioskhome');
         }
 

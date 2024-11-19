@@ -1,0 +1,263 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+use PDF;
+use Storage;
+use Carbon\Carbon;
+use App\Models\AdmissionDB\User;
+use App\Models\EnrollmentDB\Student;
+use App\Models\EnrollmentDB\StudentLevel;
+use App\Models\EnrollmentDB\Grade;
+use App\Models\EnrollmentDB\GradeCode;
+use App\Models\EnrollmentDB\YearLevel;
+use App\Models\EnrollmentDB\MajorMinor;
+use App\Models\EnrollmentDB\StudentStatus;
+use App\Models\EnrollmentDB\StudentType;
+use App\Models\EnrollmentDB\StudentShifTrans;
+use App\Models\EnrollmentDB\StudEnrolmentHistory;
+
+use App\Models\ScheduleDB\ClassEnroll;
+use App\Models\ScheduleDB\College;
+use App\Models\ScheduleDB\EnPrograms;
+use App\Models\ScheduleDB\Subject;
+use App\Models\ScheduleDB\SubjectOffered;
+use App\Models\ScheduleDB\Faculty;
+use App\Models\ScheduleDB\FacultyLoad;
+use App\Models\ScheduleDB\SetClassSchedule;
+
+use App\Models\SettingDB\ConfigureCurrent;
+
+class GradingFacultyController extends Controller
+{
+    public function getGuard()
+    {
+        if(\Auth::guard('web')->check()) {
+            return 'web';
+        } elseif(\Auth::guard('faculty')->check()) {
+            return 'faculty';
+        }
+    }
+
+    public function semesterfac()
+    {
+        $progen = ConfigureCurrent::where('schlyear', '>=', '2024-2025')
+                    ->orderBy('schlyear', 'desc')
+                    ->orderBy('semester', 'desc')
+                    ->get();
+        return view('grading.gradesheet.faculty.semester', compact('progen'));
+    }
+
+    public function virtualfaculty_class(Request $request)
+    {
+        $semester = $request->query('semester');
+        $schlyear = $request->query('schlyear');
+        $facID = Auth::guard('faculty')->user()->id;
+
+        $facsubprogen = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
+                    ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
+                    ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select(
+                        'studgrades.*',
+                        'studgrades.id as stugdeID',
+                        'coasv2_db_schedule.subjects.sub_name',
+                        'coasv2_db_schedule.sub_offered.subSec',
+                        'coasv2_db_schedule.sub_offered.schlyear',
+                        'coasv2_db_schedule.sub_offered.semester',
+                        'coasv2_db_schedule.sub_offered.campus',
+                        'coasv2_db_schedule.scheduleclass.faculty_id',
+                        'coasv2_db_schedule.scheduleclass.subject_id',
+                        'coasv2_db_schedule.faculty.fname',
+                        'coasv2_db_schedule.faculty.lname',
+                    )
+            ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+            ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+            ->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
+            ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
+            ->groupBy('studgrades.subjID')
+            ->get();
+
+        return view('grading.gradesheet.faculty.virtualroom', compact('facsubprogen', 'semester', 'schlyear'));
+    }
+
+    public function virtual_facultysubjectclass(Request $request, $id)
+    {
+        $semester = $request->query('semester');
+        $schlyear = $request->query('schlyear');
+        $faculty = Auth::guard('faculty')->user();
+        $campus = $faculty->campus;
+        $facID = $faculty->id;
+
+        $sub = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                ->join('coasv2_db_enrollment.studgrades', 'scheduleclass.subject_id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+                ->join('coasv2_db_enrollment.students', 'coasv2_db_enrollment.studgrades.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->where('sub_offered.schlyear', $schlyear)
+                ->where('sub_offered.semester', $semester)
+                ->where('scheduleclass.faculty_id', $facID)
+                ->where('coasv2_db_enrollment.studgrades.subjID', $id)
+                ->select('scheduleclass.*', 'sub_offered.*', 'subjects.*', 'coasv2_db_enrollment.studgrades.*', 'coasv2_db_enrollment.studgrades.status as gstat', 'coasv2_db_enrollment.students.*', 'coasv2_db_enrollment.studgrades.id as sgid' )
+                ->orderBy('coasv2_db_enrollment.students.lname', 'ASC')
+                ->groupBy('studgrades.studID')
+                ->get();
+
+        $substudcount = $sub->count();
+
+        $grdpercentage = range(44, 78);
+
+        $grdCode = GradeCode::whereIn('id', $grdpercentage)
+                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
+                ->get();
+
+        $grdpercentageComp = range(44, 74);
+
+        $grdCodeComp = GradeCode::whereIn('id', $grdpercentageComp)
+                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
+                ->get();
+
+        $grade = Grade::where('subjID', $id)
+                        ->where('status', '!=', '')
+                        ->count();
+
+        return view('grading.gradesheet.faculty.virtualsubroom', compact('sub', 'substudcount', 'grdCode', 'grdCodeComp', 'grade'));
+    }
+
+    public function save_grades(Request $request)
+    {
+        $id = $request->id;
+        $grade = $request->grade;
+
+        $gradecheck = Grade::find($id);
+
+        $gradeup = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+            ->where('studgrades.id', $id)
+            ->update([
+                'studgrades.subjFgrade' => $grade,
+                'studgrades.status' => (empty($grade) || $grade === '') ? null : 1,
+                'studgrades.creditEarned' => (empty($grade) || in_array($grade, ['INC', 'NN', 'NG', 'Drp.'])) ? 0 : \DB::raw('coasv2_db_schedule.sub_offered.subUnit'),
+            ]);
+
+        if($gradeup){
+            $gradeCount = Grade::where('subjID', $gradecheck->subjID)
+                ->where('status', '!=', '')
+                ->count();
+        }
+
+        return response()->json(['success' => true, 'gradeCount' => $gradeCount]);
+    }
+
+    public function save_gradesComp(Request $request)
+    {
+        $id = $request->id;
+        $grade = $request->grade;
+
+        $gradecheck = Grade::find($id);
+
+        $gradeup = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+            ->where('studgrades.id', $id)
+            ->update([
+                'studgrades.subjComp' => $grade,
+                'studgrades.compstat' => (empty($grade)) ? null : 1,
+                'studgrades.creditEarned' => (empty($grade) || in_array($grade, ['INC', 'NN', 'NG', 'Drp.'])) ? 0 : \DB::raw('coasv2_db_schedule.sub_offered.subUnit'),
+            ]);
+
+        if($gradeup){
+            $gradeCount = Grade::where('subjID', $gradecheck->subjID)
+                ->where('status', '!=', '')
+                ->count();
+        }
+
+        return response()->json(['success' => true, 'gradeCount' => $gradeCount]);
+    }
+
+    public function updateStatus_gradessubmit(Request $request, $subjID)
+    {
+        $guard = $this->getGuard();
+        $user = Auth::guard($guard)->user();
+
+        Grade::where('subjID', $subjID)
+        ->where('status', 1)
+        ->update(['status' => 2, 'postedBy' => $user->id,]);
+
+        Grade::where('subjID', $subjID)
+        ->where('subjFgrade', 'INC')
+        ->where('compstat', 1)
+        ->update(['compstat' => 2]);
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
+    }
+
+    public function PDFgradesheetnew($id) 
+    {
+        $guard= $this->getGuard();
+        $user = Auth::guard($guard)->user();
+
+        $grade = Grade::where('subjID', $id)
+                        ->where('status', '!=', '')
+                        ->count();
+
+
+        $cursttngs = ConfigureCurrent::where('set_status', 2)->first();
+        $fac = Faculty::all();
+
+        $desiredIds = [1, 74, 75, 76, 77];
+        $grdlegend = GradeCode::whereIn('id', $desiredIds)->get();
+
+        $schlyear = $cursttngs->schlyear;
+        $semester = $cursttngs->semester;
+        $facID = $user->id;
+
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
+        $semester = is_array($semester) ? $semester : [$semester];
+        $facID = is_array($facID) ? $facID : [$facID];
+
+        $gradeviewData = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                ->join('coasv2_db_enrollment.studgrades', 'scheduleclass.subject_id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+                ->join('coasv2_db_enrollment.students', 'coasv2_db_enrollment.studgrades.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->where('sub_offered.schlyear', $schlyear)
+                ->where('sub_offered.semester', $semester)
+                ->where('scheduleclass.faculty_id', $facID)
+                ->where('coasv2_db_enrollment.studgrades.subjID', $id)
+                ->select('scheduleclass.*', 'sub_offered.*', 'subjects.*', 'coasv2_db_enrollment.studgrades.*', 'coasv2_db_enrollment.studgrades.status as gstat', 'coasv2_db_enrollment.students.*', 'coasv2_db_enrollment.studgrades.id as sgid' )
+                ->orderBy('coasv2_db_enrollment.students.lname', 'ASC')
+                ->groupBy('studgrades.studID')
+                ->get();
+        $grdCode = GradeCode::all();
+
+        //$dean = FacDesignation::join('faculty', 'fac_designation.facdept', 'faculty.dept')->where('facdept'. '=', Auth::guard('faculty')->user()->dept)->first();
+
+        $data = [
+            'cursttngs' => $cursttngs,
+            'gradeviewData' => $gradeviewData,
+            'grade' => $grade,
+            'grdlegend' => $grdlegend,
+            'grdCode' => $grdCode,
+            //'dean' => $dean,
+        ];
+
+        $pdf = PDF::loadView('grading.gradesheet.gpdf.gnewtem',  $data)->setPaper('Legal', 'portrait');
+        return $pdf->stream();
+    }
+
+    public function attendancefac()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+        return view('grading.gradesheet.faculty.attendance', compact('sy'));
+    }
+}

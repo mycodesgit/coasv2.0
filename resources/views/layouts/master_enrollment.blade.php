@@ -278,6 +278,36 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-6 col-6">
+                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
+                                                                <div class="text-left">
+                                                                    <div class="inner">
+                                                                        <h3>{{ $enrlstudRegularcount }}</h3>
+                                                                        <p>Regular Students Enrolled this Sem</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="text-right">
+                                                                    <div class="icon">
+                                                                        <i class="fa fa-users"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-6">
+                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important">
+                                                                <div class="text-left">
+                                                                    <div class="inner">
+                                                                        <h3>{{ $enrlstudIrregularcount }}</h3>
+                                                                        <p>Irregular Students Enrolled this Sem</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="text-right">
+                                                                    <div class="icon">
+                                                                        <i class="fa fa-users"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     @endif
                                                 @endif
 

@@ -245,9 +245,24 @@ class EnrollmentController extends Controller
                 $underprogramAcronyms[] = $program->progAcronym;
                 $currunderprogramenrolmentCounts[] = $program->count;
             }
+
+            $enrlstudRegularcount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                                ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                                ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                                ->where('program_en_history.studStatus', '=', '1')
+                                ->where('program_en_history.campus', '=', $userCampus)
+                                ->count();
+
+
+            $enrlstudIrregularcount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                                ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                                ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                                ->where('program_en_history.studStatus', '=', '2')
+                                ->where('program_en_history.campus', '=', $userCampus)
+                                ->count();
         
 
-            return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount', 'SccEnrollmentCount', 'HcEnrollmentCount', 'MpEnrollmentCount', 'IcEnrollmentCount', 'CaEnrollmentCount', 'CcEnrollmentCount', 'ScEnrollmentCount', 'HinCEnrollmentCount', 'schlyearactive', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',  'prevenrolmentCounts', 'currenrolmentCounts', 'currunderprogramenrolmentCounts', 'underprogramAcronyms',));
+            return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount', 'SccEnrollmentCount', 'HcEnrollmentCount', 'MpEnrollmentCount', 'IcEnrollmentCount', 'CaEnrollmentCount', 'CcEnrollmentCount', 'ScEnrollmentCount', 'HinCEnrollmentCount', 'schlyearactive', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',  'prevenrolmentCounts', 'currenrolmentCounts', 'currunderprogramenrolmentCounts', 'underprogramAcronyms', 'enrlstudRegularcount', 'enrlstudIrregularcount'));
         } else {
 
             $gradenrlnewstudcount = StudEnrolmentHistory::whereNot(function ($query) {

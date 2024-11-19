@@ -1,15 +1,22 @@
 @php
     $curr_route = request()->route()->getName();
 
+    $dashSchActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
+    $semesterSchActive = in_array($curr_route, ['semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass']) ? 'active' : '';
+    $attendSchActive = in_array($curr_route, ['attendancefac']) ? 'active' : '';
     $gradeActive = in_array($curr_route, ['grades', 'gradesstud', 'gradesstud_search']) ? 'active' : '';
-    // $suboffActive = in_array($curr_route, ['subjectsOffered']) ? 'active' : '';
-    // $subjectActive = in_array($curr_route, ['subjectsRead']) ? 'active' : '';
     
-
 @endphp
 
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        <a href="{{ route('grades') }}" class="list-group-item {{ $gradeActive }}">Grade Sheet</a>  
+        <a href="{{ route('homefaculty') }}" class="list-group-item {{ $dashSchActive }}">Dashboard</a>
+    </ul>
+    <ul class="list-group mt-1">
+        <a href="{{ route('semesterfac') }}" class="list-group-item {{ $semesterSchActive }}">Grade Sheet</a> 
+        <a href="{{ route('attendancefac') }}" class="list-group-item {{ $attendSchActive }}">Student Attendance</a>  
+    </ul>
+    <ul class="list-group mt-1">
+        <a href="{{ route('logout') }}" class="list-group-item">Sign Out</a>
     </ul>
 </div>

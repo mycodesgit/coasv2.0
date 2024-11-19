@@ -52,11 +52,16 @@ class LoginController extends Controller
         //     return 'faculty';
         // }
 
-        if ($validatedUser || $validatedFaculty) {
+        if ($validatedUser) {
             return redirect()->route('home')->with('success', 'You have successfully logged in.');
-        } elseif($validatedStudent) {
+        } 
+        elseif($validatedFaculty) {
+            return redirect()->route('homefaculty')->with('success', 'You have successfully logged in.');
+        } 
+        elseif($validatedStudent) {
             return redirect()->route('kioskhome')->with('success', 'You have successfully logged in.');
-        } else {
+        } 
+        else {
             return redirect()->back()->with('error', 'Invalid Credentials');
         }
     }

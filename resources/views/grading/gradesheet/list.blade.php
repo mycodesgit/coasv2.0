@@ -1,4 +1,4 @@
-@extends('layouts.master_grading')
+@extends('layouts.master_faculty')
 
 @section('title')
 CISS V.1.0 || Grading
@@ -19,7 +19,7 @@ CISS V.1.0 || Grading
     <div class="card-body">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('homefaculty') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-home"></i>
                 </a>
             </li>

@@ -29,6 +29,18 @@ class ControlController extends Controller
         $guard= $this->getGuard();
         return view('control.home', compact('guard'));
     }
+
+    public function masterfaculty()
+    {
+        $guard= $this->getGuard();
+        return view('layouts.master_faculty', compact('guard'));
+    }
+
+    public function homefaculty()
+    {
+        $guard= $this->getGuard();
+        return view('control.facultyhome', compact('guard'));
+    }
     
     public function logout()
     {

@@ -57,7 +57,7 @@ use App\Http\Controllers\CashieringORController;
 
 use App\Http\Controllers\ScholarshipController;
 
-use App\Http\Controllers\GradingController;
+use App\Http\Controllers\GradingFacultyController;
 
 use App\Http\Controllers\KioskAdminController;
 
@@ -117,6 +117,7 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
 Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('emp/control')->group(function () {
         Route::get('/', [ControlController::class, 'home'])->name('home');
+        Route::get('/faculty', [ControlController::class, 'homefaculty'])->name('homefaculty');
         Route::get('/logout', [ControlController::class, 'logout'])->name('logout');
     });
 
@@ -477,8 +478,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('designation')->group(function () {
             Route::get('/list', [SchedFacultyDesignationController::class, 'faculty_design'])->name('faculty_design');
             Route::get('/fdlist/search', [SchedFacultyDesignationController::class, 'faculty_design_search'])->name('faculty_design_search');
-            Route::post('/fdlist/Add', [SchedFacultyDesignationController::class, 'faculty_designdAdd'])->name('faculty_designdAdd');
-            Route::post('/fdlist/update', [SchedFacultyDesignationController::class, 'faculty_designdUpdate'])->name('faculty_designdUpdate');
+            Route::get('/fdlist/search/ajax', [SchedFacultyDesignationController::class, 'getfacultyDesigRead'])->name('getfacultyDesigRead');
+            Route::post('/fdlist/Add', [SchedFacultyDesignationController::class, 'facdesignationCreate'])->name('facdesignationCreate');
+            Route::post('/fdlist/update', [SchedFacultyDesignationController::class, 'facdesignationUpdate'])->name('facdesignationUpdate');
+            Route::post('/fdlist/search/delete{id}', [SchedFacultyDesignationController::class, 'designationDelete'])->name('designationDelete');
             Route::get('/getProgramId/{progAcronym}', [SchedFacultyDesignationController::class, 'getProgramId'])->name('getProgramId');
         });
 
@@ -647,19 +650,32 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         });
     });
 
-    Route::prefix('estudgrdmod/grades')->group(function () {
+    Route::prefix('estudgrdmod/grades/faculty')->group(function () {
         
-        Route::get('/', [GradingController::class, 'index'])->name('grading-index');
+        Route::get('/', [GradingFacultyController::class, 'index'])->name('grading-index');
 
         Route::prefix('studGrade')->group(function () {
-            Route::get('/list', [GradingController::class, 'grades'])->name('grades');
-            Route::get('/list/view/studgrde/{subjID}', [GradingController::class, 'gradesstud'])->name('gradesstud');
-            Route::get('/list/viewsearch', [GradingController::class, 'gradesstud_search'])->name('gradesstud_search');
-            Route::post('/list/view/studgrde/save', [GradingController::class, 'save_grades'])->name('save_grades');
-            Route::post('/list/view/studgrdeComp/save', [GradingController::class, 'save_gradesComp'])->name('save_gradesComp');
-            Route::post('/list/view/studgrde/submit/{subjID}', [GradingController::class, 'updateStatus_gradessubmit'])->name('updateStatus_gradessubmit');
-            Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
+            Route::get('/list/semester', [GradingFacultyController::class, 'semesterfac'])->name('semesterfac');
+            Route::get('/list/virtualroom', [GradingFacultyController::class, 'virtualfaculty_class'])->name('virtualfaculty_class');
+            Route::get('/list/virtualsubjectroom/{id}', [GradingFacultyController::class, 'virtual_facultysubjectclass'])->name('virtual_facultysubjectclass');
+            Route::post('/list/view/studgrde/save', [GradingFacultyController::class, 'save_grades'])->name('save_grades');
+            Route::post('/list/view/studgrdeComp/save', [GradingFacultyController::class, 'save_gradesComp'])->name('save_gradesComp');
+            Route::post('/list/view/studgrde/submit/{subjID}', [GradingFacultyController::class, 'updateStatus_gradessubmit'])->name('updateStatus_gradessubmit');
+            Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingFacultyController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
         });
+
+        Route::prefix('stud/attendance')->group(function () {
+            Route::get('/list/current/sem', [GradingFacultyController::class, 'attendancefac'])->name('attendancefac');
+        });
+        // Route::prefix('studGrade')->group(function () {
+        //     Route::get('/list', [GradingFacultyController::class, 'grades'])->name('grades');
+        //     Route::get('/list/view/studgrde/{subjID}', [GradingFacultyController::class, 'gradesstud'])->name('gradesstud');
+        //     Route::get('/list/viewsearch', [GradingFacultyController::class, 'gradesstud_search'])->name('gradesstud_search');
+        //     Route::post('/list/view/studgrde/save', [GradingFacultyController::class, 'save_grades'])->name('save_grades');
+        //     Route::post('/list/view/studgrdeComp/save', [GradingFacultyController::class, 'save_gradesComp'])->name('save_gradesComp');
+        //     Route::post('/list/view/studgrde/submit/{subjID}', [GradingFacultyController::class, 'updateStatus_gradessubmit'])->name('updateStatus_gradessubmit');
+        //     Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingFacultyController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
+        // });
 
     });
 

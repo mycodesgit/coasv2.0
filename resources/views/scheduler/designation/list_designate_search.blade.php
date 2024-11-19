@@ -25,29 +25,56 @@ CISS V.1.0 || Faculty Designation
         </ol>
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;">
-            <form method="GET" action="{{ route('courseEnroll_list_search') }}" id="classEnroll">
+            <form method="GET" action="{{ route('faculty_design_search') }}" id="classEnroll">
+                {{ csrf_field() }}
+
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
                     <h4>Faculty Designation</h4>
                 </div>
 
-                <div class="">
+                <div class="mt-1">
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-10">
-                                <label>&nbsp;</label>
-                                <h5>Search Results: {{ $totalSearchResults }} 
-                                    <small>
-                                        <i>Year-<b>{{ request('schlyear') }}</b>,
-                                            Semester-<b>{{ request('semester') }}</b>,
-                                            Campus-<b>{{ request('campus') }}</b>,
-                                        </i>
-                                    </small>
-                                </h5>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Academic Year</span></label>
+                                <select class="form-control form-control-sm" name="schlyear">
+                                    @foreach($sy as $datasy)
+                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Semester</span></label>
+                                <select class="form-control  form-control-sm" name="semester">
+                                    <option disabled selected>---Select---</option>
+                                    <option value="1">First Semester</option>
+                                    <option value="2">Second Semester</option>
+                                    <option value="3">Summer</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Campus</span></label>
+                                <select class="form-control form-control-sm" name="campus">
+                                    <option value="{{Auth::user()->campus}}">
+                                        @if (Auth::user()->campus == 'MC') Main 
+                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
+                                            @elseif(Auth::user()->campus == 'VC') Victorias 
+                                            @elseif(Auth::user()->campus == 'HC') Hinigaran 
+                                            @elseif(Auth::user()->campus == 'MP') Moises Padilla 
+                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                            @elseif(Auth::user()->campus == 'SC') Sipalay 
+                                            @elseif(Auth::user()->campus == 'IC') Ilog 
+                                            @elseif(Auth::user()->campus == 'CC') Cauayan 
+                                        @endif
+                                    </option>
+                                </select>
                             </div>
 
                             <div class="col-md-2">
                                 <label>&nbsp;</label>
-                                <a href="{{ route('courseEnroll_list') }}" class="form-control form-control-sm btn btn-success btn-sm">New Sem</a>
+                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
                             </div>
                         </div>
                     </div>
@@ -65,7 +92,7 @@ CISS V.1.0 || Faculty Designation
 
         <div class="mt-3 row">
             <div class="col-md-3 mt-3 card" style="">
-                <form method="post" action="{{ route('faculty_designdAdd') }}" enctype="multipart/form-data" id="facdegAdd">
+                <form method="post" action="{{ route('facdesignationCreate') }}" id="facdegAdd">
                     @csrf
                     <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                         <h5>Add</h5>
@@ -76,24 +103,23 @@ CISS V.1.0 || Faculty Designation
                     <div class="form-group mt-2">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">Academic Year</span></label>
-                                <input type="text" name="schlyear" class="form-control  form-control-sm" value="{{ request('schlyear') }}">
+                                <input type="hidden" name="schlyear" class="form-control  form-control-sm" value="{{ request('schlyear') }}">
                             </div>
 
                             <div class="mt-2 col-md-12">
-                                <label><span class="badge badge-secondary">Semester</span></label>
-                                <input type="text" name="semester" class="form-control  form-control-sm" value="{{ request('semester') }}" readonly>
+                                <input type="hidden" name="semester" class="form-control  form-control-sm" value="{{ request('semester') }}" readonly>
                             </div>
 
                             <div class="mt-2 col-md-12">
                                 <label><span class="badge badge-secondary">Dept</span></label>
                                 <select class="form-control form-control-sm" name="facdept">
                                     <option disabled selected>Select</option>
+                                    <option value="ADM">ADM</option>
                                     <option value="CAF">CAF</option>
                                     <option value="CAS">CAS</option>
                                     <option value="CBM">CBM</option>
                                     <option value="CCS">CCS</option>
-                                    <option value="CCJE">CCJE</option>
+                                    <option value="CJE">CJE</option>
                                     <option value="COE">COE</option>
                                     <option value="COTED">COTED</option>
                                 </select>
@@ -135,50 +161,17 @@ CISS V.1.0 || Faculty Designation
                 </form>
             </div>
             <div class="col-md-9 mt-3 pl-3 pr-3 pt-3">
-                <table id="example1" class="table table-hover">
+                <table id="designationTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Faculty</th>
-                            <th>Dept</th>
                             <th>Designation</th>
-                            <th>Addresse</th>
+                            <th>Department</th>
                             <th width="60">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
-                        @foreach($data as $facdesig)
-                            <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $facdesig->lname }}</td>
-                                <td>{{ $facdesig->facdept }}</td>
-                                <td>{{ $facdesig->designation }}</td>
-                                <td>{{ $facdesig->rankcomma }}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-sm" data-toggle="dropdown">
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <button class="dropdown-item btn-edit-facdesig" data-toggle="modal" data-target="#editFacDesigModal"
-                                                    data-toggle="modal"
-                                                    data-target="#editFacDesigModal"
-                                                    data-id="{{ $facdesig->fcdid }}"
-                                                    data-facdept="{{ $facdesig->facdept }}"
-                                                    data-fac_id="{{ $facdesig->fac_id }}"
-                                                    data-designation="{{ $facdesig->designation }}"
-                                                    data-dunit="{{ $facdesig->dunit }}">
-                                                    <i class="fas fa-edit"></i>
-                                                    Edit
-                                                </button>
-                                                <button value="" class="dropdown-item purchase-delete" href="#"><i class="fas fa-trash"></i> Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                        
                     </tbody>
                 </table>
             </div>
@@ -187,69 +180,68 @@ CISS V.1.0 || Faculty Designation
 </div>
 
 
-<div class="modal fade" id="editFacDesigModal" tabindex="-1" role="dialog" aria-labelledby="editFacDesigModalLabel" aria-hidden="true">
+<div class="modal fade" id="editDesignationModal" tabindex="-1" role="dialog" aria-labelledby="editDesignationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editFacDesigModalLabel">Edit Faculty Designation</h5>
+                <h5 class="modal-title" id="editDesignationModalLabel">Edit Designation</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form method="post" action="{{ route('faculty_designdUpdate') }}" enctype="multipart/form-data" id="editFacDesigForm">
-                    @csrf
-                    <input type="hidden" name="edit_id" id="edit_id">
-
+            <form id="editDesignationForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editDesignationId">
                     <div class="form-group">
-                        <label for="edit_facdept">Department</label>
-                        <select class="form-control" name="edit_facdept" id="edit_facdept">
-                            <option disabled>Select</option>
-                            <option value="CAF" {{ (old('edit_facdept') == 'CAF') ? 'selected' : '' }}>CAF</option>
-                            <option value="CAS" {{ (old('edit_facdept') == 'CAS') ? 'selected' : '' }}>CAS</option>
-                            <option value="CBM" {{ (old('edit_facdept') == 'CBM') ? 'selected' : '' }}>CBM</option>
-                            <option value="CCS" {{ (old('edit_facdept') == 'CCS') ? 'selected' : '' }}>CCS</option>
-                            <option value="CCJE" {{ (old('edit_facdept') == 'CCJE') ? 'selected' : '' }}>CCJE</option>
-                            <option value="COE" {{ (old('edit_facdept') == 'COE') ? 'selected' : '' }}>COE</option>
-                            <option value="COTED" {{ (old('edit_facdept') == 'COTED') ? 'selected' : '' }}>COTED</option>
-                            <option value="REG" {{ (old('edit_facdept') == 'REG') ? 'selected' : '' }}>REGISTRAR</option>
-                        </select>
-
-
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="edit_fac_id">Faculty</label>
-                        <select class="form-control" name="edit_fac_id" id="edit_fac_id">
+                        <label for="editDesignationName">Name</label>
+                        <select class="form-control form-control-sm select2bs4" name="fac_id" id="editDesignationName">
                             @foreach($faclist as $itemfac)
                                 <option value="{{ $itemfac->id }}">{{ $itemfac->lname }}, {{ $itemfac->fname }}</option>
                             @endforeach
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="edit_designation">Designation</label>
-                        <select class="form-control" name="edit_designation" id="edit_designation">
-                            <option value="Dean" {{ (old('edit_designation', $facdesig->designation) == 'Dean') ? 'selected' : '' }}>Dean</option>
-                            <option value="Registrar" {{ (old('edit_designation', $facdesig->designation) == 'Registrar') ? 'selected' : '' }}>Registrar</option>
+                        <label for="editDesignationDept">Department</label>
+                        <select class="form-control form-control-sm" name="facdept" id="editDesignationDept">
+                            <option disabled selected>Select</option>
+                            <option value="ADM">ADM</option>
+                            <option value="CAF">CAF</option>
+                            <option value="CAS">CAS</option>
+                            <option value="CBM">CBM</option>
+                            <option value="CCS">CCS</option>
+                            <option value="CJE">CJE</option>
+                            <option value="COE">COE</option>
+                            <option value="COTED">COTED</option>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="edit_dunit">Unit</label>
-                        <input type="number" name="edit_dunit" id="edit_dunit" class="form-control">
+                        <label for="editDesignationDesignation">Designation</label>
+                        <select class="form-control form-control-sm" id="editDesignationDesignation" name="designation">
+                            <option value="Dean">Dean</option>
+                            <option value="Registrar">Registrar</option>
+                        </select>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <div class="form-group">
+                        <label for="editDesignationUnit">Unit</label>
+                        <input type="text" class="form-control" id="editDesignationUnit" name="dunit">
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+
+<script>
+    var designationReadRoute = "{{ route('getfacultyDesigRead') }}";
+    var designationCreateRoute = "{{ route('facdesignationCreate') }}";
+    var designationUpdateRoute = "{{ route('facdesignationUpdate', ['id' => ':id']) }}";
+    var designationDeleteRoute = "{{ route('designationDelete', ['id' => ':id']) }}";
+</script>
 
 @endsection
 

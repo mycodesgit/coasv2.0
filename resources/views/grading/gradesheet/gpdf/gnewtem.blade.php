@@ -245,7 +245,7 @@
 	<div class="text-facultyname" style="margin-top: -20px; margin-left: 120px; text-transform: uppercase;">
 		<u>
 			@auth('faculty')
-	            @if(Auth::guard('faculty')->user()->isAdmin == '8')
+	            @if(Auth::guard('faculty')->user()->role == '943')
 	                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
 	            @endif
 	        @endauth
@@ -264,7 +264,7 @@
 	<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
 		<u>
 			@php
-	            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'REG')->first();
+	            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
 	        @endphp
 			@if($dean)
             	{{ $dean->lname }}, {{ $dean->fname }}
@@ -292,7 +292,7 @@
 	<div class="text-facultyname" style="margin-top: -20px; margin-left: 120px; text-transform: uppercase;">
 		<u>
 			@auth('faculty')
-	            @if(Auth::guard('faculty')->user()->isAdmin == '8')
+	            @if(Auth::guard('faculty')->user()->role == '943')
 	                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
 	            @endif
 	        @endauth
@@ -314,7 +314,7 @@
 	<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
 		<u>
 			@php
-	            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'REG')->first();
+	            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
 	        @endphp
 			@if($dean)
             	{{ $dean->lname }}, {{ $dean->fname }}

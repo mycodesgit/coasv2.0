@@ -1,4 +1,4 @@
-@extends('layouts.master_grading')
+@extends('layouts.master_faculty')
 
 @section('title')
 CISS V.1.0 || Grading
