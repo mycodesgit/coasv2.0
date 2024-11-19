@@ -254,6 +254,7 @@
     <script src="{{ asset('js/basic/tablescript.js') }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
@@ -292,6 +293,9 @@
     @endif
     @if(request()->routeIs('viewsearchStudHistory'))
         <script src="{{ asset('js/ajax/scholars/studHistorySerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('studenscholarreport_searchRead'))
+        <script src="{{ asset('js/ajax/scholars/scholarReportSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('countstudnoenrollee'))
         <script src="{{ asset('js/ajax/enrolment/enrolleescountSerialize.js') }}"></script>

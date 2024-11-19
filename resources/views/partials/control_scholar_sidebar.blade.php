@@ -7,6 +7,7 @@
     $allScholarActive = in_array($curr_route, ['allscholarlist']) ? 'active' : '';
     $listStudScholarActive = in_array($curr_route, ['chedstudscholarRead', 'studscholar_searchRead']) ? 'active' : '';
 
+    $enreportSchActive = in_array($curr_route, ['studenscholarreportRead', 'studenscholarreport_searchRead']) ? 'active' : '';
     $enhistoryActive = in_array($curr_route, ['studEnHistory', 'viewsearchStudHistory']) ? 'active' : '';
     $countnumEnrollActive = in_array($curr_route, ['countstudnoenrollee']) ? 'active' : '';
     $regformActive = in_array($curr_route, ['studregformRead', 'listsearch_studregformRead']) ? 'active' : '';
@@ -32,7 +33,7 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        <a href="" class="list-group-item">Students Scholar Reports</a>
+        <a href="{{ route('studenscholarreportRead') }}" class="list-group-item {{ $enreportSchActive }}">Students Scholar Reports</a>
         <a href="{{ route('studEnHistory') }}" class="list-group-item {{ $enhistoryActive }}">Enrollment History</a>
         <a href="{{ route('countstudnoenrollee') }}" class="list-group-item {{ $countnumEnrollActive }}">Number of Enrollees</a>
         <a href="{{ route('studregformRead') }}" class="list-group-item {{ $regformActive }}">Registration Form</a>

@@ -642,6 +642,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/search/student/ajax', [ScholarshipController::class, 'searchStudHistory'])->name('searchStudHistory');
             Route::get('/list/search/student/historyajax', [ScholarshipController::class, 'fetchEnrollmentHistory'])->name('fetchEnrollmentHistory');
 
+            Route::get('/list/search/student/scholar/report', [ScholarshipController::class, 'studenscholarreportRead'])->name('studenscholarreportRead');
+            Route::get('/list/search/student/scholar/report/search', [ScholarshipController::class, 'studenscholarreport_searchRead'])->name('studenscholarreport_searchRead');
+            Route::get('/list/search/student/scholar/report/search/ajax', [ScholarshipController::class, 'getStudScholarReportRead'])->name('getStudScholarReportRead');
+
             Route::get('/list/search/student/numberenroll', [ScholarshipController::class, 'countstudnoenrollee'])->name('countstudnoenrollee');
 
             Route::get('/list/search/student/registrationform', [ScholarshipController::class, 'studregformRead'])->name('studregformRead');

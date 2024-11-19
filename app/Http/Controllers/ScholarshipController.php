@@ -519,6 +519,70 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $enrollmentHistory]);
     }
 
+    public function studenscholarreportRead()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('scholar.numenroll.studreport', compact('sy'));
+    }
+
+    public function studenscholarreport_searchRead(Request $request) 
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $campus = Auth::guard('web')->user()->campus;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+
+        return view('scholar.numenroll.studreport_search', compact('sy'));
+    }
+
+    public function getStudScholarReportRead(Request $request) 
+    {
+        $campus = Auth::guard('web')->user()->campus;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+
+        $data = StudEnrolmentHistory::leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                ->join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
+                ->where('program_en_history.schlyear', $schlyear)
+                ->where('program_en_history.semester', $semester)
+                ->where('program_en_history.campus', $campus)
+                ->select('coasv2_db_schedule.programs.progCod', 
+                        'coasv2_db_schedule.programs.progName', 
+                        'coasv2_db_schedule.programs.progAcronym', 
+                        'program_en_history.studYear', 
+                        'program_en_history.studYear', 
+                        'program_en_history.studSec', 
+                        'program_en_history.studentID',
+                        'program_en_history.id', 
+                        'students.*', 
+                        'program_en_history.studYear', 
+                        'program_en_history.studSec', 
+                        'coasv2_db_scholarship.scholarship.id as schid',
+                        'coasv2_db_scholarship.scholarship.scholar_name', 
+                    )
+                ->orderBy('students.lname', 'ASC')
+                ->get();
+
+        return response()->json(['data' => $data]);
+    }
+
     public function countstudnoenrollee() 
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
