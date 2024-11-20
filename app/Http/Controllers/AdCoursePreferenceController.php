@@ -56,7 +56,7 @@ class AdCoursePreferenceController extends Controller
     public function getindexcourseprefAll(Request $request)
     {   
         
-        $year = $request->query('year');
+        $year = $request->query('schlyear');
         $campus = $request->query('campus');
         $strand = $request->query('strand');
         $user = Auth::guard('web')->user()->dept;
