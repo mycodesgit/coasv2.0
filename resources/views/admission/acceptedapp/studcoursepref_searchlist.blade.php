@@ -32,11 +32,7 @@ CISS V.1.0 || Course Preferences
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" name="schlyear">
-                                    @foreach($sy as $datasy)
-                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                    @endforeach
-                                </select>
+                                <select class="form-control form-control-sm" id="year" name="year"></select>
                             </div>
 
                             <div class="col-md-2">

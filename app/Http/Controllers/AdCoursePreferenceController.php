@@ -16,47 +16,30 @@ use App\Models\AdmissionDB\ApplicantDocs;
 use App\Models\AdmissionDB\DeptRating;
 use App\Models\AdmissionDB\ExamineeResult;
 use App\Models\AdmissionDB\Strands;
+use App\Models\AdmissionDB\Year;
 
 use App\Models\EnrollmentDB\Student;
 
-use App\Models\SettingDB\ConfigureCurrent;
 
 class AdCoursePreferenceController extends Controller
 {
     public function indexcoursepref()
     {
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
-
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
         $strand = Strands::all();
-        return view('admission.acceptedapp.studcoursepref', compact('strand', 'sy'));
+        return view('admission.acceptedapp.studcoursepref', compact('strand', 'curryear'));
     }
 
     public function indexcoursepref_search(Request $request)
     {
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
-
         $strand = Strands::all();
-        return view('admission.acceptedapp.studcoursepref_searchlist', compact('strand', 'sy'));
+        return view('admission.acceptedapp.studcoursepref_searchlist', compact('strand'));
     }
 
     public function getindexcourseprefAll(Request $request)
     {   
         
-        $year = $request->query('schlyear');
+        $year = $request->query('year');
         $campus = $request->query('campus');
         $strand = $request->query('strand');
         $user = Auth::guard('web')->user()->dept;
