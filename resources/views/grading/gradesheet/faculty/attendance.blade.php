@@ -43,7 +43,7 @@ CISS V.1.0 || Grading
 
         <div class="mt-1 row">
             <div class="col-md-12">
-                <form method="GET" action="{{ route('listsearch_studsubjectsRead') }}" id="attendancegrading">
+                <form method="GET" action="{{ route('attendance_searchfac') }}" id="attendancegrading">
                     @csrf   
 
                     <div class="form-group mt-2" style="padding: 10px">

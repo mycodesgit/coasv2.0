@@ -19,18 +19,38 @@ use App\Models\AdmissionDB\Strands;
 
 use App\Models\EnrollmentDB\Student;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class AdCoursePreferenceController extends Controller
 {
     public function indexcoursepref()
     {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
         $strand = Strands::all();
-        return view('admission.acceptedapp.studcoursepref', compact('strand'));
+        return view('admission.acceptedapp.studcoursepref', compact('strand', 'sy'));
     }
 
     public function indexcoursepref_search(Request $request)
     {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
         $strand = Strands::all();
-        return view('admission.acceptedapp.studcoursepref_searchlist', compact('strand'));
+        return view('admission.acceptedapp.studcoursepref_searchlist', compact('strand', 'sy'));
     }
 
     public function getindexcourseprefAll(Request $request)

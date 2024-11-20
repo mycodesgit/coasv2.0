@@ -658,6 +658,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         
         Route::get('/', [GradingFacultyController::class, 'index'])->name('grading-index');
 
+        Route::prefix('stud/attendance')->group(function () {
+            Route::get('/list/current/sem', [GradingFacultyController::class, 'attendancefac'])->name('attendancefac');
+            Route::get('/list/current/sem/search', [GradingFacultyController::class, 'attendance_searchfac'])->name('attendance_searchfac');
+        });
+
         Route::prefix('studGrade')->group(function () {
             Route::get('/list/semester', [GradingFacultyController::class, 'semesterfac'])->name('semesterfac');
             Route::get('/list/virtualroom', [GradingFacultyController::class, 'virtualfaculty_class'])->name('virtualfaculty_class');
@@ -668,9 +673,6 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingFacultyController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
         });
 
-        Route::prefix('stud/attendance')->group(function () {
-            Route::get('/list/current/sem', [GradingFacultyController::class, 'attendancefac'])->name('attendancefac');
-        });
         // Route::prefix('studGrade')->group(function () {
         //     Route::get('/list', [GradingFacultyController::class, 'grades'])->name('grades');
         //     Route::get('/list/view/studgrde/{subjID}', [GradingFacultyController::class, 'gradesstud'])->name('gradesstud');
