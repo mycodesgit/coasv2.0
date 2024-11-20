@@ -32,8 +32,9 @@ class AdCoursePreferenceController extends Controller
 
     public function indexcoursepref_search(Request $request)
     {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
         $strand = Strands::all();
-        return view('admission.acceptedapp.studcoursepref_searchlist', compact('strand'));
+        return view('admission.acceptedapp.studcoursepref_searchlist', compact('strand', 'curryear'));
     }
 
     public function getindexcourseprefAll(Request $request)
