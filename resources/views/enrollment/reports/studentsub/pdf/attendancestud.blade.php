@@ -74,7 +74,7 @@
 		    <div class="info-row">
 		        <span class="info-label">Time Schedule:</span>
 		        @if(Auth::guard('faculty')->check() && Auth::guard('faculty')->user()->role == 943)
-				    <span class="info-data1" style="text-decoration: underline;"></span>
+				    <span class="info-data1" style="text-decoration: underline;">__________</span>
 				@elseif(Auth::guard('web')->check() || Auth::guard('web')->user()->role == 15)
 				    <span class="info-data1" style="text-decoration: underline;">{{ $substudnowviewpdf->first()->isType ?? ' ' }}</span>
 				@else
