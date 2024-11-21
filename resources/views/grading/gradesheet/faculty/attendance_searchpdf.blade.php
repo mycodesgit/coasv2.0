@@ -48,27 +48,30 @@ CISS V.1.0 || Grading
                     $fixedColors = ['skyblue', 'green', 'orange', 'yellow', 'gray'];  // Set fixed colors for folders 1 to 10
                 @endphp
 
-                <div class="row mt-2">
+                <div class="row mt-2" style="border-bottom: 1px solid #04401f;">
                     @foreach($datafacsubprogen as $index => $attendfac)
                         @php
                             $randomColor = ($index < 10) ? $fixedColors[$index % count($fixedColors)] : $colors[array_rand($colors)];
                         @endphp
-                        <div class="col-6 col-sm-4 col-md-2 text-center mb-3">
+                        <div class="col-6 col-sm-2 col-md-2 text-center mb-3">
                             <h2>
                                 <a href="{{ route('attendance_searchfacpdfpage', ['id' => $attendfac->subjID, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="text-dark">
-                                <i class="fa-regular fa-file-lines folder-icon" aria-hidden="true" style="color: {{ $randomColor }}; font-size: 80px;"></i>
-                                <br>
-                                <span style="color: {{ $randomColor }}; font-size: 14px; display: inline-block; margin-top: 5px;"></span>
-                                <span style="font-size: 12px; font-weight: bold;">{{ $attendfac->sub_name }} - {{ $attendfac->subSec }}</span>
+                                    <i class="fa-regular fa-file-lines folder-icon" aria-hidden="true" style="color: {{ $randomColor }}; font-size: 80px;"></i>
+                                    <br>
+                                    <span style="color: {{ $randomColor }}; font-size: 14px; display: inline-block; margin-top: 5px;"></span>
+                                    <span style="font-size: 12px; font-weight: bold;">{{ $attendfac->sub_name }} - {{ $attendfac->subSec }}</span>
                                 </a>
                             </h2>
                         </div>
                     @endforeach
                 </div>
             </div>
-            {{-- <div class="col-md-12">
-                <iframe id="" src="" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe>
-            </div> --}}
+            <div class="col-md-12">
+                @php
+                    $id = request('id');
+                @endphp
+                <iframe src="{{ route('studsubjectsReadPDFfacattendance', ['id' => $id, 'schlyear' => request('schlyear'), 'semester' => request('semester')]) }}" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe>
+            </div>
         </div>
     </div>
 </div>

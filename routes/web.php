@@ -661,6 +661,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('stud/attendance')->group(function () {
             Route::get('/list/current/sem', [GradingFacultyController::class, 'attendancefac'])->name('attendancefac');
             Route::get('/list/current/sem/search', [GradingFacultyController::class, 'attendance_searchfac'])->name('attendance_searchfac');
+            Route::get('/list/current/sem/search/pdf', [GradingFacultyController::class, 'attendance_searchfacpdfpage'])->name('attendance_searchfacpdfpage');
+            Route::get('/list/current/sem/search/view/pdf/{id}', [GradingFacultyController::class, 'studsubjectsReadPDFfacattendance'])->name('studsubjectsReadPDFfacattendance');
         });
 
         Route::prefix('studGrade')->group(function () {

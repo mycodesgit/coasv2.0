@@ -30,6 +30,15 @@
         .toast-top-right {
             margin-top: 50px;
         }
+        .folder-icon {
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .folder-icon:hover {
+            transform: scale(1.1);  /* Enlarge the icon on hover */
+            color: #000;  /* Change color when hovered */
+        }
+
     </style>
 </head>
 

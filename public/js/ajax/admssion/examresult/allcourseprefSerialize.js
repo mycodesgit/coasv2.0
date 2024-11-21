@@ -34,6 +34,9 @@ $(document).ready(function() {
         lengthChange: true,
         searching: true,
         paging: true,
+        buttons: [
+                'excel', 'pdf'
+            ],
         "columns": [
             {data: 'admission_id'},
             { 
@@ -67,8 +70,9 @@ $(document).ready(function() {
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
-        }
-    });
+        },
+        dom: 'Bfrtip'
+    }).buttons().container().appendTo('#courseprefTableapp_wrapper .col-md-6:eq(0)');
     toggleActionColumn();
     $(document).on('coursepreftable', function() {
         dataTable.ajax.reload();

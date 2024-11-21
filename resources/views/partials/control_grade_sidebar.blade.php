@@ -2,7 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $dashSchActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
-    $attendSchActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac']) ? 'active' : '';
+    $attendSchActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
     $semesterSchActive = in_array($curr_route, ['semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass']) ? 'active' : '';
     $gradeActive = in_array($curr_route, ['grades', 'gradesstud', 'gradesstud_search']) ? 'active' : '';
     
