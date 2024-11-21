@@ -24,7 +24,7 @@ class Faculty extends Authenticatable
         'ext', 
         'email',
         'password', 
-        'isAdmin', 
+        'role', 
         'rank',
         'adrID', 
         'remember_token', 
