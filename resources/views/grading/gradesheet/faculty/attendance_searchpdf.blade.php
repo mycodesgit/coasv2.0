@@ -37,7 +37,7 @@ CISS V.1.0 || Grading
 
         <div>
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Attendance Sheet</h4>
+                <h4>Attendance Sheet <span style="font-size: 12pt; font-style: italic;" class="text-danger">(Click icon to view Attendance Sheet)</span></h4>
             </div>
         </div>
 
