@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('student_appraisal', function (Blueprint $table) {
             $table->id();
-            $table->string('studID')->nullable();
+            $table->string('studID')->nullable()->index();
             $table->string('semester')->nullable();
             $table->string('schlyear')->nullable();
             $table->string('campus')->nullable();

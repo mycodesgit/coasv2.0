@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('kioskstudent', function (Blueprint $table) {
             $table->id();
-            $table->string('studid');
+            $table->string('studid')->index();
             $table->string('password');
             $table->integer('postedBy')->nullable();
             $table->string('role')->nullable();

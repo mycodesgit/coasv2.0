@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('studgrades', function (Blueprint $table) {
             $table->id();
-            $table->string('studID')->nullable();
-            $table->string('subjID')->nullable();
+            $table->string('studID')->nullable()->index();
+            $table->string('subjID')->nullable()->index();
             $table->string('subjFgrade')->nullable();
             $table->string('subjComp')->nullable();
             $table->string('creditEarned')->nullable();

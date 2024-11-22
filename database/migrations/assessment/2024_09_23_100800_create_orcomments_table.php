@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('orcomments', function (Blueprint $table) {
             $table->id();
-            $table->integer('studpayID')->nullable();
-            $table->string('orno')->nullable();
-            $table->string('studID')->nullable();
+            $table->integer('studpayID')->nullable()->index();
+            $table->string('orno')->nullable()->index();
+            $table->string('studID')->nullable()->index();
             $table->string('semester')->nullable();
             $table->string('schlyear')->nullable();
             $table->string('campus')->nullable();

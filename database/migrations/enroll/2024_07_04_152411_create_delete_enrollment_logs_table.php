@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('delete_enrollment_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('delstudentID');
+            $table->string('delstudentID')->index();
             $table->string('delMC');
             $table->string('delemployeename');
             $table->string('delsemester');

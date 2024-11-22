@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('studgrades_logs', function (Blueprint $table) {
             $table->id();
-            $table->integer('grdeprimID')->nullable();
-            $table->string('studsID')->nullable();
-            $table->integer('subjctsID')->nullable();
+            $table->integer('grdeprimID')->nullable()->index();
+            $table->string('studsID')->nullable()->index();
+            $table->integer('subjctsID')->nullable()->index();
             $table->string('datefgrade')->nullable();
             $table->string('datecgrade')->nullable();
             $table->string('campus')->nullable();

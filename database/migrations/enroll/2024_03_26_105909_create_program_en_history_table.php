@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('program_en_history', function (Blueprint $table) {
             $table->id();
-            $table->string('studentID')->nullable();
+            $table->string('studentID')->nullable()->index();
             $table->string('schlyear')->nullable();
             $table->integer('semester')->nullable();
             $table->string('campus')->nullable();
             $table->string('course')->nullable();
-            $table->string('progCod')->nullable();
+            $table->string('progCod')->nullable()->index();
             $table->string('studMajor')->nullable();
             $table->string('studMinor')->nullable();
             $table->string('studLevel')->nullable();
@@ -28,8 +28,8 @@ return new class extends Migration
             $table->string('studSec')->nullable();
             $table->string('studUnit')->nullable();
             $table->string('studStatus')->nullable();
-            $table->integer('studSch')->nullable();
-            $table->integer('studClassID')->nullable();
+            $table->integer('studSch')->nullable()->index();
+            $table->integer('studClassID')->nullable()->index();
             $table->string('postedBy')->nullable();
             $table->string('confirmBy')->nullable();
             $table->string('postedDate')->nullable();
