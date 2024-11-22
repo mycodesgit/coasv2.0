@@ -33,7 +33,7 @@ $(document).ready(function() {
             { data: 'province' },
             { data: 'region' },
             { data: 'zcode' },
-            { data: 'course' },
+            { data: 'pehcourse' },
             { data: 'studYear' },
             { data: 'scholar_name' },
         ],

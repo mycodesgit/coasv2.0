@@ -243,28 +243,28 @@ class EnStudReportCardController extends Controller
                     return ['gpa' => 'NG', 'status' => 'No Grade'];
                 } elseif ($grade === 'Drp..') {
                     return ['gpa' => 'Drp.', 'status' => 'Drop'];
-                } elseif ($grade >= 97 || $grade == 1) {
-                    return ['gpa' => number_format(1.0, 2), 'status' => 'Passed'];
+                } elseif ($grade >= 95 || $grade == 1) {
+                    return ['gpa' => number_format(1.0, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 94) {
-                    return ['gpa' => number_format(1.2, 2), 'status' => 'Passed'];
+                    return ['gpa' => number_format(1.2, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 91) {
-                    return ['gpa' => number_format(1.5, 2), 'status' => 'Passed'];
+                    return ['gpa' => number_format(1.5, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 88) {
-                    return ['gpa' => number_format(1.7, 2), 'status' => 'Passed'];
+                    return ['gpa' => number_format(1.7, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 85 || $grade == 2) {
-                    return ['gpa' => number_format(2.0, 2), 'status' => 'Passed'];
+                    return ['gpa' => number_format(2.0, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 82) {
-                    return ['gpa' => number_format(2.2, 2), 'status' => 'Passed'];
+                    return ['gpa' => number_format(2.2, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 79) {
-                    return ['gpa' => number_format(2.5, 2), 'status' => 'Passed'];
+                    return ['gpa' => number_format(2.5, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 76) {
-                    return ['gpa' => number_format(2.7, 2), 'status' => 'Passed'];
+                    return ['gpa' => number_format(2.7, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 75 || $grade == 3) {
-                    return ['gpa' => number_format(3.0, 2), 'status' => 'Passed'];
+                    return ['gpa' => number_format(3.0, 1), 'status' => 'Passed'];
                 } elseif ($grade >= 70) {
-                    return ['gpa' => number_format(4.0, 2), 'status' => 'Conditional'];
+                    return ['gpa' => number_format(4.0, 1), 'status' => 'Conditional'];
                 } else {
-                    return ['gpa' => number_format(5.0, 2), 'status' => 'Failure'];
+                    return ['gpa' => number_format(5.0, 1), 'status' => 'Failure'];
                 }
             } else {
                 // New GPA conversion logic here
