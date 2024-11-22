@@ -25,6 +25,7 @@ $(document).ready(function() {
             { data: 'lname', render: function(data, type, row) {
                 return row.lname + ', ' + row.fname + ' ' + row.mname;
             } },
+            { data: 'ext' },
             { data: 'studentID' },
             { data: 'bday' },
             { data: 'address' },

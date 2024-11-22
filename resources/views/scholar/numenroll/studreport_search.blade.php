@@ -65,6 +65,7 @@ CISS V.1.0 || List of Scholars Student
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Suffix</th>
                             <th>StudID</th>
                             <th>Birthday</th>
                             <th>Address</th>
