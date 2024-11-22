@@ -76,6 +76,8 @@ CISS V.1.0 || List of Scholars Student
                             <th>Course</th>
                             <th>YearLevel</th>
                             <th>Scholarship</th>
+                            <th>Father</th>
+                            <th>Mother</th>
                         </tr>
                     </thead>
                     <tbody>

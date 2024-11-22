@@ -23,7 +23,7 @@ $(document).ready(function() {
             ],
         "columns": [
             { data: 'lname', render: function(data, type, row) {
-                return row.lname + ', ' + row.fname;
+                return row.lname + ', ' + row.fname + ' ' + row.mname;
             } },
             { data: 'studentID' },
             { data: 'bday' },
@@ -36,6 +36,8 @@ $(document).ready(function() {
             { data: 'pehcourse' },
             { data: 'studYear' },
             { data: 'scholar_name' },
+            { data: 'stud_father' },
+            { data: 'stud_mother' },
         ],
         dom: 'Bfrtip'
     }).buttons().container().appendTo('#studreportscholar_wrapper .col-md-6:eq(0)');
