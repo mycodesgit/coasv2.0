@@ -353,7 +353,7 @@
     				</td>
     			</tr>
     			<tr>
-    				<td colspan="4" style="padding-left: 5px">Balance for the @if($student->semester == 1) <span class="badge badge-primary">FIRST SEMESTER</span> @elseif($student->semester == 2) <span class="badge badge-success">2ND SEMESTER</span> @elseif($student->semester == 3) <span class="badge badge-secondary">SUMMER</span> @endif SY {{ $student->schlyear }} {{ \Carbon\Carbon::parse($student->updated_ats)->format('F d, Y'); }} is: {{ number_format($totalBalanceFee - $totalPaidFee, 2) }}</td>
+    				<td colspan="4" style="padding-left: 5px">Balance for the @if($student->semester == 1) <span class="badge badge-primary">FIRST SEMESTER</span> @elseif($student->semester == 2) <span class="badge badge-success">2ND SEMESTER</span> @elseif($student->semester == 3) <span class="badge badge-secondary">SUMMER</span> @endif SY {{ $student->schlyear }} July 24, 2024 is: {{ number_format($totalBalanceFee - $totalPaidFee, 2) }}</td>
     			</tr>
     		</tbody>
     	</table>
