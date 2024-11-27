@@ -90,7 +90,7 @@ class EnrollmentController extends Controller
                 ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
                 ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
                 ->orderBy('college_name', 'ASC')
-                ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+                ->select('college.college_abbr', 'college.colcolor', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
                 ->groupBy('college.id')
                 ->get();
 
@@ -110,7 +110,7 @@ class EnrollmentController extends Controller
                 ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
                 ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
                 ->orderBy('college_name', 'ASC')
-                ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+                ->select('college.college_abbr', 'college.colcolor', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
                 ->groupBy('college.id')
                 ->get();
 
