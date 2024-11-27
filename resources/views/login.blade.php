@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="carousel-item">
                                         <p class="lead" alt="Second slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Second slide">CPSU - COAS V.2.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="Second slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
                                         <p class="lead" alt="Third slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
@@ -58,7 +58,7 @@
                     <div class="col-md-5 col-sm-12 pr-4 pl-4 pt-2 pb-2 w-100 col-12" style="background-color: #04401f; border-radius: 5px;">
                         <div class="login-logo mt-2">
                             <a href="{{ route('login') }}">
-                                <img src="{{ asset('template/img/cpsulogo.png') }}" class="img-circle" width="100px" height="100px">
+                                <img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-circle" width="100px" height="100px">
                             </a>
                             
                         </div>

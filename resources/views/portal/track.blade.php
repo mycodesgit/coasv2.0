@@ -29,7 +29,7 @@
                     CISS V.1.0
                 </a>
                 <div class="" style="z-index: 999">
-                    <img src="{{ asset('template/img/CPSU_L.png') }}" style="width:80px;" class="center-top">
+                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:80px;" class="center-top">
                 </div>
 
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">

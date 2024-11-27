@@ -58,7 +58,7 @@
                     <div class="col-md-5 col-sm-12 pr-4 pl-4 pt-2 pb-2 w-100 col-12" style="background-color: #04401f; border-radius: 5px;">
                         <div class="login-logo mt-2">
                             <div>
-                                <img src="{{ asset('template/img/cpsulogo.png') }}" class="img-circle" width="100px" height="100px">
+                                <img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-circle" width="100px" height="100px">
                             </div>
                             
                         </div>

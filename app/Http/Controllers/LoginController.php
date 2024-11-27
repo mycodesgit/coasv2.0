@@ -35,10 +35,10 @@ class LoginController extends Controller
             'password' => $request->password,
         ]);
 
-        $validatedFaculty = auth()->guard('faculty')->attempt([
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
+        // $validatedFaculty = auth()->guard('faculty')->attempt([
+        //     'email' => $request->email,
+        //     'password' => $request->password,
+        // ]);
 
         $validatedStudent = auth()->guard('kioskstudent')->attempt([
             'studid' => $request->studid,
@@ -55,9 +55,9 @@ class LoginController extends Controller
         if ($validatedUser) {
             return redirect()->route('home')->with('success', 'You have successfully logged in.');
         } 
-        elseif($validatedFaculty) {
-            return redirect()->route('homefaculty')->with('success', 'You have successfully logged in.');
-        } 
+        // elseif($validatedFaculty) {
+        //     return redirect()->route('homefaculty')->with('success', 'You have successfully logged in.');
+        // } 
         elseif($validatedStudent) {
             return redirect()->route('kioskhome')->with('success', 'You have successfully logged in.');
         } 

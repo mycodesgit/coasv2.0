@@ -52,10 +52,12 @@ class ControlController extends Controller
         //     return redirect()->route('home')->with('error', 'No authenticated user to log out');
         // }
 
-        if (\Auth::guard('web')->check() || \Auth::guard('faculty')->check()) {
+        if (\Auth::guard('web')->check()) {
             auth()->guard('web')->logout();
-            auth()->guard('faculty')->logout();
             return redirect()->route('login')->with('success', 'You have been Successfully Logged Out');
+        } elseif (\Auth::guard('faculty')->check()) {
+            auth()->guard('faculty')->logout();
+            return redirect()->route('loginfac')->with('success', 'You have been Successfully Logged Out');
         } elseif (\Auth::guard('kioskstudent')->check()) {
             auth()->guard('kioskstudent')->logout();
             return redirect()->route('loginkioskstud')->with('success', 'You have been Successfully Logged Out');

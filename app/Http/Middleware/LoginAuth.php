@@ -51,10 +51,10 @@ class LoginAuth
             //         return redirect()->route('home')->with('error', 'You have no permission to access this page');
             //     }
             // }
-        } elseif (auth()->guard('faculty')->check()) {
-            if ($request->is('emp/admission') || $request->is('emp/admission/*') || $request->is('enmod/enrollment') || $request->is('enmod/enrollment/*')) {
-                return redirect()->route('homefaculty')->with('error', 'No permission to access this page');
-            }
+        // } elseif (auth()->guard('faculty')->check()) {
+        //     if ($request->is('emp/admission') || $request->is('emp/admission/*') || $request->is('enmod/enrollment') || $request->is('enmod/enrollment/*')) {
+        //         return redirect()->route('homefaculty')->with('error', 'No permission to access this page');
+        //     }
         } elseif (auth()->guard('kioskstudent')->check()) {
             if ($request->is('emp/admission') || $request->is('emp/admission/*') || $request->is('enmod/enrollment') || $request->is('enmod/enrollment/*')) {
                 return redirect()->route('kioskhome')->with('error', 'No permission to access this page');
