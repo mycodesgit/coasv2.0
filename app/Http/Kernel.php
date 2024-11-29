@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'stud_auth' => \App\Http\Middleware\StudKioskAuth::class,
         'fac_auth' => \App\Http\Middleware\LoginFacAuth::class,
         'role' => \App\Http\Middleware\LoginAuth::class,
+        'restrict.access' => \App\Http\Middleware\RestrictAccessMiddleware::class,
     ];
 }

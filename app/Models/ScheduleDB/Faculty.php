@@ -27,6 +27,8 @@ class Faculty extends Authenticatable
         'role', 
         'rank',
         'adrID', 
+        'verification_code',
+        'status',
         'remember_token', 
     ];
 

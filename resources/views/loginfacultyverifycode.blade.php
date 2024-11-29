@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>CISS - Login</title>
+    <title>CISS - Verification</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -20,20 +20,7 @@
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
 
     <style type="text/css">
-        .custom-btn {
-            transition: background-color 0.3s ease, color 0.3s ease;
-            background-color: transparent; 
-            color: #fff;
-            border-color: #fff;
-        }
-
-        .custom-btn:hover {
-            background-color: #fff !important; 
-            color: #000; 
-            text-decoration: none;
-            border-color: 5px solid #ffc107;
-            box-shadow: 0 2px 4px #ffc107;
-        }
+        
 
     </style>
 </head>
@@ -71,29 +58,29 @@
 
                     <div class="col-md-5 col-sm-12 pr-4 pl-4 pt-2 pb-2 w-100 col-12" style="background-color: #04401f; border-radius: 5px;">
                         <div class="login-logo mt-2">
-                            <a href="{{ route('loginfac') }}">
-                                <img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-circle" width="100px" height="100px">
-                            </a>
-                            
+                            <img src="{{ asset('template/img/check.png') }}" class="img-circle" width="100px" height="100px">
                         </div>
-                        <h5 class="login-box-msg text-light">Welcome to CISS</h5>
+                        
+                        <h5 class="login-box-msg text-light">We have sent a code to your institutional email.</h5>
                         <br>
                         <div class="text-center">
-                            @if(session('error'))
-                                <div class="alert alert-danger" style="font-size: 12pt;">
-                                    <i class="fas fa-exclamation-triangle "></i> {{session('error')}}
-                                </div>
-                            @endif
+                            <form action="{{ route('verify.code') }}" method="POST">
+                                @csrf
 
-                            @if(session('success'))
-                                <div class="alert alert-success" style="font-size: 10pt;">
-                                <i class="fas fa-check"></i> {{session('success')}}
+                                <input type="hidden" id="email" name="email" value="{{ session('email') }}">
+
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <input type="text" id="code" class="form-control" name="verification_code" autocomplete="off" placeholder="Enter Code" required autofocus>
+                                        </div>
+                                    </div>
                                 </div>
-                            @endif
-                            
-                            <a href="{{ route('google.login') }}" class="btn btn-default btn-lg custom-btn" style="border-radius: 30px;">
-                                <img src="{{ asset('template/img/googlelogo.png') }}" class="img-circle" width="25px" height="25px"> Sign in with Google
-                            </a>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default btn-block text-bold" style="background-color: #ffc107; color: #000">Verify</button>
+                                </div>
+                            </form>
                         </div>
                     </div>   
                 </div> 

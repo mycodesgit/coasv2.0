@@ -17,6 +17,6 @@
         <a href="{{ route('semesterfac') }}" class="list-group-item {{ $semesterSchActive }}">Grade Sheet</a> 
     </ul>
     <ul class="list-group mt-1">
-        <a href="{{ route('logout') }}" class="list-group-item">Sign Out</a>
+        <a href="{{ route('logoutfac') }}" class="list-group-item">Sign Out</a>
     </ul>
 </div>

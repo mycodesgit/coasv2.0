@@ -22,7 +22,7 @@ class LoginFacAuth
                 return redirect()->route('homefaculty')->with('error', 'No permission to access this page');
             }
         } else {
-            return redirect()->route('login')->with('error', 'You have to sign in first to access this page');
+            return redirect()->route('loginfac')->with('error', 'You have to sign in first to access this page');
         }
         
         $response = $next($request);

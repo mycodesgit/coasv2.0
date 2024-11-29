@@ -120,6 +120,16 @@ class EnStudReportCardController extends Controller
             }
         }
 
+        $student = StudEnrolmentHistory::where('program_en_history.schlyear',  $schlyear)
+                    ->where('program_en_history.semester',  $semester)
+                    ->where('campus', $campus)
+                    ->where('program_en_history.studentID', $stud_id)
+                    ->first();
+                    
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Numer <strong>' . $orno . '</strong> was not enrolled this' .$semester.' semester and '.$schlyear.' ');
+        }
+
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                     ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                     ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
