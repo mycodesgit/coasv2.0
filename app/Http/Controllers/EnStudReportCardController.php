@@ -75,6 +75,16 @@ class EnStudReportCardController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
+        $studenthis = StudEnrolmentHistory::where('program_en_history.schlyear',  $schlyear)
+                    ->where('program_en_history.semester',  $semester)
+                    ->where('campus', $campus)
+                    ->where('program_en_history.studentID', $stud_id)
+                    ->first();
+                    
+        if (!$studenthis) {
+            return redirect()->back()->with('error', 'Student ID Numer <strong>' . $stud_id . '</strong> was not enrolled this' .$semester.' semester and '.$schlyear.' ');
+        }
+
         return view('enrollment.reports.reportcard.listsearch_reportcard', compact('sy'));
     }
 
@@ -118,16 +128,6 @@ class EnStudReportCardController extends Controller
             } else {
                 return ['gpa' => 5.0, 'status' => 'Failure'];
             }
-        }
-
-        $student = StudEnrolmentHistory::where('program_en_history.schlyear',  $schlyear)
-                    ->where('program_en_history.semester',  $semester)
-                    ->where('campus', $campus)
-                    ->where('program_en_history.studentID', $stud_id)
-                    ->first();
-                    
-        if (!$student) {
-            return redirect()->back()->with('error', 'Student ID Numer <strong>' . $stud_id . '</strong> was not enrolled this' .$semester.' semester and '.$schlyear.' ');
         }
 
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
