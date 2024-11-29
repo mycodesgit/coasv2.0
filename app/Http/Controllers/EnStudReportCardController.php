@@ -127,7 +127,7 @@ class EnStudReportCardController extends Controller
                     ->first();
                     
         if (!$student) {
-            return redirect()->back()->with('error', 'Student ID Numer <strong>' . $orno . '</strong> was not enrolled this' .$semester.' semester and '.$schlyear.' ');
+            return redirect()->back()->with('error', 'Student ID Numer <strong>' . $stud_id . '</strong> was not enrolled this' .$semester.' semester and '.$schlyear.' ');
         }
 
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
