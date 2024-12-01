@@ -53,6 +53,7 @@ $(function () {
             },
             classSection: {
                 required: true,
+                pattern: /^[1-9]{1}-[A-Z]{1}$/,
             },
             classno: {
                 required: true,
@@ -73,6 +74,7 @@ $(function () {
             },
             classSection: {
                 required: "Please Enter Year&Section",
+                pattern: "The section must follow the format 1-A, 2-B, etc. (Number-Hyphen-Letter)",
             },
             classno: {
                 required: "Please Enter Est. No. of Students",
