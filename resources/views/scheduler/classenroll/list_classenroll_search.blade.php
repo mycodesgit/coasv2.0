@@ -110,7 +110,7 @@ CISS V.1.0 || Classes Enrolled
                             
                             <div class="mt-2 col-md-12">
                                 <label><span class="badge badge-secondary">Year & Section</span></label>
-                                <input type="text" name="classSection" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                <input type="text" name="classSection" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" placeholder="e.g., 1-A">
                             </div>
 
                             <div class="mt-2 col-md-12">
