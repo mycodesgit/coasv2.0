@@ -90,6 +90,7 @@
 
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
         <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
+        <a href="" class="list-group-item">Logbook</a>
         @endif
         @if(in_array(Auth::guard('web')->user()->role, [0]))
         <a href="{{ route('studenrollRead') }}" class="list-group-item {{ $studenpersemActive }}">Students Enrolled</a>
