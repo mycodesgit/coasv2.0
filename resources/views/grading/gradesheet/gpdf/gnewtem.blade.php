@@ -257,7 +257,7 @@
 	            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', Auth::guard('faculty')->user()->dept)->first();
 	        @endphp
 			@if($dean)
-            	{{ $dean->lname }}, {{ $dean->fname }}, {{ $dean->rankcomma }}
+            	{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
             @endif
 	    </u>
 	</div>
@@ -267,7 +267,7 @@
 	            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
 	        @endphp
 			@if($dean)
-            	{{ $dean->lname }}, {{ $dean->fname }}
+            	{{ $dean->fname }} {{ $dean->lname }}
             @endif
 	    </u>
 	</div>
@@ -307,7 +307,7 @@
 	            		->first();
 	        @endphp
 			@if($dean)
-            	{{ $dean->lname }}, {{ $dean->fname }}, {{ $dean->rankcomma }}
+            	{{ $dean->fname }} {{ $dean->lname }}, {{ $dean->rankcomma }}
             @endif
 	    </u>
 	</div>
@@ -317,7 +317,7 @@
 	            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
 	        @endphp
 			@if($dean)
-            	{{ $dean->lname }}, {{ $dean->fname }}
+            	{{ $dean->fname }} {{ $dean->lname }}
             @endif
 	    </u>
 	</div>

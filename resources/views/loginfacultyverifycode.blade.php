@@ -64,6 +64,17 @@
                         <h5 class="login-box-msg text-light">We have sent a code to your institutional email.</h5>
                         <br>
                         <div class="text-center">
+                            @if(session('error'))
+                                <div class="alert alert-danger" style="font-size: 12pt;">
+                                    <i class="fas fa-exclamation-triangle "></i> {{session('error')}}
+                                </div>
+                            @endif
+
+                            @if(session('success'))
+                                <div class="alert alert-success" style="font-size: 10pt;">
+                                <i class="fas fa-check"></i> {{session('success')}}
+                                </div>
+                            @endif
                             <form action="{{ route('verify.code') }}" method="POST">
                                 @csrf
 

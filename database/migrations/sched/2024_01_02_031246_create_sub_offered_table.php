@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sub_offered', function (Blueprint $table) {
             $table->id();
-            $table->string('subCode')->nullable();
+            $table->string('subCode')->nullable()->index();
             $table->string('subSec')->nullable();
             $table->string('schlyear')->nullable();
             $table->string('semester')->nullable();
