@@ -760,7 +760,7 @@ class EnrollmentController extends Controller
 
     public function editsearchStud()
     {   
-        if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC', 'CC'])) {
+        if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC', 'CC', 'SCC'])) {
             // $sy = ConfigureCurrent::select('id', 'schlyear')
             //     ->whereIn('id', ['18'])
             //     ->orderBy('id', 'DESC')
