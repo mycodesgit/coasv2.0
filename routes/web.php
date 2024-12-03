@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\QueueingMonitorController;
+
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\LoginController;
@@ -101,6 +103,10 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
         Route::post('/xYcmd/upload.documents/search', [AdReuploadController::class, 'searchApplicant'])->name('searchApplicant');
         Route::post('/xYcmd/upload.documents/search/uploaddocs', [AdReuploadController::class, 'uploadDocuments'])->name('uploadDocuments');
         Route::get('/xYcmd/upload.documents/redirect/expire',[AdReuploadController::class,'repupredirectexpire'])->name('repupredirectexpire');
+    });
+
+    Route::prefix('/qeueing')->group(function () {
+        Route::get('/transaction',[QueueingMonitorController::class,'queueRead'])->name('queue-monitor');
     });
 
 
