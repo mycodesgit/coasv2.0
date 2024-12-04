@@ -25,4 +25,13 @@ class QueueingMonitorController extends Controller
         $counter = QueueCounter::orderBy('id', 'ASC')->get();
         return view('queue.monitor.queuemonitor', compact('counter'));
     }
+
+    public function index()
+    {
+        $counters = Counter::all();
+        $waitingCustomers = Customer::where('status', 'waiting')->orderBy('queue_number')->get();
+
+        return view('queue.index', compact('counters', 'waitingCustomers'));
+    }
+
 }

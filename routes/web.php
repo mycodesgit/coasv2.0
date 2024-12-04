@@ -109,6 +109,8 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
 
     Route::prefix('/queueing')->group(function () {
         Route::get('/transaction',[QueueingMonitorController::class,'queueRead'])->name('queue-monitor');
+        Route::post('/queue/call', [QueueingMonitorController::class, 'callCustomer'])->name('callCustomer'); // Call customer
+        Route::post('/queue/next', [QueueingMonitorController::class, 'serveNext'])->name('serveNext'); // Serve next customer
     });
 
 
@@ -564,6 +566,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('reports')->group(function () {
             Route::get('/list/facultyload', [SchedReportsController::class, 'facultyloadRead'])->name('facultyloadRead');
             Route::get('/list/facultyload/search', [SchedReportsController::class, 'facultyload_search'])->name('facultyload_search');
+
+            Route::get('/list/subjectoffer', [SchedReportsController::class, 'reportsuboffer'])->name('reportsuboffer');
+            Route::get('/list/subjectoffer/search', [SchedReportsController::class, 'reportsuboffer_search'])->name('reportsuboffer_search');
+            Route::get('/list/subjectoffer/search/ajax', [SchedReportsController::class, 'getreportsuboffer_search'])->name('getreportsuboffer_search');
         });
 
     });

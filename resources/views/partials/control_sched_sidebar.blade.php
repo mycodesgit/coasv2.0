@@ -14,6 +14,7 @@
     $roomSchedActive = in_array($curr_route, ['roomSchedRead']) ? 'active' : '';
     $subjectActive = in_array($curr_route, ['subjectsRead']) ? 'active' : '';
     $facultyloadActive = in_array($curr_route, ['facultyloadRead', 'facultyload_search']) ? 'active' : '';
+    $subjectloadActive = in_array($curr_route, ['reportsuboffer', 'reportsuboffer_search']) ? 'active' : '';
     
 
 @endphp
@@ -65,6 +66,7 @@
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
         <a href="{{ route('facultyloadRead') }}" class="list-group-item {{ $facultyloadActive }}">Faculty Load</a>
+        <a href="{{ route('reportsuboffer') }}" class="list-group-item {{ $subjectloadActive }}">Subject Load</a>
     </ul>
 </div>
 @endif

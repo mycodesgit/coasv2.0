@@ -15,6 +15,7 @@ use App\Models\ScheduleDB\Faculty;
 use App\Models\ScheduleDB\FacultyLoad;
 use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
+use App\Models\ScheduleDB\EnPrograms;
 
 use App\Models\EnrollmentDB\Grade;
 
@@ -97,5 +98,54 @@ class SchedReportsController extends Controller
         }
 
         return view('scheduler.reports.facultyload_listsearch', compact('fac', 'datar', 'grades', 'totalSearchResults', 'guard', 'sy'));
+    }
+
+    public function reportsuboffer() 
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('scheduler.reports.subjectsoffer', compact('sy'));
+    }
+
+    public function reportsuboffer_search(Request $request) 
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $campus = Auth::guard('web')->user()->campus;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+
+        return view('scheduler.reports.subjectsoffer_searchlist', compact('sy'));
+    }
+
+    public function getreportsuboffer_search(Request $request) 
+    {
+
+        $campus = Auth::guard('web')->user()->campus;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+
+        $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
+                        ->where('sub_offered.campus', $campus)
+                        ->select('sub_offered.*', 'subjects.*')
+                        ->get();
+
+        return response()->json(['data' => $data]);
     }
 }
