@@ -85,7 +85,6 @@ CISS V.1.0 || Grading Student
                                     <th>Student ID</th>
                                     <th>Name</th>
                                     <th>Final Grade</th>
-                                    <th>Completion</th>
                                     <th>Unit</th>
                                 </tr>
                             </thead>
@@ -125,7 +124,7 @@ CISS V.1.0 || Grading Student
 
                                             
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             @if ($studgrade->gstat == 2 && $studgrade->compstat != 2 && $studgrade->subjFgrade === 'INC')
                                                 <select class="form-control form-control-sm" name="subjComp" id="{{ $studgrade->sgid }}" onchange="updateGradeComp(this.id, this.value)">
                                                     <option></option>
@@ -138,7 +137,7 @@ CISS V.1.0 || Grading Student
                                             @elseif ($studgrade->compstat == 2 && $studgrade->subjFgrade === 'INC')
                                                 <strong>{{ $studgrade->subjComp }}</strong>
                                             @endif
-                                        </td>
+                                        </td> --}}
 
                                         <td><strong>{{ $studgrade->creditEarned }}</strong></td>
                                     </tr>

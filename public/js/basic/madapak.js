@@ -34,6 +34,10 @@ $('#kiosk-url').click(function() {
     window.location.href = kioskRoute;
 });
 
+$('#queue-url').click(function() {
+    window.location.href = queueRoute;
+});
+
 $('#setting-url').click(function() {
     window.location.href = settingRoute;
 });

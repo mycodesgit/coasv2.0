@@ -56,6 +56,12 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
                 <i class="fas fa-tv"></i> Kiosk
             </a>
 
+            @if(Auth::guard('web')->user()->role == 0)
+                <a id="queue-url" class="btn btn-app">
+                    <i class="fas fa-list-ol"></i> Queueing
+                </a>
+            @endif
+
             <a id="request-url" class="btn btn-app {{ in_array('request-url', $buttons) ? '' : 'disabled' }}">
                 <i class="fas fa-file-lines"></i> Request
             </a>
@@ -82,6 +88,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
     var scholarshipRoute = "{{ route('scholarship-index') }}";
     var gradingRoute = "{{ route('grading-index') }}";
     var kioskRoute = "{{ route('adminkioskRead') }}";
+    var queueRoute = "{{ route('queue-index') }}";
     var requestRoute = "";
     var settingRoute = "{{ route('settings-index') }}";
     var logoutRoute = "{{ route('logout') }}";

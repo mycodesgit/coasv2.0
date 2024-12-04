@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
@@ -28,14 +34,8 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
     <style>
-        #tblegend td {
-            border: 1px solid #e9ecef;
-            padding: 5px;
-            font-size: 10pt;
-        } 
-        #tblegend th {
-            border: 1px solid #e9ecef;
-            padding: 5px;
+        .toast-top-right {
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -80,7 +80,43 @@
             <div class="content">
                 <div class="container-fluid1">
                     <div class="row" style="padding-top: 0px;">
-                        
+                        <div class="col-lg-2">
+                            <div class="card">
+                                <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
+                                    @section('sideheader')
+                                    @show
+                                </div>
+                                @section('sidemenu')
+                                    @include('partials.control_queue_sidebar')
+                                @show
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            @section('workspace')
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-home"></i>
+                                                </a>
+                                            </li>
+                                            <li class="breadcrumb-item active mt-1">Settings</li>
+                                        </ol>
+                                        <div class="workspace-top" style="text-align: center;">
+                                            <h1 class="fas fa-mug-hot fa-7x" style="color: #04401f"></h1>
+                                            <h1><span style="color:#ffff66;font-size: 70px;">Eey!</span> Grab a coffee before doing something.</h1>
+                                            <p>  <i class="fas fa-quote-left fa-2x fa-pull-left"></i>
+                                                Gatsby believed in the green light, the orgastic future that year by year recedes before us.
+                                                It eluded us then, but that’s no matter — tomorrow we will run faster, stretch our arms further...
+                                                And one fine morning — So we beat on, boats against the current, borne back ceaselessly into the past.
+                                            </p>
+                                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            @show
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,7 +126,7 @@
             <i class="text-light">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
-    @include('portal.modal-terms')
+
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
@@ -113,10 +149,14 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}"></script>
-    <script src="{{ asset('js/basic/yearscript.js') }}"></script>
-    <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
@@ -124,7 +164,28 @@
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-    
+    <script src="{{ asset('js/validation/settings/setconfValidation.js') }}"></script>
+
+    @if(request()->routeIs('queue-index'))
+        <script src="{{ asset('js/ajax/queueing/counterSerialize.js') }}"></script>
+    @endif
+
+    <script>
+        $(document).ready(function () {
+            $('#searchDropdown').select2({
+                placeholder: '-- Search and Select --',
+                allowClear: true,
+                minimumInputLength: 6
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        setTimeout(function () {
+            $("#alert").delay(2500).fadeOut(5000);
+        }, 0); 
+    </script>
+
 </body>
 </html>
    

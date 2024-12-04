@@ -64,6 +64,8 @@ use App\Http\Controllers\GradingFacultyController;
 
 use App\Http\Controllers\KioskAdminController;
 
+use App\Http\Controllers\QueueingSettingController;
+
 use App\Http\Controllers\SettingController;
 
 use App\Http\Controllers\KioskDashController;
@@ -105,7 +107,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
         Route::get('/xYcmd/upload.documents/redirect/expire',[AdReuploadController::class,'repupredirectexpire'])->name('repupredirectexpire');
     });
 
-    Route::prefix('/qeueing')->group(function () {
+    Route::prefix('/queueing')->group(function () {
         Route::get('/transaction',[QueueingMonitorController::class,'queueRead'])->name('queue-monitor');
     });
 
@@ -739,6 +741,14 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::post('/admin/kiosk/user/view/add', [KioskAdminController::class, 'adminkioskCreate'])->name('adminkioskCreate');
         Route::post('/admin/kiosk/user/view/update', [KioskAdminController::class, 'adminkioskUpdate'])->name('adminkioskUpdate');
         Route::get('/admin/kiosk/user/view/delete{id}', [KioskAdminController::class, 'adminkioskDelete'])->name('adminkioskDelete');
+    });
+
+    Route::prefix('conf/queue/settings')->group(function () {
+        
+        Route::get('/', [QueueingSettingController::class, 'index'])->name('queue-index');
+        Route::get('/getcounterajax', [QueueingSettingController::class, 'getcounterRead'])->name('getcounterRead');
+        Route::post('/counter/add', [QueueingSettingController::class, 'counterCreate'])->name('counterCreate');
+
     });
 
     Route::prefix('adempset/settings')->group(function () {
