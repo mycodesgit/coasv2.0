@@ -13,8 +13,10 @@ class QueueCounter extends Model
     protected $table = 'counters';
 
     protected $fillable = [
-        'name', 
-        'current_number',
+        'windowname', 
+        'category',
+        'useridlog',
+        'activeidnumber',
         'campus'
     ];
 

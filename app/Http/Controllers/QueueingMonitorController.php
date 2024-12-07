@@ -22,16 +22,54 @@ class QueueingMonitorController extends Controller
 {
     public function queueRead()
     {
-        $counter = QueueCounter::orderBy('id', 'ASC')->get();
-        return view('queue.monitor.queuemonitor', compact('counter'));
+        $counters = QueueCounter::all();
+        $countersArray = [];
+
+        foreach ($counters as $count) {
+            $numbers = QueueCustomer::find($count->activeidnumber);
+
+            $countersArray[] = [
+                'window' => $count->windowname,
+                'number' => $numbers ? $numbers->queue_number : null, 
+                'status' => $count->status, 
+            ];
+        }
+
+
+        return view('queue.monitor.queuemonitor', compact('countersArray'));
     }
 
-    public function index()
+    public function streamQueueData()
     {
-        $counters = Counter::all();
-        $waitingCustomers = Customer::where('status', 'waiting')->orderBy('queue_number')->get();
+        return response()->stream(function () {
+            while (true) {
+                // Fetch the data from your `getqueueRead` logic
+                $counters = QueueCounter::all();
+                $countersArray = [];
 
-        return view('queue.index', compact('counters', 'waitingCustomers'));
+                foreach ($counters as $count) {
+                    $numbers = QueueCustomer::find($count->activeidnumber);
+
+                    $countersArray[] = [
+                        'window' => $count->windowname,
+                        'number' => $numbers ? $numbers->queue_number : null,
+                        'updated_at' => $count->updated_at,
+                    ];
+                }
+
+                // Send data as SSE
+                echo "data: " . json_encode(['data' => $countersArray]) . "\n\n";
+                ob_flush();
+                flush();
+
+                // Sleep to control the update frequency (e.g., every 2 seconds)
+                sleep(2);
+            }
+        }, 200, [
+            'Content-Type' => 'text/event-stream',
+            'Cache-Control' => 'no-cache',
+            'Connection' => 'keep-alive',
+        ]);
     }
 
 }

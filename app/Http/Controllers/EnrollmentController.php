@@ -40,6 +40,8 @@ use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\AssessmentDB\StudPayment;
 
 use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\QueueCounter;
+use App\Models\SettingDB\QueueCustomer;
 
 
 class EnrollmentController extends Controller
@@ -1161,4 +1163,35 @@ class EnrollmentController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Deleted Successfully', 'redirect_url' => route('editsearchStud')]);
     }
+
+    public function getNextQueue(Request $request)
+    {
+        $counterId = $request->input('counter_id'); 
+
+        $queueNumber = QueueCustomer::where('status', 'waiting')
+            ->orderBy('id', 'ASC')
+            ->first();
+
+        if ($queueNumber) {
+            $queueNumber->update(['status' => 'serving']);
+
+            $counter = QueueCounter::where('useridlog', '=', Auth::guard('web')->user()->id)->first();
+
+            if ($counter) {
+                $counter->update(['activeidnumber' => $queueNumber->id]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'queue_number' => $queueNumber->queue_number,
+                'counter_window' => $counter->windowname, 
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No more queues available for this counter.',
+        ]);
+    }
+
 }

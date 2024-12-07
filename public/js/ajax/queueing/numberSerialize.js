@@ -4,20 +4,21 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#counterad').submit(function(event) {
+    $('#numberad').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: counterCreateRoute,
+            url: numberCreateRoute,
             type: "POST",
             data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('counterAdded');
-                    $('input[name="windowname"]').val('');
+                    $(document).trigger('numberAdded');
+                    $('input[name="start"]').val('');
+                    $('input[name="end"]').val('');
                 } else {
                     toastr.error(response.message);
                     console.log(response);
@@ -30,9 +31,9 @@ $(document).ready(function() {
         });
     });
 
-    var dataTable = $('#counterTable').DataTable({
+    var dataTable = $('#numberTable').DataTable({
         "ajax": {
-            "url": counterRoute,
+            "url": numberRoute,
             "type": "GET",
         },
         destroy: true,
@@ -42,16 +43,9 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
-            {data: 'windowname'},
-            {data: 'category'},
-            { 
-                data: null,
-                render: function(data, type, row) {
-                    var firstname = data.fname;
-                    var lastName = data.lname;
-                    return firstname + ' ' + lastName;
-                }
-            },
+            {data: 'queue_number'},
+            {data: 'catname'},
+            {data: 'status'},
             {data: 'campus'},
             {
                 data: 'id',
@@ -79,7 +73,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('counterAdded', function() {
+    $(document).on('numberAdded', function() {
         dataTable.ajax.reload();
     });
 });

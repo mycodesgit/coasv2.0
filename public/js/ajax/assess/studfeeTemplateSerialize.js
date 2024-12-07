@@ -4,69 +4,44 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#studFeeAssess').on('submit', function (e) {
-        e.preventDefault();
+    $('#studFeeAssessTemplate').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
 
-        var rowsData = [];
-        $('#studentFeesTable tbody tr').each(function () {
-            var row = {
-                fundname_code: $('input[name="fundname_code[]"]', this).val().trim(), 
-                amountFee: $('input[name="amountFee[]"]', this).val().trim(), 
-                accountName: $('input[name="accountName[]"]', this).val().trim(),
-                prog_code: $('input[name="prog_Code[]"]').val(), 
-                yrlevel: $('input[name="yrlevel[]"]').val(), 
-                schlyear: $('input[name="schlyear[]"]').val(), 
-                semester: $('input[name="semester[]"]').val(),
-                campus: $('input[name="campus[]"]').val() 
-            };
-            rowsData.push(row);
-        });
-
-        
         $.ajax({
-            url: studfeeCreateRoute, 
-            method: "POST",
-            data: {
-                rows_data: rowsData 
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-            },
-            success: function (response) {
-                if (response.success) {
+            url: studfeeTemplateCreateRoute,
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('studFeeAdded');
+                    $(document).trigger('studFeeTemplateAdded');
+                    $('input[name="amountFee"]').val('');
                 } else {
                     toastr.error(response.message);
+                    console.log(response);
                 }
             },
-            error: function (xhr) {
-                if (xhr.status === 419) {
-                    alert("CSRF token mismatch or expired. Please reload the page and try again.");
-                } else {
-                    alert("Failed to add student fees.");
-                }
+            error: function(xhr, status, error, message) {
+                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                toastr.error(errorMessage);
             }
         });
     });
 
     var urlParams = new URLSearchParams(window.location.search);
-    var campus = urlParams.get('campus') || ''; 
-    var progCode = urlParams.get('prog_Code') || ''; 
-    var yrlevel = urlParams.get('yrlevel') || ''; 
-    var schlyear = urlParams.get('schlyear') || ''; 
+    var temptype = urlParams.get('temptype') || ''; 
     var semester = urlParams.get('semester') || '';
-    var dataTable = $('#studentFees').DataTable({
+    var yrlevel = urlParams.get('yrlevel') || ''; 
+    var dataTable = $('#studentFeesTemplate').DataTable({
         "ajax": {
-            "url": studfeeReadRoute,
+            "url": studfeeTemplateReadRoute,
             "type": "GET",
             "data": { 
-                "campus": campus,
-                "prog_Code": progCode,
+                "temptype": temptype,
+                "semester": semester,
                 "yrlevel": yrlevel,
-                "schlyear": schlyear,
-                "semester": semester
             }
         },
         info: false,
@@ -117,7 +92,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('studFeeAdded', function() {
+    $(document).on('studFeeTemplateAdded', function() {
         dataTable.ajax.reload();
     });
 });

@@ -37,6 +37,25 @@
             border: 1px solid #e9ecef;
             padding: 5px;
         }
+        .clock {
+            font-size: 50px;
+            font-weight: bold;
+            color: teal;
+        }
+        .date {
+            font-size: 20px;
+            color: gray;
+        }
+        #queueMonitor th.sorting::after,
+        #queueMonitor th.sorting_asc::after,
+        #queueMonitor th.sorting_desc::after {
+            display: none !important;
+        }
+        #queueMonitor th.sorting::before,
+        #queueMonitor th.sorting_asc::before,
+        #queueMonitor th.sorting_desc::before {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -78,27 +97,35 @@
                 <div class="container-fluid" style="padding-top: 20px"></div>
             </div>
             <div class="content">
-                <div class="container-fluid1">
-                    <div class="row" style="padding-top: 0px;">
-                        <div class="col-md-8">
-                            <table id="" class="table table-hover table-bordered">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <table id="queueMonitor" class="table table-hover table-bordered">
                                 <thead style="font-weight: bold; font-size: 50px; text-align: center;">
                                     <tr>
                                         <th>Window</th>
-                                        <th>Token Number</th>
-                                        <th>Status</th>
+                                        <th>Number</th>
                                     </tr>
                                 </thead>
                                 <tbody style="font-weight: bold; font-size: 45px; text-align: center;">
-                                    @foreach($counter as $datacounter)
+                                    {{-- @foreach($countersArray as $datacounter)
                                         <tr>
-                                            <td>{{ $datacounter->name }}</td>
-                                            <td></td>
-                                            <td>Serving</td>
+                                            <td>{{ $datacounter['window'] }}</td>
+                                            <td>{{ $datacounter['number'] ?? '' }}</td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-lg-6">
+                            {{-- <iframe width="100%" height="560" src="https://images.app.goo.gl/8mjuVP4YWazjrqny8" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
+                            <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mt-2 text-center">
+                                <div class="clock" id="time">--:--:-- --</div>
+                                <div class="date" id="date">Loading date...</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -143,7 +170,93 @@
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-    
+    @if(request()->routeIs('queue-monitor'))
+        <script>
+            $(document).ready(function () {
+                // Initialize DataTable
+                var dataTable = $('#queueMonitor').DataTable({
+                    "columnDefs": [
+                        { "orderable": false, "targets": [0, 1] }
+                    ],
+                    destroy: true,
+                    info: false,
+                    responsive: false,
+                    lengthChange: false,
+                    searching: false,
+                    paging: false,
+                    data: [], // Initialize with empty data
+                    "columns": [
+                        { data: 'window' },
+                        { data: 'number' }
+                    ]
+                });
+
+                //var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+                // Connect to the Server-Sent Events stream
+                var eventSource = new EventSource("{{ route('queue.stream') }}");
+
+                eventSource.onmessage = function (event) {
+                    var response = JSON.parse(event.data); // Parse the JSON data
+
+                    // Clear and update DataTable with new data
+                    dataTable.clear();
+                    dataTable.rows.add(response.data); // Add the data
+                    dataTable.draw(); // Redraw the table
+
+                    // response.data.forEach(function (item) {
+                    //     if (item.activeidnumber !== null) { // Replace "active" with your actual condition
+                    //         sound.play(); // Play the sound
+                    //     }
+                    // });
+                };
+
+                eventSource.onerror = function () {
+                    console.error("EventSource encountered an error.");
+                    eventSource.close(); // Optionally handle reconnection
+                };
+            });
+        </script>
+    @endif
+
+
+
+
+
+
+
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+
+            // Format time
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            const formattedTime = [
+                hours % 12 || 12, // Convert 24-hour format to 12-hour format
+                minutes.toString().padStart(2, '0'),
+                seconds.toString().padStart(2, '0')
+            ].join(':') + ` ${ampm}`;
+
+            // Format date
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const months = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            const formattedDate = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+            // Set content
+            document.getElementById('time').textContent = formattedTime;
+            document.getElementById('date').textContent = formattedDate;
+        }
+
+        setInterval(updateTime, 1000); // Update every second
+        updateTime(); // Initialize immediately
+    </script>
 </body>
 </html>
    

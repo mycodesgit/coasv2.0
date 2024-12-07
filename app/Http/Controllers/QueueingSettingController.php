@@ -22,12 +22,17 @@ class QueueingSettingController extends Controller
 {
     public function index()
     {
-        return view('queue.conf.list_counter');
+        $user = User::where('dept', '=', 'Registrar Office')->where('campus', '=', Auth::guard('web')->user()->campus)->get();
+        return view('queue.conf.list_counter', compact('user'));
     }
 
     public function getcounterRead()
     {
-        $data = QueueCounter::orderBy('id', 'ASC')->get();
+        $data = QueueCounter::leftJoin('coasv2_db_admission.users', 'counters.useridlog', '=', 'coasv2_db_admission.users.id')
+                ->where('counters.campus', '=', Auth::guard('web')->user()->campus)
+                ->select('coasv2_db_admission.users.fname', 'coasv2_db_admission.users.lname', 'counters.*')
+                ->orderBy('id', 'ASC')
+                ->get();
 
         return response()->json(['data' => $data]);
     }
@@ -36,11 +41,11 @@ class QueueingSettingController extends Controller
     {
         if ($request->isMethod('post')) {
             $request->validate([
-                'name' => 'required',
+                'windowname' => 'required',
             ]);
 
-            $counterName = $request->input('name'); 
-            $existingCounter = QueueCounter::where('name', $counterName)->first();
+            $counterName = $request->input('windowname'); 
+            $existingCounter = QueueCounter::where('windowname', $counterName)->first();
 
             if ($existingCounter) {
                 return response()->json(['error' => true, 'message' => 'Counter Name already exists'], 404);
@@ -48,7 +53,9 @@ class QueueingSettingController extends Controller
 
             try {
                 QueueCounter::create([
-                    'name' => $request->input('name'),
+                    'windowname' => $request->input('windowname'),
+                    'category' => $request->input('category'),
+                    'useridlog' => $request->input('useridlog'),
                     'campus' => Auth::guard('web')->user()->campus,
                 ]);
 
@@ -58,4 +65,52 @@ class QueueingSettingController extends Controller
             }
         }
     }   
+
+    public function numberRead()
+    {
+        $counterwin = QueueCounter::orderBy('id', 'ASC')->where('campus', '=', Auth::guard('web')->user()->campus)->get();
+        return view('queue.conf.list_numbers', compact('counterwin'));
+    }
+
+    public function getnumberRead()
+    {
+        $data = QueueCustomer::orderBy('id', 'ASC')->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function storeQueueNumbers(Request $request)
+    {
+        try {
+            $request->validate([
+                'start' => 'required|integer|min:1',
+                'end' => 'required|integer|min:1|gte:start',
+                'catname' => 'required|string',
+                'available_in' => 'required|array', // Ensure it's an array
+                'available_in.*' => 'integer',
+            ]);
+
+            $start = $request->input('start');
+            $end = $request->input('end');
+            $catname = $request->input('catname');
+            $available_in = $request->input('available_in');
+            $campus = Auth::guard('web')->user()->campus;
+
+            $prefix = $catname === 'Processing' ? strtoupper($campus) . 'P-' : strtoupper($campus) . 'E-';
+
+            // Generate and save queue numbers
+            for ($i = $start; $i <= $end; $i++) {
+                QueueCustomer::create([
+                    'queue_number' => sprintf("%s%04d", $prefix, $i), // Format: MCP-001 or MCE-001
+                    'catname' => $catname,
+                    'campus' => $campus,
+                    'available_in' => implode(',', $available_in),
+                ]);
+            }
+
+            return response()->json(['success' => true, 'message' => 'Queue numbers store successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to add queue numbers. Please try again later'], 404);
+        }
+    }
 }

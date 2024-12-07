@@ -48,7 +48,7 @@ CISS V.1.0 || Student Fee
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <form method="GET" action="" id="studFeeShowAssess">
+                        <form method="GET" action="{{route('list_searchStudfee')}}" id="studFeeAssess">
                             @csrf
                             <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
                                 <h5>Add Student Fee</h5>
@@ -62,9 +62,33 @@ CISS V.1.0 || Student Fee
 
                             <div class="form-group">
                                 <div class="form-row">
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Fund</span></label>
+                                        <select id="fundname_code" class="form-control form-control-sm" name="fundname_code">
+                                            <option disabled selected> ---Select---</option>
+                                            @foreach($studfund as $fund)
+                                                <option value="{{ $fund->fund_name }}">{{ $fund->fund_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Account</span></label>
+                                        <select class="form-control form-control-sm select2bs4" data-placeholder="--Select--" name="accountName">
+                                            @foreach($studAccntap as $studapp)
+                                                <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Amount</span></label>
+                                        <input type="number" name="amountFee" class="form-control form-control-sm">
+                                    </div>
+
                                     <div class="col-md-12">
                                         <label>&nbsp;</label>
-                                        <button type="submit" class="form-control form-control-sm btn btn-primary">Show Student Fees Template</button>
+                                        <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Add</button>
                                     </div>
                                 </div>
                             </div>
@@ -142,49 +166,6 @@ CISS V.1.0 || Student Fee
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="studentFeesModal" tabindex="-1" role="dialog" aria-labelledby="studentFeesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="studentFeesModalLabel">Student Fees Template</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="studFeeAssess" method="POST">
-                <div class="modal-body">
-                    <table class="table table-bordered" id="studentFeesTable">
-                        <thead>
-                            <tr>
-                                <th>Fund Name Code</th>
-                                <th>Amount Fee</th>
-                                <th>Account Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Populated by AJAX -->
-                        </tbody>
-                    </table>
-                    <!-- Hidden inputs container -->
-                    <input type="hidden" name="campus[]" value="{{ Auth::guard('web')->user()->campus }}">
-                    <input type="hidden" name="schlyear[]" value="{{ request('schlyear') }}">
-                    <input type="hidden" name="semester[]" value="{{ request('semester') }}">
-                    <input type="hidden" name="prog_Code[]" value="{{ request('prog_Code') }}">
-                    <input type="hidden" name="yrlevel[]" value="{{ request('yrlevel') }}">
-                    <div id="hiddenInputsContainer" style="display: none;">
-                        <!-- Hidden inputs will be dynamically added here -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Student Fees</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 
 <script>
     var studfeeReadRoute = "{{ route('getstudFeeRead') }}";

@@ -53,6 +53,7 @@ use App\Http\Controllers\SchedReportsController;
 
 use App\Http\Controllers\StudFundAssessmentController;
 use App\Http\Controllers\StudFeeAssessmentController;
+use App\Http\Controllers\StudFeeTemplateController;
 use App\Http\Controllers\StudStateAccntAssessmentController;
 use App\Http\Controllers\StudHEBillingController;
 
@@ -109,8 +110,10 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
 
     Route::prefix('/queueing')->group(function () {
         Route::get('/transaction',[QueueingMonitorController::class,'queueRead'])->name('queue-monitor');
-        Route::post('/queue/call', [QueueingMonitorController::class, 'callCustomer'])->name('callCustomer'); // Call customer
-        Route::post('/queue/next', [QueueingMonitorController::class, 'serveNext'])->name('serveNext'); // Serve next customer
+        Route::get('/queue-stream', [QueueingMonitorController::class, 'streamQueueData'])->name('queue.stream');
+
+        // Route::post('/queue/call', [QueueingMonitorController::class, 'callCustomer'])->name('callCustomer'); 
+        // Route::post('/queue/next', [QueueingMonitorController::class, 'serveNext'])->name('serveNext'); 
     });
 
 
@@ -364,6 +367,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/student/enroll/submit', [EnrollmentController::class, 'studEnrollmentCreate'])->name('studEnrollmentCreate');
 
             Route::delete('/student/enroll/submit', [EnrollmentController::class, 'deleteAllRecords'])->name('deleteAllRecords');
+
+            Route::post('/queue/next', [EnrollmentController::class, 'getNextQueue'])->name('queue.next');
         });
 
         Route::prefix('edit')->group(function () {
@@ -605,6 +610,16 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/search/list/add', [StudFeeAssessmentController::class, 'studFeeCreate'])->name('studFeeCreate');
             Route::post('/search/list/update', [StudFeeAssessmentController::class, 'studFeeUpdate'])->name('studFeeUpdate');
             Route::get('/search/list/delete{id}', [StudFeeAssessmentController::class, 'studFeeDelete'])->name('studFeeDelete');
+
+            Route::get('/fetch-student-fees', [StudFeeAssessmentController::class, 'fetchStudentFees'])->name('fetch-student-fees');
+
+        });
+
+        Route::prefix('studfees/template')->group(function () {
+            Route::get('/search', [StudFeeTemplateController::class, 'searchStudfeeTemplate'])->name('searchStudfeeTemplate');
+            Route::get('/search/list/temp', [StudFeeTemplateController::class, 'list_searchStudfeetemplate'])->name('list_searchStudfeetemplate');
+            Route::get('/search/list/temp/ajax', [StudFeeTemplateController::class, 'getstudFeetemplateRead'])->name('getstudFeetemplateRead');
+            Route::post('/search/list/temp/ajax/add', [StudFeeTemplateController::class, 'studFeeTemplateCreate'])->name('studFeeTemplateCreate');
         });
 
         Route::prefix('reports')->group(function () {
@@ -754,6 +769,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/', [QueueingSettingController::class, 'index'])->name('queue-index');
         Route::get('/getcounterajax', [QueueingSettingController::class, 'getcounterRead'])->name('getcounterRead');
         Route::post('/counter/add', [QueueingSettingController::class, 'counterCreate'])->name('counterCreate');
+
+        Route::get('/numbers', [QueueingSettingController::class, 'numberRead'])->name('numberRead');
+        Route::get('/getnumberajax', [QueueingSettingController::class, 'getnumberRead'])->name('getnumberRead');
+        Route::post('/number/add', [QueueingSettingController::class, 'storeQueueNumbers'])->name('storeQueueNumbers');
 
     });
 

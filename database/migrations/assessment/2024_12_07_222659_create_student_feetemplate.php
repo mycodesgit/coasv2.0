@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_fee', function (Blueprint $table) {
+        Schema::create('student_feetemplate', function (Blueprint $table) {
             $table->id();
-            $table->integer('prog_Code')->nullable();
+            $table->string('temptype')->nullable();
             $table->string('yrlevel')->nullable();
-            $table->string('schlyear')->nullable();
             $table->integer('semester')->nullable();
-            $table->string('campus')->nullable();
             $table->integer('fundname_code')->nullable();
             $table->string('amountFee')->nullable();
             $table->string('accountName')->nullable();
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_fee');
+        Schema::dropIfExists('student_feetemplate');
     }
 };

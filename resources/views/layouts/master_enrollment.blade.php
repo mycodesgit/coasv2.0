@@ -492,6 +492,39 @@
         <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}"></script>
     @endif
 
+    @if(request()->routeIs('searchStud'))
+    <script>
+        $(document).ready(function () {
+            var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+            $('#nextButton').on('click', function () {
+                const counterId = $(this).data('counter-id');
+
+                $.post("{{ route('queue.next') }}", { 
+                    counter_id: counterId, 
+                    _token: "{{ csrf_token() }}" 
+                }, function (response) {
+                    if (response.success) {
+                        // Update the queue number on the input field
+                        $('#queueNumber').val(response.queue_number);
+                        sound.play();
+                        console.log("play");
+                    } else {
+                        alert(response.message);
+                    }
+                }).fail(function () {
+                    alert('Error fetching the next queue.');
+                });
+            });
+        });
+    </script>
+@endif
+
+
+
+
+
+
+
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>

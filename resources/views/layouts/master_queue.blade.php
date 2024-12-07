@@ -170,6 +170,10 @@
         <script src="{{ asset('js/ajax/queueing/counterSerialize.js') }}"></script>
     @endif
 
+    @if(request()->routeIs('numberRead'))
+        <script src="{{ asset('js/ajax/queueing/numberSerialize.js') }}"></script>
+    @endif
+
     <script>
         $(document).ready(function () {
             $('#searchDropdown').select2({

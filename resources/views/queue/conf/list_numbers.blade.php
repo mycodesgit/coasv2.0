@@ -38,34 +38,38 @@ CISS V.1.0 || Counter List
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
-                            <form method="post" action="{{route('counterCreate')}}" id="counterad">
+                            <form method="post" action="{{route('storeQueueNumbers')}}" id="numberad">
                                 @csrf
                                 <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                    <h5>Add Counter Name</h5>
+                                    <h5>Add Queue Number</h5>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="form-row">
                                         <div class="mt-2 col-md-12">
-                                            <label><span class="badge badge-secondary">Counter</span></label>
-                                            <input type="number" name="windowname" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" maxlength="1">
+                                            <label><span class="badge badge-secondary">Start</span></label>
+                                            <input type="number" name="start" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" maxlength="1">
                                         </div>
 
                                         <div class="mt-2 col-md-12">
-                                            <label><span class="badge badge-secondary">Counter</span></label>
-                                            <select class="form-control form-control-sm" name="useridlog">
-                                                <option disabled selected> --Select-- </option>
-                                                @foreach($user as $datauser)
-                                                    <option value="{{ $datauser->id }}">{{ $datauser->fname }} {{ $datauser->lname }}</option>
-                                                @endforeach
-                                            </select>
+                                            <label><span class="badge badge-secondary">End</span></label>
+                                            <input type="number" name="end" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" maxlength="1">
                                         </div>
 
                                         <div class="mt-2 col-md-12">
                                             <label><span class="badge badge-secondary">Category</span></label>
-                                            <select class="form-control form-control-sm" name="category">
+                                            <select class="form-control form-control-sm" name="catname">
                                                 <option value="Enrollment">Enrollment</option>
                                                 <option value="Processing">Processing</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mt-2 col-md-12">
+                                            <label><span class="badge badge-secondary">Counter</span></label>
+                                            <select class="form-control form-control-sm select2bs4" name="available_in[]" multiple="">
+                                                @foreach($counterwin as $datacounterwin)
+                                                    <option>{{ $datacounterwin->windowname }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
 
@@ -80,12 +84,12 @@ CISS V.1.0 || Counter List
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <table id="counterTable" class="table table-hover">
+                    <table id="numberTable" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Counter Name</th>
+                                <th>Queue Numbers</th>
                                 <th>Category</th>
-                                <th>Assign</th>
+                                <th>Status</th>
                                 <th>Campus</th>
                                 <th width="10%">Action</th>
                             </tr>
@@ -101,8 +105,8 @@ CISS V.1.0 || Counter List
 </div>
 
 <script>
-    var counterRoute = "{{ route('getcounterRead') }}";
-    var counterCreateRoute = "{{ route('counterCreate') }}";
+    var numberRoute = "{{ route('getnumberRead') }}";
+    var numberCreateRoute = "{{ route('storeQueueNumbers') }}";
     var counterUpdateRoute = "{{ route('setconfUpdate', ['id' => ':id']) }}";
 </script>
 

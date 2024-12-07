@@ -15,13 +15,12 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->integer('queue_number')->unique(); // Unique queue number
-            $table->unsignedBigInteger('counter_id')->nullable(); // Assigned counter
-            $table->enum('status', ['waiting', 'serving', 'served'])->default('waiting');
+            $table->string('queue_number')->unique(); 
+            $table->string('catname')->nullable(); 
+            $table->enum('status', ['waiting', 'serving', 'served', 'calling'])->default('waiting');
             $table->string('campus');
             $table->timestamps();
 
-            $table->foreign('counter_id')->references('id')->on('counters')->onDelete('set null');
         });
     }
 

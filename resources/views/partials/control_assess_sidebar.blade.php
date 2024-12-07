@@ -7,6 +7,8 @@
     $accntAppraisalActive = in_array($curr_route, ['accountAppraisalRead']) ? 'active' : '';
     $studFeeActive = in_array($curr_route, ['searchStudfee', 'list_searchStudfee']) ? 'active' : '';
 
+    $studFeeTemplateActive = in_array($curr_route, ['searchStudfeeTemplate', 'list_searchStudfeetemplate']) ? 'active' : '';
+
     $studStateAccntActive = in_array($curr_route, ['stateaccntpersem', 'stateaccntpersem_search']) ? 'active' : '';
     $studStateAccntStudActive = in_array($curr_route, ['stateaccntperstudent', 'stateaccntperstudentid_search', 'stateaccntperstudentname_search']) ? 'active' : '';
     $studStateAccntSumActive = in_array($curr_route, ['stateaccntpersum', 'stateaccntpersum_search']) ? 'active' : '';
@@ -23,7 +25,8 @@
         <a href="{{ route('fundsRead') }}" class="list-group-item {{ $fundActive }}">Funds</a> 
         <a href="{{ route('accountCOARead') }}" class="list-group-item {{ $coaActive }}">COA Accounts</a> 
         <a href="{{ route('accountAppraisalRead') }}" class="list-group-item {{ $accntAppraisalActive }}">Accounts</a> 
-        <a href="{{ route('searchStudfee') }}" class="list-group-item {{ $studFeeActive }}">Student Fee</a>  
+        <a href="{{ route('searchStudfee') }}" class="list-group-item {{ $studFeeActive }}">Student Fee</a>
+        <a href="{{ route('searchStudfeeTemplate') }}" class="list-group-item {{ $studFeeTemplateActive }}">Student Fee Template</a>  
     </ul>
 </div>
 

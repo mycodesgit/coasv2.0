@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 use App\Models\AssessmentDB\AccountAppraisal;
 use App\Models\AssessmentDB\StudentFee;
+use App\Models\AssessmentDB\StudFeeTemplate;
 use App\Models\AssessmentDB\Funds;
 
 use App\Models\ScheduleDB\EnPrograms;
@@ -94,59 +95,70 @@ class StudFeeAssessmentController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function studFeeCreate(Request $request) 
+    public function fetchStudentFees(Request $request)
     {
-        if ($request->isMethod('post')) {
-            $request->validate([
-                'campus' => 'required',
-                'schlyear' => 'required',
-                'semester' => 'required',
-                'prog_Code' => 'required',
-                'yrlevel' => 'required',
-                'fundname_code' => 'required',
-                'accountName' => 'required',
-                'amountFee' => 'required',
-            ]);
-
-            $campus = $request->input('campus');
-            $schlyear = $request->input('schlyear');
-            $semester = $request->input('semester');
-            $progCode = $request->input('prog_Code');
-            $yrlevel = $request->input('yrlevel');
-
-            $studfeeName = $request->input('accountName'); 
-            $existingStudFee = StudentFee::where('accountName', $studfeeName)
-                            ->where('campus', $campus)
-                            ->where('schlyear', $schlyear)
-                            ->where('semester', $semester)
-                            ->where('prog_Code', $progCode)
-                            ->where('yrlevel', $yrlevel)
-                            ->first();
-
-            if ($existingStudFee) {
-                return response()->json(['error' => true, 'message' => 'Account Name in Student Fee already exists'], 404);
-            }
-
-            try {
-                StudentFee::create([
-                    'campus' => $request->input('campus'),
-                    'schlyear' => $request->input('schlyear'),
-                    'semester' => $request->input('semester'),
-                    'prog_Code' => $request->input('prog_Code'),
-                    'yrlevel' => $request->input('yrlevel'),
-                    'fundname_code' => $request->input('fundname_code'),
-                    'accountName' => $request->input('accountName'),
-                    'amountFee' => $request->input('amountFee'),
-                    'postedBy' => Auth::guard('web')->user()->id,
-                    'remember_token' => Str::random(60),
-                ]);
-
-                return response()->json(['success' => true, 'message' => 'Student Fee stored successfully'], 200);
-            } catch (\Exception $e) {
-                return response()->json(['error' => true, 'message' => 'Failed to store Student Fee'], 404);
-            }
+        $progCode = explode('-', $request->query('prog_Code'))[0];
+        $yrlevel = $request->query('yrlevel');
+        if ($yrlevel === '1') {
+            $mappedYrLevel = 'New'; 
+        } else {
+            $mappedYrLevel = 'Old'; 
         }
+
+        $fees = StudFeeTemplate::where('semester', $request->query('semester'))
+            ->where('yrlevel', $mappedYrLevel)
+            ->get();
+
+        $filteredFees = $fees->filter(function ($fee) use ($progCode) {
+            if ($progCode === 'CCS') {
+                if ($fee->accountName === 'IT FEE') {
+                    return false; 
+                }
+
+                if ($fee->accountName === 'COMPUTER LAB FEE' && $progCode === 'CCS') {
+                    $fee->amountFee += 500; 
+                }
+            }
+
+            return $fee->accountName === "TUITION - $progCode" || 
+                   strpos($fee->accountName, 'TUITION -') === false;
+        });
+        return response()->json($filteredFees->values());
     }
+
+    public function studFeeCreate(Request $request)
+{
+    $validated = $request->validate([
+        'rows_data' => 'required|array',
+        'rows_data.*.fundname_code' => 'required|string',
+        'rows_data.*.accountName' => 'required|string',
+        'rows_data.*.amountFee' => 'required|numeric',
+        'rows_data.*.prog_code' => 'required|string',
+        'rows_data.*.yrlevel' => 'required|string',
+        'rows_data.*.schlyear' => 'required|string',
+        'rows_data.*.semester' => 'required|string',
+        'rows_data.*.campus' => 'required|string',
+    ]);
+
+    // Loop through the rows and save each fee record
+    foreach ($validated['rows_data'] as $data) {
+        $studentFee = new StudentFee([
+            'prog_Code' => $data['prog_code'],
+            'yrlevel' => $data['yrlevel'],
+            'schlyear' => $data['schlyear'],
+            'semester' => $data['semester'],
+            'campus' => $data['campus'],
+            'fundname_code' => $data['fundname_code'],
+            'accountName' => $data['accountName'],
+            'amountFee' => $data['amountFee'],
+        ]);
+        
+        $studentFee->save();
+    }
+
+    return response()->json(['success' => true, 'message' => 'Student fees added successfully!']);
+}
+
 
     public function studFeeUpdate(Request $request) 
     {
@@ -196,4 +208,16 @@ class StudFeeAssessmentController extends Controller
 
         return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
+
+
+    // public function fetchStudentFees(Request $request)
+    // {
+    //     $semester = $request->query('semester');
+
+    //     $fees = StudFeeTemplate::where('semester', $semester)
+    //             ->get();
+
+    //     return response()->json($fees);
+    // }
+
 }

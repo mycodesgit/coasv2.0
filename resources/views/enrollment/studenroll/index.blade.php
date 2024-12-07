@@ -37,7 +37,7 @@ CISS V.1.0 || Enroll Student
             </div> 
         </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <form method="GET" action="{{ route('searchStudEnroll') }}" id="enrollStud">
                         @csrf   
 
@@ -74,6 +74,38 @@ CISS V.1.0 || Enroll Student
                             </div>
                         </div>
                     </form>
+
+                    <table id="holdTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Queue Numbers</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Campus</th>
+                                <th width="10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group mt-2" style="padding: 10px">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="card" style="background-color: #dfdfdf">
+                                    <div class="card-body">
+                                        <center><label>Current No.</label></center>
+                                        <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
+                                        <button id="nextButton" class="btn btn-primary btn-block mt-3" data-counter-id="1">Next</button> 
+                                        <button id="nextButton" class="btn btn-danger btn-block mt-2">Call</button>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

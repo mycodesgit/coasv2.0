@@ -200,6 +200,53 @@
     @endif
     @if(request()->routeIs('list_searchStudfee'))
         <script src="{{ asset('js/ajax/assess/studfeeSerialize.js') }}"></script>
+        <script>
+            $(document).ready(function () {
+                $('#studFeeShowAssess').on('submit', function (e) {
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: "{{ route('fetch-student-fees') }}", // Update with your route name
+                        method: "GET",
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            let tableBody = '';
+                            let fundNameCodes = [];
+                            let amountFees = [];
+                            let accountNames = [];
+                            response.forEach(fee => {
+                                tableBody += `
+                                    <tr>
+                                        <td><input type="text" name="fundname_code[]" value="${fee.fundname_code}" class="form-control form-control-sm border-0" readonly></td>
+                                        <td><input type="number" name="amountFee[]" value="${fee.amountFee}" class="form-control form-control-sm border-0" readonly></td>
+                                        <td><input type="text" name="accountName[]" value="${fee.accountName}" class="form-control form-control-sm border-0" readonly></td>
+                                    </tr>`;
+                                    // Push data to arrays
+                                    fundNameCodes.push(fee.fundname_code);
+                                    amountFees.push(fee.amountFee);
+                                    accountNames.push(fee.accountName);
+                            });
+
+                            $('#studentFeesTable tbody').html(tableBody);
+
+                            $('#hiddenInputsContainer').html(`
+                                <input type="hidden" name="fundname_code[]" value="${fundNameCodes.join(',')}">
+                                <input type="hidden" name="amountFee[]" value="${amountFees.join(',')}">
+                                <input type="hidden" name="accountName[]" value="${accountNames.join(',')}">
+                            `);
+
+                            $('#studentFeesModal').modal('show');
+                        },
+                        error: function () {
+                            alert("Failed to fetch student fees.");
+                        }
+                    });
+                });
+            });
+        </script>
+    @endif
+    @if(request()->routeIs('list_searchStudfeetemplate'))
+        <script src="{{ asset('js/ajax/assess/studfeeTemplateSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('stateaccntpersum_search'))
         <script src="{{ asset('js/ajax/assess/reportassessSerialize.js') }}"></script>

@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('counters', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('current_number')->nullable();
+            $table->integer('windowname');
+            $table->string('category')->nullable();
+            $table->integer('useridlog')->nullable();
             $table->string('campus');
             $table->timestamps();
         });

@@ -14,8 +14,9 @@ class QueueCustomer extends Model
 
     protected $fillable = [
         'queue_number', 
-        'counter_id', 
-        'status'
+        'catname', 
+        'status',
+        'campus'
     ];
 
     public function counter()
