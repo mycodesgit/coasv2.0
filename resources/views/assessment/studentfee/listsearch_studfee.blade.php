@@ -38,8 +38,19 @@ CISS V.1.0 || Student Fee
                 <i>Year-<b>{{ request('schlyear') }}</b>,
                     Semester-<b>{{ request('semester') }}</b>,
                     Campus-<b>{{ request('campus') }}</b>,
-                    Course-<b>{{ request('prog_Code') }}</b>,
-                    YrLevel-<b>{{ request('yrlevel') }}</b>,
+                    Course-<b>
+                    @php
+                        $progCode = request('prog_Code');
+                        $program = \App\Models\ScheduleDB\EnPrograms::where('progCod', $progCode)->first(); // Replace with your actual model
+                    @endphp
+                    @if($program)
+                        {{ $program->progAcronym }} 
+                    @else
+                        {{ $progCode }}
+                    @endif
+                </b>
+
+                <b>{{ request('yrlevel') }}</b>,
                 </i>
             </small>
         </h5>

@@ -204,9 +204,17 @@
             $(document).ready(function () {
                 $('#studFeeShowAssess').on('submit', function (e) {
                     e.preventDefault();
+                    var progCode = new URLSearchParams(window.location.search).get('prog_Code'); 
+
+                    var routeUrl;
+                    if (progCode && progCode.includes('GSS')) {
+                        routeUrl = "{{ route('fetch-student-fees-grad') }}"; 
+                    } else {
+                        routeUrl = "{{ route('fetch-student-fees') }}"; 
+                    }
 
                     $.ajax({
-                        url: "{{ route('fetch-student-fees') }}", // Update with your route name
+                        url: routeUrl, 
                         method: "GET",
                         data: $(this).serialize(),
                         success: function (response) {

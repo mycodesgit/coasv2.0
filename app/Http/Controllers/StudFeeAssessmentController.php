@@ -126,6 +126,38 @@ class StudFeeAssessmentController extends Controller
         return response()->json($filteredFees->values());
     }
 
+    public function fetchStudentFeesgrad(Request $request)
+    {
+        $progCode = explode('-', $request->query('prog_Code'))[1];
+        $yrlevel = $request->query('yrlevel');
+        if ($yrlevel === '1') {
+            $mappedYrLevel = 'New'; 
+        } else {
+            $mappedYrLevel = 'Old'; 
+        }
+
+        $fees = StudFeeTemplate::where('semester', $request->query('semester'))
+            ->where('yrlevel', $mappedYrLevel)
+            ->where('temptype', '=', 'GSS')
+            ->get();
+
+        $filteredFees = $fees->filter(function ($fee) use ($progCode) {
+            if ($progCode === 'CCS') {
+                if ($fee->accountName === 'IT FEE') {
+                    return false; 
+                }
+
+                if ($fee->accountName === 'COMPUTER LAB FEE' && $progCode === 'CCS') {
+                    $fee->amountFee += 500; 
+                }
+            }
+
+            return $fee->accountName === "TUITION - $progCode" || 
+                   strpos($fee->accountName, 'TUITION -') === false;
+        });
+        return response()->json($filteredFees->values());
+    }
+
     public function studFeeCreate(Request $request)
     {
         $validated = $request->validate([

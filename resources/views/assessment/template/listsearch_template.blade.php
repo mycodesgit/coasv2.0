@@ -35,12 +35,19 @@ CISS V.1.0 || Student Fee Template
         <br>
         <h5>
             <small>
-                {{-- <i>Year-<b>{{ request('schlyear') }}</b>,
+                Type-<b>
+                    @if(request('temptype') === 'UGS')
+                        UnderGrad
+                    @elseif(request('temptype') === 'GSS')
+                        Graduate School
+                    @else
+                        {{ request('temptype') }}
+                    @endif
+                </b>,
+
                     Semester-<b>{{ request('semester') }}</b>,
-                    Campus-<b>{{ request('campus') }}</b>,
-                    Course-<b>{{ request('prog_Code') }}</b>,
                     YrLevel-<b>{{ request('yrlevel') }}</b>,
-                </i> --}}
+                </i>
             </small>
         </h5>
 

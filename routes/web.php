@@ -612,6 +612,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/search/list/delete{id}', [StudFeeAssessmentController::class, 'studFeeDelete'])->name('studFeeDelete');
 
             Route::get('/fetch-student-fees', [StudFeeAssessmentController::class, 'fetchStudentFees'])->name('fetch-student-fees');
+            Route::get('/fetch-student-fees-grad', [StudFeeAssessmentController::class, 'fetchStudentFeesgrad'])->name('fetch-student-fees-grad');
 
         });
 
