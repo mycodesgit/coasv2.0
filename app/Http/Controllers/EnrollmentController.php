@@ -42,6 +42,7 @@ use App\Models\AssessmentDB\StudPayment;
 use App\Models\SettingDB\ConfigureCurrent;
 use App\Models\SettingDB\QueueCounter;
 use App\Models\SettingDB\QueueCustomer;
+use App\Models\SettingDB\QueueMode;
 
 
 class EnrollmentController extends Controller
@@ -341,7 +342,9 @@ class EnrollmentController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('enrollment.studenroll.index', compact('sy'));
+        $queueMode = QueueMode::first();
+
+        return view('enrollment.studenroll.index', compact('sy', 'queueMode'));
     }
 
     public function checkEnrollment(Request $request)

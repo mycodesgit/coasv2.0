@@ -774,6 +774,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/getnumberajax', [QueueingSettingController::class, 'getnumberRead'])->name('getnumberRead');
         Route::post('/number/add', [QueueingSettingController::class, 'storeQueueNumbers'])->name('storeQueueNumbers');
 
+        Route::get('/queue/set/on/off', [QueueingSettingController::class, 'queueonoff'])->name('queueonoff');
+        Route::post('/toggle-queue', [QueueingSettingController::class, 'toggleQueue'])->name('toggle.queue');
     });
 
     Route::prefix('adempset/settings')->group(function () {

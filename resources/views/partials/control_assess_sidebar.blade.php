@@ -26,7 +26,9 @@
         <a href="{{ route('accountCOARead') }}" class="list-group-item {{ $coaActive }}">COA Accounts</a> 
         <a href="{{ route('accountAppraisalRead') }}" class="list-group-item {{ $accntAppraisalActive }}">Accounts</a> 
         <a href="{{ route('searchStudfee') }}" class="list-group-item {{ $studFeeActive }}">Student Fee</a>
-        <a href="{{ route('searchStudfeeTemplate') }}" class="list-group-item {{ $studFeeTemplateActive }}">Student Fee Template</a>  
+        @if(Auth::guard('web')->user()->role == 0)
+            <a href="{{ route('searchStudfeeTemplate') }}" class="list-group-item {{ $studFeeTemplateActive }}">Student Fee Template</a>  
+        @endif
     </ul>
 </div>
 

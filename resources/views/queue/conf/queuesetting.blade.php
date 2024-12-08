@@ -1,7 +1,7 @@
-@extends('layouts.master_settings')
+@extends('layouts.master_queue')
 
 @section('title')
-CISS V.1.0 || Server Maintenance
+CISS V.1.0 || Queueing Setting
 @endsection
 
 @section('sideheader')
@@ -20,7 +20,7 @@ CISS V.1.0 || Server Maintenance
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Settings</li>
-            <li class="breadcrumb-item active mt-1">Server Maintenance</li>
+            <li class="breadcrumb-item active mt-1">Queueing Setting</li>
         </ol>
 
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
@@ -35,7 +35,7 @@ CISS V.1.0 || Server Maintenance
             </p>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="post" action="{{ route('toggleMaintenance') }}" id="">
+                    <form method="post" action="{{ route('toggle.queue') }}" id="queueForm">
                         @csrf
 
                         <div class="alert alert-secondary alert-dismissible">
@@ -43,30 +43,17 @@ CISS V.1.0 || Server Maintenance
                                 <div class="form-row">
                                     <div class="col-8">
                                         <div class="icheck-warning">
-                                            <input type="checkbox" id="maintenance" name="maintenance_mode"  {{ $maintenance_mode ? 'checked' : '' }}>
-                                            <label for="maintenance">
-                                                <h3 style="margin-top: -5px">Maintenance Mode</h3>
+                                            <input type="checkbox" id="queue" name="statusqueue" data-url="{{ route('toggle.queue') }}">
+                                            <label for="queue">
+                                                <h3 style="margin-top: -5px">Queueing Mode</h3>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <h5><i class="icon fas fa-exclamation-triangle text-warning"></i>Note!</h5>
-                            <span class="text-warning">Check the checkbox if you want a server maintenance</span>
+                            <span class="text-warning">Check the checkbox if you want a on the queueing</span>
                         </div>
-
-                        @auth('web')
-                            @if(Auth::guard('web')->user()->role == '0')
-                            <div class="form-group mt-2">
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        <label>&nbsp;</label>
-                                        <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-                        @endauth
                     </form>
                 </div>
             </div>
@@ -74,6 +61,38 @@ CISS V.1.0 || Server Maintenance
     </div>
 </div>
 
+<script>
+    document.getElementById('queue').addEventListener('change', function () {
+        let isChecked = this.checked;
+        let url = this.dataset.url;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value
+            },
+            body: JSON.stringify({ statusqueue: isChecked })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                //alert(data.message); // Optional: Show a confirmation alert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Queueing Mode',
+                    text: data.message,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    text: 'An error occurred!',
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
 
 @endsection
 

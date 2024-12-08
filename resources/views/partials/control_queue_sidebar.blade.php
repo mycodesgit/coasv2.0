@@ -3,6 +3,7 @@
 
     $countersActive = in_array($curr_route, ['queue-index']) ? 'active' : '';
     $numbersActive = in_array($curr_route, ['numberRead']) ? 'active' : '';
+    $queueActive = in_array($curr_route, ['queueonoff']) ? 'active' : '';
 
 @endphp
 
@@ -10,5 +11,6 @@
     <ul class="list-group">
         <a href="{{ route('queue-index') }}" class="list-group-item {{ $countersActive }}">Counters</a>
         <a href="{{ route('numberRead') }}" class="list-group-item {{ $numbersActive }}">Numbers</a>
+        <a href="{{ route('queueonoff') }}" class="list-group-item {{ $queueActive }}">Setting</a>
     </ul>
 </div>

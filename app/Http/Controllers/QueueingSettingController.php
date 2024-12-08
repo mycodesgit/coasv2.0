@@ -17,6 +17,7 @@ use App\Models\AdmissionDB\User;
 use App\Models\SettingDB\ConfigureCurrent;
 use App\Models\SettingDB\QueueCounter;
 use App\Models\SettingDB\QueueCustomer;
+use App\Models\SettingDB\QueueMode;
 
 class QueueingSettingController extends Controller
 {
@@ -112,5 +113,32 @@ class QueueingSettingController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => true, 'message' => 'Failed to add queue numbers. Please try again later'], 404);
         }
+    }
+
+    public function queueonoff()
+    {
+        return view('queue.conf.queuesetting');
+    }
+
+    public function toggleQueue(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'statusqueue' => 'required|boolean', // Accepts `true` or `false` from checkbox
+        ]);
+
+        // Fetch the first record or create a default one if it doesn't exist
+        $queueMode = QueueMode::firstOrCreate([], ['statusqueue' => 'Off']);
+
+        // Toggle the status based on the checkbox state
+        $queueMode->statusqueue = $request->statusqueue ? 'On' : 'Off';
+        $queueMode->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => $queueMode->statusqueue === 'On' 
+                ? ' enabled' 
+                : ' disabled',
+        ]);
     }
 }

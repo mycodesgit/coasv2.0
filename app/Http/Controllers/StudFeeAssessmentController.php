@@ -127,37 +127,37 @@ class StudFeeAssessmentController extends Controller
     }
 
     public function studFeeCreate(Request $request)
-{
-    $validated = $request->validate([
-        'rows_data' => 'required|array',
-        'rows_data.*.fundname_code' => 'required|string',
-        'rows_data.*.accountName' => 'required|string',
-        'rows_data.*.amountFee' => 'required|numeric',
-        'rows_data.*.prog_code' => 'required|string',
-        'rows_data.*.yrlevel' => 'required|string',
-        'rows_data.*.schlyear' => 'required|string',
-        'rows_data.*.semester' => 'required|string',
-        'rows_data.*.campus' => 'required|string',
-    ]);
-
-    // Loop through the rows and save each fee record
-    foreach ($validated['rows_data'] as $data) {
-        $studentFee = new StudentFee([
-            'prog_Code' => $data['prog_code'],
-            'yrlevel' => $data['yrlevel'],
-            'schlyear' => $data['schlyear'],
-            'semester' => $data['semester'],
-            'campus' => $data['campus'],
-            'fundname_code' => $data['fundname_code'],
-            'accountName' => $data['accountName'],
-            'amountFee' => $data['amountFee'],
+    {
+        $validated = $request->validate([
+            'rows_data' => 'required|array',
+            'rows_data.*.fundname_code' => 'required|string',
+            'rows_data.*.accountName' => 'required|string',
+            'rows_data.*.amountFee' => 'required|numeric',
+            'rows_data.*.prog_code' => 'required|string',
+            'rows_data.*.yrlevel' => 'required|string',
+            'rows_data.*.schlyear' => 'required|string',
+            'rows_data.*.semester' => 'required|string',
+            'rows_data.*.campus' => 'required|string',
         ]);
-        
-        $studentFee->save();
-    }
 
-    return response()->json(['success' => true, 'message' => 'Student fees added successfully!']);
-}
+        // Loop through the rows and save each fee record
+        foreach ($validated['rows_data'] as $data) {
+            $studentFee = new StudentFee([
+                'prog_Code' => $data['prog_code'],
+                'yrlevel' => $data['yrlevel'],
+                'schlyear' => $data['schlyear'],
+                'semester' => $data['semester'],
+                'campus' => $data['campus'],
+                'fundname_code' => $data['fundname_code'],
+                'accountName' => $data['accountName'],
+                'amountFee' => $data['amountFee'],
+            ]);
+            
+            $studentFee->save();
+        }
+
+        return response()->json(['success' => true, 'message' => 'Student fees added successfully!']);
+    }
 
 
     public function studFeeUpdate(Request $request) 

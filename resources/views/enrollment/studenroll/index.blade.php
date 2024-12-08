@@ -75,22 +75,28 @@ CISS V.1.0 || Enroll Student
                         </div>
                     </form>
 
-                    <table id="holdTable" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Queue Numbers</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Campus</th>
-                                <th width="10%">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
+                    @if($queueMode->statusqueue === 'Off')
+
+                    @else
+                        <table id="holdTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Queue Numbers</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Campus</th>
+                                    <th width="10%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
 
+                @if($queueMode->statusqueue === 'Off')
+                @else
                 <div class="col-md-3">
                     <div class="form-group mt-2" style="padding: 10px">
                         <div class="form-row">
@@ -107,6 +113,7 @@ CISS V.1.0 || Enroll Student
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
         
