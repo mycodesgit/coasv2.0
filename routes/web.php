@@ -25,6 +25,7 @@ use App\Http\Controllers\AdReuploadController;
 
 use App\Http\Controllers\EnStudAddController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\EnProgStudEvalController;
 use App\Http\Controllers\EnStudHistoryController;
 use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnSubjectsController;
@@ -369,6 +370,13 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::delete('/student/enroll/submit', [EnrollmentController::class, 'deleteAllRecords'])->name('deleteAllRecords');
 
             Route::post('/queue/next', [EnrollmentController::class, 'getNextQueue'])->name('queue.next');
+        });
+
+        Route::prefix('eval')->group(function () {
+            Route::get('/load/subject/stud', [EnProgStudEvalController::class, 'loadstudsub'])->name('loadstudsub');
+            Route::get('/load/subject/stud/view/search', [EnProgStudEvalController::class, 'loadstudsub_searchview'])->name('loadstudsub_searchview');
+            Route::post('/student/enroll/eval/submit', [EnProgStudEvalController::class, 'studEvalEnrollmentCreate'])->name('studEvalEnrollmentCreate');
+            Route::get('/student/enroll/viewPrereg', [EnProgStudEvalController::class, 'studevalrfprint'])->name('studevalrfprint');
         });
 
         Route::prefix('edit')->group(function () {

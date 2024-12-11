@@ -110,6 +110,75 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    $('#submitEvalButton').click(function(event) {
+        event.preventDefault();
+        var formData = $('#AddenrollStud').serialize();
+
+        var studentID = $('#studentID').val(); 
+
+        var subjIDs = [];
+        $('input[name="subjIDs"]').each(function() {
+            subjIDs.push($(this).val());
+        });
+
+        formData += '&studentID=' + studentID;
+
+        var subjIDsString = $('#subjIDsInput').val();
+        var subjIDsArray = subjIDsString.split(',');
+
+        subjIDsArray.forEach(function(subjID) {
+            formData += '&subjIDs[]=' + subjID.trim(); 
+        });
+
+        $.ajax({
+            url: saveEvalEnrollmentRoute,
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData, 
+            success: function(response) {
+                if (response.success) {
+                    toastr.success(response.message);
+                    console.log(response);
+                } else {
+                    // if (response.fullSubjects && response.fullSubjects.length > 0) {
+                    //     var fullSubjectsList = response.fullSubjects;
+                        
+                    //     Swal.fire({
+                    //         icon: 'error',
+                    //         title: 'Subjects Full',
+                    //         html: 'The following subjects are full: <br>' + fullSubjectsList.replace(/,/g, '<br>'),
+                    //     });
+                    // } 
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+                var response = JSON.parse(xhr.responseText);
+                if (response.error && response.fullSubjects && response.fullSubjects.length > 0) {
+                    var fullSubjectsList = response.fullSubjects.map(function(subject) {
+                        // return 'Subject ID: ' + subject.id + ', Name: ' + subject.name + ', Max Students: ' + subject.maxstud;
+                        return ' ' + subject.name + ' - ' + subject.section + ', Max Students: ' + subject.maxstud;
+                    }).join('<br>');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Subjects Full',
+                        html: 'The following subjects are full:<br>' + fullSubjectsList,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message,
+                    });
+                }
+            }
+        });
+    });
+});
+
 
 // $(document).ready(function() {
 //     $('#programNameSelect').on('change', function() {
@@ -668,6 +737,59 @@ document.getElementById('submitButton').addEventListener('click', function() {
             });
         } else if (!document.getElementById('programNameSelect').value) {
             document.getElementById('submitButton').disabled = true;
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select a program.',
+            });
+        }
+    }
+});
+
+
+
+document.getElementById('submitEvalButton').disabled = true;
+document.getElementById('printpreRFButton').disabled = true;
+
+document.getElementById('assessButton').addEventListener('click', function() {
+    if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
+        document.getElementById('submitEvalButton').disabled = true;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No subjects added.',
+        });
+    } else if (!document.getElementById('programNameSelect').value) {
+        document.getElementById('submitEvalButton').disabled = true;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please select a program.',
+        });
+    } else {
+        document.getElementById('submitEvalButton').disabled = false;
+    }
+});
+
+document.getElementById('submitEvalButton').addEventListener('click', function() {
+    document.querySelectorAll('.btnprim').forEach(function(button) {
+        button.disabled = false;
+    });
+
+    var isError = false;
+    if (isError) {
+        // If there's an error, disable the Print RF button
+        document.getElementById('printpreRFButton').disabled = true;
+    } else {
+        if (document.getElementById('subjectTable').getElementsByTagName('tr').length <= 1) {
+            document.getElementById('submitEvalButton').disabled = true;
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No subjects added.',
+            });
+        } else if (!document.getElementById('programNameSelect').value) {
+            document.getElementById('submitEvalButton').disabled = true;
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',

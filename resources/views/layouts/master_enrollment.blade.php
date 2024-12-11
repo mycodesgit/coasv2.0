@@ -443,7 +443,7 @@
     @if(request()->routeIs('studentCreate'))
         <script src="{{ asset('js/ajax/enrolment/studentAddSerialize.js') }}"></script>
     @endif
-    @if(request()->routeIs('searchStudEnroll'))
+    @if(request()->routeIs('searchStudEnroll', 'loadstudsub_searchview'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('editsearchStudRead'))
