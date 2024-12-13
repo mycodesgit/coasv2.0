@@ -76,8 +76,7 @@ class EnGradesheetLogbookController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
     
-        $data = SubjectOffered::select('sub_offered.*', 'subjects.*')
-                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+        $data = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                         ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
                         ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
                         ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.dept')
@@ -85,6 +84,7 @@ class EnGradesheetLogbookController extends Controller
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
                         ->orderBy('faculty.lname', 'ASC')
+                        ->groupBy('')
                         ->get();
 
         return response()->json(['data' => $data]);
