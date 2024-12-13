@@ -101,7 +101,7 @@
             <tbody>
                 @foreach($gslog as $datalogbook)
                     <tr>
-                        <td>{{ $datalogbook->lname }}</td>
+                        <td>{{ $datalogbook->lname }}, {{ $datalogbook->fname }}</td>
                         <td>{{ $datalogbook->sub_name }}</td>
                         <td>{{ $datalogbook->sub_title }}</td>
                         <td>{{ $datalogbook->subSec }}</td>
