@@ -106,7 +106,7 @@ CISS V.1.0 || Gradesheet Logbook
                                     </table>
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">                            
-                                    <iframe src="{{ route('logbookpdfprint') }}" width="100%" height="500"></iframe>
+                                    <iframe src="{{ route('logbookpdfprint', ['schlyear' => request('schlyear'), 'semester' => request('semester')]) }}" width="100%" height="500"></iframe>
                                 </div>
                             </div>
                         </div>

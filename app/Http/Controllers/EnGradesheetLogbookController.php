@@ -97,32 +97,23 @@ class EnGradesheetLogbookController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        // $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-        //             ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
-        //             ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-        //             ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*', 'program_en_history.updated_at as updated_ats', 'coasv2_db_schedule.programs.progAcronym')
-        //             ->where('program_en_history.schlyear',  $schlyear)
-        //             ->where('program_en_history.semester',  $semester)
-        //             ->where('program_en_history.campus',  $campus)
-        //             ->where('students.campus',  $campus)
-        //             ->where('program_en_history.studentID', $stud_id)->first();
-
-        // $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
-        //             ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-        //             ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
-        //             ->where('coasv2_db_schedule.sub_offered.schlyear',  $schlyear)
-        //             ->where('coasv2_db_schedule.sub_offered.semester',  $semester)
-        //             ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
-        //             ->where('studgrades.studID', $stud_id)
-        //             ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
-        //             ->get();
+        $gslog = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.dept')
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
+                        ->where('sub_offered.campus', $campus)
+                        ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
+                        ->orderBy('faculty.lname', 'ASC')
+                        ->groupBy('sub_offered.id')
+                        ->get();
         
-        // $data = [
-        //     'student' => $student,
-        //     'studsub' => $studsub
-        // ];
+        $data = [
+            'gslog' => $gslog,
+        ];
 
-        $pdf = PDF::loadView('enrollment.reports.logbok.logbookpdf')->setPaper('legal', 'landscape');
+        $pdf = PDF::loadView('enrollment.reports.logbok.logbookpdf', $data)->setPaper('legal', 'landscape');
         return $pdf->stream();
     }
 }

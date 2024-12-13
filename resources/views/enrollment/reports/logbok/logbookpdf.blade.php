@@ -73,25 +73,42 @@
     </div>
 
     <div class="header">
-        <h4 class="text-bold">Gradesheet Logbook:</h4>
+        <h4 class="text-bold">Gradesheet Logbook {{ request('schlyear') }} - 
+            @if(request('semester') == '1')
+                FIRST SEMESTER
+            @elseif(request('semester') == '2')
+                SECOND SEMESTER
+            @elseif(request('semester') == '3')
+                SUMMER
+            @else
+                Unknown Semester
+            @endif
+        </h4>
     </div>
 
     <div style="padding-left: 20px; padding-right:20px">
         <table id="table-inside" class="schedule-table">
             <thead>
                 <tr>
-                    <th>Schlyear</th>
-                    <th>Semester</th>
                     <th>Faculty</th>
                     <th>Subject</th>
                     <th>Subject Title</th>
                     <th>Curr/Yr/Sec</th>
                     <th>College</th>
-                    <th>Signature</th>
+                    <th width="15%">Signature</th>
                 </tr>
             </thead>
             <tbody>
-                
+                @foreach($gslog as $datalogbook)
+                    <tr>
+                        <td>{{ $datalogbook->lname }}</td>
+                        <td>{{ $datalogbook->sub_name }}</td>
+                        <td>{{ $datalogbook->sub_title }}</td>
+                        <td>{{ $datalogbook->subSec }}</td>
+                        <td>{{ $datalogbook->dept }}</td>
+                        <td></td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
