@@ -482,6 +482,9 @@
     @if(request()->routeIs('studnoNSTPenrollee'))
         <script src="{{ asset('js/ajax/enrolment/enrolleesnstpcountSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('logbook_search'))
+        <script src="{{ asset('js/ajax/enrolment/gradesheetLogbookSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('searchEncode_gradeRead'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetLogsSerialize.js') }}"></script>
     @endif

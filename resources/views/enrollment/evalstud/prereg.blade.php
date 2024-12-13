@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Schedule PDF</title>
+    <title>Student Subject Load</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -107,7 +107,7 @@
         <span style="font-weight: bold; margin-left: 30px;">Mobile #: </span> <span class="studinfoID" style="">________________</span>
     </div>
 
-    <div style="margin-top: 50px; font-family: Calibri, sans-serif, arial;">
+    <div style="margin-top: 10px; font-family: Calibri, sans-serif, arial;">
         <center><p>Subjects to be Taken:</p></center>
     </div>
 

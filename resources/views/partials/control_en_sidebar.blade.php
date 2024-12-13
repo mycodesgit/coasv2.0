@@ -19,6 +19,7 @@
     $numenrolledActive = in_array($curr_route, ['studnoenrollee', 'studnoenrollee_searchList']) ? 'active' : '';
     $numnstpenrolledActive = in_array($curr_route, ['studnoNSTPenrollee']) ? 'active' : '';
     $studevalActive = in_array($curr_route, ['studevalRead', 'studevalReadgradschool_listsearch', 'studevalRead_listsearch']) ? 'active' : '';
+    $facgdeshtlgbokActive = in_array($curr_route, ['logbookindex', 'logbook_search']) ? 'active' : '';
     $studenpersemActive = in_array($curr_route, ['studenrollRead', 'search_studenrollRead']) ? 'active' : '';
     $updenrlmntlogsActive = in_array($curr_route, ['updateEnrlmntlogsRead', 'search_uptadeEnrlmntlogsRead']) ? 'active' : '';
     $encodeGradelogsActive = in_array($curr_route, ['searchEncode_grade', 'searchEncode_gradeRead']) ? 'active' : '';
@@ -95,7 +96,7 @@
 
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
         <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
-        <a href="" class="list-group-item">Logbook</a>
+        <a href="{{ route('logbookindex') }}" class="list-group-item {{ $facgdeshtlgbokActive }}">Logbook</a>
         @endif
         @if(in_array(Auth::guard('web')->user()->role, [0]))
         <a href="{{ route('studenrollRead') }}" class="list-group-item {{ $studenpersemActive }}">Students Enrolled</a>

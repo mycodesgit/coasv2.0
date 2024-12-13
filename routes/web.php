@@ -34,6 +34,7 @@ use App\Http\Controllers\EnStudentPerCurriculumController;
 use App\Http\Controllers\EnStudentPerSubjectController;
 use App\Http\Controllers\EnStudGrdeViewController;
 use App\Http\Controllers\EnStudReportCardController;
+use App\Http\Controllers\EnGradesheetLogbookController;
 use App\Http\Controllers\EnStudELPLController;
 use App\Http\Controllers\EnStudNoEnrolleeController;
 use App\Http\Controllers\DeletedLogEnrollmentController;
@@ -464,6 +465,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/stud/record/eval/search', [EnStudReportCardController::class, 'studevalRead_listsearch'])->name('studevalRead_listsearch');
             Route::get('/info/stud/record/eval/search/grad', [EnStudReportCardController::class, 'studevalReadgradschool_listsearch'])->name('studevalReadgradschool_listsearch');
             Route::get('/info/stud/record/eval/searchPDF', [EnStudReportCardController::class, 'studevalRead_listsearchpdf'])->name('studevalRead_listsearchpdf');
+
+            Route::get('/logbook/facultygradesheet/list/submission', [EnGradesheetLogbookController::class, 'logbookindex'])->name('logbookindex');
+            Route::get('/logbook/facultygradesheet/list/submission/view', [EnGradesheetLogbookController::class, 'logbook_search'])->name('logbook_search');
+            Route::get('/logbook/facultygradesheet/list/submission/view/ajax', [EnGradesheetLogbookController::class, 'getlogbook_search'])->name('getlogbook_search');
 
             Route::get('/stud/enrolled/list/all/per/sem', [EnStudEnrolledController::class, 'studenrollRead'])->name('studenrollRead');
             Route::get('/stud/enrolled/list/all/per/sem/search', [EnStudEnrolledController::class, 'search_studenrollRead'])->name('search_studenrollRead');
