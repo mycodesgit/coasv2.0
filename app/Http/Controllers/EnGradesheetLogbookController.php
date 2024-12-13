@@ -84,7 +84,7 @@ class EnGradesheetLogbookController extends Controller
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
                         ->orderBy('faculty.lname', 'ASC')
-                        // ->groupBy('sc')
+                        ->groupBy('sub_offered.id')
                         ->get();
 
         return response()->json(['data' => $data]);
