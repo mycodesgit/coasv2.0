@@ -62,7 +62,7 @@
 <body>
     <div align="center" style="margin-top: -15px">
         @if(Auth::guard('web')->user()->campus == 'MC')
-            <img src="{{ public_path('template/img/schedclass/schedclassheaderMain.png') }}" width="60%">
+            <img src="{{ public_path('template/img/schedclass/schedclassheaderMain.png') }}" width="40%">
         @elseif(Auth::guard('web')->user()->campus == 'VC')
             <img src="{{ public_path('template/img/schedclass/schedclassheaderVC.png') }}" width="40%">
         @elseif(Auth::guard('web')->user()->campus == 'CC')
