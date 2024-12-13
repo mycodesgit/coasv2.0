@@ -90,4 +90,39 @@ class EnGradesheetLogbookController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    public function logbookpdfprint(Request $request)
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        // $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+        //             ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
+        //             ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+        //             ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*', 'program_en_history.updated_at as updated_ats', 'coasv2_db_schedule.programs.progAcronym')
+        //             ->where('program_en_history.schlyear',  $schlyear)
+        //             ->where('program_en_history.semester',  $semester)
+        //             ->where('program_en_history.campus',  $campus)
+        //             ->where('students.campus',  $campus)
+        //             ->where('program_en_history.studentID', $stud_id)->first();
+
+        // $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+        //             ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+        //             ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+        //             ->where('coasv2_db_schedule.sub_offered.schlyear',  $schlyear)
+        //             ->where('coasv2_db_schedule.sub_offered.semester',  $semester)
+        //             ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+        //             ->where('studgrades.studID', $stud_id)
+        //             ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
+        //             ->get();
+        
+        // $data = [
+        //     'student' => $student,
+        //     'studsub' => $studsub
+        // ];
+
+        $pdf = PDF::loadView('enrollment.reports.logbok.logbookpdf')->setPaper('legal', 'landscape');
+        return $pdf->stream();
+    }
 }

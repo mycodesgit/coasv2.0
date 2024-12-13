@@ -469,6 +469,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/logbook/facultygradesheet/list/submission', [EnGradesheetLogbookController::class, 'logbookindex'])->name('logbookindex');
             Route::get('/logbook/facultygradesheet/list/submission/view', [EnGradesheetLogbookController::class, 'logbook_search'])->name('logbook_search');
             Route::get('/logbook/facultygradesheet/list/submission/view/ajax', [EnGradesheetLogbookController::class, 'getlogbook_search'])->name('getlogbook_search');
+            Route::get('/logbook/facultygradesheet/list/submission/view/pdf', [EnGradesheetLogbookController::class, 'logbookpdfprint'])->name('logbookpdfprint');
 
             Route::get('/stud/enrolled/list/all/per/sem', [EnStudEnrolledController::class, 'studenrollRead'])->name('studenrollRead');
             Route::get('/stud/enrolled/list/all/per/sem/search', [EnStudEnrolledController::class, 'search_studenrollRead'])->name('search_studenrollRead');

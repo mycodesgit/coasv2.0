@@ -80,7 +80,7 @@ CISS V.1.0 || Gradesheet Logbook
                                     <a class="nav-link active text-dark text-bold" id="custom-tabs-one-tab" data-toggle="pill" href="#custom-tabs-one" role="tab" aria-controls="custom-tabs-one" aria-selected="true">Gradesheet Logbook Table</a>
                                 </li>
                                 <li class="nav-item ml-1">
-                                    <a class="nav-link text-dark text-bold" id="custom-tabs-two-tab" data-toggle="pill" href="#custom-tabs-two" role="tab" aria-controls="custom-tabs-two" aria-selected="false">Add New Gradesheet Logbook PDF</a>
+                                    <a class="nav-link text-dark text-bold" id="custom-tabs-two-tab" data-toggle="pill" href="#custom-tabs-two" role="tab" aria-controls="custom-tabs-two" aria-selected="false">Gradesheet Logbook PDF</a>
                                 </li>
                             </ul>
                         </div>
@@ -106,7 +106,7 @@ CISS V.1.0 || Gradesheet Logbook
                                     </table>
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">                            
-                                    
+                                    <iframe src="{{ route('logbookpdfprint') }}" width="100%" height="500"></iframe>
                                 </div>
                             </div>
                         </div>

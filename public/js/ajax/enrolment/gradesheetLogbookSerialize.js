@@ -48,12 +48,7 @@ $(document).ready(function() {
             {data: 'sub_name'},
             {data: 'sub_title'},
             {data: 'subSec'},
-            {
-                data: null,
-                render: function(data, type, row) {
-                    return ''; // Default empty column
-                }
-            },
+            {data: 'dept'},
             {
                 data: null,
                 render: function(data, type, row) {
