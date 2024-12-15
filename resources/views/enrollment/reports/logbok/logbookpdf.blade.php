@@ -95,6 +95,7 @@
                     <th>Subject Title</th>
                     <th>Curr/Yr/Sec</th>
                     <th>College</th>
+                    <th>Date</th>
                     <th width="15%">Signature</th>
                 </tr>
             </thead>
@@ -105,6 +106,7 @@
                         <td>{{ $datalogbook->sub_name }}</td>
                         <td>{{ $datalogbook->sub_title }}</td>
                         <td>{{ $datalogbook->subSec }}</td>
+                        <td></td>
                         <td>{{ $datalogbook->dept }}</td>
                         <td></td>
                     </tr>
