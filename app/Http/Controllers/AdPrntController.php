@@ -196,12 +196,11 @@ class AdPrntController extends Controller
         $selectedCampus = is_array($selectedCampus) ? $selectedCampus : [$selectedCampus];
         $selectedDates = is_array($selectedDates) ? $selectedDates : [$selectedDates];
 
-        $data = Applicant::select('ad_applicant_admission.*', 'ad_time.*')
-                        ->join('ad_time', 'ad_applicant_admission.d_admission', '=', 'ad_time.date')
-                        ->whereIn('ad_applicant_admission.year', $selectedYear)
-                        ->whereIn('ad_applicant_admission.campus', $selectedCampus)
-                        ->whereIn('ad_time.id', $selectedDates)
-                        ->whereIn('p_status', [1, 2])
+        $data = Applicant::leftJoin('ad_time', 'ad_applicant_admission.dateID', '=', 'ad_time.id')
+                        ->where('ad_applicant_admission.year', $selectedYear)
+                        ->where('ad_applicant_admission.campus', $selectedCampus)
+                        ->where('ad_time.id', $selectedDates)
+                        ->select('ad_applicant_admission.*', 'ad_time.*')
                         ->get();
 
         $totalSearchResults = count($data);
