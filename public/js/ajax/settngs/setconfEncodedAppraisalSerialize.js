@@ -17,9 +17,9 @@ $(document).ready(function() {
                 data: 'semester',
                 render: function(data, type, row) {
                     if (data == 1) {
-                        return '1st Semester';
+                        return '1st';
                     } else if (data == 2) {
-                        return '2nd Semester';
+                        return '2nd';
                     } else if (data == 3) {
                         return 'Summer';
                     } else {
