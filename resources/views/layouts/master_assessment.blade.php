@@ -123,8 +123,47 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="card">
+                                                        <div class="card-header border-transparent">
+                                                            <h3 class="card-title">List of Degrees with Encoded Appraisals</h3>
+                                                            <div class="card-tools">
+                                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body p-0" style="display: block;">
+                                                            <div class="table-responsive">
+                                                                <table class="table m-0" id="">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Schlyear</th>
+                                                                            <th>Degree</th>
+                                                                            <th>Status</th>
+                                                                            <th>Popularity</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach($encod as $dataencod)
+                                                                        <tr>
+                                                                            <td>{{ $dataencod->schlyear }}</td>
+                                                                            <td>{{ $dataencod->progAcronym }} {{ $dataencod->yrlevel }}</td>
+                                                                            <td><span class="badge badge-success">Encoded</span></td>
+                                                                            <td>
+                                                                                <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                                            <br/><br/>
                                         </div>
                                     </div>
                                 </div>

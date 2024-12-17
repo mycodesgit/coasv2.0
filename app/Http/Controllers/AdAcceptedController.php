@@ -220,7 +220,7 @@ class AdAcceptedController extends Controller
         $campusMappings = [
             'MC' => $role == 15 ? 'G' : 'K',
             'VC' => 'V',
-            'SCC' => 'S',
+            'SCC' => 'R',
             'HC' => 'H',
             'MP' => 'M',
             'IC' => 'I',

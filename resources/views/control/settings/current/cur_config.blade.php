@@ -118,6 +118,7 @@ CISS V.1.0 || Configure
                         <select class="form-control form-control-sm" name="set_status" id="editSetConfstatus">
                             <option value="1">Deactivate</option>
                             <option value="2">Activate</option>
+                            <option value="3">Upcoming</option>
                         </select>
                     </div>
                 </div>

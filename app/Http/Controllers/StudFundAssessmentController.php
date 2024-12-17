@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Models\AssessmentDB\Funds;
 use App\Models\AssessmentDB\AccountCoa;
 use App\Models\AssessmentDB\AccountAppraisal;
+use App\Models\AssessmentDB\StudentFee;
 
 use App\Models\ScheduleDB\College;
 use App\Models\ScheduleDB\EnPrograms;
@@ -28,6 +29,9 @@ class StudFundAssessmentController extends Controller
         $currentYear = Carbon::now()->year;
         $previousYear = Carbon::now()->year;
         $userCampus = Auth::guard('web')->user()->campus;
+
+        $upSetschlyearConf = ConfigureCurrent::where('set_status', 3)->value('schlyear');
+        $upSetsemesterConf = ConfigureCurrent::where('set_status', 3)->value('semester');
 
         $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
         if (!$activeConfig) {
@@ -86,7 +90,15 @@ class StudFundAssessmentController extends Controller
                         ->groupBy('college.id')
                         ->get();
 
-        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive'));
+        $encod = StudentFee::join('coasv2_db_schedule.programs', 'student_fee.prog_Code', '=', 'coasv2_db_schedule.programs.progCod')
+                ->select('coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.prog_Code', 'student_fee.yrlevel')
+                ->where('student_fee.schlyear', $upSetschlyearConf)
+                ->where('student_fee.semester', $upSetsemesterConf)
+                ->where('student_fee.campus', Auth::user()->campus)
+                ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear')
+                ->get();
+
+        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive', 'encod'));
     }
 
     public function fundsRead()
