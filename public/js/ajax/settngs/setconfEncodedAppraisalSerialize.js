@@ -33,7 +33,12 @@ $(document).ready(function() {
                     return row.progAcronym + ' - ' + row.yrlevel;
                 }
             },
-            {data: 'schlyear'},
+            {
+                data: null, // 'null' indicates no specific field from the data source
+                render: function() {
+                    return '<span class="badge badge-success">Encoded</span>';
+                }
+            }
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
