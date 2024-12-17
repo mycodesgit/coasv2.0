@@ -102,12 +102,12 @@ class StudFundAssessmentController extends Controller
     {   
         $upSetschlyearConf = ConfigureCurrent::where('set_status', 3)->value('schlyear');
         $upSetsemesterConf = ConfigureCurrent::where('set_status', 3)->value('semester');
-        
+
         $data = StudentFee::join('coasv2_db_schedule.programs', 'student_fee.prog_Code', '=', 'coasv2_db_schedule.programs.progCod')
                 ->select('coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'student_fee.prog_Code', 'student_fee.yrlevel')
                 ->where('student_fee.schlyear', $upSetschlyearConf)
                 ->where('student_fee.semester', $upSetsemesterConf)
-                ->where('student_fee.campus', Auth::user()->campus)
+                ->where('student_fee.campus', Auth::guard('web')->user()->campus)
                 ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester')
                 ->get();
 
