@@ -135,27 +135,18 @@
                                                             </div>
                                                         </div>
                                                         <div class="card-body p-0" style="display: block;">
-                                                            <div class="table-responsive">
-                                                                <table class="table m-0" id="">
+                                                            <div class="">
+                                                                <table id="setconfUpEncodedtable" class="table m-0">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Schlyear</th>
+                                                                            <th>Semester</th>
                                                                             <th>Degree</th>
                                                                             <th>Status</th>
-                                                                            <th>Popularity</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        @foreach($encod as $dataencod)
-                                                                        <tr>
-                                                                            <td>{{ $dataencod->schlyear }}</td>
-                                                                            <td>{{ $dataencod->progAcronym }} {{ $dataencod->yrlevel }}</td>
-                                                                            <td><span class="badge badge-success">Encoded</span></td>
-                                                                            <td>
-                                                                                <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        @endforeach
+                                                                        
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -216,6 +207,8 @@
     <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
 
     @if(request()->routeIs('assessment-index'))
+        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+        <script src="{{ asset('js/ajax/settngs/setconfEncodedAppraisalSerialize.js') }}"></script>
         <script> 
             var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
             var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
@@ -223,8 +216,8 @@
             var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
             var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
             var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+            var setconfencodedRoute = "{{ route('encodedAppRead') }}";
         </script>
-        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
     @endif
 
     <!-- Ajax -->

@@ -596,6 +596,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('assessmod/assessment')->group(function () {
         
         Route::get('/', [StudFundAssessmentController::class, 'index'])->name('assessment-index');
+        Route::get('/ajaxsds', [StudFundAssessmentController::class, 'encodedAppRead'])->name('encodedAppRead');
 
         Route::prefix('funds')->group(function () {
             Route::get('/list', [StudFundAssessmentController::class, 'fundsRead'])->name('fundsRead');
