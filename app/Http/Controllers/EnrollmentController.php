@@ -1171,25 +1171,34 @@ class EnrollmentController extends Controller
 
     public function getNextQueue(Request $request)
     {
-        $counterId = $request->input('counter_id'); 
+        $counterId = $request->input('counter_id');
 
+        // Fetch the counter for the logged-in user
+        $counter = QueueCounter::where('useridlog', '=', Auth::guard('web')->user()->id)->first();
+
+        if (!$counter) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No counter found for the current user.',
+            ]);
+        }
+
+        // Fetch the next queue where category matches catname and status is 'waiting'
         $queueNumber = QueueCustomer::where('status', 'waiting')
-            ->orderBy('id', 'ASC')
+            ->where('catname', $counter->category) // Ensure category matches catname
+            ->orderBy('id', 'ASC') // Order by earliest queue
             ->first();
 
         if ($queueNumber) {
             $queueNumber->update(['status' => 'serving']);
 
-            $counter = QueueCounter::where('useridlog', '=', Auth::guard('web')->user()->id)->first();
-
-            if ($counter) {
-                $counter->update(['activeidnumber' => $queueNumber->id]);
-            }
+            // Update the active ID in the counter
+            $counter->update(['activeidnumber' => $queueNumber->id]);
 
             return response()->json([
                 'success' => true,
                 'queue_number' => $queueNumber->queue_number,
-                'counter_window' => $counter->windowname, 
+                'counter_window' => $counter->windowname, // Return the window name
             ]);
         }
 
@@ -1199,22 +1208,51 @@ class EnrollmentController extends Controller
         ]);
     }
 
+
     public function getCallQueue(Request $request)
     {
-        $counterId = $request->input('counter_id');
+        $counterId = $request->input('counter_id'); // Get the counter ID from the request
 
+        //\Log::info('Counter ID received:', ['counter_id' => $counterId]);
+
+        // First, try to find the QueueCustomer record
         $queue = QueueCustomer::join('counters', 'customers.id', '=', 'counters.activeidnumber')
             ->join('coasv2_db_admission.users', 'counters.useridlog', '=', 'coasv2_db_admission.users.id')
             ->where('counters.useridlog', Auth::guard('web')->user()->id)
             ->first();
 
+        //\Log::info('Queue found:', ['queue' => $queue]);
+
         if ($queue) {
-            $queue->status = 'serving';
-            $queue->save();
+            // Update the QueueCustomer status to 'serving'
+            $queue->update([
+                'status' => 'serving',
+            ]);
+
+            // Now, reset the callid to 0 for all other QueueCounter rows where callid is non-zero
+            QueueCounter::where('callid', '!=', 0)
+                ->update(['callid' => 0]);
+
+            //\Log::info('All other callid rows reset to 0');
+
+            // Now, check for the QueueCounter and update the activeidnumbercall
+            $callqueue = QueueCounter::where('useridlog', Auth::guard('web')->user()->id)->first();
+
+            if ($callqueue) {
+                // Only update if activeidnumbercall is 0
+                if ($callqueue->callid == 0) {
+                    $callqueue->update([
+                        'callid' => $queue->activeidnumber, // Set the callid to the activeidnumber
+                    ]);
+
+                    \Log::info('QueueCounter updated with callid:', ['callid' => $callqueue->callid]);
+                }
+            }
 
             return response()->json([
                 'success' => true,
-                'queue_number' => $queue->queue_number,
+                'queue_number' => $queue->queue_number,  // Return the queue number
+                'active_id' => $queue->activeidnumber,   // Return the active ID
             ]);
         }
 
@@ -1223,6 +1261,4 @@ class EnrollmentController extends Controller
             'message' => 'No queue available to call.',
         ]);
     }
-
-
 }

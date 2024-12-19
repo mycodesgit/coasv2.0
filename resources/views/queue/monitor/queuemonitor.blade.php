@@ -100,10 +100,10 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-6">
-                            <table id="queueMonitor" class="table table-hover table-bordered">
+                            <table id="queueMonitor" class="table table-hover">
                                 <thead style="font-weight: bold; font-size: 50px; text-align: center;">
                                     <tr>
-                                        <th>Window</th>
+                                        <th width="10%">Window</th>
                                         <th>Number</th>
                                     </tr>
                                 </thead>
@@ -117,9 +117,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" style="background-color: #d3d3d3; border-radius: 25px">
                             <center>
-                                <span id="number-display" style="font-weight: bold; font-size: 100px;"></span>
+                                <span id="number-display" style="font-weight: bold; font-size: 150px;">
+                                    <p id="queue-number" style="margin-top: 100px"></p>
+                                    <p id="window-number" style="font-weight: bold; font-size: 40px;" class="text-danger">proceed to Window</p>
+                                </span>
                             </center>
                             {{-- <iframe width="100%" height="560" src="https://images.app.goo.gl/8mjuVP4YWazjrqny8" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
                             {{-- <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560"> --}}
@@ -174,7 +177,6 @@
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     @if(request()->routeIs('queue-monitor'))
-        <!-- Modal for initial interaction -->
         <div id="interactionModal" style="
             position: fixed; 
             top: 0; left: 0; width: 100%; height: 100%; 
@@ -195,10 +197,9 @@
             $(document).ready(function () {
                 var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
 
-                // Require user interaction
                 $('#initInteraction').on('click', function () {
-                    $('#interactionModal').fadeOut(); // Hide the modal
-                    sound.play(); // Play sound to "unlock" audio
+                    $('#interactionModal').fadeOut();
+                    sound.play(); 
                     console.log('User interaction completed. Audio is ready.');
 
                     // Connect to SSE stream
@@ -233,7 +234,27 @@
                 });
             });
         </script>
-        @endif
+        <script>
+            const eventSource = new EventSource("{{ route('queue.stream.call') }}");
+
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+
+                if (data) {
+                    document.getElementById('queue-number').textContent = data.number || ' ';
+                    document.getElementById('window-number').textContent = 'proceed to Window ' + (data.window || 'N/A');
+                } else {
+                    document.getElementById('queue-number').textContent = '';
+                    document.getElementById('window-number').textContent = '';
+                }
+            };
+
+            eventSource.onerror = function() {
+                console.error('Error connecting to the SSE stream.');
+            };
+        </script>
+
+    @endif
 
 
 

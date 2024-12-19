@@ -113,6 +113,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
     Route::prefix('/queueing')->group(function () {
         Route::get('/transaction',[QueueingMonitorController::class,'queueRead'])->name('queue-monitor');
         Route::get('/queue-stream', [QueueingMonitorController::class, 'streamQueueData'])->name('queue.stream');
+        Route::get('/queue-stream/call', [QueueingMonitorController::class, 'getCurrentQueue'])->name('queue.stream.call');
 
         // Route::post('/queue/call', [QueueingMonitorController::class, 'callCustomer'])->name('callCustomer'); 
         // Route::post('/queue/next', [QueueingMonitorController::class, 'serveNext'])->name('serveNext'); 

@@ -72,21 +72,56 @@ class QueueingMonitorController extends Controller
         ]);
     }
 
+    // public function getCurrentQueue()
+    // {
+    //     $queueNumber = QueueCustomer::where('status', 'serving')->first();
+
+    //     if ($queueNumber) {
+    //         return response()->json([
+    //             'success' => true,
+    //             'queue_number' => $queueNumber->queue_number,
+    //         ]);
+    //     }
+
+    //     return response()->json([
+    //         'success' => false,
+    //         'message' => 'No queue number is currently being served.',
+    //     ]);
+    // }
+
     public function getCurrentQueue()
     {
-        $queueNumber = QueueCustomer::where('status', 'serving')->first();
+        return response()->stream(function () {
+            while (true) {
+                // Fetch the QueueCounter record for a specific callid
+                $counter = QueueCounter::where('callid', '!=', '0')->first();
 
-        if ($queueNumber) {
-            return response()->json([
-                'success' => true,
-                'queue_number' => $queueNumber->queue_number,
-            ]);
-        }
+                $data = null;
 
-        return response()->json([
-            'success' => false,
-            'message' => 'No queue number is currently being served.',
+                if ($counter) {
+                    $customer = QueueCustomer::find($counter->callid);
+
+                    $data = [
+                        'window' => $counter->windowname,
+                        'number' => $customer ? $customer->queue_number : 'N/A',
+                        'callid' => $counter->callid,
+                    ];
+                }
+
+                // Send data as SSE
+                echo "data: " . json_encode($data) . "\n\n";
+                ob_flush();
+                flush();
+
+                // Sleep to control the update frequency
+                sleep(2);
+            }
+        }, 200, [
+            'Content-Type' => 'text/event-stream',
+            'Cache-Control' => 'no-cache',
+            'Connection' => 'keep-alive',
         ]);
     }
+
 
 }

@@ -526,6 +526,7 @@
                     counter_id: counterId, 
                     _token: "{{ csrf_token() }}" 
                 }, function (response) {
+                    console.log(response); 
                     if (response.success) {
                         // Update the queue number on the input field
                         $('#queueNumber').val(response.queue_number);

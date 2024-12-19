@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('windowname');
             $table->string('category')->nullable();
             $table->integer('useridlog')->nullable();
+            $table->integer('activeidnumber')->nullable();
+            $table->integer('callid')->default('0')->nullable();
             $table->string('campus');
             $table->timestamps();
         });
