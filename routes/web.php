@@ -371,6 +371,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::delete('/student/enroll/submit', [EnrollmentController::class, 'deleteAllRecords'])->name('deleteAllRecords');
 
             Route::post('/queue/next', [EnrollmentController::class, 'getNextQueue'])->name('queue.next');
+            Route::post('/queue/call', [EnrollmentController::class, 'getCallQueue'])->name('queue.call');
         });
 
         Route::prefix('eval')->group(function () {

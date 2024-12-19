@@ -72,4 +72,21 @@ class QueueingMonitorController extends Controller
         ]);
     }
 
+    public function getCurrentQueue()
+    {
+        $queueNumber = QueueCustomer::where('status', 'serving')->first();
+
+        if ($queueNumber) {
+            return response()->json([
+                'success' => true,
+                'queue_number' => $queueNumber->queue_number,
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No queue number is currently being served.',
+        ]);
+    }
+
 }

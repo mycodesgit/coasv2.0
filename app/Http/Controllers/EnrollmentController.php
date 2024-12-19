@@ -790,8 +790,10 @@ class EnrollmentController extends Controller
                 ->orderBy('id', 'DESC')
                 ->get();
         }
+
+        $queueMode = QueueMode::first();
             
-        return view('enrollment.studenroll.editenroll', compact('sy'));
+        return view('enrollment.studenroll.editenroll', compact('sy', 'queueMode'));
     }
 
     public function editsearchStudRead(Request $request)
@@ -1196,5 +1198,31 @@ class EnrollmentController extends Controller
             'message' => 'No more queues available for this counter.',
         ]);
     }
+
+    public function getCallQueue(Request $request)
+    {
+        $counterId = $request->input('counter_id');
+
+        $queue = QueueCustomer::join('counters', 'customers.id', '=', 'counters.activeidnumber')
+            ->join('coasv2_db_admission.users', 'counters.useridlog', '=', 'coasv2_db_admission.users.id')
+            ->where('counters.useridlog', Auth::guard('web')->user()->id)
+            ->first();
+
+        if ($queue) {
+            $queue->status = 'serving';
+            $queue->save();
+
+            return response()->json([
+                'success' => true,
+                'queue_number' => $queue->queue_number,
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No queue available to call.',
+        ]);
+    }
+
 
 }

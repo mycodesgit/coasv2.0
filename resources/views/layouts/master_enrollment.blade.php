@@ -495,7 +495,7 @@
         <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}"></script>
     @endif
 
-    @if(request()->routeIs('searchStud'))
+    @if(request()->routeIs('searchStud', 'editsearchStud'))
     <script>
         $(document).ready(function () {
             var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
@@ -516,6 +516,26 @@
                     }
                 }).fail(function () {
                     alert('Error fetching the next queue.');
+                });
+            });
+
+            $('#callButton').on('click', function () {
+                const counterId = $(this).data('counter-id');
+
+                $.post("{{ route('queue.call') }}", { 
+                    counter_id: counterId, 
+                    _token: "{{ csrf_token() }}" 
+                }, function (response) {
+                    if (response.success) {
+                        // Update the queue number on the input field
+                        $('#queueNumber').val(response.queue_number);
+                        sound.play();
+                        console.log("Sound played for call.");
+                    } else {
+                        alert(response.message);
+                    }
+                }).fail(function () {
+                    alert('Error calling the queue.');
                 });
             });
         });

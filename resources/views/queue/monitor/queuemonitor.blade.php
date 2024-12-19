@@ -118,8 +118,11 @@
                             </table>
                         </div>
                         <div class="col-lg-6">
+                            <center>
+                                <span id="number-display" style="font-weight: bold; font-size: 100px;"></span>
+                            </center>
                             {{-- <iframe width="100%" height="560" src="https://images.app.goo.gl/8mjuVP4YWazjrqny8" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
-                            <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560">
+                            {{-- <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560"> --}}
                         </div>
                         <div class="col-md-12">
                             <div class="mt-2 text-center">
@@ -171,52 +174,70 @@
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     @if(request()->routeIs('queue-monitor'))
+        <!-- Modal for initial interaction -->
+        <div id="interactionModal" style="
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999;">
+            <button id="initInteraction" style="
+                padding: 10px 20px; 
+                font-size: 18px; 
+                background-color: #28a745; 
+                color: white; border: none; 
+                border-radius: 5px; cursor: pointer;">
+                Start Queueing
+            </button>
+        </div>
+
         <script>
             $(document).ready(function () {
-                // Initialize DataTable
-                var dataTable = $('#queueMonitor').DataTable({
-                    "columnDefs": [
-                        { "orderable": false, "targets": [0, 1] }
-                    ],
-                    destroy: true,
-                    info: false,
-                    responsive: false,
-                    lengthChange: false,
-                    searching: false,
-                    paging: false,
-                    data: [], // Initialize with empty data
-                    "columns": [
-                        { data: 'window' },
-                        { data: 'number' }
-                    ]
+                var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+
+                // Require user interaction
+                $('#initInteraction').on('click', function () {
+                    $('#interactionModal').fadeOut(); // Hide the modal
+                    sound.play(); // Play sound to "unlock" audio
+                    console.log('User interaction completed. Audio is ready.');
+
+                    // Connect to SSE stream
+                    var dataTable = $('#queueMonitor').DataTable({
+                        "columnDefs": [{ "orderable": false, "targets": [0, 1] }],
+                        destroy: true, info: false, responsive: false,
+                        lengthChange: false, searching: false, paging: false,
+                        data: [],
+                        "columns": [{ data: 'window' }, { data: 'number' }]
+                    });
+
+                    var previousData = [];
+
+                    var eventSource = new EventSource("{{ route('queue.stream') }}");
+                    eventSource.onmessage = function (event) {
+                        var response = JSON.parse(event.data);
+                        var hasChanges = JSON.stringify(previousData) !== JSON.stringify(response.data);
+
+                        dataTable.clear();
+                        dataTable.rows.add(response.data).draw();
+
+                        if (hasChanges) {
+                            sound.play().catch(e => console.warn('Audio playback issue:', e));
+                        }
+                        previousData = response.data;
+                    };
+
+                    eventSource.onerror = function () {
+                        console.error("EventSource error occurred.");
+                        eventSource.close();
+                    };
                 });
-
-                //var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
-                // Connect to the Server-Sent Events stream
-                var eventSource = new EventSource("{{ route('queue.stream') }}");
-
-                eventSource.onmessage = function (event) {
-                    var response = JSON.parse(event.data); // Parse the JSON data
-
-                    // Clear and update DataTable with new data
-                    dataTable.clear();
-                    dataTable.rows.add(response.data); // Add the data
-                    dataTable.draw(); // Redraw the table
-
-                    // response.data.forEach(function (item) {
-                    //     if (item.activeidnumber !== null) { // Replace "active" with your actual condition
-                    //         sound.play(); // Play the sound
-                    //     }
-                    // });
-                };
-
-                eventSource.onerror = function () {
-                    console.error("EventSource encountered an error.");
-                    eventSource.close(); // Optionally handle reconnection
-                };
             });
         </script>
-    @endif
+        @endif
+
+
+
+
 
 
 

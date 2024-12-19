@@ -85,7 +85,7 @@
 		<img src="{{ asset('template/img/gradesheetheader.png') }}" width="80%">
 	</div>
 	<div class="text-subjectCode" style="margin-top: 15px">Subject Code: <u><strong>{{ $gradeviewData->first()->sub_name }}</strong></u></div>
-	<div class="text-subjectDesc" style="margin-top: -20px;">Descriptive Title: <u><strong>{{ $gradeviewData->first()->sub_desc }}</strong></u></div>
+	<div class="text-subjectDesc" style="margin-top: -20px;">Descriptive Title: <u><strong>{{ $gradeviewData->first()->sub_title }}</strong></u></div>
 
 	<div class="text-subsection" style="margin-top: 10px">Course/Year/Section: <u><strong>{{ $gradeviewData->first()->subSec }}</strong></u></div>
 	<div class="text-unit" style="margin-top: -20px">Units: <u><strong>{{ $gradeviewData->first()->sub_unit }}</strong></u></div> 
