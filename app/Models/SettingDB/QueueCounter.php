@@ -23,6 +23,6 @@ class QueueCounter extends Model
 
     public function customers()
     {
-        return $this->hasOne(QueueCustomer::class, 'id', 'callid');
+        return $this->hasMany(QueueCustomer::class);
     }
 }

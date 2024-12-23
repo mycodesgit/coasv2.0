@@ -91,36 +91,21 @@ class QueueingMonitorController extends Controller
 
     public function getCurrentQueue()
     {
-        return response()->stream(function () {
-            while (true) {
-                // Fetch the QueueCounter record for a specific callid
-                $counter = QueueCounter::where('callid', '!=', '0')->first();
+        $counter = QueueCounter::where('callid', '!=', '0')->first();
 
-                $data = null;
+    $data = null;
 
-                if ($counter) {
-                    $customer = QueueCustomer::find($counter->callid);
+    if ($counter) {
+        $customer = QueueCustomer::find($counter->callid);
 
-                    $data = [
-                        'window' => $counter->windowname,
-                        'number' => $customer ? $customer->queue_number : 'N/A',
-                        'callid' => $counter->callid,
-                    ];
-                }
+        $data = [
+            'window' => $counter->windowname,
+            'number' => $customer ? $customer->queue_number : 'N/A',
+            'callid' => $counter->callid,
+        ];
+    }
 
-                // Send data as SSE
-                echo "data: " . json_encode($data) . "\n\n";
-                ob_flush();
-                flush();
-
-                // Sleep to control the update frequency
-                sleep(2);
-            }
-        }, 200, [
-            'Content-Type' => 'text/event-stream',
-            'Cache-Control' => 'no-cache',
-            'Connection' => 'keep-alive',
-        ]);
+    return response()->json($data);
     }
 
 

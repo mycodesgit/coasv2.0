@@ -235,23 +235,30 @@
             });
         </script>
         <script>
-            const eventSource = new EventSource("{{ route('queue.stream.call') }}");
+            function fetchQueueStatus() {
+                $.ajax({
+                    url: "{{ route('queue.stream.call') }}",
+                    method: "GET",
+                    success: function(data) {
+                        if (data) {
+                            $('#queue-number').text(data.number || ' ');
+                            $('#window-number').text('proceed to Window ' + (data.window || 'N/A'));
+                        } else {
+                            $('#queue-number').text('');
+                            $('#window-number').text('');
+                        }
+                    },
+                    error: function() {
+                        console.error('Failed to fetch queue status.');
+                    }
+                });
+            }
 
-            eventSource.onmessage = function(event) {
-                const data = JSON.parse(event.data);
+            // Call the function every 2 seconds
+            setInterval(fetchQueueStatus, 2000);
 
-                if (data) {
-                    document.getElementById('queue-number').textContent = data.number || ' ';
-                    document.getElementById('window-number').textContent = 'proceed to Window ' + (data.window || 'N/A');
-                } else {
-                    document.getElementById('queue-number').textContent = '';
-                    document.getElementById('window-number').textContent = '';
-                }
-            };
-
-            eventSource.onerror = function() {
-                console.error('Error connecting to the SSE stream.');
-            };
+            // Fetch initially on page load
+            fetchQueueStatus();
         </script>
 
     @endif
