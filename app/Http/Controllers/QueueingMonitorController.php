@@ -57,41 +57,22 @@ class QueueingMonitorController extends Controller
         return response()->json(['data' => $countersArray]);
     }
 
-    // public function getCurrentQueue()
-    // {
-    //     $queueNumber = QueueCustomer::where('status', 'serving')->first();
-
-    //     if ($queueNumber) {
-    //         return response()->json([
-    //             'success' => true,
-    //             'queue_number' => $queueNumber->queue_number,
-    //         ]);
-    //     }
-
-    //     return response()->json([
-    //         'success' => false,
-    //         'message' => 'No queue number is currently being served.',
-    //     ]);
-    // }
-
     public function getCurrentQueue()
     {
         $counter = QueueCounter::where('callid', '!=', '0')->first();
 
-    $data = null;
+        $data = null;
 
-    if ($counter) {
-        $customer = QueueCustomer::find($counter->callid);
+        if ($counter) {
+            $customer = QueueCustomer::find($counter->callid);
 
-        $data = [
-            'window' => $counter->windowname,
-            'number' => $customer ? $customer->queue_number : 'N/A',
-            'callid' => $counter->callid,
-        ];
+            $data = [
+                'window' => $counter->windowname,
+                'number' => $customer ? $customer->queue_number : 'N/A',
+                'callid' => $counter->callid,
+            ];
+        }
+
+        return response()->json($data);
     }
-
-    return response()->json($data);
-    }
-
-
 }
