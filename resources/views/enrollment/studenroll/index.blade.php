@@ -106,7 +106,7 @@ CISS V.1.0 || Enroll Student
                                         <center><label>Current No.</label></center>
                                         <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
                                         <button id="nextButton" class="btn btn-primary btn-block mt-3" data-counter-id="1">Next</button> 
-                                        <button id="nextButton" class="btn btn-danger btn-block mt-2">Call</button>  
+                                        <button id="callButton" class="btn btn-danger btn-block mt-2">Call</button>  
                                     </div>
                                 </div>
                             </div>
