@@ -22,21 +22,21 @@ class QueueingMonitorController extends Controller
 {
     public function queueRead()
     {
-        $counters = QueueCounter::all();
-        $countersArray = [];
+        // $counters = QueueCounter::all();
+        // $countersArray = [];
 
-        foreach ($counters as $count) {
-            $numbers = QueueCustomer::find($count->activeidnumber);
+        // foreach ($counters as $count) {
+        //     $numbers = QueueCustomer::find($count->activeidnumber);
 
-            $countersArray[] = [
-                'window' => $count->windowname,
-                'number' => $numbers ? $numbers->queue_number : null, 
-                'status' => $count->status, 
-            ];
-        }
+        //     $countersArray[] = [
+        //         'window' => $count->windowname,
+        //         'number' => $numbers ? $numbers->queue_number : null, 
+        //         'status' => $count->status, 
+        //     ];
+        // }
 
 
-        return view('queue.monitor.queuemonitor', compact('countersArray'));
+        return view('queue.monitor.queuemonitor');
     }
 
     public function streamQueueData()
