@@ -4,7 +4,7 @@ $(document).ready(function() {
             "url": monitorRoute,
             "type": "GET",
         },
-        destroy: false,
+        //destroy: false,
         info: false,
         responsive: false,
         lengthChange: false,
@@ -18,7 +18,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('countermonitorAdded', function () {
-        dataTable.ajax.reload(null, false); // Reload table data without resetting pagination
-    });
+    setInterval(function () {
+        dataTable.ajax.reload(null, false);
+    }, 5000);
 });
