@@ -42,19 +42,19 @@ class QueueingMonitorController extends Controller
     public function streamQueueData()
     {
         $counters = QueueCounter::all();
-    $countersArray = [];
+        $countersArray = [];
 
-    foreach ($counters as $count) {
-        $numbers = QueueCustomer::find($count->activeidnumber);
+        foreach ($counters as $count) {
+            $numbers = QueueCustomer::find($count->activeidnumber);
 
-        $countersArray[] = [
-            'window' => $count->windowname,
-            'number' => $numbers ? $numbers->queue_number : null,
-            'updated_at' => $count->updated_at,
-        ];
-    }
+            $countersArray[] = [
+                'window' => $count->windowname,
+                'number' => $numbers ? $numbers->queue_number : null,
+                'updated_at' => $count->updated_at,
+            ];
+        }
 
-    return response()->json(['data' => $countersArray]);
+        return response()->json(['data' => $countersArray]);
     }
 
     // public function getCurrentQueue()

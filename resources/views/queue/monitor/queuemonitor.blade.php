@@ -194,60 +194,60 @@
         </div>
 
         <script>
-    $(document).ready(function () {
-        var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+            $(document).ready(function () {
+                var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
 
-        $('#initInteraction').on('click', function () {
-            $('#interactionModal').fadeOut();
-            sound.play(); 
-            console.log('User interaction completed. Audio is ready.');
+                $('#initInteraction').on('click', function () {
+                    $('#interactionModal').fadeOut();
+                    sound.play(); 
+                    console.log('User interaction completed. Audio is ready.');
 
-            // Initialize DataTable
-            var dataTable = $('#queueMonitor').DataTable({
-                "columnDefs": [{ "orderable": false, "targets": [0, 1] }],
-                destroy: true,
-                info: false,
-                responsive: false,
-                lengthChange: false,
-                searching: false,
-                paging: false,
-                data: [],
-                "columns": [{ data: 'window' }, { data: 'number' }]
-            });
+                    // Initialize DataTable
+                    var dataTable = $('#queueMonitor').DataTable({
+                        "columnDefs": [{ "orderable": false, "targets": [0, 1] }],
+                        destroy: true,
+                        info: false,
+                        responsive: false,
+                        lengthChange: false,
+                        searching: false,
+                        paging: false,
+                        data: [],
+                        "columns": [{ data: 'window' }, { data: 'number' }]
+                    });
 
-            var previousData = [];
+                    var previousData = [];
 
-            // Use a function to fetch the data periodically
-            function fetchQueueData() {
-                $.ajax({
-                    url: "{{ route('queue.stream') }}", // Endpoint to fetch data
-                    method: 'GET',
-                    success: function (response) {
-                        var hasChanges = JSON.stringify(previousData) !== JSON.stringify(response.data);
-                        
-                        // Clear and redraw DataTable with new data
-                        dataTable.clear();
-                        dataTable.rows.add(response.data).draw();
+                    // Use a function to fetch the data periodically
+                    function fetchQueueData() {
+                        $.ajax({
+                            url: "{{ route('queue.stream') }}", // Endpoint to fetch data
+                            method: 'GET',
+                            success: function (response) {
+                                var hasChanges = JSON.stringify(previousData) !== JSON.stringify(response.data);
+                                
+                                // Clear and redraw DataTable with new data
+                                dataTable.clear();
+                                dataTable.rows.add(response.data).draw();
 
-                        // Play sound if data has changed
-                        if (hasChanges) {
-                            sound.play().catch(e => console.warn('Audio playback issue:', e));
-                        }
+                                // Play sound if data has changed
+                                if (hasChanges) {
+                                    sound.play().catch(e => console.warn('Audio playback issue:', e));
+                                }
 
-                        previousData = response.data;
-                    },
-                    error: function () {
-                        console.error("Error fetching queue data.");
+                                previousData = response.data;
+                            },
+                            error: function () {
+                                console.error("Error fetching queue data.");
+                            }
+                        });
                     }
-                });
-            }
 
-            // Call the function initially and then periodically (every 2 seconds)
-            fetchQueueData();
-            setInterval(fetchQueueData, 2000); // Update every 2 seconds
-        });
-    });
-</script>
+                    // Call the function initially and then periodically (every 2 seconds)
+                    fetchQueueData();
+                    setInterval(fetchQueueData, 2000); // Update every 2 seconds
+                });
+            });
+        </script>
 
         <script>
             function fetchQueueStatus() {
