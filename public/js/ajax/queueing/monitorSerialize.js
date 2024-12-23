@@ -20,5 +20,5 @@ $(document).ready(function() {
     });
     setInterval(function () {
         dataTable.ajax.reload(null, false);
-    }, 5000);
+    }, 2000);
 });

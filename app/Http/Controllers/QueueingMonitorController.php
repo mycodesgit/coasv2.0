@@ -63,9 +63,9 @@ class QueueingMonitorController extends Controller
                 flush();
 
                 // Sleep to control the update frequency (e.g., every 2 seconds)
-                sleep(1);
+                sleep(2);
             }
-        }, 100, [
+        }, 200, [
             'Content-Type' => 'text/event-stream',
             'Cache-Control' => 'no-cache',
             'Connection' => 'keep-alive',
@@ -114,9 +114,9 @@ class QueueingMonitorController extends Controller
                 flush();
 
                 // Sleep to control the update frequency
-                sleep(1);
+                sleep(2);
             }
-        }, 100, [
+        }, 200, [
             'Content-Type' => 'text/event-stream',
             'Cache-Control' => 'no-cache',
             'Connection' => 'keep-alive',
