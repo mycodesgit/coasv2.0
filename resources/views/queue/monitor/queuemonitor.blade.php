@@ -229,10 +229,29 @@
                                 dataTable.clear();
                                 dataTable.rows.add(response.data).draw();
 
-                                // Play sound if data has changed
-                                if (hasChanges) {
-                                    sound.play().catch(e => console.warn('Audio playback issue:', e));
-                                }
+                                // Play sound and speech for each window's data if it has changed
+                                response.data.forEach(function(queueData, index) {
+                                    // Check if the data for this window has changed
+                                    if (previousData[index]?.number !== queueData.number || previousData[index]?.window !== queueData.window) {
+                                        // Play sound
+                                        sound.play().catch(e => console.warn('Audio playback issue:', e));
+
+                                        // Create the speech message
+                                        const queueNumber = queueData.number || 'No queue number';
+                                        const windowNumber = queueData.window || 'N/A';
+                                        const message = `Queue number ${queueNumber}. Please proceed to window ${windowNumber}.`;
+
+                                        // Create speech synthesis instance
+                                        const speech = new SpeechSynthesisUtterance(message);
+                                        speech.lang = 'en-US'; // Set language to English
+                                        speech.volume = 1; // Full volume
+                                        speech.rate = 1; // Normal speaking rate
+                                        speech.pitch = 1; // Normal pitch
+
+                                        // Speak the message
+                                        window.speechSynthesis.speak(speech);
+                                    }
+                                });
 
                                 previousData = response.data;
                             },
@@ -250,14 +269,47 @@
         </script>
 
         <script>
+            let lastQueueNumber = null;  // Store the last spoken queue number
+            let lastWindowNumber = null; // Store the last spoken window number
+
             function fetchQueueStatus() {
                 $.ajax({
                     url: "{{ route('queue.stream.call') }}",
                     method: "GET",
                     success: function(data) {
                         if (data) {
+                            // Update the displayed queue and window numbers
                             $('#queue-number').text(data.number || ' ');
                             $('#window-number').text('proceed to Window ' + (data.window || 'N/A'));
+
+                            // Check if the queue or window number has changed
+                            const queueNumber = data.number || 'No queue number';
+                            const windowNumber = data.window || 'N/A';
+
+                            // Trigger speech and sound if there's a change
+                            if (queueNumber !== lastQueueNumber || windowNumber !== lastWindowNumber) {
+                                // Play sound
+                                const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+                                sound.play().catch(e => console.warn('Audio playback issue:', e));
+
+                                // Create the speech message
+                                const message = `Queue number ${queueNumber}. Please proceed to window ${windowNumber}.`;
+
+                                // Create speech synthesis instance
+                                const speech = new SpeechSynthesisUtterance(message);
+                                speech.lang = 'en-US'; // Set language to English
+                                speech.volume = 1; // Full volume
+                                speech.rate = 1; // Normal speaking rate
+                                speech.pitch = 1; // Normal pitch
+
+                                // Speak the message
+                                window.speechSynthesis.speak(speech);
+
+                                // Update the last spoken queue and window number
+                                lastQueueNumber = queueNumber;
+                                lastWindowNumber = windowNumber;
+                            }
+
                         } else {
                             $('#queue-number').text('');
                             $('#window-number').text('');
@@ -275,7 +327,6 @@
             // Fetch initially on page load
             fetchQueueStatus();
         </script>
-
     @endif
 
 

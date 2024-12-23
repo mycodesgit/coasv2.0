@@ -1245,7 +1245,7 @@ class EnrollmentController extends Controller
                         'callid' => $queue->activeidnumber, // Set the callid to the activeidnumber
                     ]);
 
-                    \Log::info('QueueCounter updated with callid:', ['callid' => $callqueue->callid]);
+                    //\Log::info('QueueCounter updated with callid:', ['callid' => $callqueue->callid]);
                 }
             }
 
