@@ -327,6 +327,7 @@
 		            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
 		            		->where('fac_designation.semester', '=', $sem)
 		            		->where('fac_designation.schlyear', '=', $schlyear)
+		            		->select('faculty.fname', 'faculty.lname', 'faculty.rankcomma')
 		            		->first();
 		        @endphp
 				@if($dean)
