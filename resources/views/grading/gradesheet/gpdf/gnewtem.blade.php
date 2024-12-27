@@ -266,7 +266,14 @@
 		<div class="text-facultyname" style="margin-top: -20px; margin-left: 320px; text-transform: uppercase;">
 			<u>
 				@php
-		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', Auth::guard('faculty')->user()->dept)->first();
+					$schlyear = request('schlyear');
+					$sem = request('semester');
+
+		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+		            		->where('facdept', '=', Auth::guard('faculty')->user()->dept)
+		            		->where('semester', '=', $sem)
+		            		->where('schlyear', $schlyear)
+		            		->first();
 		        @endphp
 				@if($dean)
 	            	{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
@@ -276,14 +283,7 @@
 		<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
 			<u>
 				@php
-					$schlyear = request('schlyear');
-					$sem = request('semester');
-
-		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
-		            		->where('facdept', '=', Auth::guard('faculty')->user()->dept)
-		            		->where('semester', '=', $sem)
-		            		->where('schlyear', $schlyear)
-		            		->first();
+		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
 		        @endphp
 				@if($dean)
 	            	{{ $dean->fname }} {{ $dean->lname }}
