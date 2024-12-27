@@ -21,6 +21,9 @@ $(document).ready(function() {
         lengthChange: true,
         searching: true,
         paging: true,
+        buttons: [
+                'excel', 'pdf'
+            ],
         "columns": [
             {data: 'schlyear'},
             {
@@ -60,7 +63,8 @@ $(document).ready(function() {
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.soid); 
         },
-    });
+        dom: 'Bfrtip'
+    }).buttons().container().appendTo('#gdesheetloglist_wrapper .col-md-6:eq(0)');
     $(document).on('subjOffAdded', function() {
         dataTable.ajax.reload();
     });
