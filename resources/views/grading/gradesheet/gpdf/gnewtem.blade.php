@@ -270,9 +270,10 @@
 					$sem = request('semester');
 
 		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
-		            		->where('facdept', '=', Auth::guard('faculty')->user()->dept)
-		            		->where('semester', '=', $sem)
-		            		->where('schlyear', '=', $schlyear)
+		            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
+		            		->where('fac_designation.semester', '=', '1')
+		            		->where('fac_designation.schlyear', '=', '2024-2025')
+		            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
 		            		->first();
 		        @endphp
 				@if($dean)
@@ -325,8 +326,8 @@
 
 		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
 		            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
-		            		->where('fac_designation.semester', '=', $sem)
-		            		->where('fac_designation.schlyear', '=', $schlyear)
+		            		->where('fac_designation.semester', '=', '1')
+		            		->where('fac_designation.schlyear', '=', '2024-2025')
 		            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
 		            		->first();
 		        @endphp
