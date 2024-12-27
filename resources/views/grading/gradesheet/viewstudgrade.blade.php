@@ -155,7 +155,7 @@ CISS V.1.0 || Grading Student
             </div>
 
             <div class="tab-pane fade" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">
-                <iframe src="{{ route('PDFgradesheetnew', ['subjID' => $gradeviewData->first()->subjID]) }} #toolbar=0" width="100%" height="500"></iframe>
+                <iframe src="{{ route('PDFgradesheetnew', ['subjID' => $gradeviewData->first()->subjID]) }} #toolbar=0" width="100%" height="100%"></iframe>
             </div>
         </div>
     </div>
