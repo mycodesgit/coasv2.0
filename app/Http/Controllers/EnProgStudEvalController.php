@@ -45,7 +45,7 @@ class EnProgStudEvalController extends Controller
 {
     public function loadstudsub()
     {
-        $sy = ConfigureCurrent::where('set_status', '=', '2')->get();
+        $sy = ConfigureCurrent::where('set_status', '=', '3')->get();
 
         return view('enrollment.evalstud.search_studeval', compact('sy'));
     }
