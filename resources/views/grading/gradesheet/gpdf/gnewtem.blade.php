@@ -88,38 +88,109 @@
 		$rowsPerPage = 30; 
 		$totalPages = ceil(count($gradeviewData) / $rowsPerPage);
 
-		function getEquivalentGrade($grade) {
-		    if ($grade === 'INC') {
-	            return ['gpa' => 'INC', 'status' => 'Incomplete'];
-	        } elseif ($grade === 'NN') {
-		        return ['gpa' => 'NN', 'status' => 'No Name'];
-		    } elseif ($grade === 'NG') {
-		        return ['gpa' => 'NG', 'status' => 'No Grade'];
-		    } elseif ($grade === 'Drp.') {
-		        return ['gpa' => 'Drp.', 'status' => 'Drop'];
-	        } elseif ($grade >= 97) {
-		        return ['gpa' => '1.00', 'status' => 'Passed'];
-		    } elseif ($grade >= 94) {
-		        return ['gpa' => '1.25', 'status' => 'Passed'];
-		    } elseif ($grade >= 91) {
-		        return ['gpa' => '1.50', 'status' => 'Passed'];
-		    } elseif ($grade >= 88) {
-		        return ['gpa' => '1.75', 'status' => 'Passed'];
-		    } elseif ($grade >= 85) {
-		        return ['gpa' => '2.00', 'status' => 'Passed'];
-		    } elseif ($grade >= 82) {
-		        return ['gpa' => '2.25', 'status' => 'Passed'];
-		    } elseif ($grade >= 79) {
-		        return ['gpa' => '2.50', 'status' => 'Passed'];
-		    } elseif ($grade >= 76) {
-		        return ['gpa' => '2.75', 'status' => 'Passed'];
-		    } elseif ($grade >= 75) {
-		        return ['gpa' => '3.00', 'status' => 'Passed'];
-		    } elseif ($grade >= 70) {
-		        return ['gpa' => '4.00', 'status' => 'Conditional'];
-		    } else {
-		        return ['gpa' => '5.00', 'status' => 'Failure'];
-		    }
+		if(Str::contains($gradeviewData->first()->subSec, '4-'))
+		{
+			function getEquivalentGrade($grade) {
+			    if ($grade === 'INC') {
+		            return ['gpa' => 'INC', 'status' => 'Incomplete'];
+		        } elseif ($grade === 'NN') {
+			        return ['gpa' => 'NN', 'status' => 'No Name'];
+			    } elseif ($grade === 'NG') {
+			        return ['gpa' => 'NG', 'status' => 'No Grade'];
+			    } elseif ($grade === 'Drp.') {
+			        return ['gpa' => 'Drp.', 'status' => 'Drop'];
+		        } elseif ($grade >= 95) {
+			        return ['gpa' => '1.0', 'status' => 'Passed'];
+			    } elseif ($grade >= 94) {
+			        return ['gpa' => '1.1', 'status' => 'Passed'];
+			    } elseif ($grade >= 93) {
+			        return ['gpa' => '1.2', 'status' => 'Passed'];
+			    } elseif ($grade >= 92) {
+			        return ['gpa' => '1.3', 'status' => 'Passed'];
+			    } elseif ($grade >= 91) {
+			        return ['gpa' => '1.4', 'status' => 'Passed'];
+			    } elseif ($grade >= 90) {
+			        return ['gpa' => '1.5', 'status' => 'Passed'];
+			    } elseif ($grade >= 89) {
+			        return ['gpa' => '1.6', 'status' => 'Passed'];
+			    } elseif ($grade >= 88) {
+			        return ['gpa' => '1.7', 'status' => 'Passed'];
+			    } elseif ($grade >= 87) {
+			        return ['gpa' => '1.8', 'status' => 'Passed'];
+			    } elseif ($grade >= 86) {
+			        return ['gpa' => '1.9', 'status' => 'Passed'];
+			    } elseif ($grade >= 85) {
+			        return ['gpa' => '2.0', 'status' => 'Passed'];
+			    } elseif ($grade >= 84) {
+			        return ['gpa' => '2.1', 'status' => 'Passed'];
+			    } elseif ($grade >= 83) {
+			        return ['gpa' => '2.2', 'status' => 'Passed'];
+			    } elseif ($grade >= 82) {
+			        return ['gpa' => '2.3', 'status' => 'Passed'];
+			    } elseif ($grade >= 81) {
+			        return ['gpa' => '2.4', 'status' => 'Passed'];
+			    } elseif ($grade >= 80) {
+			        return ['gpa' => '2.5', 'status' => 'Passed'];
+			    } elseif ($grade >= 79) {
+			        return ['gpa' => '2.6', 'status' => 'Passed'];
+			    } elseif ($grade >= 78) {
+			        return ['gpa' => '2.7', 'status' => 'Passed'];
+			    } elseif ($grade >= 77) {
+			        return ['gpa' => '2.8', 'status' => 'Passed'];
+			    } elseif ($grade >= 76) {
+			        return ['gpa' => '2.9', 'status' => 'Passed'];
+			    } elseif ($grade >= 75) {
+			        return ['gpa' => '3.0', 'status' => 'Passed'];
+			    } elseif ($grade >= 74) {
+			        return ['gpa' => '4.0', 'status' => 'Conditional'];
+			    } elseif ($grade >= 73) {
+			        return ['gpa' => '4.0', 'status' => 'Conditional'];
+			    } elseif ($grade >= 72) {
+			        return ['gpa' => '4.0', 'status' => 'Conditional'];
+			    } elseif ($grade >= 71) {
+			        return ['gpa' => '4.0', 'status' => 'Conditional'];
+			    } elseif ($grade >= 70) {
+			        return ['gpa' => '4.0', 'status' => 'Conditional'];
+			    } elseif ($grade >= 69) {
+			        return ['gpa' => '5.0', 'status' => 'Failure'];
+			    } else {
+			        return ['gpa' => '5.0', 'status' => 'Failure'];
+			    }
+			}
+		} else {
+			function getEquivalentGrade($grade) {
+			    if ($grade === 'INC') {
+		            return ['gpa' => 'INC', 'status' => 'Incomplete'];
+		        } elseif ($grade === 'NN') {
+			        return ['gpa' => 'NN', 'status' => 'No Name'];
+			    } elseif ($grade === 'NG') {
+			        return ['gpa' => 'NG', 'status' => 'No Grade'];
+			    } elseif ($grade === 'Drp.') {
+			        return ['gpa' => 'Drp.', 'status' => 'Drop'];
+		        } elseif ($grade >= 97) {
+			        return ['gpa' => '1.00', 'status' => 'Passed'];
+			    } elseif ($grade >= 94) {
+			        return ['gpa' => '1.25', 'status' => 'Passed'];
+			    } elseif ($grade >= 91) {
+			        return ['gpa' => '1.50', 'status' => 'Passed'];
+			    } elseif ($grade >= 88) {
+			        return ['gpa' => '1.75', 'status' => 'Passed'];
+			    } elseif ($grade >= 85) {
+			        return ['gpa' => '2.00', 'status' => 'Passed'];
+			    } elseif ($grade >= 82) {
+			        return ['gpa' => '2.25', 'status' => 'Passed'];
+			    } elseif ($grade >= 79) {
+			        return ['gpa' => '2.50', 'status' => 'Passed'];
+			    } elseif ($grade >= 76) {
+			        return ['gpa' => '2.75', 'status' => 'Passed'];
+			    } elseif ($grade >= 75) {
+			        return ['gpa' => '3.00', 'status' => 'Passed'];
+			    } elseif ($grade >= 70) {
+			        return ['gpa' => '4.00', 'status' => 'Conditional'];
+			    } else {
+			        return ['gpa' => '5.00', 'status' => 'Failure'];
+			    }
+			}
 		}
 	@endphp
 
