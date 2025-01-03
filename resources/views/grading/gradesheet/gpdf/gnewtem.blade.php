@@ -81,6 +81,9 @@
 	</style>
 </head>
 <body>
+	@php
+	    use Illuminate\Support\Str;
+	@endphp
 	@php 
 		$rowsPerPage = 30; 
 		$totalPages = ceil(count($gradeviewData) / $rowsPerPage);
@@ -92,7 +95,7 @@
 		        return ['gpa' => 'NN', 'status' => 'No Name'];
 		    } elseif ($grade === 'NG') {
 		        return ['gpa' => 'NG', 'status' => 'No Grade'];
-		    } elseif ($grade === 'Drp..') {
+		    } elseif ($grade === 'Drp.') {
 		        return ['gpa' => 'Drp.', 'status' => 'Drop'];
 	        } elseif ($grade >= 97) {
 		        return ['gpa' => '1.00', 'status' => 'Passed'];
@@ -252,132 +255,265 @@
 
 		<div class="text-midterm" style="margin-top: 15px; text-align: center;">MIDTERM</div>
 
-		<div class="text-equiv" style="margin-top: 10px;">100 - 97 &nbsp;- 1.00</div>
-		<div class="text-equiv" style="margin-top: 2px;">96 - 94   &nbsp;&nbsp;&nbsp;- 1.25</div>
-		<div class="text-facultyname" style="margin-top: -20px; margin-left: 120px; text-transform: uppercase;">
-			<u>
-				@auth('faculty')
-		            @if(Auth::guard('faculty')->user()->role == '943')
-		                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+		@if(Str::contains($gradeviewData->first()->subSec, '4-'))
+			<div class="text-equiv" style="margin-top: 2px;">Above &nbsp;&nbsp;&nbsp; 95- 1.0</div>
+			<div class="text-equiv" style="margin-top: 2px;">94 - 1.1   &nbsp;&nbsp;&nbsp; 83 - 2.2</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 120px; text-transform: uppercase;">
+				<u>
+					@auth('faculty')
+			            @if(Auth::guard('faculty')->user()->role == '943')
+			                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+			            @endif
+			        @endauth
+			    </u>
+			</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 320px; text-transform: uppercase;">
+				<u>
+					@php
+						$schlyear = request('schlyear');
+						$sem = request('semester');
+
+			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+			            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
+			            		->where('fac_designation.semester', '=', '1')
+			            		->where('fac_designation.schlyear', '=', '2024-2025')
+			            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
+			            		->first();
+			        @endphp
+					@if($dean)
+		            	{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
 		            @endif
-		        @endauth
-		    </u>
-		</div>
-		<div class="text-facultyname" style="margin-top: -20px; margin-left: 320px; text-transform: uppercase;">
-			<u>
-				@php
-					$schlyear = request('schlyear');
-					$sem = request('semester');
-
-		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
-		            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
-		            		->where('fac_designation.semester', '=', '1')
-		            		->where('fac_designation.schlyear', '=', '2024-2025')
-		            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
-		            		->first();
-		        @endphp
-				@if($dean)
-	            	{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
-	            @endif
-		    </u>
-		</div>
-		<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
-			<u>
-				@php
-		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
-		        @endphp
-				@if($dean)
-	            	{{ $dean->fname }} {{ $dean->lname }}
-	            @endif
-		    </u>
-		</div>
-		<div class="text-equiv" style="margin-top: 2px;">93 - 91   &nbsp;&nbsp;&nbsp;- 1.50</div>
-		<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 170px;">
-			Instructor's Signature
-		</div>
-		<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 400px;">
-			Dept. Head
-		</div>
-		<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 550px;">
-			Registrar's Signature
-		</div>
-		<div class="text-equiv" style="margin-top: 4px;">90 - 88   &nbsp;&nbsp;&nbsp;- 1.75</div>
-		<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 175px;">
-			Over Printed Name
-		</div>
-		<div class="text-equiv" style="margin-top: 4px;">87 - 85   &nbsp;&nbsp;&nbsp;- 2.00</div>
-		<div class="text-midterm" style="margin-top: -20px; text-align: center;">FINAL</div>
-		<div class="text-equiv" style="margin-top: 1px;">84 - 82   &nbsp;&nbsp;&nbsp;- 2.25</div>
-		<div class="text-equiv" style="margin-top: 2px;">81 - 79   &nbsp;&nbsp;&nbsp;- 2.50</div>
-		<div class="text-facultyname" style="margin-top: -20px; margin-left: 120px; text-transform: uppercase;">
-			<u>
-				@auth('faculty')
-		            @if(Auth::guard('faculty')->user()->role == '943')
-		                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+			    </u>
+			</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
+				<u>
+					@php
+			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
+			        @endphp
+					@if($dean)
+		            	{{ $dean->fname }} {{ $dean->lname }}
 		            @endif
-		        @endauth
-		    </u>
-		</div>
-		<div class="text-facultyname" style="margin-top: -20px; margin-left: 320px; text-transform: uppercase;">
-			<u>
-				@php
-					$schlyear = request('schlyear');
-					$sem = request('semester');
+			    </u>
+			</div>
 
-		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
-		            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
-		            		->where('fac_designation.semester', '=', '1')
-		            		->where('fac_designation.schlyear', '=', '2024-2025')
-		            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
-		            		->first();
-		        @endphp
-				@if($dean)
-	            	{{ $dean->fname }} {{ $dean->lname }}, {{ $dean->rankcomma }}
-	            @endif
-		    </u>
-		</div>
-		<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
-			<u>
-				@php
-		            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
-		        @endphp
-				@if($dean)
-	            	{{ $dean->fname }} {{ $dean->lname }}
-	            @endif
-		    </u>
-		</div>
-		<div class="text-equiv" style="margin-top: 2px;">78 - 76   &nbsp;&nbsp;&nbsp;- 2.75</div>
-		<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 170px;">
-			Instructor's Signature
-		</div>
-		<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 400px;">
-			Dept. Head
-		</div>
-		<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 550px;">
-			Registrar's Signature
-		</div>
-		<div class="text-equiv" style="margin-top: 4px;">75       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 3.00</div>
-		<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 175px;">
-			Over Printed Name
-		</div>
-		<div class="text-equiv" style="margin-top: 2px;">74 - 70 &nbsp;&nbsp;&nbsp;- 4.0 (Conditional)</div>
-		<div class="text-equiv" style="margin-top: 2px;">69 & Below - 5.0 (Failure)</div>
+			<div class="text-equiv" style="margin-top: 2px;">93 - 1.2   &nbsp;&nbsp;&nbsp;&nbsp;82 - 2.3</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 170px;">
+				Instructor's Signature
+			</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 400px;">
+				Dept. Head
+			</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 550px;">
+				Registrar's Signature
+			</div>
+			<div class="text-equiv" style="margin-top: 4px;">92 - 1.3   &nbsp;&nbsp;&nbsp;&nbsp;81 - 2.4</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 175px;">
+				Over Printed Name
+			</div>
+			<div class="text-equiv" style="margin-top: 4px;">91 - 1.4   &nbsp;&nbsp;&nbsp;&nbsp;80 - 2.5</div>
+			<div class="text-midterm" style="margin-top: -20px; text-align: center;">FINAL</div>
+			<div class="text-equiv" style="margin-top: 1px;">90 - 1.5   &nbsp;&nbsp;&nbsp;&nbsp;79 - 2.6</div>
+			<div class="text-equiv" style="margin-top: 2px;">89 - 1.6   &nbsp;&nbsp;&nbsp;&nbsp;78 - 2.7</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 120px; text-transform: uppercase;">
+				<u>
+					@auth('faculty')
+			            @if(Auth::guard('faculty')->user()->role == '943')
+			                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+			            @endif
+			        @endauth
+			    </u>
+			</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 320px; text-transform: uppercase;">
+				<u>
+					@php
+						$schlyear = request('schlyear');
+						$sem = request('semester');
 
-		<div class="" style="margin-top: -20px; margin-left: 350px;">
-			________________
-		</div>
+			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+			            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
+			            		->where('fac_designation.semester', '=', '1')
+			            		->where('fac_designation.schlyear', '=', '2024-2025')
+			            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
+			            		->first();
+			        @endphp
+					@if($dean)
+		            	{{ $dean->fname }} {{ $dean->lname }}, {{ $dean->rankcomma }}
+		            @endif
+			    </u>
+			</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
+				<u>
+					@php
+			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
+			        @endphp
+					@if($dean)
+		            	{{ $dean->fname }} {{ $dean->lname }}
+		            @endif
+			    </u>
+			</div>
+			<div class="text-equiv" style="margin-top: 2px;">88 - 1.7   &nbsp;&nbsp;&nbsp;&nbsp;77 - 2.8</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 170px;">
+				Instructor's Signature
+			</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 400px;">
+				Dept. Head
+			</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 550px;">
+				Registrar's Signature
+			</div>
+			<div class="text-equiv" style="margin-top: 4px;">87 - 1.8   &nbsp;&nbsp;&nbsp;&nbsp;76 - 2.9</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 175px;">
+				Over Printed Name
+			</div>
+			<div class="text-equiv" style="margin-top: 2px;">86 - 1.9 &nbsp;&nbsp;&nbsp;&nbsp;75 - 3.0</div>
+			<div class="text-equiv" style="margin-top: 2px;">85 - 2.0 &nbsp;&nbsp;&nbsp;&nbsp;74 & 70 - 4.0 (Conditional)</div>
 
-		<div class="" style="margin-top: -20px; margin-left: 550px;">
-			________________
-		</div>
+			<div class="" style="margin-top: -20px; margin-left: 350px;">
+				________________
+			</div>
 
-		<div style="margin-top: 0px; margin-left: 370px; font-size: 9pt; font-family: Calibri, sans-serif, arial;">
-			Date Received
-		</div>
+			<div class="" style="margin-top: -20px; margin-left: 550px;">
+				________________
+			</div>
 
-		<div style="margin-top: -12px; margin-left: 590px; font-size: 9pt; font-family: Calibri, sans-serif, arial;">
-			Posted by
-		</div>
+			<div style="margin-top: 0px; margin-left: 370px; font-size: 9pt; font-family: Calibri, sans-serif, arial;">
+				Date Received
+			</div>
+
+			<div style="margin-top: -12px; margin-left: 590px; font-size: 9pt; font-family: Calibri, sans-serif, arial;">
+				Posted by
+			</div>
+
+			<div class="text-equiv" style="margin-top: -23px;">84 - 2.1 &nbsp;&nbsp;&nbsp;&nbsp;69 & Below - 5.0 (Failure)</div>
+		@else
+			<div class="text-equiv" style="margin-top: 10px;">100 - 97 &nbsp;- 1.00</div>
+			<div class="text-equiv" style="margin-top: 2px;">96 - 94   &nbsp;&nbsp;&nbsp;- 1.25</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 120px; text-transform: uppercase;">
+				<u>
+					@auth('faculty')
+			            @if(Auth::guard('faculty')->user()->role == '943')
+			                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+			            @endif
+			        @endauth
+			    </u>
+			</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 320px; text-transform: uppercase;">
+				<u>
+					@php
+						$schlyear = request('schlyear');
+						$sem = request('semester');
+
+			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+			            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
+			            		->where('fac_designation.semester', '=', '1')
+			            		->where('fac_designation.schlyear', '=', '2024-2025')
+			            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
+			            		->first();
+			        @endphp
+					@if($dean)
+		            	{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
+		            @endif
+			    </u>
+			</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
+				<u>
+					@php
+			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
+			        @endphp
+					@if($dean)
+		            	{{ $dean->fname }} {{ $dean->lname }}
+		            @endif
+			    </u>
+			</div>
+
+			<div class="text-equiv" style="margin-top: 2px;">93 - 91   &nbsp;&nbsp;&nbsp;- 1.50</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 170px;">
+				Instructor's Signature
+			</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 400px;">
+				Dept. Head
+			</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 550px;">
+				Registrar's Signature
+			</div>
+			<div class="text-equiv" style="margin-top: 4px;">90 - 88   &nbsp;&nbsp;&nbsp;- 1.75</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 175px;">
+				Over Printed Name
+			</div>
+			<div class="text-equiv" style="margin-top: 4px;">87 - 85   &nbsp;&nbsp;&nbsp;- 2.00</div>
+			<div class="text-midterm" style="margin-top: -20px; text-align: center;">FINAL</div>
+			<div class="text-equiv" style="margin-top: 1px;">84 - 82   &nbsp;&nbsp;&nbsp;- 2.25</div>
+			<div class="text-equiv" style="margin-top: 2px;">81 - 79   &nbsp;&nbsp;&nbsp;- 2.50</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 120px; text-transform: uppercase;">
+				<u>
+					@auth('faculty')
+			            @if(Auth::guard('faculty')->user()->role == '943')
+			                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+			            @endif
+			        @endauth
+			    </u>
+			</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 320px; text-transform: uppercase;">
+				<u>
+					@php
+						$schlyear = request('schlyear');
+						$sem = request('semester');
+
+			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+			            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
+			            		->where('fac_designation.semester', '=', '1')
+			            		->where('fac_designation.schlyear', '=', '2024-2025')
+			            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
+			            		->first();
+			        @endphp
+					@if($dean)
+		            	{{ $dean->fname }} {{ $dean->lname }}, {{ $dean->rankcomma }}
+		            @endif
+			    </u>
+			</div>
+			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
+				<u>
+					@php
+			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
+			        @endphp
+					@if($dean)
+		            	{{ $dean->fname }} {{ $dean->lname }}
+		            @endif
+			    </u>
+			</div>
+			<div class="text-equiv" style="margin-top: 2px;">78 - 76   &nbsp;&nbsp;&nbsp;- 2.75</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 170px;">
+				Instructor's Signature
+			</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 400px;">
+				Dept. Head
+			</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 550px;">
+				Registrar's Signature
+			</div>
+			<div class="text-equiv" style="margin-top: 4px;">75       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 3.00</div>
+			<div class="text-facnamelabel" style="margin-top: -20px; margin-left: 175px;">
+				Over Printed Name
+			</div>
+			<div class="text-equiv" style="margin-top: 2px;">74 - 70 &nbsp;&nbsp;&nbsp;- 4.0 (Conditional)</div>
+			<div class="text-equiv" style="margin-top: 2px;">69 & Below - 5.0 (Failure)</div>
+
+			<div class="" style="margin-top: -20px; margin-left: 350px;">
+				________________
+			</div>
+
+			<div class="" style="margin-top: -20px; margin-left: 550px;">
+				________________
+			</div>
+
+			<div style="margin-top: 0px; margin-left: 370px; font-size: 9pt; font-family: Calibri, sans-serif, arial;">
+				Date Received
+			</div>
+
+			<div style="margin-top: -12px; margin-left: 590px; font-size: 9pt; font-family: Calibri, sans-serif, arial;">
+				Posted by
+			</div>
+		@endif
 
 		<div class="text-labeltextbot" style="margin-top: 2px; margin-left: 50px"><i>INC - Incomplete</i></div>
 		<div class="text-labeltextbot" style="margin-top: -20px; margin-left: 200px"><i>NN - No Name</i></div>
