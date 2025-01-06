@@ -631,14 +631,16 @@ document.getElementById('assessButton').addEventListener('click', function() {
                 accountNameInput.value = '';
                 amountFeeInput.value = '';
 
-                data.forEach(function(item) {
+                data.forEach(function (item) {
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = item.fundname_code;
                     row.insertCell(1).textContent = item.accountName;
-                    //row.insertCell(2).textContent = item.amountFee;
-                    var amount = item.amountFee === '0' ? 
-                        (item.accountName.startsWith('TUITION') ? totalLecFeeInput.value : 
-                        (item.accountName === 'LAB FEE' ? totalLabFeeInput.value : '0')) : item.amountFee;
+                    // Calculate the amount dynamically
+                    var amount = item.amountFee === '0'
+                        ? (item.accountName.startsWith('TUITION') ? totalLecFeeInput.value
+                        : (item.accountName === 'LAB FEE' ? totalLabFeeInput.value
+                        : (item.accountName === 'IT FEE' ? '500' : '0')))
+                        : item.amountFee;
                     row.insertCell(2).textContent = amount;
 
                     if (data.indexOf(item) > 0) {
@@ -647,10 +649,11 @@ document.getElementById('assessButton').addEventListener('click', function() {
                         amountFeeInput.value += ', ';
                     }
 
-                    if (item.amountFee !== '0') {
+                    if (item.amountFee !== '0' || item.accountName === 'IT FEE') {
+                        // Ensure IT FEE is included even if its amountFee is 0
                         fundnameCodeInput.value += (fundnameCodeInput.value.trim().length > 0 ? ' ' : '') + item.fundname_code;
                         accountNameInput.value += (accountNameInput.value.trim().length > 0 ? ' ' : '') + item.accountName;
-                        amountFeeInput.value += (amountFeeInput.value.trim().length > 0 ? ' ' : '') + item.amountFee;
+                        amountFeeInput.value += (amountFeeInput.value.trim().length > 0 ? ' ' : '') + amount;
                     } else {
                         if (item.accountName === 'LAB FEE') {
                             accountNameInput.value += (accountNameInput.value.trim().length > 0 ? ' ' : '') + 'LAB FEE';
@@ -664,6 +667,7 @@ document.getElementById('assessButton').addEventListener('click', function() {
                         }
                     }
                 });
+
                 // Add success notification
                 Swal.fire({
                     icon: 'success',
