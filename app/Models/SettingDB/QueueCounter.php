@@ -17,6 +17,7 @@ class QueueCounter extends Model
         'category',
         'useridlog',
         'activeidnumber',
+        'currentid',
         'callid',
         'campus'
     ];

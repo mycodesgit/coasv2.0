@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('category')->nullable();
             $table->integer('useridlog')->nullable();
             $table->integer('activeidnumber')->nullable();
+            $table->integer('currentid')->default('0')->nullable();
             $table->integer('callid')->default('0')->nullable();
             $table->string('campus');
             $table->timestamps();

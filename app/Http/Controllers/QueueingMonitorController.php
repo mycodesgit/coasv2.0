@@ -59,6 +59,25 @@ class QueueingMonitorController extends Controller
 
     public function getCurrentQueue()
     {
+        $counter = QueueCounter::where('currentid', '!=', '0')->latest('updated_at')->first();
+
+        $data = null;
+
+        if ($counter) {
+            $customer = QueueCustomer::find($counter->currentid);
+
+            $data = [
+                'window' => $counter->windowname,
+                'number' => $customer ? $customer->queue_number : 'N/A',
+                'currentid' => $counter->currentid,
+            ];
+        }
+
+        return response()->json($data);
+    }
+
+    public function getCurrentCallQueue()
+    {
         $counter = QueueCounter::where('callid', '!=', '0')->first();
 
         $data = null;

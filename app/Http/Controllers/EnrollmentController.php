@@ -1173,7 +1173,6 @@ class EnrollmentController extends Controller
     {
         $counterId = $request->input('counter_id');
 
-        // Fetch the counter for the logged-in user
         $counter = QueueCounter::where('useridlog', '=', Auth::guard('web')->user()->id)->first();
 
         if (!$counter) {
@@ -1183,22 +1182,23 @@ class EnrollmentController extends Controller
             ]);
         }
 
-        // Fetch the next queue where category matches catname and status is 'waiting'
         $queueNumber = QueueCustomer::where('status', 'waiting')
-            ->where('catname', $counter->category) // Ensure category matches catname
-            ->orderBy('id', 'ASC') // Order by earliest queue
+            ->where('catname', $counter->category) 
+            ->orderBy('id', 'ASC')
             ->first();
 
         if ($queueNumber) {
             $queueNumber->update(['status' => 'serving']);
 
-            // Update the active ID in the counter
-            $counter->update(['activeidnumber' => $queueNumber->id]);
+            $counter->update([
+                'activeidnumber' => $queueNumber->id,
+                'currentid' => $queueNumber->id,
+            ]);
 
             return response()->json([
                 'success' => true,
                 'queue_number' => $queueNumber->queue_number,
-                'counter_window' => $counter->windowname, // Return the window name
+                'counter_window' => $counter->windowname, 
             ]);
         }
 
@@ -1211,31 +1211,23 @@ class EnrollmentController extends Controller
 
     public function getCallQueue(Request $request)
     {
-        $counterId = $request->input('counter_id'); // Get the counter ID from the request
+        $counterId = $request->input('counter_id'); 
 
-        //\Log::info('Counter ID received:', ['counter_id' => $counterId]);
 
-        // First, try to find the QueueCustomer record
         $queue = QueueCustomer::join('counters', 'customers.id', '=', 'counters.activeidnumber')
             ->join('coasv2_db_admission.users', 'counters.useridlog', '=', 'coasv2_db_admission.users.id')
             ->where('counters.useridlog', Auth::guard('web')->user()->id)
             ->first();
 
-        //\Log::info('Queue found:', ['queue' => $queue]);
 
         if ($queue) {
-            // Update the QueueCustomer status to 'serving'
             $queue->update([
                 'status' => 'serving',
             ]);
 
-            // Now, reset the callid to 0 for all other QueueCounter rows where callid is non-zero
             QueueCounter::where('callid', '!=', 0)
                 ->update(['callid' => 0]);
 
-            //\Log::info('All other callid rows reset to 0');
-
-            // Now, check for the QueueCounter and update the activeidnumbercall
             $callqueue = QueueCounter::where('useridlog', Auth::guard('web')->user()->id)->first();
 
             if ($callqueue) {
@@ -1244,8 +1236,6 @@ class EnrollmentController extends Controller
                     $callqueue->update([
                         'callid' => $queue->activeidnumber, // Set the callid to the activeidnumber
                     ]);
-
-                    //\Log::info('QueueCounter updated with callid:', ['callid' => $callqueue->callid]);
                 }
             }
 
