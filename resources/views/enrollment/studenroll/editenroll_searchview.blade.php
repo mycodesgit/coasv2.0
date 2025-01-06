@@ -298,10 +298,10 @@ CISS V.1.0 || Edit Student Enrollment
                                 @endphp
                                 </tbody>
                             </table>
-                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
-                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
-                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
-                            <input type="text" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
+                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
+                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
+                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
+                            <input type="hidden" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
                         </div>
                     </div>
                 </div>
