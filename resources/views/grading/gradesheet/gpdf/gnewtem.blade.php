@@ -276,9 +276,15 @@
 						            @endif
 						        </td>
 								<td align="center" style="font-size: 9pt; font-weight: bold;">
-									@if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade))
-						                <span>{{ $studgrade->creditEarned }}</span>
-						            @endif
+								    @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade))
+								        @if(is_numeric($studgrade->subjFgrade) && $studgrade->subjFgrade <= 69)
+								            <span>0</span>
+								        @elseif(in_array($studgrade->subjFgrade, ['INC', 'NN', 'NG']))
+								            <span>0</span>
+								        @else
+								            <span>{{ $studgrade->creditEarned }}</span>
+								        @endif
+								    @endif
 								</td>
 								<td align="center" style="font-size: 9pt; font-style: italic; color: @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade)){{ getEquivalentGrade($studgrade->subjFgrade)['status'] === 'Conditional' || getEquivalentGrade($studgrade->subjFgrade)['status'] === 'Failure' ? 'red' : '' }}@endif">
 						            @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade))

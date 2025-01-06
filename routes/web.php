@@ -795,6 +795,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::get('/queue/set/on/off', [QueueingSettingController::class, 'queueonoff'])->name('queueonoff');
         Route::post('/toggle-queue', [QueueingSettingController::class, 'toggleQueue'])->name('toggle.queue');
+        Route::post('/reset-queue', [QueueingSettingController::class, 'resetQueue'])->name('queue.reset');
     });
 
     Route::prefix('adempset/settings')->group(function () {

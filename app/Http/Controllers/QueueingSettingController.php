@@ -117,7 +117,9 @@ class QueueingSettingController extends Controller
 
     public function queueonoff()
     {
-        return view('queue.conf.queuesetting');
+        $setqueuemode = QueueMode::first();
+
+        return view('queue.conf.queuesetting', compact('setqueuemode'));
     }
 
     public function toggleQueue(Request $request)
@@ -140,5 +142,17 @@ class QueueingSettingController extends Controller
                 ? ' enabled' 
                 : ' disabled',
         ]);
+    }
+
+    public function resetQueue(Request $request) 
+    {
+        try {
+            QueueCustomer::query()->update(['status' => 'waiting']);
+            QueueCounter::query()->update(['activeidnumber' => 0, 'currentid' => 0, 'callid' => 0]);
+
+            return response()->json(['success' => true, 'message' => 'Queueing numbers reset successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to reset Queueing numbers'], 404);
+        }
     }
 }

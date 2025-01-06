@@ -133,7 +133,7 @@ CISS V.1.0 || Grading
                                                                     </select>
                                                                 @endif
                                                             @elseif ($studgrade->gstat == 2)
-                                                                <strong>{{ $studgrade->subjFgrade }}</strong>
+                                                                <strong style="{{ (is_numeric($studgrade->subjFgrade) && $studgrade->subjFgrade <= 69) || in_array($studgrade->subjFgrade, ['INC', 'Inc.', 'inc', 'NN', 'nn']) ? 'color: red;' : '' }}">{{ $studgrade->subjFgrade }}</strong>
                                                             @endif
 
                                                             
@@ -153,7 +153,19 @@ CISS V.1.0 || Grading
                                                             @endif
                                                         </td> --}}
 
-                                                        <td><strong>{{ $studgrade->creditEarned }}</strong></td>
+                                                        <td>
+                                                            <strong>
+                                                                @if($studgrade->gstat == 2 && !empty($studgrade->subjFgrade))
+                                                                    @if(is_numeric($studgrade->subjFgrade) && $studgrade->subjFgrade <= 69)
+                                                                        <span style="color: red">0</span>
+                                                                    @elseif(in_array($studgrade->subjFgrade, ['INC', 'NN', 'NG']))
+                                                                        <span style="color: red">0</span>
+                                                                    @else
+                                                                        <span>{{ $studgrade->creditEarned }}</span>
+                                                                    @endif
+                                                                @endif    
+                                                            </strong>
+                                                        </td>
                                                     </tr>
                                                     @endforeach
                                                 @else

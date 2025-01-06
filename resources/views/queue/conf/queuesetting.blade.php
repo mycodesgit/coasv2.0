@@ -5,7 +5,7 @@ CISS V.1.0 || Queueing Setting
 @endsection
 
 @section('sideheader')
-<h4>Settings</h4>
+<h4>Queueing</h4>
 @endsection
 
 @yield('sidemenu')
@@ -19,7 +19,7 @@ CISS V.1.0 || Queueing Setting
                     <i class="fas fa-home"></i>
                 </a>
             </li>
-            <li class="breadcrumb-item mt-1">Settings</li>
+            <li class="breadcrumb-item mt-1">Queueing</li>
             <li class="breadcrumb-item active mt-1">Queueing Setting</li>
         </ol>
 
@@ -43,7 +43,7 @@ CISS V.1.0 || Queueing Setting
                                 <div class="form-row">
                                     <div class="col-8">
                                         <div class="icheck-warning">
-                                            <input type="checkbox" id="queue" name="statusqueue" data-url="{{ route('toggle.queue') }}">
+                                            <input type="checkbox" id="queue" name="statusqueue" data-url="{{ route('toggle.queue') }}" {{ $setqueuemode->statusqueue === 'On' ? 'checked' : '' }}>
                                             <label for="queue">
                                                 <h3 style="margin-top: -5px">Queueing Mode</h3>
                                             </label>
@@ -52,7 +52,24 @@ CISS V.1.0 || Queueing Setting
                                 </div>
                             </div>
                             <h5><i class="icon fas fa-exclamation-triangle text-warning"></i>Note!</h5>
-                            <span class="text-warning">Check the checkbox if you want a on the queueing</span>
+                            <span class="text-warning">Check the checkbox if you want to <span style="color: #fff">"On"</span> the queueing</span>
+                        </div>
+                    </form>
+
+                    <form method="post" action="{{ route('queue.reset') }}" id="queueReset">
+                        @csrf
+                        <div class="alert alert-secondary alert-dismissible">
+                            <div class="form-group mt-3">
+                                <div class="form-row">
+                                    <div class="col-8">
+                                        <button type="button" id="resetButton" class="btn btn-danger btn-lg">
+                                            <i class="fas fa-refresh"></i> Reset Queueing
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5><i class="icon fas fa-exclamation-triangle text-warning"></i>Note!</h5>
+                            <span class="text-warning">Resetting the queue will clear all current queue numbers. This action cannot be undone.</span>
                         </div>
                     </form>
                 </div>
@@ -92,6 +109,8 @@ CISS V.1.0 || Queueing Setting
         })
         .catch(error => console.error('Error:', error));
     });
+
+    
 </script>
 
 @endsection

@@ -174,6 +174,62 @@
         <script src="{{ asset('js/ajax/queueing/numberSerialize.js') }}"></script>
     @endif
 
+    @if(request()->routeIs('queueonoff'))
+        <script>
+            $(document).ready(function () {
+                $('#resetButton').on('click', function (e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'Resetting the queue will clear all current queue numbers. This action cannot be undone.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, reset it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const formData = $('#queueReset').serialize();
+
+                            $.ajax({
+                                url: '{{ route("queue.reset") }}',
+                                type: 'POST',
+                                data: formData,
+                                success: function (response) {
+                                    if (response.success) {
+                                        Swal.fire({
+                                            title: 'Reset Successful!',
+                                            text: response.message,
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Reset Failed!',
+                                            text: response.message,
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        });
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: 'An error occurred while resetting the queue.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+    @endif
+
     <script>
         $(document).ready(function () {
             $('#searchDropdown').select2({
