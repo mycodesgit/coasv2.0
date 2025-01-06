@@ -109,7 +109,7 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-5">
                             <table id="queueMonitor" class="table table-hover">
                                 <thead style="font-weight: bold; font-size: 50px; text-align: center;">
                                     <tr>
@@ -127,15 +127,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <center style="background-color: #93cda0; border-radius: 25px; margin-top: -50px;">
-                                <span id="number-displaycurr" style="font-weight: bold; font-size: 150px;">
+                                <span id="number-displaycurr" style="font-weight: bold; font-size: 210px;">
                                     <p id="queue-numbercurr" style="margin-top: 100px;"></p>
                                     <p id="window-numbercurr" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
                                 </span>
                             </center>
                             <center style="background-color: #ffe28c; border-radius: 25px; margin-top: -50px;">
-                                <span id="number-displaycall" style="font-weight: bold; font-size: 150px;">
+                                <span id="number-displaycall" style="font-weight: bold; font-size: 210px;">
                                     <p id="queue-number" style="margin-top: 100px; animation: blink 2s infinite;"></p>
                                     <p id="window-number" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
                                 </span>
@@ -143,7 +143,7 @@
                             {{-- <iframe width="100%" height="560" src="https://images.app.goo.gl/8mjuVP4YWazjrqny8" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
                             {{-- <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560"> --}}
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6" style="margin-top: -50px">
                             <div class="mt-2 text-center">
                                 <div class="clock" id="time">--:--:-- --</div>
                                 <div class="date" id="date">Loading date...</div>
@@ -296,7 +296,7 @@
                         if (data) {
                             // Update the displayed queue and window numbers
                             $('#queue-numbercurr').text(data.number || ' ');
-                            $('#window-numbercurr').text('Current Serving Window' + (data.window || 'N/A'));
+                            $('#window-numbercurr').text('Current Serving proceed Window' + (data.window || 'N/A'));
 
                             // Check if the queue or window number has changed
                             const queueNumber = data.number || 'No queue number';
