@@ -31,7 +31,7 @@
                 <div class="row">
                     <div class="col-md-7 d-none d-md-block">
                         <h3 style="font-weight: bold;color:#04401f;" class="card-footer">
-                            CPSU - COAS V1.0
+                            CISS V1.0
                         </h3>
                         <hr>
                         <div class="">
@@ -39,15 +39,15 @@
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <p class="lead" alt="First slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="First slide">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="First slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
                                         <p class="lead" alt="Second slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Second slide">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="Second slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                     <div class="carousel-item">
                                         <p class="lead" alt="Third slide">Consolidated Online Access System (COAS) is an advanced application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Third slide">CPSU - COAS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        <p class="lead" alt="Third slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
                                     </div>
                                 </div>
                             </div>
