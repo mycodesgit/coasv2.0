@@ -236,7 +236,7 @@
 	    							<tr>
 	    								<td style="padding-left: 7px;">{{ $sub->subCode }}</td>
 	    								<td>{{ $sub->sub_name }}-{{ $sub->subSec }}</td>
-	    								<td>{{ $sub->sub_title }}</td>
+	    								<td>{{ strlen($sub->sub_title) > 30 ? substr($sub->sub_title, 0, 30) . '...' : $sub->sub_title }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->subUnit }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->lecFee }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->labFee }}</td>
