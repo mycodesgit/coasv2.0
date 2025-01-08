@@ -535,6 +535,31 @@ CISS V.1.0 || Applicant Search List
     });
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function updateDateTime() {
+            console.log("Function triggered"); // Check if the function is being called
+
+            const dropdown = document.getElementById("editAssignDateIDs");
+            console.log("Dropdown element:", dropdown); // Check if the dropdown is found
+
+            const selectedIndex = dropdown.selectedIndex;
+            console.log("Selected Index:", selectedIndex); // Check the selected index
+
+            if (selectedIndex !== -1) {
+                const selectedValue = dropdown.options[selectedIndex].value;
+                console.log("Selected Value:", selectedValue); // Check the selected value
+
+                document.getElementById("selectedDateTimeID").value = selectedValue;
+            } else {
+                console.log("No option selected");
+            }
+        }
+
+        document.getElementById("editAssignDateIDs").onchange = updateDateTime;
+    });
+</script>
+
 @endsection
 
 @section('script')
