@@ -376,7 +376,7 @@
     	</table>
 
     	<div class="terms-rf">
-    		As an applicant for Central Philippines State University, this term, I hereby promise to abide by the rules and regulations of the University, now in force as well as the riles and regulations that maybe promulgated by the University from time to time. If I violate any of the University rules and standards I shall bind myself to whatever disciplinary action the University may impose upon me.
+    		As an applicant for Central Philippines State University, this term, I hereby promise to abide by the rules and regulations of the University, now in force as well as the rules and regulations that maybe promulgated by the University from time to time. If I violate any of the University rules and standards I shall bind myself to whatever disciplinary action the University may impose upon me.
     	</div>
 
     	<div class="date-sign-rf">
