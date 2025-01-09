@@ -110,21 +110,7 @@
                                 </div>
                             </form> 
                         </div>
-                    </div>   
-                    <div class="col-md-7 d-none d-md-block d-flex flex-column">
-                        <h3 style="font-weight: bold;color:#04401f;" class="card-footer text-center">
-                            CISS V.1.0 Student Kiosk
-                        </h3>
-                        <hr>
-                        <div class="text-center  flex-grow-1">
-                            @include('partials.numpadkey')
-                        </div>
-                        <marquee width="100%" direction="left" height="100px">
-                            <p class="marquee-text mt-5" style="color:#04401f; font-weight: bold;">
-                                Sign in using your account to view your grades.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign in using your account to view your grades
-                            </p>
-                        </marquee>
-                    </div>
+                    </div>  
                 </div> 
             </div>
         </div>
