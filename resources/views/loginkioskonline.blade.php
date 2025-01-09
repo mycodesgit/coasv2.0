@@ -65,7 +65,7 @@
                             </a>
                             
                         </div>
-                        <h5 class="login-box-msg text-light">LOGIN</h5>
+                        <h5 class="login-box-msg text-light">LOGIN TO VIEW GRADES</h5>
 
                         <div>
                             <form action="{{ route('emp_login') }}" method="post">
@@ -110,7 +110,7 @@
                                 </div>
                             </form> 
                         </div>
-                    </div>  
+                    </div>   
                 </div> 
             </div>
         </div>
