@@ -129,13 +129,6 @@
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
     <script>
-        document.getElementById("password").addEventListener("focus", function () {
-            currentInput = "password";
-        });
-    </script>
-    @include('script.numpad_script')
-
-    <script>
         window.addEventListener("load", () => {
             const loader = document.querySelector(".loader");
                 loader.classList.add("loader--hidden");
