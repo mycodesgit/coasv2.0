@@ -123,7 +123,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
 
     Route::get('/emp', [LoginController::class, 'login'])->name('login');
     Route::get('/stud/kiosk', [LoginController::class, 'loginkioskstud'])->name('loginkioskstud');
-    Route::get('/stud/kiosk/online', [LoginController::class, 'loginkioskstudonline'])->name('loginkioskstudonline');
+    //Route::get('/stud/kiosk/online', [LoginController::class, 'loginkioskstudonline'])->name('loginkioskstudonline');
     Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
 
     Route::get('/faculty', [LoginFacultyController::class, 'loginfac'])->name('loginfac');
