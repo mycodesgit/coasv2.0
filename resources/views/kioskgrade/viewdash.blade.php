@@ -115,7 +115,7 @@
                                                         <td>{{ $datastudsubowner->subSec }}</td>
                                                         <td>{{ $datastudsubowner->sub_name }}</td>
                                                         <td>{{ $datastudsubowner->sub_title }}</td>
-                                                        <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ $datastudsubowner->subjFgrade }}</b></td>
+                                                        <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade) }}</b></td>
                                                         <td><b>{{ displayGrade($datastudsubowner->subjComp) }}</b></td>
                                                         <td>{{ $datastudsubowner->creditEarned }}</td>
                                                     </tr>
