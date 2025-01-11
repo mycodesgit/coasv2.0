@@ -1,4 +1,4 @@
 <?php return array (
-  'maintenance_mode' => false,
+  'maintenance_mode' => true,
   'bypass_admins' => true,
 );
