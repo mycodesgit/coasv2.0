@@ -29,48 +29,77 @@
         <div class="card" style="border: 3px solid #04401f;">
             <div class="card-body login-card-body">
                 <div class="row">
-                    <div class="col-md-7 d-none d-md-block">
-                        <h3 style="font-weight: bold;color:#04401f;" class="card-footer">
-                            CISS V.1.0
-                        </h3>
-                        <hr>
-                        <div class="">
-                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <p class="lead" alt="First slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="First slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <p class="lead" alt="Second slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Second slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <p class="lead" alt="Third slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
-                                        <p class="lead" alt="Third slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                    @if (Config::get('settings.maintenance_mode', false))
+                        <div class="col-md-7 d-none d-md-block">
+                            <div class="">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img src="{{ asset('template/img/maintenance5.png') }}" width="105%">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <p>Visit <a href="https://cpsu.edu.ph" target="_blank" style="color:#04401f;"><b>Official Website</b></a> for more information.</p>
-                    </div>
 
-                    <div class="col-md-5 pr-4 pl-4 pt-2 pb-2" style="background-color: #04401f; border-radius: 5px;">
-                        <div class="login-logo mt-2">
-                            <a href="">
-                                <img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-circle" width="100px" height="100px">
-                            </a>
-                            
+                        <div class="col-md-5 col-sm-12 pr-4 pl-4 pt-2 pb-2 w-100 col-12" style="background-color: #04401f; border-radius: 5px;">
+                            <div class="text-light">
+                                <center>
+                                    <div style="font-size: 16pt; margin-top: 20px;">
+                                        <i class="fas fa-server" style="font-size: 50pt"></i>
+                                    </div>
+                                    <h2 class="mt-2">We'll be back soon!</h2>
+                                    <div>---------------------------------------</div>
+                                    <div class="mt-3">
+                                        Sorry for the inconvenience but we're performing some maintenance at the moment. We'll be back online shortly!
+                                    </div>
+                                </center>
+                            </div>
                         </div>
-                        <p class="login-box-msg text-light">Select Transaction</p>
+                    @else
+                        <div class="col-md-7 d-none d-md-block">
+                            <h3 style="font-weight: bold;color:#04401f;" class="card-footer">
+                                CISS V.1.0
+                            </h3>
+                            <hr>
+                            <div class="">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <p class="lead" alt="First slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
+                                            <p class="lead" alt="First slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <p class="lead" alt="Second slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
+                                            <p class="lead" alt="Second slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <p class="lead" alt="Third slide">CPSU Integrated Software Solution (CISS) is an application system for the University Frontline Services. </p>
+                                            <p class="lead" alt="Third slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Visit <a href="https://cpsu.edu.ph" target="_blank" style="color:#04401f;"><b>Official Website</b></a> for more information.</p>
+                        </div>
 
-                        <div>
-                            <a href="{{ route('admission-apply') }}" class="btn btn-warning btn-block text-bold">Apply Admission</a>
-                            <a href="{{ route('admission_track') }}" class="btn btn-warning btn-block text-bold">Track Admission</a>
-                            <a href="{{ route('repup') }}" class="btn btn-warning btn-block text-bold">Re-upload Documents</a>
-                        </div>
-                        &nbsp;
-                    </div>   
+                        <div class="col-md-5 pr-4 pl-4 pt-2 pb-2" style="background-color: #04401f; border-radius: 5px;">
+                            <div class="login-logo mt-2">
+                                <a href="">
+                                    <img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-circle" width="100px" height="100px">
+                                </a>
+                                
+                            </div>
+                            <p class="login-box-msg text-light">Select Transaction</p>
+
+                            <div>
+                                <a href="{{ route('admission-apply') }}" class="btn btn-warning btn-block text-bold">Apply Admission</a>
+                                <a href="{{ route('admission_track') }}" class="btn btn-warning btn-block text-bold">Track Admission</a>
+                                <a href="{{ route('repup') }}" class="btn btn-warning btn-block text-bold">Re-upload Documents</a>
+                            </div>
+                            &nbsp;
+                        </div>   
+                    @endif
                 </div> 
             </div>
         </div>

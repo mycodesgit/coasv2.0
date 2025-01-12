@@ -37,12 +37,6 @@ class CheckMaintenanceMode
             if (Auth::guard('web')->check() || Auth::guard('faculty')->check()) {
                 return response()->view('maintenanceserver');
             }
-
-            if ($request->is('login') || $request->is('main') || $request->is('logout')) {
-                return $next($request); // Allow login/logout routes
-            }
-
-            return response()->view('maintenanceserver');
         }
 
         // Allow request to proceed if maintenance mode is not enabled

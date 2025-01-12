@@ -25,6 +25,11 @@ class LoginController extends Controller
         return view('loginkioskonline');
     }
 
+    public function adminloginme()
+    {
+        return view('loginzeusadmin');
+    }
+
     public function emp_login(Request $request)
     {
         $request->validate([
