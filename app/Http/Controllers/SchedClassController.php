@@ -234,8 +234,8 @@ class SchedClassController extends Controller
 
             // Check for room conflicts
             $roomConflicts = $conflicts->filter(function($conflict) use ($room_id) {
-    return $conflict->room_id == $room_id;
-});
+                return $conflict->room_id == $room_id;
+            });
 
             // Check if the same subject is assigned to different faculties on different days
             $facultyConflicts = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')

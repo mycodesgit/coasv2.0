@@ -3,25 +3,11 @@
 @section('body')
 <div class="container-fluid">
     <div class="row" style="padding-top: 0px;">
-        <div class="col-md-12 d-block d-md-none">
-            <div class="card">
-                <div class="card-body">
-                    <div class="mt-2 row">
-                        <div class="col-md-12">
-                            <h6 class="card-footer" style="border-radius: 5px">
-                                Student ID No.: <i>{{ $studauth->stud_id }}</i> <br>
-                                Name: <i>{{ $studauth->lname }}, {{ $studauth->fname }} {{ substr($studauth->mname,0,1) }}</i>.</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="mt-2 row">
-                        <div class="col-md-12 mb- d-none d-md-block">
+                        <div class="col-md-12 mb-3">
                             <h4 class="card-footer" style="border-radius: 5px">Student ID No.: {{ $studauth->stud_id }} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Name: {{ $studauth->lname }}, {{ $studauth->fname }} {{ substr($studauth->mname,0,1) }}.</h4>
                         </div>
                         <div class="col-md-10">

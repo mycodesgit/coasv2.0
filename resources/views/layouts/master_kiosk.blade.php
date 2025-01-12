@@ -45,7 +45,7 @@
                     CISS V.1.0 Student Kiosk
                 </div>
 
-                <div class="" style="z-index: 999;">
+                <div class="" style="z-index: 999">
                     <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:80px;" class="center-top">
                 </div>
 
@@ -88,7 +88,6 @@
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-
 
     <script>
         @if(Session::has('error'))
