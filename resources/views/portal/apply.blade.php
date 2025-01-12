@@ -44,7 +44,16 @@
         }
     </style>
 </head>
+@php
+    date_default_timezone_set('Asia/Manila');
 
+    $now = now();
+    $startTime = now()->setHour(16)->setMinute(59)->setSecond(0);
+    $endTime = now()->setHour(17)->setMinute(0)->setSecond(0);
+@endphp
+@if (!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+    @include('maintenanceserver')
+@else
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
 
     <div class="wrapper">
@@ -887,5 +896,6 @@
         </script>
     @endif
 </body>
+@endif
 </html>
    
