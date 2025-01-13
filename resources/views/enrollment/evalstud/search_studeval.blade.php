@@ -51,16 +51,17 @@ CISS V.1.0 || Student Evaluation
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">School Year</span></label>
                                     <select class="form-control form-control-sm" name="schlyear">
-                                        @foreach($sy as $datasy)
+                                        {{-- @foreach($sy as $datasy)
                                             <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                        @endforeach
+                                        @endforeach --}}
+                                        <option value="2024-2025">2024-2025</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">Semester</span></label>
                                     <select class="form-control form-control-sm" name="semester">
-                                        @foreach($sy as $datasy)
+                                        {{-- @foreach($sy as $datasy)
                                             <option value="{{ $datasy->semester }}">
                                                 @if($datasy->semester == 1)
                                                     First Semester
@@ -72,7 +73,8 @@ CISS V.1.0 || Student Evaluation
                                                     Unknown Semester
                                                 @endif
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
+                                        <option value="2">Second Semester</option>
                                     </select>
                                 </div>
 
