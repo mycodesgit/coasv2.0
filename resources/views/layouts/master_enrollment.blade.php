@@ -458,6 +458,9 @@
     @if(request()->routeIs('studgrade_searchlist', 'studgradegrad_searchlist'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('list_trans'))
+        <script src="{{ asset('js/ajax/enrolment/transferSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('listsearch_studsubjectsRead'))
         <script src="{{ asset('js/ajax/enrolment/studenrollAttendanceSerialize.js') }}"></script>
     @endif
@@ -635,60 +638,60 @@
     </script>
     
     @if(request()->routeIs('editsearchStudRead'))
-    <script>
-        document.getElementById('deleteButton').addEventListener('click', function() {
-            var programEnHistoryId = document.querySelector('input[name="id"][value="{{ $programEnHistory->id }}"]').value;
-            var studentAppraisalIds = document.querySelector('input[name="id"][value="{{ $primIDsString }}"]').value;
-            var stuGradesIds = document.querySelector('input[name="id"][value="{{ $studsubenrollIdsprimID }}"]').value;
+        <script>
+            document.getElementById('deleteButton').addEventListener('click', function() {
+                var programEnHistoryId = document.querySelector('input[name="id"][value="{{ $programEnHistory->id }}"]').value;
+                var studentAppraisalIds = document.querySelector('input[name="id"][value="{{ $primIDsString }}"]').value;
+                var stuGradesIds = document.querySelector('input[name="id"][value="{{ $studsubenrollIdsprimID }}"]').value;
 
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to recover the Enrollment",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route('deleteAllRecords') }}',
-                        type: 'DELETE',
-                        data: {
-                            programEnHistoryId: programEnHistoryId,
-                            studentAppraisalIds: studentAppraisalIds,
-                            stuGradesIds: stuGradesIds,
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            if (response.success) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to recover the Enrollment",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('deleteAllRecords') }}',
+                            type: 'DELETE',
+                            data: {
+                                programEnHistoryId: programEnHistoryId,
+                                studentAppraisalIds: studentAppraisalIds,
+                                stuGradesIds: stuGradesIds,
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        response.message,
+                                        'success'
+                                    ).then(() => {
+                                        window.location.href = response.redirect_url;
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Failed!',
+                                        'Deletion failed.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function() {
                                 Swal.fire(
-                                    'Deleted!',
-                                    response.message,
-                                    'success'
-                                ).then(() => {
-                                    window.location.href = response.redirect_url;
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Failed!',
-                                    'Deletion failed.',
+                                    'Error!',
+                                    'An error occurred while processing your request.',
                                     'error'
                                 );
                             }
-                        },
-                        error: function() {
-                            Swal.fire(
-                                'Error!',
-                                'An error occurred while processing your request.',
-                                'error'
-                            );
-                        }
-                    });
-                }
+                        });
+                    }
+                });
             });
-        });
-    </script>
+        </script>
     @endif
 </body>
 </html>

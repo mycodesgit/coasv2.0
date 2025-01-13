@@ -8,6 +8,7 @@
     $editEnrollStudActive = in_array($curr_route, ['editsearchStud', 'editsearchStudRead']) ? 'active' : '';
     $stuEnrollmentHisActive = in_array($curr_route, ['studentEnHistory', 'viewsearchenStudHistory']) ? 'active' : '';
     $gradeStudActive = in_array($curr_route, ['studgrade_search', 'studgrade_gradsearch', 'studgrade_searchlist', 'studgradegrad_searchlist', 'geneStudent1']) ? 'active' : '';
+    $studtransAllActive = in_array($curr_route, ['list_trans']) ? 'active' : '';
     $subjectAllActive = in_array($curr_route, ['subjectsRead']) ? 'active' : '';
     $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
     $studinfogradActive = in_array($curr_route, ['studInfograduated', 'studInfograduated_search']) ? 'active' : '';
@@ -52,9 +53,9 @@
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
             <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
         @endif
-{{--         @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
-        <a href="{{ route('studgrade_gradsearch') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
-        @endif --}}
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
+            <a href="{{ route('list_trans') }}" class="list-group-item {{ $studtransAllActive }}">Transfered Student</a>
+        @endif
         @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie')
             <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
         @endif

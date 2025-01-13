@@ -28,6 +28,7 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\EnProgStudEvalController;
 use App\Http\Controllers\EnStudHistoryController;
 use App\Http\Controllers\EnstudgradeController;
+use App\Http\Controllers\EnTransferStudController;
 use App\Http\Controllers\EnSubjectsController;
 use App\Http\Controllers\EnreportsController;
 use App\Http\Controllers\EnStudentPerCurriculumController;
@@ -413,6 +414,12 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/list/view/studgrde/edit/{id}', [EnstudgradeController::class, 'editGrade'])->name('editGrade');
             Route::post('/list/view/studgrde/editcompletion/{id}', [EnstudgradeController::class, 'editCompletion'])->name('editCompletion');
             Route::post('/check-grade-password', [EnstudgradeController::class, 'checkPassword'])->name('checkPassword');
+        });
+
+        Route::prefix('studlist')->group(function () {
+            Route::get('/transfer/stud', [EnTransferStudController::class, 'list_trans'])->name('list_trans');
+            Route::get('/transfer/stud/ajaxlist', [EnTransferStudController::class, 'getStudents'])->name('getStudents');
+            Route::post('/transfer/stud/update', [EnTransferStudController::class, 'studtransferCreate'])->name('studtransferCreate');
         });
 
         Route::prefix('subjects')->group(function () {

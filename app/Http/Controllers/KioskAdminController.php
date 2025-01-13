@@ -40,7 +40,7 @@ class KioskAdminController extends Controller
 
         $data = KioskUser::leftJoin('students', 'kioskstudent.studid', '=', 'students.stud_id')
                     ->where('students.campus', $campus)
-                    ->select('kioskstudent.*', 'kioskstudent.id as studkiosid', 'students.lname', 'students.fname', 'students.mname')
+                    ->select('kioskstudent.*', 'kioskstudent.id as studkiosid', 'students.lname', 'students.fname', 'students.mname', 'students.campus', 'students.id')
                     ->get();
 
         return response()->json(['data' => $data]);
