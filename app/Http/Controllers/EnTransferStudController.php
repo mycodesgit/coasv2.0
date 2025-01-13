@@ -26,6 +26,7 @@ use App\Models\EnrollmentDB\StudentShifTrans;
 use App\Models\EnrollmentDB\StudentTransfered;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
+use App\Models\EnrollmentDB\KioskUser;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -52,6 +53,18 @@ class EnTransferStudController extends Controller
     {
         $students = Student::select('id', 'stud_id', 'lname', 'fname', 'mname')->get();
         return response()->json($students);
+    }
+
+    public function getstudentTransferRead()
+    {
+        $campus = Auth::guard('web')->user()->campus;
+
+        $data = KioskUser::leftJoin('students', 'kioskstudent.studid', '=', 'students.stud_id')
+                    ->where('students.campus', $campus)
+                    ->select('kioskstudent.*', 'kioskstudent.id as studkiosid', 'students.lname', 'students.fname', 'students.mname')
+                    ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function studtransferCreate(Request $request) 
@@ -97,17 +110,5 @@ class EnTransferStudController extends Controller
                 return response()->json(['error' => true, 'message' => 'Failed to store'], 404);
             }
         }
-    }
-
-    public function getstudentTransferRead()
-    {
-        $campus = Auth::guard('web')->user()->campus;
-
-        $data = KioskUser::leftJoin('students', 'kioskstudent.studid', '=', 'students.stud_id')
-                    ->where('students.campus', $campus)
-                    ->select('kioskstudent.*', 'kioskstudent.id as studkiosid', 'students.lname', 'students.fname', 'students.mname')
-                    ->get();
-
-        return response()->json(['data' => $data]);
     }
 }

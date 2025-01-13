@@ -418,9 +418,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('studlist')->group(function () {
             Route::get('/transfer/stud', [EnTransferStudController::class, 'list_trans'])->name('list_trans');
-            Route::get('/transfer/stud/ajaxlist', [EnTransferStudController::class, 'getStudents'])->name('getStudents');
-            Route::post('/transfer/stud/update', [EnTransferStudController::class, 'studtransferCreate'])->name('studtransferCreate');
             Route::get('/transfer/stud/fetch', [EnTransferStudController::class, 'getstudentTransferRead'])->name('getstudentTransferRead');
+            Route::post('/transfer/stud/update/yes', [EnTransferStudController::class, 'studtransferCreate'])->name('studtransferCreate');
         });
 
         Route::prefix('subjects')->group(function () {
