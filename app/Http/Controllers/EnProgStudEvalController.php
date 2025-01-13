@@ -71,7 +71,7 @@ class EnProgStudEvalController extends Controller
         $semester = $request->query('semester');
         $campus = "MC";
 
-        $sy = ConfigureCurrent::where('set_status', '=', '4')->get();
+        $sy = ConfigureCurrent::where('set_status', '=', '2')->get();
         $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
 
         if(Auth::guard('web')->user()->role == 15) 
