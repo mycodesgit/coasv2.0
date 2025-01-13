@@ -117,7 +117,7 @@ CISS V.1.0 || Transfered Students
         }
     }
 
-    var studtransferCreateRoute = "{{ route('studtransferCreate') }}";
+    var studtransferCreateRoute = "{{ route('getstudentTransferRead') }}";
 </script>
 
 @endsection
