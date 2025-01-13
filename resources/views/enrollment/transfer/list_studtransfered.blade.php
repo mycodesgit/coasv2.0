@@ -89,28 +89,23 @@ CISS V.1.0 || Transfered Students
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        // If there's an error, clear all fields and show a message
                         document.getElementById('studentName').value = 'Student not found';
                         document.getElementById('primaryId').value = '';
                         document.getElementById('fromCampus').value = '';
                     } else {
-                        // Construct the full name
                         const fullName = `${data.lname}, ${data.fname} ${data.mname || ''}`.trim();
-                        // Populate the fields
                         document.getElementById('studentName').value = fullName.toUpperCase();
-                        document.getElementById('primaryId').value = data.id || ''; // Use the correct key
-                        document.getElementById('fromCampus').value = data.campus || ''; // Use the correct key
+                        document.getElementById('primaryId').value = data.id || ''; 
+                        document.getElementById('fromCampus').value = data.campus || ''; 
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching student:', error);
-                    // Clear fields on error
                     document.getElementById('studentName').value = 'Error fetching student';
                     document.getElementById('primaryId').value = '';
                     document.getElementById('fromCampus').value = '';
                 });
         } else {
-            // Clear fields if input is empty
             document.getElementById('studentName').value = '';
             document.getElementById('primaryId').value = '';
             document.getElementById('fromCampus').value = '';
