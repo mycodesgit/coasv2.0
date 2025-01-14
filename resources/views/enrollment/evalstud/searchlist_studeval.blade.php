@@ -95,7 +95,7 @@ CISS V.1.0 || Student Evaluation
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-four-tabContent">
                         <div class="tab-pane fade show active" id="custom-tabs-one" role="tabpanel" aria-labelledby="custom-tabs-one-tab">
-                            <iframe src="{{ route('studevalRead_listsearchpdf', ['stud_id' => request('stud_id')]) }} #toolbar=0" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe>
+                            <iframe src="{{ route('studevalRead_listsearchpdf', ['stud_id' => request('stud_id')]) }}" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe>
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">                            
                             <div class="row">
