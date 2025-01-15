@@ -83,13 +83,20 @@
     <div class="" style="margin-top: 0px">
         <table>
             <thead>
-                <th style="font-weight: initial; font-size: 10pt;">Date of Admission: &nbsp;&nbsp;&nbsp; {{ \Carbon\Carbon::parse($studrepcard->date_admission)->format('F j, Y') }}</th>
+                <th style="font-weight: initial; font-size: 10pt;">
+                    Date of Admission: &nbsp;&nbsp;&nbsp; 
+                    {{ !empty($studrepcard->date_admission) ? \Carbon\Carbon::parse($studrepcard->date_admission)->format('F j, Y') : 'N/A' }}
+                </th>
             </thead>
             <thead>
-                <th style="font-weight: initial; font-size: 10pt;">Degree/Curriculum: {{ $studrepcard->progName }}</th>
+                <th style="font-weight: initial; font-size: 10pt;">
+                    Degree/Curriculum: {{ $studrepcard->progName ?? 'N/A' }}
+                </th>
             </thead>
             <thead>
-                <th style="font-weight: initial; font-size: 10pt;">Major: {{ $studrepcard->submamiName }}</th>
+                <th style="font-weight: initial; font-size: 10pt;">
+                    Major: {{ $studrepcard->submamiName ?? 'N/A' }}
+                </th>
             </thead>
         </table>
     </div>
