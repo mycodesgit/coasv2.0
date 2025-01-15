@@ -36,12 +36,23 @@
     <div class="" style="margin-top: 35px">
         <table>
             <thead>
-                <th style="font-weight: bold; font-size: 10pt;">Name: &nbsp;&nbsp;&nbsp; {{ $studrepcard->fname }} {{ strtoupper(substr($studrepcard->mname, 0, 1)) }}. {{ $studrepcard->lname }}</th>
-                <th class="" style="text-align: left !important; font-size: 10pt; font-weight: initial; color: #000 !important;">Date: &nbsp;&nbsp;{{ \Carbon\Carbon::now()->format('F j, Y') }}</th>
+                <th style="font-weight: bold; font-size: 10pt;">
+                    Name: &nbsp;&nbsp;&nbsp; 
+                    {{ $studrepcard->fname ?? 'N/A' }} 
+                    {{ strtoupper(substr($studrepcard->mname ?? '', 0, 1)) }}. 
+                    {{ $studrepcard->lname ?? 'N/A' }}
+                </th>
+                <th class="" style="text-align: left !important; font-size: 10pt; font-weight: initial; color: #000 !important;">
+                    Date: &nbsp;&nbsp;{{ \Carbon\Carbon::now()->format('F j, Y') }}
+                </th>
             </thead>
             <thead>
-                <th style="font-weight: initial; font-size: 10pt;">Date of Birth: &nbsp;&nbsp;{{ \Carbon\Carbon::parse($studrepcard->bday)->format('F j, Y') }}</th>
-                <th class="" style="text-align: left !important; font-size: 10pt; font-weight: initial; color: #000 !important;">Place of Birth: &nbsp;&nbsp;{{ $studrepcard->pbirth }}</th>
+                <th style="font-weight: initial; font-size: 10pt;">
+                    Date of Birth: &nbsp;&nbsp;{{ !empty($studrepcard->bday) ? \Carbon\Carbon::parse($studrepcard->bday)->format('F j, Y') : 'N/A' }}
+                </th>
+                <th class="" style="text-align: left !important; font-size: 10pt; font-weight: initial; color: #000 !important;">
+                    Place of Birth: &nbsp;&nbsp;{{ $studrepcard->pbirth ?? 'N/A' }}
+                </th>
             </thead>
             <thead>
                 <th colspan="2" style="text-align: left !important; font-size: 10pt; font-weight: initial; color: #000 !important;">
