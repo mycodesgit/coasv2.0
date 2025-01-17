@@ -49,7 +49,7 @@ CISS V.1.0 || Transfered Students
                             <th>Name</th>
                             <th>Stud ID</th>
                             <th>Campus</th>
-                            <th>Date</th>
+                            <th>Date Transfered</th>
                             <th>Action</th>
                         </tr>
                     </thead>
