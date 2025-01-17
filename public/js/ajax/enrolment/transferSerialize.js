@@ -30,6 +30,20 @@ $(document).ready(function() {
         });
     });
 
+    var campusMapping = {
+            'VC': 'Victorias',
+            'SCC': 'San Carlos',
+            'HC': 'Hinigaran',
+            'MP': 'Moises Padilla',
+            'IC': 'Ilog',
+            'CA': 'Candoni',
+            'CC': 'Cauayan',
+            'SC': 'Sipalay',
+            'Hinc': 'Hinobaan',
+            'VE': 'Valladolid',
+            'MC': 'Main'
+        };
+
     var dataTable = $('#liststudtrans').DataTable({
         "ajax": {
             "url": studtransferReadRoute,
@@ -54,7 +68,15 @@ $(document).ready(function() {
                 }
             },
             {data: 'stud_id'},
-            {data: 'fromcampus'},
+            {
+                data: null, 
+                render: function (data, type, row) {
+                    var fromCampusName = campusMapping[data.fromcampus] || 'Unknown';
+                    var toCampusName = campusMapping[data.tocampus] || 'Unknown';
+                    
+                    return `${fromCampusName} to ${toCampusName}`;
+                },
+            },
             { data: 'updated_at',
                 render: function (data, type, row) {
                     if (type === 'display') {
