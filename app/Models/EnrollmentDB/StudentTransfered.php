@@ -17,5 +17,6 @@ class StudentTransfered extends Model
         'studbaseprim_id',
         'fromcampus',
         'tocampus',
+        'transferby',
     ];
 }

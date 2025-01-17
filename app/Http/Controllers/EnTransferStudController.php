@@ -84,6 +84,7 @@ class EnTransferStudController extends Controller
                     'studbaseprim_id' => $request->input('studbaseprim_id'),
                     'fromcampus' => $request->input('fromcampus'),
                     'tocampus' => $request->input('tocampus'),
+                    'transferby' => Auth::guard('web')->user()->id,
                 ]);
 
                 Student::where('stud_id', $studidName)->update([

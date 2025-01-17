@@ -53,7 +53,7 @@
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
             <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
         @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
+        @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos')
             <a href="{{ route('list_trans') }}" class="list-group-item {{ $studtransAllActive }}">Transfered Student</a>
         @endif
         @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie')

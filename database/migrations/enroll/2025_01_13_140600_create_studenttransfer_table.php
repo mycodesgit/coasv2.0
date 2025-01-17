@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('studbaseprim_id')->length(12);
             $table->string('fromcampus')->nullable();
             $table->string('tocampus')->nullable();
+            $table->integer('transferby')->nullable();
             $table->timestamps();
         });
     }
