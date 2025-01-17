@@ -43,13 +43,14 @@ CISS V.1.0 || Transfered Students
 
                 @include('modal.studenttransferAdd')
 
-                <table id="listsub" class="table table-hover">
+                <table id="liststudtrans" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Stud ID</th>
                             <th>Campus</th>
                             <th>Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,6 +58,40 @@ CISS V.1.0 || Transfered Students
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editStudTransferModal" tabindex="-1" role="dialog" aria-labelledby="editStudTransferModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStudTransferModalLabel">Edit Transfer Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editStudTransferForm">
+                <div class="modal-body">
+                    <input type="text" name="id" id="editStudTransferId">
+                    <div class="form-group">
+                        <label for="editStudTransferidcardno">Student ID</label>
+                        <input type="text" class="form-control" id="editStudTransferidcardno" name="stud_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudTransferName">Name</label>
+                        <input type="text" class="form-control" id="editStudTransferName" name="">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudTransferfromcampus">From Campus</label>
+                        <input type="text" class="form-control" id="editStudTransferfromcampus" name="fromcampus" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -113,6 +148,7 @@ CISS V.1.0 || Transfered Students
     }
 
     var studtransferCreateRoute = "{{ route('studtransferCreate') }}";
+    var studtransferReadRoute = "{{ route('getstudentTransferRead') }}";
 </script>
 
 @endsection

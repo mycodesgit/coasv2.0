@@ -57,11 +57,8 @@ class EnTransferStudController extends Controller
 
     public function getstudentTransferRead()
     {
-        $campus = Auth::guard('web')->user()->campus;
-
-        $data = KioskUser::leftJoin('students', 'kioskstudent.studid', '=', 'students.stud_id')
-                    ->where('students.campus', $campus)
-                    ->select('kioskstudent.*', 'kioskstudent.id as studkiosid', 'students.lname', 'students.fname', 'students.mname')
+        $data = StudentTransfered::leftJoin('students', 'studenttransfer.studbaseprim_id', '=', 'students.id')
+                    ->select('studenttransfer.*', 'studenttransfer.stud_id as transcardidno', 'students.lname', 'students.fname', 'students.mname')
                     ->get();
 
         return response()->json(['data' => $data]);
