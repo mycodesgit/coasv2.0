@@ -39,7 +39,7 @@ $(document).ready(function() {
             'CA': 'Candoni',
             'CC': 'Cauayan',
             'SC': 'Sipalay',
-            'Hinc': 'Hinobaan',
+            'HinC': 'Hinobaan',
             'VE': 'Valladolid',
             'MC': 'Main'
         };
