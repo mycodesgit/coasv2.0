@@ -407,9 +407,9 @@
                                                             <option disabled selected>Select</option>
                                                             <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} @endif>Main</option>
                                                             <option value="VC" @if (old('type') == 'VC') {{ 'selected' }} @endif>Victorias</option>
-                                                            <option value="SCC" @if (old('type') == 'SCC') {{ 'selected' }} @endif>San Carlos</option>
+                                                            <option value="SCC" @if (old('type') == 'SCC') {{ 'selected' }} @endif disabled>San Carlos</option>
                                                             <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} @endif>Moises Padilla</option>
-                                                            <option value="HC" @if (old('type') == 'HC') {{ 'selected' }} @endif>Hinigaran</option>
+                                                            <option value="HC" @if (old('type') == 'HC') {{ 'selected' }} @endif disabled>Hinigaran</option>
                                                             <option value="IC" @if (old('type') == 'IC') {{ 'selected' }} @endif>Ilog</option>
                                                             <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} @endif>Candoni</option>
                                                             <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} @endif>Cauayan</option>
