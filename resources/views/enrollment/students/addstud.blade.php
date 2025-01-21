@@ -60,7 +60,7 @@ CISS V.1.0 || Add Student
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-four-tabContent">
                         <div class="tab-pane fade show active" id="custom-tabs-one" role="tabpanel" aria-labelledby="custom-tabs-one-tab">
-                            <form method="post" action="" id="addunderStudentApply">
+                            <form method="post" action="studentUnderGradStore" id="addunderStudentApply">
                                 @csrf
 
                                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -88,15 +88,15 @@ CISS V.1.0 || Add Student
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Firstname</span></label>
-                                            <input type="text" name="fname" class="form-control form-control-sm" id="viewdatastudFname">
+                                            <input type="text" name="fname" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Middlename</span></label>
-                                            <input type="text" name="mname" class="form-control form-control-sm" id="viewdatastudMname">
+                                            <input type="text" name="mname" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Lastname</span></label>
-                                            <input type="text" name="lname" class="form-control form-control-sm" id="viewdatastudLname">
+                                            <input type="text" name="lname" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Ext. name</span></label>
@@ -553,6 +553,7 @@ CISS V.1.0 || Add Student
 
 <script>
     var studentAddNewRoute = "{{ route('studentStore') }}";
+    var studentAddNewUnderGradeRoute = "{{ route('studentUnderGradStore') }}";
 </script>
 
 <script>

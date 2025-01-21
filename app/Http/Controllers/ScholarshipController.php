@@ -753,4 +753,25 @@ class ScholarshipController extends Controller
 
     }
 
+    public function scholarstudgradeview()
+    {
+
+        return view('scholar.numenroll.viewgradestuds');
+    }
+
+    public function scholarstudgradeviewSearch(Request $request)
+    {
+        $stud_id = $request->stud_id;
+        $campus = Auth::guard('web')->user()->campus;
+
+        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+
+        return view('scholar.numenroll.viewgradestuds_search');
+    }
+
+
+
 }

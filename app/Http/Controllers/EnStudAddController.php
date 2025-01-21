@@ -181,21 +181,47 @@ class EnStudAddController extends Controller
                 'civil_status' => 'required',
             ]);
 
-            $campus = Auth::guard('web')->user()->campus;
-            $studentId = $this->generateAdmissionId($campus);
+            $campus = Auth::guard('web')->user()->campus ?? null;
 
+            if (!$campus) {
+                return response()->json(['error' => true, 'message' => 'Campus not found for the authenticated user'], 401);
+            }
+
+            $stud_id = $request->input('stud_id');
             $lname = $request->input('lname');
             $fname = $request->input('fname');
             $mname = $request->input('mname');
 
-            $existingStud = Student::where('campus', $campus)
-                            ->where('lname', $lname)
-                            ->where('fname', $fname)
-                            ->where('mname', $mname)
-                            ->first();
+            // Check if the student exists by stud_id
+            $studentByStudId = Student::where('campus', $campus)
+                ->where('stud_id', $stud_id)
+                ->first();
 
-            if ($existingStud) {
-                return response()->json(['error' => true, 'message' => 'Student already exists'], 404);
+            // Check if the student exists by name
+            $studentByName = Student::where('campus', $campus)
+                ->where('lname', $lname)
+                ->where('fname', $fname)
+                ->where('mname', $mname)
+                ->first();
+
+            if ($studentByStudId) {
+                if ($studentByName && $studentByStudId->id === $studentByName->id) {
+                    return response()->json([
+                        'error' => true, 
+                        'message' => 'This student ID is already assigned to this student in the campus.'
+                    ], 409);
+                } else {
+                    $realOwnerName = $studentByStudId->fname . ' ' . $studentByStudId->mname . ' ' . $studentByStudId->lname;
+                    return response()->json([
+                        'error' => true, 
+                        'message' => 'This student ID ' . $stud_id . ' is already assigned to ' . $realOwnerName
+                    ], 409);
+                }
+            } elseif ($studentByName) {
+                return response()->json([
+                    'error' => true, 
+                    'message' => 'Student with this name already exists in this campus but has a different ID.'
+                ], 409);
             }
 
             try {
@@ -225,10 +251,15 @@ class EnStudAddController extends Controller
                     'province' => $request->input('province'),
                     'region' => $request->input('region'),
                     'zcode' => $request->input('zcode'),
+                    'stud_father' => $request->input('stud_father'),
+                    'stud_mother' => $request->input('stud_mother'),
+                    'stud_guardian' => $request->input('stud_guardian'),
+                    'monthly_income' => $request->input('monthly_income'),
+                    'guardian_contact' => $request->input('guardian_contact'),
                     'posted_by' => Auth::guard('web')->user()->id,
                 ]);
 
-                return response()->json(['success' => true, 'message' => 'Student stored successfully', 'student_id' => $studentId], 200);
+                return response()->json(['success' => true, 'message' => 'Student stored successfully', 'student_id' => $stud_id], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Student'], 404);
             }

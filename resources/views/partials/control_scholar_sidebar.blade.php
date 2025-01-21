@@ -11,6 +11,7 @@
     $enhistoryActive = in_array($curr_route, ['studEnHistory', 'viewsearchStudHistory']) ? 'active' : '';
     $countnumEnrollActive = in_array($curr_route, ['countstudnoenrollee']) ? 'active' : '';
     $regformActive = in_array($curr_route, ['studregformRead', 'listsearch_studregformRead']) ? 'active' : '';
+    $gradscholarviewActive = in_array($curr_route, ['scholarstudgradeview', 'scholarstudgradeviewSearch']) ? 'active' : '';
     
 
 @endphp
@@ -37,5 +38,6 @@
         <a href="{{ route('studEnHistory') }}" class="list-group-item {{ $enhistoryActive }}">Enrollment History</a>
         <a href="{{ route('countstudnoenrollee') }}" class="list-group-item {{ $countnumEnrollActive }}">Number of Enrollees</a>
         <a href="{{ route('studregformRead') }}" class="list-group-item {{ $regformActive }}">Registration Form</a>
+        <a href="{{ route('scholarstudgradeview') }}" class="list-group-item {{ $gradscholarviewActive }}">View Grades</a>
     </ul>
 </div>
