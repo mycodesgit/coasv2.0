@@ -95,7 +95,7 @@ class SchedFacultyListController extends Controller
         try {
             $lName = $request->input('lname'); 
             $fName = $request->input('fname');
-            $existingFaculty = Faculty::where('lname', $lName)->where('fname', $fName)->where('id', '!=', $request->input('id'))->first();
+            $existingFaculty = Faculty::where('lname', $lName)->where('fname', $fName)->where('campus', Auth::guard('web')->user()->campus)->where('id', '!=', $request->input('id'))->first();
 
             if ($existingFaculty) {
                 return response()->json(['error' => true, 'message' => 'Faculty already exists'], 404);
