@@ -32,12 +32,12 @@ class EnStudGrdeViewController extends Controller
         $stud_id = $request->query('stud_id');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->get();
+        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
-        $studauth = Student::where('stud_id', '=', $stud_id)->first();
+        $studauth = Student::where('stud_id', '=', $stud_id)->where('campus', $campus)->first();
 
         $studsubviewgrd = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
