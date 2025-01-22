@@ -177,10 +177,6 @@ CISS V.1.0 || List if Faculty
                             @endforeach
                         </select>
                     </div>
-                    <div class="mt-2 col-md-12">
-                                        <label><span class="badge badge-secondary">Email</span></label>
-                                        <input type="email" name="email" class="form-control form-control-sm">
-                                    </div>
                     <div class="form-group">
                         <label for="editEmail">Email</label>
                         <input type="email" name="email" class="form-control form-control-sm" id="editEmail">
