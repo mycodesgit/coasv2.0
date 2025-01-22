@@ -78,7 +78,7 @@ CISS V.1.0 || List if Faculty
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Middle initial</span></label>
-                                        <input type="text" name="mname" class="form-control form-control-sm">
+                                        <input type="text" name="mname" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
                                     </div>
 
                                     <div class="mt-2 col-md-12">
@@ -154,15 +154,15 @@ CISS V.1.0 || List if Faculty
                     </div>
                     <div class="form-group">
                         <label for="editLastname">Lastname</label>
-                        <input type="text" class="form-control form-control-sm" id="editLastname" name="lname">
+                        <input type="text" class="form-control form-control-sm" id="editLastname" name="lname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
                     </div>
                     <div class="form-group">
                         <label for="editFirstname">Firstname</label>
-                        <input type="text" class="form-control form-control-sm" id="editFirstname" name="fname">
+                        <input type="text" class="form-control form-control-sm" id="editFirstname" name="fname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
                     </div>
                     <div class="form-group">
                         <label for="editMiddlename">Middlename</label>
-                        <input type="text" class="form-control form-control-sm" id="editMiddlename" name="mname">
+                        <input type="text" class="form-control form-control-sm" id="editMiddlename" name="mname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
                     </div>
                     <div class="form-group">
                         <label for="editExtname">Ext</label>
