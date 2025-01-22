@@ -109,11 +109,14 @@ class AdPrntController extends Controller
 
         $data = $data->get();
 
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
+
         $request->session()->put('recent_search', $data);
         $totalSearchResults = count($data);
 
         return view('admission.reports.applicantsgen', ['data' => $data, 'totalSearchResults' => $totalSearchResults])
-            ->with('strand', $strand);
+            ->with('strand', $strand)->with('curryear', $curryear);
     }
 
     public function applicantPDF_reports(Request $request)
