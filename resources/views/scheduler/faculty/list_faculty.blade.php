@@ -68,12 +68,12 @@ CISS V.1.0 || List if Faculty
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Lastname</span></label>
-                                        <input type="text" name="lname" class="form-control form-control-sm">
+                                        <input type="text" name="lname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
                                     </div>
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Firstname</span></label>
-                                        <input type="text" name="fname" class="form-control form-control-sm">
+                                        <input type="text" name="fname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
                                     </div>
 
                                     <div class="mt-2 col-md-12">
@@ -94,6 +94,11 @@ CISS V.1.0 || List if Faculty
                                                 <option value="{{ $dataadr->id }}">{{ $dataadr->adrDesc }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Email</span></label>
+                                        <input type="email" name="email" class="form-control form-control-sm">
                                     </div>
 
                                     <div class="col-md-12">
