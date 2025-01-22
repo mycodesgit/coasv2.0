@@ -182,8 +182,7 @@ CISS V.1.0 || List if Faculty
                                         <input type="email" name="email" class="form-control form-control-sm">
                                     </div>
                     <div class="form-group">
-                        <label for="editEmail">Ext</label>
-                        <label><span class="badge badge-secondary">Email</span></label>
+                        <label for="editEmail">Email</label>
                         <input type="email" name="email" class="form-control form-control-sm" id="editEmail">
                     </div>
                 </div>
