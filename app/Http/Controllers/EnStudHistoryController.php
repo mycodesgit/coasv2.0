@@ -63,9 +63,11 @@ class EnStudHistoryController extends Controller
     public function fetchStudEnrollmentHistory(Request $request)
     {
         $stud_id = $request->input('stud_id');
-
+        $campus = Auth::guard('web')->user()->campus;
+        
         $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('studentID', $stud_id)
+            ->where('campus', $campus)
             ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
             ->orderBy('schlyear', 'ASC')
             ->get();
