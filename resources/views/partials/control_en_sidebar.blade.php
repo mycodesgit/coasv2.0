@@ -106,7 +106,7 @@
     </ul>
 </div>
 
-@if(in_array(Auth::guard('web')->user()->role, [0] || Auth::guard('web')->user()->lname == 'Arlos'))
+@if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->lname == 'Arlos')
 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
     <h5>Logs</h5>
 </div>
