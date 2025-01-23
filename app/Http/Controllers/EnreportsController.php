@@ -19,6 +19,8 @@ use App\Models\EnrollmentDB\StudentGnderStatus;
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\ApplicantDocs;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 
 class EnreportsController extends Controller
 {
@@ -157,5 +159,38 @@ class EnreportsController extends Controller
                         ->get();
         
         return response()->json(['data' => $data]);
+    }
+
+    public function rfstudprint() 
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('enrollment.reports.regform.search_studrf', compact('sy'));
+    }
+
+    public function rfstudprintsearch(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('enrollment.reports.regform.searchresult_studrf', compact('sy'));
     }
 }

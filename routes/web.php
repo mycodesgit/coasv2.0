@@ -441,6 +441,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/graduated/search/list', [EnreportsController::class, 'studInfograduated_search'])->name('studInfograduated_search');
             Route::get('/info/students/graduated/search/listajax', [EnreportsController::class, 'getstudInfograduated_search'])->name('getstudInfograduated_search');
 
+            Route::get('/info/students/registration/form/search', [EnreportsController::class, 'rfstudprint'])->name('rfstudprint');
+            Route::get('/info/students/registration/form/search/result', [EnreportsController::class, 'rfstudprintsearch'])->name('rfstudprintsearch');
+
             Route::get('/info/students/curriculum', [EnStudentPerCurriculumController::class, 'studCurr'])->name('studCurr');
             Route::get('/info/students/curriculum/search', [EnStudentPerCurriculumController::class, 'studCurrsearch'])->name('studCurrsearch');
             Route::get('/info/students/curriculum/searchajax', [EnStudentPerCurriculumController::class, 'getstudCurrSearch'])->name('getstudCurrSearch');
