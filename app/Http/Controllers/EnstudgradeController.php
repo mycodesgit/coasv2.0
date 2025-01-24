@@ -45,8 +45,7 @@ class EnstudgradeController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
             
-        $grdCode = GradeCode::all();
-        return view('enrollment.gradesheet.list_studgrade',  compact('grdCode', 'sy'));
+        return view('enrollment.gradesheet.list_studgrade',  compact('sy'));
     }
 
     public function studgrade_searchlist(Request $request)
@@ -321,6 +320,110 @@ class EnstudgradeController extends Controller
         }
 
         return response()->json(['status' => 'fail']);
+    }
+
+
+    public function studgradecorrection_search()
+    {   
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+        return view('enrollment.correctiongrades.searchgrades_correct',  compact('sy'));
+    }
+
+    public function studgradecorrection_resultsearch(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+
+        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
+        $semester = is_array($semester) ? $semester : [$semester];
+
+        $data = SubjectOffered::select('sub_offered.*', 'subjects.*', 'sub_offered.id as sid',)
+                        ->join('subjects', 'sub_offered.subcode', '=', 'subjects.sub_code')
+                        ->whereIn('sub_offered.schlyear', $schlyear)
+                        ->whereIn('sub_offered.semester', $semester)
+                        ->get();
+        $totalSearchResults = count($data);
+
+        return view('enrollment.correctiongrades.searchgrades_resultcorrect', compact('sy', 'data', 'totalSearchResults'));
+    }
+
+    public function geneStudentcorrectiongrades(Request $request, $id)
+    {
+        $id = $request->id;
+        $grade = $request->grade;
+
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $gradereg = Grade::where('subjID', $id)
+                        ->where('status', '!=', '')
+                        ->count();
+
+        $genstud = Grade::select('so.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
+                ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
+                ->join('students', 'studgrades.studID', '=', 'students.stud_id')
+                ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
+                ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
+                ->where('so.schlyear', $schlyear)
+                ->where('so.semester', $semester)
+                ->where('so.campus', $campus)
+                ->where('studgrades.campus', $campus)
+                ->where('students.campus', $campus)
+                ->where('studgrades.subjID', $id)
+                ->orderBy('students.lname', 'ASC')
+                ->get();
+
+        // $genstud = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+        //             ->join('students', 'studgrades.studID', '=', 'students.stud_id')
+        //             ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+        //             ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+        //             ->get();
+
+        if(Auth::guard('web')->user()->role == '15') {
+            $grdpercentage = array_merge(range(2, 43), [76]);
+        } else {
+            $grdpercentage = range(44, 80); 
+        }
+        $grdCode = GradeCode::whereIn('id', $grdpercentage)
+                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
+                ->get();
+
+        $totalSearchResults = count($genstud);
+
+        $grades = [];
+
+        foreach ($genstud as $dataItem) {
+            $grades[$dataItem->subjectID] = Grade::where('subjID', $dataItem->subjectID)->get();
+        }
+
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('enrollment.correctiongrades.searchgrades_resultviewcorrect', compact('sy', 'genstud', 'totalSearchResults', 'grdCode', 'grade', 'grades', 'gradereg'));
     }
 
 }

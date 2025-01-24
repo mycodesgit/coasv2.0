@@ -19,7 +19,7 @@ CISS V.1.0 || Grading
                     <i class="fas fa-home"></i>
                 </a>
             </li>
-            <li class="breadcrumb-item mt-1">Grading</li>
+            <li class="breadcrumb-item mt-1">Correction of Grades</li>
             <li class="breadcrumb-item mt-1">
                 <a href="{{ url()->previous() }}"> 
                     @if($genstud && $genstud->isNotEmpty())
@@ -41,11 +41,11 @@ CISS V.1.0 || Grading
         </p> --}}
 
         <div style="border-bottom: 1px solid #04401f;">
-            <form method="GET" action="{{ route('studgrade_searchlist') }}" enctype="multipart/form-data" id="gradeSht">
+            <form method="GET" action="{{ route('studgradecorrection_resultsearch') }}" enctype="multipart/form-data" id="gradeSht">
                 @csrf
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                    <h4>Grade Sheet</h4>
+                    <h4>Correction of Grades</h4>
                 </div>
 
                 <div class="form-group mt-2">
@@ -228,16 +228,12 @@ CISS V.1.0 || Grading
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
-                                    @if ($datagenstud->subjFgrade != 'FAILURE' && $datagenstud->subjFgrade != 'INC' && $datagenstud->subjFgrade != 'Inc.' && $datagenstud->subjFgrade != 'inc')
-                                        <a class="dropdown-item" data-toggle="modal" data-target="#editgrades{{ $datagenstud->sgid }}">
-                                            <i class="fas fa-pen"></i> Edit Grades
-                                        </a>
-                                    @endif
-                                    @if ($datagenstud->compstat == 2 || empty($datagenstud->compstat))
-                                        <a class="dropdown-item" id="editgradecompletionid" data-toggle="modal" data-target="#editCompletiongrades{{ $datagenstud->sgid }}">
-                                            <i class="fa-solid fa-envelopes-bulk"></i> Completion
-                                        </a>
-                                    @endif
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#editgrades{{ $datagenstud->sgid }}">
+                                        <i class="fas fa-pen"></i> Edit Grades
+                                    </a>
+                                    <a class="dropdown-item" id="editgradecompletionid" data-toggle="modal" data-target="#editCompletiongrades{{ $datagenstud->sgid }}">
+                                        <i class="fa-solid fa-envelopes-bulk"></i> Completion
+                                    </a>
                                 </div>
                             </div>
                         </td>
@@ -334,16 +330,9 @@ CISS V.1.0 || Grading
 </div>
 
 
-
-
 <script>
     var passgradeRoute = "{{ route('checkPassword') }}";
     var passgradeTokenRoute = "{{ csrf_token() }}";
 </script>
 
-{{-- <script>
-function showIdAlert(id) {
-    alert("The ID is: " + id);
-}
-</script> --}}
 @endsection

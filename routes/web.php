@@ -415,6 +415,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/list/view/studgrde/edit/{id}', [EnstudgradeController::class, 'editGrade'])->name('editGrade');
             Route::post('/list/view/studgrde/editcompletion/{id}', [EnstudgradeController::class, 'editCompletion'])->name('editCompletion');
             Route::post('/check-grade-password', [EnstudgradeController::class, 'checkPassword'])->name('checkPassword');
+
+
+            Route::get('/search/correction', [EnstudgradeController::class, 'studgradecorrection_search'])->name('studgradecorrection_search');
+            Route::get('/search/correction/result', [EnstudgradeController::class, 'studgradecorrection_resultsearch'])->name('studgradecorrection_resultsearch');
+            Route::get('/search/correction/list/result/studentsGrade/{id}', [EnstudgradeController::class, 'geneStudentcorrectiongrades'])->name('geneStudentcorrectiongrades');
         });
 
         Route::prefix('studlist')->group(function () {
