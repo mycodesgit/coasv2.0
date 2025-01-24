@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->integer('postedBy')->nullable();
             $table->string('role')->nullable();
+            $table->integer('resetnumber')->nullable();
             $table->timestamps();
         });
     }

@@ -48,6 +48,18 @@ $(document).ready(function() {
             {data: 'fname'},
             {data: 'mname'},
             {
+                data: 'resetnumber',
+                render: function(data, type, row) {
+                    if (data === null || data === undefined) {
+                        return ''; // Display empty if no record
+                    }
+                    if (type === 'display' || type === 'filter') {
+                        return data + ' ' + (data === 1 ? 'time' : 'times');
+                    }
+                    return data; // Return raw data for other types
+                }
+            },
+            {
                 data: 'studkiosid',
                 render: function(data, type, row) {
                     if (type === 'display') {

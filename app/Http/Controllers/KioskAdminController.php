@@ -92,10 +92,12 @@ class KioskAdminController extends Controller
             }
 
             $kioskuser = KioskUser::findOrFail($request->input('id'));
+            $kioskuser->resetnumber = $kioskuser->resetnumber + 1;
             $kioskuser->update([
                 'studid' => $studidName,
                 'password' => Hash::make($request->input('password')),
-                'postedBy' => Auth::guard('web')->user()->id
+                'postedBy' => Auth::guard('web')->user()->id,
+                'resetnumber' => $kioskuser->resetnumber,
         ]);
             return response()->json(['success' => true, 'message' => 'Student Password in Kiosk Updated successfully'], 200);
         } catch (\Exception $e) {

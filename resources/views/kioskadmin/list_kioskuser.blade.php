@@ -48,6 +48,7 @@ CISS V.1.0 || Kiosk User
                             <th>Lastname</th>
                             <th>Firstname</th>
                             <th>Middle Initial</th>
+                            <th>No. of Reset</th>
                             <th>Action</th>
                         </tr>
                     </thead>

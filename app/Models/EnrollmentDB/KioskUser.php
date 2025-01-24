@@ -19,7 +19,8 @@ class KioskUser extends Authenticatable
         'studid',
         'password', 
         'postedBy',
-        'role'  
+        'role',  
+        'resetnumber'
     ];
 
     /**
