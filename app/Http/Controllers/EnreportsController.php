@@ -182,6 +182,22 @@ class EnreportsController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
+        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+        $programEnHistory = StudEnrolmentHistory::join('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
+                ->where('program_en_history.studentID', $stud_id)
+                ->where('program_en_history.schlyear', $schlyear)
+                ->where('program_en_history.semester', '=', $semester)
+                ->where('program_en_history.campus', '=', $campus)
+                ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
+                ->first(); 
+
+        if (!$programEnHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> not enrolled at this term or school year.');
+        }
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
