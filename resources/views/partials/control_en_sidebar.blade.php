@@ -58,7 +58,7 @@
             <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
         @endif
 
-        @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos')
+        @if(Auth::guard('web')->user()->role == '3' && Auth::guard('web')->user()->campus == 'MC')
             <a href="{{ route('studgradecorrection_search') }}" class="list-group-item {{ $gradeStudcorrectActive }}">Correction of Grades</a>
         @endif
 
