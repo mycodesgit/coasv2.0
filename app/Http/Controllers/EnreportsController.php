@@ -15,6 +15,7 @@ use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentInfoGrad;
 use App\Models\EnrollmentDB\StudentCvlStatus;
 use App\Models\EnrollmentDB\StudentGnderStatus;
+use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\ApplicantDocs;
