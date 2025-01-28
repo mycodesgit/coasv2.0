@@ -245,6 +245,7 @@ $(document).on('click', '.btn-studSubOffer', function() {
     var isTypeSelect = $(this).data('istype');
     var fundSelectEdit = $(this).data('fundaccount');
     var fundAccount = $(this).data('fundaccount');
+    var itfee = $(this).data('itfee');
 
     $('#editSubOfferId').val(id);
     $('#subcodeEdit').val(subofferCode);
@@ -262,6 +263,7 @@ $(document).on('click', '.btn-studSubOffer', function() {
     $('#isTypeSelect').val(isTypeSelect);
     $('#fundSelectEdit').val(fundAccount);
     $('#fundAccountEdit').val(fundAccount);
+    $('#itFeeSelect').val(itfee);
 
     $.ajax({
         url: subOfferedNameReadRoute, 

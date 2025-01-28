@@ -391,9 +391,9 @@ CISS V.1.0 || Subject Offered
 
                                 <div class="col-md-2 mt-2">
                                     <label><span class="badge badge-secondary">IT Subject</span></label>
-                                    <select class="form-control form-control-sm" id="itfee" name="itfee">
+                                    <select class="form-control form-control-sm" name="itfee" id="itFeeSelect">
                                         <option value="No">No</option>
-                                        <option value="Yes">Yes, IT Subject</option>
+                                        <option value="Yes">Yes</option>
                                     </select>
                                 </div>
 
