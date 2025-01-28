@@ -199,6 +199,7 @@ class SchedSubOfferController extends Controller
                     'isOJT' => $request->input('isOJT'),
                     'isType' => $request->input('isType'),
                     'fund' => $request->input('fund'),
+                    'itfee' => $request->input('itfee'),
                     'fundAccount' => $request->input('fundAccount'),
                 ]);
 
@@ -261,6 +262,7 @@ class SchedSubOfferController extends Controller
                 'isOJT' => $request->input('isOJT'),
                 'isType' => $request->input('isType'),
                 'fund' => $request->input('fund'),
+                'itfee' => $request->input('itfee'),
                 'fundAccount' => $request->input('fundAccount'),
         ]);
             return response()->json(['success' => true, 'message' => 'Subject Offer Updated successfully'], 200);

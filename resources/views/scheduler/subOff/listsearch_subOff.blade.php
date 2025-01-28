@@ -239,10 +239,10 @@ CISS V.1.0 || Subject Offered
                                             </div>
 
                                             <div class="col-md-2 mt-2">
-                                                <label><span class="badge badge-secondary">IT Fee</span></label>
-                                                <select class="form-control form-control-sm" id="fundSelect">
+                                                <label><span class="badge badge-secondary">IT Subject</span></label>
+                                                <select class="form-control form-control-sm" id="itfee" name="itfee">
                                                     <option value="No">No</option>
-                                                    <option value="Yes">Yes, IT FEE</option>
+                                                    <option value="Yes">Yes, IT Subject</option>
                                                 </select>
                                             </div>
 
@@ -378,7 +378,7 @@ CISS V.1.0 || Subject Offered
                                     </select>
                                 </div>
 
-                                <div class="col-md-4 mt-2">
+                                <div class="col-md-2 mt-2">
                                     <label><span class="badge badge-secondary">Fund</span></label>
                                     <select class="form-control form-control-sm" id="fundSelectEdit">
                                         <option disabled selected> --Select-- </option>
@@ -386,6 +386,14 @@ CISS V.1.0 || Subject Offered
                                         @foreach($funds as $fund)
                                             <option value="{{ $fund->account_name }}" >{{ $fund->fund_id }} - {{ $fund->account_name }}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 mt-2">
+                                    <label><span class="badge badge-secondary">IT Subject</span></label>
+                                    <select class="form-control form-control-sm" id="itfee" name="itfee">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes, IT Subject</option>
                                     </select>
                                 </div>
 
