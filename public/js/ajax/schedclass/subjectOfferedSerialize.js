@@ -77,6 +77,7 @@ $(document).ready(function() {
                     return data ? data : 'No Account';
                 }
             },
+            {data: 'itfee'},
             {
                 data: 'soid',
                 render: function(data, type, row) {

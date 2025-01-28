@@ -120,7 +120,8 @@ CISS V.1.0 || Subject Offered
                                         <th>LecFee</th>
                                         <th>LabFee</th>
                                         <th>Type</th>
-                                        <th>FundAccount</th>
+                                        <th>Fund</th>
+                                        <th>IT Subj</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
