@@ -300,10 +300,10 @@ CISS V.1.0 || Edit Student Enrollment
                                 @endphp
                                 </tbody>
                             </table>
-                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
-                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
-                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
-                            <input type="text" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
+                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
+                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
+                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
+                            <input type="hidden" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -356,10 +356,10 @@ CISS V.1.0 || Edit Student Enrollment
                                     </div>
                                 </div>
                             </div>      
-                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
-                            <input type="text" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
-                            <input type="text" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
-                            <input type="text" id="itsubjInput" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDitfee }}">
+                            <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
+                            <input type="hidden" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
+                            <input type="hidden" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
+                            <input type="hidden" id="itsubjInput" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDitfee }}">
                         </div>
                     </div>
 
@@ -431,10 +431,10 @@ CISS V.1.0 || Edit Student Enrollment
                     <input type="hidden" class="form-control form-control-sm" id="lecFee" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="labFee" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="itfee" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="itfee" readonly>
                 </div>
                 
                 <button type="button" class="btn btn-primary" id="addSubjectBtn">
