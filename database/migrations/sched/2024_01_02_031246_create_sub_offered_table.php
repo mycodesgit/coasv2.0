@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('isTemp')->nullable();
             $table->string('isType')->nullable();
             $table->string('fund')->nullable();
+            $table->enum('itfee', ['No', 'Yes'])->default('No');
             $table->string('fundAccount')->nullable();
             $table->timestamps();
         });

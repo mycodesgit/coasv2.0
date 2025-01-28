@@ -228,13 +228,21 @@ CISS V.1.0 || Subject Offered
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-4 mt-2">
+                                            <div class="col-md-2 mt-2">
                                                 <label><span class="badge badge-info">Fund</span></label>
                                                 <select class="form-control form-control-sm" id="fundSelect">
                                                     <option value="">No Account</option>
                                                     @foreach($funds as $fund)
                                                         <option value="{{ $fund->fund_id }}" data-account-name="{{ $fund->account_name }}">{{ $fund->fund_id }} - {{ $fund->account_name }}</option>
                                                     @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 mt-2">
+                                                <label><span class="badge badge-secondary">IT Fee</span></label>
+                                                <select class="form-control form-control-sm" id="fundSelect">
+                                                    <option value="No">No</option>
+                                                    <option value="Yes">Yes, IT FEE</option>
                                                 </select>
                                             </div>
 

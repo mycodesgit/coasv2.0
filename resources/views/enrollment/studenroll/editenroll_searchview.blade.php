@@ -47,7 +47,7 @@ CISS V.1.0 || Edit Student Enrollment
                             <div class="form-group">
                                 <div class="form-row">
                                     <div class="col-md-2">
-                                        <label><span class="badge badge-secondary">Student ID</span></label>
+                                        <label><span class="badge badge-success">Student ID</span></label>
                                         <input type="text" name="" class="form-control form-control-sm" value="{{ $student->stud_id }}" readonly>
                                     </div>
                                     <div class="col-md-3">
@@ -83,7 +83,7 @@ CISS V.1.0 || Edit Student Enrollment
                                 <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
                                 <input type="hidden" value="{{ $programEnHistory->id }}" name="id" readonly>
 
-                                <div class="container">
+                                <div class="">
                                     <div class="form-group">
                                         <div class="form-row">
                                             <div class="col-md-3">
@@ -227,15 +227,16 @@ CISS V.1.0 || Edit Student Enrollment
                     <div class="card" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
                             <table id="subjectTable" class="table">
-                                <thead>
+                                <thead style="background-color: #c9c9c9">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Subject Code</th>
+                                        <th>Subj Code</th>
                                         <th>Subject Name</th>
                                         <th>Descriptive Title</th>
                                         <th>Credit</th>
                                         <th>Lec Fee</th>
                                         <th>Lab Fee</th>
+                                        <th>IT Subj</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
@@ -249,6 +250,7 @@ CISS V.1.0 || Edit Student Enrollment
                                         <td>{{ $dataen->subUnit }}</td>
                                         <td>{{ $dataen->lecFee }}</td>
                                         <td>{{ $dataen->labFee }}</td>
+                                        <td>{{ $dataen->itfee }}</td>
                                         <td>
                                             <button class="btn btn-outline-danger btn-sm delete-row">
                                                 <i class="fas fa-trash"></i>
@@ -263,7 +265,7 @@ CISS V.1.0 || Edit Student Enrollment
                     <div class="card" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
                             <table id="studFeeTable" class="table">
-                                <thead>
+                                <thead style="background-color: #c9c9c9">
                                     <tr>
                                         <th>Fund</th>
                                         <th>Account</th>
@@ -298,10 +300,10 @@ CISS V.1.0 || Edit Student Enrollment
                                 @endphp
                                 </tbody>
                             </table>
-                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
-                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
-                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
-                            <input type="hidden" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
+                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
+                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
+                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
+                            <input type="text" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -354,9 +356,10 @@ CISS V.1.0 || Edit Student Enrollment
                                     </div>
                                 </div>
                             </div>      
-                            <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
-                            <input type="hidden" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
-                            <input type="hidden" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
+                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
+                            <input type="text" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
+                            <input type="text" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
+                            <input type="text" id="itsubjInput" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDitfee }}">
                         </div>
                     </div>
 
@@ -402,7 +405,8 @@ CISS V.1.0 || Edit Student Enrollment
                                             data-sub-title="{{ $subs->sub_title }}" 
                                             data-sub-unit="{{ $subs->subUnit }}" 
                                             data-lec-fee="{{ $subs->lecFee }}" 
-                                            data-lab-fee="{{ $subs->labFee }}">
+                                            data-lab-fee="{{ $subs->labFee }}"
+                                            data-it-fee="{{ $subs->itfee }}">
                                         {{ $subs->sub_name }} - {{ $subs->subSec }}
                                     </option>
                                 @endforeach
@@ -427,7 +431,10 @@ CISS V.1.0 || Edit Student Enrollment
                     <input type="hidden" class="form-control form-control-sm" id="lecFee" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
+                    <input type="text" class="form-control form-control-sm" id="labFee" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" id="itfee" readonly>
                 </div>
                 
                 <button type="button" class="btn btn-primary" id="addSubjectBtn">

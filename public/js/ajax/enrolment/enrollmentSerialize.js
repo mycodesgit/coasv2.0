@@ -264,6 +264,7 @@ $(document).ready(function() {
         $('#subUnit').val(selectedOption.data('sub-unit'));
         $('#lecFee').val(selectedOption.data('lec-fee'));
         $('#labFee').val(selectedOption.data('lab-fee'));
+        $('#itfee').val(selectedOption.data('it-fee'));
     });
 });
 
@@ -272,6 +273,7 @@ function updateTotalsAndIDs() {
     var totalUnits = 0;
     var totalLecFee = 0;
     var totalLabFee = 0;
+    var itsubjFee = [];
     var subjIDs = [];
 
     var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
@@ -283,6 +285,7 @@ function updateTotalsAndIDs() {
             totalUnits += parseInt(cells[4].textContent);
             totalLecFee += parseFloat(cells[5].textContent);
             totalLabFee += parseFloat(cells[6].textContent);
+            itsubjFee.push(cells[7].textContent.trim());
             subjIDs.push(cells[0].textContent);
         }
     }
@@ -290,6 +293,7 @@ function updateTotalsAndIDs() {
     document.getElementById('totalunitInput').value = totalUnits;
     document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
     document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
+    document.getElementById('itsubjInput').value = itsubjFee;
     var subjIDString = subjIDs.join(',');
     document.getElementById('subjIDsInput').value = subjIDString;
 }
@@ -399,8 +403,9 @@ function fetchAndGenerateSubjects(selectedCourse, schlyear, semester) {
                     row.insertCell(4).textContent = subject.subUnit;
                     row.insertCell(5).textContent = subject.lecFee;
                     row.insertCell(6).textContent = subject.labFee;
+                    row.insertCell(7).textContent = subject.itfee;
 
-                    var removeCell = row.insertCell(7);
+                    var removeCell = row.insertCell(8);
                     var removeButton = document.createElement('button');
                     removeButton.textContent = '';
                     removeButton.classList.add('btn', 'btn-outline-danger', 'btn-sm');
@@ -460,6 +465,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
     var selectedSubjectUnitText = document.getElementById('subUnit').value;
     var selectedSubjectlecFeeText = document.getElementById('lecFee').value;
     var selectedSubjectlabFeeText = document.getElementById('labFee').value;
+    var selectedSubjectitFeeText = document.getElementById('itfee').value;
 
     var subjIDInput = document.getElementById('subjIDsInput');
     var existingIDs = subjIDInput.value.trim(); 
@@ -479,6 +485,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 var subUnit = subjectDetails.subUnit;
                 var lecFee = subjectDetails.lecFee;
                 var labFee = subjectDetails.labFee;
+                var itfee = subjectDetails.itfee;
 
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
                 var row = tableBody.insertRow();
@@ -489,9 +496,10 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 row.insertCell(4).textContent = subUnit || selectedSubjectUnitText;
                 row.insertCell(5).textContent = lecFee || selectedSubjectlecFeeText;
                 row.insertCell(6).textContent = labFee || selectedSubjectlabFeeText;
+                row.insertCell(7).textContent = itfee || selectedSubjectitFeeText;
 
                 // Create and append remove button
-                var removeCell = row.insertCell(7);
+                var removeCell = row.insertCell(8);
                 var removeButton = document.createElement('button');
                 removeButton.textContent = '';
                 removeButton.classList.add('btn', 'btn-outline-danger', 'btn-sm');
@@ -636,11 +644,14 @@ document.getElementById('assessButton').addEventListener('click', function() {
                     row.insertCell(0).textContent = item.fundname_code;
                     row.insertCell(1).textContent = item.accountName;
                     //row.insertCell(2).textContent = item.amountFee;
+                    var itFeeCondition = itsubjInput.value.split(',').includes('Yes');
+
                     var amount = item.amountFee === '0' 
                         ? (item.accountName.startsWith('TUITION') ? totalLecFeeInput.value
                         : (item.accountName === 'LAB FEE' ? totalLabFeeInput.value
-                        : (item.accountName === 'IT FEE' ? '0' : '0')))
+                        : (item.accountName === 'IT FEE' && itFeeCondition ? '500' : '0')))
                         : item.amountFee;
+
                     row.insertCell(2).textContent = amount;
 
                     if (data.indexOf(item) > 0) {
@@ -652,7 +663,7 @@ document.getElementById('assessButton').addEventListener('click', function() {
                     if (item.amountFee !== '0' || item.accountName === 'IT FEE') {
                         fundnameCodeInput.value += (fundnameCodeInput.value.trim().length > 0 ? ' ' : '') + item.fundname_code;
                         accountNameInput.value += (accountNameInput.value.trim().length > 0 ? ' ' : '') + item.accountName;
-                        amountFeeInput.value += (amountFeeInput.value.trim().length > 0 ? ' ' : '') + item.amountFee;
+                        amountFeeInput.value += (amountFeeInput.value.trim().length > 0 ? ' ' : '') + amount;
                     } else {
                         if (item.accountName === 'LAB FEE') {
                             accountNameInput.value += (accountNameInput.value.trim().length > 0 ? ' ' : '') + 'LAB FEE';

@@ -29,6 +29,7 @@ class SubjectOffered extends Model
         'isTemp',
         'isType',
         'fund',
+        'itfee',
         'fundAccount',
     ];
 }

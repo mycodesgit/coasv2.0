@@ -875,6 +875,15 @@ class EnrollmentController extends Controller
                     ->pluck('studgrades.id');
         $studsubenrollIdsprimID = implode(',', $studsubviewprimID->toArray());
 
+        $studsubviewprimIDitfee = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('studgrades.studID', '=', $programEnHistory->studentID)
+                    ->pluck('coasv2_db_schedule.sub_offered.itfee');
+        $studsubenrollIdsprimIDitfee = implode(',', $studsubviewprimIDitfee->toArray());
+
         $studEditfees = StudentAppraisal::join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
                     ->select('coasv2_db_enrollment.program_en_history.studentID', 'student_appraisal.*')
                     ->where('student_appraisal.schlyear', '=', $schlyear)
@@ -907,7 +916,7 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID' ,'studsubenrollIdsprimIDitfee'));
     }
 
     public function studEnrollmentUpdate(Request $request) 
@@ -1039,7 +1048,7 @@ class EnrollmentController extends Controller
                             'subjID' => $subjID,
                             'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
                             'subjComp' => $request->input('subjComp')[$index] ?? '',
-                            'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
+                            'creditEarned' => $request->input('creditEarned')[$index] ?? '',
                             'status' => $request->input('status')[$index] ?? '',
                             'compstat' => $request->input('compstat')[$index] ?? '',
                             'postedBy' => $request->input('postedBy'),

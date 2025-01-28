@@ -82,7 +82,7 @@ CISS V.1.0 || Enroll Student
                                 <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
                                 <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
 
-                                <div class="container">
+                                <div class="">
                                     <div class="form-group">
                                         <div class="form-row">
                                             <div class="col-md-3">
@@ -217,15 +217,16 @@ CISS V.1.0 || Enroll Student
                     <div class="card" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
                             <table id="subjectTable" class="table">
-                                <thead>
+                                <thead style="background-color: #c9c9c9">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Subject Code</th>
+                                        <th>Subj Code</th>
                                         <th>Subject Name</th>
                                         <th>Descriptive Title</th>
                                         <th>Credit</th>
                                         <th>Lec Fee</th>
                                         <th>Lab Fee</th>
+                                        <th>IT Subj</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
@@ -238,7 +239,7 @@ CISS V.1.0 || Enroll Student
                     <div class="card" style="background-color: #e9ecef">
                         <div class="body pr-2 pl-2 pt-2">
                             <table id="studFeeTable" class="table">
-                                <thead>
+                                <thead style="background-color: #c9c9c9">
                                     <tr>
                                         <th>Fund</th>
                                         <th>Account</th>
@@ -287,6 +288,9 @@ CISS V.1.0 || Enroll Student
                                     <div class="col-md-6">
                                         Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" readonly>
                                     </div>
+                                    <div class="col-md-12">
+                                        <input type="hidden" id="itsubjInput" class="form-control form-control-sm" readonly>
+                                    </div>
                                 </div>
                             </div>      
                             <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
@@ -324,7 +328,8 @@ CISS V.1.0 || Enroll Student
                                             data-sub-title="{{ $subs->sub_title }}" 
                                             data-sub-unit="{{ $subs->subUnit }}" 
                                             data-lec-fee="{{ $subs->lecFee }}" 
-                                            data-lab-fee="{{ $subs->labFee }}">
+                                            data-lab-fee="{{ $subs->labFee }}"
+                                            data-it-fee="{{ $subs->itfee }}">
                                         {{ $subs->sub_name }} - {{ $subs->subSec }} {{ $subs->isType }}
                                     </option>
                                 @endforeach
@@ -350,6 +355,9 @@ CISS V.1.0 || Enroll Student
                 </div>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="itfee" readonly>
                 </div>
                 
                 <button type="button" class="btn btn-primary" id="addSubjectBtn">
