@@ -111,6 +111,7 @@ $(document).ready(function() {
         // Negros Occidental
         "BACOLOD": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6100" },
         "BAGO": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6101" },
+        "PULUPANDAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6102" },
         "BINALBAGAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6107" },
         "CADIZ": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6121" },
         "CALATRAVA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6126" },
