@@ -413,7 +413,7 @@
                                                             <option value="IC" @if (old('type') == 'IC') {{ 'selected' }} @endif>Ilog</option>
                                                             <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} @endif>Candoni</option>
                                                             <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} @endif>Cauayan</option>
-                                                            <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} @endif>Sipalay</option>
+                                                            <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} @endif disabled>Sipalay (Closed)</option>
                                                             <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} @endif disabled>Hinobaan (Closed)</option>
                                                             <option value="VE" @if (old('type') == 'VE') {{ 'selected' }} @endif>Valladolid</option>
                                                         </select>
