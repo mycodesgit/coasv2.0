@@ -101,6 +101,7 @@ CISS V.1.0 || Higher Education Billing
                                 <th>Development</th>
                                 <th>Entrance</th>
                                 <th>Guidance</th>
+                                <th>IT Fee</th>
                                 <th>Handbook</th>
                                 <th>Laboratory</th>
                                 <th>Library</th>
@@ -171,6 +172,7 @@ CISS V.1.0 || Higher Education Billing
                                     <td>{{ $student['fees']['DEVELOPMENTAL FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['ENTRANCE FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['GUIDANCE FEE'] ?? '' }}</td>
+                                    <td>{{ $student['fees']['IT FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['HANDBOOK FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['LAB FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['LIBRARY FEE'] ?? '' }}</td>
