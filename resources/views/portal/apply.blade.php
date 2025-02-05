@@ -411,7 +411,7 @@
                                                             <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} @endif>Moises Padilla</option>
                                                             <option value="HC" @if (old('type') == 'HC') {{ 'selected' }} @endif disabled>Hinigaran (Closed)</option>
                                                             <option value="IC" @if (old('type') == 'IC') {{ 'selected' }} @endif>Ilog</option>
-                                                            <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} @endif>Candoni</option>
+                                                            <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} @endif disabled>Candoni (Closed)</option>
                                                             <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} @endif>Cauayan</option>
                                                             <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} @endif disabled>Sipalay (Closed)</option>
                                                             <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} @endif disabled>Hinobaan (Closed)</option>
