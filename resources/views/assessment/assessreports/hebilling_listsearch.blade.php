@@ -155,11 +155,15 @@ CISS V.1.0 || Higher Education Billing
                                     <td></td>
                                     <td>{{ $student['studUnit'] }}</td>
                                     <td></td>
-                                    @foreach($student['fees'] as $feeType => $amount)
-                                        @if(strpos($feeType, 'TUITION -') === 0)
-                                            <td>{{ $amount }}</td>
-                                        @endif
-                                    @endforeach
+                                    @php
+                                        $tuitionFee = 0;
+                                        foreach ($student['fees'] as $feeType => $amount) {
+                                            if (strpos($feeType, 'TUITION -') === 0) {
+                                                $tuitionFee += $amount;
+                                            }
+                                        }
+                                    @endphp
+                                    <td>{{ $tuitionFee > 0 ? number_format($tuitionFee, 2) : '0.00' }}</td>
                                     <td></td>
                                     <td>{{ $student['fees']['ATHLETIC FEE'] ?? '' }}</td>
                                     <td>{{ $student['fees']['COMPUTER LAB FEE'] ?? '' }}</td>
