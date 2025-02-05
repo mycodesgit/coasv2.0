@@ -70,9 +70,10 @@ $(function () {
     }).buttons().container().appendTo('#report_wrapper .col-md-6:eq(0)');
 
     $("#hebilling").DataTable({
-        "responsive": false,
-        "lengthChange": true, 
-        "autoWidth": false,
+        "processing": true,
+        "serverSide": false,  // Set to true if using AJAX for large datasets
+        "paging": true,
+        "searching": true,
         "buttons": ["copy", "excel","colvis"]
 
     }).buttons().container().appendTo('#hebilling_wrapper .col-md-6:eq(0)');
