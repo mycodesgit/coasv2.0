@@ -63,7 +63,17 @@ class EnStudentPerCurriculumController extends Controller
                 ->where('program_en_history.semester', $semester)
                 ->where('program_en_history.campus', $campus)
                 ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
-                ->select('coasv2_db_schedule.programs.progCod', 'coasv2_db_schedule.programs.progName', 'coasv2_db_schedule.programs.progAcronym', 'program_en_history.studYear', 'program_en_history.studYear', 'program_en_history.studSec', 'students.gender', 'program_en_history.id', 'program_en_history.schlyear', 'program_en_history.semester')
+                ->select(
+                    'coasv2_db_schedule.programs.progCod', 
+                    'coasv2_db_schedule.programs.progName', 
+                    'coasv2_db_schedule.programs.progAcronym', 
+                    'program_en_history.studYear', 
+                    'program_en_history.studYear', 
+                    'program_en_history.studSec', 
+                    'students.gender', 
+                    'program_en_history.id', 
+                    'program_en_history.schlyear', 
+                    'program_en_history.semester')
                 ->selectRaw('program_en_history.progCod,
                             program_en_history.studYear, 
                             program_en_history.studSec, 
@@ -116,6 +126,7 @@ class EnStudentPerCurriculumController extends Controller
             ->where('program_en_history.studSec', $studSec)
             ->where('program_en_history.schlyear', $schlyear)
             ->where('program_en_history.semester', $semester)
+            ->where('program_en_history.campus', $campus)
             ->where('students.campus', $campus)
             ->select('program_en_history.*', 'students.*')
             ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym')
