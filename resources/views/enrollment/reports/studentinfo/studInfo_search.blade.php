@@ -272,7 +272,7 @@ CISS V.1.0 || Student Info
                             </div>
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Contact Number</span></label>
-                                <input type="text" class="form-control form-control-sm" name="monthly_income" id="viewdatastudpcontact">
+                                <input type="text" class="form-control form-control-sm" name="guardian_contact" id="viewdatastudpcontact">
                             </div>
                         </div>
                     </div>
