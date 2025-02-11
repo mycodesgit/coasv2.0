@@ -114,7 +114,7 @@
 		                        @php
 		                            $student = $substudnowviewpdf[$i];
 		                        @endphp
-		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) : '' }}</td>
+		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}</td>
 		                    @else
 		                        <td></td>
 		                    @endif
@@ -125,7 +125,7 @@
 		                        @php
 		                            $student = $substudnowviewpdf[$i + $totalRows];
 		                        @endphp
-		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) : '' }}</td>
+		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}</td>
 		                    @else
 		                        <td></td>
 		                    @endif
