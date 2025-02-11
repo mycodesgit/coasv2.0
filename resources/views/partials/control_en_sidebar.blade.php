@@ -49,7 +49,7 @@
             <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
         @endif
 
-        @if(Auth::guard('web')->user()->campus == 'MC'))
+        @if(Auth::guard('web')->user()->campus == 'MC')
             @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6]))
                 <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Evaluate Student</a>
             @endif
