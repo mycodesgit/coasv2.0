@@ -114,7 +114,7 @@
 		                        @php
 		                            $student = $substudnowviewpdf[$i];
 		                        @endphp
-		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }}</td>
+		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ strtoupper(substr($student->ext, 0, 1)) }}</td>
 		                    @else
 		                        <td></td>
 		                    @endif
