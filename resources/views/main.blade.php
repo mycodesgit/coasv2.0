@@ -94,8 +94,8 @@
 
                             <div>
                                 <a href="{{ route('admission-portal') }}" class="btn btn-warning btn-block text-bold">Admission</a>
-                                <a href="" class="btn btn-warning btn-block text-bold disabled">Student (Open Soon)</a>
-                                <a href="#" class="btn btn-warning btn-block text-bold disabled">Document Request (Open Soon)</a>
+                                <a href="" class="btn btn-warning btn-block text-bold disabled">Student (Available Soon)</a>
+                                <a href="#" class="btn btn-warning btn-block text-bold disabled">Document Request (Available Soon)</a>
                             </div>
                         </div>
                     @endif   
