@@ -27,17 +27,28 @@ class EnStudHistoryController extends Controller
     }
 
     public function viewsearchenStudHistory(Request $request) 
-    {
-        $query = $request->input('query'); 
-        $campus = Auth::guard('web')->user()->campus;
+{
+    $query = $request->input('query'); 
+    $campus = Auth::guard('web')->user()->campus;
 
-        $campusArray = array_map('trim', explode(',', $campus));
+    // Debug Step 1: Check campus
+    dd($campus);
 
-        $results = Student::where(function ($subQuery) use ($query) {
+    // Ensure campus is not null
+    if (!$campus) {
+        return redirect()->back()->with('error', 'No campus assigned to the user.');
+    }
+
+    // Trim spaces and split campus
+    $campusArray = array_map('trim', explode(',', $campus));
+
+    // Debug Step 2: Check split campus array
+    dd($campusArray);
+
+    $results = Student::where(function ($subQuery) use ($query) {
                         $subQuery->where('lname', 'like', '%' . $query . '%')
                                  ->orWhere('stud_id', $query);
                     })
-                    // ->where('campus', $campus)
                     ->where(function ($q) use ($campusArray) {
                         foreach ($campusArray as $campus) {
                             $q->orWhereRaw("FIND_IN_SET(?, campus)", [$campus]);
@@ -45,12 +56,15 @@ class EnStudHistoryController extends Controller
                     })
                     ->get();
 
+    // Debug Step 3: Check final query result
+    dd($results);
 
-        if (count($results) > 0) {    
-            return view('enrollment.enrolhis.listsearch_enrolhis', compact('results'));
-        }
-        return redirect()->back()->with('error', 'No results found for the search.');
+    if ($results->count() > 0) {    
+        return view('enrollment.enrolhis.listsearch_enrolhis', compact('results'));
     }
+    return redirect()->back()->with('error', 'No results found for the search.');
+}
+
 
     public function searchenStudHistory(Request $request)
     {
