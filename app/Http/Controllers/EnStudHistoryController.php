@@ -87,7 +87,11 @@ class EnStudHistoryController extends Controller
 
         $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('program_en_history.studentID', $stud_id)
-            ->where('.program_en_historycampus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                }
+            })
             ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
             ->orderBy('schlyear', 'ASC')
             ->get();
