@@ -30,7 +30,7 @@ class EnStudHistoryController extends Controller
     {
         $query = $request->input('query'); 
         $campus = Auth::guard('web')->user()->campus;
-        dd($campus);
+        //dd($campus);
         $campusArray = array_map('trim', explode(',', $campus));
         dd($campusArray);
         $results = Student::where(function ($subQuery) use ($query) {
