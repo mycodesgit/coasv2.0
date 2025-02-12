@@ -96,5 +96,4 @@ class EnStudHistoryController extends Controller
 
         return response()->json(['data' => $enrollmentHistory]);
     }
-
 }
