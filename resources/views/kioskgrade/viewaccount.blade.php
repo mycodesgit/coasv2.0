@@ -31,16 +31,39 @@
                                                     $currentColor = '';
                                                     $colorClasses = ['bg-light', 'bg-secondary'];
                                                     $colorIndex = 0;
+                                                    $subtotal = 0;
+                                                    $grandTotal = 0;
                                                 @endphp
-                                                @foreach($studfees as $datastudfees)
+
+                                                @foreach($studfees as $index => $datastudfees)
                                                     @if($currentYear != $datastudfees->schlyear || $currentSemester != $datastudfees->semester)
+                                                        @if($index > 0)
+                                                            <!-- Display subtotal row for previous group -->
+                                                            <tr class="font-weight-bold bg-warning">
+                                                                <td colspan="4" class="text-right">Subtotal for {{ $currentYear }} - 
+                                                                    @if($currentSemester == 1) 1st Sem
+                                                                    @elseif($currentSemester == 2) 2nd Sem
+                                                                    @elseif($currentSemester == 3) Summer
+                                                                    @endif
+                                                                </td>
+                                                                <td>{{ number_format($subtotal, 2) }}</td>
+                                                            </tr>
+                                                        @endif
+
                                                         @php
                                                             $currentYear = $datastudfees->schlyear;
                                                             $currentSemester = $datastudfees->semester;
                                                             $currentColor = $colorClasses[$colorIndex % count($colorClasses)];
                                                             $colorIndex++;
+                                                            $subtotal = 0;
                                                         @endphp
                                                     @endif
+
+                                                    @php
+                                                        $subtotal += $datastudfees->amount;
+                                                        $grandTotal += $datastudfees->amount;
+                                                    @endphp
+
                                                     <tr class="{{ $currentColor }}">
                                                         <td>{{ $datastudfees->schlyear }}</td>
                                                         <td>
@@ -54,11 +77,31 @@
                                                         </td>
                                                         <td>{{ $datastudfees->fundID }}</td>
                                                         <td>{{ $datastudfees->account }}</td>
-                                                        <td>{{ $datastudfees->amount }}</td>
+                                                        <td>{{ number_format($datastudfees->amount, 2) }}</td>
                                                     </tr>
                                                 @endforeach
+
+                                                <!-- Last subtotal row -->
+                                                @if(count($studfees) > 0)
+                                                    <tr class="font-weight-bold bg-warning">
+                                                        <td colspan="4" class="text-right">Subtotal for {{ $currentYear }} - 
+                                                            @if($currentSemester == 1) 1st Sem
+                                                            @elseif($currentSemester == 2) 2nd Sem
+                                                            @elseif($currentSemester == 3) Summer
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ number_format($subtotal, 2) }}</td>
+                                                    </tr>
+                                                @endif
+
+                                                <!-- Grand Total Row -->
+                                                <tr class="font-weight-bold bg-danger text-white">
+                                                    <td colspan="4" class="text-right">Grand Total</td>
+                                                    <td>{{ number_format($grandTotal, 2) }}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
+
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="vert-tabs-right-two" role="tabpanel" aria-labelledby="vert-tabs-right-two-tab">
