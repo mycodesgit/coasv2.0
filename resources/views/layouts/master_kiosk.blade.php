@@ -32,6 +32,12 @@
             background-color: #e9ecef !important;
             color: #252525 !important;
         }
+        .navbar-nav .nav-item .nav-link.active {
+            background-color: #ffcc00 !important; /* Highlight color */
+            color: black !important; /* Change text color */
+            font-weight: bold;
+            border-radius: 5px;
+        }
 
     </style>
 </head>
@@ -50,13 +56,13 @@
                 </div>
 
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" style="color: #fff">
+                    <li class="nav-item {{ request()->routeIs('kioskhome') ? 'active' : '' }}">
+                        <a href="{{ route('kioskhome') }}" class="nav-link {{ request()->routeIs('kioskhome') ? 'active' : '' }}" style="color: #fff">
                             <i class="fas fa-graduation-cap"></i> View Grades
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('kioskaccount') }}" class="nav-link" style="color: #fff">    
+                    <li class="nav-item {{ request()->routeIs('kioskaccount') ? 'active' : '' }}">
+                        <a href="{{ route('kioskaccount') }}" class="nav-link {{ request()->routeIs('kioskaccount') ? 'active' : '' }}" style="color: #fff">
                             <i class="fas fa-file-invoice"></i> View Accounts
                         </a>
                     </li>
