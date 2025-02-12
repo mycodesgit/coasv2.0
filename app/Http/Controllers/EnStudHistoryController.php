@@ -35,7 +35,7 @@ class EnStudHistoryController extends Controller
                         $subQuery->where('lname', 'like', '%' . $query . '%')
                                  ->orWhere('stud_id', $query);
                     })
-                    ->where('campus', $campus)
+                    ->whereRaw("FIND_IN_SET(?, campus)", [$campus])
                     ->get();
 
 
@@ -54,7 +54,7 @@ class EnStudHistoryController extends Controller
                         $subQuery->where('lname', 'like', '%' . $query . '%')
                                  ->orWhere('stud_id', $query);
                     })
-                    ->where('campus', $campus)
+                    ->whereRaw("FIND_IN_SET(?, campus)", [$campus])
                     ->get();
 
 
@@ -67,7 +67,8 @@ class EnStudHistoryController extends Controller
 
         $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('program_en_history.studentID', $stud_id)
-            ->where('program_en_history.campus', $campus)
+            //->where('program_en_history.campus', $campus)
+            ->whereRaw("FIND_IN_SET(?, program_en_history.campus)", [$campus])
             ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
             ->orderBy('schlyear', 'ASC')
             ->get();

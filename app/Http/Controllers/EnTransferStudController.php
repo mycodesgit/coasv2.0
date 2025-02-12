@@ -87,20 +87,22 @@ class EnTransferStudController extends Controller
                     'transferby' => Auth::guard('web')->user()->id,
                 ]);
 
+                $newCampus = $request->input('tocampus');
+
                 Student::where('stud_id', $studidName)->update([
-                    'campus' => $request->input('tocampus'),
+                    'campus' => DB::raw("CONCAT(campus, ', ', '$newCampus')")
                 ]);
 
                 StudEnrolmentHistory::where('studentID', $studidName)->update([
-                    'campus' => $request->input('tocampus'),
+                    'campus' => DB::raw("CONCAT(campus, ', ', '$newCampus')")
                 ]);
 
                 Grade::where('studID', $studidName)->update([
-                    'campus' => $request->input('tocampus'),
+                    'campus' => DB::raw("CONCAT(campus, ', ', '$newCampus')")
                 ]);
 
                 StudentAppraisal::where('studID', $studidName)->update([
-                    'campus' => $request->input('tocampus'),
+                    'campus' => DB::raw("CONCAT(campus, ', ', '$newCampus')")
                 ]);
 
                 return response()->json(['success' => true, 'message' => 'Transfer successfully'], 200);
