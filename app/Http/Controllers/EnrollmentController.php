@@ -1102,12 +1102,12 @@ class EnrollmentController extends Controller
                         $amount = $amntFees[$index];
                         $primID = $primIDs[$index] ?? null; // Handle cases where primID might not be set
 
-                        \Log::info('Processing:', [
-                            'primID' => $primID,
-                            'fundID' => $fndCode,
-                            'account' => $account,
-                            'amount' => $amount,
-                        ]);
+                        // \Log::info('Processing:', [
+                        //     'primID' => $primID,
+                        //     'fundID' => $fndCode,
+                        //     'account' => $account,
+                        //     'amount' => $amount,
+                        // ]);
 
                         if ($primID) {
                             // Find and update the existing record
