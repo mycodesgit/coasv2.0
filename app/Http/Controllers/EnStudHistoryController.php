@@ -81,13 +81,7 @@ class EnStudHistoryController extends Controller
         $stud_id = $request->input('stud_id');
         $campus = Auth::guard('web')->user()->campus;
 
-        // Convert the campus into an array in case the user has multiple campuses assigned
         $campusArray = array_map('trim', explode(',', $campus));
-
-        // Check if there are any valid campus values
-        if (empty($campusArray)) {
-            return response()->json(['error' => 'No valid campus found for the authenticated user.']);
-        }
 
         $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('program_en_history.studentID', $stud_id)
@@ -99,10 +93,6 @@ class EnStudHistoryController extends Controller
             ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
             ->orderBy('schlyear', 'ASC')
             ->get();
-
-        if ($enrollmentHistory->isEmpty()) {
-            return response()->json(['error' => 'No results found for the search.']);
-        }
 
         return response()->json(['data' => $enrollmentHistory]);
     }
