@@ -170,7 +170,7 @@ class EnStudReportCardController extends Controller
                     ->where('studgrades.studID', $stud_id)
                     ->where(function ($q) use ($campusArray) {
                         foreach ($campusArray as $campus) {
-                            $q->orWhere('studgrades.campus', 'REGEXP', "(^|, )$campus(,|$)");
+                            $q->orWhere('studgrades.campus', 'LIKE', "%$campus%");
                         }
                     })
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
