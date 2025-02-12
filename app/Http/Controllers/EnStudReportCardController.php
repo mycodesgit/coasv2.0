@@ -70,14 +70,27 @@ class EnStudReportCardController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->first();
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $student = Student::where('stud_id', $stud_id)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('campus', 'LIKE', "%$campus%");
+                        }
+                    })
+                    ->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
         $studenthis = StudEnrolmentHistory::where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
-                    ->where('campus', $campus)
+                    // ->where('campus', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('program_en_history.studentID', $stud_id)
                     ->first();
                     
@@ -94,6 +107,8 @@ class EnStudReportCardController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
+
+        $campusArray = array_map('trim', explode(',', $campus));
 
         // Define a function to convert numerical grades to GPA equivalents
         function getEquivalentGPA($grade) {
@@ -138,7 +153,12 @@ class EnStudReportCardController extends Controller
                     ->select('students.*', 'program_en_history.*', 'coasv2_db_schedule.programs.progName', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
-                    ->where('program_en_history.campus',  $campus)
+                    // ->where('program_en_history.campus',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('program_en_history.studentID', $stud_id)->first();
 
         $studrepcardsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
@@ -146,7 +166,12 @@ class EnStudReportCardController extends Controller
                     ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('coasv2_db_schedule.sub_offered.schlyear',  $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester',  $semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studgrades.studID', $stud_id)
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
                     ->get();
@@ -250,7 +275,7 @@ class EnStudReportCardController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $campusArray = array_map('trim', explode(',', $campus));
-        
+
         // Define a function to convert numerical grades to GPA equivalents
         function getEquivalentGPA($grade, $isOldSystem) {
             if ($isOldSystem) {
