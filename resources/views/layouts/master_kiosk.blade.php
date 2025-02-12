@@ -51,8 +51,8 @@
 
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
-                            <i class="fas fa-power-off"></i>
+                        <a href="{{ route('logout') }}" class="nav-link" role="button" style="color: #fff">
+                            <i class="fas fa-power-off"></i> Logout
                         </a>
                     </li>
                 </ul>
