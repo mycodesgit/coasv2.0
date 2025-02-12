@@ -249,6 +249,8 @@ class EnStudReportCardController extends Controller
         $stud_id = $request->query('stud_id');
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+        
         // Define a function to convert numerical grades to GPA equivalents
         function getEquivalentGPA($grade, $isOldSystem) {
             if ($isOldSystem) {
@@ -326,7 +328,11 @@ class EnStudReportCardController extends Controller
                     ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select('students.*', 'program_en_history.*', 'coasv2_db_schedule.programs.progName', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
-                    ->whereRaw("FIND_IN_SET(?, program_en_history.campus)", [$campus])
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('program_en_history.studentID', $stud_id)
                     ->orderBy('program_en_history.id', 'desc')->first();
 
@@ -334,7 +340,11 @@ class EnStudReportCardController extends Controller
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select('studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     //->where('coasv2_db_schedule.sub_offered.campus',  $campus)
-                    ->whereRaw("FIND_IN_SET(?, coasv2_db_schedule.sub_offered.campus)", [$campus])
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studgrades.studID', $stud_id)
                     ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')  // Sort by school year first
                     ->orderByRaw("FIELD(coasv2_db_schedule.sub_offered.semester, '1', '2', '3') ASC") // Sort by semester: 1 (First), 2 (Second), 3 (Summer)
