@@ -6,10 +6,19 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="">
+                        <span class="" style="border-radius: 5px; font-size: 15pt;">Student ID No.: {{ $studauth->stud_id }} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Name: {{ $studauth->lname }}, {{ $studauth->fname }} {{ substr($studauth->mname,0,1) }}.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card card-outline card-success">
+                <div class="card-header text-center">
+                    <div class="h3"><b>Student</b> Appraisal</div>
+                </div>
+                <div class="card-body">
                     <div class="mt-2 row">
-                        <div class="col-md-12 mb-3">
-                            <h4 class="card-footer" style="border-radius: 5px">Student ID No.: {{ $studauth->stud_id }} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Name: {{ $studauth->lname }}, {{ $studauth->fname }} {{ substr($studauth->mname,0,1) }}.</h4>
-                        </div>
                         <div class="col-md-12">
                             <div class="tab-content" id="vert-tabs-right-tabContent">
                                 <div class="tab-pane fade show active" id="vert-tabs-right-one" role="tabpanel">
