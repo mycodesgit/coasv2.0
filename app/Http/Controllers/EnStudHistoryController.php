@@ -30,9 +30,9 @@ class EnStudHistoryController extends Controller
     {
         $query = $request->input('query'); 
         $campus = Auth::guard('web')->user()->campus;
-        //dd($campus);
+        
         $campusArray = array_map('trim', explode(',', $campus));
-        dd($campusArray);
+
         $results = Student::where(function ($subQuery) use ($query) {
                         $subQuery->where('lname', 'like', '%' . $query . '%')
                                  ->orWhere('stud_id', $query);
@@ -44,7 +44,7 @@ class EnStudHistoryController extends Controller
                         }
                     })
                     ->get();
-
+                    dd($results);
 
         if (count($results) > 0) {    
             return view('enrollment.enrolhis.listsearch_enrolhis', compact('results'));
