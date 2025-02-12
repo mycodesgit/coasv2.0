@@ -53,17 +53,22 @@ class EnStudHistoryController extends Controller
     }
 
     public function searchenStudHistory(Request $request)
-    {
-        $query = $request->input('query'); 
-        $campus = Auth::guard('web')->user()->campus;
+{
+    $query = $request->input('query'); 
+    $campus = Auth::guard('web')->user()->campus;
 
-        $campusArray = array_map('trim', explode(',', $campus));
+    // Ensure campus is not null
+    if (!$campus) {
+        return response()->json(['error' => 'No campus assigned to the user'], 400);
+    }
 
-        $results = Student::where(function ($subQuery) use ($query) {
+    // Convert the campus string into an array and trim spaces
+    $campusArray = array_map('trim', explode(',', $campus));
+
+    $results = Student::where(function ($subQuery) use ($query) {
                         $subQuery->where('lname', 'like', '%' . $query . '%')
                                  ->orWhere('stud_id', $query);
                     })
-                    // ->where('campus', $campus)
                     ->where(function ($q) use ($campusArray) {
                         foreach ($campusArray as $campus) {
                             $q->orWhereRaw("FIND_IN_SET(?, campus)", [$campus]);
@@ -71,9 +76,9 @@ class EnStudHistoryController extends Controller
                     })
                     ->get();
 
+    return response()->json(['data' => $results]);
+}
 
-        return response()->json(['data' => $results]);
-    }
 
 
     public function fetchStudEnrollmentHistory(Request $request)
