@@ -31,11 +31,18 @@ class EnStudHistoryController extends Controller
         $query = $request->input('query'); 
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+
         $results = Student::where(function ($subQuery) use ($query) {
                         $subQuery->where('lname', 'like', '%' . $query . '%')
                                  ->orWhere('stud_id', $query);
                     })
-                    ->whereRaw("FIND_IN_SET(?, campus)", [$campus])
+                    // ->where('campus', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhereRaw("FIND_IN_SET(?, campus)", [$campus]);
+                        }
+                    })
                     ->get();
 
 
@@ -50,11 +57,18 @@ class EnStudHistoryController extends Controller
         $query = $request->input('query'); 
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+
         $results = Student::where(function ($subQuery) use ($query) {
                         $subQuery->where('lname', 'like', '%' . $query . '%')
                                  ->orWhere('stud_id', $query);
                     })
-                    ->whereRaw("FIND_IN_SET(?, campus)", [$campus])
+                    // ->where('campus', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhereRaw("FIND_IN_SET(?, campus)", [$campus]);
+                        }
+                    })
                     ->get();
 
 
@@ -65,10 +79,15 @@ class EnStudHistoryController extends Controller
         $stud_id = $request->input('stud_id');
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+        
         $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('program_en_history.studentID', $stud_id)
-            //->where('program_en_history.campus', $campus)
-            ->whereRaw("FIND_IN_SET(?, program_en_history.campus)", [$campus])
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhereRaw("FIND_IN_SET(?, campus)", [$campus]);
+                }
+            })
             ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
             ->orderBy('schlyear', 'ASC')
             ->get();
