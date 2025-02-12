@@ -208,7 +208,7 @@ class EnStudReportCardController extends Controller
         $stud_id = $request->stud_id;
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('campus', $campus)->where('stud_id', $stud_id)->first();
+        $student = Student::->whereRaw("FIND_IN_SET(?, campus)", [$campus])->where('stud_id', $stud_id)->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
@@ -318,14 +318,15 @@ class EnStudReportCardController extends Controller
                     ->leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select('students.*', 'program_en_history.*', 'coasv2_db_schedule.programs.progName', 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
-                    ->where('program_en_history.campus',  $campus)
+                    ->whereRaw("FIND_IN_SET(?, program_en_history.campus)", [$campus])
                     ->where('program_en_history.studentID', $stud_id)
                     ->orderBy('program_en_history.id', 'desc')->first();
 
         $studrepcardsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select('studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
-                    ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    //->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    ->whereRaw("FIND_IN_SET(?, coasv2_db_schedule.sub_offered.campus)", [$campus])
                     ->where('studgrades.studID', $stud_id)
                     ->orderBy('coasv2_db_schedule.sub_offered.schlyear', 'ASC')  // Sort by school year first
                     ->orderByRaw("FIELD(coasv2_db_schedule.sub_offered.semester, '1', '2', '3') ASC") // Sort by semester: 1 (First), 2 (Second), 3 (Summer)
