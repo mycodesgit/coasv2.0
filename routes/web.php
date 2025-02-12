@@ -141,6 +141,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
 Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('student')->group(function () {
         Route::get('/info/kiosk/dashboard/view', [KioskDashController::class, 'kioskhome'])->name('kioskhome');
+        Route::get('/info/kiosk/account/view', [KioskDashController::class, 'kioskaccount'])->name('kioskaccount');
     });
 });
 

@@ -24,6 +24,7 @@ use App\Models\ScholarshipDB\Scholar;
 
 use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudentAppraisal;
+use App\Models\AssessmentDB\StudPayment;
 
 class KioskDashController extends Controller
 {
@@ -53,5 +54,22 @@ class KioskDashController extends Controller
                     ->get();
 
         return view('kioskgrade.viewdash', compact('guard', 'studauth', 'studsub'));
+    }
+
+    public function kioskaccount()
+    {
+        $guard= $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        $studfees = StudentAppraisal::select('student_appraisal.*')
+                    ->where('student_appraisal.studID', $studentowner)
+                    ->orderBy('student_appraisal.id', 'ASC')
+                    ->get();
+
+        
+
+        return view('kioskgrade.viewaccount', compact('guard', 'studauth', 'studfees'));
     }
 }

@@ -51,6 +51,16 @@
 
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item">
+                        <a class="nav-link active" style="color: #fff">
+                            <i class="fas fa-graduation-cap"></i> View Grades
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('kioskaccount') }}" class="nav-link" style="color: #fff">    
+                            <i class="fas fa-file-invoice"></i> View Accounts
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('logout') }}" class="nav-link" role="button" style="color: #fff">
                             <i class="fas fa-power-off"></i> Logout
                         </a>

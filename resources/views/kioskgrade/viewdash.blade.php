@@ -12,7 +12,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="tab-content" id="vert-tabs-right-tabContent">
-                                <div class="tab-pane fade show active" id="vert-tabs-right-one" role="tabpanel" aria-labelledby="vert-tabs-right-one-tab">
+                                <div class="tab-pane fade show active" id="vert-tabs-right-one" role="tabpanel">
                                     <div class="card-body table-responsive p-0" style="height: 800px;">
                                         <table class="table table-head-fixed text-nowrap">
                                             <thead>
