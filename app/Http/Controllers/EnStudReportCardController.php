@@ -166,12 +166,7 @@ class EnStudReportCardController extends Controller
                     ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
                     ->where('coasv2_db_schedule.sub_offered.schlyear',  $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester',  $semester)
-                    // ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
-                    ->where(function ($q) use ($campusArray) {
-                        foreach ($campusArray as $campus) {
-                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
-                        }
-                    })
+                    ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
                     ->where('studgrades.studID', $stud_id)
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
                     ->get();
