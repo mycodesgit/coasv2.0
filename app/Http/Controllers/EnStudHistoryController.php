@@ -74,18 +74,21 @@ class EnStudHistoryController extends Controller
 
         return response()->json(['data' => $results]);
     }
+
+
     public function fetchStudEnrollmentHistory(Request $request)
     {
         $stud_id = $request->input('stud_id');
         $campus = Auth::guard('web')->user()->campus;
 
         $campusArray = array_map('trim', explode(',', $campus));
-        
+
         $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('program_en_history.studentID', $stud_id)
-            ->where(function ($q) use ($campusArray) {
+            // ->where('program_en_history.campus', $campus)
+            ->where(function ($query) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhereRaw("FIND_IN_SET(?, campus)", [$campus]);
+                    $query->orWhereRaw("FIND_IN_SET(?, program_en_history.campus)", [$campus]);
                 }
             })
             ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
