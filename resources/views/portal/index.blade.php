@@ -85,7 +85,7 @@
 
                         <div class="col-md-5 pr-4 pl-4 pt-2 pb-2" style="background-color: #04401f; border-radius: 5px;">
                             <div class="login-logo mt-2">
-                                <a href="">
+                                <a href="{{ route('main') }}">
                                     <img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-circle" width="100px" height="100px">
                                 </a>
                                 
