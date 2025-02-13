@@ -44,7 +44,7 @@
         <span style="font-weight: bold; text-align: right !important; margin-left: 240px;">DATE:</span> <span><strong>{{ strtoupper(\Carbon\Carbon::now()->format('F j, Y')) }}</strong></span>
     </div> 
     <div class="studinfolabel" style="margin-top: 5px">
-        <span style="font-weight: bold;">NAME:</span> <span class="">&nbsp;&nbsp;&nbsp; <strong>{{ $studinfo->first()->lname }}, {{ $studinfo->first()->fname }} {{ substr($studinfo->first()->lname, 0,1) }}.</strong></span>
+        <span style="font-weight: bold;">NAME:</span> <span class="">&nbsp;&nbsp;&nbsp; <strong>{{ $studinfo->first()->lname }}, {{ $studinfo->first()->fname }} {{ substr($studinfo->first()->mname, 0,1) }}.</strong></span>
         <span style="font-weight: bold; text-align: right !important; margin-left: 200px;">COURSE:</span> <span><strong>{{ $studinfo->first()->progAcronym }}</strong></span>
     </div>
 
