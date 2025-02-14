@@ -209,7 +209,7 @@ CISS V.1.0 || Subject Offered
 
                                             <div class="col-md-2 mt-2">
                                                 <label><span class="badge badge-secondary">OJT</span></label>
-                                                <select class="form-control form-control-sm" name="isOJT">
+                                                <select class="form-control form-control-sm" name="isOJT" id="isOJT">
                                                     <option value="No">No</option>
                                                     <option value="Yes">Yes</option>
                                                 </select>

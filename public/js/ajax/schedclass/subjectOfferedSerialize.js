@@ -192,6 +192,30 @@ $(document).ready(function() {
         $('#lecFee').val(lecFee);
         $('#labFee').val(labFee);
     }
+    
+    $('#isOJT').on('change', function () {
+        let isOJT = $(this).val();
+        let subUnit = parseFloat($('#subUnit').val()) || 0;
+
+        if (isOJT === 'Yes') {
+            let labFee = subUnit * 500;
+            $('#labFee').val(labFee);
+        } else {
+            $('#labFee').val(0);
+        }
+    });
+
+    $('#isOJTSelect').on('change', function () {
+        let isOJT = $(this).val();
+        let subUnit = parseFloat($('#subUnitEdit').val()) || 0;
+
+        if (isOJT === 'Yes') {
+            let labFee = subUnit * 500;
+            $('#editlabfee').val(labFee);
+        } else {
+            $('#editlabfee').val(0);
+        }
+    });
 });
 
 $(document).ready(function() {
