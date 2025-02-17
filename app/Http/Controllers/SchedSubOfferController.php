@@ -64,7 +64,7 @@ class SchedSubOfferController extends Controller
                         ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
-                        ->whereIn('sub_offered.campus', $campus)
+                        ->where('sub_offered.campus', $campus)
                         ->get();
 
         $totalSearchResults = count($data);
