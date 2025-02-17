@@ -94,13 +94,19 @@ class SchedSubOfferController extends Controller
 
     public function getsubjectsOfferedRead(Request $request) 
     {
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
-        $campus = Auth::guard('web')->user()->campus;
+        
+        if(Auth::guard('web')->user()->role == 0) {
+            $schlyear = $request->query('schlyear');
+            $semester = $request->query('semester');
+            $campus = $request->query('campus');    
+        } else {
+            $schlyear = $request->query('schlyear');
+            $semester = $request->query('semester');
+            $campus = Auth::guard('web')->user()->campus;
+        }
     
-        $data = SubjectOffered::select('sub_offered.*', 'subjects.*')
+        $data = SubjectOffered::select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid')
                         ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid')
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)

@@ -32,14 +32,21 @@ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var schlyear = urlParams.get('schlyear') || ''; 
     var semester = urlParams.get('semester') || '';
+    var campus = '';
+    if (isuserRole) {
+        campus = urlParams.get('campus') || '';
+    }
 
     var dataTable = $('#subofferedlist').DataTable({
         "ajax": {
             "url": subOfferedReadRoute,
             "type": "GET",
-            "data": { 
-                "schlyear": schlyear,
-                "semester": semester,
+            "data": function(d) { 
+                d.schlyear = schlyear;
+                d.semester = semester;
+                if (isuserRole) {
+                    d.campus = campus;
+                }
             }
         },
         responsive: true,
