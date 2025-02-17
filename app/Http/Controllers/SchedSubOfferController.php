@@ -46,9 +46,15 @@ class SchedSubOfferController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        $campus = Auth::guard('web')->user()->campus;
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
+            if(Auth::guard('web')->user()->role == 0) {
+                $schlyear = $request->query('schlyear');
+                $semester = $request->query('semester');
+                $campus = $request->query('campus');    
+            } else {
+                $schlyear = $request->query('schlyear');
+                $semester = $request->query('semester');
+                $campus = Auth::guard('web')->user()->campus;
+            }
 
         $campus = is_array($campus) ? $campus : [$campus];
         $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
