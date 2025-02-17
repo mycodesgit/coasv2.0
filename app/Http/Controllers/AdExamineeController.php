@@ -39,8 +39,28 @@ class AdExamineeController extends Controller
         $strand = Strands::all();
 
         $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
 
-        return view('admission.examinee.list-search', compact('strand', 'curryear'));
+        $time1 = Time::select('ad_time.*')
+                ->where('campus', '=', Auth::user()->campus)
+                ->whereYear('date', $currentYear)
+                ->get()
+                ->map(function ($sched) {
+                    // Count applicants with the same date and time
+                    $applicantCount = Applicant::where('d_admission', $sched->date)
+                        ->where('time', $sched->time)
+                        ->count();
+
+                    // Subtract from available slots
+                    $sched->slots = max($sched->slots - $applicantCount, 0);
+                    return $sched;
+                });
+
+        $venue1 = Venue::where('campus', '=', Auth::guard('web')->user()->campus)
+                ->where('adyear', $currentYear)
+                ->get();
+
+        return view('admission.examinee.list-search', compact('strand', 'curryear', 'time1', 'venue1'));
     }
 
     public function getsrchexamineeList(Request $request)

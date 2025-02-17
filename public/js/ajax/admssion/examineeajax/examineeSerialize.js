@@ -88,6 +88,9 @@ $(document).ready(function() {
                             dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
+                                '<a href="#" class="dropdown-item btn-assignsched" data-id="' + row.adid + '" data-dateid="' + row.dateID + '" data-dadmission="' + row.d_admission + '" data-time="' + row.time + '" data-venue="' + row.venue + '">' +
+                                '<i class="fas fa-calendar"></i> Schedule' +
+                                '</a>' +
                                 '<a href="#" class="dropdown-item btn-assignresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '">' +
                                 '<i class="fas fa-file-lines"></i> Assign Result' +
                                 '</a>' +
@@ -236,6 +239,103 @@ $('#editAppDataPersonalinfoForm').submit(function(event) {
             if(response.success) {
                 toastr.success(response.message);
                 $('#viewdataresultexamModal').modal('hide');
+                $(document).trigger('examineeUpdate');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
+    });
+});
+
+$(document).on('click', '.btn-assignsched', function() {
+    var id = $(this).data('id');
+    var dateSelected = $(this).data('dateid');
+    var dadmissionSelected = $(this).data('dadmission');
+    var dadmissionSched = $(this).data('dadmission');
+    var dtimeSelected = $(this).data('time');
+    var dtimeSchedule = $(this).data('time');
+    var venueSelected = $(this).data('venue');
+    var venueSched = $(this).data('venue');
+
+    if (dadmissionSched) {
+        var dateParts = dadmissionSched.split('-');
+        var year = dateParts[0];
+        var monthIndex = parseInt(dateParts[1]) - 1;
+        var day = dateParts[2];
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var monthName = monthNames[monthIndex];
+        var formattedDate = monthName + " " + day + ", " + year;
+
+        $('#schedDate').val(formattedDate);
+    } else {
+        $('#schedDate').val('No schedule');
+    }
+
+    if (dtimeSchedule) {
+        $('#schedTime').val(dtimeSchedule);
+    } else {
+        $('#schedTime').val('No schedule time');
+    }
+    
+    if (venueSched) {
+        $('#schedVenue').val(venueSched);
+    } else {
+        $('#schedVenue').val('No venue');
+    }
+
+    if (dtimeSchedule) {
+        $('#schedTime').val(dtimeSchedule);
+        $('#formdatesched').hide();
+    } else {
+        $('#formdatesched').show();
+    }
+
+    $('#editAssignSchedId').val(id);
+    $('#editAssignDateID').val(dateSelected);
+    $('#selectedDateTimeID').val(dateSelected);
+    $('#selectedDate').val(dadmissionSelected);
+    $('#selectedTime').val(dtimeSelected);
+    $('#selectedVenue').val(venueSelected);
+
+    $('#editAssignSchedModal').modal('show');
+
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#editAssignSchedId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editAssignSchedId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
+    });
+});
+
+$('#editAssignSchedForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: allAppAssignSchedRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#editAssignSchedModal').modal('hide');
                 $(document).trigger('examineeUpdate');
             } else {
                 toastr.error(response.message);

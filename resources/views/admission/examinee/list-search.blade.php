@@ -342,9 +342,100 @@ CISS v.1.0 || Examinee Search List
     </div>
 </div>
 
+<div class="modal fade" id="editAssignSchedModal" role="dialog" aria-labelledby="editAssignSchedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="editAssignSchedModalLabel">Assign Schedule for Admission Test</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editAssignSchedForm">
+                <div class="modal-body">
+                    <input type="text" name="id" id="editAssignSchedId">
+                    <div class="form-group">
+                        <center><label style="text-align: center; font-size: 15pt;"><span class="badge badge-primary">Date and Venue for Admission Test</span></label></center>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; font-size: 13pt;">Scheduled Date</th>
+                                    <th style="text-align: center; font-size: 13pt;">Scheduled Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" id="schedDate" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" readonly></td>
+                                    <td><input type="text" id="schedTime" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" readonly></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; font-size: 13pt;">Scheduled Venue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" id="schedVenue" style="border: none; background-color: #fff !important; text-align: center !important;" class="text-bold" disabled></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <div class="form-group mt-4">
+                        <center><label style="text-align: center; font-size: 15pt;"><span class="badge badge-warning">If no Date and Venue Select below</span></label></center>
+                    </div>
+
+                    <div class="form-group" id="formdatesched" onchange="updateDateTime()">
+                        <label><span class="badge badge-secondary">Date of Admission Test</span></label>
+                        <select class="form-control form-control-sm" name="dateID" id="editAssignDateIDs" onchange="updateDateTime()">
+                            <option disabled selected> ---Select--- </option>
+                            @foreach ($time1 as $dateItem)
+                                @if ($dateItem->slots === 0)
+                                    <option value="{{ $dateItem->id }}" disabled class="text-danger">
+                                        {{ Carbon\Carbon::parse($dateItem->date . ' ' . $dateItem->time)->format('F j Y g:i A') }} (Slots is Full)
+                                    </option>
+                                @else
+                                    <option value="{{ $dateItem->id }}">
+                                        {{ Carbon\Carbon::parse($dateItem->date . ' ' . $dateItem->time)->format('F j Y g:i A') }} (Available Slots: {{ $dateItem->slots }})
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <input type="hidden" id="selectedDate" name="d_admission" class="form-control form-control-md" placeholder="Selected Date">
+                    <input type="hidden" id="selectedTime" name="time" class="form-control form-control-md" placeholder="Selected Time">
+                    <input type="hidden" id="selectedDateTimeID" name="dateID" class="form-control form-control-md" placeholder="Selected DateTimeID">
+
+                    <div class="form-group">
+                        <label><span class="badge badge-secondary">Venue</span></label>
+                        <select class="form-control form-control-sm" name="venue" style="text-transform: uppercase;">
+                            <option disabled selected> ---Select--- </option>
+                            @foreach ($venue1 as $venueItem)
+                                <option value="{{ $venueItem->venue }}">
+                                    {{ $venueItem->venue }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="changeTimeSchedButton" class="btn btn-info">Change Time Sched</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var allExamlicantRoute = "{{ route('getsrchexamineeList') }}";
     var allExamAssignResultRoute = "{{ route('examinee_resultmod_save', ['id' => ':id']) }}";
+    var allAppAssignSchedRoute = "{{ route('applicant_schedulemod_save', ['id' => ':id']) }}";
     var allAppUpdateRoute = "{{ route('applicantUpdate', ['id' => ':id']) }}";
     var allExamDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
     var pushtoresultRoute = '{{ route('examinee_confirmajax',  ['id' => ':id']) }}';
@@ -352,6 +443,16 @@ CISS v.1.0 || Examinee Search List
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
     var requestedCampus = '{{ request('campus') }}'
+
+    document.getElementById('changeTimeSchedButton').addEventListener('click', function() {
+        var formDateSched = document.getElementById('formdatesched');
+        // Toggle the display between block and none
+        if (formDateSched.style.display === 'none') {
+            formDateSched.style.display = 'block';
+        } else {
+            formDateSched.style.display = 'none';
+        }
+    });
 </script>
 
 @endsection
