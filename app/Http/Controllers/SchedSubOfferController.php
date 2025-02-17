@@ -56,14 +56,14 @@ class SchedSubOfferController extends Controller
                 $campus = Auth::guard('web')->user()->campus;
             }
 
-        $campus = is_array($campus) ? $campus : [$campus];
-        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
-        $semester = is_array($semester) ? $semester : [$semester];
+        // $campus = is_array($campus) ? $campus : [$campus];
+        // $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
+        // $semester = is_array($semester) ? $semester : [$semester];
 
         $data = SubjectOffered::select('sub_offered.*', 'subjects.*')
                         ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->whereIn('sub_offered.schlyear', $schlyear)
-                        ->whereIn('sub_offered.semester', $semester)
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
                         ->whereIn('sub_offered.campus', $campus)
                         ->get();
 
