@@ -205,7 +205,7 @@ $(document).ready(function() {
         let subUnit = parseFloat($('#subUnit').val()) || 0;
 
         if (isOJT === 'Yes') {
-            let labFee = subUnit * 500;
+            let labFee = 500;
             $('#labFee').val(labFee);
         } else {
             $('#labFee').val(0);
@@ -217,7 +217,7 @@ $(document).ready(function() {
         let subUnit = parseFloat($('#subUnitEdit').val()) || 0;
 
         if (isOJT === 'Yes') {
-            let labFee = subUnit * 500;
+            let labFee = 500;
             $('#editlabfee').val(labFee);
         } else {
             $('#editlabfee').val(0);
