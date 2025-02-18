@@ -140,6 +140,10 @@
             animation: haptic-animation 0.3s ease !important;
         }
 
+        .goback.clicked {
+            animation: haptic-animation 0.3s ease !important;
+        }
+
         @keyframes haptic-animation {
             0% {
                 transform: scale(1);
@@ -235,6 +239,12 @@
         </div>
     </div>
 
+    <!-- Home Button -->
+    <a href="http://localhost/kioskallinone-app/public" style="color: white; text-decoration: none; font-size: 1.5em;" >
+        <div style="position: fixed; bottom: 35px; left: 60px; width: 90px; height: 60px; background: #007B3A; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;" class="goback">
+            <i class="fas fa-circle-chevron-left"></i><span style="font-size: 12pt; margin-left: 5px">Back</span>
+        </div>
+    </a>
 
     <div id="numericKeyboard" class="keyboard-container">
         <!-- Numeric Keys -->
@@ -273,13 +283,6 @@
     <script src="{{ asset('particles/app.js') }}"></script>
     <!-- Context -->
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
-
-    <script>
-        document.getElementById("password").addEventListener("focus", function () {
-            currentInput = "password";
-        });
-    </script>
-    @include('script.numpad_script')
 
     <script>
         $(document).ready(function() {
@@ -352,6 +355,22 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const buttons = document.querySelectorAll('.key-btn');
+        
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Add the 'clicked' class
+                    button.classList.add('clicked');
+        
+                    // Remove the class after the animation duration to allow re-click
+                    setTimeout(() => {
+                        button.classList.remove('clicked');
+                    }, 300); // Duration matches the animation time
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.goback');
         
             buttons.forEach(button => {
                 button.addEventListener('click', () => {
