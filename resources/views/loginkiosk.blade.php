@@ -397,7 +397,7 @@
 
     <script>
         // Set the inactivity timeout in milliseconds (2 seconds)
-        const inactivityTime = 15000;
+        const inactivityTime = 12000;
 
         // Function to redirect to the target URL
         function redirectToHome() {
