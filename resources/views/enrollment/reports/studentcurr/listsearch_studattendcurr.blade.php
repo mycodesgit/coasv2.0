@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-CISS V.1.0 || Student List per Curriculum
+CISS V.1.0 || Attendance per Degree
 @endsection
 
 @section('sideheader')
@@ -20,7 +20,7 @@ CISS V.1.0 || Student List per Curriculum
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Enrollment</li>
-            <li class="breadcrumb-item active mt-1">Student List per Curriculum</li>
+            <li class="breadcrumb-item active mt-1">Attendance per Degree</li>
         </ol>
 
         <p>
@@ -33,7 +33,7 @@ CISS V.1.0 || Student List per Curriculum
 
         <div>
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Student List per Curriculum</h4>
+                <h4>Attendance per Degree</h4>
             </div> 
         </div>
             <div class="row">
@@ -110,7 +110,7 @@ CISS V.1.0 || Student List per Curriculum
         <div class="modal-content">
             <div class="modal-header">
                 <input type="text" name="id" id="viewStudEnrollId" hidden>
-                <h5 class="modal-title" id="viewStudEnrollModalLabel">Students Enroll</h5>
+                <h5 class="modal-title" id="viewStudEnrollModalLabel">Attendance per Degree</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
