@@ -157,7 +157,7 @@ CISS V.1.0 || Student List per Curriculum
         "{{ route('getstudAttendCurrSearch') }}";
     @endif
     var studentcourseEnrollReadRoute = "{{ route('fetchStudEnrollmentlist') }}";
-    var studentcourseEnrollPDFReadRoute = "{{ route('exportEnrollmentPDF') }}";
+    var studentcourseEnrollPDFReadRoute = "{{ route('exportAttendEnrollmentPDF') }}";
 </script>
 
 @endsection
