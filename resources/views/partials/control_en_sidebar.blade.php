@@ -17,6 +17,7 @@
     $studinfogradActive = in_array($curr_route, ['studInfograduated', 'studInfograduated_search']) ? 'active' : '';
     $studRFActive = in_array($curr_route, ['rfstudprint', 'rfstudprintsearch']) ? 'active' : '';
     $studcurrActive = in_array($curr_route, ['studCurr', 'studCurrsearch']) ? 'active' : '';
+    $studAttendcurrActive = in_array($curr_route, ['studAttendanceCurr', 'studAttendCurrsearch']) ? 'active' : '';
     $studsubjActive = in_array($curr_route, ['studsubjectsRead', 'listsearch_studsubjectsRead', 'listsearchview_studsubjectsRead']) ? 'active' : '';
     $studviewgrdeActive = in_array($curr_route, ['studviewgradeRead', 'search_studviewgradeRead', 'searchgradschool_studviewgradeRead']) ? 'active' : '';
     $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
@@ -91,10 +92,11 @@
             <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Student Info</a>
         @endif
         <a href="{{ route('rfstudprint') }}" class="list-group-item {{ $studRFActive }}">Print Student RF</a>
-        <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Students Per Course</a>
+        <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Student Per Degree</a>
+        <a href="{{ route('studAttendanceCurr') }}" class="list-group-item {{ $studAttendcurrActive }}">Attendance Per Degree</a>
 
         @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15]))
-        <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Students Attendance</a>
+        <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Class Attendance</a>
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
         @endif
 
