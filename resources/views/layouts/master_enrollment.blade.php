@@ -455,6 +455,9 @@
     @if(request()->routeIs('studCurrsearch'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('studAttendCurrsearch'))
+        <script src="{{ asset('js/ajax/enrolment/enrollmentAttendCourseSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('studgrade_searchlist', 'studgradegrad_searchlist', 'studgradecorrection_resultsearch'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetSerialize.js') }}"></script>
     @endif

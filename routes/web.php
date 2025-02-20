@@ -453,9 +453,13 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/curriculum', [EnStudentPerCurriculumController::class, 'studCurr'])->name('studCurr');
             Route::get('/info/students/curriculum/search', [EnStudentPerCurriculumController::class, 'studCurrsearch'])->name('studCurrsearch');
             Route::get('/info/students/curriculum/searchajax', [EnStudentPerCurriculumController::class, 'getstudCurrSearch'])->name('getstudCurrSearch');
+            Route::get('/info/students/attendance/curriculum', [EnStudentPerCurriculumController::class, 'studAttendanceCurr'])->name('studAttendanceCurr');
+            Route::get('/info/students/attendance/curriculum/search', [EnStudentPerCurriculumController::class, 'studAttendCurrsearch'])->name('studAttendCurrsearch');
+            Route::get('/info/students/attendance/curriculum/searchajax', [EnStudentPerCurriculumController::class, 'getstudAttendCurrSearch'])->name('getstudAttendCurrSearch');
             Route::get('/info/students/curriculum/searchajax/grad', [EnStudentPerCurriculumController::class, 'getstudCurrSearchGradSchool'])->name('getstudCurrSearchGradSchool');
             Route::get('/info/students/curriculum/viewenroll/searchajax', [EnStudentPerCurriculumController::class, 'fetchStudEnrollmentlist'])->name('fetchStudEnrollmentlist');
             Route::get('/info/students/curriculum/viewenroll/pdfajax', [EnStudentPerCurriculumController::class, 'exportEnrollmentPDF'])->name('exportEnrollmentPDF');
+            Route::get('/info/students/attendance/curriculum/viewenroll/pdfattndajax', [EnStudentPerCurriculumController::class, 'exportAttendEnrollmentPDF'])->name('exportAttendEnrollmentPDF');
 
             Route::get('/info/students/subjects', [EnStudentPerSubjectController::class, 'studsubjectsRead'])->name('studsubjectsRead');
             Route::get('/info/students/subjects/search', [EnStudentPerSubjectController::class, 'listsearch_studsubjectsRead'])->name('listsearch_studsubjectsRead');
