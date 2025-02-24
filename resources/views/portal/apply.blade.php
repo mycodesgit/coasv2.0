@@ -408,7 +408,7 @@
                                                             <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} @endif disabled>Main (Closed)</option>
                                                             <option value="VC" @if (old('type') == 'VC') {{ 'selected' }} @endif>Victorias</option>
                                                             <option value="SCC" @if (old('type') == 'SCC') {{ 'selected' }} @endif disabled>San Carlos (Closed)</option>
-                                                            <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} @endif>Moises Padilla</option>
+                                                            <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} @endif disabled>Moises Padilla (Closed)</option>
                                                             <option value="HC" @if (old('type') == 'HC') {{ 'selected' }} @endif disabled>Hinigaran (Closed)</option>
                                                             <option value="IC" @if (old('type') == 'IC') {{ 'selected' }} @endif disabled>Ilog (Closed)</option>
                                                             <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} @endif disabled>Candoni (Closed)</option>
