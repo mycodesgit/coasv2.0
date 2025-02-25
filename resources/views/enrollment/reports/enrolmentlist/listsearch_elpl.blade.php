@@ -89,6 +89,7 @@ CISS V.1.0 || Student List per Curriculum
                                 <th>Ext</th>
                                 <th>Gender</th>
                                 <th>Address</th>
+                                <th>Degree</th>
                                 <th>Yr.Lvl</th>
                                 <th>Subjects</th>
                                 <th>Grades</th>

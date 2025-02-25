@@ -38,6 +38,7 @@ $(document).ready(function() {
             { "data": "ext" },
             { "data": "gender" },
             { "data": "address" },
+            { "data": "subSec" },
             { "data": "studYear" },
             { "data": "sub_name" },
             { "data": "subjFgrade" },
