@@ -84,7 +84,7 @@
                                                                 if ($grade >= 82) return ['gpa' => '2.25', 'status' => 'Passed'];
                                                                 if ($grade >= 79) return ['gpa' => '2.50', 'status' => 'Passed'];
                                                                 if ($grade >= 76) return ['gpa' => '2.75', 'status' => 'Passed'];
-                                                                if ($grade >= 75) return ['gpa' => '3.00', 'status' => 'Passed'];
+                                                                if ($grade >= 75 || $grade == 3) return ['gpa' => '3.00', 'status' => 'Passed'];
                                                                 if ($grade >= 70) return ['gpa' => '4.00', 'status' => 'Conditional'];
                                                                 return ['gpa' => '5.00', 'status' => 'Failure'];
                                                             }
