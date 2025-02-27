@@ -76,7 +76,7 @@
                                                                 return ['gpa' => '5.0', 'status' => 'Failure'];
                                                             } else {
                                                                 // Standard GPA logic
-                                                                if ($grade >= 97) return ['gpa' => '1.00', 'status' => 'Passed'];
+                                                                if ($grade >= 97 || $grade == 1) return ['gpa' => '1.00', 'status' => 'Passed'];
                                                                 if ($grade >= 94) return ['gpa' => '1.25', 'status' => 'Passed'];
                                                                 if ($grade >= 91) return ['gpa' => '1.50', 'status' => 'Passed'];
                                                                 if ($grade >= 88) return ['gpa' => '1.75', 'status' => 'Passed'];
