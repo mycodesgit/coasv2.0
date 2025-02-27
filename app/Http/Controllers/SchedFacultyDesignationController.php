@@ -83,6 +83,7 @@ class SchedFacultyDesignationController extends Controller
             $fac_id = $request->input('fac_id'); 
             $schlyear = $request->input('schlyear'); 
             $campus = $request->input('campus'); 
+            $semester = $request->input('semester'); 
             $existingFacDeg = FacDesignation::where('fac_id', $fac_id)->where('schlyear', $schlyear)->where('semester', $semester)->where('campus', $campus)->first();
 
             if ($existingFacDeg) {
