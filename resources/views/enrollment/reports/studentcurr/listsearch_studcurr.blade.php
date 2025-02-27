@@ -118,10 +118,10 @@ CISS V.1.0 || Student List per Curriculum
             <div class="modal-body">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="student-list-tab" data-toggle="tab" href="#student-list" role="tab" aria-controls="student-list" aria-selected="true">Student List</a>
+                        <a class="nav-link active text-dark text-bold" id="student-list-tab" data-toggle="tab" href="#student-list" role="tab" aria-controls="student-list" aria-selected="true">Student List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="pdf-view-tab" data-toggle="tab" href="#pdf-view" role="tab" aria-controls="pdf-view" aria-selected="false">PDF View</a>
+                        <a class="nav-link text-dark text-bold" id="pdf-view-tab" data-toggle="tab" href="#pdf-view" role="tab" aria-controls="pdf-view" aria-selected="false">PDF View</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">

@@ -67,6 +67,11 @@
             background-color: #e9ecef !important;
             color: #252525 !important;
         }
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            color: #495057;
+            /*background-color: #c9c2c2;*/
+            border-color: #32ac71 #32ac71 #ffffff;
+        }
     </style>
     
 </head>

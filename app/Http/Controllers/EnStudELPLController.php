@@ -165,9 +165,25 @@ class EnStudELPLController extends Controller
                 if ($grade >= 92) return ['gpa' => '1.3', 'status' => 'Passed'];
                 if ($grade >= 91) return ['gpa' => '1.4', 'status' => 'Passed'];
                 if ($grade >= 90) return ['gpa' => '1.5', 'status' => 'Passed'];
+                if ($grade >= 89) return ['gpa' => '1.6', 'status' => 'Passed'];
+                if ($grade >= 88) return ['gpa' => '1.7', 'status' => 'Passed'];
+                if ($grade >= 87) return ['gpa' => '1.8', 'status' => 'Passed'];
+                if ($grade >= 86) return ['gpa' => '1.9', 'status' => 'Passed'];
                 if ($grade >= 85) return ['gpa' => '2.0', 'status' => 'Passed'];
+                if ($grade >= 84) return ['gpa' => '2.1', 'status' => 'Passed'];
+                if ($grade >= 83) return ['gpa' => '2.2', 'status' => 'Passed'];
+                if ($grade >= 82) return ['gpa' => '2.3', 'status' => 'Passed'];
+                if ($grade >= 81) return ['gpa' => '2.4', 'status' => 'Passed'];
                 if ($grade >= 80) return ['gpa' => '2.5', 'status' => 'Passed'];
+                if ($grade >= 79) return ['gpa' => '2.6', 'status' => 'Passed'];
+                if ($grade >= 78) return ['gpa' => '2.7', 'status' => 'Passed'];
+                if ($grade >= 77) return ['gpa' => '2.8', 'status' => 'Passed'];
+                if ($grade >= 76) return ['gpa' => '2.9', 'status' => 'Passed'];
                 if ($grade >= 75) return ['gpa' => '3.0', 'status' => 'Passed'];
+                if ($grade >= 74) return ['gpa' => '4.0', 'status' => 'Passed'];
+                if ($grade >= 73) return ['gpa' => '4.0', 'status' => 'Passed'];
+                if ($grade >= 72) return ['gpa' => '4.0', 'status' => 'Passed'];
+                if ($grade >= 71) return ['gpa' => '4.0', 'status' => 'Passed'];
                 if ($grade >= 70) return ['gpa' => '4.0', 'status' => 'Conditional'];
                 return ['gpa' => '5.0', 'status' => 'Failure'];
             } else {
