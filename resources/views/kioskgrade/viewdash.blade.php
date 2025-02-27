@@ -47,7 +47,7 @@
 
                                                             if ($isFourScale) {
                                                                 // 4-point scale logic
-                                                                if ($grade >= 95) return ['gpa' => '1.0', 'status' => 'Passed'];
+                                                                if ($grade >= 95 || $grade == 1) return ['gpa' => '1.0', 'status' => 'Passed'];
                                                                 if ($grade >= 94) return ['gpa' => '1.1', 'status' => 'Passed'];
                                                                 if ($grade >= 93) return ['gpa' => '1.2', 'status' => 'Passed'];
                                                                 if ($grade >= 92) return ['gpa' => '1.3', 'status' => 'Passed'];
@@ -67,7 +67,7 @@
                                                                 if ($grade >= 78) return ['gpa' => '2.7', 'status' => 'Passed'];
                                                                 if ($grade >= 77) return ['gpa' => '2.8', 'status' => 'Passed'];
                                                                 if ($grade >= 76) return ['gpa' => '2.9', 'status' => 'Passed'];
-                                                                if ($grade >= 75) return ['gpa' => '3.0', 'status' => 'Passed'];
+                                                                if ($grade >= 75 || $grade == 3) return ['gpa' => '3.0', 'status' => 'Passed'];
                                                                 if ($grade >= 74) return ['gpa' => '4.0', 'status' => 'Conditional'];
                                                                 if ($grade >= 73) return ['gpa' => '4.0', 'status' => 'Conditional'];
                                                                 if ($grade >= 72) return ['gpa' => '4.0', 'status' => 'Conditional'];
