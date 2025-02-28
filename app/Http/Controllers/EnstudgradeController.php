@@ -291,9 +291,9 @@ class EnstudgradeController extends Controller
         $status = $request->input('status');
         $id = $request->input('id');
         //$prmID = $request->input('status');
+        $campus = Auth::guard('web')->user()->campus;
 
-        Grade::where('id', $id)
-        ->update(['status' => $status]);
+        Grade::where('id', $id)->where('campus', $campus)->update(['status' => $status]);
 
         return redirect()->back()->with('success', 'Now you can edit the grade.');
     }
@@ -302,10 +302,11 @@ class EnstudgradeController extends Controller
     {
         // $guard = $this->getGuard();
         // $user = Auth::guard($guard)->user();
+        $campus = Auth::guard('web')->user()->campus;
 
         Grade::where('id', $id)
         ->where('compstat', 2)
-        ->update(['compstat' => 1]);
+        ->where('campus', $campus)->update(['compstat' => 1]);
 
         return redirect()->back()->with('success', 'Now you can edit the grade.');
     }

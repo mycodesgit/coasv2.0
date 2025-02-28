@@ -14,5 +14,6 @@ class GradePass extends Model
 
     protected $fillable = [
         'gradeauthpass', 
+        'campus'
     ];
 }
