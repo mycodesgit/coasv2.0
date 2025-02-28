@@ -72,21 +72,30 @@ class EnStudentPerSubjectController extends Controller
         $semester = $request->query('semester');   
         $campus = Auth::guard('web')->user()->campus;
 
+        // Prepare a subquery that aggregates the student count per subject.
+        $studCountSubquery = DB::table('coasv2_db_enrollment.studgrades')
+            ->select('subjID', DB::raw('COUNT(subjID) as countstud'))
+            ->where('campus', $campus)
+            ->groupBy('subjID');
+
+        // Join with subjects and the aggregated student count.
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-            ->join('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+            // Left join ensures that even if a subject has no enrolled students, it is still returned.
+            ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
+                $join->on('sub_offered.id', '=', 'studgrades.subjID');
+            })
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
             ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
-            ->where('coasv2_db_enrollment.studgrades.campus', $campus)
             ->select(
                 'subjects.sub_name',
                 'subjects.sub_title',
                 'sub_offered.*',
                 'sub_offered.id as sid',
-                DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
+                // Use COALESCE to return 0 when there are no matching studgrades.
+                DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
             )
-            ->groupBy('sub_offered.id', 'subjects.sub_name', 'subjects.sub_title', 'sub_offered.schlyear', 'sub_offered.semester', 'sub_offered.campus', 'sub_offered.subCode')
             ->get();
 
         return response()->json(['data' => $data]);
