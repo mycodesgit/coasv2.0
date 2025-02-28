@@ -78,6 +78,7 @@ class EnStudentPerSubjectController extends Controller
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
             ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
+            ->where('coasv2_db_enrollment.studgrades.campus', $campus)
             ->select(
                 'subjects.sub_name',
                 'subjects.sub_title',
@@ -85,6 +86,7 @@ class EnStudentPerSubjectController extends Controller
                 'sub_offered.id as sid',
                 DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
             )
+            ->groupBy('sub_offered.id', 'subjects.sub_name', 'subjects.sub_title', 'sub_offered.schlyear', 'sub_offered.semester', 'sub_offered.campus', 'sub_offered.subCode')
             ->get();
 
         return response()->json(['data' => $data]);
