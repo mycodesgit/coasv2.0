@@ -362,6 +362,11 @@ class SettingController extends Controller
         return redirect()->back()->with('success', 'Grades Password updated successfully');
     }
 
+    public function setEnrollConf() 
+    {
+        return view('control.settings.admin.settingsEnrollment');
+    }
+
     public function serverMaintenance()
     {
         return view('control.settings.admin.settingsMaintenance',  [

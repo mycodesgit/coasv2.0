@@ -25,6 +25,7 @@ use App\Http\Controllers\AdReuploadController;
 
 use App\Http\Controllers\EnStudAddController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\EnStudDupAppController;
 use App\Http\Controllers\EnProgStudEvalController;
 use App\Http\Controllers\EnStudHistoryController;
 use App\Http\Controllers\EnstudgradeController;
@@ -393,6 +394,13 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/student/enroll/view', [EnrollmentController::class, 'editsearchStudRead'])->name('editsearchStudRead');
             Route::post('/student/enroll/update', [EnrollmentController::class, 'studEnrollmentUpdate'])->name('studEnrollmentUpdate');
             Route::get('/student/enroll/viewRF', [EnrollmentController::class, 'studrfprint'])->name('studrfprint');
+        });
+
+        Route::prefix('dup')->group(function () {
+            Route::get('/appraisal/search/stud', [EnStudDupAppController::class, 'dupapprslSearch'])->name('dupapprslSearch');
+            Route::get('/appraisal/search/stud/result/view', [EnStudDupAppController::class, 'dupapprslSearch_listresult'])->name('dupapprslSearch_listresult');
+            Route::get('/appraisal/search/stud/result/getajax', [EnStudDupAppController::class, 'getdupapprslSearchAjax'])->name('getdupapprslSearchAjax');
+            Route::post('/appraisal/search/stud/result/dup/delete{id}', [EnStudDupAppController::class, 'dupapprslDelete'])->name('dupapprslDelete');
         });
 
         Route::prefix('history')->group(function () {
@@ -849,6 +857,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/confGradeAuthSet', [SettingController::class, 'setgradepassconfigure'])->name('setgradepassconfigure');
             Route::post('/confGradeAuthSet/add',[SettingController::class,'setgradepassconfCreate'])->name('setgradepassconfCreate');
             Route::post('/confGradeAuthSet/update/{id}', [SettingController::class, 'updateGradepass'])->name('updateGradepass');
+
+            Route::get('/confEnrollmntSet', [SettingController::class, 'setEnrollConf'])->name('setEnrollConf');
 
             Route::get('/setting/server/zeus', [SettingController::class, 'serverMaintenance'])->name('serverMaintenance');
             Route::post('/setting/server/zeus/admin/maintenance', [SettingController::class, 'toggleMaintenance'])->name('toggleMaintenance');

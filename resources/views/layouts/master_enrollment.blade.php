@@ -454,6 +454,9 @@
     @if(request()->routeIs('editsearchStudRead'))
         <script src="{{ asset('js/ajax/enrolment/editEnrollmentSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('dupapprslSearch_listresult'))
+        <script src="{{ asset('js/ajax/enrolment/editDupAppEnrollmentSerialize.js') }}"></script>
+    @endif
     @if(request()->routeIs('viewsearchenStudHistory'))
         <script src="{{ asset('js/ajax/enrolment/studenHistorySerialize.js') }}"></script>
     @endif

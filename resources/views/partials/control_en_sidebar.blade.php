@@ -6,6 +6,7 @@
     $searchStudActive = in_array($curr_route, ['searchStud', 'searchStudEnroll']) ? 'active' : '';
     $searchStudEvalActive = in_array($curr_route, ['loadstudsub', 'loadstudsub_searchview']) ? 'active' : '';
     $editEnrollStudActive = in_array($curr_route, ['editsearchStud', 'editsearchStudRead']) ? 'active' : '';
+    $editDupAppEnrollStudActive = in_array($curr_route, ['dupapprslSearch', 'dupapprslSearch_listresult']) ? 'active' : '';
     $stuEnrollmentHisActive = in_array($curr_route, ['studentEnHistory', 'viewsearchenStudHistory']) ? 'active' : '';
     $gradeStudActive = in_array($curr_route, ['studgrade_search', 'studgrade_gradsearch', 'studgrade_searchlist', 'studgradegrad_searchlist', 'geneStudent1']) ? 'active' : '';
     $gradeStudcorrectActive = in_array($curr_route, ['studgradecorrection_search', 'studgradecorrection_resultsearch', 'geneStudentcorrectiongrades']) ? 'active' : '';
@@ -48,6 +49,12 @@
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 11, 12, 13, 14, 15]))
             <a href="{{ route('searchStud') }}" class="list-group-item {{ $searchStudActive }}">Enroll Student</a>  
             <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
+        @endif
+
+        @if(Auth::guard('web')->user()->role == '0')
+            <a href="{{ route('dupapprslSearch') }}" class="list-group-item {{ $editDupAppEnrollStudActive }}">Edit Dup. Appraisal</a>
+            <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Subject Section</a>
+            <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Program</a>
         @endif
 
         @if(Auth::guard('web')->user()->campus == 'MC')
