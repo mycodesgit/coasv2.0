@@ -700,6 +700,8 @@ class ScholarshipController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -715,7 +717,12 @@ class ScholarshipController extends Controller
                     ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*', 'coasv2_db_schedule.programs.progAcronym')
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
-                    ->where('program_en_history.campus',  $campus)
+                    // ->where('program_en_history.campus',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('program_en_history.studentID', $stud_id)->first();
 
         $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
@@ -731,7 +738,12 @@ class ScholarshipController extends Controller
         $studfees = StudentAppraisal::select('student_appraisal.*')
                     ->where('student_appraisal.schlyear',  $schlyear)
                     ->where('student_appraisal.semester',  $semester)
-                    ->where('student_appraisal.campus',  $campus)
+                    // ->where('student_appraisal.campus',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('student_appraisal.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('student_appraisal.studID', $stud_id)
                     ->orderBy('student_appraisal.account', 'ASC')
                     ->get();
