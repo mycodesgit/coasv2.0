@@ -717,6 +717,8 @@ class EnrollmentController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+
         // $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
         //             ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
         //             ->join('studgrades', 'program_en_history.studentID', '=', 'studgrades.studID')
@@ -734,8 +736,18 @@ class EnrollmentController extends Controller
                     ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*', 'program_en_history.updated_at as updated_ats', 'coasv2_db_schedule.programs.progAcronym')
                     ->where('program_en_history.schlyear',  $schlyear)
                     ->where('program_en_history.semester',  $semester)
-                    ->where('program_en_history.campus',  $campus)
-                    ->where('students.campus',  $campus)
+                    // ->where('program_en_history.campus',  $campus)
+                    // ->where('students.campus',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                        }
+                    })
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('students.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('program_en_history.studentID', $stud_id)->first();
 
         $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
@@ -823,7 +835,14 @@ class EnrollmentController extends Controller
 
         $campusArray = array_map('trim', explode(',', $campus));
 
-        $student = Student::where('stud_id', $stud_id)->first();
+        $student = Student::where('stud_id', $stud_id)
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('campus', 'LIKE', "%$campus%");
+                    }
+                })
+                ->first();
+                
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
