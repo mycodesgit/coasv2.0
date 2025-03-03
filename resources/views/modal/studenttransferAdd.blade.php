@@ -66,7 +66,6 @@
                                         <option value="CC">Cauayan</option>
                                         <option value="SC">Sipalay</option>
                                         <option value="HinC">Hinobaan</option>
-                                        <option value="VE">Valladolid</option>
                                     @else
                                     @endif
                                 </select>
