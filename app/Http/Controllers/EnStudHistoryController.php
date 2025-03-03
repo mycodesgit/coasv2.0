@@ -43,7 +43,6 @@ class EnStudHistoryController extends Controller
                             $q->orWhere('campus', 'LIKE', "%$campus%");
                         }
                     })
-
                     ->get();
 
 
