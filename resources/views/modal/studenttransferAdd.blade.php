@@ -55,7 +55,7 @@
                             <div class="col-md-12">
                                 <label><span class="badge badge-secondary">To Campus:</span></label>
                                 <select class="form-control form-control-sm" name="tocampus">
-                                    @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->campus == 'CC')
+                                    @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo')
                                         <option value="MC">Main</option>
                                         <option value="VC">Victorias</option>
                                         <option value="SCC">San Carlos</option>

@@ -72,7 +72,7 @@
             <a href="{{ route('studgradecorrection_search') }}" class="list-group-item {{ $gradeStudcorrectActive }}">Correction of Grades</a>
         @endif
 
-        @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->campus == 'CC')
+        @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo')
             <a href="{{ route('list_trans') }}" class="list-group-item {{ $studtransAllActive }}">Transfered Student</a>
         @endif
 
