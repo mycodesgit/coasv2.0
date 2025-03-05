@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/bootstrap.min.css') }}" crossorigin="anonymous">
     <!-- Login Design -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/login-style.css') }}">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-v6/css/all.min.css')}}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo -->
@@ -52,7 +50,7 @@
         
             <div class="col-md-6 right-box">
                 <div class="row align-items-center">
-                    <div class="header-text mt-4 mb-4 text-center">
+                    <div class="header-text mb-4 text-center">
                         <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
                         <h2>Hi, Cenphilian</h2>
                         <p>Sign in to start session</p>
