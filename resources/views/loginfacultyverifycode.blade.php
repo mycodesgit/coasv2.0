@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/bootstrap.min.css') }}" crossorigin="anonymous">
     <!-- Login Design -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/login-style.css') }}">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-v6/css/all.min.css')}}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo -->
@@ -52,10 +50,10 @@
         
             <div class="col-md-6 right-box">
                 <div class="row align-items-center">
-                    <div class="header-text mt-4 mb-4 text-center">
+                    <div class="header-text mb-4 text-center">
                         <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
                         <h2>Hi, Cenphilian</h2>
-                        <p>Sign in to start session</p>
+                        <p>We sent a code to your institutional email.</p>
 
                     </div>
                     <form action="{{ route('verify.code') }}" method="POST">
@@ -64,12 +62,12 @@
                         <input type="hidden" id="email" name="email" value="{{ session('email') }}">
                         <div class="input-group mb-1">
                             <input type="text" id="code" class="form-control" name="verification_code" autocomplete="off" placeholder="Enter Code" required autofocus>
-                        </div>
+                        </div> <br>
                         <div class="input-group mb-3">
                             {{-- <button class="btn btn-lg btn-success w-100 fs-6">Login</button> --}}
-                            <a href="{{ route('google.login') }}" class="btn btn-lg btn-light w-100 fs-8"><img src="{{ asset('template/img/googlelogo.png') }}" style="width:25px" class="me-2">
-                                <small>Sign In with Google</small>
-                            </a>
+                            <button type="submit" class="btn btn-lg btn-light w-100 fs-8">
+                                <img src="{{ asset('template/img/verifylogo.png') }}" style="width:30px"><small>Verify</small>
+                            </button>
                         </div>
                     </form>
                 </div>
