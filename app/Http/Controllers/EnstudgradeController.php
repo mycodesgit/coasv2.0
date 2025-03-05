@@ -313,8 +313,10 @@ class EnstudgradeController extends Controller
 
     public function checkPassword(Request $request)
     {
+        $campus = Auth::guard('web')->user()->campus;
+        
         $password = $request->input('password');
-        $gradePass = GradePass::first();
+        $gradePass = GradePass::where('campus', $campus)->first();
 
         if ($gradePass && $gradePass->gradeauthpass === $password) {
             return response()->json(['status' => 'success']);
