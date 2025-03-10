@@ -358,6 +358,7 @@ class EnrollmentController extends Controller
             $campus = $request->input('campus');
             $stud_id = $request->input('stud_id');
             $classSection = $request->input('classSection');
+            $campusArray = array_map('trim', explode(',', $campus));
 
             // Log::info('Parameters received', [
             //     'programCode' => $progCod,
@@ -380,7 +381,12 @@ class EnrollmentController extends Controller
             // Count the number of students enrolled in the specified program, school year, semester, and campus
             $enrolledStudents = StudEnrolmentHistory::where('schlyear', $schlyear)
                                 ->where('semester', $semester)
-                                ->where('campus', $campus)
+                                // ->where('campus', $campus)
+                                ->where(function ($q) use ($campusArray) {
+                                    foreach ($campusArray as $campus) {
+                                        $q->orWhere('campus', 'LIKE', "%$campus%");
+                                    }
+                                })
                                 ->where('progCod', $progCod)
                                 ->where('studYear', $studYear)
                                 ->where('studSec', $studSec)
@@ -391,7 +397,12 @@ class EnrollmentController extends Controller
             // Fetch the classno from the ClassEnroll model
             $classEnroll = ClassEnroll::where('schlyear', $schlyear)
                             ->where('semester', $semester)
-                            ->where('campus', $campus)
+                            // ->where('campus', $campus)
+                            ->where(function ($q) use ($campusArray) {
+                                foreach ($campusArray as $campus) {
+                                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                                }
+                            })
                             ->where('progCode', $progCod)
                             ->where('classSection', $classSection)
                             ->first();
