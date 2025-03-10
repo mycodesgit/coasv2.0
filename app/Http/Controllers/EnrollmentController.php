@@ -467,7 +467,12 @@ class EnrollmentController extends Controller
         $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
             ->where('schlyear', $schlyear)
             ->where('semester', $semester)
-            ->where('campus', $campus)
+            // ->where('campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                }
+            })
             ->first();
 
         if ($enrollmentHistory) {
