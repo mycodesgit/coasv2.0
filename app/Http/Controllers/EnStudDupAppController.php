@@ -69,7 +69,15 @@ class EnStudDupAppController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $student = Student::where('stud_id', $stud_id)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('campus', 'LIKE', "%$campus%");
+                        }
+                    })
+                    ->first();
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
@@ -77,7 +85,12 @@ class EnStudDupAppController extends Controller
                 ->where('program_en_history.studentID', $stud_id)
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
-                ->where('program_en_history.campus', '=', $campus)
+                // ->where('program_en_history.campus', '=', $campus)
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                    }
+                })
                 ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
                 ->first(); 
 
@@ -102,7 +115,12 @@ class EnStudDupAppController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->get();
 
@@ -110,7 +128,12 @@ class EnStudDupAppController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->pluck('coasv2_db_schedule.sub_offered.id');
         $subOfferedIds = implode(',', $subjectsEnID->toArray());
@@ -119,7 +142,12 @@ class EnStudDupAppController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->pluck('studgrades.subjID');
         $studsubenrollIds = implode(',', $studsubview->toArray());
@@ -128,7 +156,12 @@ class EnStudDupAppController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->pluck('studgrades.id');
         $studsubenrollIdsprimID = implode(',', $studsubviewprimID->toArray());
@@ -137,7 +170,12 @@ class EnStudDupAppController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studgrades.studID', '=', $programEnHistory->studentID)
                     ->pluck('coasv2_db_schedule.sub_offered.itfee');
         $studsubenrollIdsprimIDitfee = implode(',', $studsubviewprimIDitfee->toArray());
@@ -161,12 +199,18 @@ class EnStudDupAppController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
 
         $data = StudentAppraisal::join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
                     ->select('coasv2_db_enrollment.program_en_history.studentID', 'student_appraisal.*')
                     ->where('student_appraisal.schlyear', '=', $schlyear)
                     ->where('student_appraisal.semester', '=',  $semester)
-                    ->where('student_appraisal.campus', '=',  $campus)
+                    // ->where('student_appraisal.campus', '=',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('student_appraisal.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('student_appraisal.studID', '=', $stud_id)
                     ->orderBy('student_appraisal.account', 'ASC')
                     ->distinct('student_appraisal.fundID')
