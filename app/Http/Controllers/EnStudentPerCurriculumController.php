@@ -211,7 +211,12 @@ class EnStudentPerCurriculumController extends Controller
                     $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
                 }
             })
-            ->where('students.campus', $campus)
+            // ->where('students.campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('students.campus', 'LIKE', "%$campus%");
+                }
+            })
             ->select('program_en_history.*', 'students.*')
             ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym')
             ->orderBy('students.lname', 'ASC')
@@ -245,7 +250,12 @@ class EnStudentPerCurriculumController extends Controller
                 }
             })
             ->where('program_en_history.status', 2)
-            ->where('students.campus', $campus)
+            // ->where('students.campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('students.campus', 'LIKE', "%$campus%");
+                }
+            })
             ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
             ->orderBy('students.lname', 'ASC')
             ->get();
