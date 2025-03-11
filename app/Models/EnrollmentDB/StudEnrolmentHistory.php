@@ -33,5 +33,6 @@ class StudEnrolmentHistory extends Model
         'studType',
         'transferee',
         'fourPs',
+        'status'
     ];
 }
