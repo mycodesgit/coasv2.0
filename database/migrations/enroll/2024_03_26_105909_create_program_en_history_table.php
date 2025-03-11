@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('studType')->nullable();
             $table->string('transferee')->nullable();
             $table->integer('fourPs')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }

@@ -51,6 +51,8 @@ class StudHEBillingController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+
         // $studfeesbill = StudentAppraisal::join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
         //         ->join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
         //         ->join('coasv2_db_schedule.programs', 'coasv2_db_enrollment.program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
@@ -73,7 +75,12 @@ class StudHEBillingController extends Controller
                         ->where('program_en_history.campus',  $campus)
                         ->where('coasv2_db_assessment.student_appraisal.schlyear',  $schlyear)
                         ->where('coasv2_db_assessment.student_appraisal.semester',  $semester)
-                        ->where('coasv2_db_assessment.student_appraisal.campus',  $campus)
+                        // ->where('coasv2_db_assessment.student_appraisal.campus',  $campus)
+                        ->where(function ($q) use ($campusArray) {
+                            foreach ($campusArray as $campus) {
+                                $q->orWhere('coasv2_db_assessment.student_appraisal.campus', 'LIKE', "%$campus%");
+                            }
+                        })
                         ->where('program_en_history.studentID', 'NOT LIKE', '%-G')
                         ->where('program_en_history.studentID', 'NOT LIKE', '%-N')
                         ->select(
