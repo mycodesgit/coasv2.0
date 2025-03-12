@@ -38,7 +38,14 @@ class EnreportsController extends Controller
             $campus = Auth::guard('web')->user()->campus;
         }
 
-        $studlist = Student::where('campus', '=', $campus)->where('stud_id', 'NOT LIKE', '%-G%')->get();
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $studlist = Student::where(function ($q) use ($campusArray) {
+            foreach ($campusArray as $campus) {
+                $q->orWhere('campus', 'LIKE', "%$campus%");
+            }
+        })->where('stud_id', 'NOT LIKE', '%-G%')->get();
+
         $civilStatuses = StudentCvlStatus::all();
         $genderStatuses = StudentGnderStatus::all();
 
@@ -53,9 +60,16 @@ class EnreportsController extends Controller
             $campus = Auth::guard('web')->user()->campus;
         }
 
+        $campusArray = array_map('trim', explode(',', $campus));
+
         $data = Student::join('studcivilstat', 'students.civil_status', '=', 'studcivilstat.cvlstat_name')
                         ->leftJoin('studgenderstat', 'students.gender', '=', 'studgenderstat.genderstat_name')
-                        ->where('students.campus', '=', $campus)
+                        // ->where('students.campus', '=', $campus)
+                        ->where(function ($q) use ($campusArray) {
+                            foreach ($campusArray as $campus) {
+                                $q->orWhere('students.campus', 'LIKE', "%$campus%");
+                            }
+                        })
                         ->where('students.stud_id', 'NOT LIKE', '%-G%')
                         ->select('students.*', 'studcivilstat.*', 'studgenderstat.*', 'students.id as stuDsid')
                         ->orderBy('students.lname', 'ASC')
