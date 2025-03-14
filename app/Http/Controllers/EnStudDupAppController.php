@@ -67,7 +67,7 @@ class EnStudDupAppController extends Controller
         $stud_id = $request->stud_id;
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = Auth::guard('web')->user()->campus;
+        $campus = $request->query('campus');
 
         $campusArray = array_map('trim', explode(',', $campus));
 
@@ -198,7 +198,7 @@ class EnStudDupAppController extends Controller
         $stud_id = $request->query('stud_id');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = Auth::guard('web')->user()->campus;
+        $campus = $request->query('campus');
         $campusArray = array_map('trim', explode(',', $campus));
 
         $data = StudentAppraisal::join('coasv2_db_enrollment.program_en_history', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.program_en_history.studentID')
