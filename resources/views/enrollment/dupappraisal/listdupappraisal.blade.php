@@ -100,7 +100,7 @@ CISS V.1.0 || Edit Duplicate Appraisal
                                     </select>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>&nbsp;</label>
                                     <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
                                 </div>
