@@ -595,18 +595,18 @@ class EnrollmentController extends Controller
         $campus = $request->input('campus');
         $programCode = $request->input('programCode');
         $numericPart = $request->input('numericPart');
-        $campusArray = array_map('trim', explode(',', $campus));
+        // $campusArray = array_map('trim', explode(',', $campus));
 
         $data = StudentFee::where('prog_Code', $programCode)
                     ->where('yrlevel', $numericPart)
                     ->where('schlyear', $schlyear)
                     ->where('semester', $semester)
-                    // ->where('campus', $campus)
-                    ->where(function ($q) use ($campusArray) {
-                        foreach ($campusArray as $campus) {
-                            $q->orWhere('campus', 'LIKE', "%$campus%");
-                        }
-                    })
+                    ->where('campus', $campus)
+                    // ->where(function ($q) use ($campusArray) {
+                    //     foreach ($campusArray as $campus) {
+                    //         $q->orWhere('campus', 'LIKE', "%$campus%");
+                    //     }
+                    // })
                     ->get();
         return response()->json($data);
     }
