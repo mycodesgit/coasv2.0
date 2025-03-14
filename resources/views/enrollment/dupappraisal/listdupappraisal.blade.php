@@ -81,7 +81,7 @@ CISS V.1.0 || Edit Duplicate Appraisal
                                     <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label><span class="badge badge-secondary">School Year</span></label>
                                     <select class="form-control form-control-sm" name="schlyear">
                                         @foreach($sy as $datasy)
