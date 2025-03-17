@@ -32,15 +32,15 @@ $(document).ready(function() {
                     return full.studYear + '-' + full.studSec;
                 }
             },
-            { 
-                data: 'studentCount',
-                render: function(data, type, full, meta) {
-                    if (type === 'display') {
-                        return '<strong>' + data + '</strong>';
-                    }
-                    return data;
-                }
-            },
+            // { 
+            //     data: 'studentCount',
+            //     render: function(data, type, full, meta) {
+            //         if (type === 'display') {
+            //             return '<strong>' + data + '</strong>';
+            //         }
+            //         return data;
+            //     }
+            // },
             { data: 'maleCount' },
             { data: 'femaleCount' },
             {data: 'id',
