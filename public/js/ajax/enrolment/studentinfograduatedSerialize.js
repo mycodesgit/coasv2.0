@@ -16,17 +16,17 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
-            { 
+            {
                 data: null,
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
                     var lastName = data.lname;
-                    var ext = data.ext !== 'N/A' ? ' ' + data.ext : '';
-                    
+                    var ext = (data.ext && data.ext !== 'N/A') ? ' ' + data.ext : '';
+            
                     return lastName + ', ' + firstname + ' ' + middleInitial + ext;
                 }
-            },
+            },            
             {data: 'stud_id'},
             {data: 'gender'},
             {data: 'civil_status'},
@@ -387,6 +387,33 @@ $(document).on('click', '.btn-studdataview', function() {
         },
         error: function(xhr, status, error) {
             alert('Error: ' + error); 
+        }
+    });
+});
+
+$('#editStudInfoForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: studInfoUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#viewdatastudModal').modal('hide');
+                $(document).trigger('studlistTable');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
         }
     });
 });
