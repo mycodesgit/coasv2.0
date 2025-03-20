@@ -109,9 +109,9 @@
 					<th colspan="3" style="font-weight: bold; margin-left: ; font-family: 'monospace';"><span style="color: #fff !important;">Payor</span><span style="margin-left: 60px;">{{ $studor->first()->fname }} {{ $studor->first()->lname }}</span><br><br></th>
 				</tr>
 				<tr>
-					<th style="font-size: 10pt; font-family: sans-serif; text-align: center; font-weight: thin; color: #fff !important;">NATURE OF<br> COLLECTION</th>
-					<th style="font-size: 10pt; font-family: unset; text-align: left !important; font-weight: thin; color: #fff !important;">ACCOUNT CODE</th>
-					<th width="35%" style="font-size: 10pt; font-family: unset; text-align: left !important; font-weight: thin; color: #fff !important;"><span class="hidden">AMOUNT</span></th>
+					<th style="font-size: 1pt; font-family: sans-serif; text-align: center; font-weight: thin; color: #fff !important;">NATURE OF<br> COLLECTION</th>
+					<th style="font-size: 1pt; font-family: unset; text-align: left !important; font-weight: thin; color: #fff !important;">ACCOUNT CODE</th>
+					<th width="35%" style="font-size: 1pt; font-family: unset; text-align: left !important; font-weight: thin; color: #fff !important;"><span class="hidden">AMOUNT</span></th>
 				</tr>
 			</thead>
 			<tbody>
