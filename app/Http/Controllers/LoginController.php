@@ -20,6 +20,11 @@ class LoginController extends Controller
         return view('loginkiosk');
     }
 
+    public function loginextkioskstud()
+    {
+        return view('loginkioskext');
+    }
+
     public function loginkioskstudonline()
     {
         return view('loginkioskonline');
@@ -69,6 +74,26 @@ class LoginController extends Controller
         //     return redirect()->route('homefaculty')->with('success', 'You have successfully logged in.');
         // } 
         elseif($validatedStudent) {
+            return redirect()->route('kioskhome')->with('success', 'You have successfully logged in.');
+        } 
+        else {
+            return redirect()->back()->with('error', 'Invalid Credentials');
+        }
+    }
+
+    public function extensionstud_login(Request $request)
+    {
+        $request->validate([
+            'studid' => 'required',
+            'studid' => 'required',
+        ]);
+
+        $validatedextensionStudent = auth()->guard('kioskstudent')->attempt([
+            'studid' => $request->studid,
+            'password' => $request->password,
+        ]);
+        
+        if($validatedextensionStudent) {
             return redirect()->route('kioskhome')->with('success', 'You have successfully logged in.');
         } 
         else {

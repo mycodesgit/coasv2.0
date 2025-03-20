@@ -126,8 +126,11 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
     Route::get('/emp', [LoginController::class, 'login'])->name('login');
     Route::get('/adlogzeus', [LoginController::class, 'adminloginme'])->name('adminloginme');
     Route::get('/studkiosk', [LoginController::class, 'loginkioskstud'])->name('loginkioskstud');
-    //Route::get('/stud/kiosk/online', [LoginController::class, 'loginkioskstudonline'])->name('loginkioskstudonline');
     Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
+
+    Route::get('/extkioskstud', [LoginController::class, 'loginextkioskstud'])->name('loginextkioskstud');
+    Route::post('/stud/kiosk/extension/online', [LoginController::class, 'extensionstud_login'])->name('extensionstud_login');
+
 
     Route::get('/faculty', [LoginFacultyController::class, 'loginfac'])->name('loginfac');
     Route::post('/faculty/empfac_login', [LoginFacultyController::class, 'fac_login'])->name('fac_login');

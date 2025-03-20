@@ -59,8 +59,15 @@ class ControlController extends Controller
             auth()->guard('faculty')->logout();
             return redirect()->route('loginfac')->with('success', 'You have been Successfully Logged Out');
         } elseif (\Auth::guard('kioskstudent')->check()) {
-            auth()->guard('kioskstudent')->logout();
-            return redirect()->route('loginkioskstud')->with('success', 'You have been Successfully Logged Out');
+            $user = auth()->guard('kioskstudent')->user(); // Get the authenticated user
+            
+            if ($user && $user->campus !== 'MC') { // Check if campus is NOT 'MC'
+                auth()->guard('kioskstudent')->logout();
+                return redirect()->route('loginextkioskstud')->with('success', 'You have been Successfully Logged Out');
+            } else {
+                auth()->guard('kioskstudent')->logout();
+                return redirect()->route('loginkioskstud')->with('success', 'You have been Successfully Logged Out');
+            }
         } else {
             // Check for kioskstudent guard before redirecting to home
             if (\Auth::guard('kioskstudent')->check()) {

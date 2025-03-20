@@ -212,7 +212,7 @@
                         <p>Sign in to view grades</p>
 
                     </div>
-                    <form action="{{ route('emp_login') }}" method="post">
+                    <form action="{{ route('extensionstud_login') }}" method="post">
                         @csrf
                         <div class="input-group mb-3">
                             <input type="text" name="studid" class="form-control form-control-lg bg-light fs-6" placeholder="Student ID number" id="studentIdInput">
@@ -238,13 +238,6 @@
             <span style="font-size: 9pt; text-align: center; margin-top: 10px;">Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</span>
         </div>
     </div>
-
-    <!-- Home Button -->
-    <a href="http://localhost/kioskallinone-app/public" style="color: white; text-decoration: none; font-size: 1.5em;" >
-        <div style="position: fixed; bottom: 35px; left: 60px; width: 90px; height: 60px; background: #007B3A; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;" class="goback">
-            <i class="fas fa-circle-chevron-left"></i><span style="font-size: 12pt; margin-left: 5px">Back</span>
-        </div>
-    </a>
 
     <div id="numericKeyboard" class="keyboard-container">
         <!-- Numeric Keys -->
@@ -370,22 +363,6 @@
             });
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const buttons = document.querySelectorAll('.goback');
-        
-            buttons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Add the 'clicked' class
-                    button.classList.add('clicked');
-        
-                    // Remove the class after the animation duration to allow re-click
-                    setTimeout(() => {
-                        button.classList.remove('clicked');
-                    }, 300); // Duration matches the animation time
-                });
-            });
-        });
-
         function myFunction() {
             var x = document.getElementById("studentPassInput");
             if (x.type === "password") {
@@ -394,34 +371,6 @@
                 x.type = "password";
             }
         }
-    </script>
-
-    <script>
-        // Set the inactivity timeout in milliseconds (2 seconds)
-        const inactivityTime = 12000;
-
-        // Function to redirect to the target URL
-        function redirectToHome() {
-            window.location.href = 'http://localhost/kioskallinone-app/public/';
-        }
-
-        // Initialize a timeout variable
-        let inactivityTimer;
-
-        // Reset the inactivity timer
-        function resetInactivityTimer() {
-            clearTimeout(inactivityTimer);
-            inactivityTimer = setTimeout(redirectToHome, inactivityTime);
-        }
-
-        // Attach event listeners for user interaction
-        document.addEventListener('mousemove', resetInactivityTimer);
-        document.addEventListener('keydown', resetInactivityTimer);
-        document.addEventListener('click', resetInactivityTimer);
-        document.addEventListener('touchstart', resetInactivityTimer);
-
-        // Start the timer when the page loads
-        window.onload = resetInactivityTimer;
     </script>
 </body>
 </html>
