@@ -12,7 +12,7 @@
             margin: 1mm;
         }
         table, th, td {
-            border: 1px solid #fff;
+            border: 1px solid #ffffff;
         }
         th, td {
             padding: 2px;
@@ -124,7 +124,7 @@
 
 				    $totalInWords = $numberTransformer->toWords($totalAmount);
 				    $rowCount = 0; 
-    				$maxRows = 10;
+    				$maxRows = 12;
     				$totalamnt = 0;
 				@endphp
 				@foreach($studor as $orfees)
