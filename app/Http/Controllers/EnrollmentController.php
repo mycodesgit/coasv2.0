@@ -816,7 +816,7 @@ class EnrollmentController extends Controller
             //     ->get();
         }
 
-        if(Auth::guard('web')->user()->campus == 'CA') {
+        if(Auth::guard('web')->user()->role == 15) {
             $sy = ConfigureCurrent::select('id', 'schlyear')
                 ->whereIn('id', function($query) {
                     $query->select(DB::raw('MAX(id)'))
