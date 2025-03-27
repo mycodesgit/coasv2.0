@@ -245,4 +245,41 @@ class EnStudELPLController extends Controller
         return response()->json(['data' => $data]);
 
     }
+
+    public function ranking_list()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $class = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')->get();
+
+        return view('enrollment.reports.enrolmentlist.ranking', compact('sy', 'class'));
+    }
+
+    public function ranking_listsearch(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $progCod = $request->query('progCod');
+        $campus = Auth::guard('web')->user()->campus;
+
+        
+
+        return view('enrollment.reports.enrolmentlist.ranking_search', compact('sy'));
+    }
 }

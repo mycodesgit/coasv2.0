@@ -1,7 +1,7 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-CISS V.1.0 || Student List per Curriculum
+CISS V.1.0 || Student List Ranking
 @endsection
 
 @section('sideheader')
@@ -20,17 +20,17 @@ CISS V.1.0 || Student List per Curriculum
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Enrollment</li>
-            <li class="breadcrumb-item active mt-1">Student Enrollment List</li>
+            <li class="breadcrumb-item active mt-1">Student List Ranking</li>
         </ol>
 
         <div>
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Student Enrollment List</h4>
+                <h4>Student List Ranking</h4>
             </div> 
         </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="GET" action="{{ route('elpl_listsearch') }}" id="enrollStud">
+                    <form method="GET" action="{{ route('ranking_listsearch') }}" id="enrollStud">
                         @csrf   
 
                         <div class="form-group mt-2" style="padding: 10px">
@@ -56,7 +56,7 @@ CISS V.1.0 || Student List per Curriculum
 
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">Course</span></label>
-                                    <select class="form-control form-control-sm" name="progCod" id="progCod">
+                                    <select class="form-control form-control-sm select2" name="progCod" id="progCod">
                                         <option disabled selected>Select a course</option>
                                     </select>
                                 </div>

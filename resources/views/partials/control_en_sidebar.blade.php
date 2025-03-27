@@ -23,6 +23,7 @@
     $studviewgrdeActive = in_array($curr_route, ['studviewgradeRead', 'search_studviewgradeRead', 'searchgradschool_studviewgradeRead']) ? 'active' : '';
     $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
     $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
+    $rankActive = in_array($curr_route, ['ranking_list', 'ranking_listsearch']) ? 'active' : '';
     $numenrolledActive = in_array($curr_route, ['studnoenrollee', 'studnoenrollee_searchList']) ? 'active' : '';
     $numnstpenrolledActive = in_array($curr_route, ['studnoNSTPenrollee']) ? 'active' : '';
     $studevalActive = in_array($curr_route, ['studevalRead', 'studevalReadgradschool_listsearch', 'studevalRead_listsearch']) ? 'active' : '';
@@ -53,8 +54,8 @@
 
         @if(Auth::guard('web')->user()->role == '0')
             <a href="{{ route('dupapprslSearch') }}" class="list-group-item {{ $editDupAppEnrollStudActive }}">Edit Dup. Appraisal</a>
-            <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Subject Section</a>
-            <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Program</a>
+            {{-- <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Subject Section</a>
+            <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Program</a> --}}
         @endif
 
         @if(Auth::guard('web')->user()->campus == 'MC')
@@ -110,6 +111,7 @@
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
+        <a href="{{ route('ranking_list') }}" class="list-group-item {{ $rankActive }}">Ranking</a>
         <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
         @endif
 

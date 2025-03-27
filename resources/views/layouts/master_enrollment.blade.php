@@ -487,7 +487,7 @@
     @if(request()->routeIs('studInfograduated_search'))
         <script src="{{ asset('js/ajax/enrolment/studentinfograduatedSerialize.js') }}"></script>
     @endif
-    @if(request()->routeIs('elpl_list', 'elpl_listsearch'))
+    @if(request()->routeIs('elpl_list', 'elpl_listsearch','ranking_list'))
         <script src="{{ asset('js/ajax/enrolment/getcourseSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('studnoenrollee'))
