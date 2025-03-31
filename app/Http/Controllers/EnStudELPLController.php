@@ -278,8 +278,35 @@ class EnStudELPLController extends Controller
         $progCod = $request->query('progCod');
         $campus = Auth::guard('web')->user()->campus;
 
-        
+        $campusArray = array_map('trim', explode(',', $campus));
 
-        return view('enrollment.reports.enrolmentlist.ranking_search', compact('sy'));
+        $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                    ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->where('program_en_history.progCod', $progCod)
+                    // ->where('program_en_history.studYear', $studYear)
+                    // ->where('program_en_history.studSec', $studSec)
+                    ->where('program_en_history.schlyear', $schlyear)
+                    ->where('program_en_history.semester', $semester)
+                    // ->where('program_en_history.campus', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                        }
+                    })
+                    // ->where('students.campus', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('students.campus', 'LIKE', "%$campus%");
+                        }
+                    })
+                    ->select('program_en_history.*', 'students.*')
+                    ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym')
+                    ->orderBy('students.lname', 'ASC')
+                    ->limit(2)
+                    ->get();
+
+                    //dd($studrepcard);
+
+        return view('enrollment.reports.enrolmentlist.ranking_search', compact('sy', 'studrepcard'));
     }
 }

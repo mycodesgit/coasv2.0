@@ -86,40 +86,21 @@ CISS V.1.0 || Student List Ranking
                                 <th>Last Name</th>
                                 <th>First Name</th>
                                 <th>Middle Name</th>
-                                <th>Ext</th>
-                                <th>Gender</th>
-                                <th>Address</th>
-                                <th>Degree</th>
-                                <th>Yr.Lvl</th>
-                                <th>Subjects</th>
-                                <th>Grades</th>
-                                <th>Units</th>
+                                <th>subg</th>
+                                <th>GWA</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach($studelpl as $studentData)
-                                @php
-                                    $studentPrinted = false;
-                                @endphp
-                                @foreach($studentData as $subject)
-                                    <tr>
-                                        @if(!$studentPrinted)
-                                            <td>{{ $subject->studentID }}</td>
-                                            <td>{{ $subject->lname }}</td>
-                                            <td>{{ $subject->fname }}</td>
-                                            <td>{{ $subject->mname }}</td>
-                                            <td>{{ $subject->ext }}</td>
-                                            <td>{{ $subject->gender }}</td>
-                                            @php
-                                                $studentPrinted = true;
-                                            @endphp
-                                        @else
-                                            <td colspan="6"></td>
-                                        @endif
-                                        <td>{{ $subject->sub_name }}</td>
-                                    </tr>
-                                @endforeach
-                            @endforeach --}}
+                            @foreach($studrepcard as $subject)
+                                <tr>
+                                    <td>{{ $subject->studentID }}</td>
+                                    <td>{{ $subject->lname }}</td>
+                                    <td>{{ $subject->fname }}</td>
+                                    <td>{{ $subject->mname }}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

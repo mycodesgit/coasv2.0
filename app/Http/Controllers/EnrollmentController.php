@@ -816,16 +816,16 @@ class EnrollmentController extends Controller
             //     ->get();
         }
 
-        if(Auth::guard('web')->user()->role == 15) {
-            $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->whereIn('id', function($query) {
-                    $query->select(DB::raw('MAX(id)'))
-                        ->from('settings_conf')
-                        ->groupBy('schlyear');
-                })
-                ->orderBy('id', 'DESC')
-                ->get();
-        }
+        // if(Auth::guard('web')->user()->role == 15) {
+        //     $sy = ConfigureCurrent::select('id', 'schlyear')
+        //         ->whereIn('id', function($query) {
+        //             $query->select(DB::raw('MAX(id)'))
+        //                 ->from('settings_conf')
+        //                 ->groupBy('schlyear');
+        //         })
+        //         ->orderBy('id', 'DESC')
+        //         ->get();
+        // }
 
         $queueMode = QueueMode::first();
             
