@@ -23,7 +23,10 @@ class QueueingSettingController extends Controller
 {
     public function index()
     {
-        $user = User::where('dept', '=', 'Registrar Office')->where('campus', '=', Auth::guard('web')->user()->campus)->get();
+        $user = User::where(function ($query) {
+            $query->where('dept', '=', 'Registrar Office')
+              ->orWhere('dept', '=', 'Graduate School Registrar');
+        })->where('campus', '=', Auth::guard('web')->user()->campus)->get();
         return view('queue.conf.list_counter', compact('user'));
     }
 
