@@ -61,6 +61,7 @@ CISS V.1.0 || Counter List
                                             <select class="form-control form-control-sm" name="catname">
                                                 <option value="Enrollment">Enrollment</option>
                                                 <option value="Processing">Processing</option>
+                                                <option value="Pre-register">Pre-register</option>
                                             </select>
                                         </div>
 

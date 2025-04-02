@@ -65,7 +65,33 @@ class QueueingSettingController extends Controller
                 return response()->json(['error' => true, 'message' => 'Failed to store Counter'], 404);
             }
         }
-    }   
+    }
+    
+    public function counterUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+            'useridlog' => 'required',
+        ]);
+
+        try {
+            $counterName = $request->input('useridlog');
+            $existingCounter = QueueCounter::where('useridlog', $counterName)->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingCounter) {
+                return response()->json(['error' => true, 'message' => 'Counters already exists'], 404);
+            }
+
+            $counter = QueueCounter::findOrFail($request->input('id'));
+            $counter->update([
+                'useridlog' => $counterName,
+                'category' => $request->input('category'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Counter update successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to Update Counter'], 404);
+        }
+    }
 
     public function numberRead()
     {

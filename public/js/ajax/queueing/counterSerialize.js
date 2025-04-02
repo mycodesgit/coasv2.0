@@ -60,7 +60,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-fundedit" data-id="' + row.id + '" data-fundname="' + row.fund_name + '">' +
+                            '<a href="#" class="dropdown-item btn-fundedit" data-id="' + row.id + '" data-countername="' + row.useridlog + '" data-countercat="' + row.category + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item fund-delete">' +
@@ -81,5 +81,43 @@ $(document).ready(function() {
     });
     $(document).on('counterAdded', function() {
         dataTable.ajax.reload();
+    });
+});
+
+$(document).on('click', '.btn-fundedit', function() {
+    var id = $(this).data('id');
+    var counterName = $(this).data('countername');
+    var counterCategory = $(this).data('countercat');
+
+    $('#editCounterId').val(id);
+    $('#editCounterName').val(counterName);
+    $('#editCounterCategoty').val(counterCategory);
+    $('#editCounterModal').modal('show');
+});
+
+$('#editCounterForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: counterUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#editCounterModal').modal('hide');
+                $(document).trigger('counterAdded');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
     });
 });

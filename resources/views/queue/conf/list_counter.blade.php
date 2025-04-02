@@ -66,6 +66,7 @@ CISS V.1.0 || Counter List
                                             <select class="form-control form-control-sm" name="category">
                                                 <option value="Enrollment">Enrollment</option>
                                                 <option value="Processing">Processing</option>
+                                                <option value="Pre-register">Pre-register</option>
                                             </select>
                                         </div>
 
@@ -100,10 +101,49 @@ CISS V.1.0 || Counter List
     </div>
 </div>
 
+<div class="modal fade" id="editCounterModal" tabindex="-1" role="dialog" aria-labelledby="editCounterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCounterModalLabel">Edit Counter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editCounterForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editCounterId">
+                    <div class="form-group">
+                        <label for="editCounterName">Name</label>
+                        <select class="form-control form-control-sm" name="useridlog" id="editCounterName">
+                            <option disabled selected> --Select-- </option>
+                            @foreach($user as $datauser)
+                                <option value="{{ $datauser->id }}">{{ $datauser->fname }} {{ $datauser->lname }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCounterCategoty">Category</label>
+                        <select name="category" class="form-control form-control-sm" id="editCounterCategoty">
+                            <option value="Enrollment">Enrollment</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Pre-register">Pre-register</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     var counterRoute = "{{ route('getcounterRead') }}";
     var counterCreateRoute = "{{ route('counterCreate') }}";
-    var counterUpdateRoute = "{{ route('setconfUpdate', ['id' => ':id']) }}";
+    var counterUpdateRoute = "{{ route('counterUpdate', ['id' => ':id']) }}";
 </script>
 
 @endsection
