@@ -123,7 +123,16 @@ class QueueingSettingController extends Controller
             $available_in = $request->input('available_in');
             $campus = Auth::guard('web')->user()->campus;
 
-            $prefix = $catname === 'Processing' ? strtoupper($campus) . 'P-' : strtoupper($campus) . 'E-';
+            //$prefix = $catname === 'Processing' ? strtoupper($campus) . 'P-' : strtoupper($campus) . 'E-';
+            if ($catname === 'Processing') {
+                $prefix = strtoupper($campus) . 'P-';
+            } elseif ($catname === 'Pre-register') {
+                $prefix = 'PRE-';
+            } elseif ($catname === 'Enrollment') {
+                $prefix = 'ENRO-';
+            } else {
+                $prefix = strtoupper($campus) . '-';
+            }
 
             // Generate and save queue numbers
             for ($i = $start; $i <= $end; $i++) {
