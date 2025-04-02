@@ -129,13 +129,13 @@
                         </div>
                         <div class="col-lg-7">
                             <center style="background-color: #93cda0; border-radius: 25px; margin-top: -50px;">
-                                <span id="number-displaycurr" style="font-weight: bold; font-size: 210px;">
+                                <span id="number-displaycurr" style="font-weight: bold; font-size: 190px;">
                                     <p id="queue-numbercurr" style="margin-top: 100px;"></p>
                                     <p id="window-numbercurr" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
                                 </span>
                             </center>
                             <center style="background-color: #ffe28c; border-radius: 25px; margin-top: -50px;">
-                                <span id="number-displaycall" style="font-weight: bold; font-size: 210px;">
+                                <span id="number-displaycall" style="font-weight: bold; font-size: 190px;">
                                     <p id="queue-number" style="margin-top: 100px; animation: blink 2s infinite;"></p>
                                     <p id="window-number" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
                                 </span>

@@ -43,7 +43,7 @@
         <a href="" class="list-group-item text-center">Sorry for the inconvenience, we are currently undergoing maintenance.</a>
     @else --}}
     <ul class="list-group mt-1">
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 15]))
             <a href="{{ route('studentCreate') }}" class="list-group-item {{ $studAddActive }}">Add Student</a>
         @endif
 
