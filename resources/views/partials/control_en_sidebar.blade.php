@@ -59,7 +59,7 @@
         @endif
 
         @if(Auth::guard('web')->user()->campus == 'MC')
-            @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6]))
+            @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 5, 6, 15]))
                 <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Evaluate Student</a>
             @endif
         @endif
