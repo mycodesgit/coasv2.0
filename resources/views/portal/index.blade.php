@@ -1,128 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>CISS V.1.0 - Portal</title>
+    <title>CISS</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/trans-style.css') }}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ asset('template/dist/css/bootstrap.min.css') }}" crossorigin="anonymous">
+    <!-- Login Design -->
+    <link rel="stylesheet" href="{{ asset('template/dist/css/login-style.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo -->
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
-
-    <style type="text/css">
-
+    <style>
+        .btn-secondary {
+            --bs-btn-color: #000;
+            --bs-btn-bg: #adbfcd;
+            --bs-btn-border-color: #f8f9fa;
+            --bs-btn-hover-color: #000;
+            --bs-btn-hover-bg: #046706;
+            --bs-btn-hover-color: #f8f9fa;
+            --bs-btn-hover-border-color: #c6c7c8;
+            --bs-btn-focus-shadow-rgb: 211, 212, 213;
+            --bs-btn-active-color: #000;
+            --bs-btn-active-bg: #c6c7c8;
+            --bs-btn-active-border-color: #babbbc;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #000;
+            --bs-btn-disabled-bg: #f8f9fa;
+            --bs-btn-disabled-border-color: #f8f9fa;
+        }
+        .btn.disabled, .btn:disabled, fieldset:disabled .btn {
+            color: var(--bs-btn-disabled-color);
+            pointer-events: none;
+            background-color: #adbfcd;
+            border-color: #c6c7c8;
+        }
     </style>
 </head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="row border rounded-5 p-3 bg-white shadow box-area">
+            <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #04401f;">
+                {{-- <div id="particles-js"></div> --}}
+                <div class="featured-image mb-3">
+                    <center><img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-fluid" id="" style="width: 100px; padding-top: 0px;"></center>
+                    <p class="text-white text-center" style="font-family: 'Courier New', Courier, monospace; font-weight: 600; font-size: 1.5em !important">CISS</p>
+                </div>
+                <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">CPSU Integrated System Solution</br></small>
+                {{-- <center><img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-fluid" id="cpsulogoleftsideImage" style="width: 80%; padding-top: 0px;"></center> --}}
+            </div> 
+        
+            <div class="col-md-6 right-box">
+                <div class="row align-items-center">
+                    <div class="header-text mb-4 text-center">
+                        <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
+                        <h2>Hi, Cenphilian</h2>
+                        <p>Select Transaction</p>
 
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="card" style="border: 3px solid #04401f;">
-            <div class="card-body login-card-body">
-                <div class="row">
-                    @if (Config::get('settings.maintenance_mode', false))
-                        <div class="col-md-7 d-none d-md-block">
-                            <div class="">
-                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <img src="{{ asset('template/img/maintenance5.png') }}" width="105%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="">
+                        <div>
+                            <a href="{{ route('admission-apply') }}" class="btn btn-success btn-lg w-100 fs-6 text-bold mb-2">Apply for Admission</a>
+                            <a href="{{ route('admission_track') }}" class="btn btn-success btn-lg w-100 fs-6 text-bold mb-2">Track Admission</a>
+                            <a href="{{ route('repup') }}" class="btn btn-success btn-lg w-100 fs-6 text-bold mb-2">Re-upload Documents</a>
                         </div>
-
-                        <div class="col-md-5 col-sm-12 pr-4 pl-4 pt-2 pb-2 w-100 col-12" style="background-color: #04401f; border-radius: 5px;">
-                            <div class="text-light">
-                                <center>
-                                    <div style="font-size: 16pt; margin-top: 20px;">
-                                        <i class="fas fa-server" style="font-size: 50pt"></i>
-                                    </div>
-                                    <h2 class="mt-2">We'll be back soon!</h2>
-                                    <div>---------------------------------------</div>
-                                    <div class="mt-3">
-                                        Sorry for the inconvenience but we're performing some maintenance at the moment. We'll be back online shortly!
-                                    </div>
-                                </center>
-                            </div>
-                        </div>
-                    @else
-                        <div class="col-md-7 d-none d-md-block">
-                            <h3 style="font-weight: bold;color:#04401f;" class="card-footer">
-                                CISS V.1.0
-                            </h3>
-                            <hr>
-                            <div class="">
-                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <p class="lead" alt="First slide">CPSU Integrated System Solution (CISS) is an application system for the University Frontline Services. </p>
-                                            <p class="lead" alt="First slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
-                                        </div>
-                                        <div class="carousel-item">
-                                            <p class="lead" alt="Second slide">CPSU Integrated System Solution (CISS) is an application system for the University Frontline Services. </p>
-                                            <p class="lead" alt="Second slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
-                                        </div>
-                                        <div class="carousel-item">
-                                            <p class="lead" alt="Third slide">CPSU Integrated System Solution (CISS) is an application system for the University Frontline Services. </p>
-                                            <p class="lead" alt="Third slide">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p>Visit <a href="https://cpsu.edu.ph" target="_blank" style="color:#04401f;"><b>Official Website</b></a> for more information.</p>
-                        </div>
-
-                        <div class="col-md-5 pr-4 pl-4 pt-2 pb-2" style="background-color: #04401f; border-radius: 5px;">
-                            <div class="login-logo mt-2">
-                                <a href="{{ route('main') }}">
-                                    <img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-circle" width="100px" height="100px">
-                                </a>
-                                
-                            </div>
-                            <p class="login-box-msg text-light">Select Transaction</p>
-
-                            <div>
-                                <a href="{{ route('admission-apply') }}" class="btn btn-warning btn-block text-bold">Apply for Admission</a>
-                                <a href="{{ route('admission_track') }}" class="btn btn-warning btn-block text-bold">Track Admission</a>
-                                <a href="{{ route('repup') }}" class="btn btn-warning btn-block text-bold">Re-upload Documents</a>
-                            </div>
-                            &nbsp;
-                        </div>   
-                    @endif
-                </div> 
-            </div>
+                    </div>
+                </div>
+            </div> 
+            <span style="font-size: 9pt; text-align: center; margin-top: 10px;">Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</span>
         </div>
-        <div class="loader"></div>
     </div>
 
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
+    <!-- Moment -->
+    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    {{-- <script src="{{ asset('particles/particles.js') }}"></script>
+    <script src="{{ asset('particles/app.js') }}"></script> --}}
     <!-- Context -->
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     
+
     <script>
-        window.addEventListener("load", () => {
-            const loader = document.querySelector(".loader");
-                loader.classList.add("loader--hidden");
-                loader.addEventListener("transitioned", () => {
-                    document.body.removeChild(loader);
-            });
+        $(document).ready(function() {
+            @if(session('error'))
+                toastr.error("{{ session('error') }}", "Error", {
+                    closeButton: false,
+                    progressBar: true,
+                    positionClass: "toast-top-right",
+                    timeOut: 10000
+                });
+            @endif
+
+            @if(session('success'))
+                toastr.success("{{ session('success') }}", "Success", {
+                    closeButton: false,
+                    progressBar: true,
+                    positionClass: "toast-top-right",
+                    timeOut: 10000
+                });
+            @endif
         });
-</script>
+    </script>
+
 </body>
 </html>
