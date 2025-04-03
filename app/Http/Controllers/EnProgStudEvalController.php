@@ -40,14 +40,18 @@ use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\AssessmentDB\StudPayment;
 
 use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\QueueCounter;
+use App\Models\SettingDB\QueueCustomer;
+use App\Models\SettingDB\QueueMode;
 
 class EnProgStudEvalController extends Controller
 {
     public function loadstudsub()
     {
         $sy = ConfigureCurrent::where('set_status', '=', '3')->get();
+        $queueMode = QueueMode::first();
 
-        return view('enrollment.evalstud.search_studeval', compact('sy'));
+        return view('enrollment.evalstud.search_studeval', compact('sy', 'queueMode'));
     }
 
     public function loadstudsub_searchview(Request $request)

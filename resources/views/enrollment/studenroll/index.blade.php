@@ -93,10 +93,11 @@ CISS V.1.0 || Enroll Student
                                 </tbody>
                             </table>
                         @endif
-                    </div>
+                    @endif
+                </div>
 
-                    @if($queueMode->statusqueue === 'Off')
-                    @else
+                @if($queueMode->statusqueue === 'Off')
+                @else
                     <div class="col-md-3">
                         <div class="form-group mt-2" style="padding: 10px">
                             <div class="form-row">
@@ -113,11 +114,9 @@ CISS V.1.0 || Enroll Student
                             </div>
                         </div>
                     </div>
-                    @endif
                 @endif
             </div>
         </div>
-        
     </div>
 </div>
 
