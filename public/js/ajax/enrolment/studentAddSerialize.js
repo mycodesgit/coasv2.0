@@ -259,20 +259,28 @@ $(document).ready(function() {
     };
 
     var $citySelect = $('#viewdatastudCity');
+    var $citySelect1 = $('#viewdatastudCity1');
     var $provinceInput = $('#viewdatastudProvince');
+    var $provinceInput1 = $('#viewdatastudProvince1');
     var $regionInput = $('#viewdatastudRegion');
+    var $regionInput1 = $('#viewdatastudRegion1');
     var $zcodeInput = $('#viewdatastudZcode');
+    var $zcodeInput1 = $('#viewdatastudZcode1');
 
     function updateAddress() {
         var hnum = document.getElementById('viewdatastudHnum').value;
         var brgy = document.getElementById('viewdatastudBrgy').value;
         var city = document.getElementById('viewdatastudCity').value;
+        var city1 = document.getElementById('viewdatastudCity1').value;
         var province = document.getElementById('viewdatastudProvince').value;
+        var province1 = document.getElementById('viewdatastudProvince1').value;
         var region = document.getElementById('viewdatastudRegion').value;
+        var region1 = document.getElementById('viewdatastudRegion1').value;
         var zcode = document.getElementById('viewdatastudZcode').value;
+        var zcode1 = document.getElementById('viewdatastudZcode1').value;
 
         // Concatenate the values with commas
-        var address = [hnum, brgy, city, province, region, zcode].filter(Boolean).join(', ');
+        var address = [hnum, brgy, city, city1, province, province1, region, region1, zcode, zcode1].filter(Boolean).join(', ');
 
         // Update the Address field
         document.getElementById('viewdatastudAddress').value = address;
@@ -282,9 +290,13 @@ $(document).ready(function() {
     document.getElementById('viewdatastudHnum').addEventListener('input', updateAddress);
     document.getElementById('viewdatastudBrgy').addEventListener('input', updateAddress);
     document.getElementById('viewdatastudCity').addEventListener('change', updateAddress);
+    document.getElementById('viewdatastudCity1').addEventListener('change', updateAddress);
     document.getElementById('viewdatastudProvince').addEventListener('input', updateAddress);
+    document.getElementById('viewdatastudProvince1').addEventListener('input', updateAddress);
     document.getElementById('viewdatastudRegion').addEventListener('input', updateAddress);
+    document.getElementById('viewdatastudRegion1').addEventListener('input', updateAddress);
     document.getElementById('viewdatastudZcode').addEventListener('input', updateAddress);
+    document.getElementById('viewdatastudZcode1').addEventListener('input', updateAddress);
 
     // Run the function once to ensure the Address is updated if the form is pre-filled
     //updateAddress();
@@ -295,6 +307,10 @@ $(document).ready(function() {
     // Populate the city dropdown
     sortedCities.forEach(function(city) {
         $citySelect.append('<option value="' + city + '">' + city + '</option>');
+    });
+
+    sortedCities.forEach(function(city) {
+        $citySelect1.append('<option value="' + city + '">' + city + '</option>');
     });
 
     // Event listener for city dropdown change
@@ -316,6 +332,28 @@ $(document).ready(function() {
             $provinceInput.val('');
             $regionInput.val('');
             $zcodeInput.val('');
+        }
+        updateAddress();
+    });
+
+    $citySelect1.change(function() {
+        var selectedCity = $(this).val();
+        var cityInfo = cityData[selectedCity];
+
+        // Remove highlight class from all options
+        $citySelect1.find('option').removeClass('highlight');
+
+        // Add highlight class to selected option
+        $citySelect1.find('option[value="' + selectedCity + '"]').addClass('highlight');
+        
+        if (cityInfo) {
+            $provinceInput1.val(cityInfo.province);
+            $regionInput1.val(cityInfo.region);
+            $zcodeInput1.val(cityInfo.zcode);
+        } else {
+            $provinceInput1.val('');
+            $regionInput1.val('');
+            $zcodeInput1.val('');
         }
         updateAddress();
     });

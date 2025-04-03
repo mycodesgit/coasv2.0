@@ -355,21 +355,21 @@ CISS V.1.0 || Add Student
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Munipality/City</span></label>
-                                            <select name="city" class="form-control form-control-sm select2bs4" id="viewdatastudCity">
+                                            <select name="city" class="form-control form-control-sm select2bs4" id="viewdatastudCity1">
                                                 <option value="">Select City</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Province</span></label>
-                                            <input type="text" name="province" class="form-control form-control-sm" id="viewdatastudProvince">
+                                            <input type="text" name="province" class="form-control form-control-sm" id="viewdatastudProvince1">
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Region</span></label>
-                                            <input type="text" name="region" class="form-control form-control-sm" id="viewdatastudRegion">
+                                            <input type="text" name="region" class="form-control form-control-sm" id="viewdatastudRegion1">
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Zip Code</span></label>
-                                            <input type="text" name="zcode" class="form-control form-control-sm" id="viewdatastudZcode">
+                                            <input type="text" name="zcode" class="form-control form-control-sm" id="viewdatastudZcode1">
                                         </div>
                                     </div>
                                 </div>
