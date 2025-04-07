@@ -43,6 +43,22 @@ CISS V.1.0 || Student List per Curriculum
 
                         <div class="form-group mt-2" style="padding: 10px">
                             <div class="form-row">
+                                @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Arlos')
+                                <div class="col-md-2">
+                                    <label><span class="badge badge-secondary">Campus</span></label>
+                                    <select class="form-control form-control-sm" name="campus" id="campus">
+                                        <option value="MC">Main</option>
+                                        <option value="SCC">San Carlos</option>
+                                        <option value="VC">Victorias</option>
+                                        <option value="HC">Hinigaran</option>
+                                        <option value="MP">Moises Padilla</option>
+                                        <option value="HinC">Hinobaan</option>
+                                        <option value="SC">Sipalay</option>
+                                        <option value="IC">Ilog</option>
+                                        <option value="CC">Cauayan</option>
+                                    </select>
+                                </div>
+                                @endif
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">School Year</span></label>
                                     <select class="form-control form-control-sm" name="schlyear">

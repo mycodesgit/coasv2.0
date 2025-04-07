@@ -83,7 +83,12 @@ class EnStudentPerCurriculumController extends Controller
     {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');   
-        $campus = Auth::guard('web')->user()->campus;
+        // $campus = Auth::guard('web')->user()->campus;
+        if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
+            $campus = $request->query('campus');    
+        } else {
+            $campus = Auth::guard('web')->user()->campus;
+        }
 
         $campusArray = array_map('trim', explode(',', $campus));
 
