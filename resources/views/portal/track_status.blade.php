@@ -222,22 +222,28 @@
                                                                             <h6 style="text-indent: 50px;">
                                                                                 <i>
                                                                                     <b>Remark</b>: 
-                                                                                    @if ($applicant->result->raw_score < 100)  FAILED 
-                                                                                        @else PASSED 
+                                                                                    @if ($applicant->result->raw_score < 45)  
+                                                                                        FAILED 
+                                                                                    @else
+                                                                                        PASSED 
                                                                                     @endif
                                                                                 </i>
                                                                             </h6>
                                                                             <h6 style="text-indent: 50px;">
                                                                                 <b>
-                                                                                    @if ($applicant->result->raw_score < 100)  NOT QUALIFIED FOR SCREENING 
-                                                                                        @else QUALIFIED FOR SCREENING 
+                                                                                    @if ($applicant->result->raw_score < 45)  
+                                                                                        NOT QUALIFIED FOR SCREENING 
+                                                                                    @else 
+                                                                                        QUALIFIED FOR SCREENING 
                                                                                     @endif
                                                                                 </b>
                                                                             </h6>
                                                                             <h6 style="text-indent: 50px;">
                                                                                 <i>
-                                                                                    @if ($applicant->result->raw_score < 100)  
-                                                                                        @else * Subject to College Screening Process 
+                                                                                    @if ($applicant->result->raw_score < 45)  
+                                                                                    
+                                                                                    @else 
+                                                                                        * Subject to College Screening Process 
                                                                                     @endif
                                                                                 </i>
                                                                             </h6>
