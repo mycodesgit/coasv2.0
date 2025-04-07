@@ -26,8 +26,24 @@
     <div align="center" style="margin-top: -30px">
         @if(Auth::guard('web')->user()->campus == 'MC')
             <img src="{{ public_path('template/img/studcur/studcourseheaderMain.png') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'VC')
+            <img src="{{ public_path('template/img/studcur/studcourseheaderVictorias.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'SCC')
+            <img src="{{ public_path('template/img/studcur/studcourseheaderSanCarlos.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'HC')
+            <img src="{{ public_path('template/img/studcur/studcourseheaderHinigaran.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'MP')
+            <img src="{{ public_path('template/img/studcur/studcourseheaderMoisesPadilla.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'IC')
+            <img src="{{ public_path('template/img/studcur/studcourseheaderIlog.jpg') }}" width="80%">
         @elseif(Auth::guard('web')->user()->campus == 'CA')
             <img src="{{ public_path('template/img/studcur/studcourseheaderCandoni.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'CC')
+            <img src="{{ public_path('template/img/studcur/studcourseheaderCauayan.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'SC')
+            <img src="{{ public_path('template/img/studcur/studcourseheaderSipalay.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'HinC')
+            <img src="{{ public_path('template/img/studcur/studcourseheaderHinoba-an.jpg') }}" width="80%">
         @endif
     </div>
     <div align="center" style="font-family: Calibri !important; color: #000 !important; margin-top: -35px;">
