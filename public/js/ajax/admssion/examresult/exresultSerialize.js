@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
     rawScoreInput.addEventListener('input', function() {
         const rawScoreValue = parseInt(this.value);
         
-        if (rawScoreValue < 100) {
+        if (rawScoreValue < 45) {
             remarksInput.value = 'Failed';
         } else {
             remarksInput.value = 'Qualified';
