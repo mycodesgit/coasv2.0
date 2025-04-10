@@ -372,19 +372,73 @@ $('#pushtocnfrmForm').submit(function(event) {
     });
 });
 
+// document.addEventListener('DOMContentLoaded', function() {
+//     const rawScoreInput = document.querySelector('input[name="raw_score"]');
+    
+//     const remarksInput = document.querySelector('input[name="percentile"]');
+    
+//     rawScoreInput.addEventListener('input', function() {
+//         const rawScoreValue = parseInt(this.value);
+        
+//         if (rawScoreValue < 45) {
+//             remarksInput.value = 'Failed';
+//         } else {
+//             remarksInput.value = 'Qualified';
+//         }
+        
+//     });
+// });
+
 document.addEventListener('DOMContentLoaded', function() {
     const rawScoreInput = document.querySelector('input[name="raw_score"]');
-    
     const remarksInput = document.querySelector('input[name="percentile"]');
     
     rawScoreInput.addEventListener('input', function() {
         const rawScoreValue = parseInt(this.value);
+        const userCampus = isCampus;
         
-        if (rawScoreValue < 45) {
+        let passingScore = 45; 
+        
+        // Adjust passing score based on campus
+        switch (userCampus) {
+            case 'MC': 
+                passingScore = 45;
+                break;
+            case 'VC': 
+                passingScore = 44;
+                break;
+            case 'SCC': 
+                passingScore = 45;
+                break;
+            case 'HC': 
+                passingScore = 42;
+                break;
+            case 'MP': 
+                passingScore = 38;
+                break; 
+            case 'IC': 
+                passingScore = 33;
+                break; 
+            case 'CA': 
+                passingScore = 36;
+                break;   
+            case 'CC': 
+                passingScore = 40;
+                break; 
+            case 'SC': 
+                passingScore = 34;
+                break;      
+            case 'HinC': 
+                passingScore = 42;
+                break;
+            default:
+                passingScore = 45; 
+        }
+        
+        if (rawScoreValue < passingScore) {
             remarksInput.value = 'Failed';
         } else {
             remarksInput.value = 'Qualified';
         }
-        
     });
 });
