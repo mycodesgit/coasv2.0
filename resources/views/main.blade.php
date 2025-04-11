@@ -67,7 +67,7 @@
                         <div>
                             <a href="{{ route('admission-portal') }}" class="btn btn-success btn-lg w-100 fs-6 text-bolder mb-2">Admission</a>
                             <a href="#" class="btn btn-success btn-lg text-bold w-100 fs-6 disabled mb-2">Student (Available Soon)</a>
-                            <a href="#" class="btn btn-success btn-lg text-bold w-100 fs-6 disabled mb-2">Request for Documents (Available Soon)</a>
+                            <a href="{{ route('reqdocs-portal') }}" class="btn btn-success btn-lg text-bold w-100 fs-6 mb-2">Request for Documents</a>
                         </div>
                     </div>
                 </div>
