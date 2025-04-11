@@ -26,7 +26,7 @@
 </div>
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        <a href="{{ route('listorperdayRead') }}" class="list-group-item {{ $orperdayActive }}">Official Receipt Per Date</a>
-        <a href="{{ route('listorpermonthRead') }}" class="list-group-item {{ $orpermonthActive }}">Official Receipt Per Month</a>  
+        <a href="{{ route('listorperdayRead') }}" class="list-group-item {{ $orperdayActive }}">OR Per Date</a>
+        <a href="{{ route('listorpermonthRead') }}" class="list-group-item {{ $orpermonthActive }}">OR Per Month</a>  
     </ul>
 </div>
