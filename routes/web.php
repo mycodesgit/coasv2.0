@@ -512,6 +512,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/stud/record/eval/search', [EnStudReportCardController::class, 'studevalRead_listsearch'])->name('studevalRead_listsearch');
             Route::get('/info/stud/record/eval/search/grad', [EnStudReportCardController::class, 'studevalReadgradschool_listsearch'])->name('studevalReadgradschool_listsearch');
             Route::get('/info/stud/record/eval/searchPDF', [EnStudReportCardController::class, 'studevalRead_listsearchpdf'])->name('studevalRead_listsearchpdf');
+            Route::get('/studeval/export-excel', [EnStudReportCardController::class, 'exportToExcel'])->name('studeval.export.excel');
+
 
             Route::get('/logbook/facultygradesheet/list/submission', [EnGradesheetLogbookController::class, 'logbookindex'])->name('logbookindex');
             Route::get('/logbook/facultygradesheet/list/submission/view', [EnGradesheetLogbookController::class, 'logbook_search'])->name('logbook_search');

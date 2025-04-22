@@ -38,6 +38,9 @@ use App\Models\AssessmentDB\StudentAppraisal;
 
 use App\Models\SettingDB\ConfigureCurrent;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\StudentEvalExport;
+
 class EnStudReportCardController extends Controller
 {
     public function reportCard_list()
@@ -427,6 +430,12 @@ class EnStudReportCardController extends Controller
 
         $pdf = PDF::loadView('enrollment.reports.evaluation.studevalpdf_listsearch', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
+    }
+
+    public function exportToExcel(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        return Excel::download(new StudentEvalExport($stud_id), 'student-evaluation.xlsx');
     }
 
 }
