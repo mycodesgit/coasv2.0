@@ -39,8 +39,6 @@ use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\SettingDB\ConfigureCurrent;
 
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Concerns\FromView;
-
 use App\Exports\StudentEvalExport;
 
 class EnStudReportCardController extends Controller

@@ -2,6 +2,8 @@
 
 namespace App\Exports;
 
+use Maatwebsite\Excel\Concerns\FromView;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +30,6 @@ use App\Models\ScheduleDB\ClassesSubjects;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromView;
 
 class StudentEvalExport implements FromView
 {
