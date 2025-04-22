@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 passingScore = 44;
                 break;
             case 'SCC': 
-                passingScore = 45;
+                passingScore = 41;
                 break;
             case 'HC': 
                 passingScore = 42;
