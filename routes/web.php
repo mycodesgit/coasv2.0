@@ -72,6 +72,8 @@ use App\Http\Controllers\KioskAdminController;
 
 use App\Http\Controllers\QueueingSettingController;
 
+use App\Http\Controllers\DocumentRequestController;
+
 use App\Http\Controllers\SettingController;
 
 use App\Http\Controllers\KioskDashController;
@@ -842,6 +844,22 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/queue/set/on/off', [QueueingSettingController::class, 'queueonoff'])->name('queueonoff');
         Route::post('/toggle-queue', [QueueingSettingController::class, 'toggleQueue'])->name('toggle.queue');
         Route::post('/reset-queue', [QueueingSettingController::class, 'resetQueue'])->name('queue.reset');
+    });
+
+    Route::prefix('kioskstud')->group(function () {
+        Route::get('/admin/kiosk/user/view', [KioskAdminController::class, 'adminkioskRead'])->name('adminkioskRead');
+        Route::get('/student/{id}', [KioskAdminController::class, 'getStudentById'])->name('getStudentById');
+        Route::get('/admin/kiosk/user/view/ajax', [KioskAdminController::class, 'getadminkioskRead'])->name('getadminkioskRead');
+        Route::post('/admin/kiosk/user/view/add', [KioskAdminController::class, 'adminkioskCreate'])->name('adminkioskCreate');
+        Route::post('/admin/kiosk/user/view/update', [KioskAdminController::class, 'adminkioskUpdate'])->name('adminkioskUpdate');
+        Route::get('/admin/kiosk/user/view/delete{id}', [KioskAdminController::class, 'adminkioskDelete'])->name('adminkioskDelete');
+    });
+
+    Route::prefix('config/documents/settings')->group(function () {
+        Route::get('/', [DocumentRequestController::class, 'docsRead'])->name('request-index');
+        Route::get('/fetch/docs/list/ajax', [DocumentRequestController::class, 'getdocsRead'])->name('getdocsRead');
+        Route::post('/fetch/docs/list/add', [DocumentRequestController::class, 'docsCreate'])->name('docsCreate');
+        Route::post('/fetch/docs/list/update', [DocumentRequestController::class, 'docsUpdate'])->name('docsUpdate');
     });
 
     Route::prefix('adempset/settings')->group(function () {

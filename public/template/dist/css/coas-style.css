@@ -55861,7 +55861,7 @@ a.text-muted:hover {
 
 /*animation*/
 /* Chrome, Safari, Opera */
-@-webkit-keyframes showSlowlyElement {
+/* @-webkit-keyframes showSlowlyElement {
     100% {
         transform: scale(1);
         opacity: 1;
@@ -55871,10 +55871,10 @@ a.text-muted:hover {
         transform: scale(1.2);
         opacity: 0;
     }
-}
+} */
 
 /* Standard syntax */
-@keyframes showSlowlyElement {
+/* @keyframes showSlowlyElement {
     100% {
         transform: scale(1);
         opacity: 1;
@@ -55884,4 +55884,4 @@ a.text-muted:hover {
         transform: scale(1.2);
         opacity: 0;
     }
-}
+} */

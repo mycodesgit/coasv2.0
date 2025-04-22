@@ -71,31 +71,57 @@ class PortalController extends Controller
         return response()->json(['schedtest' => $schedtest]);
     }
 
+    // public function checkEmail(Request $request)
+    // {
+    //     $email = $request->input('email');
+    //     $apiKey = '34af5b04efbe14fc8999278e56521863b9909719'; // Replace with your actual Hunter.io API key
+
+    //     // Hunter.io API URL
+    //     $url = "https://api.hunter.io/v2/email-verifier?email={$email}&api_key={$apiKey}";
+
+    //     // Making a GET request to Hunter.io
+    //     $response = Http::get($url);
+
+    //     if ($response->successful()) {
+    //         $data = $response->json();
+
+    //         // Check if the email is valid based on Hunter.io response
+    //         if ($data['data']['result'] === 'deliverable') {
+    //             return response()->json(['valid' => true]);
+    //         } else {
+    //             return response()->json(['valid' => false]);
+    //         }
+    //     } else {
+    //         // Handle any error that occurs during API request
+    //         return response()->json(['valid' => false], 500);
+    //     }
+    // }
+
     public function checkEmail(Request $request)
-    {
-        $email = $request->input('email');
-        $apiKey = '34af5b04efbe14fc8999278e56521863b9909719'; // Replace with your actual Hunter.io API key
+{
+    $email = $request->input('email');
+    $apiKey = '0cc00b33d42c457c8623f5d9640e202f'; // replace this with your actual API key
 
-        // Hunter.io API URL
-        $url = "https://api.hunter.io/v2/email-verifier?email={$email}&api_key={$apiKey}";
+    $url = "https://api.zerobounce.net/v2/validate";
 
-        // Making a GET request to Hunter.io
-        $response = Http::get($url);
+    $response = Http::get($url, [
+        'api_key' => $apiKey,
+        'email' => $email,
+        'ip_address' => null, // optional, can add user's IP
+    ]);
 
-        if ($response->successful()) {
-            $data = $response->json();
+    if ($response->successful()) {
+        $data = $response->json();
 
-            // Check if the email is valid based on Hunter.io response
-            if ($data['data']['result'] === 'deliverable') {
-                return response()->json(['valid' => true]);
-            } else {
-                return response()->json(['valid' => false]);
-            }
+        if (isset($data['status']) && $data['status'] === 'valid') {
+            return response()->json(['valid' => true]);
         } else {
-            // Handle any error that occurs during API request
-            return response()->json(['valid' => false], 500);
+            return response()->json(['valid' => false]);
         }
+    } else {
+        return response()->json(['valid' => false], 500);
     }
+}
 
     public function post_admission_apply(Request $request)
     {

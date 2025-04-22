@@ -38,6 +38,10 @@ $('#queue-url').click(function() {
     window.location.href = queueRoute;
 });
 
+$('#request-url').click(function() {
+    window.location.href = requestRoute;
+});
+
 $('#setting-url').click(function() {
     window.location.href = settingRoute;
 });

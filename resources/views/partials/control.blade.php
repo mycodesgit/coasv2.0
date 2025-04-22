@@ -89,7 +89,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
     var gradingRoute = "{{ route('grading-index') }}";
     var kioskRoute = "{{ route('adminkioskRead') }}";
     var queueRoute = "{{ route('queue-index') }}";
-    var requestRoute = "";
+    var requestRoute = "{{ route('request-index') }}";
     var settingRoute = "{{ route('settings-index') }}";
     var logoutRoute = "{{ route('logout') }}";
 </script>
