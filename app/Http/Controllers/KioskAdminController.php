@@ -26,7 +26,16 @@ class KioskAdminController extends Controller
     public function getStudentById($id)
     {
         $campus = Auth::guard('web')->user()->campus;
-        $student = Student::where('stud_id', $id)->where('campus', $campus)->first();
+        $campusArray = array_map('trim', explode(',', $campus));
+        
+        $student = Student::where('stud_id', $id)
+            //->where('campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->first();
         if ($student) {
             return response()->json($student);
         } else {
