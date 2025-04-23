@@ -57,7 +57,7 @@ CISS V.1.0 || Student Record
                     </form>
                 </div>
                 <div class="col-md-12">
-                    <a href="{{ route('studeval.export.excel', ['stud_id' => request('stud_id')]) }}" class="btn btn-success">
+                    <a href="{{ route('studeval.export.excel', ['stud_id' => request('stud_id')]) }}" class="btn btn-success disabled">
                         Export to Excel
                     </a>
                     
