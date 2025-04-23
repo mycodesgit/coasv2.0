@@ -67,7 +67,7 @@ class EnreportsController extends Controller
                         // ->where('students.campus', '=', $campus)
                         ->where(function ($q) use ($campusArray) {
                             foreach ($campusArray as $campus) {
-                                $q->orWhere('students.campus', 'LIKE', "%$campus%");
+                                $q->orWhere('students.campus', 'LIKE', "$campus");
                             }
                         })
                         ->where('students.stud_id', 'NOT LIKE', '%-G%')
