@@ -79,15 +79,13 @@ CISS V.1.0 || Student Info
                             <div class="col-md-2">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
-                                <button type="button" class="form-control form-control-sm btn btn-success btn-sm" onclick="require('electron').remote.getCurrentWindow().webContents.reloadIgnoringCache();">
-                                    Hard Refresh
-                                </button>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
+            <button type="button" class="form-control form-control-sm btn btn-success btn-sm" onclick="location.reload();">Soft Refresh</button>
+
             <h5>Search Results:
                 <small>
                     <i>
