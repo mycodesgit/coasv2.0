@@ -274,11 +274,11 @@ class EnrollmentController extends Controller
 
             $gradenrlnewstudcount = StudEnrolmentHistory::where(function ($query) use ($userCampus) {
                                     // Always exclude %G%
-                                    $query->where('program_en_history.studentID', 'not like', '%G%');
+                                    $query->where('program_en_history.studentID', 'LIKE', '%G%');
 
                                     // Exclude %N% only if campus is NOT MC
                                     if ($userCampus !== 'MC') {
-                                        $query->where('program_en_history.studentID', 'not like', '%N%');
+                                        $query->where('program_en_history.studentID', 'LIKE', '%N%');
                                     }
                                 })
                                 ->where('program_en_history.schlyear', '=', $schlyearactive)
@@ -291,11 +291,11 @@ class EnrollmentController extends Controller
             for ($year = 1; $year <= 2; $year++) {
                 $prevgradenrolmentCounts[] = StudEnrolmentHistory::where(function ($query) use ($userCampus) {
                         // Always exclude %G%
-                        $query->where('program_en_history.studentID', 'not like', '%G%');
+                        $query->where('program_en_history.studentID', 'LIKE', '%G%');
             
                         // Exclude %N% only if campus is NOT MC
                         if ($userCampus !== 'MC') {
-                            $query->where('program_en_history.studentID', 'not like', '%N%');
+                            $query->where('program_en_history.studentID', 'LIKE', '%N%');
                         }
                     })
                     ->where('program_en_history.schlyear', '=', $previousSchlyearYear)
@@ -309,11 +309,11 @@ class EnrollmentController extends Controller
             for ($year = 1; $year <= 2; $year++) {
                 $currgradenrolmentCounts[] = StudEnrolmentHistory::where(function ($query) use ($userCampus) {
                         // Always exclude %G%
-                        $query->where('program_en_history.studentID', 'not like', '%G%');
+                        $query->where('program_en_history.studentID', 'LIKE', '%G%');
             
                         // Exclude %N% only if campus is NOT MC
                         if ($userCampus !== 'MC') {
-                            $query->where('program_en_history.studentID', 'not like', '%N%');
+                            $query->where('program_en_history.studentID', 'LIKE', '%N%');
                         }
                     })
                     ->where('program_en_history.schlyear', '=', $schlyearactive)
