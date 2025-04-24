@@ -272,10 +272,7 @@ class EnrollmentController extends Controller
             return view('enrollment.index', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount', 'SccEnrollmentCount', 'HcEnrollmentCount', 'MpEnrollmentCount', 'IcEnrollmentCount', 'CaEnrollmentCount', 'CcEnrollmentCount', 'ScEnrollmentCount', 'HinCEnrollmentCount', 'schlyearactive', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',  'prevenrolmentCounts', 'currenrolmentCounts', 'currunderprogramenrolmentCounts', 'underprogramAcronyms', 'enrlstudRegularcount', 'enrlstudIrregularcount'));
         } else {
 
-            $gradenrlnewstudcount = StudEnrolmentHistory::whereNot(function ($query) {
-                                    $query->where('program_en_history.studentID', 'LIKE', '%G%')
-                                          ->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-                                })
+            $gradenrlnewstudcount = StudEnrolmentHistory::where('program_en_history.studentID', 'LIKE', '%G%')
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.studYear', '=', '1')
@@ -284,10 +281,7 @@ class EnrollmentController extends Controller
 
             $prevgradenrolmentCounts = [];
             for ($year = 1; $year <= 2; $year++) {
-                $prevgradenrolmentCounts[] = StudEnrolmentHistory::whereNot(function ($query) {
-                        $query->where('program_en_history.studentID', 'LIKE', '%G%')
-                              ->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-                    })
+                $prevgradenrolmentCounts[] = StudEnrolmentHistory::where('program_en_history.studentID', 'LIKE', '%G%')
                     ->where('program_en_history.schlyear', '=', $previousSchlyearYear)
                     ->where('program_en_history.semester', '=', $prevsemesteractive)
                     ->where('program_en_history.studYear', '=', $year)
