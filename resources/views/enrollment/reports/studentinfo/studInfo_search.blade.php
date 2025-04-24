@@ -84,8 +84,6 @@ CISS V.1.0 || Student Info
                     </div>
                 </div>
             </form>
-            <button type="button" class="form-control form-control-sm btn btn-success btn-sm" onclick="location.reload();">Soft Refresh</button>
-
             <h5>Search Results:
                 <small>
                     <i>
