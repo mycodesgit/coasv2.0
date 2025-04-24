@@ -117,7 +117,7 @@ CISS V.1.0 || Student Info
     </div>
 </div>
 
-<div class="modal fade" id="viewdatastudModal" role="dialog" aria-labelledby="viewdatastudModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewdatastudModal" role="dialog" aria-labelledby="viewdatastudModalLabel" aria-hidden="true" tabindex="-1">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -167,24 +167,63 @@ CISS V.1.0 || Student Info
                             </div>
                         </div>
                     </div>
+                    
+                    {{-- <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">House No.</span></label>
+                                <input type="text" name="hnum" class="form-control form-control-sm" id="viewdatastudHnum">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Street/Barangay</span></label>
+                                <input type="text" name="brgy" class="form-control form-control-sm" id="viewdatastudBrgy">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Munipality/City</span></label>
+                                <select name="city" class="form-control form-control-sm" id="viewdatastudCity">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Province</span></label>
+                                <input type="text" name="province" class="form-control form-control-sm" id="viewdatastudProvince" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Region</span></label>
+                                <input type="text" name="region" class="form-control form-control-sm" id="viewdatastudRegion" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Zip Code</span></label>
+                                <input type="text" name="zcode" class="form-control form-control-sm" id="viewdatastudZcode" readonly>
+                            </div>
+                        </div>
+                    </div> --}}
 
                     <div class="form-group">
                         <div class="form-row">
+                            <div class="col-md-3">
+                                <label><span class="badge badge-secondary">Region</span></label>
+                                <select id="region" class="form-control form-control-sm select2bs4">
+                                    <option value="">Select Region</option>
+                                    @foreach($regions as $region)
+                                        <option value="{{ $region->region_id }}" data-name="{{ $region->name }}">{{ $region->name }}</option>
+                                    @endforeach
+                                    <input type="hidden" id="region_name" name="region">
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label><span class="badge badge-secondary">Province</span></label>
+                                <select id="province" class="form-control form-control-sm select2bs4">
+                                    <option value="">Select Province</option>
+                                </select>
+                                <input type="hidden" id="province_name" name="province">
+                            </div>
                             <div class="col-md-6">
-                                <label><span class="badge badge-secondary">Birth Place</span></label>
-                                <input type="text" name="pbirth" class="form-control form-control-sm" id="viewdatastudBdayp">
-                            </div>
-                            <div class="col-md-2">
-                                <label><span class="badge badge-success">Mobile</span></label>
-                                <input type="text" name="contact" class="form-control form-control-sm" id="viewdatastudMobile">
-                            </div>
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Email Address</span></label>
-                                <input type="text" name="email" class="form-control form-control-sm" id="viewdatastudEmail">
-                            </div>
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Religion</span></label>
-                                <input type="text" name="religion" class="form-control form-control-sm" id="viewdatastudReligion">
+                                <label><span class="badge badge-secondary">City/Municipality</span></label>
+                                <select id="city" class="form-control form-control-sm select2bs4">
+                                    <option value="">Select City</option>
+                                </select>
+                                <input type="hidden" id="city_name" name="city">
                             </div>
                         </div>
                     </div>
@@ -192,9 +231,34 @@ CISS V.1.0 || Student Info
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-6">
-                                <label><span class="badge badge-secondary">Address</span></label>
-                                <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress">
+                                <label><span class="badge badge-secondary">Barangay</span></label>
+                                <select id="barangay" class="form-control form-control-sm select2bs4">
+                                    <option value="">Select Barangay</option>
+                                </select>
+                                <input type="hidden" id="brgy_name" name="brgy">
                             </div>
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">House No. / Block / Purok</span></label>
+                                <input type="text" name="hnum" id="viewdatastudHnum" class="form-control form-control-sm" placeholder="House No. / Block / Purok">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Zipcode</span></label>
+                                <input type="text" name="zcode" id="zipcode" class="form-control form-control-sm" readonly placeholder="Zip Code" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Birth Place</span></label>
+                                <input type="text" name="pbirth" class="form-control form-control-sm" id="viewdatastudBdayp">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Civil Status</span></label>
                                 <select class="form-control form-control-sm" name="civil_status" id="viewdatastudcivilstat">
@@ -214,36 +278,26 @@ CISS V.1.0 || Student Info
                                 <label><span class="badge badge-warning">Birthday</span></label>
                                 <input type="text" class="form-control form-control-sm" id="viewdatastudBday" readonly>
                             </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-success">Mobile</span></label>
+                                <input type="text" name="contact" class="form-control form-control-sm" id="viewdatastudMobile">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Email Address</span></label>
+                                <input type="text" name="email" class="form-control form-control-sm" id="viewdatastudEmail">
+                            </div>
+                            <div class="col-md-2">
+                                <label><span class="badge badge-secondary">Religion</span></label>
+                                <input type="text" name="religion" class="form-control form-control-sm" id="viewdatastudReligion">
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">House No.</span></label>
-                                <input type="text" name="hnum" class="form-control form-control-sm" id="viewdatastudHnum">
-                            </div>
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Street/Barangay</span></label>
-                                <input type="text" name="brgy" class="form-control form-control-sm" id="viewdatastudBrgy">
-                            </div>
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Munipality/City</span></label>
-                                <select name="city" class="form-control form-control-sm" id="viewdatastudCity">
-                                    <option value="">Select City</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Province</span></label>
-                                <input type="text" name="province" class="form-control form-control-sm" id="viewdatastudProvince">
-                            </div>
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Region</span></label>
-                                <input type="text" name="region" class="form-control form-control-sm" id="viewdatastudRegion">
-                            </div>
-                            <div class="col-md-2">
-                                <label><span class="badge badge-secondary">Zip Code</span></label>
-                                <input type="text" name="zcode" class="form-control form-control-sm" id="viewdatastudZcode">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Address</span></label>
+                                <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
                             </div>
                         </div>
                     </div>
@@ -319,6 +373,13 @@ CISS V.1.0 || Student Info
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';
     var requestedCampus = '{{ request('campus') }}'
+
+    var provincesRoute = '{{ route("getProvinces", "") }}';
+var citiesRoute = '{{ route("getCities", "") }}';
+var barangaysRoute = '{{ route("getBarangays", "") }}';
+
+    
+
 </script>
 
 @endsection

@@ -465,6 +465,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/graduated/search/list', [EnreportsController::class, 'studInfograduated_search'])->name('studInfograduated_search');
             Route::get('/info/students/graduated/search/listajax', [EnreportsController::class, 'getstudInfograduated_search'])->name('getstudInfograduated_search');
 
+            Route::get('/regions', [EnreportsController::class, 'getRegions'])->name('getRegions');
+            Route::get('/provinces/{region_id}', [EnreportsController::class, 'getProvinces'])->name('getProvinces');
+            Route::get('/cities/{province_id}', [EnreportsController::class, 'getCities'])->name('getCities');
+            Route::get('/barangays/{city_id}', [EnreportsController::class, 'getBarangays'])->name('getBarangays');
+
             Route::get('/info/students/registration/form/search', [EnreportsController::class, 'rfstudprint'])->name('rfstudprint');
             Route::get('/info/students/registration/form/search/result', [EnreportsController::class, 'rfstudprintsearch'])->name('rfstudprintsearch');
 
