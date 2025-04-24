@@ -281,6 +281,12 @@ function updateAddress() {
 }
 
 $(document).ready(function () {
+    $('#viewdatastudModal').on('shown.bs.modal', function () {
+        $('#region, #province, #city, #barangay').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $('#viewdatastudModal')
+        });
+    });
     $('#region').on('change', function () {
         var regionId = $(this).val();
         var regionName = $(this).find(':selected').data('name');
