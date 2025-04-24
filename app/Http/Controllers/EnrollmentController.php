@@ -291,10 +291,7 @@ class EnrollmentController extends Controller
 
             $currgradenrolmentCounts = [];
             for ($year = 1; $year <= 2; $year++) {
-                $currgradenrolmentCounts[] = StudEnrolmentHistory::whereNot(function ($query) {
-                        $query->where('program_en_history.studentID', 'LIKE', '%G%')
-                              ->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-                    })
+                $currgradenrolmentCounts[] = StudEnrolmentHistory::where('program_en_history.studentID', 'LIKE', '%G%')
                     ->where('program_en_history.schlyear', '=', $schlyearactive)
                     ->where('program_en_history.semester', '=', $semesteractive)
                     ->where('program_en_history.studYear', '=', $year)
