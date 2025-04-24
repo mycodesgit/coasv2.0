@@ -575,16 +575,6 @@
                 minimumInputLength: 6
             });
         });
-        $(function () {            
-            $('.select2').select2();
-
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4',
-                height: '100',
-                dropdownParent: $('#viewdatastudModal')
-            })
-        });
     </script>
 
     <script type="text/javascript">
