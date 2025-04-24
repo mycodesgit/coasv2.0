@@ -330,11 +330,11 @@ class EnrollmentController extends Controller
             $programs = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                 ->where(function ($query) use ($userCampus) {
                     // Always exclude %G%
-                    $query->where('program_en_history.studentID', 'not like', '%G%');
+                    $query->where('program_en_history.studentID', 'LIKE', '%G%');
         
                     // Exclude %N% only if campus is NOT MC
                     if ($userCampus !== 'MC') {
-                        $query->where('program_en_history.studentID', 'not like', '%N%');
+                        $query->where('program_en_history.studentID', 'LIKE', '%N%');
                     }
                 })
                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
