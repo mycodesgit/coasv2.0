@@ -288,8 +288,8 @@ class EnrollmentController extends Controller
                         $query->where('program_en_history.studentID', 'LIKE', '%G%')
                               ->orWhere('program_en_history.studentID', 'LIKE', '%N%');
                     })
-                    ->where('program_en_history.schlyear', 'LIKE', $previousSchlyearYear)
-                    ->where('program_en_history.semester', 'LIKE', $prevsemesteractive)
+                    ->where('program_en_history.schlyear', '=', $previousSchlyearYear)
+                    ->where('program_en_history.semester', '=', $prevsemesteractive)
                     ->where('program_en_history.studYear', '=', $year)
                     ->where('program_en_history.campus', '=', $userCampus)
                     ->count();
@@ -301,8 +301,8 @@ class EnrollmentController extends Controller
                         $query->where('program_en_history.studentID', 'LIKE', '%G%')
                               ->orWhere('program_en_history.studentID', 'LIKE', '%N%');
                     })
-                    ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                    ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                    ->where('program_en_history.schlyear', '=', $schlyearactive)
+                    ->where('program_en_history.semester', '=', $semesteractive)
                     ->where('program_en_history.studYear', '=', $year)
                     ->where('program_en_history.campus', '=', $userCampus)
                     ->count();
