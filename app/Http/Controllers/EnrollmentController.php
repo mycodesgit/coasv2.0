@@ -273,14 +273,14 @@ class EnrollmentController extends Controller
         } else {
 
             $gradenrlnewstudcount = StudEnrolmentHistory::where(function ($query) use ($userCampus) {
-                                    $query->where(function ($q) use ($userCampus) {
-                                        $q->where('program_en_history.studentID', 'LIKE', '%G%');
-                                        
-                                        if ($userCampus !== 'MC') {
-                                            $q->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-                                        }
-                                    });
-                                }, 'not') 
+                                    // Always exclude %G%
+                                    $query->where('program_en_history.studentID', 'not like', '%G%');
+
+                                    // Exclude %N% only if campus is NOT MC
+                                    if ($userCampus !== 'MC') {
+                                        $query->where('program_en_history.studentID', 'not like', '%N%');
+                                    }
+                                })
                                 ->where('program_en_history.schlyear', '=', $schlyearactive)
                                 ->where('program_en_history.semester', '=', $semesteractive)
                                 ->where('program_en_history.studYear', '=', '1')
@@ -290,14 +290,14 @@ class EnrollmentController extends Controller
             $prevgradenrolmentCounts = [];
             for ($year = 1; $year <= 2; $year++) {
                 $prevgradenrolmentCounts[] = StudEnrolmentHistory::where(function ($query) use ($userCampus) {
-                        $query->where(function ($q) use ($userCampus) {
-                            $q->where('program_en_history.studentID', 'LIKE', '%G%');
-                            
-                            if ($userCampus !== 'MC') {
-                                $q->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-                            }
-                        });
-                    }, 'not') 
+                        // Always exclude %G%
+                        $query->where('program_en_history.studentID', 'not like', '%G%');
+            
+                        // Exclude %N% only if campus is NOT MC
+                        if ($userCampus !== 'MC') {
+                            $query->where('program_en_history.studentID', 'not like', '%N%');
+                        }
+                    })
                     ->where('program_en_history.schlyear', '=', $previousSchlyearYear)
                     ->where('program_en_history.semester', '=', $prevsemesteractive)
                     ->where('program_en_history.studYear', '=', $year)
@@ -308,14 +308,14 @@ class EnrollmentController extends Controller
             $currgradenrolmentCounts = [];
             for ($year = 1; $year <= 2; $year++) {
                 $currgradenrolmentCounts[] = StudEnrolmentHistory::where(function ($query) use ($userCampus) {
-                        $query->where(function ($q) use ($userCampus) {
-                            $q->where('program_en_history.studentID', 'LIKE', '%G%');
-                            
-                            if ($userCampus !== 'MC') {
-                                $q->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-                            }
-                        });
-                    }, 'not') 
+                        // Always exclude %G%
+                        $query->where('program_en_history.studentID', 'not like', '%G%');
+            
+                        // Exclude %N% only if campus is NOT MC
+                        if ($userCampus !== 'MC') {
+                            $query->where('program_en_history.studentID', 'not like', '%N%');
+                        }
+                    })
                     ->where('program_en_history.schlyear', '=', $schlyearactive)
                     ->where('program_en_history.semester', '=', $semesteractive)
                     ->where('program_en_history.studYear', '=', $year)
@@ -329,14 +329,14 @@ class EnrollmentController extends Controller
             // Retrieve the count of students for each program acronym
             $programs = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                 ->where(function ($query) use ($userCampus) {
-                    $query->where(function ($q) use ($userCampus) {
-                        $q->where('program_en_history.studentID', 'LIKE', '%G%');
-                        
-                        if ($userCampus !== 'MC') {
-                            $q->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-                        }
-                    });
-                }, 'not') 
+                    // Always exclude %G%
+                    $query->where('program_en_history.studentID', 'not like', '%G%');
+        
+                    // Exclude %N% only if campus is NOT MC
+                    if ($userCampus !== 'MC') {
+                        $query->where('program_en_history.studentID', 'not like', '%N%');
+                    }
+                })
                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                 ->where('program_en_history.campus', '=', $userCampus)
