@@ -384,11 +384,11 @@ $(document).on('click', '.btn-studdataview', function() {
     $('#viewdatastudAddress').val(address);
     $('#viewdatastudcivilstat').val(civilstatus);
     $('#viewdatastudHnum').val(hnum);
-    $('#viewdatastudBrgy').val(brgy);
-    $('#viewdatastudCity').val(city);
-    $('#viewdatastudProvince').val(province);
-    $('#viewdatastudRegion').val(region);
-    $('#viewdatastudZcode').val(zcode);
+    $('#barangay').val(brgy);
+    $('#city').val(city);
+    $('#province').val(province);
+    $('#region').val(region);
+    $('#zipcode').val(zcode);
 
     $('#viewdatastudfather').val(studfather);
     $('#viewdatastudmother').val(studmother);
