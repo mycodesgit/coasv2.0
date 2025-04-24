@@ -291,7 +291,7 @@ class EnrollmentController extends Controller
                         $query->where('program_en_history.studentID', 'LIKE', '%G%')
                             ->orWhere(function ($subQuery) use ($userCampus) {
                                 $subQuery->where('program_en_history.studentID', 'LIKE', '%N%')
-                                        ->where('program_en_history.campus', '!=', 'MC');
+                                        ->where('program_en_history.campus', '=', 'MC');
                             });
                     })
                     ->where('program_en_history.schlyear', '=', $previousSchlyearYear)
@@ -307,7 +307,7 @@ class EnrollmentController extends Controller
                         $query->where('program_en_history.studentID', 'LIKE', '%G%')
                             ->orWhere(function ($subQuery) use ($userCampus) {
                                 $subQuery->where('program_en_history.studentID', 'LIKE', '%N%')
-                                        ->where('program_en_history.campus', '!=', 'MC');
+                                        ->where('program_en_history.campus', '=', 'MC');
                             });
                     })
                     ->where('program_en_history.schlyear', '=', $schlyearactive)
@@ -326,7 +326,7 @@ class EnrollmentController extends Controller
                     $query->where('program_en_history.studentID', 'LIKE', '%G%')
                           ->orWhere(function ($subQuery) use ($userCampus) {
                               $subQuery->where('program_en_history.studentID', 'LIKE', '%N%')
-                                       ->where('program_en_history.campus', '!=', 'MC');
+                                       ->where('program_en_history.campus', '=', 'MC');
                           });
                 })
                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
