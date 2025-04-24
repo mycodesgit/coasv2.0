@@ -84,6 +84,12 @@ CISS V.1.0 || Student Info
                     </div>
                 </div>
             </form>
+            <div class="col-md-2">
+                <button type="button" class="form-control form-control-sm btn btn-success btn-sm" onclick="require('electron').remote.getCurrentWindow().webContents.reloadIgnoringCache();">
+                    Hard Refresh
+                </button>
+                
+            </div>
             <h5>Search Results:
                 <small>
                     <i>
