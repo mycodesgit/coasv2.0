@@ -1,0 +1,220 @@
+@extends('layouts.master_settings')
+
+@section('title')
+CISS V.1.0 || Addresses
+@endsection
+
+@section('sideheader')
+<h4>Settings</h4>
+@endsection
+
+@yield('sidemenu')
+
+@section('workspace')
+<div class="card">
+    <div class="card-body">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item mt-1">Settings</li>
+            <li class="breadcrumb-item active mt-1">Addresses</li>
+        </ol>
+
+        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+        </div>
+
+        <p>
+            @if(Session::has('success'))
+                <div class="alert alert-success" id="alert">{{ Session::get('success')}}</div>
+            @elseif (Session::has('fail'))
+                <div class="alert alert-danger" id="alert">{{Session::get('fail')}}</div>  
+            @endif
+        </p>
+
+        <div class="row">
+            <div class="col-md-10">
+                <div class="tab-content" id="vert-tabs-right-tabContent">
+                    <div class="tab-pane fade show active" id="vert-tabs-right-one" role="tabpanel" aria-labelledby="vert-tabs-right-one-tab">
+                        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                            <button type="button" class="btn btn-success btn-sm mb-3" data-toggle="modal" data-target="#modal-region">
+                                <i class="fas fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="mt-3">
+                            <table id="regions" class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Region ID</th>
+                                        <th>Region Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="vert-tabs-right-two" role="tabpanel" aria-labelledby="vert-tabs-right-two-tab">
+                        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                            <button type="button" class="btn btn-success btn-sm mb-3" data-toggle="modal" data-target="#modal-province">
+                                <i class="fas fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="mt-3">
+                            <table id="provinces" class="table table-hover table-striped" style="width: 100%">  
+                                <thead>
+                                    <tr>
+                                        <th>Province ID</th>
+                                        <th>Region Name</th>
+                                        <th>Province Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="vert-tabs-right-three" role="tabpanel" aria-labelledby="vert-tabs-right-three-tab">
+                        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                            <button type="button" class="btn btn-success btn-sm mb-3" data-toggle="modal" data-target="#modal-city">
+                                <i class="fas fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="mt-3">
+                            <table id="city" class="table table-hover table-striped" style="width: 100%">  
+                                <thead>
+                                    <tr>
+                                        <th>City ID</th>
+                                        <th>Region</th>
+                                        <th>Province</th>
+                                        <th>City Name</th>
+                                        <th>ZipCode</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 mt-3">
+                <div class="card" style="background-color: #e9ecef !important">
+                    <div class="ml-2 mr-2 mt-1 mb-1">
+                        <div class="mt-1" style="font-size: 13pt;">
+                            <div class="nav flex-column nav-pills nav-stacked nav-tabs-right h-100" id="vert-tabs-right-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="vert-tabs-right-one-tab" data-toggle="pill" href="#vert-tabs-right-one" role="tab" aria-controls="vert-tabs-right-one" aria-selected="true">Regions</a>
+                                <a class="nav-link" id="vert-tabs-right-two-tab" data-toggle="pill" href="#vert-tabs-right-two" role="tab" aria-controls="vert-tabs-right-two" aria-selected="true">Provinces</a>
+                                <a class="nav-link" id="vert-tabs-right-three-tab" data-toggle="pill" href="#vert-tabs-right-three" role="tab" aria-controls="vert-tabs-right-three" aria-selected="false">Cities</a>
+                                <a class="nav-link" id="vert-tabs-right-four-tab" data-toggle="pill" href="#vert-tabs-right-four" role="tab" aria-controls="vert-tabs-right-four" aria-selected="false">Barangays</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editRegionModal" tabindex="-1" role="dialog" aria-labelledby="editRegionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRegionModalLabel">Edit Region</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editRegionForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editRegionId">
+                    <div class="form-group">
+                        <label for="editRegionName">Region Name</label>
+                        <input type="text" class="form-control" id="editRegionName" name="name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editProvinceModal" tabindex="-1" role="dialog" aria-labelledby="editProvinceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProvinceModalLabel">Edit Province</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editProvinceForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editProvinceId">
+                    <div class="form-group">
+                        <label for="editProvinceName">Province Name</label>
+                        <input type="text" class="form-control" id="editProvinceName" name="name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editCityModal" tabindex="-1" role="dialog" aria-labelledby="editCityModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCityModalLabel">Edit City</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editCityForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editCityId">
+                    <div class="form-group">
+                        <label for="editCityName">City Name</label>
+                        <input type="text" class="form-control" id="editCityName" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="editZipcode">Zipcode</label>
+                        <input type="text" class="form-control" id="editZipcode" name="zip_code">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var allRegionRoute = "{{ route('getregionsShow') }}";
+    var allProvinceRoute = "{{ route('getprovincesShow') }}";
+    var allCityRoute = "{{ route('getcitiesShow') }}";
+    
+    var allcityUpdateRoute = "{{ route('cityUpdate', ['id' => ':id']) }}";
+</script>
+
+@endsection

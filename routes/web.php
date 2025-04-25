@@ -75,6 +75,7 @@ use App\Http\Controllers\QueueingSettingController;
 use App\Http\Controllers\DocumentRequestController;
 
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SettingAddressController;
 
 use App\Http\Controllers\KioskDashController;
 
@@ -899,6 +900,15 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/setting/server/zeus', [SettingController::class, 'serverMaintenance'])->name('serverMaintenance');
             Route::post('/setting/server/zeus/admin/maintenance', [SettingController::class, 'toggleMaintenance'])->name('toggleMaintenance');
+        });
+
+        Route::prefix('places')->group(function () {
+            Route::get('/list/all/show', [SettingAddressController::class, 'regionsRead'])->name('regionsRead');
+            Route::get('/list/all/region/getajax', [SettingAddressController::class, 'getregionsShow'])->name('getregionsShow');
+            Route::get('/list/all/province/getajax', [SettingAddressController::class, 'getprovincesShow'])->name('getprovincesShow');
+
+            Route::get('/list/all/city/getajax', [SettingAddressController::class, 'getcitiesShow'])->name('getcitiesShow');
+            Route::post('/list/all/city/update', [SettingAddressController::class, 'cityUpdate'])->name('cityUpdate');
         });
 
     });

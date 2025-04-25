@@ -9,6 +9,8 @@
     $usersAccntActive = in_array($curr_route, ['accountRead']) ? 'active' : '';
     $serverActive = in_array($curr_route, ['serverMaintenance']) ? 'active' : '';
 
+
+    $addressActive = in_array($curr_route, ['regionsRead']) ? 'active' : '';
 @endphp
 
 <div class="ml-2 mr-2 mt-3 mb-3">
@@ -39,5 +41,9 @@
         @endauth
         
         <a href="{{ route('accountRead') }}" class="list-group-item {{ $usersAccntActive }}">Accounts</a>
+        
+        @if(Auth::guard('web')->user()->role == '0') 
+            <a href="{{ route('regionsRead') }}" class="list-group-item {{ $addressActive }}">Addresses</a>  
+        @endif
     </ul>
 </div>

@@ -170,6 +170,9 @@
         <script src="{{ asset('js/ajax/settngs/setconfSerialize.js') }}"></script>
     @endif
 
+        <script src="{{ asset('js/ajax/settngs/addressSerialize.js') }}"></script>
+ 
+
     <script>
         $(document).ready(function () {
             $('#searchDropdown').select2({
