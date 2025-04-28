@@ -30,18 +30,6 @@ $(document).ready(function() {
         });
     });
 
-    var buttons = {
-        'admission-url': 'Admission',
-        'enrollment-url': 'Enrollment',
-        'scheduler-url': 'Scheduling',
-        'assessment-url': 'Assessment',
-        'cashiering-url': 'Cashiering',
-        'scholarship-url': 'Scholarship',
-        'grading-url': 'Grading',
-        'request-url': 'Request',
-        'setting-url': 'Settings'
-    };
-
     var dataTable = $('#userlist').DataTable({
         "ajax": {
             "url": useraccountRoute,
@@ -54,10 +42,22 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
+            { data: 'id' },
+            { 
+                data: null,
+                render: function(data, type, row) {
+                    var firstname = data.fname;
+                    var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
+                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
+                }
+            },
+            { data: 'email' },
             {
                 data: null,
                 render: function (data, type, row) {
-                    var isAdminBadge = '';
+                    let roleBadge = '';
+
                     if (data.role == 0) {
                         roleBadge = '<span class="badge badge-secondary">Administrator</span>';
                     } else if (data.role == 1) {
@@ -75,26 +75,47 @@ $(document).ready(function() {
                     } else if (data.role == 7) {
                         roleBadge = '<span class="badge badge-info">College Staff</span>';
                     } else if (data.role == 8) {
-                        roleBadge = '<span class="badge badge-success">Scholarship Head</span>';
+                        roleBadge = '<span class="badge badge-warning">Scholarship Head</span>';
                     } else if (data.role == 9) {
-                        roleBadge = '<span class="badge badge-success">Scholarship Staff</span>';
+                        roleBadge = '<span class="badge badge-warning">Scholarship Staff</span>';
+                    } else if (data.role == 10) {
+                        roleBadge = '<span class="badge badge-warning">Assessment Head</span>';
+                    } else if (data.role == 11) {
+                        roleBadge = '<span class="badge badge-warning">Assessment Staff</span>';
+                    } else if (data.role == 12) {
+                        roleBadge = '<span class="badge badge-secondary">MIS Staff</span>';
+                    } else if (data.role == 13) {
+                        roleBadge = '<span class="badge badge-secondary">MIS Director</span>';
+                    } else if (data.role == 14) {
+                        roleBadge = '<span class="badge badge-secondary">MIS Officer</span>';
+                    } else if (data.role == 15) {
+                        roleBadge = '<span class="badge badge-warning">Grad School Staff</span>';
+                    } else if (data.role == 16) {
+                        roleBadge = '<span class="badge" style="background-color: #e83e8c; color: #fff">OSSA Staff</span>';
+                    } else if (data.role == 17) {
+                        roleBadge = '<span class="badge badge-info">Cashier</span>';
+                    } else if (data.role == 18) {
+                        roleBadge = '<span class="badge badge-info">Cashier Staff</span>';
                     } else {
-                        roleBadge = data.role;
+                        roleBadge = '<span class="badge badge-light">Unknown Role</span>';
                     }
                     return roleBadge;
                 }
             },
-            { 
+            { data: 'campus' },
+            {
                 data: null,
-                render: function(data, type, row) {
-                    var firstname = data.fname;
-                    var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
-                    return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
+                render: function (data, type, row) {
+                    let statususer = '';
+
+                    if (data.statuser == 1) {
+                        statususer = '<span class="badge badge-success">Enabled</span>';
+                    } else {
+                        statususer = '<span class="badge badge-danger">Disabled</span>';
+                    } 
+                    return statususer;
                 }
             },
-            { data: 'email' },
-            { data: 'campus' },
             {
                 data: 'id',
                 render: function(data, type, row) {
@@ -102,13 +123,24 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="users/edit/view/' + row.adid + '" class="dropdown-item btn-useraccntedit">' +
-                            '<i class="fas fa-pen"></i> Edit' +
+                            '<a href="#" class="dropdown-item btn-useredit" data-id="' + row.id + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-campus="' + row.campus + '" data-dept="' + row.dept + '" data-role="' + row.role + '">' +
+                            '<i class="fas fa-pen"></i> Edit Info' +
                             '</a>' +
-                            '<button type="button" class="dropdown-item btn-edit" data-toggle="modal" data-target="#buttonFilterModal' + data + '" data-event-id="' + data + '"><i class="fas fa-exclamation-circle"></i> Filter Buttons</button>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item fund-delete">' +
-                            '<i class="fas fa-trash"></i> Delete' +
-                            '</button>' +
+                            '<a href="#" class="dropdown-item btn-userpass" data-id="' + row.id + '" data-password="' + row.password + '">' +
+                            '<i class="fas fa-lock"></i> Edit Pass' +
+                            '</a>' +
+                            '<a href="#" class="dropdown-item btn-useraccess" ' +
+                                'data-id="' + row.id + '" ' +
+                                'data-fullname="' + row.fname + ' ' + row.mname + ' ' + row.lname + (row.ext ? ' ' + row.ext : '') + '" ' +
+                                'data-role="' + row.role + '">' +
+                                '<i class="fas fa-keyboard" style="color: green"></i> User Access' +
+                            '</a>'+
+                            '<a href="#" class="dropdown-item btn-userdeact" ' +
+                                'data-id="' + row.id + '" ' +
+                                'data-fullname="' + row.fname + ' ' + row.mname + ' ' + row.lname + (row.ext ? ' ' + row.ext : '') + '" ' +
+                                'data-statuser="' + row.statuser + '">' +
+                                '<i class="fas fa-toggle-off" style="color: red"></i> Disabled Account' +
+                            '</a>' +
                             '</div>' +
                             '</div>';
                         return dropdown;
@@ -122,84 +154,124 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id);
         }
     });
-    $(document).on('click', '.btn-edit', function () {
-         var userId = $(this).data('event-id');
 
-        // Fetch user buttons data from the server
-        getUserButtons(userId).then(function(userButtons) {
-            // Generate modal dynamically
-            var modalContent = '<div class="modal fade" id="buttonFilterModal' + userId + '" tabindex="-1" aria-labelledby="buttonFilterModalLabel" aria-hidden="true">' +
-                                    '<div class="modal-dialog">' +
-                                        '<div class="modal-content">' +
-                                            '<form action="" method="POST">' +
-                                                '<input type="hidden" name="id" value="' + userId + '">' +
-                                                '<div class="modal-header">' +
-                                                    '<h5 class="modal-title" id="buttonFilterModalLabel">Filter User Buttons</h5>' +
-                                                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                                                        '<span aria-hidden="true">&times;</span>' +
-                                                    '</button>' +
-                                                '</div>' +
-                                                '<div class="modal-body">';
-            
-            // Iterate over buttons and add checkboxes
-            $.each(buttons, function(key, label) {
-                modalContent += '<div class="icheck-success">' +
-                                    '<input type="checkbox" id="' + key + '-' + userId + '" name="buttons[]" value="' + key + '" ' +
-                                    (userButtons.includes(key) ? 'checked' : '') + '>' +
-                                    '<label for="' + key + '-' + userId + '">' + label + '</label>' +
-                                '</div>';
-            });
-            
-            modalContent +=             '</div>' +
-                                                '<div class="modal-footer">' +
-                                                    '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>' +
-                                                    '<button type="submit" class="btn btn-primary">Save changes</button>' +
-                                                '</div>' +
-                                            '</form>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>';
-            
-            // Append modal to body and show it
-            $('body').append(modalContent);
-            $('#buttonFilterModal' + userId).modal('show');
-        }).catch(function(error) {
-            console.error('Error fetching user buttons:', error);
-        });
-    });
-
-    // Function to fetch user buttons data from the server
-    function getUserButtons(userId) {
-        return $.ajax({
-            url: '/user/' + userId + '/buttons',
-            type: 'GET',
-            dataType: 'json'
-        }).then(function(response) {
-            return response.buttons;
-        }).catch(function(error) {
-            console.error('Error fetching user buttons:', error);
-            return [];
-        });
-    }
     $(document).on('userAdded', function() {
         dataTable.ajax.reload();
     });
 });
 
-$(document).on('click', '.btn-fundedit', function() {
+$(document).on('click', '.btn-useredit', function() {
     var id = $(this).data('id');
-    var fundName = $(this).data('fundname');
-    $('#editFundId').val(id);
-    $('#editFundName').val(fundName);
-    $('#editFundModal').modal('show');
+    var fname = $(this).data('fname');
+    var mname = $(this).data('mname');
+    var lname = $(this).data('lname');
+    var ext = $(this).data('ext');
+    var campus = $(this).data('campus');
+    var dept = $(this).data('dept');
+    var role = $(this).data('role');
+
+    $('#edituserId').val(id);
+    $('#edituserfname').val(fname);
+    $('#editusermname').val(mname);
+    $('#edituserlname').val(lname);
+    $('#edituserext').val(ext);
+    $('#editusercampus').val(campus);
+    $('#edituserdept').val(dept);
+    $('#edituserrole').val(role);
+
+    $('#edituserModal').modal('show');
 });
 
-$('#editFundForm').submit(function(event) {
+$(document).on('click', '.btn-userpass', function() {
+    var id = $(this).data('id');
+
+    $('#edituserPassId').val(id);
+    $('#edituserpass').val('');
+
+    $('#edituserPassModal').modal('show');
+});
+
+$(document).on('click', '.btn-useraccess', function() {
+    var id = $(this).data('id');
+    var fullname = $(this).data('fullname');
+    var roleaccess = $(this).data('role');
+
+    $('#edituserAccessId').val(id);
+    $('#editusername').val(fullname);
+    $('#edituserroleaccess').val(roleaccess);
+
+    $('input[name="buttons[]"]').prop('checked', false);
+
+    $.ajax({
+        url: useraccessRoute.replace(':id', id), // Replace :id with actual ID
+        type: 'GET',
+        success: function(response) {
+            if (response.buttons) {
+                response.buttons.forEach(function(button) {
+                    $('input[name="buttons[]"][value="' + button + '"]').prop('checked', true);
+                });
+            }
+            $('#edituserAccessModal').modal('show');
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText); 
+        }
+    });
+});
+
+$('#edituserAccessForm').submit(function(event) {
+    event.preventDefault(); 
+    
+    var formData = $(this).serialize(); 
+
+    var id = $('#edituserAccessId').val(); 
+    var selectedButtons = [];
+
+    $('input[name="buttons[]"]:checked').each(function() {
+        selectedButtons.push($(this).val()); 
+    });
+
+    $.ajax({
+        url: userSaveAccessRoute.replace(':id', id), 
+        type: "POST",
+        data: {
+            buttons: selectedButtons,
+            _token: $('meta[name="csrf-token"]').attr('content') 
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#edituserAccessModal').modal('hide'); 
+                $(document).trigger('userAdded'); 
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText); 
+            toastr.error('An error occurred while saving the user access.');
+        }
+    });
+});
+
+$(document).on('click', '.btn-userdeact', function() {
+    var id = $(this).data('id');
+    var fullname = $(this).data('fullname');
+    var statuser = $(this).data('statuser');
+
+    $('#edituserDeactId').val(id);
+    $('#edituserDeactfullname').val(fullname);
+    $('#edituserDeactStat').val(statuser);
+
+    $('#edituserDeactModal').modal('show');
+});
+
+$('#edituserDeactForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
     $.ajax({
-        url: fundUpdateRoute,
+        url: userDeactRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -208,8 +280,8 @@ $('#editFundForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#editFundModal').modal('hide');
-                $(document).trigger('fundAdded');
+                $('#edituserDeactModal').modal('hide');
+                $(document).trigger('userAdded');
             } else {
                 toastr.error(response.message);
             }
@@ -219,44 +291,5 @@ $('#editFundForm').submit(function(event) {
             toastr.error(errorMessage);
         }
     });
-});
-
-$(document).on('click', '.fund-delete', function(e) {
-    var id = $(this).val();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-    });
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to recover this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                type: "GET",
-                url: fundDeleteRoute.replace(':id', id),
-                success: function(response) {
-                    $("#tr-" + id).delay(1000).fadeOut();
-                    Swal.fire({
-                        title: 'Deleted!',
-                        text: 'Successfully Deleted!',
-                        icon: 'warning',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    if(response.success) {
-                        toastr.success(response.message);
-                        console.log(response);
-                    }
-                }
-            });
-        }
-    })
 });
 

@@ -61,7 +61,7 @@
                     <div class="form-group"> 
                         <div class="form-row">
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Campus</span></label>
+                                <label><span class="badge badge-danger">Campus</span></label>
                                 <select class="form-control form-control-sm" name="campus" required="">
                                     <option disabled selected>Select</option>
                                     <option value="MC" @if (old('campus') == 'MC') {{ 'selected' }} @endif>Main</option>
@@ -79,7 +79,7 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Department</span></label>
+                                <label><span class="badge badge-warning">Department</span></label>
                                 <select class="form-control form-control-sm" name="dept">
                                     <option disabled selected>Select</option>
                                     <option value="CAS" @if (old('dept') == 'CAS') {{ 'selected' }} @endif>College of Arts and Sciences</option>
@@ -101,10 +101,10 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">User Role</span></label>
+                                <label><span class="badge badge-success">User Level</span></label>
                                 <select class="form-control form-control-sm" name="role" >
                                     <option disabled selected>Level</option>
-                                    <option value="1" @if (old('type') == 0) {{ 'selected' }} @endif>Administrator</option>
+                                    <option value="0" @if (old('type') == 0) {{ 'selected' }} @endif>Administrator</option>
                                     <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>Guidance Officer</option>
                                     <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Guidance Staff</option>
                                     <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Registrar</option>

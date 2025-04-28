@@ -98,6 +98,54 @@ class SettingController extends Controller
         }
     }
 
+    public function getButtonAccess($id)
+    {
+        $access = ButtonAccess::where('user_id', $id)->first();
+        
+        if ($access) {
+            return response()->json([
+                'buttons' => $access->buttons
+            ]);
+        }
+        
+        return response()->json([
+            'buttons' => [] 
+        ]);
+    }
+
+    public function saveButtonAccess(Request $request, $id)
+    {
+        $buttons = $request->input('buttons', []); 
+        
+        ButtonAccess::updateOrCreate(
+            ['user_id' => $id],
+            ['buttons' => $buttons]
+        );
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'User access updated successfully.'
+        ]);
+    }
+
+    public function userStatusUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+            'statuser' => 'required',
+        ]);
+
+        try {
+            $stat = User::findOrFail($request->input('id'));
+            $stat->update([
+                'statuser' => $request->input('statuser'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'User Status update successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to Update User Status'], 404);
+        }
+    }
+
     public function accountRead() 
     {
         $guard= $this->getGuard();

@@ -166,12 +166,17 @@
 
     <script src="{{ asset('js/validation/settings/setconfValidation.js') }}"></script>
 
+    @if(request()->routeIs('usersRead'))
+        <script src="{{ asset('js/ajax/settngs/useraccountSerialize.js') }}"></script>
+    @endif
+
     @if(request()->routeIs('setconfigure'))
         <script src="{{ asset('js/ajax/settngs/setconfSerialize.js') }}"></script>
     @endif
 
-        <script src="{{ asset('js/ajax/settngs/addressSerialize.js') }}"></script>
- 
+    @if(request()->routeIs('regionsRead'))
+    <script src="{{ asset('js/ajax/settngs/addressSerialize.js') }}"></script>
+    @endif
 
     <script>
         $(document).ready(function () {
