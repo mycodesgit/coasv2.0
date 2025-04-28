@@ -265,7 +265,7 @@ CISS V.1.0 || User's List
                             
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Email</span></label>
-                                <input type="text" name="email" placeholder="Enter Email" class="form-control form-control-sm">
+                                <input type="text" name="email" id="edituseremail" placeholder="Enter Email" class="form-control form-control-sm">
                             </div>
 
                             <div class="col-md-4">
@@ -519,6 +519,8 @@ CISS V.1.0 || User's List
     var useraccountRoute = "{{ route('getusersRead') }}";
     var useraccessRoute = "{{ route('getButtonAccess', ['id' => ':id']) }}";
     var userSaveAccessRoute = "{{ route('saveButtonAccess', ['id' => ':id']) }}";
+    var useraccountUpdateRoute = "{{ route('userUpdate', ['id' => ':id']) }}";
+    var userpassUpdateRoute = "{{ route('userPassUpdate', ['id' => ':id']) }}";
     var userDeactRoute = "{{ route('userStatusUpdate', ['id' => ':id']) }}";
 
     var setconfCreateRoute = "{{ route('setconfCreate') }}";

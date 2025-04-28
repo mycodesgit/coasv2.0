@@ -48,7 +48,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    var lastNameWithExt = data.lname + (data.ext && data.ext !== 'null' ? ' ' + data.ext : '');
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
@@ -123,7 +123,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-useredit" data-id="' + row.id + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-campus="' + row.campus + '" data-dept="' + row.dept + '" data-role="' + row.role + '">' +
+                            '<a href="#" class="dropdown-item btn-useredit" data-id="' + row.id + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-email="' + row.email + '" data-campus="' + row.campus + '" data-dept="' + row.dept + '" data-role="' + row.role + '">' +
                             '<i class="fas fa-pen"></i> Edit Info' +
                             '</a>' +
                             '<a href="#" class="dropdown-item btn-userpass" data-id="' + row.id + '" data-password="' + row.password + '">' +
@@ -131,13 +131,13 @@ $(document).ready(function() {
                             '</a>' +
                             '<a href="#" class="dropdown-item btn-useraccess" ' +
                                 'data-id="' + row.id + '" ' +
-                                'data-fullname="' + row.fname + ' ' + row.mname + ' ' + row.lname + (row.ext ? ' ' + row.ext : '') + '" ' +
+                                'data-fullname="' + row.fname + ' ' + row.mname + ' ' + row.lname + (row.ext && row.ext !== 'null' ? ' ' + row.ext : '') + '" ' +
                                 'data-role="' + row.role + '">' +
                                 '<i class="fas fa-keyboard" style="color: green"></i> User Access' +
                             '</a>'+
                             '<a href="#" class="dropdown-item btn-userdeact" ' +
                                 'data-id="' + row.id + '" ' +
-                                'data-fullname="' + row.fname + ' ' + row.mname + ' ' + row.lname + (row.ext ? ' ' + row.ext : '') + '" ' +
+                                'data-fullname="' + row.fname + ' ' + row.mname + ' ' + row.lname + (row.ext && row.ext !== 'null' ? ' ' + row.ext : '') + '" ' +
                                 'data-statuser="' + row.statuser + '">' +
                                 '<i class="fas fa-toggle-off" style="color: red"></i> Disabled Account' +
                             '</a>' +
@@ -166,6 +166,7 @@ $(document).on('click', '.btn-useredit', function() {
     var mname = $(this).data('mname');
     var lname = $(this).data('lname');
     var ext = $(this).data('ext');
+    var email = $(this).data('email');
     var campus = $(this).data('campus');
     var dept = $(this).data('dept');
     var role = $(this).data('role');
@@ -175,11 +176,39 @@ $(document).on('click', '.btn-useredit', function() {
     $('#editusermname').val(mname);
     $('#edituserlname').val(lname);
     $('#edituserext').val(ext);
+    $('#edituseremail').val(email);
     $('#editusercampus').val(campus);
     $('#edituserdept').val(dept);
     $('#edituserrole').val(role);
 
     $('#edituserModal').modal('show');
+});
+
+$('#edituserForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: useraccountUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#edituserModal').modal('hide');
+                $(document).trigger('userAdded');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
+    });
 });
 
 $(document).on('click', '.btn-userpass', function() {
@@ -189,6 +218,33 @@ $(document).on('click', '.btn-userpass', function() {
     $('#edituserpass').val('');
 
     $('#edituserPassModal').modal('show');
+});
+
+$('#edituserPassForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: userpassUpdateRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#edituserPassModal').modal('hide');
+                $(document).trigger('userAdded');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
+    });
 });
 
 $(document).on('click', '.btn-useraccess', function() {

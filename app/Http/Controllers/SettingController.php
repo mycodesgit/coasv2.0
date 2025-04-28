@@ -128,6 +128,64 @@ class SettingController extends Controller
         ]);
     }
 
+    public function userUpdate(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'campus' => 'required',
+            'email' => 'required',
+            'lname' => 'required|string|max:255',
+            'fname' => 'required|string|max:255',
+            'role' => 'required',
+        ]);
+
+        try {
+            $emailName = $request->input('email');
+            $existingEmail = User::where('email', $emailName)
+                    ->where('id', '!=', $request->input('id'))
+                    ->first();
+
+            if ($existingEmail) {
+                return response()->json(['error' => true, 'message' => 'User already exists'], 404);
+            }
+
+            $user = User::findOrFail($request->input('id'));
+            $user->update([
+                'campus' => $request->input('campus'),
+                'dept' => $request->input('dept'),
+                'lname' => $request->input('lname'),
+                'fname' => $request->input('fname'),
+                'mname' => $request->input('mname'),
+                'ext' => $request->input('ext'),
+                'email' => $emailName,
+                'role' => $request->input('role'),
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'User Updated Successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to update User'], 404);
+        }
+    }
+
+    public function userPassUpdate(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'password' => 'required',
+        ]);
+
+        try {
+            $userpass = User::findOrFail($request->input('id'));
+            $userpass->update([
+                'password' => Hash::make($request->input('password')),
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'User Password Updated Successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to update User Password'], 404);
+        }
+    }
+
     public function userStatusUpdate(Request $request) 
     {
         $request->validate([

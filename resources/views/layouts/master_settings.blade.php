@@ -165,6 +165,7 @@
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <script src="{{ asset('js/validation/settings/setconfValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/settings/usersValidation.js') }}"></script>
 
     @if(request()->routeIs('usersRead'))
         <script src="{{ asset('js/ajax/settngs/useraccountSerialize.js') }}"></script>
