@@ -832,8 +832,8 @@ class EnrollmentController extends Controller
                         ->from('settings_conf')
                         ->groupBy('schlyear');
                 })
-            //     ->orderBy('id', 'DESC')
-            //     ->get();
+                ->orderBy('id', 'DESC')
+                ->get();
         }
 
         // if(Auth::guard('web')->user()->role == 15) {
