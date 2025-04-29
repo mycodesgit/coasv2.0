@@ -472,7 +472,7 @@
     @if(request()->routeIs('list_trans'))
         <script src="{{ asset('js/ajax/enrolment/transferSerialize.js') }}"></script>
     @endif
-    @if(request()->routeIs('listsearch_studsubjectsRead'))
+    @if(request()->routeIs('listsearch_studsubjectsRead', 'gradschoolgetlistsearch_studsubjectsRead'))
         <script src="{{ asset('js/ajax/enrolment/studenrollAttendanceSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('geneStudent1', 'geneStudentcorrectiongrades'))
