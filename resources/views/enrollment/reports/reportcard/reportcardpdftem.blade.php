@@ -68,7 +68,7 @@
                 <th class="" style="text-align: right !important; font-size: 10pt; font-weight: initial; color: #000 !important;">curriculum and earned the</th>
             </thead>
             <thead>
-                <th colspan="2" style="text-align: left !important; font-size: 10pt; font-weight: initial; color: #000 !important;">creadits as indicated below during the School Year: &nbsp;&nbsp;&nbsp;&nbsp; {{ request('schlyear')}}</th>
+                <th colspan="2" style="text-align: left !important; font-size: 10pt; font-weight: initial; color: #000 !important;">credits as indicated below during the School Year: &nbsp;&nbsp;&nbsp;&nbsp; {{ request('schlyear')}}</th>
             </thead>
         </table>
     </div>
