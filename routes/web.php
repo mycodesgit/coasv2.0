@@ -836,6 +836,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::post('/admin/kiosk/user/view/add', [KioskAdminController::class, 'adminkioskCreate'])->name('adminkioskCreate');
         Route::post('/admin/kiosk/user/view/update', [KioskAdminController::class, 'adminkioskUpdate'])->name('adminkioskUpdate');
         Route::get('/admin/kiosk/user/view/delete{id}', [KioskAdminController::class, 'adminkioskDelete'])->name('adminkioskDelete');
+
+        Route::get('/admin/kiosk/user/view/bulk/generate', [KioskAdminController::class, 'adminbulkkioskRead'])->name('adminbulkkioskRead');
+        Route::get('/admin/kiosk/user/view/bulk/generate/show', [KioskAdminController::class, 'adminbulkkioskShow'])->name('adminbulkkioskShow');
+        Route::get('/admin/kiosk/user/students/currbulk/searchajax', [KioskAdminController::class, 'getstudCurrBulkSearch'])->name('getstudCurrBulkSearch');
     });
 
     Route::prefix('conf/queue/settings')->group(function () {

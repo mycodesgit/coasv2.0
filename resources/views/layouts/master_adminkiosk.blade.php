@@ -184,6 +184,10 @@
         <script src="{{ asset('js/ajax/enrolment/kioskadminSerialize.js') }}"></script>
     @endif
 
+    @if(request()->routeIs('studCurrsearch'))
+        <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
+    @endif
+
 </body>
 </html>
    
