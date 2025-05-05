@@ -184,7 +184,7 @@
         <script src="{{ asset('js/ajax/enrolment/kioskadminSerialize.js') }}"></script>
     @endif
 
-    @if(request()->routeIs('studCurrsearch'))
+    @if(request()->routeIs('adminbulkkioskShow'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
     @endif
 
