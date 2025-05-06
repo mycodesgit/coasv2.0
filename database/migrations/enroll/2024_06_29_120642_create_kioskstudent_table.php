@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('studid')->index();
             $table->string('password');
+            $table->string('passtext')->nullable();
             $table->integer('postedBy')->nullable();
             $table->string('role')->nullable();
             $table->integer('resetnumber')->nullable();

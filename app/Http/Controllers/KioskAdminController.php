@@ -207,4 +207,37 @@ class KioskAdminController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    public function adminkioskCreateBatch(Request $request)
+    {
+        $studentIDs = $request->studentID;
+        $passwords = $request->password;
+
+        $savedCount = 0;
+        $failedCount = 0;
+
+        $postedBy = Auth::guard('web')->user()->id;
+        foreach ($studentIDs as $index => $id) {
+            $password = $passwords[$index];
+
+            try {
+                KioskUser::updateOrCreate(
+                    ['studid' => $id],
+                    [
+                        'password' => Hash::make($password),
+                        'passtext' => $password,
+                        'postedBy' => $postedBy
+                    ]
+                );
+                $savedCount++;
+            } catch (\Exception $e) {
+                $failedCount++;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "$savedCount passwords saved successfully. $failedCount failed.",
+        ]);
+    }
 }

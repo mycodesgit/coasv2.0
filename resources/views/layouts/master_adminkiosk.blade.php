@@ -185,7 +185,7 @@
     @endif
 
     @if(request()->routeIs('adminbulkkioskShow'))
-        <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/kioskbulkpassSerialize.js') }}"></script>
     @endif
 
 </body>

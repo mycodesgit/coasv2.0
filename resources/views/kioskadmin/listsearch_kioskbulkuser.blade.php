@@ -11,6 +11,13 @@ CISS V.1.0 || Kiosk User
 @yield('sidemenu')
 
 @section('workspace')
+
+<style>
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #ffffff;
+        opacity: 1;
+    }
+</style>
 <div class="card">
     <div class="card-body">
         <ol class="breadcrumb">
@@ -88,19 +95,23 @@ CISS V.1.0 || Kiosk User
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="student-list" role="tabpanel" aria-labelledby="student-list-tab">
-                        <table class="table table-striped mt-3">
+                        <button id="generateAllPasswords" class="btn btn-primary mt-3">Generate All Passwords</button>
+                        <button id="saveAllPasswords" class="btn btn-success mt-3">Save All Passwords</button>
+                        <table class="table table-bordered mt-3" id="exampleme" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Student ID No.</th>
                                     <th>Name</th>
                                     <th>Course</th>
                                     <th>Semester</th>
+                                    <th>Password</th>
                                 </tr>
                             </thead>
                             <tbody id="studentEnrolledTable">
                                 <!-- Enrollment history will be inserted here -->
                             </tbody>
                         </table>
+                        
                     </div>
                     <div class="tab-pane fade" id="pdf-view" role="tabpanel" aria-labelledby="pdf-view-tab">
                         <iframe id="pdfIframe" src="" style="width: 100%; height: 500px;" frameborder="0" class="mt-3"></iframe>
@@ -118,7 +129,8 @@ CISS V.1.0 || Kiosk User
         "{{ route('getstudCurrBulkSearch') }}";
     @endif
     var studentcourseEnrollReadRoute = "{{ route('fetchStudEnrollmentlist') }}";
-    var studentcourseEnrollPDFReadRoute = "{{ route('exportEnrollmentPDF') }}";
+    var studentcourseEnrollPDFReadRoute = "{{ route('exportEnrollmentKioskPassPDF') }}";
+    var savebulkPassRoute = "{{ route('adminkioskCreateBatch') }}";
 </script>
 
 @endsection

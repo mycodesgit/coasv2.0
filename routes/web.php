@@ -483,6 +483,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/curriculum/searchajax/grad', [EnStudentPerCurriculumController::class, 'getstudCurrSearchGradSchool'])->name('getstudCurrSearchGradSchool');
             Route::get('/info/students/curriculum/viewenroll/searchajax', [EnStudentPerCurriculumController::class, 'fetchStudEnrollmentlist'])->name('fetchStudEnrollmentlist');
             Route::get('/info/students/curriculum/viewenroll/pdfajax', [EnStudentPerCurriculumController::class, 'exportEnrollmentPDF'])->name('exportEnrollmentPDF');
+            Route::get('/info/students/curriculum/viewenroll/pdfajax/pass', [EnStudentPerCurriculumController::class, 'exportEnrollmentKioskPassPDF'])->name('exportEnrollmentKioskPassPDF');
             Route::get('/info/students/attendance/curriculum/viewenroll/pdfattndajax', [EnStudentPerCurriculumController::class, 'exportAttendEnrollmentPDF'])->name('exportAttendEnrollmentPDF');
 
             Route::get('/info/students/subjects', [EnStudentPerSubjectController::class, 'studsubjectsRead'])->name('studsubjectsRead');
@@ -840,6 +841,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/admin/kiosk/user/view/bulk/generate', [KioskAdminController::class, 'adminbulkkioskRead'])->name('adminbulkkioskRead');
         Route::get('/admin/kiosk/user/view/bulk/generate/show', [KioskAdminController::class, 'adminbulkkioskShow'])->name('adminbulkkioskShow');
         Route::get('/admin/kiosk/user/students/currbulk/searchajax', [KioskAdminController::class, 'getstudCurrBulkSearch'])->name('getstudCurrBulkSearch');
+        Route::post('/admin/kiosk/user/students/batchpass/save', [KioskAdminController::class, 'adminkioskCreateBatch'])->name('adminkioskCreateBatch');
     });
 
     Route::prefix('conf/queue/settings')->group(function () {

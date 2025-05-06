@@ -15,6 +15,7 @@ use Carbon\Carbon;
 
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\KioskUser;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\EnPrograms;
@@ -266,6 +267,47 @@ class EnStudentPerCurriculumController extends Controller
             ->get();
 
         $pdf = PDF::loadView('enrollment.reports.studentcurr.studcoursepdf', compact('enrolledstud'))->setPaper('Legal', 'portrait');
+
+        return $pdf->stream('enrollment_history.pdf');
+    }
+
+    public function exportEnrollmentKioskPassPDF(Request $request)
+    {
+        $progCode = $request->input('progCod');
+        $studYear = $request->input('studYear');
+        $studSec = $request->input('studSec');
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->leftJoin('kioskstudent', 'program_en_history.studentID', '=', 'kioskstudent.studid')
+            ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->where('program_en_history.progCod', $progCode)
+            ->where('program_en_history.studYear', $studYear)
+            ->where('program_en_history.studSec', $studSec)
+            ->where('program_en_history.schlyear', $schlyear)
+            ->where('program_en_history.semester', $semester)
+            // ->where('program_en_history.campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->where('program_en_history.status', 2)
+            // ->where('students.campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('students.campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName','kioskstudent.passtext')
+            ->orderBy('students.lname', 'ASC')
+            ->get();
+
+        $pdf = PDF::loadView('enrollment.reports.studentcurr.studcoursepdfpass', compact('enrolledstud'))->setPaper('Legal', 'portrait');
 
         return $pdf->stream('enrollment_history.pdf');
     }

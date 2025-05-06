@@ -18,6 +18,7 @@ class KioskUser extends Authenticatable
     protected $fillable = [
         'studid',
         'password', 
+        'passtext', 
         'postedBy',
         'role',  
         'resetnumber'
