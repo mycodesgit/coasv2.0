@@ -15,10 +15,12 @@ class ButtonAccess extends Model
     protected $fillable = [
         'user_id',
         'buttons', 
+        'schlyraccess', 
     ];
 
     protected $casts = [
         'buttons' => 'array',
+        'schlyraccess' => 'array',
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

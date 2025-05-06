@@ -325,21 +325,57 @@ $(document).on('click', '.btn-useraccessEditEnroll', function() {
     $('#editusernameAllow').val(fullname);
     $('#edituserroleaccessAllow').val(roleaccess);
 
-    $('input[name="buttons[]"]').prop('checked', false);
+    $('input[name="schlyraccess[]"]').prop('checked', false);
 
     $.ajax({
         url: schlyraccessRoute.replace(':id', id), // Replace :id with actual ID
         type: 'GET',
         success: function(response) {
-            if (response.buttons) {
-                response.buttons.forEach(function(button) {
-                    $('input[name="buttons[]"][value="' + button + '"]').prop('checked', true);
+            if (response.schlyraccess && Array.isArray(response.schlyraccess)) {
+                response.schlyraccess.forEach(function(button) {
+                    // Check the checkboxes based on the response
+                    $('input[name="schlyraccess[]"][value="' + button + '"]').prop('checked', true);
                 });
             }
             $('#edituserSchlyrAccessModal').modal('show');
         },
         error: function(xhr) {
             console.error(xhr.responseText); 
+        }
+    });
+});
+
+$('#edituserSchlyrAccessForm').submit(function(event) {
+    event.preventDefault(); 
+    
+    var formData = $(this).serialize(); 
+
+    var id = $('#edituserSchlyrAccessId').val(); 
+    var selectedSchlyr = [];
+
+    $('input[name="schlyraccess[]"]:checked').each(function() {
+        selectedSchlyr.push($(this).val()); 
+    });
+
+    $.ajax({
+        url: schlyrSaveAccessRoute.replace(':id', id), 
+        type: "POST",
+        data: {
+            schlyraccess: selectedSchlyr,
+            _token: $('meta[name="csrf-token"]').attr('content') 
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#edituserSchlyrAccessModal').modal('hide'); 
+                $(document).trigger('userAdded'); 
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText); 
+            toastr.error('An error occurred while saving the user access.');
         }
     });
 });

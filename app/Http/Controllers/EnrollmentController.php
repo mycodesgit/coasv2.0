@@ -40,6 +40,7 @@ use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\AssessmentDB\StudPayment;
 
 use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\ButtonAccess;
 use App\Models\SettingDB\QueueCounter;
 use App\Models\SettingDB\QueueCustomer;
 use App\Models\SettingDB\QueueMode;
@@ -821,20 +822,44 @@ class EnrollmentController extends Controller
 
     public function editsearchStud()
     {   
-        if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC', 'CC', 'CA', 'SCC', 'MP', 'SC', 'HC', 'SC', 'IC'])) {
+        $userId = Auth::guard('web')->user()->id;
+        $userCampus = Auth::guard('web')->user()->campus;
+        if (in_array($userCampus, ['MC', 'VC', 'HinC', 'CC', 'CA', 'SCC', 'MP', 'SC', 'HC', 'SC', 'IC'])) {
+            // Get default allowed school years
             $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->whereIn('id', ['18'])
+                ->where('set_status', '2')
                 ->orderBy('id', 'DESC')
-                ->get();
-            // $sy = ConfigureCurrent::select('id', 'schlyear')
-            //     ->whereIn('id', function($query) {
-            //         $query->select(DB::raw('MAX(id)'))
-            //             ->from('settings_conf')
-            //             ->groupBy('schlyear');
-            //     })
-            //     ->orderBy('id', 'DESC')
-            //     ->get();
+                ->get()
+                ->unique('schlyear');
+            
+            // Check if the user has custom schlyraccess
+            $access = ButtonAccess::where('user_id', $userId)->first();
+        
+            if ($access && is_array($access->schlyraccess) && count($access->schlyraccess) > 0) {
+                $customSy = ConfigureCurrent::select('id', 'schlyear')
+                    ->whereIn('schlyear', $access->schlyraccess)
+                    ->orderBy('id', 'DESC')
+                    ->get()
+                    ->unique('schlyear');
+        
+                // Merge and remove duplicates
+                $sy = $sy->merge($customSy)->unique('schlyear')->values();
+            }
         }
+        // if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC', 'CC', 'CA', 'SCC', 'MP', 'SC', 'HC', 'SC', 'IC'])) {
+        //     $sy = ConfigureCurrent::select('id', 'schlyear')
+        //         ->where('set_status', ['2'])
+        //         ->orderBy('id', 'DESC')
+        //         ->get();
+        //     $sy = ConfigureCurrent::select('id', 'schlyear')
+        //         ->whereIn('id', function($query) {
+        //             $query->select(DB::raw('MAX(id)'))
+        //                 ->from('settings_conf')
+        //                 ->groupBy('schlyear');
+        //         })
+        //         ->orderBy('id', 'DESC')
+        //         ->get();
+        // }
 
         // if(Auth::guard('web')->user()->role == 15) {
         //     $sy = ConfigureCurrent::select('id', 'schlyear')

@@ -134,12 +134,27 @@ class SettingController extends Controller
         
         if ($access) {
             return response()->json([
-                'buttons' => $access->buttons
+                'schlyraccess' => $access->schlyraccess
             ]);
         }
         
         return response()->json([
-            'buttons' => [] 
+            'schlyraccess' => [] 
+        ]);
+    }
+
+    public function saveSchlyrAccess(Request $request, $id)
+    {
+        $schlyraccess = $request->input('schlyraccess', []); 
+        
+        ButtonAccess::updateOrCreate(
+            ['user_id' => $id],
+            ['schlyraccess' => $schlyraccess]
+        );
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'User access updated successfully.'
         ]);
     }
 

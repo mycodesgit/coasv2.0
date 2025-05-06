@@ -542,12 +542,10 @@ CISS V.1.0 || User's List
 
                                 @foreach($sy as $label)
                                     <div class="icheck-success">
-                                        <input type="checkbox" id="schlyear{{ $label->id }}" name="schlyraccess[]" value="{{ $label->id }}">
-                                        <label for="schlyear{{ $label->id }}">{{ $label->schlyear }}</label>
+                                        <input type="checkbox" id="schlyear{{ $label->schlyear }}" name="schlyraccess[]" value="{{ $label->schlyear }}">
+                                        <label for="schlyear{{ $label->schlyear }}">{{ $label->schlyear }}</label>
                                     </div>
                                 @endforeach
-
-
                             </div>
                         </div>
                     </div>
@@ -610,6 +608,7 @@ CISS V.1.0 || User's List
     var useraccessRoute = "{{ route('getButtonAccess', ['id' => ':id']) }}";
     var schlyraccessRoute = "{{ route('getSchlyearAccess', ['id' => ':id']) }}";
     var userSaveAccessRoute = "{{ route('saveButtonAccess', ['id' => ':id']) }}";
+    var schlyrSaveAccessRoute = "{{ route('saveSchlyrAccess', ['id' => ':id']) }}";
     var useraccountUpdateRoute = "{{ route('userUpdate', ['id' => ':id']) }}";
     var userpassUpdateRoute = "{{ route('userPassUpdate', ['id' => ':id']) }}";
     var userDeactRoute = "{{ route('userStatusUpdate', ['id' => ':id']) }}";
