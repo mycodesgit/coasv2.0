@@ -135,6 +135,12 @@ $(document).ready(function() {
                                 'data-role="' + row.role + '">' +
                                 '<i class="fas fa-keyboard" style="color: green"></i> User Access' +
                             '</a>'+
+                            '<a href="#" class="dropdown-item btn-useraccessEditEnroll" ' +
+                                'data-id="' + row.id + '" ' +
+                                'data-fullname="' + row.fname + ' ' + row.mname + ' ' + row.lname + (row.ext && row.ext !== 'null' ? ' ' + row.ext : '') + '" ' +
+                                'data-role="' + row.role + '">' +
+                                '<i class="fas fa-laptop-code" style="color: purple"></i> User Allow' +
+                            '</a>'+
                             '<a href="#" class="dropdown-item btn-userdeact" ' +
                                 'data-id="' + row.id + '" ' +
                                 'data-fullname="' + row.fname + ' ' + row.mname + ' ' + row.lname + (row.ext && row.ext !== 'null' ? ' ' + row.ext : '') + '" ' +
@@ -306,6 +312,34 @@ $('#edituserAccessForm').submit(function(event) {
         error: function(xhr) {
             console.error(xhr.responseText); 
             toastr.error('An error occurred while saving the user access.');
+        }
+    });
+});
+
+$(document).on('click', '.btn-useraccessEditEnroll', function() {
+    var id = $(this).data('id');
+    var fullname = $(this).data('fullname');
+    var roleaccess = $(this).data('role');
+
+    $('#edituserSchlyrAccessId').val(id);
+    $('#editusernameAllow').val(fullname);
+    $('#edituserroleaccessAllow').val(roleaccess);
+
+    $('input[name="buttons[]"]').prop('checked', false);
+
+    $.ajax({
+        url: schlyraccessRoute.replace(':id', id), // Replace :id with actual ID
+        type: 'GET',
+        success: function(response) {
+            if (response.buttons) {
+                response.buttons.forEach(function(button) {
+                    $('input[name="buttons[]"][value="' + button + '"]').prop('checked', true);
+                });
+            }
+            $('#edituserSchlyrAccessModal').modal('show');
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText); 
         }
     });
 });

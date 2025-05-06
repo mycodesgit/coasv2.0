@@ -892,6 +892,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/list/users/updatePass', [SettingController::class, 'userUpdatePassword'])->name('userUpdatePassword');
 
             Route::get('/list/get-button-access/{id}/ajax', [SettingController::class, 'getButtonAccess'])->name('getButtonAccess');
+            Route::get('/list/get-schlyear-access/{id}/ajax', [SettingController::class, 'getSchlyearAccess'])->name('getSchlyearAccess');
             Route::post('/list/save-button-access/{id}/ajax', [SettingController::class, 'saveButtonAccess'])->name('saveButtonAccess');
             Route::post('/list/user-updateinfo-account/ajax', [SettingController::class, 'userUpdate'])->name('userUpdate');
             Route::post('/list/user-updatepass-account/ajax', [SettingController::class, 'userPassUpdate'])->name('userPassUpdate');

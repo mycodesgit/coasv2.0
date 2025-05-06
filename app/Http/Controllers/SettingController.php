@@ -128,6 +128,21 @@ class SettingController extends Controller
         ]);
     }
 
+    public function getSchlyearAccess($id)
+    {
+        $access = ButtonAccess::where('user_id', $id)->first();
+        
+        if ($access) {
+            return response()->json([
+                'buttons' => $access->buttons
+            ]);
+        }
+        
+        return response()->json([
+            'buttons' => [] 
+        ]);
+    }
+
     public function userUpdate(Request $request)
     {
         $request->validate([

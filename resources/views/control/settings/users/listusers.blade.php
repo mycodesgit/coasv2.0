@@ -471,6 +471,96 @@ CISS V.1.0 || User's List
     </div>
 </div>
 
+<div class="modal fade" id="edituserSchlyrAccessModal" tabindex="-1" role="dialog" aria-labelledby="edituserSchlyrAccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edituserSchlyrAccessModalLabel">Allow User Access for Academic Year</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="edituserSchlyrAccessForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="edituserSchlyrAccessId">
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Name:</span></label>
+                                <input type="text" id="editusernameAllow"  class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">User Level:</span></label>
+                                <select class="form-control form-control-sm" id="edituserroleaccessAllow" disabled>
+                                    <option disabled selected>Level</option>
+                                    <option value="0" @if (old('type') == 0) {{ 'selected' }} @endif>Administrator</option>
+                                    <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>Guidance Officer</option>
+                                    <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Guidance Staff</option>
+                                    <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Registrar</option>
+                                    <option value="4" @if (old('type') == 4) {{ 'selected' }} @endif>Registrar Staff</option>
+                                    <option value="5" @if (old('type') == 5) {{ 'selected' }} @endif>College Dean</option>
+                                    <option value="6" @if (old('type') == 6) {{ 'selected' }} @endif>Program Head</option>
+                                    <option value="7" @if (old('type') == 7) {{ 'selected' }} @endif>College Staff</option>
+                                    <option value="8" @if (old('type') == 8) {{ 'selected' }} @endif>Scholarship Head</option>
+                                    <option value="9" @if (old('type') == 9) {{ 'selected' }} @endif>Scholarship Staff</option>
+                                    <option value="10" @if (old('type') == 10) {{ 'selected' }} @endif>Assessment Head</option>
+                                    <option value="11" @if (old('type') == 11) {{ 'selected' }} @endif>Assessment Staff</option>
+                                    <option value="12" @if (old('type') == 12) {{ 'selected' }} @endif>MIS Staff</option>
+                                    <option value="13" @if (old('type') == 13) {{ 'selected' }} @endif>MIS Director</option>
+                                    <option value="14" @if (old('type') == 14) {{ 'selected' }} @endif>MIS Officer</option>
+                                    <option value="15" @if (old('type') == 15) {{ 'selected' }} @endif>Graduate School Staff</option>
+                                    <option value="16" @if (old('type') == 16) {{ 'selected' }} @endif>OSSA Staff</option>
+                                    <option value="17" @if (old('type') == 17) {{ 'selected' }} @endif>Cashier</option>
+                                    <option value="18" @if (old('type') == 18) {{ 'selected' }} @endif>Cashier Staff</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group"> 
+                        <div class="form-row">
+                            <div class="col-md-8">
+                                <label for="buttons">Select Academic Year</label>
+                                @php
+                                    use App\Models\SettingDB\ConfigureCurrent;
+
+                                    $sy = ConfigureCurrent::select('id', 'schlyear')
+                                        ->whereIn('id', function($query) {
+                                            $query->select(DB::raw('MAX(id)'))
+                                                ->from('settings_conf')
+                                                ->groupBy('schlyear');
+                                        })
+                                        ->orderBy('id', 'DESC')
+                                        ->get();
+                                @endphp
+
+                                @foreach($sy as $label)
+                                    <div class="icheck-success">
+                                        <input type="checkbox" id="schlyear{{ $label->id }}" name="schlyraccess[]" value="{{ $label->id }}">
+                                        <label for="schlyear{{ $label->id }}">{{ $label->schlyear }}</label>
+                                    </div>
+                                @endforeach
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="edituserDeactModal" tabindex="-1" role="dialog" aria-labelledby="edituserDeactModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -518,6 +608,7 @@ CISS V.1.0 || User's List
 <script>
     var useraccountRoute = "{{ route('getusersRead') }}";
     var useraccessRoute = "{{ route('getButtonAccess', ['id' => ':id']) }}";
+    var schlyraccessRoute = "{{ route('getSchlyearAccess', ['id' => ':id']) }}";
     var userSaveAccessRoute = "{{ route('saveButtonAccess', ['id' => ':id']) }}";
     var useraccountUpdateRoute = "{{ route('userUpdate', ['id' => ':id']) }}";
     var userpassUpdateRoute = "{{ route('userPassUpdate', ['id' => ':id']) }}";
