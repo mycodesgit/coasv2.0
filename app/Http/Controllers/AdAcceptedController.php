@@ -17,6 +17,7 @@ use App\Models\AdmissionDB\ApplicantDocs;
 use App\Models\AdmissionDB\DeptRating;
 use App\Models\AdmissionDB\ExamineeResult;
 use App\Models\AdmissionDB\Strands;
+use App\Models\AdmissionDB\Year;
 
 use App\Models\EnrollmentDB\Student;
 
@@ -24,8 +25,9 @@ class AdAcceptedController extends Controller
 {
     public function applicant_accepted()
     {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
         $strand = Strands::all();
-        return view('admission.acceptedapp.index', compact('strand'));
+        return view('admission.acceptedapp.index', compact('strand', 'curryear'));
     }
 
     public function applicant_acceptedAll()
