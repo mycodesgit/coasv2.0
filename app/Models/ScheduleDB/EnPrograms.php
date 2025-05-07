@@ -13,6 +13,7 @@ class EnPrograms extends Model
     protected $table = 'programs';
 
     protected $fillable = [
+        'campus',
         'progCod',
         'progName',
         'progLev',

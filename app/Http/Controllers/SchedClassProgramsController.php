@@ -11,14 +11,26 @@ use Storage;
 use Carbon\Carbon;
 
 use App\Models\ScheduleDB\College;
+use App\Models\ScheduleDB\Department;
 use App\Models\ScheduleDB\EnPrograms;
-use App\Models\ScheduleDB\Room;
+use App\Models\ScheduleDB\Subject;
+use App\Models\ScheduleDB\SubjectOffered;
+use App\Models\ScheduleDB\SubjectAcademicType;
+use App\Models\ScheduleDB\SubjectDeliveryMode;
+
+use App\Models\EnrollmentDB\StudentLevel;
 
 class SchedClassProgramsController extends Controller
 {
     public function programsRead() 
     {
-        return view('scheduler.programs.list_programs');
+        $col = College::whereBetween('id', [2, 8])->get();
+        $dept = Department::all();
+        $lev = StudentLevel::all();
+        $acad = SubjectAcademicType::all();
+        $delv = SubjectDeliveryMode::all();
+
+        return view('scheduler.programs.list_programs', compact('col', 'dept', 'lev', 'delv', 'acad'));
     }
 
     public function getprogramsRead() 

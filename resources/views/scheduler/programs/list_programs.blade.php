@@ -41,14 +41,67 @@ CISS V.1.0 || Programs
                 <thead>
                     <tr>
                         <th>Program Code</th>
-                        <th>Porgram Acronym</th>
+                        <th>Program Acronym</th>
                         <th>Program Name</th>
+                        <th>Campus</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
 
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editProgramModal" tabindex="-1" role="dialog" aria-labelledby="editProgramModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProgramModalLabel">Edit Program</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editProgramForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editProgramId">
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">College:</span></label>
+                                <select class="form-control form-control-sm" id="college" name="progCollege">
+                                    <option disabled selected>--Select--</option>
+                                    @foreach($col as $datacol)
+                                        <option value="{{ $datacol->college_abbr }}">{{ $datacol->college_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Department:</span></label>
+                                <select class="form-control form-control-sm" id="department" name="deptCod">
+                                    <option disabled selected>--Select--</option>
+                                    @foreach($dept as $datadept)
+                                        <option value="{{ $datadept->deptCod }}">{{ $datadept->deptName }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Subject Code:</span></label>
+                                <input type="text" id="sub_code" name="sub_code" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

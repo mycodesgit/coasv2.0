@@ -375,7 +375,6 @@ class EnrollmentController extends Controller
     public function checkEnrollment(Request $request)
     {
         try {
-            //Log::info('checkEnrollment called', $request->all());
 
             $progCod = $request->input('programCode');
             $schlyear = $request->input('schlyear');
@@ -385,19 +384,8 @@ class EnrollmentController extends Controller
             $classSection = $request->input('classSection');
             $campusArray = array_map('trim', explode(',', $campus));
 
-            // Log::info('Parameters received', [
-            //     'programCode' => $progCod,
-            //     'schlyear' => $schlyear,
-            //     'semester' => $semester,
-            //     'campus' => $campus,
-            //     'stud_id' => $stud_id,
-            //     'classSection' => $classSection
-            // ]);
-
-            // Split classSection into studYear and studSec
             $parts = explode('-', $classSection);
             if (count($parts) !== 2) {
-                //Log::error('Invalid classSection format', ['classSection' => $classSection]);
                 return response()->json(['error' => 'Invalid classSection format'], 400);
             }
             $studYear = $parts[0];
@@ -417,7 +405,6 @@ class EnrollmentController extends Controller
                                 ->where('studSec', $studSec)
                                 ->count();
 
-            //Log::info('Enrolled students count', ['count' => $enrolledStudents]);
 
             // Fetch the classno from the ClassEnroll model
             $classEnroll = ClassEnroll::where('schlyear', $schlyear)
@@ -433,13 +420,11 @@ class EnrollmentController extends Controller
                             ->first();
 
             if (!$classEnroll) {
-                //Log::error('Class not found', ['programCode' => $progCod, 'classSection' => $classSection]);
                 return response()->json(['error' => 'Class not found'], 404);
             }
 
             $classNo = $classEnroll->classno;
 
-            //Log::info('Class details', ['classNo' => $classNo]);
 
             return response()->json([
                 'enrolledStudents' => $enrolledStudents,
@@ -447,7 +432,6 @@ class EnrollmentController extends Controller
                 'isFull' => $enrolledStudents >= $classNo,
             ]);
         } catch (\Exception $e) {
-            //Log::error('Exception occurred', ['message' => $e->getMessage()]);
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -846,31 +830,6 @@ class EnrollmentController extends Controller
                 $sy = $sy->merge($customSy)->unique('schlyear')->values();
             }
         }
-        // if (in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'HinC', 'CC', 'CA', 'SCC', 'MP', 'SC', 'HC', 'SC', 'IC'])) {
-        //     $sy = ConfigureCurrent::select('id', 'schlyear')
-        //         ->where('set_status', ['2'])
-        //         ->orderBy('id', 'DESC')
-        //         ->get();
-        //     $sy = ConfigureCurrent::select('id', 'schlyear')
-        //         ->whereIn('id', function($query) {
-        //             $query->select(DB::raw('MAX(id)'))
-        //                 ->from('settings_conf')
-        //                 ->groupBy('schlyear');
-        //         })
-        //         ->orderBy('id', 'DESC')
-        //         ->get();
-        // }
-
-        // if(Auth::guard('web')->user()->role == 15) {
-        //     $sy = ConfigureCurrent::select('id', 'schlyear')
-        //         ->whereIn('id', function($query) {
-        //             $query->select(DB::raw('MAX(id)'))
-        //                 ->from('settings_conf')
-        //                 ->groupBy('schlyear');
-        //         })
-        //         ->orderBy('id', 'DESC')
-        //         ->get();
-        // }
 
         $queueMode = QueueMode::first();
             
@@ -1184,13 +1143,6 @@ class EnrollmentController extends Controller
                         $account = $accntNames[$index];
                         $amount = $amntFees[$index];
                         $primID = $primIDs[$index] ?? null; // Handle cases where primID might not be set
-
-                        // \Log::info('Processing:', [
-                        //     'primID' => $primID,
-                        //     'fundID' => $fndCode,
-                        //     'account' => $account,
-                        //     'amount' => $amount,
-                        // ]);
 
                         if ($primID) {
                             // Find and update the existing record

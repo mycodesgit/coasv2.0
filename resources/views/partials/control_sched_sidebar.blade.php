@@ -8,6 +8,7 @@
     $classEnrollActive = in_array($curr_route, ['courseEnroll_list', 'courseEnroll_list_search']) ? 'active' : '';
     $suboffActive = in_array($curr_route, ['subjectsOffered', 'subjectsOffered_search']) ? 'active' : '';
     $facultyActive = in_array($curr_route, ['faculty_list', 'faculty_listsearch']) ? 'active' : '';
+    $curriActive = in_array($curr_route, ['curRead']) ? 'active' : '';
     $facDesigActive = in_array($curr_route, ['faculty_design', 'faculty_design_search']) ? 'active' : '';
     $classSchedActive = in_array($curr_route, ['classSchedRead', 'classSchedSetRead']) ? 'active' : '';
     $facultySchedActive = in_array($curr_route, ['facultySchedRead']) ? 'active' : '';
@@ -27,7 +28,7 @@
         @if(in_array(Auth::guard('web')->user()->role, [0]))
             <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
         @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14]))
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
             <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
             <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
         @endif
@@ -42,6 +43,9 @@
         @endif
         @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7, 12, 14]))
             <a href="{{ route('faculty_list') }}" class="list-group-item {{ $facultyActive }}">Faculty</a>
+        @endif
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
+            <a href="{{ route('curRead') }}" class="list-group-item {{ $curriActive }}">Curriculumn</a>
         @endif
     </ul>
 </div>

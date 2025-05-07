@@ -50,6 +50,7 @@ use App\Http\Controllers\SchedClassRoomsController;
 use App\Http\Controllers\SchedClassEnrollController;
 use App\Http\Controllers\SchedFacultyListController;
 use App\Http\Controllers\SchedFacultyDesignationController;
+use App\Http\Controllers\SchedCurriculumController;
 use App\Http\Controllers\SchedSubOfferController;
 use App\Http\Controllers\SchedClassController;
 use App\Http\Controllers\SchedFacultyController;
@@ -581,7 +582,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         });
 
         Route::prefix('subjectOff')->group(function () {
-            Route::get('/list/', [SchedSubOfferController::class, 'subjectsOffered'])->name('subjectsOffered');
+            Route::get('/list/view/', [SchedSubOfferController::class, 'subjectsOffered'])->name('subjectsOffered');
             Route::get('/list/search', [SchedSubOfferController::class, 'subjectsOffered_search'])->name('subjectsOffered_search');
             Route::get('/list/search/ajaxsuboff', [SchedSubOfferController::class, 'getsubjectsOfferedRead'])->name('getsubjectsOfferedRead');
             Route::get('/list/search/grad/ajaxsuboff', [SchedSubOfferController::class, 'getGradsubjectsOfferedRead'])->name('getGradsubjectsOfferedRead');
@@ -597,6 +598,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/flist/search/add', [SchedFacultyListController::class, 'facultyCreate'])->name('facultyCreate');
             Route::post('/flist/search/update', [SchedFacultyListController::class, 'facultyUpdate'])->name('facultyUpdate');
             Route::get('/flist/search/delete{id}', [SchedFacultyListController::class, 'facultyDelete'])->name('facultyDelete');
+        });
+
+        Route::prefix('program')->group(function () {
+            Route::get('/curriculum', [SchedCurriculumController::class, 'curRead'])->name('curRead');
         });
 
         Route::prefix('designation')->group(function () {

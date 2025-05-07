@@ -328,12 +328,11 @@ $(document).on('click', '.btn-useraccessEditEnroll', function() {
     $('input[name="schlyraccess[]"]').prop('checked', false);
 
     $.ajax({
-        url: schlyraccessRoute.replace(':id', id), // Replace :id with actual ID
+        url: schlyraccessRoute.replace(':id', id), 
         type: 'GET',
         success: function(response) {
             if (response.schlyraccess && Array.isArray(response.schlyraccess)) {
                 response.schlyraccess.forEach(function(button) {
-                    // Check the checkboxes based on the response
                     $('input[name="schlyraccess[]"][value="' + button + '"]').prop('checked', true);
                 });
             }

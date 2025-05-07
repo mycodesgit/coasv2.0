@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
+            $table->string('campus')->nullable();
             $table->string('progCod')->nullable();
             $table->string('progName')->nullable();
             $table->string('progLev')->nullable();
