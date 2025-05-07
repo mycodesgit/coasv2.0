@@ -4,20 +4,21 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#adFund').submit(function(event) {
+    $('#addUser').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: fundCreateRoute,
+            url: userCreateRoute,
             type: "POST",
             data: formData,
             success: function(response) {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('fundAdded');
-                    $('input[name="fund_name"]').val('');
+                    $(document).trigger('userAdded');
+                    $('#modal-user').modal('hide');
+                    //$('input[name="fund_name"]').val('');
                 } else {
                     toastr.error(response.message);
                     console.log(response);

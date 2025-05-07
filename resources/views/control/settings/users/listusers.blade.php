@@ -605,6 +605,7 @@ CISS V.1.0 || User's List
 
 <script>
     var useraccountRoute = "{{ route('getusersRead') }}";
+    var userCreateRoute = "{{ route('userCreate') }}";
     var useraccessRoute = "{{ route('getButtonAccess', ['id' => ':id']) }}";
     var schlyraccessRoute = "{{ route('getSchlyearAccess', ['id' => ':id']) }}";
     var userSaveAccessRoute = "{{ route('saveButtonAccess', ['id' => ':id']) }}";
