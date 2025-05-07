@@ -32,14 +32,16 @@ class AdAcceptedController extends Controller
 
     public function applicant_acceptedAll()
     {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
         $strand = Strands::all();
-        return view('admission.acceptedapp.indexall', compact('strand'));
+        return view('admission.acceptedapp.indexall', compact('strand', 'curryear'));
     }
 
     public function srchacceptedList(Request $request)
     {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
         $strand = Strands::all();
-        return view('admission.acceptedapp.acceptedlist_search', compact('strand'));
+        return view('admission.acceptedapp.acceptedlist_search', compact('strand', 'curryear'));
     }
 
     public function srchacceptedListAll(Request $request)
