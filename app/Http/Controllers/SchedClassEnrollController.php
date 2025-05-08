@@ -69,9 +69,9 @@ class SchedClassEnrollController extends Controller
     
         $data = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                 ->select('class_enroll.*', 'programs.progAcronym')
-                ->where('schlyear', '=', $schlyear)
-                ->where('semester', '=', $semester)
-                ->where('campus', '=', $campus)
+                ->where('class_enroll.schlyear', '=', $schlyear)
+                ->where('class_enroll.semester', '=', $semester)
+                ->where('class_enroll.campus', '=', $campus)
                 ->orderBy('programs.progAcronym', 'ASC')
                 ->orderBy('class_enroll.classSection', 'ASC')
                 ->get();
