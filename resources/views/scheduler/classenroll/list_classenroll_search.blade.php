@@ -127,7 +127,7 @@ CISS V.1.0 || Classes Enrolled
                 </form>
             </div>
             <div class="col-md-9 mt-3 pl-3 pr-3 pt-3">
-                <table id="classEn" class="table table-hover">
+                <table id="classenroll" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Program</th>

@@ -36,7 +36,7 @@ $(document).ready(function() {
     var semester = urlParams.get('semester') || '';
     var campus = urlParams.get('campus') || ''; 
 
-    var dataTable = $('#classEn').DataTable({
+    var dataTable = $('#classenroll').DataTable({
         "ajax": {
             "url": classEnReadRoute,
             "type": "GET",
