@@ -56,7 +56,7 @@ CISS V.1.0 || Programs
 </div>
 
 <div class="modal fade" id="editProgramModal" tabindex="-1" role="dialog" aria-labelledby="editProgramModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editProgramModalLabel">Edit Program</h5>
@@ -82,7 +82,7 @@ CISS V.1.0 || Programs
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Department:</span></label>
-                                <select class="form-control form-control-sm" id="department" name="deptCod">
+                                <select class="form-control form-control-sm" id="department" name="progDep">
                                     <option disabled selected>--Select--</option>
                                     @foreach($dept as $datadept)
                                         <option value="{{ $datadept->deptCod }}">{{ $datadept->deptName }}</option>
@@ -91,11 +91,68 @@ CISS V.1.0 || Programs
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Subject Code:</span></label>
-                                <input type="text" id="sub_code" name="sub_code" class="form-control form-control-sm" readonly>
+                                <label><span class="badge badge-secondary">Program Code:</span></label>
+                                <input type="text" id="editprogCod" name="progCod" class="form-control form-control-sm" readonly>
                             </div>
                         </div>
-                    </div> 
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <label><span class="badge badge-secondary">Program Account:</span></label>
+                                <input type="text" id="progaccount" name="progAccount" class="form-control form-control-sm" readonly>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-warning">Progam Name:</span></label>
+                                <input type="text" id="progName" name="progName" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><span class="badge badge-danger">Progam Acronym:</span></label>
+                                <input type="text" id="progAcronym" name="progAcronym" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label><span class="badge badge-secondary">Program Level:</span></label>
+                                <select name="progLev" id="editprogLev" class="form-control form-control-sm">
+                                    <option disabled selected> --Select-- </option>
+                                    @foreach ($lev as $datalev)
+                                        <option value="{{ $datalev->id }}">{{ $datalev->studLevel }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <label for="editCampAbbr"><span class="badge badge-secondary">Belongs to:</span></label>
+                                <input type="text" class="form-control form-control-sm" id="editCampAbbr" name="campus" readonly>
+                            </div>
+                            <div class="col-md-8">
+                                <label><span class="badge badge-secondary">Campus:</span></label>
+                                <select class="form-control form-control-sm select2" multiple="multiple" name="campus[]">
+                                    <option value="MC">Main</option>
+                                    <option value="VC">Victorias</option>
+                                    <option value="SCC">San Carlos</option>
+                                    <option value="MP">Moises Padilla</option>
+                                    <option value="HC">Hinigaran</option>
+                                    <option value="IC">Ilog</option>
+                                    <option value="CA">Candoni</option>
+                                    <option value="CC">Cauayan</option>
+                                    <option value="SC">Sipalay</option>
+                                    <option value="HinC">Hinobaan</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -108,6 +165,10 @@ CISS V.1.0 || Programs
 
 <script>
     var progReadRoute = "{{ route('getprogramsRead') }}";
+    var progDeptRoute = "{{ route('getDepartmentsByCollege') }}";
+    var progCodeRoute = "{{ route('getNextProgramNumber') }}";
+    var progUpdateRoute = "{{ route('programUpdate', ['id' => ':id']) }}";
+    var idEncryptRoute = "{{ route('idcrypt') }}";
 </script>
 
 @endsection

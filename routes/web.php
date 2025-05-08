@@ -561,6 +561,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('programs')->group(function () {
             Route::get('/list', [SchedClassProgramsController::class, 'programsRead'])->name('programsRead');
             Route::get('/proglist/ajaxview', [SchedClassProgramsController::class, 'getprogramsRead'])->name('getprogramsRead');
+            Route::get('/get-departments', [SchedClassProgramsController::class, 'getDepartmentsByCollege'])->name('getDepartmentsByCollege');
+            Route::get('/proglist/ajaxviews/getnum', [SchedClassProgramsController::class, 'getNextProgramNumber'])->name('getNextProgramNumber');
+            Route::post('/proglist/ajax/view/update', [SchedClassProgramsController::class, 'programUpdate'])->name('programUpdate');
         });
 
         Route::prefix('rooms')->group(function () {
