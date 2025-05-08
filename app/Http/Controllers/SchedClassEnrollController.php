@@ -39,7 +39,9 @@ class SchedClassEnrollController extends Controller
         {
             $program = EnPrograms::where('progCod', 'LIKE', '%-GSS-%')->get();
         } else {
-            $program = EnPrograms::whereRaw("FIND_IN_SET(?, campus)", [Auth::guard('web')->user()->campus])->get();
+            $program = EnPrograms::whereRaw("FIND_IN_SET(?, campus)", [Auth::guard('web')->user()->campus])
+                    ->orderBy('progAcronym', 'ASC')
+                    ->get();
         }
 
         $data = ClassEnroll::query();
