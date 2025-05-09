@@ -54,9 +54,15 @@ class KioskAdminController extends Controller
     public function getadminkioskRead()
     {
         $campus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
 
         $data = KioskUser::leftJoin('students', 'kioskstudent.studid', '=', 'students.stud_id')
-                    ->where('students.campus', $campus)
+                    //->where('students.campus', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('students.campus', 'LIKE', "$campus");
+                        }
+                    })
                     ->select('kioskstudent.*', 'kioskstudent.id as studkiosid', 'students.lname', 'students.fname', 'students.mname')
                     ->get();
 
