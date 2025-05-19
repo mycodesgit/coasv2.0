@@ -78,6 +78,29 @@
 			font-family: Calibri, sans-serif, arial;
 			font-size: 9pt;
 		}
+
+		body {
+			font-family: Calibri, sans-serif, Arial;
+			font-size: 10pt;
+		}
+		.header {
+			margin-top: -60px !important;
+			text-align: center;
+		}
+		.page-break {
+			page-break-after: always;
+		}
+		footer {
+            position: fixed;
+			bottom: -30px;
+			left: 0;
+			right: 0;
+			height: 50px;
+			text-align: center;
+			font-size: 8pt;
+			font-family: Calibri, sans-serif, Arial;
+			font-weight: normal !important;
+        }
 	</style>
 </head>
 <body>
@@ -195,7 +218,7 @@
 	@endphp
 
 	@for ($page = 0; $page < $totalPages; $page++)
-		<div align="center" style="margin-top: -20px !important">
+		<div class="header">
 			<img src="{{ asset('template/img/gradesheetheader.png') }}" width="80%">
 		</div>
 		<div class="text-subjectCode" style="margin-top: 15px">Subject Code: <u><strong>{{ $gradeviewData->first()->sub_name }}</strong></u></div>
@@ -597,9 +620,18 @@
 		<div class="text-labeltextbot" style="margin-top: -20px; margin-left: 350px"><i>NG - No Grade</i></div>
 		<div class="text-labeltextbot" style="margin-top: -20px; margin-left: 500px"><i>NGS -  No Grading Sheet</i></div>
 
-		<div style="margin-top: 8px; text-align: center; font-size: 8pt; font-family: Calibri, sans-serif, arial;">
+		{{-- <div style="margin-top: 8px; text-align: center; font-size: 8pt; font-family: Calibri, sans-serif, arial;">
 			Doc Control Code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CPSU-F-REG-08&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Effective Date::&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9/12/2018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revision No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00
-		</div>
+		</div> --}}
+		<footer>
+			Doc Control Code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CPSU-F-REG-08
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Effective Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9/12/2018
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revision No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00
+		</footer>
+		@if ($page < $totalPages - 1)
+			<div class="page-break"></div>
+		@endif
+
 	@endfor
 	
 </body>

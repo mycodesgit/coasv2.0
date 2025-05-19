@@ -265,6 +265,7 @@
         <!-- Alphabetic Keys -->
         <button class="key-btn key-letter" data-key="K">K</button>
         <button class="key-btn key-letter" data-key="C">C</button>
+        <button class="key-btn key-letter" data-key="D">D</button>
         <button class="key-btn key-letter" data-key="U">U</button>
         <button class="key-btn key-letter" data-key="G">G</button>
 
