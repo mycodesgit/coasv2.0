@@ -204,7 +204,7 @@ class GradingFacultyController extends Controller
                         ->count();
 
 
-        $cursttngs = ConfigureCurrent::where('set_status', 4)->first();
+        $cursttngs = ConfigureCurrent::where('set_status', 2)->first();
         $fac = Faculty::all();
 
         $desiredIds = [1, 74, 75, 76, 77];
