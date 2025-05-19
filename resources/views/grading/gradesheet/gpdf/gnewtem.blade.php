@@ -45,7 +45,7 @@
 		#gradestable td {
 			border: 1px solid #000;
 		  	padding: 2px;
-		  	height: 18px;
+		  	height: 15px;
 		} 
 		#gradestable th {
 		  	border: 1px solid #000;
@@ -87,12 +87,10 @@
 			margin-top: -60px !important;
 			text-align: center;
 		}
-		.page-break {
-			page-break-after: always;
-		}
+		
 		footer {
-            position: fixed;
-			bottom: -30px;
+			margin-top: 50px;
+			bottom: 0px;
 			left: 0;
 			right: 0;
 			height: 50px;
@@ -101,6 +99,10 @@
 			font-family: Calibri, sans-serif, Arial;
 			font-weight: normal !important;
         }
+		.page-break {
+			page-break-after: always;
+			font-weight: normal !important;
+		}
 	</style>
 </head>
 <body>
@@ -218,6 +220,11 @@
 	@endphp
 
 	@for ($page = 0; $page < $totalPages; $page++)
+		@php
+			$revision = $page + 1; // so page 0 = revision 1
+			$revisionFormatted = str_pad($revision, 2, '0', STR_PAD_LEFT);
+		@endphp
+
 		<div class="header">
 			<img src="{{ asset('template/img/gradesheetheader.png') }}" width="80%">
 		</div>
@@ -623,10 +630,10 @@
 		{{-- <div style="margin-top: 8px; text-align: center; font-size: 8pt; font-family: Calibri, sans-serif, arial;">
 			Doc Control Code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CPSU-F-REG-08&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Effective Date::&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9/12/2018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revision No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00
 		</div> --}}
-		<footer>
+		<footer >
 			Doc Control Code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CPSU-F-REG-08
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Effective Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9/12/2018
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revision No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revision No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $revisionFormatted }}
 		</footer>
 		@if ($page < $totalPages - 1)
 			<div class="page-break"></div>
