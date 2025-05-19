@@ -211,21 +211,21 @@ class GradingFacultyController extends Controller
         $grdlegend = GradeCode::whereIn('id', $desiredIds)->get();
 
         $schlyear = $cursttngs->schlyear;
-        $semester = $cursttngs->semester;
+        //$semester = $cursttngs->semester;
         // $schlyear = '2024-2025';
-        // $semester = [1, 2];
+        $semester = [1, 2];
         $facID = $user->id;
 
         $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
         $semester = is_array($semester) ? $semester : [$semester];
         $facID = is_array($facID) ? $facID : [$facID];
 
-        $gradeviewData = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+        $gradeviewData = SetClassSchedule::leftJoin('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
                 ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                 ->join('coasv2_db_enrollment.studgrades', 'scheduleclass.subject_id', '=', 'coasv2_db_enrollment.studgrades.subjID')
                 ->join('coasv2_db_enrollment.students', 'coasv2_db_enrollment.studgrades.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                 ->where('sub_offered.schlyear', $schlyear)
-                ->where('sub_offered.semester', $semester)
+                ->whereIn('sub_offered.semester', $semester)
                 ->where('scheduleclass.faculty_id', $facID)
                 ->where('coasv2_db_enrollment.studgrades.subjID', $id)
                 ->select('scheduleclass.*', 'sub_offered.*', 'subjects.*', 'coasv2_db_enrollment.studgrades.*', 'coasv2_db_enrollment.studgrades.status as gstat', 'coasv2_db_enrollment.students.*', 'coasv2_db_enrollment.studgrades.id as sgid' )
