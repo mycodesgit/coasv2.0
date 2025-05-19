@@ -38,7 +38,11 @@
             transform: scale(1.1);  /* Enlarge the icon on hover */
             color: #000;  /* Change color when hovered */
         }
-
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            color: #495057;
+            /*background-color: #c9c2c2;*/
+            border-color: #32ac71 #32ac71 #ffffff;
+        }
     </style>
 </head>
 
