@@ -210,10 +210,10 @@ class GradingFacultyController extends Controller
         $desiredIds = [1, 74, 75, 76, 77];
         $grdlegend = GradeCode::whereIn('id', $desiredIds)->get();
 
-        // $schlyear = $cursttngs->schlyear;
-        // $semester = $cursttngs->semester;
-        $schlyear = '2024-2025';
-        $semester = 1;
+        $schlyear = $cursttngs->schlyear;
+        $semester = $cursttngs->semester;
+        // $schlyear = '2024-2025';
+        // $semester = 1;
         $facID = $user->id;
 
         $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
