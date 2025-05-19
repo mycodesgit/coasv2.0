@@ -403,7 +403,7 @@
 
         // Function to redirect to the target URL
         function redirectToHome() {
-            window.location.href = 'http://localhost/kioskallinone-app/public/';
+            window.location.href = 'https://system.cpsu.edu.ph/kioskallinone-app/public';
         }
 
         // Initialize a timeout variable
