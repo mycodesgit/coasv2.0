@@ -213,7 +213,7 @@ class GradingFacultyController extends Controller
         $schlyear = $cursttngs->schlyear;
         //$semester = $cursttngs->semester;
         // $schlyear = '2024-2025';
-        $semester = [1, 2];
+        $semester = [1, 2, 3];
         $facID = $user->id;
 
         $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
