@@ -30,7 +30,7 @@
 			font-family: Calibri, sans-serif, arial;
 			font-size: 10pt;
 			text-align: right;
-			margin-right: 250px;
+			margin-right: 150px;
 		}
 		.text-labelnote {
 			font-family: Calibri, sans-serif, arial;
@@ -232,8 +232,26 @@
 		<div class="text-subjectDesc" style="margin-top: -20px;">Descriptive Title: <u><strong>{{ $gradeviewData->first()->sub_title }}</strong></u></div>
 
 		<div class="text-subsection" style="margin-top: 10px">Course/Year/Section: <u><strong>{{ $gradeviewData->first()->subSec }}</strong></u></div>
-		<div class="text-unit" style="margin-top: -20px">Units: <u><strong>{{ $gradeviewData->first()->sub_unit }}</strong></u></div> 
-		<div class="text-semester" style="margin-top: -20px">Semester: <u><strong>{{ $gradeviewData->first()->semester }}</strong></u></div>
+		<div class="text-unit" style="margin-top: -20px">Units: <u><strong>{{ $gradeviewData->first()->sub_unit }}</strong></u></div>
+		
+		{{-- <div class="text-semester" style="margin-top: -20px">Semester: <u><strong>{{ $gradeviewData->first()->semester }}  {{ $gradeviewData->first()->schlyear }}</strong></u></div> --}}
+		<div class="text-semester" style="margin-top: -20px">
+			Semester: 
+			<u>
+				<strong>
+					@if($gradeviewData->first()->semester == 1)
+						1st
+					@elseif($gradeviewData->first()->semester == 2)
+						2nd
+					@elseif($gradeviewData->first()->semester == 3)
+						Summer
+					@else
+						{{ $gradeviewData->first()->semester }}
+					@endif
+					{{ $gradeviewData->first()->schlyear }}
+				</strong>
+			</u>
+		</div>
 
 		<div class="text-labelnote" style="margin-top: 15px"><i>(Grades must be written in <b>BLACK or BLUE</b> ink. <b>CONDITIONAL OR FAILURE</b> in <b>RED</b> ink)</i></div> 
 
