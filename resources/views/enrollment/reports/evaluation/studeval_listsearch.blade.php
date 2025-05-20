@@ -132,7 +132,6 @@ CISS V.1.0 || Student Record
                                                                 if ($grade >= 70) return ['gpa' => '4.0', 'status' => 'Conditional'];
                                                                 return ['gpa' => '5.0', 'status' => 'Failure'];
                                                             } else {
-                                                                // Standard GPA logic
                                                                 if ($grade >= 97 || $grade == 1) return ['gpa' => '1.00', 'status' => 'Passed'];
                                                                 if ($grade >= 94) return ['gpa' => '1.25', 'status' => 'Passed'];
                                                                 if ($grade >= 91) return ['gpa' => '1.50', 'status' => 'Passed'];
@@ -147,7 +146,7 @@ CISS V.1.0 || Student Record
                                                             }
                                                         } 
                                                             
-                                                        $isOldSystem = Str::contains($studsub->first()->subSec ?? '', '4-');
+                                                        //$isOldSystem = Str::contains($studsub->first()->subSec ?? '', '4-');
                                                         
                                                         function displayGrade($grade, $isOldSystem = false) {
                                                             if (is_numeric($grade) && strpos($grade, '.') === false) {
@@ -193,8 +192,8 @@ CISS V.1.0 || Student Record
                                                         <td>{{ $datastudsubowner->subSec }}</td>
                                                         <td>{{ $datastudsubowner->sub_name }}</td>
                                                         <td>{{ $datastudsubowner->sub_title }}</td>
-                                                        <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade) }}</b></td>
-                                                        <td><b>{{ displayGrade($datastudsubowner->subjComp) }}</b></td>
+                                                        <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade, $isOldSystem) }}</b></td>
+                                                        <td><b>{{ displayGrade($datastudsubowner->subjComp, $isOldSystem) }}</b></td>
                                                         <td>{{ $datastudsubowner->creditEarned }}</td>
                                                     </tr>
                                                 @endforeach
