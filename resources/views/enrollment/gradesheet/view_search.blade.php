@@ -114,43 +114,79 @@ CISS V.1.0 || Grading
                 <tbody>
                     @php 
                         if (!function_exists('getEquivalentGrade')) {
-                        function getEquivalentGrade($grade) {
-                            if ($grade === 'INC') {
-                                return ['gpa' => 'INC', 'status' => 'Incomplete'];
-                            } elseif ($grade === 'NN') {
-                                return ['gpa' => 'NN', 'status' => 'No Name'];
-                            } elseif ($grade === 'NG') {
-                                return ['gpa' => 'NG', 'status' => 'No Grade'];
-                            } elseif ($grade === 'Drp..') {
-                                return ['gpa' => 'Drp.', 'status' => 'Drop'];
-                            } elseif ($grade >= 97 || $grade == 1) {
-                                return ['gpa' => '1.00', 'status' => 'Passed'];
-                            } elseif ($grade >= 94) {
-                                return ['gpa' => '1.25', 'status' => 'Passed'];
-                            } elseif ($grade >= 91) {
-                                return ['gpa' => '1.50', 'status' => 'Passed'];
-                            } elseif ($grade >= 88) {
-                                return ['gpa' => '1.75', 'status' => 'Passed'];
-                            } elseif ($grade >= 85 || $grade == 2) {
-                                return ['gpa' => '2.00', 'status' => 'Passed'];
-                            } elseif ($grade >= 82) {
-                                return ['gpa' => '2.25', 'status' => 'Passed'];
-                            } elseif ($grade >= 79) {
-                                return ['gpa' => '2.50', 'status' => 'Passed'];
-                            } elseif ($grade >= 76) {
-                                return ['gpa' => '2.75', 'status' => 'Passed'];
-                            } elseif ($grade >= 75 || $grade == 3) {
-                                return ['gpa' => '3.00', 'status' => 'Passed'];
-                            } elseif ($grade >= 70) {
-                                return ['gpa' => '4.00', 'status' => 'Conditional'];
+                        function getEquivalentGrade($grade, $isOldSystem) {
+                            if ($isOldSystem) {
+                                // Old GPA conversion logic here
+                                if ($grade === 'INC') {
+                                    return ['gpa' => 'INC', 'status' => 'Incomplete'];
+                                } elseif ($grade === 'NN') {
+                                    return ['gpa' => 'NN', 'status' => 'No Name'];
+                                } elseif ($grade === 'NG') {
+                                    return ['gpa' => 'NG', 'status' => 'No Grade'];
+                                } elseif ($grade === 'Drp..') {
+                                    return ['gpa' => 'Drp.', 'status' => 'Drop'];
+                                } elseif ($grade >= 95 || $grade == 1) {
+                                    return ['gpa' => number_format(1.0, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 94) {
+                                    return ['gpa' => number_format(1.2, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 91) {
+                                    return ['gpa' => number_format(1.5, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 88) {
+                                    return ['gpa' => number_format(1.7, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 85 || $grade == 2) {
+                                    return ['gpa' => number_format(2.0, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 82) {
+                                    return ['gpa' => number_format(2.2, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 79) {
+                                    return ['gpa' => number_format(2.5, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 76) {
+                                    return ['gpa' => number_format(2.7, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 75 || $grade == 3) {
+                                    return ['gpa' => number_format(3.0, 1), 'status' => 'Passed'];
+                                } elseif ($grade >= 70) {
+                                    return ['gpa' => number_format(4.0, 1), 'status' => 'Conditional'];
+                                } else {
+                                    return ['gpa' => number_format(5.0, 1), 'status' => 'Failure'];
+                                }
                             } else {
-                                return ['gpa' => '5.00', 'status' => 'Failure'];
+                                // New GPA conversion logic here
+                                if ($grade === 'INC') {
+                                    return ['gpa' => 'INC', 'status' => 'Incomplete'];
+                                } elseif ($grade === 'NN') {
+                                    return ['gpa' => 'NN', 'status' => 'No Name'];
+                                } elseif ($grade === 'NG') {
+                                    return ['gpa' => 'NG', 'status' => 'No Grade'];
+                                } elseif ($grade === 'Drp..') {
+                                    return ['gpa' => 'Drp.', 'status' => 'Drop'];
+                                } elseif ($grade >= 97 || $grade == 1) {
+                                    return ['gpa' => number_format(1.00, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 94) {
+                                    return ['gpa' => number_format(1.25, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 91) {
+                                    return ['gpa' => number_format(1.50, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 88) {
+                                    return ['gpa' => number_format(1.75, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 85 || $grade == 2) {
+                                    return ['gpa' => number_format(2.00, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 82) {
+                                    return ['gpa' => number_format(2.25, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 79) {
+                                    return ['gpa' => number_format(2.50, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 76) {
+                                    return ['gpa' => number_format(2.75, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 75 || $grade == 3) {
+                                    return ['gpa' => number_format(3.00, 2), 'status' => 'Passed'];
+                                } elseif ($grade >= 70) {
+                                    return ['gpa' => number_format(4.00, 2), 'status' => 'Conditional'];
+                                } else {
+                                    return ['gpa' => number_format(5.00, 2), 'status' => 'Failure'];
+                                }
                             }
                         }
 
-                        function displayGrade($grade) {
+                        function displayGrade($grade, $isOldSystem = false) {
                             if (is_numeric($grade) && strpos($grade, '.') === false) {
-                                $equivalent = getEquivalentGrade($grade);
+                                $equivalent = getEquivalentGrade($grade, $isOldSystem);
                                 return $equivalent['gpa'];
                             }
                             return $grade;

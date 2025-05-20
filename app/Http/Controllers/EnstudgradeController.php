@@ -151,8 +151,10 @@ class EnstudgradeController extends Controller
         //             ->where('coasv2_db_schedule.sub_offered.semester', $semester)
         //             ->get();
 
-        if(Auth::guard('web')->user()->role == '15') {
+        if (Auth::guard('web')->user()->role == '15') {
             $grdpercentage = array_merge(range(2, 43), [76]);
+        } elseif (Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [0, 3, 4])) {
+            $grdpercentage = array_merge([2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 31, 32], range(44, 80));
         } else {
             $grdpercentage = range(44, 80); 
         }
