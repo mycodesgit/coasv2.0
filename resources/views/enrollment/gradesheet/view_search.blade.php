@@ -194,55 +194,28 @@ CISS V.1.0 || Grading
                     @endphp
                     @php $no = 1; @endphp
                     @foreach($genstud as $datagenstud)
-                    @php
-                        $entryYear = (int)substr($datagenstud->studID, 0, 4);
-                        $isOldSystem = $entryYear <= 2021;
-                    @endphp
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $datagenstud->studID }}</td>
-                        <td><strong>{{ $datagenstud->lname }}, {{ $datagenstud->fname }} {{ strtoupper(substr($datagenstud->mname, 0, 1)) }}. </strong></td>
-                        <td>
-                            @if ($datagenstud->gstat == 1 || empty($datagenstud->subjFgrade))
-                                @if (!empty($datagenstud->subjFgrade))
-                                    <select class="form-control form-control-sm" name="subjFgrade" id="{{ $datagenstud->sgid }}" onchange="updateGrade(this.id, this.value)">
-                                        <option></option>
-                                        @foreach ($grdCode as $grdCodes)
-                                            <option value="{{ $grdCodes->grade }}" {{ $grdCodes->grade == $datagenstud->subjFgrade ? 'selected' : '' }}>
-                                                {{ $grdCodes->grade }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                @endif
-                                @if (empty($datagenstud->subjFgrade))
-                                    <select class="form-control form-control-sm" name="subjFgrade" id="{{ $datagenstud->sgid }}" onchange="updateGrade(this.id, this.value)">
-                                        <option></option>
-                                        @foreach ($grdCode as $grdCodes)
-                                            <option value="{{ $grdCodes->grade }}">
-                                                {{ $grdCodes->grade }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                @endif
-                            @elseif ($datagenstud->gstat == 2)
-                                <strong style="{{ ($datagenstud->subjFgrade == 'INC' || $datagenstud->subjFgrade == 'Inc.' || $datagenstud->subjFgrade == 'inc' || $datagenstud->subjFgrade == 'NN' || $datagenstud->subjFgrade == 'nn') ? 'color: red;' : '' }}">{{ $datagenstud->subjFgrade }}</strong>
-                            @endif
-                        </td>
-                        <td>
-                            @if ($datagenstud->subjFgrade == 'FAILURE' || $datagenstud->subjFgrade == 'INC' || $datagenstud->subjFgrade == 'Inc.' || $datagenstud->subjFgrade == 'inc')
-                                @if ($datagenstud->compstat == 1 || empty($datagenstud->subjComp) || empty($datagenstud->compstat) && $datagenstud->status == '2')
-                                    @if (!empty($datagenstud->subjComp))
-                                        <select class="form-control form-control-sm" name="subjComp" id="{{ $datagenstud->sgid }}" onchange="updateGradeComp(this.id, this.value)">
+                        @php
+                            $entryYear = (int)substr($datagenstud->studID, 0, 4);
+                            $isOldSystem = $entryYear <= 2021;
+                        @endphp
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $datagenstud->studID }}</td>
+                            <td><strong>{{ $datagenstud->lname }}, {{ $datagenstud->fname }} {{ strtoupper(substr($datagenstud->mname, 0, 1)) }}. </strong></td>
+                            <td>
+                                @if ($datagenstud->gstat == 1 || empty($datagenstud->subjFgrade))
+                                    @if (!empty($datagenstud->subjFgrade))
+                                        <select class="form-control form-control-sm" name="subjFgrade" id="{{ $datagenstud->sgid }}" onchange="updateGrade(this.id, this.value)">
                                             <option></option>
                                             @foreach ($grdCode as $grdCodes)
-                                                <option value="{{ $grdCodes->grade }}" {{ $grdCodes->grade == $datagenstud->subjComp ? 'selected' : '' }}>
+                                                <option value="{{ $grdCodes->grade }}" {{ $grdCodes->grade == $datagenstud->subjFgrade ? 'selected' : '' }}>
                                                     {{ $grdCodes->grade }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     @endif
-                                    @if (empty($datagenstud->subjComp))
-                                        <select class="form-control form-control-sm" name="subjComp" id="{{ $datagenstud->sgid }}" onchange="updateGradeComp(this.id, this.value)">
+                                    @if (empty($datagenstud->subjFgrade))
+                                        <select class="form-control form-control-sm" name="subjFgrade" id="{{ $datagenstud->sgid }}" onchange="updateGrade(this.id, this.value)">
                                             <option></option>
                                             @foreach ($grdCode as $grdCodes)
                                                 <option value="{{ $grdCodes->grade }}">
@@ -251,120 +224,147 @@ CISS V.1.0 || Grading
                                             @endforeach
                                         </select>
                                     @endif
-                                @elseif ($datagenstud->compstat == 2)
-                                    <strong>{{ $datagenstud->subjComp }}</strong>
+                                @elseif ($datagenstud->gstat == 2)
+                                    <strong style="{{ ($datagenstud->subjFgrade == 'INC' || $datagenstud->subjFgrade == 'Inc.' || $datagenstud->subjFgrade == 'inc' || $datagenstud->subjFgrade == 'NN' || $datagenstud->subjFgrade == 'nn') ? 'color: red;' : '' }}">{{ $datagenstud->subjFgrade }}</strong>
                                 @endif
-                            @endif
-                        </td>
-                        <td>
-                            <strong style="{{ $datagenstud->subjComp ? '' : ($datagenstud->subjFgrade == 'INC' ? 'color: red;' : '') }}">
-                                {{ $datagenstud->subjComp ? displayGrade($datagenstud->subjComp, $isOldSystem) : displayGrade($datagenstud->subjFgrade, $isOldSystem) }}
-                            </strong>
-                        </td>
-                        <td><strong>{{ $datagenstud->creditEarned }}</strong></td>
-                        <td style="text-align:center;">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu" role="menu">
-                                    @if ($datagenstud->subjFgrade != 'FAILURE' && $datagenstud->subjFgrade != 'INC' && $datagenstud->subjFgrade != 'Inc.' && $datagenstud->subjFgrade != 'inc')
-                                        <a class="dropdown-item" data-toggle="modal" data-target="#editgrades{{ $datagenstud->sgid }}">
-                                            <i class="fas fa-pen"></i> Edit Grades
-                                        </a>
+                            </td>
+                            <td>
+                                @if ($datagenstud->subjFgrade == 'FAILURE' || $datagenstud->subjFgrade == 'INC' || $datagenstud->subjFgrade == 'Inc.' || $datagenstud->subjFgrade == 'inc')
+                                    @if ($datagenstud->compstat == 1 || empty($datagenstud->subjComp) || empty($datagenstud->compstat) && $datagenstud->status == '2')
+                                        @if (!empty($datagenstud->subjComp))
+                                            <select class="form-control form-control-sm" name="subjComp" id="{{ $datagenstud->sgid }}" onchange="updateGradeComp(this.id, this.value)">
+                                                <option></option>
+                                                @foreach ($grdCode as $grdCodes)
+                                                    <option value="{{ $grdCodes->grade }}" {{ $grdCodes->grade == $datagenstud->subjComp ? 'selected' : '' }}>
+                                                        {{ $grdCodes->grade }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        @endif
+                                        @if (empty($datagenstud->subjComp))
+                                            <select class="form-control form-control-sm" name="subjComp" id="{{ $datagenstud->sgid }}" onchange="updateGradeComp(this.id, this.value)">
+                                                <option></option>
+                                                @foreach ($grdCode as $grdCodes)
+                                                    <option value="{{ $grdCodes->grade }}">
+                                                        {{ $grdCodes->grade }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        @endif
+                                    @elseif ($datagenstud->compstat == 2)
+                                        <strong>{{ $datagenstud->subjComp }}</strong>
                                     @endif
-                                    @if ($datagenstud->compstat == 2 || empty($datagenstud->compstat))
-                                        <a class="dropdown-item" id="editgradecompletionid" data-toggle="modal" data-target="#editCompletiongrades{{ $datagenstud->sgid }}">
-                                            <i class="fa-solid fa-envelopes-bulk"></i> Completion
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </td>
-
-                        <!-- Edit Grades Modal -->
-                        <div class="modal fade" id="editgrades{{ $datagenstud->sgid }}" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h6 class="modal-title">
-                                            <i class="fas fa-info-circle"></i> Confirmation
-                                        </h6>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                @endif
+                            </td>
+                            <td>
+                                <strong style="{{ $datagenstud->subjComp ? '' : ($datagenstud->subjFgrade == 'INC' ? 'color: red;' : '') }}">
+                                    {{ $datagenstud->subjComp ? displayGrade($datagenstud->subjComp, $isOldSystem) : displayGrade($datagenstud->subjFgrade, $isOldSystem) }}
+                                </strong>
+                            </td>
+                            <td><strong>{{ $datagenstud->creditEarned }}</strong></td>
+                            <td style="text-align:center;">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                        @if ($datagenstud->subjFgrade != 'FAILURE' && $datagenstud->subjFgrade != 'INC' && $datagenstud->subjFgrade != 'Inc.' && $datagenstud->subjFgrade != 'inc')
+                                            <a class="dropdown-item" data-toggle="modal" data-target="#editgrades{{ $datagenstud->sgid }}">
+                                                <i class="fas fa-pen"></i> Edit Grades
+                                            </a>
+                                        @endif
+                                        @if ($datagenstud->compstat == 2 || empty($datagenstud->compstat))
+                                            <a class="dropdown-item" id="editgradecompletionid" data-toggle="modal" data-target="#editCompletiongrades{{ $datagenstud->sgid }}">
+                                                <i class="fa-solid fa-envelopes-bulk"></i> Completion
+                                            </a>
+                                        @endif
                                     </div>
-                                    <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm{{ $datagenstud->sgid }}">
-                                        @csrf
-                                        <div class="modal-body">
-                                            <input type="hidden" name="id" value="{{ $datagenstud->sgid }}">
-                                            <div class="form-group">
-                                                <input type="hidden" class="form-control" name="status" value="1">
-                                            </div>
-                                            Are you sure you want to Edit the Grades?
-                                            <div class="form-group">
-                                                <div class="form-row">
-                                                    <div class="mt-2 col-md-12">
-                                                        <label><span class="badge badge-warning">Enter the password here</span></label>
-                                                        <input type="password" id="gradeauthpass{{ $datagenstud->sgid }}" name="gradeauthpass" class="form-control form-control-sm">
+                                </div>
+                            </td>
+
+                            <!-- Edit Grades Modal -->
+                            <div class="modal fade" id="editgrades{{ $datagenstud->sgid }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title">
+                                                <i class="fas fa-info-circle"></i> Confirmation
+                                            </h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="POST" action="{{ route('editGrade', ['id' => $datagenstud->sgid]) }}" id="editConfirmForm{{ $datagenstud->sgid }}">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <input type="hidden" name="id" value="{{ $datagenstud->sgid }}">
+                                                <div class="form-group">
+                                                    <input type="hidden" class="form-control" name="status" value="1">
+                                                </div>
+                                                Are you sure you want to Edit the Grades?
+                                                <div class="form-group">
+                                                    <div class="form-row">
+                                                        <div class="mt-2 col-md-12">
+                                                            <label><span class="badge badge-warning">Enter the password here</span></label>
+                                                            <input type="password" id="gradeauthpass{{ $datagenstud->sgid }}" name="gradeauthpass" class="form-control form-control-sm">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <div>
-                                                <button type="submit" class="btn btn-primary" id="editBtn{{ $datagenstud->sgid }}" disabled>Yes</button>
+                                            <div class="modal-footer justify-content-between">
+                                                <div>
+                                                    <button type="submit" class="btn btn-primary" id="editBtn{{ $datagenstud->sgid }}" disabled>Yes</button>
+                                                </div>
+                                                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
                                             </div>
-                                            <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Completion Grades Modal -->
-                        <div class="modal fade" id="editCompletiongrades{{ $datagenstud->sgid }}" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h6 class="modal-title">
-                                            <i class="fas fa-info-circle"></i> Confirmation
-                                        </h6>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form method="POST" action="{{ route('editCompletion', ['id' => $datagenstud->sgid]) }}" id="editCompletionForm{{ $datagenstud->sgid }}">
-                                        @csrf
-                                        <div class="modal-body">
-                                            <input type="hidden" name="id" value="{{ $datagenstud->sgid }}">
-                                            <div class="form-group">
-                                                <input type="hidden" class="form-control" name="status" value="1">
-                                            </div>
-                                            <center>
-                                                <h4>Are you sure you want to Edit the Completion Grades?</h4>
-                                            </center>
-                                            <div class="form-group">
-                                                <div class="form-row">
-                                                    <div class="mt-2 col-md-12">
-                                                        <label><span class="badge badge-warning">Enter the password Password here</span></label>
-                                                        <input type="password" id="gradeauthpassCompletion{{ $datagenstud->sgid }}" name="gradeauthpass" class="form-control form-control-sm">
+                            <!-- Completion Grades Modal -->
+                            <div class="modal fade" id="editCompletiongrades{{ $datagenstud->sgid }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title">
+                                                <i class="fas fa-info-circle"></i> Confirmation
+                                            </h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="POST" action="{{ route('editCompletion', ['id' => $datagenstud->sgid]) }}" id="editCompletionForm{{ $datagenstud->sgid }}">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <input type="hidden" name="id" value="{{ $datagenstud->sgid }}">
+                                                <div class="form-group">
+                                                    <input type="hidden" class="form-control" name="status" value="1">
+                                                </div>
+                                                <center>
+                                                    <h4>Are you sure you want to Edit the Completion Grades?</h4>
+                                                </center>
+                                                <div class="form-group">
+                                                    <div class="form-row">
+                                                        <div class="mt-2 col-md-12">
+                                                            <label><span class="badge badge-warning">Enter the password Password here</span></label>
+                                                            <input type="password" id="gradeauthpassCompletion{{ $datagenstud->sgid }}" name="gradeauthpass" class="form-control form-control-sm">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <div>
-                                                <button type="submit" class="btn btn-primary" id="editCompletionBtn{{ $datagenstud->sgid }}" disabled>Yes</button>
+                                            <div class="modal-footer justify-content-between">
+                                                <div>
+                                                    <button type="submit" class="btn btn-primary" id="editCompletionBtn{{ $datagenstud->sgid }}" disabled>Yes</button>
+                                                </div>
+                                                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
                                             </div>
-                                            <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </tr>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
