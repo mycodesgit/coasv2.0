@@ -226,25 +226,25 @@
 		@endphp
 
 		<div class="header">
-			@if(Auth::guard('web')->user()->campus == 'MC')
+			@if(Auth::guard('faculty')->user()->campus == 'MC')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'VC')
+			@elseif(Auth::guard('faculty')->user()->campus == 'VC')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-VC.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'SCC')
+			@elseif(Auth::guard('faculty')->user()->campus == 'SCC')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-SCC.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'HC')
+			@elseif(Auth::guard('faculty')->user()->campus == 'HC')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-HC.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'MP')
+			@elseif(Auth::guard('faculty')->user()->campus == 'MP')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-MP.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'IC')
+			@elseif(Auth::guard('faculty')->user()->campus == 'IC')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-IC.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'CA')
+			@elseif(Auth::guard('faculty')->user()->campus == 'CA')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-CA.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'CC')
+			@elseif(Auth::guard('faculty')->user()->campus == 'CC')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-CC.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'SC')
+			@elseif(Auth::guard('faculty')->user()->campus == 'SC')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-SC.png') }}" width="80%">
-			@elseif(Auth::guard('web')->user()->campus == 'HinC')
+			@elseif(Auth::guard('faculty')->user()->campus == 'HinC')
 				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-HinC.png') }}" width="80%">
 			@endif
 		</div>
