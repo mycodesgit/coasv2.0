@@ -82,6 +82,7 @@ CISS V.1.0 || Student Record
                                         <table id="example3studrecord" class="table table-head-fixed text-nowrap">
                                             <thead>
                                                 <tr>
+                                                    <th>Student ID</th>
                                                     <th>School Year</th>
                                                     <th>Semester</th>
                                                     <th>Course</th>
@@ -178,6 +179,7 @@ CISS V.1.0 || Student Record
                                                         @endphp
                                                     @endif
                                                     <tr class="{{ $currentColor }}">
+                                                        <td>{{ $datastudsubowner->studID }}</td>
                                                         <td>{{ $datastudsubowner->schlyear }}</td>
                                                         <td>
                                                             @if($datastudsubowner->semester == 1)
