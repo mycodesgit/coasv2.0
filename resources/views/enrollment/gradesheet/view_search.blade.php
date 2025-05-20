@@ -194,6 +194,10 @@ CISS V.1.0 || Grading
                     @endphp
                     @php $no = 1; @endphp
                     @foreach($genstud as $datagenstud)
+                    @php
+                        $entryYear = (int)substr($datagenstud->studID, 0, 4);
+                        $isOldSystem = $entryYear <= 2021;
+                    @endphp
                     <tr>
                         <td>{{ $no++ }}</td>
                         <td>{{ $datagenstud->studID }}</td>
@@ -254,7 +258,7 @@ CISS V.1.0 || Grading
                         </td>
                         <td>
                             <strong style="{{ $datagenstud->subjComp ? '' : ($datagenstud->subjFgrade == 'INC' ? 'color: red;' : '') }}">
-                                {{ $datagenstud->subjComp ? displayGrade($datagenstud->subjComp) : displayGrade($datagenstud->subjFgrade) }}
+                                {{ $datagenstud->subjComp ? displayGrade($datagenstud->subjComp, $isOldSystem) : displayGrade($datagenstud->subjFgrade, $isOldSystem) }}
                             </strong>
                         </td>
                         <td><strong>{{ $datagenstud->creditEarned }}</strong></td>
