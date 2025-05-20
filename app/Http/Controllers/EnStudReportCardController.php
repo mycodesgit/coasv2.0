@@ -365,7 +365,9 @@ class EnStudReportCardController extends Controller
 
         // $firstYear = !empty($studrepcardsub) ? $studrepcardsub->first()->schlyear : '2024-2025';
         $firstYear = ($studrepcardsub && $studrepcardsub->isNotEmpty()) ? $studrepcardsub->first()->schlyear : '2024-2025';
-        $isOldSystem = (intval(substr($firstYear, 0, 4)) < 2022);
+        //$isOldSystem = (intval(substr($firstYear, 0, 4)) < 2022);
+        $entryYear = (int)substr($stud_id, 0, 4);
+        $isOldSystem = $entryYear <= 2021;
 
         foreach ($studrepcardsub as $subject) {
             $creditEarned = (float)$subject->creditEarned;
