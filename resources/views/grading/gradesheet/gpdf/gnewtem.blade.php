@@ -226,7 +226,27 @@
 		@endphp
 
 		<div class="header">
-			<img src="{{ asset('template/img/gradesheetheader.png') }}" width="80%">
+			@if(Auth::guard('web')->user()->campus == 'MC')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'VC')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-VC.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'SCC')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-SCC.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'HC')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-HC.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'MP')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-MP.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'IC')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-IC.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'CA')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-CA.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'CC')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-CC.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'SC')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-SC.png') }}" width="80%">
+			@elseif(Auth::guard('web')->user()->campus == 'HinC')
+				<img src="{{ public_path('template/img/gradeshet/gradesheetheader-HinC.png') }}" width="80%">
+			@endif
 		</div>
 		<div class="text-subjectCode" style="margin-top: 15px">Subject Code: <u><strong>{{ $gradeviewData->first()->sub_name }}</strong></u></div>
 		<div class="text-subjectDesc" style="margin-top: -20px;">Descriptive Title: <u><strong>{{ $gradeviewData->first()->sub_title }}</strong></u></div>
