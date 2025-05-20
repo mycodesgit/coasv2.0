@@ -249,7 +249,16 @@ class EnStudReportCardController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
-        return view('enrollment.reports.evaluation.studeval_listsearch');
+        $studauth = Student::where('stud_id', '=', $stud_id)->first();
+
+        $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('studgrades.studID', $stud_id)
+                    ->orderBy('coasv2_db_schedule.sub_offered.id', 'ASC')
+                    ->get();
+
+        return view('enrollment.reports.evaluation.studeval_listsearch', compact('studauth', 'studsub'));
     }
 
     public function studevalReadgradschool_listsearch(Request $request)

@@ -61,6 +61,16 @@ $(function () {
 
     }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
 
+    $("#example3studrecord").DataTable({
+        "responsive": true,
+        "lengthChange": false, 
+        "autoWidth": false,
+        "paging": false,
+        "searching": false,
+        "buttons": ["excel"]
+
+    }).buttons().container().appendTo('#example3studrecord_wrapper .col-md-6:eq(0)');
+
     $("#report").DataTable({
         "responsive": true,
         "lengthChange": false, 
