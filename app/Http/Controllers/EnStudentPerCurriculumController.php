@@ -100,7 +100,7 @@ class EnStudentPerCurriculumController extends Controller
                 // ->where('program_en_history.campus', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
-                        $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                        $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                     }
                 })
                 ->where('program_en_history.status', 2)
@@ -142,7 +142,7 @@ class EnStudentPerCurriculumController extends Controller
                 // ->where('program_en_history.campus', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
-                        $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                        $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                     }
                 })
                 ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
