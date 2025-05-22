@@ -433,11 +433,18 @@
 			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
 				<u>
 					@php
-			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
-			        @endphp
-					@if($dean)
-		            	{{ $dean->fname }} {{ $dean->lname }}
-		            @endif
+						$campus = Auth::guard('faculty')->user()->campus ?? '';
+					@endphp
+					@if($campus == 'MP')
+						Rose Ann Balladares
+					@else
+						@php
+							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
+						@endphp
+						@if($dean)
+							{{ $dean->fname }} {{ $dean->lname }}
+						@endif
+					@endif
 			    </u>
 			</div>
 
@@ -489,11 +496,18 @@
 			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
 				<u>
 					@php
-			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
-			        @endphp
-					@if($dean)
-		            	{{ $dean->fname }} {{ $dean->lname }}
-		            @endif
+						$campus = Auth::guard('faculty')->user()->campus ?? '';
+					@endphp
+					@if($campus == 'MP')
+						Rose Ann Balladares
+					@else
+						@php
+							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
+						@endphp
+						@if($dean)
+							{{ $dean->fname }} {{ $dean->lname }}
+						@endif
+					@endif
 			    </u>
 			</div>
 			<div class="text-equiv" style="margin-top: 2px;">88 - 1.7   &nbsp;&nbsp;&nbsp;&nbsp;77 - 2.8</div>
@@ -563,11 +577,18 @@
 			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
 				<u>
 					@php
-			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
-			        @endphp
-					@if($dean)
-		            	{{ $dean->fname }} {{ $dean->lname }}
-		            @endif
+						$campus = Auth::guard('faculty')->user()->campus ?? '';
+					@endphp
+					@if($campus == 'MP')
+						Rose Ann Balladares
+					@else
+						@php
+							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
+						@endphp
+						@if($dean)
+							{{ $dean->fname }} {{ $dean->lname }}
+						@endif
+					@endif
 			    </u>
 			</div>
 
@@ -619,11 +640,18 @@
 			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
 				<u>
 					@php
-			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
-			        @endphp
-					@if($dean)
-		            	{{ $dean->fname }} {{ $dean->lname }}
-		            @endif
+						$campus = Auth::guard('faculty')->user()->campus ?? '';
+					@endphp
+					@if($campus == 'MP')
+						Rose Ann Balladares
+					@else
+						@php
+							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
+						@endphp
+						@if($dean)
+							{{ $dean->fname }} {{ $dean->lname }}
+						@endif
+					@endif
 			    </u>
 			</div>
 			<div class="text-equiv" style="margin-top: 2px;">78 - 76   &nbsp;&nbsp;&nbsp;- 2.75</div>
