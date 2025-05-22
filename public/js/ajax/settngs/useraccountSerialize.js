@@ -97,6 +97,8 @@ $(document).ready(function() {
                         roleBadge = '<span class="badge badge-info">Cashier</span>';
                     } else if (data.role == 18) {
                         roleBadge = '<span class="badge badge-info">Cashier Staff</span>';
+                    } else if (data.role == 19) {
+                        roleBadge = '<span class="badge badge-secondary">Encoder</span>';
                     } else {
                         roleBadge = '<span class="badge badge-light">Unknown Role</span>';
                     }
