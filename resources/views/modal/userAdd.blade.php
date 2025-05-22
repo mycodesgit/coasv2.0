@@ -123,6 +123,7 @@
                                     <option value="16" @if (old('type') == 16) {{ 'selected' }} @endif>OSSA Staff</option>
                                     <option value="17" @if (old('type') == 17) {{ 'selected' }} @endif>Cashier</option>
                                     <option value="18" @if (old('type') == 18) {{ 'selected' }} @endif>Cashier Staff</option>
+                                    <option value="19" @if (old('type') == 19) {{ 'selected' }} @endif>EncoderUpdat</option>
                                 </select>
                             </div>
                         </div>
