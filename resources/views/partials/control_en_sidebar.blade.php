@@ -88,10 +88,12 @@
     {{-- @endif --}}
 </div>
 
-
+@if(Auth::guard('web')->user()->role != 19)
 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
     <h5>Reports</h5>
 </div>
+@endif
+
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
         {{-- @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
@@ -141,7 +143,7 @@
 @endif
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
+        @if(in_array(Auth::guard('web')->user()->role, [0]) && Auth::guard('web')->user()->role != 19)
         <a href="{{ route('updateEnrlmntlogsRead') }}" class="list-group-item {{ $updenrlmntlogsActive }}">Updated Enroll. Logs</a>
         <a href="{{ route('searchEncode_grade') }}" class="list-group-item {{ $encodeGradelogsActive }}">Encoded Grades. Logs</a>
         <a href="{{ route('delenrlmntlogsRead') }}" class="list-group-item {{ $delenrlmntlogsActive }}">Deleted Enroll. Logs</a>
