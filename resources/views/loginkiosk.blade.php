@@ -268,6 +268,7 @@
         <button class="key-btn key-letter" data-key="D">D</button>
         <button class="key-btn key-letter" data-key="U">U</button>
         <button class="key-btn key-letter" data-key="G">G</button>
+        <button class="key-btn key-letter" data-key="P">P</button>
 
         <!-- Control Keys -->
         <button class="key-btn key-control" data-key="backspace">
