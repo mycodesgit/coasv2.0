@@ -417,17 +417,30 @@
 					@php
 						$schlyear = request('schlyear');
 						$sem = request('semester');
+						$campus = Auth::guard('faculty')->user()->campus ?? '';
+						$dept = Auth::guard('faculty')->user()->dept ?? '';
 
-			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
-			            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
-			            		->where('fac_designation.semester', '=', '1')
-			            		->where('fac_designation.schlyear', '=', '2024-2025')
-			            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
-			            		->first();
-			        @endphp
-					@if($dean)
-		            	{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
-		            @endif
+						$customDeptHeads = [
+							'CTE' => 'ROSEMIE G. GEQUILLANA, Ph.D',
+							'CCS' => 'ROSE ANN C. BALLADARES, MIT',
+							'CAF' => 'EFRAIM SUMAGAYSAY, MsAg',
+						];
+					@endphp
+					@if($campus == 'MP' && isset($customDeptHeads[$dept]))
+						{{ $customDeptHeads[$dept] }}
+					@else
+						@php
+							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+									->where('fac_designation.facdept', '=', $dept)
+									->where('fac_designation.semester', '=', '1')
+									->where('fac_designation.schlyear', '=', '2024-2025')
+									->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
+									->first();
+						@endphp
+						@if($dean)
+							{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
+						@endif
+					@endif
 			    </u>
 			</div>
 			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
@@ -436,7 +449,7 @@
 						$campus = Auth::guard('faculty')->user()->campus ?? '';
 					@endphp
 					@if($campus == 'MP')
-						Rose Ann Balladares
+						Rose Ann Balladares, MIT
 					@else
 						@php
 							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
@@ -480,17 +493,30 @@
 					@php
 						$schlyear = request('schlyear');
 						$sem = request('semester');
+						$campus = Auth::guard('faculty')->user()->campus ?? '';
+						$dept = Auth::guard('faculty')->user()->dept ?? '';
 
-			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
-			            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
-			            		->where('fac_designation.semester', '=', '1')
-			            		->where('fac_designation.schlyear', '=', '2024-2025')
-			            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
-			            		->first();
-			        @endphp
-					@if($dean)
-		            	{{ $dean->fname }} {{ $dean->lname }}, {{ $dean->rankcomma }}
-		            @endif
+						$customDeptHeads = [
+							'CTE' => 'ROSEMIE G. GEQUILLANA, Ph.D',
+							'CCS' => 'ROSE ANN C. BALLADARES, MIT',
+							'CAF' => 'EFRAIM SUMAGAYSAY, MsAg',
+						];
+					@endphp
+					@if($campus == 'MP' && isset($customDeptHeads[$dept]))
+						{{ $customDeptHeads[$dept] }}
+					@else
+						@php
+							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+									->where('fac_designation.facdept', '=', $dept)
+									->where('fac_designation.semester', '=', '1')
+									->where('fac_designation.schlyear', '=', '2024-2025')
+									->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
+									->first();
+						@endphp
+						@if($dean)
+							{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
+						@endif
+					@endif
 			    </u>
 			</div>
 			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
@@ -499,7 +525,7 @@
 						$campus = Auth::guard('faculty')->user()->campus ?? '';
 					@endphp
 					@if($campus == 'MP')
-						Rose Ann Balladares
+						Rose Ann Balladares, MIT
 					@else
 						@php
 							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
@@ -561,17 +587,30 @@
 					@php
 						$schlyear = request('schlyear');
 						$sem = request('semester');
+						$campus = Auth::guard('faculty')->user()->campus ?? '';
+						$dept = Auth::guard('faculty')->user()->dept ?? '';
 
-			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
-			            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
-			            		->where('fac_designation.semester', '=', '1')
-			            		->where('fac_designation.schlyear', '=', '2024-2025')
-			            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
-			            		->first();
-			        @endphp
-					@if($dean)
-		            	{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
-		            @endif
+						$customDeptHeads = [
+							'CTE' => 'ROSEMIE G. GEQUILLANA, Ph.D',
+							'CCS' => 'ROSE ANN C. BALLADARES, MIT',
+							'CAF' => 'EFRAIM SUMAGAYSAY, MsAg',
+						];
+					@endphp
+					@if($campus == 'MP' && isset($customDeptHeads[$dept]))
+						{{ $customDeptHeads[$dept] }}
+					@else
+						@php
+							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+									->where('fac_designation.facdept', '=', $dept)
+									->where('fac_designation.semester', '=', '1')
+									->where('fac_designation.schlyear', '=', '2024-2025')
+									->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
+									->first();
+						@endphp
+						@if($dean)
+							{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
+						@endif
+					@endif
 			    </u>
 			</div>
 			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
@@ -580,7 +619,7 @@
 						$campus = Auth::guard('faculty')->user()->campus ?? '';
 					@endphp
 					@if($campus == 'MP')
-						Rose Ann Balladares
+						Rose Ann Balladares, MIT
 					@else
 						@php
 							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
@@ -624,17 +663,30 @@
 					@php
 						$schlyear = request('schlyear');
 						$sem = request('semester');
+						$campus = Auth::guard('faculty')->user()->campus ?? '';
+						$dept = Auth::guard('faculty')->user()->dept ?? '';
 
-			            $dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
-			            		->where('fac_designation.facdept', '=', Auth::guard('faculty')->user()->dept)
-			            		->where('fac_designation.semester', '=', '1')
-			            		->where('fac_designation.schlyear', '=', '2024-2025')
-			            		->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
-			            		->first();
-			        @endphp
-					@if($dean)
-		            	{{ $dean->fname }} {{ $dean->lname }}, {{ $dean->rankcomma }}
-		            @endif
+						$customDeptHeads = [
+							'CTE' => 'ROSEMIE G. GEQUILLANA, Ph.D',
+							'CCS' => 'ROSE ANN C. BALLADARES, MIT',
+							'CAF' => 'EFRAIM SUMAGAYSAY, MsAg',
+						];
+					@endphp
+					@if($campus == 'MP' && isset($customDeptHeads[$dept]))
+						{{ $customDeptHeads[$dept] }}
+					@else
+						@php
+							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')
+									->where('fac_designation.facdept', '=', $dept)
+									->where('fac_designation.semester', '=', '1')
+									->where('fac_designation.schlyear', '=', '2024-2025')
+									->select('faculty.fname', 'faculty.lname', 'fac_designation.rankcomma')
+									->first();
+						@endphp
+						@if($dean)
+							{{ $dean->fname }} {{ $dean->lname }},  {{ $dean->rankcomma }}
+						@endif
+					@endif
 			    </u>
 			</div>
 			<div class="text-facultyname" style="margin-top: -20px; margin-left: 540px; text-transform: uppercase;">
@@ -643,7 +695,7 @@
 						$campus = Auth::guard('faculty')->user()->campus ?? '';
 					@endphp
 					@if($campus == 'MP')
-						Rose Ann Balladares
+						Rose Ann Balladares, MIT
 					@else
 						@php
 							$dean = App\Models\ScheduleDB\FacDesignation::join('faculty', 'fac_designation.fac_id', 'faculty.id')->where('facdept', '=', 'ADM')->first();
