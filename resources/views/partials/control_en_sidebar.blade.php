@@ -105,10 +105,13 @@
         @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
             <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Student Info</a>
         @endif
+
+        @if(Auth::guard('web')->user()->role != 19)
         <a href="{{ route('rfstudprint') }}" class="list-group-item {{ $studRFActive }}">Print Student RF</a>
         <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Student Per Degree</a>
         <a href="{{ route('studAttendanceCurr') }}" class="list-group-item {{ $studAttendcurrActive }}">Attendance Per Degree</a>
-
+        @endif
+        
         @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15]))
         <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Class Attendance</a>
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
@@ -143,7 +146,7 @@
 @endif
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
-        @if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->role != 19)
+        @if(in_array(Auth::guard('web')->user()->role, [0]))
         <a href="{{ route('updateEnrlmntlogsRead') }}" class="list-group-item {{ $updenrlmntlogsActive }}">Updated Enroll. Logs</a>
         <a href="{{ route('searchEncode_grade') }}" class="list-group-item {{ $encodeGradelogsActive }}">Encoded Grades. Logs</a>
         <a href="{{ route('delenrlmntlogsRead') }}" class="list-group-item {{ $delenrlmntlogsActive }}">Deleted Enroll. Logs</a>
