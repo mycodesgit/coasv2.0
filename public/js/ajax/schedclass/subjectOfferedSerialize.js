@@ -203,24 +203,39 @@ $(document).ready(function() {
     $('#isOJT').on('change', function () {
         let isOJT = $(this).val();
         let subUnit = parseFloat($('#subUnit').val()) || 0;
+        let urlParams = new URLSearchParams(window.location.search);
+        let semester = urlParams.get('semester');
 
-        if (isOJT === 'Yes') {
-            let labFee = 3000;
-            $('#labFee').val(labFee);
-        } else {
-            $('#labFee').val(0);
+        if (semester === '3') {
+            if (isOJT === 'Yes') {
+                let labFee = 3000;
+                $('#labFee').val(labFee);
+            } else if (isOJT === 'YesThesis') {
+                let labFee = 500;
+                $('#labFee').val(labFee);
+            } else {
+                $('#labFee').val(0);
+            }
         }
+        // If semester is not 3, do nothing
     });
 
     $('#isOJTSelect').on('change', function () {
         let isOJT = $(this).val();
         let subUnit = parseFloat($('#subUnitEdit').val()) || 0;
+        let urlParams = new URLSearchParams(window.location.search);
+        let semester = urlParams.get('semester');
 
-        if (isOJT === 'Yes') {
-            let labFee = 3000;
-            $('#editlabfee').val(labFee);
-        } else {
-            $('#editlabfee').val(0);
+        if (semester === '3') {
+            if (isOJT === 'Yes') {
+                let labFee = 3000;
+                $('#editlabfee').val(labFee);
+            } else if (isOJT === 'YesThesis') {
+                let labFee = 500;
+                $('#editlabfee').val(labFee);
+            } else {
+                $('#editlabfee').val(0);
+            }
         }
     });
 });

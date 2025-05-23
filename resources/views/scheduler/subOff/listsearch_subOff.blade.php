@@ -230,10 +230,13 @@ CISS V.1.0 || Subject Offered
                                             </div>
 
                                             <div class="col-md-2 mt-2">
-                                                <label><span class="badge badge-secondary">OJT</span></label>
+                                                <label><span class="badge badge-secondary">OJT/Thesis</span></label>
                                                 <select class="form-control form-control-sm" name="isOJT" id="isOJT">
                                                     <option value="No">No</option>
-                                                    <option value="Yes">Yes</option>
+                                                    @if(request('semester') == '3')
+                                                        <option value="YesThesis">Yes, it's Thesis</option>
+                                                    @endif
+                                                    <option value="Yes">Yes, it's OJT</option>
                                                 </select>
                                             </div>
 
@@ -380,10 +383,13 @@ CISS V.1.0 || Subject Offered
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <label><span class="badge badge-secondary">OJT</span></label>
+                                    <label><span class="badge badge-secondary">OJT/Thesis</span></label>
                                     <select class="form-control form-control-sm" name="isOJT" id="isOJTSelect">
                                         <option value="No">No</option>
-                                        <option value="Yes">Yes</option>
+                                        @if(request('semester') == '3')
+                                            <option value="YesThesis">Yes, it's Thesis</option>
+                                        @endif
+                                        <option value="Yes">Yes, it's OJT</option>
                                     </select>
                                 </div>
 
