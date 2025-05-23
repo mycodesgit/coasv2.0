@@ -180,6 +180,9 @@ $(document).ready(function() {
 
     function calculateFees(subcode, subUnit, labUnit) {
         var specialCodes = ["KAB-SER-076", "KAB-SER-077", "KAB-SER-144", "KAB-SER-145", "KAB-SER-146", "KAB-SER-147", "KAB-SER-148", "KAB-SER-149"];
+        // var lecFee = specialCodes.includes(subcode) ? 270 : subUnit * 180;
+        // var labFee = labUnit > 0 ? 500 : 0;
+
         var lecFee = 0;
 
         // Set lecFee to 0 if subcode starts with "KAB-GSS"
@@ -191,15 +194,7 @@ $(document).ready(function() {
             lecFee = subUnit * 180;
         }
 
-        // Check if semester=3 in URL
-        var urlParams = new URLSearchParams(window.location.search);
-        var semester = urlParams.get('semester');
-        var labFee = 0;
-        if (semester == '3') {
-            labFee = 3000;
-        } else {
-            labFee = labUnit > 0 ? 500 : 0;
-        }
+        var labFee = labUnit > 0 ? 500 : 0;
 
         $('#lecFee').val(lecFee);
         $('#labFee').val(labFee);
@@ -210,7 +205,7 @@ $(document).ready(function() {
         let subUnit = parseFloat($('#subUnit').val()) || 0;
 
         if (isOJT === 'Yes') {
-            let labFee = 500;
+            let labFee = 3000;
             $('#labFee').val(labFee);
         } else {
             $('#labFee').val(0);
@@ -222,7 +217,7 @@ $(document).ready(function() {
         let subUnit = parseFloat($('#subUnitEdit').val()) || 0;
 
         if (isOJT === 'Yes') {
-            let labFee = 500;
+            let labFee = 3000;
             $('#editlabfee').val(labFee);
         } else {
             $('#editlabfee').val(0);
