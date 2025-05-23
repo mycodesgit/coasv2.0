@@ -53,19 +53,19 @@ class StudFeeAssessmentController extends Controller
 
 
         if ($request->campus) {
-            $data->where('campus', $request->campus);
+            $data->where('student_fee.campus', $request->campus);
         }
         if ($request->prog_Code) {
-            $data->where('prog_Code', $request->prog_Code);
+            $data->where('student_fee.prog_Code', $request->prog_Code);
         }
         if ($request->yrlevel) {
-            $data->where('yrlevel', $request->yrlevel);
+            $data->where('student_fee.yrlevel', $request->yrlevel);
         }
         if ($request->schlyear) {
-            $data->where('schlyear', $request->schlyear);
+            $data->where('student_fee.schlyear', $request->schlyear);
         }
         if ($request->semester) {
-            $data->where('semester', $request->semester);
+            $data->where('student_fee.semester', $request->semester);
         }
 
         $data = $data->get();
