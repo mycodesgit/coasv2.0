@@ -139,9 +139,9 @@
                                                                 <table id="setconfUpEncodedtable" class="table m-0">
                                                                     <thead>
                                                                         <tr>
+                                                                            <th>Degree</th>
                                                                             <th>Schlyear</th>
                                                                             <th>Semester</th>
-                                                                            <th>Degree</th>
                                                                             <th>Status</th>
                                                                         </tr>
                                                                     </thead>
