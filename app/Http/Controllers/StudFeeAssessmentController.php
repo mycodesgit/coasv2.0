@@ -172,8 +172,20 @@ class StudFeeAssessmentController extends Controller
             'rows_data.*.campus' => 'required|string',
         ]);
 
-        // Loop through the rows and save each fee record
         foreach ($validated['rows_data'] as $data) {
+            $exists = StudentFee::where('prog_Code', $data['prog_code'])
+                ->where('yrlevel', $data['yrlevel'])
+                ->where('schlyear', $data['schlyear'])
+                ->where('semester', $data['semester'])
+                ->where('campus', $data['campus'])
+                ->where('fundname_code', $data['fundname_code'])
+                ->where('accountName', $data['accountName'])
+                ->exists();
+
+            if ($exists) {
+                return response()->json(['error' => true, 'message' => 'Student Fees Already Exist'], 409);
+            }
+
             $studentFee = new StudentFee([
                 'prog_Code' => $data['prog_code'],
                 'yrlevel' => $data['yrlevel'],
@@ -184,7 +196,6 @@ class StudFeeAssessmentController extends Controller
                 'accountName' => $data['accountName'],
                 'amountFee' => $data['amountFee'],
             ]);
-            
             $studentFee->save();
         }
 

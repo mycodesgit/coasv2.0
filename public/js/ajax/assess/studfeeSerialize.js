@@ -44,9 +44,13 @@ $(document).ready(function() {
             },
             error: function (xhr) {
                 if (xhr.status === 419) {
-                    alert("CSRF token mismatch or expired. Please reload the page and try again.");
+                    //alert("CSRF token mismatch or expired. Please reload the page and try again.");
+                    var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                    toastr.error(errorMessage);
                 } else {
-                    alert("Failed to add student fees.");
+                    //alert("Failed to add student fees.");
+                    var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                    toastr.error(errorMessage);
                 }
             }
         });
