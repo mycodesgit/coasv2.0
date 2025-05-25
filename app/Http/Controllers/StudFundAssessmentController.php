@@ -114,7 +114,6 @@ class StudFundAssessmentController extends Controller
                 'student_fee.schlyear',
                 'student_fee.semester',
                 'student_fee.prog_Code',
-                'student_fee.yrlevel',
                 'coasv2_db_schedule.class_enroll.classSection'
             )
             ->where('student_fee.schlyear', $upSetschlyearConf)
@@ -125,7 +124,6 @@ class StudFundAssessmentController extends Controller
             ->where('class_enroll.campus', $campus)
             ->groupBy(
                 'student_fee.prog_Code',
-                'student_fee.yrlevel',
                 'coasv2_db_schedule.programs.progAcronym',
                 'student_fee.schlyear',
                 'student_fee.semester',
