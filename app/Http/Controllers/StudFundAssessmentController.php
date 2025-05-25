@@ -86,13 +86,16 @@ class StudFundAssessmentController extends Controller
                         ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
                         ->groupBy('college.id')
                         ->get();
+        // $upSetschlyearConf = ConfigureCurrent::where('set_status', 2)->value('schlyear');
+        // $upSetsemesterConf = ConfigureCurrent::where('set_status', 2)->value('semester');
 
         // $encod = StudentFee::join('coasv2_db_schedule.programs', 'student_fee.prog_Code', '=', 'coasv2_db_schedule.programs.progCod')
-        //         ->select('coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'student_fee.prog_Code', 'student_fee.yrlevel')
+        //         ->join('coasv2_db_schedule.class_enroll', 'coasv2_db_schedule.programs.progCod', '=', 'coasv2_db_schedule.class_enroll.progCode')
+        //         ->select('coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.class_enroll.classSection')
         //         ->where('student_fee.schlyear', $upSetschlyearConf)
         //         ->where('student_fee.semester', $upSetsemesterConf)
-        //         ->where('student_fee.campus', Auth::user()->campus)
-        //         ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester')
+        //         ->where('student_fee.campus', Auth::guard('web')->user()->campus)
+        //         ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'coasv2_db_schedule.class_enroll.classSection')
         //         ->get();
 
         return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive'));
@@ -100,15 +103,16 @@ class StudFundAssessmentController extends Controller
 
     public function encodedAppRead()
     {   
-        $upSetschlyearConf = ConfigureCurrent::where('set_status', 3)->value('schlyear');
-        $upSetsemesterConf = ConfigureCurrent::where('set_status', 3)->value('semester');
+        $upSetschlyearConf = ConfigureCurrent::where('set_status', 2)->value('schlyear');
+        $upSetsemesterConf = ConfigureCurrent::where('set_status', 2)->value('semester');
 
         $data = StudentFee::join('coasv2_db_schedule.programs', 'student_fee.prog_Code', '=', 'coasv2_db_schedule.programs.progCod')
-                ->select('coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'student_fee.prog_Code', 'student_fee.yrlevel')
+                ->join('coasv2_db_schedule.class_enroll', 'coasv2_db_schedule.programs.progCod', '=', 'coasv2_db_schedule.class_enroll.progCode')
+                ->select('coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.class_enroll.classSection')
                 ->where('student_fee.schlyear', $upSetschlyearConf)
                 ->where('student_fee.semester', $upSetsemesterConf)
                 ->where('student_fee.campus', Auth::guard('web')->user()->campus)
-                ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester')
+                ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'coasv2_db_schedule.class_enroll.classSection')
                 ->get();
 
         return response()->json(['data' => $data]);

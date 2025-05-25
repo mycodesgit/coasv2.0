@@ -124,7 +124,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="card">
                                                         <div class="card-header border-transparent">
                                                             <h3 class="card-title">List of Degrees with Encoded Appraisals</h3>
@@ -146,7 +146,14 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        
+                                                                        {{-- @foreach ($encod as $dataencod)
+                                                                            <tr>
+                                                                                <td>{{ $dataencod->schlyear }}</td>
+                                                                                <td>{{ $dataencod->semester }}</td>
+                                                                                <td>{{ $dataencod->progAcronym }} {{ $dataencod->classSection }}</td>
+                                                                                <td>{{ $dataencod->schlyear }}</td>
+                                                                            </tr>
+                                                                        @endforeach --}}
                                                                     </tbody>
                                                                 </table>
                                                             </div>
