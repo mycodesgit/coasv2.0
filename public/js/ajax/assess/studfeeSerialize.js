@@ -36,6 +36,7 @@ $(document).ready(function() {
                 if (response.success) {
                     toastr.success(response.message);
                     console.log(response);
+                    $('#studentFeesModal').modal('hide');
                     $(document).trigger('studFeeAdded');
                 } else {
                     toastr.error(response.message);
