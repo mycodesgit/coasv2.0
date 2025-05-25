@@ -208,7 +208,7 @@ $(document).ready(function() {
 
         if (semester === '3') {
             if (isOJT === 'Yes') {
-                let labFee = 500;
+                let labFee = 3000;
                 $('#labFee').val(labFee);
             } else if (isOJT === 'YesThesis') {
                 let labFee = 500;
@@ -228,7 +228,7 @@ $(document).ready(function() {
 
         if (semester === '3') {
             if (isOJT === 'Yes') {
-                let labFee = 500;
+                let labFee = 3000;
                 $('#editlabfee').val(labFee);
             } else if (isOJT === 'YesThesis') {
                 let labFee = 500;
