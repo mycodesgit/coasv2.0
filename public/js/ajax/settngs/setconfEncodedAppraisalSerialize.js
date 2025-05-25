@@ -12,6 +12,12 @@ $(document).ready(function() {
         searching: false,
         paging: true,
         "columns": [
+            {
+                data: null,
+                render: function(data, type, row) {
+                    return row.progAcronym + ' - ' + row.classSection;
+                }
+            },
             {data: 'schlyear'},
             {
                 data: 'semester',
@@ -25,12 +31,6 @@ $(document).ready(function() {
                     } else {
                         return data;
                     }
-                }
-            },
-            {
-                data: null,
-                render: function(data, type, row) {
-                    return row.progAcronym + ' - ' + row.classSection;
                 }
             },
             {
