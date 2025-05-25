@@ -103,20 +103,35 @@ class StudFundAssessmentController extends Controller
 
     public function encodedAppRead()
     {   
+        $campus = Auth::guard('web')->user()->campus;
         $upSetschlyearConf = ConfigureCurrent::where('set_status', 2)->value('schlyear');
         $upSetsemesterConf = ConfigureCurrent::where('set_status', 2)->value('semester');
 
         $data = StudentFee::join('coasv2_db_schedule.programs', 'student_fee.prog_Code', '=', 'coasv2_db_schedule.programs.progCod')
-                ->join('coasv2_db_schedule.class_enroll', 'coasv2_db_schedule.programs.progCod', '=', 'coasv2_db_schedule.class_enroll.progCode')
-                ->select('coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.class_enroll.classSection', 'coasv2_db_schedule.class_enroll.progCode', 'coasv2_db_schedule.class_enroll.semester', 'coasv2_db_schedule.class_enroll.schlyear')
-                ->where('student_fee.schlyear', $upSetschlyearConf)
-                ->where('student_fee.semester', $upSetsemesterConf)
-                ->where('coasv2_db_schedule.class_enroll.schlyear', $upSetschlyearConf)
-                ->where('coasv2_db_schedule.class_enroll.semester', $upSetsemesterConf)
-                ->where('student_fee.campus', Auth::guard('web')->user()->campus)
-                ->where('coasv2_db_schedule.class_enroll.campus', Auth::guard('web')->user()->campus)
-                ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'coasv2_db_schedule.class_enroll.classSection', 'coasv2_db_schedule.class_enroll.progCode', 'coasv2_db_schedule.class_enroll.semester', 'coasv2_db_schedule.class_enroll.schlyear')
-                ->get();
+            ->join('coasv2_db_schedule.class_enroll', 'student_fee.prog_Code', '=', 'coasv2_db_schedule.class_enroll.progCode')
+            ->select(
+                'coasv2_db_schedule.programs.progAcronym',
+                'student_fee.schlyear',
+                'student_fee.semester',
+                'student_fee.prog_Code',
+                'student_fee.yrlevel',
+                'coasv2_db_schedule.class_enroll.classSection'
+            )
+            ->where('student_fee.schlyear', $upSetschlyearConf)
+            ->where('student_fee.semester', $upSetsemesterConf)
+            ->where('class_enroll.schlyear', $upSetschlyearConf)
+            ->where('class_enroll.semester', $upSetsemesterConf)
+            ->where('student_fee.campus', $campus)
+            ->where('class_enroll.campus', $campus)
+            ->groupBy(
+                'student_fee.prog_Code',
+                'student_fee.yrlevel',
+                'coasv2_db_schedule.programs.progAcronym',
+                'student_fee.schlyear',
+                'student_fee.semester',
+                'coasv2_db_schedule.class_enroll.classSection'
+            )
+            ->get();
 
         return response()->json(['data' => $data]);
     }

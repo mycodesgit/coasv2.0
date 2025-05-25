@@ -30,7 +30,7 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function(data, type, row) {
-                    return row.progAcronym + ' - ' + row.yrlevel;
+                    return row.progAcronym + ' - ' + row.classSection;
                 }
             },
             {
