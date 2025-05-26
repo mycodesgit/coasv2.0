@@ -54,6 +54,8 @@ CISS V.1.0 || Enroll Student
                         </div>
                     </div>
                 @else
+
+                @endif
                     <div class="col-md-9">
                         <form method="GET" action="{{ route('searchStudEnroll') }}" id="enrollStud">
                             @csrf   
@@ -132,7 +134,7 @@ CISS V.1.0 || Enroll Student
                             </div>
                         </div>
                     @endif
-                @endif
+                
             </div>
         </div>
     </div>
