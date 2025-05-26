@@ -37,104 +37,84 @@ CISS V.1.0 || Enroll Student
             </div> 
         </div>
             <div class="row">
-                @if(in_array(Auth::guard('web')->user()->role, [3,4,5,6,7,12,13,14,15]) && Auth::guard('web')->user()->campus !== 'asd')
-                    <div class="col-md-12">
-                        <div class="alert alert-secondary alert-dismissible mt-3">
-                            <div class="form-group mt-3">
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <div class="icheck-warning">
-                                            <label for="closed">
-                                                <h5><i class="icon fas fa-exclamation-triangle text-warning"></i>Note!</h5> <h3 style="">Enrollment Closed</h3>
-                                            </label>
-                                        </div>
-                                    </div>
+                <div class="col-md-9">
+                    <form method="GET" action="{{ route('searchStudEnroll') }}" id="enrollStud">
+                        @csrf   
+
+                        <div class="form-group mt-2" style="padding: 10px">
+                            <div class="form-row">
+                                <div class="col-md-3">
+                                    <label><span class="badge badge-secondary">Student ID Number</span></label>
+                                    <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label><span class="badge badge-secondary">School Year</span></label>
+                                    <select class="form-control form-control-sm" name="schlyear">
+                                        @foreach($sy as $datasy)
+                                            <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label><span class="badge badge-secondary">Semester</span></label>
+                                    <select class="form-control form-control-sm" name="semester">
+                                        <option disabled selected>Select</option>
+                                        <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
+                                        <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
+                                        <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @else
+                    </form>
+                    @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
+                        @if($queueMode->statusqueue === 'Off')
 
-                @endif
-                    <div class="col-md-9">
-                        <form method="GET" action="{{ route('searchStudEnroll') }}" id="enrollStud">
-                            @csrf   
-
-                            <div class="form-group mt-2" style="padding: 10px">
-                                <div class="form-row">
-                                    <div class="col-md-3">
-                                        <label><span class="badge badge-secondary">Student ID Number</span></label>
-                                        <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label><span class="badge badge-secondary">School Year</span></label>
-                                        <select class="form-control form-control-sm" name="schlyear">
-                                            @foreach($sy as $datasy)
-                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label><span class="badge badge-secondary">Semester</span></label>
-                                        <select class="form-control form-control-sm" name="semester">
-                                            <option disabled selected>Select</option>
-                                            <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
-                                            <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
-                                            <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label>&nbsp;</label>
-                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
-                            @if($queueMode->statusqueue === 'Off')
-
-                            @else
-                                <table id="holdTable" class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Queue Numbers</th>
-                                            <th>Category</th>
-                                            <th>Status</th>
-                                            <th>Campus</th>
-                                            <th width="10%">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    </tbody>
-                                </table>
-                            @endif
+                        @else
+                            <table id="holdTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Queue Numbers</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Campus</th>
+                                        <th width="10%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
                         @endif
-                    </div>
+                    @endif
+                </div>
 
-                    @if($queueMode->statusqueue === 'Off')
-                    @else
-                        <div class="col-md-3">
-                            <div class="form-group mt-2" style="padding: 10px">
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        <div class="card" style="background-color: #dfdfdf">
-                                            <div class="card-body">
-                                                <center><label>Current No.</label></center>
-                                                <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
-                                                <button id="nextButton" class="btn btn-primary btn-block mt-3" data-counter-id="1">Next</button> 
-                                                <button id="callButton" class="btn btn-danger btn-block mt-2">Call</button>  
-                                            </div>
+                @if($queueMode->statusqueue === 'Off')
+                @else
+                    <div class="col-md-3">
+                        <div class="form-group mt-2" style="padding: 10px">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="card" style="background-color: #dfdfdf">
+                                        <div class="card-body">
+                                            <center><label>Current No.</label></center>
+                                            <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
+                                            <button id="nextButton" class="btn btn-primary btn-block mt-3" data-counter-id="1">Next</button> 
+                                            <button id="callButton" class="btn btn-danger btn-block mt-2">Call</button>  
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endif
-                
+                    </div>
+                @endif
             </div>
         </div>
     </div>
