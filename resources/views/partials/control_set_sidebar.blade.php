@@ -11,6 +11,7 @@
 
 
     $addressActive = in_array($curr_route, ['regionsRead']) ? 'active' : '';
+    $signatoryActive = in_array($curr_route, ['gradesheetSignatoryRead']) ? 'active' : '';
 @endphp
 
 <div class="ml-2 mr-2 mt-3 mb-3">
@@ -44,6 +45,7 @@
         
         @if(Auth::guard('web')->user()->role == '0') 
             <a href="{{ route('regionsRead') }}" class="list-group-item {{ $addressActive }}">Addresses</a>  
+            <a href="{{ route('gradesheetSignatoryRead') }}" class="list-group-item {{ $signatoryActive }}">Signatories</a>  
         @endif
     </ul>
 </div>

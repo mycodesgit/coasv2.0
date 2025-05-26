@@ -77,6 +77,7 @@ use App\Http\Controllers\DocumentRequestController;
 
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SettingAddressController;
+use App\Http\Controllers\SettingSignatoryController;
 
 use App\Http\Controllers\KioskDashController;
 
@@ -934,6 +935,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/list/all/city/update', [SettingAddressController::class, 'cityUpdate'])->name('cityUpdate');
         });
 
+        Route::prefix('person')->group(function () {
+            Route::get('/sign/all/campshow', [SettingSignatoryController::class, 'gradesheetSignatoryRead'])->name('gradesheetSignatoryRead');
+        });
     });
 
     
