@@ -220,7 +220,7 @@ class EnStudentPerCurriculumController extends Controller
             // ->where('students.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('students.campus', 'LIKE', "$campus");
+                    $q->orWhere('students.campus', 'LIKE', "%$campus%");
                 }
             })
             ->select('program_en_history.*', 'students.*')
