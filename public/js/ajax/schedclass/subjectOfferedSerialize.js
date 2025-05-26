@@ -213,6 +213,9 @@ $(document).ready(function() {
             } else if (isOJT === 'YesThesis') {
                 let labFee = 500;
                 $('#labFee').val(labFee);
+            } else if (isOJT === 'YesPrac') {
+                let labFee = 500;
+                $('#labFee').val(labFee);
             } else {
                 $('#labFee').val(0);
             }
@@ -231,6 +234,9 @@ $(document).ready(function() {
                 let labFee = 3000;
                 $('#editlabfee').val(labFee);
             } else if (isOJT === 'YesThesis') {
+                let labFee = 500;
+                $('#editlabfee').val(labFee);
+            } else if (isOJT === 'YesPrac') {
                 let labFee = 500;
                 $('#editlabfee').val(labFee);
             } else {

@@ -235,6 +235,7 @@ CISS V.1.0 || Subject Offered
                                                     <option value="No">No</option>
                                                     @if(request('semester') == '3')
                                                         <option value="YesThesis">Yes, it's Thesis</option>
+                                                        <option value="YesPrac">Yes, it's Practicum</option>
                                                     @endif
                                                     <option value="Yes">Yes, it's OJT</option>
                                                 </select>
@@ -388,6 +389,7 @@ CISS V.1.0 || Subject Offered
                                         <option value="No">No</option>
                                         @if(request('semester') == '3')
                                             <option value="YesThesis">Yes, it's Thesis</option>
+                                            <option value="YesPrac">Yes, it's Practicum</option>
                                         @endif
                                         <option value="Yes">Yes, it's OJT</option>
                                     </select>
