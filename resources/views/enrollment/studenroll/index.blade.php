@@ -37,7 +37,7 @@ CISS V.1.0 || Enroll Student
             </div> 
         </div>
             <div class="row">
-                @if(in_array(Auth::guard('web')->user()->role, [3,4,5,6,7,12,13,14,15]) && Auth::guard('web')->user()->campus !== 'CC')
+                @if(in_array(Auth::guard('web')->user()->role, [3,4,5,6,7,12,13,14,15]) && Auth::guard('web')->user()->campus !== 'asd')
                     <div class="col-md-12">
                         <div class="alert alert-secondary alert-dismissible mt-3">
                             <div class="form-group mt-3">

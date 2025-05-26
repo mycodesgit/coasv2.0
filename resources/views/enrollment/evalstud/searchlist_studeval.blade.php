@@ -277,12 +277,13 @@ CISS V.1.0 || Student Evaluation
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
-                                                        <th>Subject Code</th>
+                                                        <th>Subj Code</th>
                                                         <th>Subject Name</th>
                                                         <th>Descriptive Title</th>
                                                         <th>Credit</th>
                                                         <th>Lec Fee</th>
                                                         <th>Lab Fee</th>
+                                                        <th>IT Subj</th>
                                                         <th>#</th>
                                                     </tr>
                                                 </thead>

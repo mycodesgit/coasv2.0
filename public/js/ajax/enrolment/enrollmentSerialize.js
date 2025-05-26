@@ -293,7 +293,7 @@ function updateTotalsAndIDs() {
     document.getElementById('totalunitInput').value = totalUnits;
     document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
     document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
-    document.getElementById('itsubjInput').value = itsubjFee;
+    //.getElementById('itsubjInput').value = itsubjFee;
     var subjIDString = subjIDs.join(',');
     document.getElementById('subjIDsInput').value = subjIDString;
 }
