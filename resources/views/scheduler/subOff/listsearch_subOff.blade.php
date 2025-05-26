@@ -98,14 +98,15 @@ CISS V.1.0 || Subject Offered
                         Semester-<b>{{ request('semester') }}</b>,
                         Campus-<b>
                             @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                @elseif(Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                @elseif(Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                @elseif(Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                @elseif(Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                @elseif(Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
-                                @elseif(Auth::guard('web')->user()->campus == 'SC') Sipalay 
-                                @elseif(Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                @elseif(Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                @elseif(Auth::user()->campus == 'VC') Victorias 
+                                @elseif(Auth::user()->campus == 'SCC') San Carlos 
+                                @elseif(Auth::user()->campus == 'HC') Hinigaran 
+                                @elseif(Auth::user()->campus == 'MP') Moises Padilla 
+                                @elseif(Auth::user()->campus == 'IC') Ilog 
+                                @elseif(Auth::user()->campus == 'CA') Candoni 
+                                @elseif(Auth::user()->campus == 'CC') Cauayan 
+                                @elseif(Auth::user()->campus == 'SC') Sipalay  
+                                @elseif(Auth::user()->campus == 'HinC') Hinobaan
                             @endif
                         </b>,
                     </i>
