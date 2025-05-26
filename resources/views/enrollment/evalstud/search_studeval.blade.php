@@ -74,7 +74,7 @@ CISS V.1.0 || Student Evaluation
                                                 @endif
                                             </option>
                                         @endforeach --}}
-                                        <option value="2">Second Semester</option>
+                                        <option value="3">Summer</option>
                                     </select>
                                 </div>
 
