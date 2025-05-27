@@ -220,13 +220,13 @@
     <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
     <!-- Basic -->
-    <script src="{{ asset('js/basic/tablescript.js') }}"></script>
-    <script src="{{ asset('js/basic/yearscript.js') }}"></script>
-    <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
+    <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
 
     @if(request()->routeIs('assessment-index'))
-        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
-        <script src="{{ asset('js/ajax/settngs/setconfEncodedAppraisalSerialize.js') }}"></script>
+        <script src="{{ asset('js/chart/enbarchart.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/ajax/settngs/setconfEncodedAppraisalSerialize.js') }}?v={{ time() }}"></script>
         <script> 
             var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
             var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
@@ -240,16 +240,16 @@
 
     <!-- Ajax -->
     @if(request()->routeIs('fundsRead'))
-        <script src="{{ asset('js/ajax/assess/fundSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/assess/fundSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('accountCOARead'))
-        <script src="{{ asset('js/ajax/assess/accountcoaSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/assess/accountcoaSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('accountAppraisalRead'))
-        <script src="{{ asset('js/ajax/assess/accountsappraisalSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/assess/accountsappraisalSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('list_searchStudfee'))
-        <script src="{{ asset('js/ajax/assess/studfeeSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/assess/studfeeSerialize.js') }}?v={{ time() }}"></script>
         <script>
             $(document).ready(function () {
                 $('#studFeeShowAssess').on('submit', function (e) {
@@ -304,10 +304,10 @@
         </script>
     @endif
     @if(request()->routeIs('list_searchStudfeetemplate'))
-        <script src="{{ asset('js/ajax/assess/studfeeTemplateSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/assess/studfeeTemplateSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('stateaccntpersum_search'))
-        <script src="{{ asset('js/ajax/assess/reportassessSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/assess/reportassessSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
 
@@ -316,8 +316,8 @@
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-    <script src="{{ asset('js/validation/schedule/classenrollValidation.js') }}"></script>
-    <script src="{{ asset('js/validation/assess/fundAssess.js') }}"></script>
+    <script src="{{ asset('js/validation/schedule/classenrollValidation.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/validation/assess/fundAssess.js') }}?v={{ time() }}"></script>
 
     <script type="text/javascript">
         setTimeout(function () {

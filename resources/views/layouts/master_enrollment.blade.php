@@ -405,11 +405,11 @@
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
     
     <!-- Basic -->
-    <script src="{{ asset('js/basic/tablescript.js') }}"></script>
-    <script src="{{ asset('js/basic/yearscript.js') }}"></script>
-    <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
-    <script src="{{ asset('js/basic/subjects.js') }}"></script>
-    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/subjects.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}?v={{ time() }}"></script>
 
     @if(Auth::guard('web')->check() && Auth::guard('web')->user()->role >= 0 && Auth::guard('web')->user()->role <= 14)
         <!-- Basic -->
@@ -428,8 +428,8 @@
                 var underprogramAcronyms = {!! json_encode($underprogramAcronyms) !!};
                 var undercolors = {!! json_encode($underprogramAcronyms) !!};
             </script>
-            <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
-            <script src="{{ asset('js/chart/enbarchartperyearlev.js') }}"></script>
+            <script src="{{ asset('js/chart/enbarchart.js') }}?v={{ time() }}"></script>
+            <script src="{{ asset('js/chart/enbarchartperyearlev.js') }}?v={{ time() }}"></script>
         @endif
     @endif
 
@@ -448,76 +448,76 @@
                 var programAcronyms = {!! json_encode($programAcronyms) !!};
                 var colors = {!! json_encode($programAcronyms) !!};
             </script>
-            <script src="{{ asset('js/chart/gradenbarchart.js') }}"></script>
+            <script src="{{ asset('js/chart/gradenbarchart.js') }}?v={{ time() }}"></script>
         @endif
     @endif
 
     <!-- Ajax -->
     @if(request()->routeIs('subjectsRead'))
-        <script src="{{ asset('js/ajax/enrolment/subjectSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/subjectSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('studentCreate'))
-        <script src="{{ asset('js/ajax/enrolment/studentAddSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/studentAddSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('searchStudEnroll', 'loadstudsub_searchview'))
-        <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('editsearchStudRead'))
-        <script src="{{ asset('js/ajax/enrolment/editEnrollmentSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/editEnrollmentSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('dupapprslSearch_listresult'))
-        <script src="{{ asset('js/ajax/enrolment/editDupAppEnrollmentSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/editDupAppEnrollmentSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('viewsearchenStudHistory'))
-        <script src="{{ asset('js/ajax/enrolment/studenHistorySerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/studenHistorySerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('studCurrsearch'))
-        <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/enrollmentCourseSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('studAttendCurrsearch'))
-        <script src="{{ asset('js/ajax/enrolment/enrollmentAttendCourseSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/enrollmentAttendCourseSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('studgrade_searchlist', 'studgradegrad_searchlist', 'studgradecorrection_resultsearch'))
-        <script src="{{ asset('js/ajax/enrolment/gradesheetSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/gradesheetSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('list_trans'))
-        <script src="{{ asset('js/ajax/enrolment/transferSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/transferSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('listsearch_studsubjectsRead', 'gradschoolgetlistsearch_studsubjectsRead'))
-        <script src="{{ asset('js/ajax/enrolment/studenrollAttendanceSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/studenrollAttendanceSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('geneStudent1', 'geneStudentcorrectiongrades'))
-        <script src="{{ asset('js/ajax/enrolment/passwordGrade.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/passwordGrade.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('elpl_listsearch'))
-        <script src="{{ asset('js/ajax/enrolment/elplSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/elplSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('studInfo_search'))
-        <script src="{{ asset('js/ajax/enrolment/studentinfoSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/studentinfoSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('studInfograduated_search'))
-        <script src="{{ asset('js/ajax/enrolment/studentinfograduatedSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/studentinfograduatedSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('elpl_list', 'elpl_listsearch','ranking_list'))
-        <script src="{{ asset('js/ajax/enrolment/getcourseSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/getcourseSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('studnoenrollee'))
-        <script src="{{ asset('js/ajax/enrolment/enrolleescountSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/enrolleescountSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('studnoNSTPenrollee'))
-        <script src="{{ asset('js/ajax/enrolment/enrolleesnstpcountSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/enrolleesnstpcountSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('logbook_search'))
-        <script src="{{ asset('js/ajax/enrolment/gradesheetLogbookSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/gradesheetLogbookSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('searchEncode_gradeRead'))
-        <script src="{{ asset('js/ajax/enrolment/gradesheetLogsSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/gradesheetLogsSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('search_delenrlmntlogsRead'))
-        <script src="{{ asset('js/ajax/enrolment/deletedEnrollmentLogsSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/deletedEnrollmentLogsSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('search_studenrollRead'))
-        <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
     @if(request()->routeIs('searchStud', 'editsearchStud'))
@@ -573,10 +573,10 @@
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-    <script src="{{ asset('js/validation/enroll/addStudValidation.js') }}"></script>
-    <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}"></script>
-    <script src="{{ asset('js/validation/enroll/gradesheetValidation.js') }}"></script>
-    <script src="{{ asset('js/validation/enroll/subjectValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/enroll/addStudValidation.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/validation/enroll/gradesheetValidation.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/validation/enroll/subjectValidation.js') }}?v={{ time() }}"></script>
 
     <script>
         $(document).ready(function () {
