@@ -388,7 +388,7 @@ CISS V.1.0 || Subject Offered
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <label><span class="badge badge-secondary">Template</span></label>
+                                    <label><span class="badge badge-success">Template</span></label>
                                     <select class="form-control form-control-sm" name="isTemp" id="isTempSelect">
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
@@ -408,7 +408,7 @@ CISS V.1.0 || Subject Offered
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <label><span class="badge badge-secondary">Type</span></label>
+                                    <label><span class="badge badge-danger">Type</span></label>
                                     <select class="form-control form-control-sm" name="isType" id="isTypeSelect">
                                         <option value="No">No</option>
                                         <option value="Special">Special Class</option>
@@ -422,7 +422,7 @@ CISS V.1.0 || Subject Offered
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <label><span class="badge badge-secondary">Fund</span></label>
+                                    <label><span class="badge badge-info">Fund</span></label>
                                     <select class="form-control form-control-sm" id="fundSelectEdit">
                                         <option disabled selected> --Select-- </option>
                                         <option value="" id="noAccountOption">No Account</option>
