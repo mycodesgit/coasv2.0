@@ -30,7 +30,10 @@ class StudFeeAssessmentController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
-        $programsEn = EnPrograms::orderBy('progAcronym', 'ASC')->get();
+        $programsEn = EnPrograms::whereRaw("FIND_IN_SET(?, campus)", [Auth::guard('web')->user()->campus])
+                    ->orderBy('progAcronym', 'ASC')
+                    ->get();
+
         return view('assessment.studentfee.list_studfee', compact('programsEn', 'sy'));
     }
 
