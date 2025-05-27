@@ -110,6 +110,7 @@ class StudFeeAssessmentController extends Controller
 
         $fees = StudFeeTemplate::where('semester', $request->query('semester'))
             ->where('yrlevel', $mappedYrLevel)
+            ->orderBy('accountName', 'ASC')
             ->get();
 
         $filteredFees = $fees->filter(function ($fee) use ($progCode) {
@@ -175,6 +176,7 @@ class StudFeeAssessmentController extends Controller
             'rows_data.*.campus' => 'required|string',
         ]);
 
+        $notAdded = [];
         foreach ($validated['rows_data'] as $data) {
             $exists = StudentFee::where('prog_Code', $data['prog_code'])
                 ->where('yrlevel', $data['yrlevel'])
@@ -186,7 +188,8 @@ class StudFeeAssessmentController extends Controller
                 ->exists();
 
             if ($exists) {
-                return response()->json(['error' => true, 'message' => 'Student Fees Already Exist'], 409);
+                $notAdded[] = $data['accountName'];
+                continue;
             }
 
             $studentFee = new StudentFee([
@@ -200,6 +203,16 @@ class StudFeeAssessmentController extends Controller
                 'amountFee' => $data['amountFee'],
             ]);
             $studentFee->save();
+        }
+
+        if (count($notAdded) === count($validated['rows_data'])) {
+            return response()->json(['error' => true, 'message' => 'All student fees already exist.'], 409);
+        } elseif (count($notAdded) > 0) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Some student fees were not added because they already exist.',
+                'not_added' => $notAdded
+            ]);
         }
 
         return response()->json(['success' => true, 'message' => 'Student fees added successfully!']);

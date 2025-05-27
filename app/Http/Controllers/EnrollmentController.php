@@ -770,6 +770,16 @@ class EnrollmentController extends Controller
                     ->where('students.campus',  $campus)
                     ->where('program_en_history.studentID', $stud_id)->first();
 
+        $programEnHistory = StudEnrolmentHistory::join('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
+                ->where('program_en_history.studentID', $stud_id)
+                ->where('program_en_history.schlyear', $schlyear)
+                ->where('program_en_history.semester', '=', $semester)
+                ->where('program_en_history.campus', '=', $campus)
+                ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
+                ->first(); 
+        $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
+
+
         $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
@@ -798,7 +808,8 @@ class EnrollmentController extends Controller
             'student' => $student,
             'studsub' => $studsub,
             'studfees' => $studfees,
-            'studor' => $studor
+            'studor' => $studor,
+            'selectedpostedby' => $selectedpostedby,
         ];
         
         $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRF', $data)->setPaper('Legal', 'portrait');

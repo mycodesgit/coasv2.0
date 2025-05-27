@@ -271,7 +271,14 @@
     	</table>
 
     	<div class="studinfolabel">
-			<span style="font-weight: bold;">Posted By:</span> {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
+			<span style="font-weight: bold;">Posted By:</span>
+			@auth('web')
+				@if(Auth::guard('web')->user()->role == 0)
+					{{ $selectedpostedby }}
+				@else
+					{{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
+				@endif
+			@endauth
 		</div>
 
     	<table id="table" style="margin-top: 10px !important">

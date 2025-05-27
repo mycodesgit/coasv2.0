@@ -278,6 +278,7 @@ $(document).ready(function() {
         $('#subUnit').val(selectedOption.data('sub-unit'));
         $('#lecFee').val(selectedOption.data('lec-fee'));
         $('#labFee').val(selectedOption.data('lab-fee'));
+        $('#devFee').val(selectedOption.data('dev-fee'));
         $('#itfee').val(selectedOption.data('it-fee'));
     });
 });
@@ -313,6 +314,7 @@ function updateTotalsAndIDs(subjIDToDelete = null) {
     var totalUnits = 0;
     var totalLecFee = 0;
     var totalLabFee = 0;
+    var totalDevFee = 0;
     var itsubjFee = [];
     var subjIDs = [];
 
@@ -321,13 +323,14 @@ function updateTotalsAndIDs(subjIDToDelete = null) {
 
     for (var i = 0; i < rows.length; i++) {
         var cells = rows[i].cells;
-        if (cells.length >= 7) {
+        if (cells.length >= 8) {
             var subjID = cells[0].textContent;
             if (subjID !== subjIDToDelete) {
                 totalUnits += parseInt(cells[4].textContent);
                 totalLecFee += parseFloat(cells[5].textContent);
                 totalLabFee += parseFloat(cells[6].textContent);
-                itsubjFee.push(cells[7].textContent.trim());
+                totalDevFee += parseFloat(cells[7].textContent);
+                itsubjFee.push(cells[8].textContent.trim());
                 subjIDs.push(subjID);
             }
         }
@@ -336,6 +339,7 @@ function updateTotalsAndIDs(subjIDToDelete = null) {
     document.getElementById('totalunitInput').value = totalUnits;
     document.getElementById('totalLecFeeInput').value = totalLecFee.toFixed();
     document.getElementById('totalLabFeeInput').value = totalLabFee.toFixed();
+    document.getElementById('totalDevFeeInput').value = totalDevFee.toFixed();
     document.getElementById('itsubjInput').value = itsubjFee;
     var subjIDString = subjIDs.join(',');
     document.getElementById('subjIDsInput').value = subjIDString;
@@ -369,9 +373,10 @@ document.getElementById('programNameEditSelect').addEventListener('change', func
                     row.insertCell(4).textContent = subject.subUnit;
                     row.insertCell(5).textContent = subject.lecFee;
                     row.insertCell(6).textContent = subject.labFee;
-                    row.insertCell(7).textContent = subject.itfee;
+                    row.insertCell(7).textContent = subject.devFee;
+                    row.insertCell(8).textContent = subject.itfee;
 
-                    var removeCell = row.insertCell(8);
+                    var removeCell = row.insertCell(9);
                     var removeButton = document.createElement('button');
                     removeButton.textContent = '';
                     removeButton.classList.add('btn', 'btn-outline-danger', 'btn-sm');
@@ -432,6 +437,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
     var selectedSubjectUnitText = document.getElementById('subUnit').value;
     var selectedSubjectlecFeeText = document.getElementById('lecFee').value;
     var selectedSubjectlabFeeText = document.getElementById('labFee').value;
+    var selectedSubjectdevFeeText = document.getElementById('devFee').value;
     var selectedSubjectitFeeText = document.getElementById('itfee').value;
 
     var subjIDInput = document.getElementById('subjIDsInput');
@@ -452,6 +458,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 var subUnit = subjectDetails.subUnit;
                 var lecFee = subjectDetails.lecFee;
                 var labFee = subjectDetails.labFee;
+                var devFee = subjectDetails.devFee;
                 var itfee = subjectDetails.itfee;
 
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
@@ -463,10 +470,11 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 row.insertCell(4).textContent = subUnit || selectedSubjectUnitText;
                 row.insertCell(5).textContent = lecFee || selectedSubjectlecFeeText;
                 row.insertCell(6).textContent = labFee || selectedSubjectlabFeeText;
-                row.insertCell(7).textContent = itfee || selectedSubjectitFeeText;
+                row.insertCell(7).textContent = devFee || selectedSubjectdevFeeText;
+                row.insertCell(8).textContent = itfee || selectedSubjectitFeeText;
 
                 // Create and append remove button
-                var removeCell = row.insertCell(8);
+                var removeCell = row.insertCell(9);
                 var removeButton = document.createElement('button');
                 removeButton.textContent = '';
                 removeButton.classList.add('btn', 'btn-outline-danger', 'btn-sm');
@@ -484,7 +492,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                         confirmButtonText: 'Yes, remove it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            for (var i = 0; i < 7; i++) {
+                            for (var i = 0; i < 9; i++) {
                                 row.cells[i].textContent = '';
                             }
                             row.parentNode.removeChild(row);
@@ -602,11 +610,24 @@ document.getElementById('assessButton').addEventListener('click', function() {
                     //row.insertCell(2).textContent = item.amountFee;
                     var itFeeCondition = itsubjInput.value.split(',').includes('Yes');
 
+                    // Get totalDevFeeInput value once
+                    if (item.accountName === 'DEVELOPMENTAL FEE') {
+                        var devFeeInputVal = document.getElementById('totalDevFeeInput').value;
+                        if (devFeeInputVal && !isNaN(devFeeInputVal)) {
+                            devFeeExtra = parseFloat(devFeeInputVal);
+                        }
+                    }
+
                     var amount = item.amountFee === '0' 
                         ? (item.accountName.startsWith('TUITION') ? totalLecFeeInput.value
                         : (item.accountName === 'LAB FEE' ? totalLabFeeInput.value
                         : (item.accountName === 'IT FEE' && itFeeCondition ? '500' : '0')))
                         : item.amountFee;
+                    
+                        // If item is DEVELOPMENTAL FEE, add the extra dev fee
+                    if (item.accountName === 'DEVELOPMENTAL FEE') {
+                        amount = (parseFloat(amount) || 0) + devFeeExtra;
+                    }
 
                     row.insertCell(2).textContent = amount;
 

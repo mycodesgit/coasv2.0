@@ -220,13 +220,14 @@ CISS V.1.0 || Enroll Student
                                 <thead style="background-color: #c9c9c9">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Subj Code</th>
+                                        <th>SubjCode</th>
                                         <th>Subject Name</th>
                                         <th>Descriptive Title</th>
                                         <th>Credit</th>
-                                        <th>Lec Fee</th>
-                                        <th>Lab Fee</th>
-                                        <th>IT Subj</th>
+                                        <th>LecFee</th>
+                                        <th>LabFee</th>
+                                        <th>DevFee</th>
+                                        <th>ITSubj</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
@@ -288,12 +289,15 @@ CISS V.1.0 || Enroll Student
                                     <div class="col-md-6">
                                         Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" readonly>
                                     </div>
-                                    <div class="col-md-12">
-                                        <input type="hidden" id="itsubjInput" class="form-control form-control-sm" readonly>
+                                    <div class="col-md12">
+                                        Dev Fee: <input type="text" id="totalDevFeeInput" class="form-control form-control-sm" readonly>
+                                    </div>
+                                    <div class="col-md-12 mt-1">
+                                        <input type="text" id="itsubjInput" class="form-control form-control-sm" readonly>
                                     </div>
                                 </div>
                             </div>      
-                            <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
+                            <input type="text" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
                         </div>
                     </div>
                 </div>
@@ -329,6 +333,7 @@ CISS V.1.0 || Enroll Student
                                             data-sub-unit="{{ $subs->subUnit }}" 
                                             data-lec-fee="{{ $subs->lecFee }}" 
                                             data-lab-fee="{{ $subs->labFee }}"
+                                            data-dev-fee="{{ $subs->devFee }}"
                                             data-it-fee="{{ $subs->itfee }}">
                                         {{ $subs->sub_name }} - {{ $subs->subSec }} {{ $subs->isType }}
                                     </option>
@@ -355,6 +360,9 @@ CISS V.1.0 || Enroll Student
                 </div>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="devFee" readonly>
                 </div>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-sm" id="itfee" readonly>

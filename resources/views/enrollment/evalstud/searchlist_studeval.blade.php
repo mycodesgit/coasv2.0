@@ -281,9 +281,10 @@ CISS V.1.0 || Student Evaluation
                                                         <th>Subject Name</th>
                                                         <th>Descriptive Title</th>
                                                         <th>Credit</th>
-                                                        <th>Lec Fee</th>
-                                                        <th>Lab Fee</th>
-                                                        <th>IT Subj</th>
+                                                        <th>LecFee</th>
+                                                        <th>LabFee</th>
+                                                        <th>DevFee</th>
+                                                        <th>ITSubj</th>
                                                         <th>#</th>
                                                     </tr>
                                                 </thead>
@@ -302,15 +303,6 @@ CISS V.1.0 || Student Evaluation
                                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton" style="display: none;">Assess</button>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitEvalButton">Save</button>
-                                            <form action="{{ route('studevalrfprint') }}" method="get" target="_blank">
-                                                @csrf
-                                                <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
-                                                <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
-                                                <input type="hidden" name="semester" value="{{ request('semester') }}">
-                                            <button type="submit" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="printpreRFButton" target="_blank">
-                                                Print RF
-                                            </button>
-                                            </form>
                                         </div>
                                     </div>
 
@@ -323,6 +315,12 @@ CISS V.1.0 || Student Evaluation
                                                     </div>
                                                     <div class="col-md-6">
                                                         Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" readonly>
+                                                    </div>
+                                                    <div class="col-md12">
+                                                        Dev Fee: <input type="text" id="totalDevFeeInput" class="form-control form-control-sm" readonly>
+                                                    </div>
+                                                    <div class="col-md-12 mt-1">
+                                                        <input type="text" id="itsubjInput" class="form-control form-control-sm" readonly>
                                                     </div>
                                                 </div>
                                             </div>      
@@ -365,7 +363,9 @@ CISS V.1.0 || Student Evaluation
                                             data-sub-title="{{ $subs->sub_title }}" 
                                             data-sub-unit="{{ $subs->subUnit }}" 
                                             data-lec-fee="{{ $subs->lecFee }}" 
-                                            data-lab-fee="{{ $subs->labFee }}">
+                                            data-lab-fee="{{ $subs->labFee }}"
+                                            data-dev-fee="{{ $subs->devFee }}"
+                                            data-it-fee="{{ $subs->itfee }}">
                                         {{ $subs->sub_name }} - {{ $subs->subSec }} {{ $subs->isType }}
                                     </option>
                                 @endforeach
@@ -391,6 +391,12 @@ CISS V.1.0 || Student Evaluation
                 </div>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="devFee" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control form-control-sm" id="itfee" readonly>
                 </div>
                 
                 <button type="button" class="btn btn-primary" id="addSubjectBtn">

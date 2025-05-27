@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('semester')->nullable();
             $table->string('lecFee')->nullable();
             $table->string('labFee')->nullable();
+            $table->string('devFee')->nullable();
             $table->string('subUnit')->nullable();
             $table->string('postedBy')->nullable();
             $table->string('datePosted')->nullable();

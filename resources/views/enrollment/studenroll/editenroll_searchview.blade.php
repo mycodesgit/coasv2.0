@@ -230,13 +230,14 @@ CISS V.1.0 || Edit Student Enrollment
                                 <thead style="background-color: #c9c9c9">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Subj Code</th>
+                                        <th>SubjCode</th>
                                         <th>Subject Name</th>
                                         <th>Descriptive Title</th>
                                         <th>Credit</th>
-                                        <th>Lec Fee</th>
-                                        <th>Lab Fee</th>
-                                        <th>IT Subj</th>
+                                        <th>LecFee</th>
+                                        <th>LabFee</th>
+                                        <th>DevFee</th>
+                                        <th>ITSubj</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
@@ -250,6 +251,7 @@ CISS V.1.0 || Edit Student Enrollment
                                         <td>{{ $dataen->subUnit }}</td>
                                         <td>{{ $dataen->lecFee }}</td>
                                         <td>{{ $dataen->labFee }}</td>
+                                        <td>{{ $dataen->devFee }}</td>
                                         <td>{{ $dataen->itfee }}</td>
                                         <td>
                                             <button class="btn btn-outline-danger btn-sm delete-row">
@@ -347,12 +349,19 @@ CISS V.1.0 || Edit Student Enrollment
                                         foreach ($subjectsEn as $datalabfee) {
                                             $totallabFee += $datalabfee->labFee;
                                         }
+                                        $totaldevFee = 0;
+                                        foreach ($subjectsEn as $datadevfee) {
+                                            $totaldevFee += $datadevfee->devFee;
+                                        }
                                     @endphp
                                     <div class="col-md-6">
                                         Tuition: <input type="text" id="totalLecFeeInput" class="form-control form-control-sm" value="{{ $totallecFee }}" readonly>
                                     </div>
                                     <div class="col-md-6">
                                         Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" value="{{ $totallabFee }}" readonly>
+                                    </div>
+                                    <div class="col-md12">
+                                        Dev Fee: <input type="text" id="totalDevFeeInput" class="form-control form-control-sm" value="{{ $totaldevFee }}" readonly>
                                     </div>
                                 </div>
                             </div>      
@@ -406,6 +415,7 @@ CISS V.1.0 || Edit Student Enrollment
                                             data-sub-unit="{{ $subs->subUnit }}" 
                                             data-lec-fee="{{ $subs->lecFee }}" 
                                             data-lab-fee="{{ $subs->labFee }}"
+                                            data-dev-fee="{{ $subs->devFee }}"
                                             data-it-fee="{{ $subs->itfee }}">
                                         {{ $subs->sub_name }} - {{ $subs->subSec }}
                                     </option>
@@ -431,7 +441,10 @@ CISS V.1.0 || Edit Student Enrollment
                     <input type="hidden" class="form-control form-control-sm" id="lecFee" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
+                    <input type="text" class="form-control form-control-sm" id="labFee" readonly>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" id="devFee" readonly>
                 </div>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-sm" id="itfee" readonly>

@@ -19,6 +19,7 @@ class SubjectOffered extends Model
         'campus',
         'lecFee',
         'labFee',
+        'devFee',
         'subUnit',
         'postedBy',
         'datePosted',

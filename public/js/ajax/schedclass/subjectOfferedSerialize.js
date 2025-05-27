@@ -77,6 +77,7 @@ $(document).ready(function() {
             {data: 'maxstud'},
             {data: 'lecFee'},
             {data: 'labFee'},
+            {data: 'devFee'},
             {data: 'isType'},
             {
                 data: 'fundAccount',
@@ -92,7 +93,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-studSubOffer" data-id="' + row.soid + '" data-subcode="' + row.subCode + '" data-subsec="' + row.subSec + '" data-lecunit="' + row.lecUnit + '" data-labunit="' + row.labUnit + '" data-subunit="' + row.subUnit + '" data-lecfee="' + row.lecFee + '" data-labfee="' + row.labFee + '" data-maxstud="' + row.maxstud + '" data-fund="' + row.fund + '" data-istemp="' + row.isTemp + '" data-isojt="' + row.isOJT + '" data-istype="' + row.isType + '" data-itfee="' + row.itfee + '" data-fundaccount="' + row.fundAccount + '">' +
+                            '<a href="#" class="dropdown-item btn-studSubOffer" data-id="' + row.soid + '" data-subcode="' + row.subCode + '" data-subsec="' + row.subSec + '" data-lecunit="' + row.lecUnit + '" data-labunit="' + row.labUnit + '" data-subunit="' + row.subUnit + '" data-lecfee="' + row.lecFee + '" data-labfee="' + row.labFee + '" data-devfee="' + row.devFee + '" data-maxstud="' + row.maxstud + '" data-fund="' + row.fund + '" data-istemp="' + row.isTemp + '" data-isojt="' + row.isOJT + '" data-istype="' + row.isType + '" data-itfee="' + row.itfee + '" data-fundaccount="' + row.fundAccount + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item subsoff-delete">' +
@@ -209,7 +210,7 @@ $(document).ready(function() {
         if (semester === '3') {
             if (isOJT === 'Yes') {
                 let labFee = 3000;
-                $('#labFee').val(labFee);
+                $('#devFee').val(labFee);
             } else if (isOJT === 'YesThesis') {
                 let labFee = 500;
                 $('#labFee').val(labFee);
@@ -218,6 +219,7 @@ $(document).ready(function() {
                 $('#labFee').val(labFee);
             } else {
                 $('#labFee').val(0);
+                $('#devFee').val(0);
             }
         }
         // If semester is not 3, do nothing
@@ -232,7 +234,7 @@ $(document).ready(function() {
         if (semester === '3') {
             if (isOJT === 'Yes') {
                 let labFee = 3000;
-                $('#editlabfee').val(labFee);
+                $('#editdevfee').val(labFee);
             } else if (isOJT === 'YesThesis') {
                 let labFee = 500;
                 $('#editlabfee').val(labFee);
@@ -241,6 +243,7 @@ $(document).ready(function() {
                 $('#editlabfee').val(labFee);
             } else {
                 $('#editlabfee').val(0);
+                $('#editdevfee').val(0);
             }
         }
     });
@@ -291,6 +294,7 @@ $(document).on('click', '.btn-studSubOffer', function() {
     var subUnit = $(this).data('subunit');
     var lecfee = $(this).data('lecfee');
     var labfee = $(this).data('labfee');
+    var devfee = $(this).data('devfee');
     var maxstud = $(this).data('maxstud');
     var fund = $(this).data('fund');
     var isTemp = $(this).data('istemp');
@@ -309,6 +313,7 @@ $(document).on('click', '.btn-studSubOffer', function() {
     $('#subUnitEdit').val(subUnit);
     $('#editlecfee').val(lecfee);
     $('#editlabfee').val(labfee);
+    $('#editdevfee').val(devfee);
     $('#editmaxstud').val(maxstud);
     $('#fundEdit').val(fund);
     $('#isTempSelect').val(isTemp);

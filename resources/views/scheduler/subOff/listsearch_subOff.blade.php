@@ -142,6 +142,7 @@ CISS V.1.0 || Subject Offered
                                         <th>MaxStud</th>
                                         <th>LecFee</th>
                                         <th>LabFee</th>
+                                        <th>DevFee</th>
                                         <th>Type</th>
                                         <th>Fund</th>
                                         <th>IT Subj</th>
@@ -207,14 +208,19 @@ CISS V.1.0 || Subject Offered
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-4 mt-2">
+                                            <div class="col-md-2 mt-2">
                                                 <label><span class="badge badge-warning">Lecture Fee</span></label>
                                                 <input type="number" name="lecFee" id="lecFee" class="form-control form-control-sm" value="0" min="0" readonly>
                                             </div>
 
-                                            <div class="col-md-4 mt-2">
+                                            <div class="col-md-2 mt-2">
                                                 <label><span class="badge badge-warning">Laboratory Fee</span></label>
                                                 <input type="number" name="labFee" id="labFee" class="form-control form-control-sm" value="0" min="0" readonly>
+                                            </div>
+
+                                            <div class="col-md-4 mt-2">
+                                                <label><span class="badge badge-warning">Developmental Fee</span></label>
+                                                <input type="number" name="devFee" id="devFee" class="form-control form-control-sm" value="0" min="0" readonly>
                                             </div>
 
                                             <div class="col-md-2 mt-2">
@@ -231,7 +237,7 @@ CISS V.1.0 || Subject Offered
                                             </div>
 
                                             <div class="col-md-2 mt-2">
-                                                <label><span class="badge badge-secondary">OJT/Thesis</span></label>
+                                                <label><span class="badge badge-warning">OJT/Thesis</span></label>
                                                 <select class="form-control form-control-sm" name="isOJT" id="isOJT">
                                                     <option value="No">No</option>
                                                     @if(request('semester') == '3')
@@ -361,14 +367,19 @@ CISS V.1.0 || Subject Offered
                                     </select>
                                 </div>
 
-                                <div class="col-md-4 mt-2">
+                                <div class="col-md-2 mt-2">
                                     <label><span class="badge badge-secondary">Lecture Fee</span></label>
                                     <input type="number" name="lecFee" id="editlecfee" class="form-control form-control-sm" value="0" min="0">
                                 </div>
 
-                                <div class="col-md-4 mt-2">
+                                <div class="col-md-2 mt-2">
                                     <label><span class="badge badge-secondary">Laboratory Fee</span></label>
                                     <input type="number" name="labFee" id="editlabfee" class="form-control form-control-sm" value="0" min="0">
+                                </div>
+
+                                <div class="col-md-4 mt-2">
+                                    <label><span class="badge badge-secondary">Developmental Fee</span></label>
+                                    <input type="number" name="devFee" id="editdevfee" class="form-control form-control-sm" value="0" min="0">
                                 </div>
 
                                 <div class="col-md-2 mt-2">
