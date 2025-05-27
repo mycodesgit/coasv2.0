@@ -94,7 +94,18 @@
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
                             @auth('web')
                                 @if(in_array(Auth::guard('web')->user()->role, range(0, 19)))
-                                    Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
+                                    Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
+                                    @if (Auth::guard('web')->user()->campus == 'MC') Main 
+                                        @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
+                                        @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
+                                        @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
+                                        @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
+                                        @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
+                                        @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
+                                        @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                        @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
+                                        @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                    @endif
                                 @endif
                             @endauth
 
