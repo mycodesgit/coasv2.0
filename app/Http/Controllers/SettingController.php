@@ -71,7 +71,6 @@ class SettingController extends Controller
             $existingEmail = User::where('email', $emailName)->first();
 
             if ($existingEmail) {
-                //return redirect()->route('usersRead')->with('error', 'User already exists!');
                 return response()->json(['error' => true, 'message' => 'User already exists'], 404);
             }
 
@@ -92,10 +91,8 @@ class SettingController extends Controller
                     'user_id' => $userid->id,
                 ]);
 
-                //return redirect()->route('usersRead')->with('success', 'User stored successfully!');
-                return response()->json(['success' => true, 'message' => 'User stored successfully'], 404);
+                return response()->json(['success' => true, 'message' => 'User stored successfully'], 200);
             } catch (\Exception $e) {
-                //return redirect()->route('usersRead')->with('fail', 'Failed to store user!');
                 return response()->json(['error' => true, 'message' => 'Failed to store user'], 404);
             }
         }

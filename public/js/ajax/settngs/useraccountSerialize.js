@@ -16,8 +16,8 @@ $(document).ready(function() {
                 if(response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('userAdded');
                     $('#modal-user').modal('hide');
+                    $(document).trigger('userAdded');
                     //$('input[name="fund_name"]').val('');
                 } else {
                     toastr.error(response.message);
