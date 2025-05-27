@@ -368,17 +368,17 @@ CISS V.1.0 || Subject Offered
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <label><span class="badge badge-secondary">Lecture Fee</span></label>
+                                    <label><span class="badge badge-warning">Lecture Fee</span></label>
                                     <input type="number" name="lecFee" id="editlecfee" class="form-control form-control-sm" value="0" min="0">
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <label><span class="badge badge-secondary">Laboratory Fee</span></label>
+                                    <label><span class="badge badge-warning">Laboratory Fee</span></label>
                                     <input type="number" name="labFee" id="editlabfee" class="form-control form-control-sm" value="0" min="0">
                                 </div>
 
                                 <div class="col-md-4 mt-2">
-                                    <label><span class="badge badge-secondary">Developmental Fee</span></label>
+                                    <label><span class="badge badge-warning">Developmental Fee</span></label>
                                     <input type="number" name="devFee" id="editdevfee" class="form-control form-control-sm" value="0" min="0">
                                 </div>
 
@@ -396,7 +396,7 @@ CISS V.1.0 || Subject Offered
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <label><span class="badge badge-secondary">OJT/Thesis</span></label>
+                                    <label><span class="badge badge-warning">OJT/Thesis</span></label>
                                     <select class="form-control form-control-sm" name="isOJT" id="isOJTSelect">
                                         <option value="No">No</option>
                                         @if(request('semester') == '3')
