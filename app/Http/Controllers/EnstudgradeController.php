@@ -127,6 +127,8 @@ class EnstudgradeController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+
         $gradereg = Grade::where('subjID', $id)
                         ->where('status', '!=', '')
                         ->count();
@@ -140,7 +142,12 @@ class EnstudgradeController extends Controller
                 ->where('so.semester', $semester)
                 ->where('so.campus', $campus)
                 ->where('studgrades.campus', $campus)
-                ->where('students.campus', $campus)
+                //->where('students.campus', $campus)
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('students.campus', 'LIKE', "%$campus%");
+                    }
+                })
                 ->where('studgrades.subjID', $id)
                 ->orderBy('students.lname', 'ASC')
                 ->get();
