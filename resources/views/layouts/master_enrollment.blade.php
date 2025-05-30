@@ -558,7 +558,7 @@
                             sound.play();
                             console.log("Sound played for call.");
                         } else {
-                            alert(response.message);
+                            toastr.error(response.message);
                         }
                     }).fail(function () {
                         alert('Error calling the queue.');
