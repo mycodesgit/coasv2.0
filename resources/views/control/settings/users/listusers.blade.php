@@ -446,6 +446,7 @@ CISS V.1.0 || User's List
                                         'scholarship-url' => 'Scholarship',
                                         'grading-url' => 'Grading',
                                         'kiosk-url' => 'Kiosk',
+                                        'queue-url' => 'Qeueuing',
                                         'request-url' => 'Request',
                                         'setting-url' => 'Settings',
                                     ];
