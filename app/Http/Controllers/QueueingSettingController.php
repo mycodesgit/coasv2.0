@@ -111,12 +111,12 @@ class QueueingSettingController extends Controller
 
     public function storeQueueNumbers(Request $request)
     {
-        //try {
+        try {
             $request->validate([
                 'start' => 'required|integer|min:1',
                 'end' => 'required|integer|min:1|gte:start',
                 'catname' => 'required|string',
-                'available_in' => 'required|array',
+                'available_in' => 'required|array', // Ensure it's an array
                 'available_in.*' => 'integer',
             ]);
 
@@ -126,47 +126,31 @@ class QueueingSettingController extends Controller
             $available_in = $request->input('available_in');
             $campus = Auth::guard('web')->user()->campus;
 
+            //$prefix = $catname === 'Processing' ? strtoupper($campus) . 'P-' : strtoupper($campus) . 'E-';
             if ($catname === 'Processing') {
                 $prefix = strtoupper($campus) . 'P-';
             } elseif ($catname === 'Pre-register') {
                 $prefix = 'PRE-';
             } elseif ($catname === 'Enrollment') {
-                $prefix = 'ENRO-';
+                $prefix = strtoupper($campus) . 'E-';
             } else {
                 $prefix = strtoupper($campus) . '-';
             }
 
-            $created = 0;
+            // Generate and save queue numbers
             for ($i = $start; $i <= $end; $i++) {
-                $queueNumber = sprintf("%s%04d", $prefix, $i);
-
-                // Check if it already exists for this campus
-                $exists = QueueCustomer::where('queue_number', $queueNumber)
-                    ->where('campus', $campus)
-                    ->exists();
-
-                if (!$exists) {
-                    QueueCustomer::create([
-                        'queue_number' => $queueNumber,
-                        'catname' => $catname,
-                        'campus' => $campus,
-                        'available_in' => implode(',', $available_in),
-                    ]);
-                    $created++;
-                }
+                QueueCustomer::create([
+                    'queue_number' => sprintf("%s%04d", $prefix, $i), // Format: MCP-001 or MCE-001
+                    'catname' => $catname,
+                    'campus' => $campus,
+                    'available_in' => implode(',', $available_in),
+                ]);
             }
 
-            return response()->json([
-                'success' => true,
-                'message' => "$created queue number(s) added successfully"
-            ], 200);
-
-        //} catch (\Exception $e) {
-            return response()->json([
-                'error' => true,
-                'message' => 'Failed to add queue numbers. Please try again later.'
-            ], 500);
-        //}
+            return response()->json(['success' => true, 'message' => 'Queue numbers store successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to add queue numbers. Please try again later'], 404);
+        }
     }
 
     public function queueonoff()
