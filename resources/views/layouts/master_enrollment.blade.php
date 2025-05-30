@@ -540,7 +540,7 @@
                             alert(response.message);
                         }
                     }).fail(function () {
-                        alert('Error fetching the next queue.');
+                        toastr.error('Error fetching the next queue.');
                     });
                 });
 
