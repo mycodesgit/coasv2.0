@@ -1286,7 +1286,7 @@ class EnrollmentController extends Controller
             QueueCounter::where('callid', '!=', 0)
                 ->update(['callid' => 0]);
 
-            $callqueue = QueueCounter::where('useridlog', Auth::guard('web')->user()->id)->first();
+            $callqueue = QueueCounter::where('useridlog', Auth::guard('web')->user()->id)->where('campus', Auth::guard('web')->user()->campus) ->first();
 
             if ($callqueue) {
                 // Only update if activeidnumbercall is 0
