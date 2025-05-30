@@ -111,7 +111,7 @@ class QueueingSettingController extends Controller
 
     public function storeQueueNumbers(Request $request)
     {
-        try {
+        //try {
             $request->validate([
                 'start' => 'required|integer|min:1',
                 'end' => 'required|integer|min:1|gte:start',
@@ -161,12 +161,12 @@ class QueueingSettingController extends Controller
                 'message' => "$created queue number(s) added successfully"
             ], 200);
 
-        } catch (\Exception $e) {
+        //} catch (\Exception $e) {
             return response()->json([
                 'error' => true,
                 'message' => 'Failed to add queue numbers. Please try again later.'
             ], 500);
-        }
+        //}
     }
 
     public function queueonoff()
