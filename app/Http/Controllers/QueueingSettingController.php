@@ -49,7 +49,7 @@ class QueueingSettingController extends Controller
             ]);
 
             $counterName = $request->input('windowname'); 
-            $existingCounter = QueueCounter::where('windowname', $counterName)->first();
+            $existingCounter = QueueCounter::where('windowname', $counterName)->where('campus', '=', Auth::guard('web')->user()->campus)->first();
 
             if ($existingCounter) {
                 return response()->json(['error' => true, 'message' => 'Counter Name already exists'], 404);
