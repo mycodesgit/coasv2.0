@@ -104,7 +104,7 @@ class QueueingSettingController extends Controller
 
     public function getnumberRead()
     {
-        $data = QueueCustomer::orderBy('id', 'ASC')->get();
+        $data = QueueCustomer::orderBy('id', 'ASC')->where('campus', '=', Auth::guard('web')->user()->campus)->get();
 
         return response()->json(['data' => $data]);
     }
