@@ -1240,6 +1240,7 @@ class EnrollmentController extends Controller
 
         $queueNumber = QueueCustomer::where('status', 'waiting')
             ->where('catname', $counter->category) 
+            ->where('campus', Auth::guard('web')->user()->campus) 
             ->orderBy('id', 'ASC')
             ->first();
 
@@ -1273,6 +1274,7 @@ class EnrollmentController extends Controller
         $queue = QueueCustomer::join('counters', 'customers.id', '=', 'counters.activeidnumber')
             ->join('coasv2_db_admission.users', 'counters.useridlog', '=', 'coasv2_db_admission.users.id')
             ->where('counters.useridlog', Auth::guard('web')->user()->id)
+            ->where('campus', Auth::guard('web')->user()->campus) 
             ->first();
 
 
