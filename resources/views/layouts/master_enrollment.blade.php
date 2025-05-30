@@ -560,7 +560,7 @@
                         } else {
                             toastr.error(response.message);
                         }
-                    }).error(function () {
+                    }).fail(function () {
                         toastr.error('Error calling the queue.');
                     });
                 });
