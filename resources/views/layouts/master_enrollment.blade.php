@@ -560,8 +560,8 @@
                         } else {
                             toastr.error(response.message);
                         }
-                    }).fail(function () {
-                        alert('Error calling the queue.');
+                    }).error(function () {
+                        toastr.error('Error calling the queue.');
                     });
                 });
             });
