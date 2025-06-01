@@ -203,6 +203,10 @@ input.checkbox
 				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>SUNE S. QUINTAB</b></div>
 				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>COROLD A. ROMANO</b></div>
 				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>KRISTINE C. DURAN, MAN</b></div>
+			@else
+				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>___________________________</b></div>
+				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>___________________________</b></div>
+				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>___________________________</b></div>
 			@endif
 	    	<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Guidance Counselor III</b></div>
 	    	<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Chief Security Officer</b></div>
