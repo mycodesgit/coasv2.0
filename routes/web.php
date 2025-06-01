@@ -260,7 +260,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             
             Route::get('/list/printPreEnrolment/srch/{id}', [AdPrntController::class, 'pre_enrolment_print_srch'])->name('pre_enrolment_print_srch');
             Route::get('/list/printPreEnrolment/{id}', [AdPrntController::class, 'pre_enrolment_print'])->name('pre_enrolment_print');
-            Route::get('/{id}/view', [AdPrntController::class, 'genPreEnrolment'])->name('genPreEnrolment');
+            Route::get('/result/list/srchexamineeResultList/view/{id}', [AdPrntController::class, 'genPreEnrolment'])->name('genPreEnrolment');
             Route::get('/{id}/print', [AdPrntController::class, 'applicant_print'])->name('applicant_print');
             Route::get('/{id}/confirmResult', [AdExamineeController::class, 'confirmResult'])->name('confirmResult');
             Route::get('/{id}/confirmPreEnrolment', [AdExamineeController::class, 'confirmPreEnrolment'])->name('confirmPreEnrolment');

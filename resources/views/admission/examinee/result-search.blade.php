@@ -362,7 +362,7 @@ CISS v.1.0 || Examinee Search List Result
     var allresultRoute = "{{ route('getsrchexamineeResultList') }}";
     var updateTestResultRoute = "{{ route('examinee_resultmod_save', ['id' => ':id']) }}";
     var allAppUpdateRoute = "{{ route('applicantUpdate', ['id' => ':id']) }}";
-    var pushtocnfrmRoute = '{{ route('examinee_confirmPreEnrolmentajax',  ['id' => ':id']) }}';
+    var pushtocnfrmRoute = "{{ route('examinee_confirmPreEnrolmentajax',  ['id' => ':id']) }}";
     var appidEncryptRoute = "{{ route('idcrypt') }}";
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';

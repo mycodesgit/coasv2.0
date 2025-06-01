@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 use Storage;
 use Carbon\Carbon;
@@ -67,16 +68,19 @@ class AdPrntController extends Controller
     {
         $appID = decrypt($id);
         $examinee = Applicant::findOrFail($appID); 
-        return view('admission.examinee.printPreEnrolmentView')->with('examinee', $examinee);
+        return view('admission.examinee.printPreEnrolmentView1')->with('examinee', $examinee);
     }
 
     public function genPreEnrolment(Request $request, $id)
     {
-        $examinee = Applicant::findOrFail($id); 
+        $decryptedId = Crypt::decryptString($id);
+        $examinee = Applicant::findOrFail($decryptedId); 
+
         view()->share('examinee',$examinee); 
+
         $pdf = PDF::loadView('admission.examinee.genPreEnrolment')->setPaper('Legal', 'portrait');
         return $pdf->stream();
-        return view('admission.examinee.printPreEnrolmentView')->with('examinee', $examinee);
+        //return view('admission.examinee.printPreEnrolmentView')->with('examinee', $examinee);
     }
 
     public function applicant_printing()

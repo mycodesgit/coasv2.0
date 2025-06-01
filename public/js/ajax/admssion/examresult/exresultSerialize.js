@@ -89,7 +89,7 @@ $(document).ready(function() {
                             dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
-                                '<a href="printPreEnrolment/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
+                                '<a href="srchexamineeResultList/view/' + row.adid + '" class="dropdown-item btn-edit" target="_blank">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-updateresultexam" data-id="' + row.adid + '" data-rawscore="' + row.raw_score + '" data-percentile="' + row.percentile + '" data-qualifier="' + row.qualifier + '">' +
