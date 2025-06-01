@@ -98,7 +98,7 @@ $(document).ready(function() {
                             dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' + 
-                                '<a href="conprintPreEnrolment/pdf/' + row.adid + '" class="dropdown-item btn-edit">' +
+                                '<a href="srchconfirmList/view/' + row.adid + '" class="dropdown-item btn-edit" target="_blank">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-updateInterviewResult" data-id="' + row.adid + '" data-name="' + row.fname + ' ' + row.mname + ' ' + row.lname + '" data-strnd="' + row.strand + '" data-camp="' + row.campus + '" data-crating="' + row.rating + '" data-remark="' + row.remarks + '" data-cpref1="' + row.preference_1 + '" data-cpref2="' + row.preference_2 + '" data-creason="' + row.reason + '">' +
@@ -262,21 +262,21 @@ $(document).on('click', '.btn-updateInterviewResult', function() {
 
     $('#interviewresultexamModal').modal('show');
     
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#interviewExamId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#interviewExamId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#interviewExamId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#interviewExamId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 $('#interviewResultForm').submit(function(event) {
@@ -311,21 +311,21 @@ $(document).on('click', '.btn-pushtocnfrm', function() {
     $('#pushtocnfrmId').val(id);
     $('#pushtocnfrmModal').modal('show');
     
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#pushtocnfrmId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#pushtocnfrmId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#pushtocnfrmId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#pushtocnfrmId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 $('#pushtocnfrmForm').submit(function(event) {
@@ -384,21 +384,21 @@ $(document).on('click', '.btn-pushtoaccept', function() {
     $('#pushtoAcceptId').val(id);
     $('#pushtoAcceptModal').modal('show');
     
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#pushtoAcceptId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#pushtoAcceptId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#pushtoAcceptId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#pushtoAcceptId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 $('#pushtoAcceptForm').submit(function(event) {

@@ -274,7 +274,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/get-programs', [AdConfirmController::class, 'getCampPrograms'])->name('getCampPrograms');
             Route::get('/list/srchconfirmList/accept', [AdConfirmController::class, 'accept'])->name('accept');
             Route::get('/{id}/deptInterview', [AdConfirmController::class, 'deptInterview'])->name('deptInterview');
-            Route::get('/list/conprintPreEnrolment/pdf/{id}', [AdPrntController::class, 'conpre_enrolment_print_srch'])->name('conpre_enrolment_print_srch');
+            Route::get('/list/srchconfirmList/view/{id}', [AdPrntController::class, 'genPreEnrolment'])->name('genPreEnrolment');
             Route::post('/rating/save', [AdConfirmController::class, 'save_applicantmod_rating'])->name('save_applicantmod_rating');
             Route::put('/rating/{id}/save', [AdConfirmController::class, 'save_applicant_rating'])->name('save_applicant_rating');
             Route::post('/saveapplicant', [AdConfirmController::class, 'examinee_pushAcceptajax'])->name('examinee_pushAcceptajax');
@@ -289,7 +289,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/acceptedListAll', [AdAcceptedController::class, 'srchacceptedListAll'])->name('srchacceptedListAll');
             Route::get('/list/acceptedList/ajax', [AdAcceptedController::class, 'getsrchacceptedListapp'])->name('getsrchacceptedListapp');
             Route::get('/list/acceptedList/ajax/all', [AdAcceptedController::class, 'getsrchacceptedListappAll'])->name('getsrchacceptedListappAll');
-            Route::get('/list/acceptedList/xx/srch/{id}', [AdPrntController::class, 'conpre_enrolment_print_srch'])->name('conpre_enrolment_print_srch');
+            Route::get('/list/acceptedList/view/pdf/{id}', [AdPrntController::class, 'genPreEnrolment'])->name('genPreEnrolment');
             Route::get('/enrolled', [AdAcceptedController::class, 'applicant_enrolled'])->name('applicant-enrolled');
             Route::get('/list/enrolledList', [AdAcceptedController::class, 'srchacceptedEnrolledList'])->name('srchacceptedEnrolledList');
             Route::post('/pushapplicantenrollment', [AdAcceptedController::class, 'save_enroll_applicant'])->name('save_enroll_applicant');

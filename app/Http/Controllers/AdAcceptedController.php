@@ -79,6 +79,11 @@ class AdAcceptedController extends Controller
 
         $data = $query->get();
 
+        $data->transform(function ($item) {
+            $item->adid = Crypt::encryptString($item->adid);
+            return $item;
+        });
+
         return response()->json(['data' => $data]);
     }
 
@@ -134,7 +139,7 @@ class AdAcceptedController extends Controller
 
     public function save_enroll_applicant(Request $request)
     {
-        $decryptedId = Crypt::decrypt($request->input('id'));
+        $decryptedId = Crypt::decryptString($request->input('id'));
         $applicant = Applicant::findOrFail($decryptedId);
 
         $existingApplicant = Student::where('stud_id', $applicant->admission_id)

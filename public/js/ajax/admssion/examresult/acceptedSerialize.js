@@ -84,7 +84,7 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
-                            dropdown += '<a href="acceptedList/xx/srch/' + row.adid + '" class="dropdown-item btn-edit">' +
+                            dropdown += '<a href="acceptedList/view/pdf/' + row.adid + '" class="dropdown-item btn-edit" target="_blank">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>';
 
@@ -124,21 +124,21 @@ $(document).on('click', '.btn-pushtocnfrm', function() {
     $('#pushtocnfrmId').val(id);
     $('#pushtocnfrmModal').modal('show');
     
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#pushtocnfrmId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#pushtocnfrmId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#pushtocnfrmId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#pushtocnfrmId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 $(document).on('click', '.btn-pushtoenrollment', function() {
@@ -146,21 +146,21 @@ $(document).on('click', '.btn-pushtoenrollment', function() {
     $('#pushtoEnrollmentId').val(id);
     $('#pushtoEnrollmentModal').modal('show');
     
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#pushtoEnrollmentId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#pushtoEnrollmentId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#pushtoEnrollmentId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#pushtoEnrollmentId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 $('#pushtoEnrollmentForm').submit(function(event) {

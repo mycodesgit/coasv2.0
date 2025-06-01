@@ -296,7 +296,7 @@ CISS V.1.0 || Confirmed/Unconfirm Applicants
             </div>
             <form id="interviewResultForm">
                 <div class="modal-body">
-                    <input type="hidden" name="id" id="interviewExamId">
+                    <input type="text" name="id" id="interviewExamId">
                     <input type="hidden" id="campus">
 
                     <div class="form-group">
@@ -384,7 +384,7 @@ CISS V.1.0 || Confirmed/Unconfirm Applicants
             </div>
             <form id="pushtoAcceptForm">
                 <div class="modal-body">
-                    <input type="hidden" name="id" id="pushtoAcceptId">
+                    <input type="text" name="id" id="pushtoAcceptId">
                     <div class="form-group">
                         <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Accepted Applicants</button></center>
                     </div>
@@ -400,7 +400,7 @@ CISS V.1.0 || Confirmed/Unconfirm Applicants
 <script>
     var allAppConfirmRoute = "{{ route('getsrchconfirmList') }}";
     var updateConfirmRoute = "{{ route('save_applicantmod_rating', ['id' => ':id']) }}";
-    var pushtoAcceptRoute = '{{ route('examinee_pushAcceptajax',  ['id' => ':id']) }}';
+    var pushtoAcceptRoute = "{{ route('examinee_pushAcceptajax',  ['id' => ':id']) }}";
     var appidEncryptRoute = "{{ route('idcrypt') }}";
     var progCampRoute = "{{ route('getCampPrograms') }}";
 

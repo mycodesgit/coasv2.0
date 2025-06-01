@@ -63,6 +63,12 @@ class AdConfirmController extends Controller
 
         $data = $query->get();
 
+        // Encrypt adid
+        $data->transform(function ($item) {
+            $item->adid = Crypt::encryptString($item->adid);
+            return $item;
+        });
+
         return response()->json(['data' => $data]);
     }
 
@@ -112,7 +118,7 @@ class AdConfirmController extends Controller
         ]);
 
         try {
-            $decryptedId = Crypt::decrypt($request->input('id'));
+            $decryptedId = Crypt::decryptString($request->input('id'));
             $appresult = DeptRating::where('app_id', $decryptedId)->first();
             $appresult->update([
                 'interviewer' => Auth::user()->fname . ' ' .Auth::user()->lname ,
@@ -148,7 +154,7 @@ class AdConfirmController extends Controller
 
     public function examinee_pushAcceptajax(Request $request) 
     {
-        $decryptedId = Crypt::decrypt($request->input('id'));
+        $decryptedId = Crypt::decryptString($request->input('id'));
         
         $applicantsWithoutResult = Applicant::leftJoin('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
             ->where('ad_applicant_admission.p_status', 2)
