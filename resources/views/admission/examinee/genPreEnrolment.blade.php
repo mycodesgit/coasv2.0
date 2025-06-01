@@ -208,9 +208,15 @@ input.checkbox
 				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>&nbsp;</b></div>
 				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>&nbsp;</b></div>
 			@endif
-	    	<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Guidance Counselor III</b></div>
-	    	<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Chief Security Officer</b></div>
-			<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Nurse II</b></div>
+			@if(auth()->guard('web')->user() && auth()->guard('web')->user()->campus == 'MC')
+				<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Guidance Counselor III</b></div>
+				<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Chief Security Officer</b></div>
+				<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Nurse II</b></div>
+			@else
+				<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Guidance Counselor</b></div>
+				<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Chief Security Officer</b></div>
+				<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Nurse</b></div>
+			@endif
 	 	<br>	
 	 		<div style="text-align: center;border-bottom: none;margin-top: 10px;font-size: 10px;"><b>APPLICATION FOR ENROLLMENT TO:</b></div>
 	 		<div style="text-align: left;border-bottom: none;margin-top: 10px;font-size: 10px;"><b>COLLEGE OF AGRICULTURE and FORESTRY (CAF)</b></div>
