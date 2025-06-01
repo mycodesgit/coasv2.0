@@ -199,9 +199,11 @@ input.checkbox
 	    		<div class="name-p" style="margin-left: -10px;text-decoration: underline;">{{$examinee->result->percentile}}</div>
 	    	</div>
 	    </div>
-	    	<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>SUNE S. QUINTAB</b></div>
-	    	<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>COROLD A. ROMANO</b></div>
-	    	<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>KRISTINE C. DURAN, MAN</b></div>
+			@if(auth()->guard('web')->user() && auth()->guard('web')->user()->campus == 'MC')
+				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>SUNE S. QUINTAB</b></div>
+				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>COROLD A. ROMANO</b></div>
+				<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>KRISTINE C. DURAN, MAN</b></div>
+			@endif
 	    	<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Guidance Counselor III</b></div>
 	    	<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Chief Security Officer</b></div>
 			<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Nurse II</b></div>
