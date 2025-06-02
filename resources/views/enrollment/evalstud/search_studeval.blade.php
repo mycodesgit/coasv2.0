@@ -61,20 +61,10 @@ CISS V.1.0 || Student Evaluation
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">Semester</span></label>
                                     <select class="form-control form-control-sm" name="semester">
-                                        @foreach($sy as $datasy)
-                                            <option value="{{ $datasy->semester }}">
-                                                @if($datasy->semester == 1)
-                                                    First Semester
-                                                @elseif($datasy->semester == 2)
-                                                    Second Semester
-                                                @elseif($datasy->semester == 3)
-                                                    Summer
-                                                @else
-                                                    Unknown Semester
-                                                @endif
-                                            </option>
-                                        @endforeach
-                                        {{-- <option value="1">1st Semester</option> --}}
+                                        <option disabled selected>Select</option>
+                                        <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
+                                        <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
+                                        <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
                                     </select>
                                 </div>
 
