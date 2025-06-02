@@ -54,7 +54,7 @@ CISS V.1.0 || Student Evaluation
                                         {{-- @foreach($sy as $datasy)
                                             <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
                                         @endforeach --}}
-                                        <option value="2024-2025">2024-2025</option>
+                                        <option value="2025-2026">2025-2026</option>
                                     </select>
                                 </div>
 
@@ -74,7 +74,7 @@ CISS V.1.0 || Student Evaluation
                                                 @endif
                                             </option>
                                         @endforeach --}}
-                                        <option value="3">Summer</option>
+                                        <option value="1">1st Semester</option>
                                     </select>
                                 </div>
 
