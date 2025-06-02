@@ -216,8 +216,8 @@ class GradingFacultyController extends Controller
         $semester = [1, 2, 3];
         $facID = $user->id;
 
-        $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
-        $semester = is_array($semester) ? $semester : [$semester];
+        //$schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
+        //$semester = is_array($semester) ? $semester : [$semester];
         $facID = is_array($facID) ? $facID : [$facID];
 
         $gradeviewData = SetClassSchedule::leftJoin('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
