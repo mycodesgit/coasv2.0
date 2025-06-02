@@ -132,7 +132,7 @@ class QueueingSettingController extends Controller
             } elseif ($catname === 'Pre-register') {
                 $prefix = 'PRE-';
             } elseif ($catname === 'Enrollment') {
-                $prefix = strtoupper($campus) . 'E-';
+                $prefix = 'ENRO-';
             } else {
                 $prefix = strtoupper($campus) . '-';
             }
