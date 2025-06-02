@@ -51,17 +51,17 @@ CISS V.1.0 || Student Evaluation
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">School Year</span></label>
                                     <select class="form-control form-control-sm" name="schlyear">
-                                        {{-- @foreach($sy as $datasy)
+                                        @foreach($sy as $datasy)
                                             <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                        @endforeach --}}
-                                        <option value="2025-2026">2025-2026</option>
+                                        @endforeach
+                                        {{-- <option value="2025-2026">2025-2026</option> --}}
                                     </select>
                                 </div>
 
                                 <div class="col-md-3">
                                     <label><span class="badge badge-secondary">Semester</span></label>
                                     <select class="form-control form-control-sm" name="semester">
-                                        {{-- @foreach($sy as $datasy)
+                                        @foreach($sy as $datasy)
                                             <option value="{{ $datasy->semester }}">
                                                 @if($datasy->semester == 1)
                                                     First Semester
@@ -73,8 +73,8 @@ CISS V.1.0 || Student Evaluation
                                                     Unknown Semester
                                                 @endif
                                             </option>
-                                        @endforeach --}}
-                                        <option value="1">1st Semester</option>
+                                        @endforeach
+                                        {{-- <option value="1">1st Semester</option> --}}
                                     </select>
                                 </div>
 
