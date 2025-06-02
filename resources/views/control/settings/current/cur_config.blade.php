@@ -119,6 +119,7 @@ CISS V.1.0 || Configure
                             <option value="1">Deactivate</option>
                             <option value="2">Activate</option>
                             <option value="3">Upcoming</option>
+                            <option value="4">Previous</option>
                         </select>
                     </div>
                 </div>

@@ -70,6 +70,8 @@ $(document).ready(function() {
                         statusBadge = '<span class="badge badge-success">Active</span>';
                     } else if (data.set_status == 3) {
                         statusBadge = '<span class="badge badge-info">Upcoming</span>';
+                    } else if (data.set_status == 4) {
+                        statusBadge = '<span class="badge badge-warning">Previous</span>';
                     } else {
                         statusBadge = data.set_status;
                     }

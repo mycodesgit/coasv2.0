@@ -194,7 +194,7 @@ class GradingFacultyController extends Controller
         return redirect()->back()->with('success', 'Status updated successfully.');
     }
 
-    public function PDFgradesheetnew(Request $request, $id) 
+    public function PDFgradesheetnew($id) 
     {
         $guard= $this->getGuard();
         $user = Auth::guard($guard)->user();
@@ -204,21 +204,19 @@ class GradingFacultyController extends Controller
                         ->count();
 
 
-        $cursttngs = ConfigureCurrent::where('set_status', 2)->first();
+        $cursttngs = ConfigureCurrent::whereIn('set_status', [2, 3, 4])->first();
         $fac = Faculty::all();
 
         $desiredIds = [1, 74, 75, 76, 77];
         $grdlegend = GradeCode::whereIn('id', $desiredIds)->get();
 
-        $schlyear = $request->query('schlyear');
-        //$semester = $cursttngs->semester;
-        // $schlyear = '2024-2025';
+        $schlyear = $cursttngs->schlyear;
         $semester = [1, 2, 3];
         $facID = $user->id;
 
-        //$schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
-        //$semester = is_array($semester) ? $semester : [$semester];
-        $facID = is_array($facID) ? $facID : [$facID];
+        // $schlyear = is_array($schlyear) ? $schlyear : [$schlyear];
+        // $semester = is_array($semester) ? $semester : [$semester];
+        // $facID = is_array($facID) ? $facID : [$facID];
 
         $gradeviewData = SetClassSchedule::leftJoin('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
                 ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
