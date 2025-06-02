@@ -93,7 +93,7 @@ class AdExamineeController extends Controller
         ]);
 
         try {
-            $decryptedId = Crypt::decrypt($request->input('id'));
+            $decryptedId = Crypt::decryptString($request->input('id'));
             $appresult = ExamineeResult::where('app_id', $decryptedId)->first();
             $appresult->update([
                 'raw_score' => $request->input('raw_score'),

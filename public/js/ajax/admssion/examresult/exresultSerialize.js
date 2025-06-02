@@ -279,21 +279,21 @@ $(document).on('click', '.btn-updateresultexam', function() {
 
     $('#updateresultexamModal').modal('show');
     
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#updateresultexamId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#updateresultexamId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#updateresultexamId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#updateresultexamId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 $('#updateTstResult').submit(function(event) {
