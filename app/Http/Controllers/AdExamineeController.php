@@ -114,7 +114,7 @@ class AdExamineeController extends Controller
 
     public function examinee_confirmajax(Request $request) 
     {
-        $decryptedId = Crypt::decrypt($request->input('id'));
+        $decryptedId = Crypt::decryptString($request->input('id'));
         
         $applicantsWithoutResult = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
             ->where('ad_applicant_admission.p_status', 2)
