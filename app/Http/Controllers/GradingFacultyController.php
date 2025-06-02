@@ -194,7 +194,7 @@ class GradingFacultyController extends Controller
         return redirect()->back()->with('success', 'Status updated successfully.');
     }
 
-    public function PDFgradesheetnew($id) 
+    public function PDFgradesheetnew(Request $request, $id) 
     {
         $guard= $this->getGuard();
         $user = Auth::guard($guard)->user();
@@ -210,7 +210,7 @@ class GradingFacultyController extends Controller
         $desiredIds = [1, 74, 75, 76, 77];
         $grdlegend = GradeCode::whereIn('id', $desiredIds)->get();
 
-        $schlyear = $cursttngs->schlyear;
+        $schlyear = $request->query('schlyear');
         //$semester = $cursttngs->semester;
         // $schlyear = '2024-2025';
         $semester = [1, 2, 3];
