@@ -364,7 +364,7 @@ class EnrollmentController extends Controller
                     ->from('settings_conf')
                     ->groupBy('schlyear');
             })
-            ->where('set_status', 2)
+            //->where('set_status', 2)
             ->orderBy('id', 'DESC')
             ->get();
 
@@ -823,7 +823,7 @@ class EnrollmentController extends Controller
         if (in_array($userCampus, ['MC', 'VC', 'HinC', 'CC', 'CA', 'SCC', 'MP', 'SC', 'HC', 'SC', 'IC'])) {
             // Get default allowed school years
             $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->where('set_status', '2')
+                //->where('set_status', '2')
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
