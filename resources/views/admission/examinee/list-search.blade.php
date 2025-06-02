@@ -438,7 +438,7 @@ CISS v.1.0 || Examinee Search List
     var allAppAssignSchedRoute = "{{ route('applicant_schedulemod_save', ['id' => ':id']) }}";
     var allAppUpdateRoute = "{{ route('applicantUpdate', ['id' => ':id']) }}";
     var allExamDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
-    var pushtoresultRoute = '{{ route('examinee_confirmajax',  ['id' => ':id']) }}';
+    var pushtoresultRoute = "{{ route('examinee_confirmajax',  ['id' => ':id']) }}"";
     var appidEncryptRoute = "{{ route('idcrypt') }}";
 
     var isCampus = '{{ Auth::guard('web')->user()->campus }}';

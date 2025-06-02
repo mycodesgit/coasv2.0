@@ -81,6 +81,12 @@ class AdExamineeController extends Controller
 
         $data = $query->get();
 
+        // Encrypt adid
+        $data->transform(function ($item) {
+            $item->adid = Crypt::encryptString($item->adid);
+            return $item;
+        });
+
         return response()->json(['data' => $data]);
     }
 
