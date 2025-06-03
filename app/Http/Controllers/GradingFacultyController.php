@@ -110,13 +110,13 @@ class GradingFacultyController extends Controller
 
         $substudcount = $sub->count();
 
-        $grdpercentage = array_merge(range(44, 78), [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]);
+        $grdpercentage = array_merge(range(44, 78), [81, 82, 83, 84]);
 
         $grdCode = GradeCode::whereIn('id', $grdpercentage)
                 ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
                 ->get();
 
-        $grdpercentageComp = range(44, 74);
+        $grdpercentageComp = range(44, 91);
 
         $grdCodeComp = GradeCode::whereIn('id', $grdpercentageComp)
                 ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
