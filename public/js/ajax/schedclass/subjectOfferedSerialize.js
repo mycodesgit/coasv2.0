@@ -207,7 +207,7 @@ $(document).ready(function() {
         let urlParams = new URLSearchParams(window.location.search);
         let semester = urlParams.get('semester');
 
-        if (semester === '3') {
+        if (semester === '1' || semester === '2' || semester === '3') {
             if (isOJT === 'Yes') {
                 let labFee = 3000;
                 $('#devFee').val(labFee);
@@ -231,7 +231,7 @@ $(document).ready(function() {
         let urlParams = new URLSearchParams(window.location.search);
         let semester = urlParams.get('semester');
 
-        if (semester === '3') {
+        if (semester === '1' || semester === '2' || semester === '3') {
             if (isOJT === 'Yes') {
                 let labFee = 3000;
                 $('#editdevfee').val(labFee);
