@@ -119,7 +119,7 @@ class GradingFacultyController extends Controller
         $grdpercentageComp = range(44, 91);
 
         $grdCodeComp = GradeCode::whereIn('id', $grdpercentageComp)
-                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
+                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 91 THEN id END DESC, id DESC')
                 ->get();
 
         $grade = Grade::where('subjID', $id)
