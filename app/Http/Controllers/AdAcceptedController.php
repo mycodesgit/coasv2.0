@@ -105,8 +105,8 @@ class AdAcceptedController extends Controller
                     'coasv2_db_enrollment.students.stud_id'
                 )
                 ->where('ad_applicant_admission.year', $year)
-                ->where('ad_applicant_admission.year', $year)
-                ->whereRaw('LEFT(coasv2_db_enrollment.students.created_at, 4) = ?', [$year])
+                ->where('ad_applicant_admission.campus', $campus)
+                ->where('coasv2_db_enrollment.students.campus', $campus)
                 ->whereIn('ad_applicant_admission.p_status', [5, 6]);
 
         if ($strand) {
