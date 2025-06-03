@@ -49,7 +49,7 @@
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
 
     <div class="wrapper">
-        <nav class="main-header navbar navbar-expand-md navbar-light" style="background-color: #04401f">
+        <nav class="main-header navbar navbar-expand-md navbar-dark" style="background-color: #04401f">
             <div class="container-fluid">
                 <div href="" class="" style="color: #fff;font-family: Courier;">
                     CISS V.1.0
@@ -121,6 +121,7 @@
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('js/ajax/settngs/dark-mode.js') }}"></script>
 
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>

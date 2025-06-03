@@ -68,6 +68,42 @@ html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+/* body.dark-mode .list-group-item {
+    color: white !important;
+} */
+
+body.dark-mode a{
+    color: rgb(170, 170, 170) !important;
+}
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p {
+    color: rgb(170, 170, 170) !important;
+}
+
+body.dark-mode .custom-container {
+    background-color: #585858; 
+}
+
+body.dark-mode .select2-container--bootstrap4 .select2-selection {
+    background-color: #585858; 
+    color: white !important;
+}
+
+body.dark-mode .breadcrumb {
+    background-color: #585858; 
+}
+
+body.dark-mode .breadcrumb-item,
+body.dark-mode .breadcrumb-item a {
+    color: white !important;
+}
+
+
 article,
 aside,
 figcaption,
@@ -91,6 +127,7 @@ body {
     color: #212529;
     text-align: left;
     background-color: #fff;
+    transition: color 0.3s, background-color 0.3s;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
