@@ -210,21 +210,21 @@ $(document).on('click', '.btn-viewappdata', function() {
 
     $('#viewdataresultexamModal').modal('show');
     
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#viewdataresultexamId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#viewdataresultexamId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#viewdataresultexamId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#viewdataresultexamId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 $('#editAppDataPersonalinfoForm').submit(function(event) {

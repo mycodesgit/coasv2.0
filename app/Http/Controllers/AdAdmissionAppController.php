@@ -99,7 +99,7 @@ class AdAdmissionAppController extends Controller
         ]);
 
         try {
-            $decryptedId = Crypt::decrypt($request->input('id'));
+            $decryptedId = Crypt::decryptString($request->input('id'));
             $applicant = Applicant::find($decryptedId);
             $applicant->update([
                 'lname' => $request->input('lname'),
