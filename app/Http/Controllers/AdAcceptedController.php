@@ -60,7 +60,7 @@ class AdAcceptedController extends Controller
         $user = Auth::guard('web')->user()->dept;
 
         $query = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
-                ->rightJoin('coasv2_db_enrollment.students', 'ad_applicant_admission.id', '=', 'coasv2_db_enrollment.students.app_id')
+                ->leftJoin('coasv2_db_enrollment.students', 'ad_applicant_admission.id', '=', 'coasv2_db_enrollment.students.app_id')
                 ->select(
                     'ad_applicant_admission.*', 
                     'ad_applicant_admission.id as adid', 
@@ -70,7 +70,7 @@ class AdAcceptedController extends Controller
                 )
                 ->where('ad_applicant_admission.year', $year)
                 ->where('ad_applicant_admission.campus', $campus)
-                ->whereYear('coasv2_db_enrollment.students.created_at', now()->year)
+                //->whereYear('coasv2_db_enrollment.students.created_at', now()->year)
                 ->where('ad_applicant_dept_rating.deptcol', $user)
                 ->whereIn('ad_applicant_admission.p_status', [5, 6]);
 
