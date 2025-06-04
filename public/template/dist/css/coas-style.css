@@ -113,6 +113,30 @@ body.dark-mode #sub_code {
     background-color: #343a40 !important; 
 }
 
+body.dark-mode #subcodeEdit {
+    background-color: #343a40 !important; 
+}
+
+body.dark-mode #subnameEdit {
+    background-color: #343a40 !important; 
+}
+
+body.dark-mode #subtitleEdit {
+    background-color: #343a40 !important; 
+}
+
+body.dark-mode #lecUnitEdit {
+    background-color: #343a40 !important; 
+}
+
+body.dark-mode #labUnitEdit {
+    background-color: #343a40 !important; 
+}
+
+body.dark-mode #subUnitEdit {
+    background-color: #343a40 !important; 
+}
+
 body.dark-mode .select2-container--bootstrap4 .select2-selection {
     background-color: #585858; 
     color: white !important;
