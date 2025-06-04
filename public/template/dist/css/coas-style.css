@@ -89,6 +89,22 @@ body.dark-mode .custom-container {
     background-color: #585858; 
 }
 
+body.dark-mode .page-header {
+    border-bottom: 1px solid #ffffff !important; 
+}
+
+body.dark-mode .day-label {
+    background-color: #585858 !important; 
+}
+
+body.dark-mode .time-label {
+    background-color: #585858 !important; 
+}
+
+body.dark-mode .time-slot {
+    background-color: #343a40 !important; 
+}
+
 body.dark-mode .select2-container--bootstrap4 .select2-selection {
     background-color: #585858; 
     color: white !important;
