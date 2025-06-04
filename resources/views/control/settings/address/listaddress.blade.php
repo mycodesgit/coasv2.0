@@ -109,7 +109,7 @@ CISS V.1.0 || Addresses
                 </div>
             </div>
             <div class="col-md-2 mt-3">
-                <div class="card rightmenu" style="background-color: #e9ecef !important">
+                <div class="card">
                     <div class="ml-2 mr-2 mt-1 mb-1">
                         <div class="mt-1" style="font-size: 13pt;">
                             <div class="nav flex-column nav-pills nav-stacked nav-tabs-right h-100" id="vert-tabs-right-tab" role="tablist" aria-orientation="vertical">
