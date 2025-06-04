@@ -70,6 +70,7 @@ class AdAcceptedController extends Controller
                 )
                 ->where('ad_applicant_admission.year', $year)
                 ->where('ad_applicant_admission.campus', $campus)
+                ->whereYear('coasv2_db_enrollment.students.created_at', now()->year)
                 ->where('ad_applicant_dept_rating.deptcol', $user)
                 ->whereIn('ad_applicant_admission.p_status', [5, 6]);
 
