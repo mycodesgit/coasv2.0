@@ -81,7 +81,7 @@
             <a href="{{ route('list_trans') }}" class="list-group-item {{ $studtransAllActive }}">Transfered Student</a>
         @endif
 
-        @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie' || Auth::guard('web')->user()->lname == 'Doronila')
+        @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie')
             <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
         @endif
     </ul>
