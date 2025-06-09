@@ -147,54 +147,81 @@
                     <th>TOTAL</th>
                 </tr>
             </thead>
+
+            @php $firstRow = true; @endphp
+
             <tbody>
                 @foreach ($groupedFacloadsched as $sub_name => $schedules)
                     @foreach ($schedules as $index => $schedule)
                         <tr>
+                            {{-- Subject Title and Description --}}
                             @if ($index === 0)
-                                <!-- Only display these columns on the first row of each group -->
                                 <td rowspan="{{ $schedules->count() }}">{{ $schedule->sub_name }}</td>
                                 <td rowspan="{{ $schedules->count() }}">{{ $schedule->sub_title }}</td>
                             @endif
-                            
-                            <!-- Display data for each section -->
+
+                            {{-- Section & Details --}}
                             <td>{{ $schedule->subSec }}</td>
                             <td>{{ $schedule->studentCount }}</td>
                             <td>{{ $schedule->sub_unit }}</td>
-                            <td>{{-- {{ $schedule->sublecredit }} --}}</td>
-                            <td>{{-- {{ $schedule->sublabcredit }} --}}</td>
-                            <td>{{-- {{ $schedule->sublecredit + $schedule->sublabcredit }} --}}</td>
-                            
-                            <!-- Make this  display in one row even i have more sub_name -->
-                            {{-- @if ($loop->parent->first && $index === 0)
-                                <td rowspan="{{ $schedules->count() }}" class="remarks">
-                                    Number of Preparations: <b>{{ $schedules->count() }}</b><br>
-                                    <br>
-                                    Total Subject Load Units: <b>{{ $schedules->sum('sub_unit') }}</b><br>
-                                    Lecture: <b>{{ $schedules->sum('sublecredit') }}</b><br>
-                                    Laboratory: <b>{{ $schedules->sum('sublabcredit') }}</b><br>
-                                    <br>
-                                    Total Contact Hours: <b>{{ $schedules->sum(function($s) { return $s->sublecredit + $s->sublabcredit; }) }}</b><br>
-                                    Lecture: <b>{{ $schedules->sum('sublecredit') }}</b><br>
-                                    Laboratory: <b>{{ $schedules->sum('sublabcredit') }}</b><br>
-                                    <br>
+                            {{-- <td>{{ $schedule->sublecredit }}</td>
+                            <td>{{ $schedule->sublabcredit }}</td>
+                            <td>{{ $schedule->sublecredit + $schedule->sublabcredit }}</td> --}}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            {{-- Show REMARKS only ONCE --}}
+                            @if ($firstRow)
+                                @php $firstRow = false; @endphp
+                                <td rowspan="{{ collect($groupedFacloadsched)->flatten(1)->count() }}" class="remarks">
+                                    Number of Preparations: <b>{{ count($groupedFacloadsched) }}</b><br><br>
+                                    Total Subject Load Units: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sub_unit') }}</b><br>
+                                    Lecture: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublecredit') }}</b><br>
+                                    Laboratory: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublabcredit') }}</b><br><br>
+                                    Total Contact Hours: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum(fn($s) => $s->sublecredit + $s->sublabcredit) }}</b><br>
+                                    Lecture: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublecredit') }}</b><br>
+                                    Laboratory: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublabcredit') }}</b><br><br>
                                     Overtime Load: <b>(Hours/Units)</b><br>
                                     Consultation Hours: <b>1 hr.</b><br>
                                     Extension Coordinator: <b>9</b><br>
                                 </td>
-                            @endif --}}
-                            <td></td>
+                            @endif
                         </tr>
                     @endforeach
                 @endforeach
+                @php
+                    $flattened = collect($groupedFacloadsched)->flatten(1);
+                    $totalStudents = $flattened->sum('studentCount');
+                    $totalUnits = $flattened->sum('sub_unit');
+                    $totalLec = $flattened->sum('sublecredit');
+                    $totalLab = $flattened->sum('sublabcredit');
+                    $totalContact = $totalLec + $totalLab;
+                @endphp
+
+                <tr>
+                    <td colspan="3" class="text-right font-weight-bold">Total:</td>
+                    <td><b>{{ $totalStudents }}</b></td>
+                    <td><b>{{ $totalUnits }}</b></td>
+                    {{-- <td><b>{{ $totalLec }}</b></td>
+                    <td><b>{{ $totalLab }}</b></td>
+                    <td><b>{{ $totalContact }}</b></td> --}}
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td> {{-- Leave Remarks column empty or put summary if needed --}}
+                </tr>
+
             </tbody>
+
         </table>
 
     </div>
-    <div class="footer">
-        <span>Prepared By: ____________________</span>
-        <span>Recommending Approved: ____________________</span>
-        <span>Approved: ____________________</span>
+    <div style="margin-top: 10px;">
+        <span style="font-size: 8pt;">Prepared By:</span>
+    </div>
+    <div style="margin-left: 20px; margin-top: 20px;">
+        <span style="font-size: 8pt; font-weight: bold;">{{ $facultyName }}</span>
     </div>
     <div class="footer">
         As of: {{ \Carbon\Carbon::now()->format('m/d/Y h:i:s A') }}

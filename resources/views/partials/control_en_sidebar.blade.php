@@ -52,7 +52,7 @@
             <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
         @endif
 
-        @if(Auth::guard('web')->user()->role == '0')
+        @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Gargoles')
             <a href="{{ route('dupapprslSearch') }}" class="list-group-item {{ $editDupAppEnrollStudActive }}">Edit Dup. Appraisal</a>
             {{-- <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Subject Section</a>
             <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Program</a> --}}
