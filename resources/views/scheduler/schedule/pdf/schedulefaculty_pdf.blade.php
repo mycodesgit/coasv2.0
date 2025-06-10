@@ -2,9 +2,7 @@
 <html>
 <head>
     <title>Schedule PDF</title>
-    @php
-        $reviewer_pos  =  $facDesignateId->designation . ', ' . $facDesignateId->college_name = str_replace(' Of ', ' of ', ucwords(strtolower($facDesignateId->college_name)));
-    @endphp
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -280,7 +278,7 @@
 
     <div class="details-sm" style="margin-top: 30px;">
         <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
-            <span style="font-weight: bold; font-size: 9pt !important">{{ $reviewer_pos }}</span>
+            <span style="font-weight: bold; font-size: 9pt !important"></span>
         </div>
         <div style="text-align: center; width: 200px;">
             <span>Signature over printed name</span>
