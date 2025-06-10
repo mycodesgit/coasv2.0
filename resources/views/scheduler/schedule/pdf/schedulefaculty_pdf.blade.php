@@ -195,8 +195,8 @@
                                     Lecture: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublecredit') }}</b><br>
                                     Laboratory: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublabcredit') }}</b><br><br>
                                     Overtime Load: <b>(Hours/Units)</b><br>
-                                    Consultation Hours: <b>1 hr.</b><br>
-                                    Extension Coordinator: <b>9</b><br>
+                                    Consultation Hours: <b>___</b><br>
+                                    {{-- Extension Coordinator: <b>9</b><br> --}}
                                 </td>
                             @endif
                         </tr>
