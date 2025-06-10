@@ -530,7 +530,7 @@ class EnrollmentController extends Controller
         $subjectCount = $subjOffer->count();
 
         $selectedScholar = StudEnrolmentHistory::where('studentID', $stud_id)
-            ->orderBy('id', 'desc') // get the latest one
+            ->orderBy('id', 'desc')
             ->value('studSch');
     
         return view('enrollment.studenroll.enrollStudent', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedScholar'));

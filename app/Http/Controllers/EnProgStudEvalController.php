@@ -122,7 +122,11 @@ class EnProgStudEvalController extends Controller
                         
         $subjectCount = $subjOffer->count();
 
-        return view('enrollment.evalstud.searchlist_studeval', compact('sy', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans'));
+        $selectedScholar = StudEnrolmentHistory::where('studentID', $stud_id)
+            ->orderBy('id', 'desc')
+            ->value('studSch');
+
+        return view('enrollment.evalstud.searchlist_studeval', compact('sy', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedScholar'));
     }
 
     public function studEvalEnrollmentCreate(Request $request) 

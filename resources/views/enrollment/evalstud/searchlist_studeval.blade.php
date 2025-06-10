@@ -197,9 +197,15 @@ CISS V.1.0 || Student Evaluation
                                                             <div class="col-md-6">
                                                                 <label><span class="badge badge-secondary">Scholarship</span></label>
                                                                 <select class="form-control form-control-sm" name="studSch">
-                                                                    <option disabled selected> --SELECT SCHOLARSHIP-- </option>
+                                                                    {{-- <option disabled selected> --SELECT SCHOLARSHIP-- </option>
                                                                     @foreach ($studscholar as $data)
                                                                         <option value="{{ $data->id }}">{{ $data->scholar_name }}</option>
+                                                                    @endforeach --}}
+                                                                    <option disabled {{ empty($selectedScholar) ? 'selected' : '' }}> --SELECT SCHOLARSHIP-- </option>
+                                                                    @foreach ($studscholar as $data)
+                                                                        <option value="{{ $data->id }}" {{ $selectedScholar == $data->id ? 'selected' : '' }}>
+                                                                            {{ $data->scholar_name }}
+                                                                        </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
