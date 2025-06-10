@@ -278,10 +278,10 @@
 
     <div class="details-sm" style="margin-top: 30px;">
         <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
-            <span style="font-weight: bold; font-size: 9pt !important"></span>
+            <span style="font-weight: bold; font-size: 9pt !important">&nbsp;</span>
         </div>
         <div style="text-align: center; width: 200px;">
-            <span>Signature over printed name</span>
+            <span>Dean/Campus Administrator</span>
         </div>
     </div>
 
