@@ -528,8 +528,12 @@ class EnrollmentController extends Controller
                         ->get();
                         
         $subjectCount = $subjOffer->count();
+
+        $selectedScholar = StudEnrolmentHistory::where('studentID', $stud_id)
+            ->orderBy('id', 'desc') // get the latest one
+            ->value('studSch');
     
-        return view('enrollment.studenroll.enrollStudent', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans'));
+        return view('enrollment.studenroll.enrollStudent', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedScholar'));
     }
 
     public function coursefetchSubjects(Request $request)
