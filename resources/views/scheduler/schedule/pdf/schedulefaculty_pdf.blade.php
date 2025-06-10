@@ -2,6 +2,9 @@
 <html>
 <head>
     <title>Schedule PDF</title>
+    @php
+        $reviewer_pos  =  $facDesignateId->designation . ', ' . $facDesignateId->college_name = str_replace(' Of ', ' of ', ucwords(strtolower($facDesignateId->college_name)));
+    @endphp
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,6 +81,17 @@
             font-size: 10pt;
             font-family: calibri;
         }
+
+        .details {			
+			margin-left: 10px;
+			text-align: left;
+			font-size: 11pt;
+		}
+        .details-sm {			
+			margin-left: 10px;
+			text-align: left;
+			font-size: 9pt;
+		}
     </style>
 </head>
 <body>
@@ -217,14 +231,76 @@
         </table>
 
     </div>
-    <div style="margin-top: 10px;">
+    {{-- <div style="margin-top: 10px;">
         <span style="font-size: 8pt;">Prepared By:</span>
     </div>
-    <div style="margin-left: 20px; margin-top: 20px;">
-        <span style="font-size: 8pt; font-weight: bold;">{{ $facultyName }}</span>
+    <div style="margin-left: 20px; margin-top: 25px;">
+        <span style="font-size: 9pt; font-weight: bold;">{{ $facultysigName }}</span>
     </div>
-    <div class="footer">
+    <div style="margin-left: 20px; margin-top: -10px;">
+        <span style="font-size: 8pt; font-weight: normal;">Signature over printed name</span>
+    </div> --}}
+
+    <div class="details-sm" style="margin-top: 30px;">
+        <span style="display: inline-block; width: 80px; vertical-align: top;">Prepared by:</span>
+        <span style="display: inline-block; width: 80px; vertical-align: top; margin-left: 150px;">Noted:</span>
+        <span style="display: inline-block; width: 80px; vertical-align: top; margin-left: 190px;">Reveiwed by:</span>
+    </div>
+
+    <div class="details-sm" style="margin-top: 30px;">
+        <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
+            <span style="font-weight: bold; font-size: 9pt !important">{{ $facultysigName }}</span>
+        </div>
+        <div style="text-align: center; width: 200px;">
+            <span>Signature over printed name</span>
+        </div>
+    </div>
+
+    <div class="details-sm" style="margin-top: -30px; margin-left: 240px;">
+        <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
+            <span style="font-weight: bold">&nbsp;</span>
+        </div>
+        <div style="text-align: center; width: 200px;">
+            <span>Signature over printed name</span>
+        </div>
+    </div>
+
+    <div class="details-sm" style="margin-top: -30px; margin-left: 490px;">
+        <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
+            <span style="font-weight: bold">&nbsp;</span>
+        </div>
+        <div style="text-align: center; width: 200px;">
+            <span>Dean for Instruction/Authorized Person</span>
+        </div>
+    </div>
+
+    <div class="details-sm" style="margin-top: 30px;">
+        <span style="display: inline-block; width: 150px; vertical-align: top;">Recommending Approval:</span>
+    </div>
+
+    <div class="details-sm" style="margin-top: 30px;">
+        <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
+            <span style="font-weight: bold; font-size: 9pt !important">{{ $reviewer_pos }}</span>
+        </div>
+        <div style="text-align: center; width: 200px;">
+            <span>Signature over printed name</span>
+        </div>
+    </div>
+
+    {{-- <div style=" margin-top: -30px; margin-right: 0px;">
+        <div class="details-sm">
+            <div style="display: inline-block; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px;">
+                <span style="font-weight: bold">&nbsp;</span>
+            </div>
+            <div style="text-align: center; width: 200px;">
+                <span>Signature over printed name</span>
+            </div>
+        </div>
+    </div> --}}
+
+
+    {{-- <div class="footer">
         As of: {{ \Carbon\Carbon::now()->format('m/d/Y h:i:s A') }}
-    </div>
+    </div> --}}
 </body>
 </html>

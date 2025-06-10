@@ -308,13 +308,23 @@ class SchedFacultyController extends Controller
         $semester = $request->input('semester', 'Unknown Semester');
         $faculty_id = $request->input('faculty_id', 'Unknown Faculty');
         $campus = Auth::guard('web')->user()->campus;
+        
 
         $faculty = Faculty::where('faculty.id', '=', $faculty_id)->first();
         if ($faculty) {
             $facultyName = $faculty->lname . ', ' . $faculty->fname . ' ' . substr($faculty->mname, 0, 1);
+            $facultysigName = $faculty->fname . ' ' . substr($faculty->mname, 0, 1) . '. ' . $faculty->lname;
         } else {
             $facultyName = 'Faculty not found';
+            $facultysigName = 'Faculty not found';
         }
+
+        $facDesignateId = FacDesignation::join('college', 'fac_designation.facdept', '=', 'college.college_abbr')
+            ->join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
+            ->where('fac_designation.schlyear', $schlyear)
+            ->where('fac_designation.semester', $semester)
+            ->where('fac_designation.fac_id', $faculty_id)
+            ->first();
 
         $facloadsched = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
                         ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -357,11 +367,13 @@ class SchedFacultyController extends Controller
             'schlyear' => $schlyear,
             'semester' => $semester,
             'facultyName' => $facultyName,
+            'facultysigName' => $facultysigName,
             'groupedFacloadsched' => $groupedFacloadsched,
             'totalUnits' => $totalUnits,
             'totalLeCredits' => $totalLeCredits,
             'totalLabCredits' => $totalLabCredits,
             'totalContactHours' => $totalContactHours,
+            'facDesignateId' => $facDesignateId,
         ];
 
         $pdf = PDF::loadView('scheduler.schedule.pdf.schedulefaculty_pdf', $data);
