@@ -142,6 +142,10 @@
                                                     }
                                                 @endphp
                                                 @php
+                                                    $stid = Auth::guard('kioskstudent')->user()->stud_id;
+                                                    $entryYear = (int)substr($stid, 0, 4);
+                                                    $isFourScale = $entryYear <= 2021;
+
                                                     $currentYear = '';
                                                     $currentSemester = '';
                                                     $currentColor = '';
@@ -171,8 +175,8 @@
                                                         <td>{{ $datastudsubowner->subSec }}</td>
                                                         <td>{{ $datastudsubowner->sub_name }}</td>
                                                         <td>{{ $datastudsubowner->sub_title }}</td>
-                                                        <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade) }}</b></td>
-                                                        <td><b>{{ displayGrade($datastudsubowner->subjComp) }}</b></td>
+                                                        <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade, $isFourScale) }}</b></td>
+                                                        <td><b>{{ displayGrade($datastudsubowner->subjComp, $isFourScale) }}</b></td>
                                                         <td>{{ $datastudsubowner->creditEarned }}</td>
                                                     </tr>
                                                 @endforeach
