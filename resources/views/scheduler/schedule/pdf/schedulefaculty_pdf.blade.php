@@ -263,7 +263,7 @@
             <span style="font-weight: bold">&nbsp;</span>
         </div>
         <div style="text-align: center; width: 200px;">
-            <span>Signature over printed name</span>
+            <span>Program Head</span>
         </div>
     </div>
 
