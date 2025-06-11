@@ -92,7 +92,7 @@
     </style>
 </head>
 <body>
-    <div align="center" style="margin-top: -5px">
+    <div align="center" style="margin-top: -15px">
         @if(Auth::guard('web')->user()->campus == 'MC')
             <img src="{{ public_path('template/img/schedclass/schedclassheaderMain.png') }}" width="60%">
         @elseif(Auth::guard('web')->user()->campus == 'VC')
@@ -102,7 +102,7 @@
         @endif
     </div>
 
-    <div class="header">
+    <div class="header" style="margin-top: -15px">
         <h5>INDIVIDUAL FACULTY WORKLOAD</h5>
         @php
             function formatSemester($semester) {
@@ -312,11 +312,11 @@
         </div>
     </div>
 
-    <div style="text-align: center !important; font-size: 8pt; margin-top: 10px; display: flex; justify-content: space-between; width: 100%;">
+    <div style="text-align: center !important; font-size: 8pt; margin-top: 15px; display: flex; justify-content: space-between; width: 100%;">
 		<span>Doc Control Code: CPSU-F-VPAA-03 REV</span>
 		<span style="margin-left: 40px;">Effective Date: 08/16/2022</span>
 		<span style="margin-left: 40px;">Page No.: <b>1</b> of <b>1</b></span>
-		</div>
+	</div>
 
     {{-- <div style=" margin-top: -30px; margin-right: 0px;">
         <div class="details-sm">
