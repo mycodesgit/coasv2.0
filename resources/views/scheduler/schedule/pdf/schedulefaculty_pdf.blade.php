@@ -276,7 +276,7 @@
         </div>
     </div>
 
-    <div class="details-sm" style="margin-top: 30px;">
+    <div class="details-sm" style="margin-top: 15px;">
         <span style="display: inline-block; width: 150px; vertical-align: top;">Recommending Approval:</span>
         <span style="display: inline-block; width: 150px; vertical-align: top; margin-left: 150px;">Approved:</span>
     </div>
@@ -311,6 +311,12 @@
             <span>Vice President for Academic Affairs</span>
         </div>
     </div>
+
+    <div style="text-align: center !important; font-size: 8pt; margin-top: 10px; display: flex; justify-content: space-between; width: 100%;">
+		<span>Doc Control Code: CPSU-F-VPAA-03 REV</span>
+		<span style="margin-left: 40px;">Effective Date: 08/16/2022</span>
+		<span style="margin-left: 40px;">Page No.: <b>1</b> of <b>1</b></span>
+		</div>
 
     {{-- <div style=" margin-top: -30px; margin-right: 0px;">
         <div class="details-sm">
