@@ -283,7 +283,20 @@
 
     <div class="details-sm" style="margin-top: 30px;">
         <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
-            <span style="font-weight: bold; font-size: 9pt !important; text-transform: uppercase;">{{ $dean }}</span>, <span style="font-weight: bold; font-size: 9pt !important">{{ $rankdean }}</span>
+            <span style="font-weight: bold; font-size: 9pt !important; text-transform: uppercase;">
+                @if(Auth::guard('web')->user()->campus == 'MC')
+                    {{ $dean }}
+                @else
+                    &nbsp;
+                @endif
+            </span>, 
+            <span style="font-weight: bold; font-size: 9pt !important">
+                @if(Auth::guard('web')->user()->campus == 'MC')
+                    {{ $rankdean }}
+                @else
+                    &nbsp;
+                @endif
+            </span>
         </div>
         <div style="text-align: center; width: 200px;">
             <span style="font-size: 9pt !important">Dean, {{ $offdean }}</span>
