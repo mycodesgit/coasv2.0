@@ -192,9 +192,9 @@
                                 @php $firstRow = false; @endphp
                                 <td rowspan="{{ collect($groupedFacloadsched)->flatten(1)->count() }}" class="remarks">
                                     Number of Preparations: <b>{{ count($groupedFacloadsched) }}</b><br><br>
-                                    Total Subject Load Units: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sub_unit') }}</b><br>
-                                    Lecture: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublecredit') }}</b><br>
-                                    Laboratory: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublabcredit') }}</b><br><br>
+                                    Total Subject Load Units: <br>
+                                    Lecture: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sub_unit') }}</b><br>
+                                    Laboratory: <b>____</b><br><br>
                                     Total Contact Hours: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum(fn($s) => $s->sublecredit + $s->sublabcredit) }}</b><br>
                                     Lecture: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublecredit') }}</b><br>
                                     Laboratory: <b>{{ collect($groupedFacloadsched)->flatten(1)->sum('sublabcredit') }}</b><br><br>
