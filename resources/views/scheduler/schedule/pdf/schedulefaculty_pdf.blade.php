@@ -243,7 +243,7 @@
         <span style="font-size: 8pt; font-weight: normal;">Signature over printed name</span>
     </div> --}}
 
-    <div class="details-sm" style="margin-top: 30px;">
+    <div class="details-sm" style="margin-top: 15px;">
         <span style="display: inline-block; width: 80px; vertical-align: top;">Prepared by:</span>
         <span style="display: inline-block; width: 80px; vertical-align: top; margin-left: 150px;">Noted:</span>
         <span style="display: inline-block; width: 80px; vertical-align: top; margin-left: 190px;">Reveiwed by:</span>
