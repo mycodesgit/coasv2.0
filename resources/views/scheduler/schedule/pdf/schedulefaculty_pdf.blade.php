@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Schedule PDF</title>
-    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -125,6 +124,11 @@
                 return $number . '<sup>' . $suffix . '</sup>';
             }
             $formattedSemester = formatSemester($semester);
+
+            $vpres = $vice->fulname . ', ' . $vice->titledeg;
+            $dean = $facDesignateId->fname . ' ' . substr($facDesignateId->mname, 0, 1) . '. ' . $facDesignateId->lname;
+            $rankdean = $facDesignateId->rankcomma;
+            $offdean = $facDesignateId->college_name = str_replace(' Of ', ' of ', ucwords(strtolower($facDesignateId->college_name)));
         @endphp
 
         <h6 style="margin-top: -20px; font-style: italic;">
@@ -247,7 +251,7 @@
 
     <div class="details-sm" style="margin-top: 30px;">
         <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
-            <span style="font-weight: bold; font-size: 9pt !important">{{ $facultysigName }}</span>
+            <span style="font-weight: bold; font-size: 9pt !important; text-transform: uppercase;">{{ $facultysigName }}</span>
         </div>
         <div style="text-align: center; width: 200px;">
             <span>Signature over printed name</span>
@@ -274,14 +278,24 @@
 
     <div class="details-sm" style="margin-top: 30px;">
         <span style="display: inline-block; width: 150px; vertical-align: top;">Recommending Approval:</span>
+        <span style="display: inline-block; width: 150px; vertical-align: top; margin-left: 150px;">Approved:</span>
     </div>
 
     <div class="details-sm" style="margin-top: 30px;">
         <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
-            <span style="font-weight: bold; font-size: 9pt !important">&nbsp;</span>
+            <span style="font-weight: bold; font-size: 9pt !important; text-transform: uppercase;">{{ $dean }}</span>, <span style="font-weight: bold; font-size: 9pt !important">{{ $rankdean }}</span>
         </div>
         <div style="text-align: center; width: 200px;">
-            <span>Dean/Campus Administrator</span>
+            <span style="font-size: 9pt !important">Dean, {{ $offdean }}</span>
+        </div>
+    </div>
+
+    <div class="details-sm" style="margin-top: -30px; margin-left: 240px;">
+        <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
+            <span style="font-weight: bold">{{ $vpres }}</span>
+        </div>
+        <div style="text-align: center; width: 200px;">
+            <span>Vice President for Academic Affairs</span>
         </div>
     </div>
 

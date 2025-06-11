@@ -27,6 +27,7 @@ use App\Models\ScheduleDB\Sday;
 use App\Models\ScheduleDB\SetClassSchedule;
 
 use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\SigPresVice;
 
 class SchedFacultyController extends Controller
 {
@@ -323,7 +324,7 @@ class SchedFacultyController extends Controller
             ->join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
             ->where('fac_designation.schlyear', $schlyear)
             ->where('fac_designation.semester', $semester)
-            ->where('fac_designation.fac_id', $faculty_id)
+            ->where('fac_designation.facdept', $faculty->dept)
             ->first();
 
         $facloadsched = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
@@ -362,6 +363,9 @@ class SchedFacultyController extends Controller
             return $s->sublecredit + $s->sublabcredit;
         });
 
+        $vice = SigPresVice::where('position', 'Vice President')
+            ->first();
+
         $data = [
             'scheduleHtml' => $scheduleHtml,
             'schlyear' => $schlyear,
@@ -374,6 +378,7 @@ class SchedFacultyController extends Controller
             'totalLabCredits' => $totalLabCredits,
             'totalContactHours' => $totalContactHours,
             'facDesignateId' => $facDesignateId,
+            'vice' => $vice,
         ];
 
         $pdf = PDF::loadView('scheduler.schedule.pdf.schedulefaculty_pdf', $data);

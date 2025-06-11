@@ -937,6 +937,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('person')->group(function () {
             Route::get('/sign/all/campshow', [SettingSignatoryController::class, 'gradesheetSignatoryRead'])->name('gradesheetSignatoryRead');
+            Route::get('/sign/all/presvice', [SettingSignatoryController::class, 'getPresViceSigRead'])->name('getPresViceSigRead');
+            Route::post('/sign/all/presvice/add', [SettingSignatoryController::class, 'presViceSigCreate'])->name('presViceSigCreate');
         });
     });
 

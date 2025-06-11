@@ -188,7 +188,11 @@
     @endif
 
     @if(request()->routeIs('regionsRead'))
-    <script src="{{ asset('js/ajax/settngs/addressSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/settngs/addressSerialize.js') }}"></script>
+    @endif
+
+    @if(request()->routeIs('gradesheetSignatoryRead'))
+        <script src="{{ asset('js/ajax/settngs/sigPresViceSerialize.js') }}"></script>
     @endif
 
     <script>

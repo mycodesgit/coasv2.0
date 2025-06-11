@@ -63,19 +63,21 @@ CISS V.1.0 || Signatory Settings
 
                     <div class="tab-pane fade" id="vert-tabs-right-two" role="tabpanel" aria-labelledby="vert-tabs-right-two-tab">
                         <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                            <button type="button" class="btn btn-success btn-sm mb-3" data-toggle="modal" data-target="#modal-province">
+                            <button type="button" class="btn btn-success btn-sm mb-3" data-toggle="modal" data-target="#modal-presvice">
                                 <i class="fas fa-plus"></i> Add New
                             </button>
                         </div>
+                        @include('modal.presviceAdd')
                         <div class="mt-3">
-                            <table id="provinces" class="table table-hover table-striped" style="width: 100%">  
+                            <table id="presvicetab" class="table table-hover table-striped" style="width: 100%">  
                                 <thead>
                                     <tr>
                                         <th>Academic Year</th>
                                         <th>Semester</th>
-                                        <th>Campus</th>
                                         <th>Name</th>
                                         <th>Position</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,8 +119,7 @@ CISS V.1.0 || Signatory Settings
                         <div class="mt-1" style="font-size: 13pt;">
                             <div class="nav flex-column nav-pills nav-stacked nav-tabs-right h-100" id="vert-tabs-right-tab" role="tablist" aria-orientation="vertical">
                                 <a class="nav-link active" id="vert-tabs-right-one-tab" data-toggle="pill" href="#vert-tabs-right-one" role="tab" aria-controls="vert-tabs-right-one" aria-selected="true">Gradesheet</a>
-                                <a class="nav-link" id="vert-tabs-right-two-tab" data-toggle="pill" href="#vert-tabs-right-two" role="tab" aria-controls="vert-tabs-right-two" aria-selected="true">Other</a>
-                                
+                                <a class="nav-link" id="vert-tabs-right-two-tab" data-toggle="pill" href="#vert-tabs-right-two" role="tab" aria-controls="vert-tabs-right-two" aria-selected="true">Pres&Vice</a>         
                             </div>
                         </div>
                     </div>
@@ -156,10 +157,8 @@ CISS V.1.0 || Signatory Settings
 </div>
 
 <script>
-    var allRegionRoute = "{{ route('getregionsShow') }}";
-    var allProvinceRoute = "{{ route('getprovincesShow') }}";
-    var allCityRoute = "{{ route('getcitiesShow') }}";
-    
+    var sigpresviceCreateRoute = "{{ route('presViceSigCreate') }}";
+    var sigpresviceReadRoute = "{{ route('getPresViceSigRead') }}";
     var allcityUpdateRoute = "{{ route('cityUpdate', ['id' => ':id']) }}";
 </script>
 
