@@ -134,48 +134,7 @@ CISS V.1.0 || Student View Grades
                                         if ($grade >= 70) return ['gpa' => '4.00', 'status' => 'Conditional'];
                                         return ['gpa' => '5.00', 'status' => 'Failure'];
                                     }
-                                } 
-                                // function getEquivalentGrade($grade) {
-                                //     if ($grade === 'INC') {
-                                //         return ['gpa' => 'INC', 'status' => 'Incomplete'];
-                                //     } elseif ($grade === 'NN') {
-                                //         return ['gpa' => 'NN', 'status' => 'No Name'];
-                                //     } elseif ($grade === 'NG') {
-                                //         return ['gpa' => 'NG', 'status' => 'No Grade'];
-                                //     } elseif ($grade === 'Drp..') {
-                                //         return ['gpa' => 'Drp.', 'status' => 'Drop'];
-                                //     } elseif ($grade >= 97 || $grade == 1) {
-                                //         return ['gpa' => '1.0', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 94) {
-                                //         return ['gpa' => '1.2', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 91) {
-                                //         return ['gpa' => '1.5', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 88) {
-                                //         return ['gpa' => '1.7', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 85 || $grade == 2) {
-                                //         return ['gpa' => '2.0', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 82) {
-                                //         return ['gpa' => '2.2', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 79) {
-                                //         return ['gpa' => '2.5', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 76) {
-                                //         return ['gpa' => '2.7', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 75 || $grade == 3) {
-                                //         return ['gpa' => '3.0', 'status' => 'Passed'];
-                                //     } elseif ($grade >= 70) {
-                                //         return ['gpa' => '4.0', 'status' => 'Conditional'];
-                                //     } else {
-                                //         return ['gpa' => '5.0', 'status' => 'Failure'];
-                                //     }
-                                // }
-
-                                // function displayGrade($grade) {
-                                //     if (is_numeric($grade) && strpos($grade, '.') === false) {
-                                //         $equivalent = getEquivalentGrade($grade);
-                                //         return $equivalent['gpa'];
-                                //     }
-                                //     return $grade;
-                                // }
+                                }
 
                                 function displayGrade($grade, $isOldSystem = false) {
                                     if (is_numeric($grade) && strpos($grade, '.') === false) {
@@ -184,8 +143,13 @@ CISS V.1.0 || Student View Grades
                                     }
                                     return $grade;
                                 }
+                                
                                 @endphp
                             @php
+                                $stid = request()->get('stud_id');
+                                $entryYear = (int)substr($stid, 0, 4);
+                                $isOldSystem = $entryYear <= 2021;
+
                                 $currentYear = '';
                                 $currentSemester = '';
                                 $currentColor = '';
@@ -215,8 +179,8 @@ CISS V.1.0 || Student View Grades
                                     <td>{{ $datastudsubowner->subSec }}</td>
                                     <td>{{ $datastudsubowner->sub_name }}</td>
                                     <td>{{ $datastudsubowner->sub_title }}</td>
-                                    <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade) }}</b></td>
-                                    <td><b>{{ displayGrade($datastudsubowner->subjComp) }}</b></td>
+                                    <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade, $isOldSystem) }}</b></td>
+                                    <td><b>{{ displayGrade($datastudsubowner->subjComp, $isOldSystem) }}</b></td>
                                     <td>{{ $datastudsubowner->creditEarned }}</td>
                                 </tr>
                             @endforeach
