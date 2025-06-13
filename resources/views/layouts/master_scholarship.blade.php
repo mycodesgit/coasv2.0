@@ -309,8 +309,8 @@
             var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
             var currunderprogramenrolmentCounts = {!! json_encode($currunderprogramenrolmentCounts) !!};
             var underprogramAcronyms = {!! json_encode($underprogramAcronyms) !!};
-            const scholarLabels = {!! json_encode($underprogramScholar) !!};
-            const scholarCounts = {!! json_encode($currunderprogramenrolmentScholarCounts) !!};
+            var scholarLabels = {!! json_encode($underprogramScholar) !!};
+            var scholarCounts = {!! json_encode($currunderprogramenrolmentScholarCounts) !!};
             var undercolors = {!! json_encode($underprogramAcronyms) !!};
         </script>
         <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
