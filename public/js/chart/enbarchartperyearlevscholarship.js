@@ -5,7 +5,7 @@ $(function () {
         labels: scholarLabels, // dynamically from PHP
         datasets: [
             {
-                // dynamically from PHP
+                data: scholarCounts, // dynamically from PHP
                 backgroundColor: [
                     '#ffc107', '#00a65a', '#90ee90', '#007bff', '#ff6384',
                     '#36a2eb', '#cc65fe', '#ffce56', '#e83e8c', '#20c997',
@@ -20,7 +20,7 @@ $(function () {
                     '#dd4124', '#d65076', '#45b8ac', '#efc050', '#5b5ea6',
                     '#9b2335', '#dfcfbe', '#55b4b0', '#e15d44', '#7fcdcd',
                     '#bc243c', '#c3447a'
-                ] // 60 colors total
+                ] // Add more if needed
             }
         ]
     };
