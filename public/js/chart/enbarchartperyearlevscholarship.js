@@ -14,7 +14,7 @@ $(function () {
     var barColors = undercolors.map(() => getRandomColor());
 
     var currSemesterGradData = {
-        labels: underprogramScholar,
+        //labels: underprogramScholar,
         datasets: [{
             label: 'No. of Students Enrolled in ' + currSemesterLabel + ' (' + schlyearActive + ')',
             data: currunderprogramenrolmentScholarCounts,
