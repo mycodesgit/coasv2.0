@@ -2,10 +2,10 @@ $(function () {
     var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
 
     var pieData = {
-        labels: underprogramScholar, // dynamically from PHP
+        labels: scholarLabels, // dynamically from PHP
         datasets: [
             {
-                data: currunderprogramenrolmentScholarCounts, // dynamically from PHP
+                data: scholarCounts, // dynamically from PHP
                 backgroundColor: [
                     '#ffc107', '#00a65a', '#90ee90', '#007bff', '#ff6384',
                     '#36a2eb', '#cc65fe', '#ffce56', '#e83e8c', '#20c997'
