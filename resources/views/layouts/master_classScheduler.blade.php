@@ -232,6 +232,7 @@
     <script src="{{ asset('js/basic/tablescript.js') }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
 
