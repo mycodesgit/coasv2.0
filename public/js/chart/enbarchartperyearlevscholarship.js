@@ -14,12 +14,35 @@ $(function () {
     var barColors = undercolors.map(() => getRandomColor());
 
     var currSemesterGradData = {
-        labels: 'Scholarship Programs',
+        labels: underprogramScholar,
         datasets: [{
-            label: 'No. of Students Enrolled in ' + currSemesterLabel + ' (' + schlyearActive + ')',
+            label: '', // No label on the chart
             data: currunderprogramenrolmentScholarCounts,
             backgroundColor: barColors
         }]
+    };
+
+    // Add custom tooltip label
+    var currSemesterOptions = {
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        // Custom label on hover
+                        return 'No. of Students Enrolled in ' + currSemesterLabel + ' (' + schlyearActive + '): ' + context.parsed.y;
+                    }
+                }
+            },
+            legend: {
+                display: false // Hide legend since label is empty
+            }
+        }
     };
 
     var currSemesterOptions = {
