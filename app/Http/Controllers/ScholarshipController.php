@@ -172,7 +172,7 @@ class ScholarshipController extends Controller
 
         // Populate the labels and data arrays
         foreach ($progScholar as $program) {
-            $underprogramScholar[] = $program->progAcronym;
+            $underprogramScholar[] = $program->scholar_name;
             $currunderprogramenrolmentScholarCounts[] = $program->count;
         }
 
