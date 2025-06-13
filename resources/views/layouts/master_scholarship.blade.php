@@ -231,7 +231,7 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <div class="chart-responsive pt-1">
-                                                                <canvas id="currSemesterunderprogScholarBarChart" style="height:330px; min-height:330px"></canvas>
+                                                                <canvas id="pieChart" style="min-height: 500px;"></canvas>
                                                             </div>
                                                         </div>
                                                     </div>
