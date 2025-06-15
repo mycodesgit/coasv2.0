@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Rules\UniqueStudentID;
 use Illuminate\Support\Facades\Log;
 
@@ -25,6 +26,8 @@ use App\Models\EnrollmentDB\StudentType;
 use App\Models\EnrollmentDB\StudentShifTrans;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
+use App\Models\EnrollmentDB\StudHisLog;
+use App\Models\EnrollmentDB\StudSubLog;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -688,6 +691,7 @@ class EnrollmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Some subjects are full', 'fullSubjects' => $fullSubjects], 400);
             }
 
+            $encode = str_replace('-', '', now()->format('Ymd')) .'-'. strtoupper(Str::random(4)) .'-'. str_replace('-', '', $request->input('studentID'));
             try {
                 StudEnrolmentHistory::create([
                     'studentID' => $request->input('studentID'),
@@ -713,6 +717,31 @@ class EnrollmentController extends Controller
                     'fourPs' => $request->input('fourPs'),
                 ]);
 
+                StudHisLog::create([
+                    'studentID' => $request->input('studentID'),
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'campus' => $request->input('campus'),
+                    'course' => $request->input('course'),
+                    'progCod' => $request->input('progCod'),
+                    'studMajor' => $request->input('studMajor'),
+                    'studMinor' => $request->input('studMinor'),
+                    'studLevel' => $request->input('studLevel'),
+                    'studYear' => $request->input('studYear'),
+                    'studSec' => $request->input('studSec'),
+                    'studUnit' => $request->input('studUnit'),
+                    'studStatus' => $request->input('studStatus'),
+                    'studSch' => $request->input('studSch'),
+                    'studClassID' => $request->input('studClassID'),
+                    'postedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
+                    'confirmBy' => $request->input('confirmBy'),
+                    'postedDate' => $request->input('postedDate'),
+                    'studType' => $request->input('studType'),
+                    'transferee' => $request->input('transferee'),
+                    'fourPs' => $request->input('fourPs'),
+                    'encode' => $encode,
+                ]);
+
                 $subjIDs = $request->input('subjIDs');
                 foreach ($subjIDs as $subjID) {
                     Grade::create([
@@ -720,6 +749,17 @@ class EnrollmentController extends Controller
                         'subjID' => $subjID,
                         'postedBy' => $request->input('postedBy'),
                         'campus' => Auth::guard('web')->user()->campus,
+                    ]);
+                }
+
+                $subjIDs = $request->input('subjIDs');
+                foreach ($subjIDs as $subjID) {
+                    StudSubLog::create([
+                        'studID' => $studentID,
+                        'subjID' => $subjID,
+                        'postedBy' => $request->input('postedBy'),
+                        'campus' => Auth::guard('web')->user()->campus,
+                        'encode' => $encode,
                     ]);
                 }
 
@@ -828,7 +868,7 @@ class EnrollmentController extends Controller
         if (in_array($userCampus, ['MC', 'VC', 'HinC', 'CC', 'CA', 'SCC', 'MP', 'SC', 'HC', 'SC', 'IC'])) {
             // Get default allowed school years
             $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->whereIn('id', ['21'])
+                ->whereIn('id', ['21', '20'])
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
@@ -1051,6 +1091,8 @@ class EnrollmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Some subjects are full', 'fullSubjects' => $fullSubjects], 400);
             }
 
+            $encode = str_replace('-', '', now()->format('Ymd')) .'-'. strtoupper(Str::random(4)) .'-'. str_replace('-', '', $request->input('studentID'));
+
             try {
                 $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
                 $enrolment->update([
@@ -1077,6 +1119,31 @@ class EnrollmentController extends Controller
                     'fourPs' => $request->input('fourPs'),
                 ]);
 
+                StudHisLog::create([
+                    'studentID' => $request->input('studentID'),
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'campus' => $request->input('campus'),
+                    'course' => $request->input('course'),
+                    'progCod' => $request->input('progCod'),
+                    'studMajor' => $request->input('studMajor'),
+                    'studMinor' => $request->input('studMinor'),
+                    'studLevel' => $request->input('studLevel'),
+                    'studYear' => $request->input('studYear'),
+                    'studSec' => $request->input('studSec'),
+                    'studUnit' => $request->input('studUnit'),
+                    'studStatus' => $request->input('studStatus'),
+                    'studSch' => $request->input('studSch'),
+                    'studClassID' => $request->input('studClassID'),
+                    'postedBy' => $request->input('postedBy'),
+                    'confirmBy' => $request->input('confirmBy'),
+                    'postedDate' => $request->input('postedDate'),
+                    'studType' => $request->input('studType'),
+                    'transferee' => $request->input('transferee'),
+                    'fourPs' => $request->input('fourPs'),
+                    'encode' => $encode,
+                ]);
+
                 //$studentID = $request->input('studentID');
                 $studID = $request->input('studentID');
                 $newSubjIDs = $request->input('subjIDs');
@@ -1101,6 +1168,10 @@ class EnrollmentController extends Controller
                                   ->where('subjID', $subjID)
                                   ->first();
 
+                    $gradelog = StudSubLog::where('studID', $studID)
+                                  ->where('subjID', $subjID)
+                                  ->first();
+
                     if ($grade) {
                         // Update existing grade
                         $grade->update([
@@ -1111,6 +1182,17 @@ class EnrollmentController extends Controller
                             'status' => $request->input('status')[$index] ?? '',
                             'compstat' => $request->input('compstat')[$index] ?? '',
                             'postedBy' => $request->input('postedBy'),
+                        ]);
+                    } else if($gradelog) {
+                        $gradelog->update([
+                            'subjID' => $subjID,
+                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
+                            'subjComp' => $request->input('subjComp')[$index] ?? '',
+                            'creditEarned' => $request->input('creditEarned')[$index] ?? '',
+                            'status' => $request->input('status')[$index] ?? '',
+                            'compstat' => $request->input('compstat')[$index] ?? '',
+                            'postedBy' => $request->input('postedBy'),
+                            'encode' => $encode,
                         ]);
                     } else {
                         // Create new grade
@@ -1124,6 +1206,19 @@ class EnrollmentController extends Controller
                             'compstat' => $request->input('compstat')[$index] ?? '',
                             'postedBy' => $request->input('postedBy'),
                             'campus' => Auth::guard('web')->user()->campus,
+                        ]);
+
+                        StudSubLog::create([
+                            'studID' => $studID,
+                            'subjID' => $subjID,
+                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
+                            'subjComp' => $request->input('subjComp')[$index] ?? '',
+                            'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
+                            'status' => $request->input('status')[$index] ?? '',
+                            'compstat' => $request->input('compstat')[$index] ?? '',
+                            'postedBy' => $request->input('postedBy'),
+                            'campus' => Auth::guard('web')->user()->campus,
+                            'encode' => $encode,
                         ]);
                     }
                 }

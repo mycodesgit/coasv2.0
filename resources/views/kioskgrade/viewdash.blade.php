@@ -142,7 +142,7 @@
                                                     }
                                                 @endphp
                                                 @php
-                                                    $stid = Auth::guard('kioskstudent')->user()->stud_id;
+                                                    $stid = Auth::guard('kioskstudent')->user()->studid;
                                                     $entryYear = (int)substr($stid, 0, 4);
                                                     $isFourScale = $entryYear <= 2021;
 

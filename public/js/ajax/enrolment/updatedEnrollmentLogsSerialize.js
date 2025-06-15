@@ -4,9 +4,9 @@ $(document).ready(function() {
     var semester = urlParams.get('semester') || '';
     var campus = urlParams.get('campus') || ''; 
 
-    var dataTable = $('#deletedlogstable').DataTable({
+    var dataTable = $('#updatelogstable').DataTable({
         "ajax": {
-            "url": studDeleteEnrollogsRoute,
+            "url": studUpdateEnrollogsRoute,
             "type": "GET",
             "data": { 
                 "schlyear": schlyear,
@@ -21,7 +21,7 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
-            { data: 'delcrt',
+            { data: 'upcrt',
                 render: function (data, type, row) {
                     if (type === 'display') {
                         return moment(data).format('MMMM D, YYYY h:mm A');
@@ -30,7 +30,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            {data: 'delstudentID'},
+            {data: 'studentID'},
             {
                 data: null,
                 render: function(data, type, row) {
@@ -43,16 +43,16 @@ $(document).ready(function() {
                 }
             },
             {data: 'gender'},
-            {data: 'delsemester'},
-            {data: 'delschlyear'},
-            {data: 'delemployeename'},
+            {data: 'semester'},
+            {data: 'schlyear'},
+            {data: 'postedBy'},
         ],
         "order": [[0, 'desc']],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('delLog', function() {
+    $(document).on('updteLog', function() {
         dataTable.ajax.reload();
     });
 });

@@ -25,6 +25,7 @@ use App\Models\EnrollmentDB\StudentType;
 use App\Models\EnrollmentDB\StudentShifTrans;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
+use App\Models\EnrollmentDB\StudHisLog;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -80,7 +81,7 @@ class DeletedLogEnrollmentController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus');
     
-        $data = DeleteEnrollmentLogs::join('students', 'delete_enrollment_logs.delstudentID', '=', 'students.stud_id')
+        $data = DeleteEnrollmentLogs::join('students', 'delete_enrollment_log', '=', 'students.stud_id')
         ->select('students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'delete_enrollment_logs.*', 'delete_enrollment_logs.created_at as delcrt')
                 ->where('delMC', '=', $campus)
                 ->where('delschlyear', '=', $schlyear)
@@ -121,5 +122,22 @@ class DeletedLogEnrollmentController extends Controller
         $campus = $request->query('campus'); 
 
         return view('enrollment.reports.enrollogs.listupdatesearch_enrollogs', compact('sy'));
+    }
+
+    public function getuptadeenrlmntlogsRead(Request $request) 
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = $request->query('campus');
+    
+        $data = StudHisLog::join('students', 'studhislog.studentID', '=', 'students.stud_id')
+        ->select('students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'studhislog.*', 'studhislog.created_at as upcrt')
+                ->where('studhislog.campus', '=', $campus)
+                ->where('studhislog.schlyear', '=', $schlyear)
+                ->where('studhislog.semester', '=', $semester)
+                ->orderBy('studhislog.created_at', 'DESC')
+                ->get();
+
+        return response()->json(['data' => $data]);
     }
 }

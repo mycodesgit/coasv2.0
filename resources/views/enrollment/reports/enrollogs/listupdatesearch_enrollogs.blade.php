@@ -75,7 +75,6 @@ CISS V.1.0 || Updated Enrollment Logs
                                         <option value="CC">Cauayan</option>
                                         <option value="SC">Sipalay</option>
                                         <option value="HinC">Hinobaan</option>
-                                        <option value="VE">Valladolid</option>
                                     </select>
                                 </div>
 
@@ -88,7 +87,7 @@ CISS V.1.0 || Updated Enrollment Logs
                     </form>
                 </div>
                 <div class="col-md-12 mt-3">
-                    <table id="deletedlogstable" class="table table-striped">
+                    <table id="updatelogstable" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -97,7 +96,7 @@ CISS V.1.0 || Updated Enrollment Logs
                                 <th>Gender</th>
                                 <th>Semester</th>
                                 <th>Schlyear</th>
-                                <th>Deleted By</th>
+                                <th>Posted By</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,7 +110,7 @@ CISS V.1.0 || Updated Enrollment Logs
 </div>
 
 <script>
-    var studDeleteEnrollogsRoute = "{{ route('getdelenrlmntlogsRead') }}";
+    var studUpdateEnrollogsRoute = "{{ route('getuptadeenrlmntlogsRead') }}";
 </script>
 
 @endsection

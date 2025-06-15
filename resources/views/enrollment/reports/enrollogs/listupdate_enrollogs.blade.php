@@ -75,7 +75,6 @@ CISS V.1.0 || Update Enrollment Logs
                                         <option value="CC">Cauayan</option>
                                         <option value="SC">Sipalay</option>
                                         <option value="HinC">Hinobaan</option>
-                                        <option value="VE">Valladolid</option>
                                     </select>
                                 </div>
 

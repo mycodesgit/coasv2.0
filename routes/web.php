@@ -535,6 +535,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/updated/enrollment/logs', [DeletedLogEnrollmentController::class, 'updateEnrlmntlogsRead'])->name('updateEnrlmntlogsRead');
             Route::get('/updated/enrollment/logs/search', [DeletedLogEnrollmentController::class, 'search_uptadeEnrlmntlogsRead'])->name('search_uptadeEnrlmntlogsRead');
+            Route::get('/updated/enrollment/logs/search/ajax', [DeletedLogEnrollmentController::class, 'getuptadeenrlmntlogsRead'])->name('getuptadeenrlmntlogsRead');
 
             Route::get('/encoded/enrollment/grades/logs', [EnStudEncodeGradesLogController::class, 'searchEncode_grade'])->name('searchEncode_grade');
             Route::get('/encoded/enrollment/grades/logs/search', [EnStudEncodeGradesLogController::class, 'searchEncode_gradeRead'])->name('searchEncode_gradeRead');

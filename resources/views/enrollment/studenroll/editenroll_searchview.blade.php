@@ -247,7 +247,7 @@ CISS V.1.0 || Edit Student Enrollment
                                         <td>{{ $dataen->subjID }}</td>
                                         <td>{{ $dataen->subCode }}</td>
                                         <td>{{ $dataen->sub_name }} - {{ $dataen->subSec }}</td>
-                                        <td>{{ $dataen->sub_title }}</td>
+                                        <td>{{ $dataen->sub_title }} {{ $dataen->subjFgrade }} {{ $dataen->subjComp }}</td>
                                         <td>{{ $dataen->subUnit }}</td>
                                         <td>{{ $dataen->lecFee }}</td>
                                         <td>{{ $dataen->labFee }}</td>

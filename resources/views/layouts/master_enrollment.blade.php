@@ -510,6 +510,9 @@
     @if(request()->routeIs('logbook_search'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetLogbookSerialize.js') }}?v={{ time() }}"></script>
     @endif
+    @if(request()->routeIs('search_uptadeEnrlmntlogsRead'))
+        <script src="{{ asset('js/ajax/enrolment/updatedEnrollmentLogsSerialize.js') }}?v={{ time() }}"></script>
+    @endif
     @if(request()->routeIs('searchEncode_gradeRead'))
         <script src="{{ asset('js/ajax/enrolment/gradesheetLogsSerialize.js') }}?v={{ time() }}"></script>
     @endif
