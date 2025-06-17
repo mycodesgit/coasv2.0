@@ -1183,17 +1183,6 @@ class EnrollmentController extends Controller
                             'compstat' => $request->input('compstat')[$index] ?? '',
                             'postedBy' => $request->input('postedBy'),
                         ]);
-                    } else if($gradelog) {
-                        $gradelog->update([
-                            'subjID' => $subjID,
-                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
-                            'subjComp' => $request->input('subjComp')[$index] ?? '',
-                            'creditEarned' => $request->input('creditEarned')[$index] ?? '',
-                            'status' => $request->input('status')[$index] ?? '',
-                            'compstat' => $request->input('compstat')[$index] ?? '',
-                            'postedBy' => $request->input('postedBy'),
-                            'encode' => $encode,
-                        ]);
                     } else {
                         // Create new grade
                         Grade::create([
