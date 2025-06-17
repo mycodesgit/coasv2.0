@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const rawScoreValue = parseInt(this.value);
         const userCampus = isCampus;
         
-        let passingScore = 45; 
+        let passingScore = 17; 
         
         // Adjust passing score based on campus
         switch (userCampus) {
