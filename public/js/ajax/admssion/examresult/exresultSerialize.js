@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 passingScore = 34;
                 break;      
             case 'HinC': 
-                passingScore = 42;
+                passingScore = 36;
                 break;
             default:
                 passingScore = 45; 
