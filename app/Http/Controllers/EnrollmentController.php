@@ -1168,13 +1168,40 @@ class EnrollmentController extends Controller
                                   ->where('subjID', $subjID)
                                   ->first();
 
-                    $gradelog = StudSubLog::where('studID', $studID)
-                                  ->where('subjID', $subjID)
-                                  ->first();
+                    // if ($grade) {
+                    //     // Update existing grade
+                    //     $grade->update([
+                    //         'subjID' => $subjID,
+                    //         'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
+                    //         'subjComp' => $request->input('subjComp')[$index] ?? '',
+                    //         'creditEarned' => $request->input('creditEarned')[$index] ?? '',
+                    //         'status' => $request->input('status')[$index] ?? '',
+                    //         'compstat' => $request->input('compstat')[$index] ?? '',
+                    //         'postedBy' => $request->input('postedBy'),
+                    //     ]);
+                    // } 
 
                     if ($grade) {
-                        // Update existing grade
+                        // Get existing values
+                        $existingData = $grade->toArray();
+
+                        // Update only if there is new input; otherwise, keep the old value
                         $grade->update([
+                            'subjID' => $subjID,
+                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? $existingData['subjFgrade'],
+                            'subjComp' => $request->input('subjComp')[$index] ?? $existingData['subjComp'],
+                            'creditEarned' => $request->input('creditEarned')[$index] ?? $existingData['creditEarned'],
+                            'status' => $request->input('status')[$index] ?? $existingData['status'],
+                            'compstat' => $request->input('compstat')[$index] ?? $existingData['compstat'],
+                            'postedBy' => $request->input('postedBy'),
+                        ]);
+                    }
+
+                    
+                    else {
+                        // Create new grade
+                        Grade::create([
+                            'studID' => $studID,
                             'subjID' => $subjID,
                             'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
                             'subjComp' => $request->input('subjComp')[$index] ?? '',
@@ -1182,33 +1209,21 @@ class EnrollmentController extends Controller
                             'status' => $request->input('status')[$index] ?? '',
                             'compstat' => $request->input('compstat')[$index] ?? '',
                             'postedBy' => $request->input('postedBy'),
-                        ]);
-                    } else {
-                        // Create new grade
-                        Grade::create([
-                            'studID' => $studID,
-                            'subjID' => $subjID,
-                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
-                            'subjComp' => $request->input('subjComp')[$index] ?? '',
-                            'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
-                            'status' => $request->input('status')[$index] ?? '',
-                            'compstat' => $request->input('compstat')[$index] ?? '',
-                            'postedBy' => $request->input('postedBy'),
                             'campus' => Auth::guard('web')->user()->campus,
                         ]);
 
-                        StudSubLog::create([
-                            'studID' => $studID,
-                            'subjID' => $subjID,
-                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
-                            'subjComp' => $request->input('subjComp')[$index] ?? '',
-                            'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
-                            'status' => $request->input('status')[$index] ?? '',
-                            'compstat' => $request->input('compstat')[$index] ?? '',
-                            'postedBy' => $request->input('postedBy'),
-                            'campus' => Auth::guard('web')->user()->campus,
-                            'encode' => $encode,
-                        ]);
+                        // StudSubLog::create([
+                        //     'studID' => $studID,
+                        //     'subjID' => $subjID,
+                        //     'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
+                        //     'subjComp' => $request->input('subjComp')[$index] ?? '',
+                        //     'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
+                        //     'status' => $request->input('status')[$index] ?? '',
+                        //     'compstat' => $request->input('compstat')[$index] ?? '',
+                        //     'postedBy' => $request->input('postedBy'),
+                        //     'campus' => Auth::guard('web')->user()->campus,
+                        //     'encode' => $encode,
+                        // ]);
                     }
                 }
 
