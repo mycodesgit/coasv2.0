@@ -21,10 +21,10 @@
 			font-family: sans-serif;
 		}
 		.studinfoID {
-			margin-left: 20px;
+			margin-left: 70px;
 		}
 		.studinfoName {
-			margin-left: 75px;
+			margin-left: 125px;
 		}
 		.studinfoScholar {
 			margin-left: 5px;
@@ -183,14 +183,15 @@
 			</div>
 
 			<div class="studinfolabel">
-				<span style="font-weight: bold;">
-					Posted by:</span> <span style="margin-left: 48px">{{ $students->first()->postedBy }}
+				<span style="font-weight: bold;">Date:</span> <span style="margin-left: 129px">
+					{{ \Carbon\Carbon::parse($students->first()->updated_ats)->format('F d, Y h:i A') }}
 				</span>
 			</div>
 
 			<div class="studinfolabel">
-				<span style="font-weight: bold;">Date:</span> <span style="margin-left: 82px">
-					{{ \Carbon\Carbon::parse($students->first()->updated_ats)->format('F d, Y h:i A') }}
+				<span style="font-weight: bold;">
+					Schlyear & Semester:</span> <span style="margin-left: 28px">{{ request()->schlyear }} - 
+					{{ request()->semester == 1 ? 'First Semester' : (request()->semester == 2 ? 'Second Semester' : 'Summer') }}
 				</span>
 			</div>
 
@@ -207,7 +208,9 @@
 						<th>Credit</th>
 						<th>Lec Fee</th>
 						<th>Lab Fee</th>
-						<th>Cycle</th>
+						@if(Auth::guard('web')->user()->role == 15)
+							<th>Cycle</th>
+						@endif
 					</tr>
 				</thead>
 				<tbody>
@@ -219,11 +222,18 @@
 							<td>{{ $sub->subUnit }}</td>
 							<td>{{ $sub->lecFee }}</td>
 							<td>{{ $sub->labFee }}</td>
-							<td>{{ $sub->isType }}</td>
+							@if(Auth::guard('web')->user()->role == 15)
+								<td>{{ substr($sub->isType, 0, 3) }}</td>
+							@endif
 						</tr>
 					@endforeach
 				</tbody>
 			</table>
+			<div class="studinfolabel">
+				<span style="font-weight: bold;">
+					Posted by:</span> <span style="margin-left: 8px">{{ $students->first()->postedBy }}
+				</span>
+			</div>
 			----------------------------------------------------------------------------------------------------------------------------------------
 			<br>
 		@endforeach
