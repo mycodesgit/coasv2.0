@@ -1195,10 +1195,7 @@ class EnrollmentController extends Controller
                             'compstat' => $request->input('compstat')[$index] ?? $existingData['compstat'],
                             'postedBy' => $request->input('postedBy'),
                         ]);
-                    }
-
-                    
-                    else {
+                    } else {
                         // Create new grade
                         Grade::create([
                             'studID' => $studID,

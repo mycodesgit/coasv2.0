@@ -134,7 +134,7 @@ CISS V.1.0 || Edit Student Enrollment
                                                 <select class="form-control form-control-sm" name="studLevel">
                                                     <option disabled selected> --Select-- </option>
                                                     @foreach ($studlvl as $data)
-                                                    <option value="{{ $data->id }}" {{ $data->id == $selectedProgStudLevel ? 'selected' : '' }}>{{ $data->studLevel }}</option>
+                                                        <option value="{{ $data->id }}" {{ $data->id == $selectedProgStudLevel ? 'selected' : '' }}>{{ $data->studLevel }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

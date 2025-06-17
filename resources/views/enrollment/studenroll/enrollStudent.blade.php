@@ -124,7 +124,7 @@ CISS V.1.0 || Enroll Student
                                                 <select class="form-control form-control-sm" name="studLevel" id="studLevel">
                                                     <option disabled selected> --Select-- </option>
                                                     @foreach ($studlvl as $data)
-                                                    <option value="{{ $data->id }}">{{ $data->studLevel }}</option>
+                                                        <option value="{{ $data->id }}" {{ $data->id == 50 ? 'selected' : '' }}>{{ $data->studLevel }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -158,7 +158,7 @@ CISS V.1.0 || Enroll Student
                                                 <select class="form-control form-control-sm" name="studMajor">
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($mamisub as $mamisubjects)
-                                                        <option value="{{ $mamisubjects->submamiID }}">{{ $mamisubjects->submamiName }}</option>
+                                                        <option value="{{ $mamisubjects->submamiID }}" {{ $mamisubjects->id == 43 ? 'selected' : '' }}>{{ $mamisubjects->submamiName }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -168,7 +168,7 @@ CISS V.1.0 || Enroll Student
                                                 <select class="form-control form-control-sm" name="studMinor">
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($mamisub as $mamisubjects)
-                                                        <option value="{{ $mamisubjects->submamiID }}">{{ $mamisubjects->submamiName }}</option>
+                                                        <option value="{{ $mamisubjects->submamiID }}" {{ $mamisubjects->id == 43 ? 'selected' : '' }}>{{ $mamisubjects->submamiName }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -201,7 +201,7 @@ CISS V.1.0 || Enroll Student
                                                 <select class="form-control form-control-sm" name="transferee">
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($shiftrans as $data)
-                                                        <option value="{{ $data->id }}">{{ $data->studentShiftTransDesc }}</option>
+                                                        <option value="{{ $data->id }}" {{ $data->id == 3 ? 'selected' : '' }}>{{ $data->studentShiftTransDesc }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
