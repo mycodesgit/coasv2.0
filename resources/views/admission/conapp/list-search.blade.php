@@ -296,7 +296,7 @@ CISS V.1.0 || Confirmed/Unconfirm Applicants
             </div>
             <form id="interviewResultForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="interviewExamId">
+                    <input type="hidden" name="id" id="interviewExamId">
                     <input type="hidden" id="campus">
 
                     <div class="form-group">

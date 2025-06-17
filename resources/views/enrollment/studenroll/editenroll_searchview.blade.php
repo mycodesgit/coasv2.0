@@ -441,10 +441,10 @@ CISS V.1.0 || Edit Student Enrollment
                     <input type="hidden" class="form-control form-control-sm" id="lecFee" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="labFee" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="labFee" readonly>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm" id="devFee" readonly>
+                    <input type="hidden" class="form-control form-control-sm" id="devFee" readonly>
                 </div>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-sm" id="itfee" readonly>

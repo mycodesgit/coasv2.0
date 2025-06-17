@@ -868,7 +868,7 @@ class EnrollmentController extends Controller
         if (in_array($userCampus, ['MC', 'VC', 'HinC', 'CC', 'CA', 'SCC', 'MP', 'SC', 'HC', 'SC', 'IC'])) {
             // Get default allowed school years
             $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->whereIn('id', ['21', '20'])
+                ->whereIn('id', ['21'])
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
