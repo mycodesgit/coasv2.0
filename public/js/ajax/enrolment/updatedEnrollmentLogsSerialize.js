@@ -55,10 +55,12 @@ $(document).ready(function() {
 
                         var schlyearValue = window.schlyear;
                         var semesterValue = window.semester;
+                        var campusValue = window.campus;
                         var routeWithParams = decodeURIComponent(routeTemplate)
                             .replace(':stud_id', data)
                             .replace(':schlyear', schlyearValue)
-                            .replace(':semester', semesterValue);
+                            .replace(':semester', semesterValue)
+                            .replace(':campus', campusValue);
 
                         // Log the final route for debugging
                         //console.log("Generated route: ", routeWithParams);

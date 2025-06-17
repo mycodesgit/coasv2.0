@@ -115,7 +115,8 @@ CISS V.1.0 || Updated Enrollment Logs
 
     var schlyear = "{{ request('schlyear') }}";
     var semester = "{{ request('semester') }}";
-    var routeTemplate = "{{ route('studrfprintlog', ['stud_id' => ':stud_id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
+    var campus = "{{ request('campus') }}";
+    var routeTemplate = "{{ route('studrfprintlog', ['stud_id' => ':stud_id', 'schlyear' => ':schlyear', 'semester' => ':semester', 'campus' => ':campus']) }}";
 </script>
 
 @endsection
