@@ -15,6 +15,8 @@ use PDF;
 use Storage;
 use Carbon\Carbon;
 
+use App\Models\AdmissionDB\User;
+
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
 use App\Models\EnrollmentDB\Grade;
@@ -974,6 +976,35 @@ class EnrollmentController extends Controller
                     ->pluck('studgrades.id');
         $studsubenrollIdsprimID = implode(',', $studsubviewprimID->toArray());
 
+        // Start for studsublogtable
+        $subjectsEnIDlog = StudSubLog::join('coasv2_db_schedule.sub_offered', 'studsublog.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('studsublog.studID', '=', $programEnHistory->studentID)
+                    ->pluck('coasv2_db_schedule.sub_offered.id');
+        $subOfferedIdslog = implode(',', $subjectsEnIDlog->toArray());
+
+        $studsubviewlog = StudSubLog::join('coasv2_db_schedule.sub_offered', 'studsublog.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('studsublog.studID', '=', $programEnHistory->studentID)
+                    ->pluck('studsublog.subjID');
+        $studsubenrollIdslog = implode(',', $studsubviewlog->toArray());
+
+        $studsubviewprimIDlog = StudSubLog::join('coasv2_db_schedule.sub_offered', 'studsublog.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('studsublog.studID', '=', $programEnHistory->studentID)
+                    ->pluck('studsublog.id');
+        $studsubenrollIdsprimIDlog = implode(',', $studsubviewprimIDlog->toArray());
+        // End for studsublogtable
+
         $studsubviewprimIDitfee = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $schlyear)
@@ -1015,7 +1046,7 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID' ,'studsubenrollIdsprimIDitfee'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID' ,'studsubenrollIdsprimIDitfee', 'studsubenrollIdslog', 'studsubenrollIdsprimIDlog', 'subOfferedIdslog'));
     }
 
     public function studEnrollmentUpdate(Request $request) 
@@ -1135,7 +1166,7 @@ class EnrollmentController extends Controller
                     'studStatus' => $request->input('studStatus'),
                     'studSch' => $request->input('studSch'),
                     'studClassID' => $request->input('studClassID'),
-                    'postedBy' => $request->input('postedBy'),
+                    'postedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
                     'confirmBy' => $request->input('confirmBy'),
                     'postedDate' => $request->input('postedDate'),
                     'studType' => $request->input('studType'),
@@ -1209,18 +1240,18 @@ class EnrollmentController extends Controller
                             'campus' => Auth::guard('web')->user()->campus,
                         ]);
 
-                        // StudSubLog::create([
-                        //     'studID' => $studID,
-                        //     'subjID' => $subjID,
-                        //     'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
-                        //     'subjComp' => $request->input('subjComp')[$index] ?? '',
-                        //     'creditEarned' => $request->input('creditEarned')[$index] ?? 0,
-                        //     'status' => $request->input('status')[$index] ?? '',
-                        //     'compstat' => $request->input('compstat')[$index] ?? '',
-                        //     'postedBy' => $request->input('postedBy'),
-                        //     'campus' => Auth::guard('web')->user()->campus,
-                        //     'encode' => $encode,
-                        // ]);
+                        StudSubLog::create([
+                            'studID' => $studID,
+                            'subjID' => $subjID,
+                            'subjFgrade' => $request->input('subjFgrade')[$index] ?? '',
+                            'subjComp' => $request->input('subjComp')[$index] ?? '',
+                            'creditEarned' => $request->input('creditEarned')[$index] ?? '',
+                            'status' => $request->input('status')[$index] ?? '',
+                            'compstat' => $request->input('compstat')[$index] ?? '',
+                            'postedBy' => $request->input('postedBy'),
+                            'campus' => Auth::guard('web')->user()->campus,
+                            'encode' => $encode,
+                        ]);
                     }
                 }
 

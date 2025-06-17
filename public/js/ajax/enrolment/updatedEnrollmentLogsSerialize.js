@@ -46,6 +46,32 @@ $(document).ready(function() {
             {data: 'semester'},
             {data: 'schlyear'},
             {data: 'postedBy'},
+            {
+                data: 'stud_id',
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        // Log the data for debugging
+                        //console.log("Rendering row with data:", data);
+
+                        var schlyearValue = window.schlyear;
+                        var semesterValue = window.semester;
+                        var routeWithParams = decodeURIComponent(routeTemplate)
+                            .replace(':stud_id', data)
+                            .replace(':schlyear', schlyearValue)
+                            .replace(':semester', semesterValue);
+
+                        // Log the final route for debugging
+                        //console.log("Generated route: ", routeWithParams);
+
+                        var editLink = '<a href="' + routeWithParams + '" class="btn btn-primary btn-sm btn-studview" target="_blank">' +
+                            '<i class="fas fa-eye"></i>' +
+                            '</a>';
+                        return editLink;
+                    } else {
+                        return data;
+                    }
+                },
+            },
         ],
         "order": [[0, 'desc']],
         "createdRow": function (row, data, index) {

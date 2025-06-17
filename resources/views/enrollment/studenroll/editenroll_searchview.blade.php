@@ -369,6 +369,10 @@ CISS V.1.0 || Edit Student Enrollment
                             <input type="hidden" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
                             <input type="hidden" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
                             <input type="hidden" id="itsubjInput" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDitfee }}">
+                            <br>
+                            <input type="hidden" id="subjIDsInputlog" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIdslog }}">
+                            <input type="hidden" id="subjprimIDsInputlog" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdslog }}">
+                            <input type="hidden" id="primaryIDsInputlog" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDlog }}">
                         </div>
                     </div>
 

@@ -343,6 +343,7 @@ function updateTotalsAndIDs(subjIDToDelete = null) {
     document.getElementById('itsubjInput').value = itsubjFee;
     var subjIDString = subjIDs.join(',');
     document.getElementById('subjIDsInput').value = subjIDString;
+    document.getElementById('subjIDsInputlog').value = subjIDString;
 }
 
 //for Selecting Course from option to generate subject offer using template
@@ -441,6 +442,13 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
     var selectedSubjectitFeeText = document.getElementById('itfee').value;
 
     var subjIDInput = document.getElementById('subjIDsInput');
+    var existingIDs = subjIDInput.value.trim(); 
+    var newID = selectedSubjectPkeyText || ''; 
+    var updatedIDs = existingIDs ? existingIDs + ',' + newID : newID; 
+    subjIDInput.value = updatedIDs; 
+
+
+    var subjIDInput = document.getElementById('subjIDsInputlog');
     var existingIDs = subjIDInput.value.trim(); 
     var newID = selectedSubjectPkeyText || ''; 
     var updatedIDs = existingIDs ? existingIDs + ',' + newID : newID; 

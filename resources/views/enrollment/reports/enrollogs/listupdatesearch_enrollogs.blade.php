@@ -97,6 +97,7 @@ CISS V.1.0 || Updated Enrollment Logs
                                 <th>Semester</th>
                                 <th>Schlyear</th>
                                 <th>Posted By</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,6 +112,10 @@ CISS V.1.0 || Updated Enrollment Logs
 
 <script>
     var studUpdateEnrollogsRoute = "{{ route('getuptadeenrlmntlogsRead') }}";
+
+    var schlyear = "{{ request('schlyear') }}";
+    var semester = "{{ request('semester') }}";
+    var routeTemplate = "{{ route('studrfprintlog', ['stud_id' => ':stud_id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
 </script>
 
 @endsection
