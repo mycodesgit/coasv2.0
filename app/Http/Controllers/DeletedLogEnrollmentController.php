@@ -151,7 +151,7 @@ class DeletedLogEnrollmentController extends Controller
         $stud_id = $request->query('stud_id');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = Auth::guard('web')->user()->campus;
+        $campus = $request->query('campus');
 
         $student = StudHisLog::join('students', 'studhislog.studentID', '=', 'students.stud_id')
                     ->join('coasv2_db_scholarship.scholarship', 'studhislog.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
