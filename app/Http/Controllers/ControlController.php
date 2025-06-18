@@ -70,41 +70,45 @@ class ControlController extends Controller
         return view('layouts.master_faculty', compact('guard'));
     }
 
-    public function homefaculty()
+    public function homefaculty(Request $request)
     {
         $guard= $this->getGuard();
 
-        $cursttngs = ConfigureCurrent::whereIn('set_status', [2])->first();
+        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        if (!$activeConfig) {
+            return back()->with('error', 'No active school year found.');
+        }
+        $activeConfigId = $activeConfig->id;
+        
+        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
+            ->orderBy('id', 'desc') // Get the most recent one
+            ->first();
 
-        $semester = $cursttngs->semester;
-        $schlyear = $cursttngs->schlyear;
-        $facID = Auth::guard('faculty')->user()->id;
+        $schlyearactiveYear = $activeConfig->schlyear;
+        $schlyearactive = $activeConfig->schlyear;
+        $semesteractive = $activeConfig->semester;
 
-        $facsubprogen = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
-                    ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
-                    ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
-                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                    ->select(
-                        'studgrades.*',
-                        'studgrades.id as stugdeID',
-                        'coasv2_db_schedule.subjects.sub_name',
-                        'coasv2_db_schedule.sub_offered.subSec',
-                        'coasv2_db_schedule.sub_offered.schlyear',
-                        'coasv2_db_schedule.sub_offered.semester',
-                        'coasv2_db_schedule.sub_offered.campus',
-                        'coasv2_db_schedule.scheduleclass.faculty_id',
-                        'coasv2_db_schedule.scheduleclass.subject_id',
-                        'coasv2_db_schedule.faculty.fname',
-                        'coasv2_db_schedule.faculty.lname',
-                    )
-            ->where('coasv2_db_schedule.sub_offered.semester', $semester)
-            ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
-            ->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
-            ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
-            ->groupBy('studgrades.subjID')
+        $countstudsubfac = [];
+        $underproglevsecname = [];
+
+        $subload = SubjectOffered::join('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+            ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->join('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
+            ->where('sub_offered.schlyear', 'LIKE', $schlyearactive)
+            ->where('sub_offered.semester', 'LIKE', $semesteractive)
+            ->where('scheduleclass.faculty_id', '=', Auth::guard('faculty')->user()->id)
+            ->where('sub_offered.campus', '=', Auth::guard('faculty')->user()->campus)
+            ->select('sub_offered.subSec', 'subjects.sub_name', 'coasv2_db_enrollment.studgrades.subjID', DB::raw('COUNT(*) as count'))
+            ->groupBy('coasv2_db_enrollment.studgrades.subjID')
             ->get();
 
-        return view('control.facultyhome', compact('guard', 'facsubprogen', 'semester', 'schlyear'));
+        // Populate the labels and data arrays
+        foreach ($subload as $program) {
+            $underproglevsecname[] = $program->subSec .' - ' . $program->sub_name;
+            $countstudsubfac[] = $program->count;
+        }
+
+        return view('control.facultyhome', compact('guard', 'schlyearactiveYear', 'schlyearactive', 'semesteractive', 'underproglevsecname', 'countstudsubfac'));
     }
     
     public function logout()

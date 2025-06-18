@@ -142,8 +142,18 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
 
     <script src="{{ asset('js/validation/grading/gradingAttendanceValidation.js') }}"></script>
+
+    <script>
+        var semesteractive = {!! json_encode($semesteractive) !!};
+        var schlyearActive = {!! json_encode($schlyearactiveYear) !!};
+        var progyerlevCounts = {!! json_encode($countstudsubfac) !!};
+        var undercolors = {!! json_encode($underproglevsecname) !!};
+    </script>
+    <script src="{{ asset('js/chart/enbarchartperyearlevfaculty.js') }}?v={{ time() }}"></script>
 
     <script>
         @if(Session::has('error'))
