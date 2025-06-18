@@ -176,6 +176,12 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/current/sem/search/view/pdf/{id}', [GradingFacultyController::class, 'studsubjectsReadPDFfacattendance'])->name('studsubjectsReadPDFfacattendance');
         });
 
+        Route::prefix('fac/schedule')->group(function () {
+            Route::get('/show/current/sem', [GradingFacultyController::class, 'schedulefac'])->name('schedulefac');
+            Route::get('/show/current/sem/view/search', [GradingFacultyController::class, 'schedulefac_searchview'])->name('schedulefac_searchview');
+            Route::get('/show/current/sem/view/search/print', [GradingFacultyController::class, 'printMyTeachingSchedule'])->name('printMyTeachingSchedule');
+        });
+
         Route::prefix('studGrade')->group(function () {
             Route::get('/list/semester', [GradingFacultyController::class, 'semesterfac'])->name('semesterfac');
             Route::get('/list/virtualroom', [GradingFacultyController::class, 'virtualfaculty_class'])->name('virtualfaculty_class');

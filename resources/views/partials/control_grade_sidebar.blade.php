@@ -3,6 +3,7 @@
 
     $dashSchActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
     $attendSchActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
+    $facSchActive = in_array($curr_route, ['schedulefac', 'schedulefac_searchview']) ? 'active' : '';
     $semesterSchActive = in_array($curr_route, ['semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass']) ? 'active' : '';
     $gradeActive = in_array($curr_route, ['grades', 'gradesstud', 'gradesstud_search']) ? 'active' : '';
     
@@ -14,6 +15,7 @@
     </ul>
     <ul class="list-group mt-1">
         <a href="{{ route('attendancefac') }}" class="list-group-item {{ $attendSchActive }}">Student Attendance</a>  
+        <a href="{{ route('schedulefac') }}" class="list-group-item {{ $facSchActive }}">My Teaching Schedule</a>  
         <a href="{{ route('semesterfac') }}" class="list-group-item {{ $semesterSchActive }}">Grade Sheet</a> 
     </ul>
     <ul class="list-group mt-1">
