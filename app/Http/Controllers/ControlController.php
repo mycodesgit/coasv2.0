@@ -3,8 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+use PDF;
+use Storage;
+use Carbon\Carbon;
+
 use App\Models\AdmissionDB\ButtonAccess;
+use App\Models\AdmissionDB\User;
+use App\Models\EnrollmentDB\Student;
+use App\Models\EnrollmentDB\StudentLevel;
+use App\Models\EnrollmentDB\Grade;
+use App\Models\EnrollmentDB\GradeCode;
+use App\Models\EnrollmentDB\YearLevel;
+use App\Models\EnrollmentDB\MajorMinor;
+use App\Models\EnrollmentDB\StudentStatus;
+use App\Models\EnrollmentDB\StudentType;
+use App\Models\EnrollmentDB\StudentShifTrans;
+use App\Models\EnrollmentDB\StudEnrolmentHistory;
+
+use App\Models\ScheduleDB\ClassEnroll;
+use App\Models\ScheduleDB\Faculty;
+use App\Models\ScheduleDB\FacDesignation;
+use App\Models\ScheduleDB\Room;
+use App\Models\ScheduleDB\College;
+use App\Models\ScheduleDB\FacultyLoad;
+use App\Models\ScheduleDB\Subject;
+use App\Models\ScheduleDB\SubjectOffered;
+use App\Models\ScheduleDB\EnPrograms;
+use App\Models\ScheduleDB\Stime;
+use App\Models\ScheduleDB\Sday;
+use App\Models\ScheduleDB\SetClassSchedule;
+
+use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\SigPresVice;
 
 
 class ControlController extends Controller
@@ -39,7 +73,38 @@ class ControlController extends Controller
     public function homefaculty()
     {
         $guard= $this->getGuard();
-        return view('control.facultyhome', compact('guard'));
+
+        $cursttngs = ConfigureCurrent::whereIn('set_status', [2, 3, 4])->first();
+
+        $semester = $cursttngs->semester;
+        $schlyear = $cursttngs->schlyear;
+        $facID = Auth::guard('faculty')->user()->id;
+
+        $facsubprogen = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
+                    ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
+                    ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select(
+                        'studgrades.*',
+                        'studgrades.id as stugdeID',
+                        'coasv2_db_schedule.subjects.sub_name',
+                        'coasv2_db_schedule.sub_offered.subSec',
+                        'coasv2_db_schedule.sub_offered.schlyear',
+                        'coasv2_db_schedule.sub_offered.semester',
+                        'coasv2_db_schedule.sub_offered.campus',
+                        'coasv2_db_schedule.scheduleclass.faculty_id',
+                        'coasv2_db_schedule.scheduleclass.subject_id',
+                        'coasv2_db_schedule.faculty.fname',
+                        'coasv2_db_schedule.faculty.lname',
+                    )
+            ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+            ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+            ->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
+            ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
+            ->groupBy('studgrades.subjID')
+            ->get();
+
+        return view('control.facultyhome', compact('guard', 'facsubprogen', 'semester', 'schlyear'));
     }
     
     public function logout()

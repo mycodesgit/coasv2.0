@@ -609,7 +609,7 @@ class EnrollmentController extends Controller
     {
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
-        $campus = $request->input('campus');
+        $campus = Auth::guard('web')->user()->campus;
         $programCode = $request->input('programCode');
         $numericPart = $request->input('numericPart');
         // $campusArray = array_map('trim', explode(',', $campus));
