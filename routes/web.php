@@ -180,6 +180,7 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/show/current/sem', [GradingFacultyController::class, 'schedulefac'])->name('schedulefac');
             Route::get('/show/current/sem/view/search', [GradingFacultyController::class, 'schedulefac_searchview'])->name('schedulefac_searchview');
             Route::get('/show/current/sem/view/search/print', [GradingFacultyController::class, 'printMyTeachingSchedule'])->name('printMyTeachingSchedule');
+            Route::get('/show/current/sem/view/search/faculty/set/class/fetch', [GradingFacultyController::class, 'fetchMyTeachingSchedule'])->name('fetchMyTeachingSchedule');
         });
 
         Route::prefix('studGrade')->group(function () {

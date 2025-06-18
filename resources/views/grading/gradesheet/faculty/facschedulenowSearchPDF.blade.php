@@ -52,7 +52,7 @@ CISS V.1.0 || Grading
                                 <label><span class="badge badge-secondary">School Year</span></label>
                                 <select class="form-control form-control-sm" name="schlyear">
                                     @foreach($sy as $datasy)
-                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                        <option value="{{ $datasy->schlyear }}" {{ request('schlyear') == $datasy->schlyear ? 'selected' : '' }}>{{ $datasy->schlyear }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -61,9 +61,9 @@ CISS V.1.0 || Grading
                                 <label><span class="badge badge-secondary">Semester</span></label>
                                 <select class="form-control form-control-sm" name="semester">
                                     <option disabled selected>Select</option>
-                                    <option value="1">First Semester</option>
-                                    <option value="2">Second Semester</option>
-                                    <option value="3">Summer</option>
+                                    <option value="1" {{ request('semester') == 1 ? 'selected' : '' }}>First Semester</option>
+                                    <option value="2" {{ request('semester') == 2 ? 'selected' : '' }}>Second Semester</option>
+                                    <option value="3" {{ request('semester') == 3 ? 'selected' : '' }}>Summer</option>
                                 </select>
                             </div>
 
@@ -74,12 +74,72 @@ CISS V.1.0 || Grading
                         </div>
                     </div>
                 </form>
-                <iframe src="{{ route('printMyTeachingSchedule') }}?schlyear=2025-2026&semester=1#toolbar=0" width="100%" height="100%"></iframe>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="breadcrumb">
+                            <button id="viewSchedule" class="btn btn-secondary btn-xs ml-1">
+                                <i class="fas fa-eye"></i> View Schedule
+                            </button>
+                            <button id="viewFacultyLoad" class="btn btn-secondary btn-xs ml-1">
+                                <i class="fas fa-bars-progress"></i> Faculty Loading
+                            </button>
+                            <button type="button" id="refreshSchedule" class="btn btn-primary btn-xs ml-1">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>  
+                        </div>
+                    </div>
+                </div>
+                <div id="schedule-grid"></div>
             </div>
         </div>
         
     </div>
 </div>
+
+<!-- Schedule View Modal -->
+<div class="modal fade" id="viewfacultyScheduleModal" tabindex="-1" role="dialog" aria-labelledby="viewfacultyScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <h5 class="modal-title" id="viewfacultyScheduleModalLabel">
+                    <span class="ml-2">{{ request('schlyear') }},</span>
+                    <span class="ml-2">
+                        @if(request('semester') == 1)
+                            1st Sem
+                        @elseif(request('semester') == 2)
+                            2nd Sem
+                        @elseif(request('semester') == 3)
+                            Summer
+                        @else
+                            Unknown Semester
+                        @endif
+                    </span>
+                </h5>
+                <div>
+                    <button id="printSchedule" class="btn btn-info btn-md">
+                        <i class="fas fa-print"></i> Print Schedule
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <div class="modal-body" id="schedule-view">
+                <!-- Schedule content will be dynamically inserted here -->
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var classSubOfferSchedReadRoute = "{{ route('getSubjectsClassSchedFac') }}";
+    var classenrollyrsecReadRoute = "{{ route('getCoursesyearsecFac') }}";
+    var classenrollyrsecReadRoute = "{{ route('getCoursesyearsec') }}";
+    var classRoomSchedReadRoute = "{{ route('getRoomClassSched') }}";
+</script>
 
 
 

@@ -414,7 +414,7 @@ class GradingFacultyController extends Controller
         return view('grading.gradesheet.faculty.facschedulenow', compact('sy'));
     }
 
-    public function schedulefac_searchview()
+    public function schedulefac_searchview(Request $request) 
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
@@ -424,8 +424,32 @@ class GradingFacultyController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
+
+        $days = Sday::whereIn('id', [1, 2, 3, 4, 5])->pluck('dayDesc')->toArray();
+        $times = Stime::whereIn('id', range(1, 26))->pluck('timeDesc')->toArray();
             
-        return view('grading.gradesheet.faculty.facschedulenowSearchPDF', compact('sy'));
+        return view('grading.gradesheet.faculty.facschedulenowSearchPDF', compact('sy', 'days', 'times'));
+    }
+
+    public function fetchMyTeachingSchedule(Request $request)
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $faculty_id = Auth::guard('faculty')->user()->id;
+        $campus = Auth::guard('faculty')->user()->campus;
+
+        $schedule = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                        ->where('scheduleclass.schlyear', '=', $schlyear)
+                        ->where('scheduleclass.semester', '=', $semester)
+                        ->where('scheduleclass.faculty_id', $faculty_id)
+                        ->where('scheduleclass.campus', $campus)
+                        ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
+                        ->get();
+
+        return response()->json($schedule);
     }
 
     public function printMyTeachingSchedule(Request $request)

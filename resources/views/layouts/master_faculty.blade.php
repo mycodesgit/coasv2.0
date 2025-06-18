@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo  -->
@@ -210,6 +211,10 @@
             });
         });
     </script>
+
+    @if(request()->routeIs('schedulefac_searchview'))
+        @include('grading.gradesheet.faculty.facultyschedscript')
+    @endif
 </body>
 </html>
    
