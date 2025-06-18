@@ -78,7 +78,7 @@ CISS V.1.0 || Enroll Student
                                 <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
                                 <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
                                 <input type="hidden" value="{{ $student->stud_id }}" name="studentID" id="studentID" readonly>
-                                <input type="hidden" value="{{ $student->campus }}" name="campus" id="campusInput" readonly>
+                                <input type="text" value="{{ $student->campus }}" name="campus" id="campusInput" readonly>
                                 <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
                                 <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
 
