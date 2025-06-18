@@ -548,12 +548,19 @@ class EnrollmentController extends Controller
         $semester = $request->input('semester');
         $campus = Auth::guard('web')->user()->campus;
 
+        $campusArray = array_map('trim', explode(',', $campus));
+
         $subjects = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                         ->select('subjects.*', 'sub_offered.*')
                         ->where('sub_offered.subSec', $dd)
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
-                        ->where('sub_offered.campus', $campus)
+                        //->where('sub_offered.campus', $campus)
+                        ->where(function ($q) use ($campusArray) {
+                            foreach ($campusArray as $campus) {
+                                $q->orWhere('sub_offered.campus', 'LIKE', "$campus");
+                            }
+                        })
                         ->orderBy('sub_offered.subCode', 'ASC')
                         ->get();
 
