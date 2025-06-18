@@ -74,7 +74,7 @@ class ControlController extends Controller
     {
         $guard= $this->getGuard();
 
-        $cursttngs = ConfigureCurrent::whereIn('set_status', [2, 3, 4])->first();
+        $cursttngs = ConfigureCurrent::whereIn('set_status', [2])->first();
 
         $semester = $cursttngs->semester;
         $schlyear = $cursttngs->schlyear;
