@@ -74,7 +74,7 @@ CISS V.1.0 || Grading
                         </div>
                     </div>
                 </form>
-                <iframe src="{{ route('printMyTeachingSchedule') }} #toolbar=0" width="100%" height="100%"></iframe>
+                <iframe src="{{ route('printMyTeachingSchedule') }}?schlyear=2025-2026&semester=1#toolbar=0" width="100%" height="100%"></iframe>
             </div>
         </div>
         

@@ -434,7 +434,7 @@ class GradingFacultyController extends Controller
         $schlyear = $request->input('schlyear', 'Not Available');
         $semester = $request->input('semester', 'Unknown Semester');
         $faculty_id = Auth::guard('faculty')->user()->id;
-        $campus = Auth::guard('web')->user()->campus;
+        $campus = Auth::guard('faculty')->user()->campus;
         
 
         $faculty = Faculty::where('faculty.id', '=', $faculty_id)->first();
@@ -507,7 +507,7 @@ class GradingFacultyController extends Controller
             'vice' => $vice,
         ];
 
-        $pdf = PDF::loadView('scheduler.schedule.pdf.schedulefaculty_pdf', $data);
+        $pdf = PDF::loadView('grading.gradesheet.faculty.facschedulenowViewPDF', $data);
         $pdf->setPaper('Legal', 'portrait');
 
         return $pdf->stream('schedule.pdf');
