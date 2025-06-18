@@ -304,7 +304,7 @@
 
             // Create a form
             let form = $('<form>', {
-                action: '{{ route('printFacultySchedule') }}',
+                action: '{{ route('printMyTeachingSchedule') }}',
                 method: 'POST',
                 target: '_blank'
             });
