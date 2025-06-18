@@ -152,7 +152,7 @@
                                         </ol>
                                         <div class="workspace-top" style="text-align: center;">
                                             <div class="row">
-                                                @if(Auth::guard('web')->check() && ((Auth::guard('web')->user()->role >= 0 && Auth::guard('web')->user()->role <= 14) || in_array(Auth::guard('web')->user()->role, [19, 20])))
+                                                @if(Auth::guard('web')->check() && in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 16, 17, 18, 19, 20]))
                                                     @if(request()->routeIs('enrollment-index'))
                                                         <div class="col-lg-3 col-6">
                                                             <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
