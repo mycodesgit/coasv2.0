@@ -84,7 +84,37 @@ class EnProgStudEvalController extends Controller
         $campus = "MC";
 
         $sy = ConfigureCurrent::where('set_status', '=', '2')->get();
-        $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
+        //$student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
+
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        // $student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
+        $student = Student::where('stud_id', $stud_id)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->first();
+
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+
+        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $stud_id)
+            ->where('schlyear', $schlyear)
+            ->where('semester', $semester)
+            // ->where('campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->first();
+
+        if ($enrollmentHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
+        }
 
         if(Auth::guard('web')->user()->role == 15) 
         {
