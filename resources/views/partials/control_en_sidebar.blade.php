@@ -112,12 +112,12 @@
         <a href="{{ route('studAttendanceCurr') }}" class="list-group-item {{ $studAttendcurrActive }}">Attendance Per Degree</a>
         @endif
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 20]))
         <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Class Attendance</a>
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
         @endif
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 20]))
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
         <a href="{{ route('ranking_list') }}" class="list-group-item {{ $rankActive }}">Ranking</a>
@@ -128,7 +128,7 @@
         <a href="{{ route('studnoNSTPenrollee') }}" class="list-group-item {{ $numnstpenrolledActive }}">Cwts/Lts/Rotc</a>
         @endif
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15, 19]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15, 19, 20]))
         <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
         <a href="{{ route('logbookindex') }}" class="list-group-item {{ $facgdeshtlgbokActive }}">Gradesheet Logbook</a>
         @endif

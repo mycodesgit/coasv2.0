@@ -88,6 +88,8 @@ CISS V.1.0 || User's List
                                                 <option value="16" @if (old('role') == 16 || $user->role == '16') {{ 'selected' }} @endif>OSSA Staff</option>
                                                 <option value="17" @if (old('role') == 17 || $user->role == '17') {{ 'selected' }} @endif>Cashier</option>
                                                 <option value="18" @if (old('role') == 18 || $user->role == '18') {{ 'selected' }} @endif>Cashier Staff</option>
+                                                <option value="19" @if (old('type') == 19 || $user->role == '19') {{ 'selected' }} @endif>Encoder</option>
+                                                <option value="20" @if (old('type') == 20 || $user->role == '20') {{ 'selected' }} @endif>Dean of Instruction</option>
                                             </select>
                                         </div>
 
