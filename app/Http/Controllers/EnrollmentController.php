@@ -916,7 +916,7 @@ class EnrollmentController extends Controller
         $student = Student::where('stud_id', $stud_id)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('campus', 'LIKE', "$campus");
+                    $q->orWhere('campus', 'LIKE', "%$campus%");
                 }
             })
             ->first();
