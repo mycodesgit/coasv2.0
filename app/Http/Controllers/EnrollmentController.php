@@ -404,7 +404,7 @@ class EnrollmentController extends Controller
                                 // ->where('campus', $campus)
                                 ->where(function ($q) use ($campusArray) {
                                     foreach ($campusArray as $campus) {
-                                        $q->orWhere('campus', 'LIKE', "%$campus%");
+                                        $q->orWhere('campus', 'LIKE', "$campus");
                                     }
                                 })
                                 ->where('progCod', $progCod)
@@ -419,7 +419,7 @@ class EnrollmentController extends Controller
                             // ->where('campus', $campus)
                             ->where(function ($q) use ($campusArray) {
                                 foreach ($campusArray as $campus) {
-                                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                                    $q->orWhere('campus', 'LIKE', "$campus");
                                 }
                             })
                             ->where('progCode', $progCod)
