@@ -44,6 +44,11 @@
             /*background-color: #c9c2c2;*/
             border-color: #32ac71 #32ac71 #ffffff;
         }
+        .sticky-column {
+          position: sticky;
+          top: 50px;
+          height: 5vh;
+        }
     </style>
 </head>
 
@@ -83,7 +88,7 @@
             <div class="content">
                 <div class="container-fluid1">
                     <div class="row" style="padding-top: 0px;">
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 sticky-column">
                             <div class="card">
                                 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
                                     @section('sideheader')
