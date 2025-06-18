@@ -25,6 +25,8 @@ use App\Models\EnrollmentDB\StudentType;
 use App\Models\EnrollmentDB\StudentShifTrans;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
+use App\Models\EnrollmentDB\StudHisLog;
+use App\Models\EnrollmentDB\StudSubLog;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -195,6 +197,8 @@ class EnProgStudEvalController extends Controller
                 return response()->json(['error' => true, 'message' => 'Some subjects are full', 'fullSubjects' => $fullSubjects], 400);
             }
 
+            $encode = str_replace('-', '', now()->format('Ymd')) .'-'. strtoupper(Str::random(4)) .'-'. str_replace('-', '', $request->input('studentID'));
+
             try {
                 StudEnrolmentHistory::create([
                     'studentID' => $request->input('studentID'),
@@ -220,6 +224,31 @@ class EnProgStudEvalController extends Controller
                     'fourPs' => $request->input('fourPs'),
                 ]);
 
+                StudHisLog::create([
+                    'studentID' => $request->input('studentID'),
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'campus' => $request->input('campus'),
+                    'course' => $request->input('course'),
+                    'progCod' => $request->input('progCod'),
+                    'studMajor' => $request->input('studMajor'),
+                    'studMinor' => $request->input('studMinor'),
+                    'studLevel' => $request->input('studLevel'),
+                    'studYear' => $request->input('studYear'),
+                    'studSec' => $request->input('studSec'),
+                    'studUnit' => $request->input('studUnit'),
+                    'studStatus' => $request->input('studStatus'),
+                    'studSch' => $request->input('studSch'),
+                    'studClassID' => $request->input('studClassID'),
+                    'postedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
+                    'confirmBy' => $request->input('confirmBy'),
+                    'postedDate' => $request->input('postedDate'),
+                    'studType' => $request->input('studType'),
+                    'transferee' => $request->input('transferee'),
+                    'fourPs' => $request->input('fourPs'),
+                    'encode' => $encode,
+                ]);
+
                 $subjIDs = $request->input('subjIDs');
                 foreach ($subjIDs as $subjID) {
                     Grade::create([
@@ -227,6 +256,17 @@ class EnProgStudEvalController extends Controller
                         'subjID' => $subjID,
                         'postedBy' => $request->input('postedBy'),
                         'campus' => Auth::guard('web')->user()->campus,
+                    ]);
+                }
+
+                $subjIDs = $request->input('subjIDs');
+                foreach ($subjIDs as $subjID) {
+                    StudSubLog::create([
+                        'studID' => $studentID,
+                        'subjID' => $subjID,
+                        'postedBy' => $request->input('postedBy'),
+                        'campus' => Auth::guard('web')->user()->campus,
+                        'encode' => $encode,
                     ]);
                 }
 
