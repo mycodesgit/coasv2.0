@@ -386,7 +386,8 @@ class EnrollmentController extends Controller
             $progCod = $request->input('programCode');
             $schlyear = $request->input('schlyear');
             $semester = $request->input('semester');
-            $campus = $request->input('campus');
+            //$campus = $request->input('campus');
+            $campus = Auth::guard('web')->user()->campus;
             $stud_id = $request->input('stud_id');
             $classSection = $request->input('classSection');
             $campusArray = array_map('trim', explode(',', $campus));
