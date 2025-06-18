@@ -56,7 +56,7 @@
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
                             @auth('web')
-                                @if(in_array(Auth::guard('web')->user()->role, range(0, 19)))
+                                @if(in_array(Auth::guard('web')->user()->role, range(0, 20)))
                                     Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
                                     @if (Auth::guard('web')->user()->campus == 'MC') Main 
                                         @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
