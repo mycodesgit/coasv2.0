@@ -147,13 +147,15 @@
 
     <script src="{{ asset('js/validation/grading/gradingAttendanceValidation.js') }}"></script>
 
-    <script>
-        var semesteractive = {!! json_encode($semesteractive) !!};
-        var schlyearActive = {!! json_encode($schlyearactiveYear) !!};
-        var progyerlevCounts = {!! json_encode($countstudsubfac) !!};
-        var undercolors = {!! json_encode($underproglevsecname) !!};
-    </script>
-    <script src="{{ asset('js/chart/enbarchartperyearlevfaculty.js') }}?v={{ time() }}"></script>
+    @if(request()->routeIs('homefaculty'))
+        <script>
+            var semesteractive = {!! json_encode($semesteractive) !!};
+            var schlyearActive = {!! json_encode($schlyearactiveYear) !!};
+            var progyerlevCounts = {!! json_encode($countstudsubfac) !!};
+            var undercolors = {!! json_encode($underproglevsecname) !!};
+        </script>
+        <script src="{{ asset('js/chart/enbarchartperyearlevfaculty.js') }}?v={{ time() }}"></script>
+    @endif
 
     <script>
         @if(Session::has('error'))

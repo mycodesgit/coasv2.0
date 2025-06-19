@@ -20,7 +20,7 @@ CISS V.1.0 || Home
             @endif
             <div class="workspace-top" style="text-align: center;">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="chart-responsive pt-1">
                             <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
                         </div>
