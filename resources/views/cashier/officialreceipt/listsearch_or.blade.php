@@ -116,7 +116,7 @@ CISS V.1.0 || OR
 
                                     <div class="mt-2 col-md-12">
                                         <label><span class="badge badge-secondary">Amount</span></label>
-                                        <input type="number" name="amountpaid" class="form-control form-control-sm">
+                                        <input type="number" name="amountpaid" class="form-control form-control-sm" step="0.01" min="0" inputmode="decimal" pattern="^\d+(\.\d{1,2})?$">
                                     </div>
 
                                     <div class="mt-1 col-md-12">
