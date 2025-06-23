@@ -115,43 +115,59 @@
             </thead>
             <tbody>
                 @php 
-                    function getEquivalentGrade($grade) {
-                        if ($grade === 'INC') {
-                            return ['gpa' => 'INC', 'status' => 'Incomplete'];
-                        } elseif ($grade === 'NN') {
-                            return ['gpa' => 'NN', 'status' => 'No Name'];
-                        } elseif ($grade === 'NG') {
-                            return ['gpa' => 'NG', 'status' => 'No Grade'];
-                        } elseif ($grade === 'Drp..') {
-                            return ['gpa' => 'Drp.', 'status' => 'Drop'];
-                        } elseif ($grade >= 97 || $grade == 1) {
-                            return ['gpa' => '1.00', 'status' => 'Passed'];
-                        } elseif ($grade >= 94) {
-                            return ['gpa' => '1.25', 'status' => 'Passed'];
-                        } elseif ($grade >= 91) {
-                            return ['gpa' => '1.50', 'status' => 'Passed'];
-                        } elseif ($grade >= 88) {
-                            return ['gpa' => '1.75', 'status' => 'Passed'];
-                        } elseif ($grade >= 85 || $grade == 2) {
-                            return ['gpa' => '2.00', 'status' => 'Passed'];
-                        } elseif ($grade >= 82) {
-                            return ['gpa' => '2.25', 'status' => 'Passed'];
-                        } elseif ($grade >= 79) {
-                            return ['gpa' => '2.50', 'status' => 'Passed'];
-                        } elseif ($grade >= 76) {
-                            return ['gpa' => '2.75', 'status' => 'Passed'];
-                        } elseif ($grade >= 75 || $grade == 3) {
-                            return ['gpa' => '3.00', 'status' => 'Passed'];
-                        } elseif ($grade >= 70) {
-                            return ['gpa' => '4.0', 'status' => 'Conditional'];
-                        } else {
+                    function getEquivalentGPA($grade, $isOldSystem) {
+                        if ($grade === 'INC') return ['gpa' => 'INC', 'status' => 'Incomplete'];
+                        if ($grade === 'NN') return ['gpa' => 'NN', 'status' => 'No Name'];
+                        if ($grade === 'NG') return ['gpa' => 'NG', 'status' => 'No Grade'];
+                        if ($grade === 'Drp.') return ['gpa' => 'Drp.', 'status' => 'Drop'];
+
+                        if ($isOldSystem) {
+                            // 4-point scale logic
+                            if ($grade >= 95 || $grade == 1) return ['gpa' => '1.0', 'status' => 'Passed'];
+                            if ($grade >= 94) return ['gpa' => '1.1', 'status' => 'Passed'];
+                            if ($grade >= 93) return ['gpa' => '1.2', 'status' => 'Passed'];
+                            if ($grade >= 92) return ['gpa' => '1.3', 'status' => 'Passed'];
+                            if ($grade >= 91) return ['gpa' => '1.4', 'status' => 'Passed'];
+                            if ($grade >= 90) return ['gpa' => '1.5', 'status' => 'Passed'];
+                            if ($grade >= 89) return ['gpa' => '1.6', 'status' => 'Passed'];
+                            if ($grade >= 88) return ['gpa' => '1.7', 'status' => 'Passed'];
+                            if ($grade >= 87) return ['gpa' => '1.8', 'status' => 'Passed'];
+                            if ($grade >= 86) return ['gpa' => '1.9', 'status' => 'Passed'];
+                            if ($grade >= 85 || $grade == 2) return ['gpa' => '2.0', 'status' => 'Passed'];
+                            if ($grade >= 84) return ['gpa' => '2.1', 'status' => 'Passed'];
+                            if ($grade >= 83) return ['gpa' => '2.2', 'status' => 'Passed'];
+                            if ($grade >= 82) return ['gpa' => '2.3', 'status' => 'Passed'];
+                            if ($grade >= 81) return ['gpa' => '2.4', 'status' => 'Passed'];
+                            if ($grade >= 80) return ['gpa' => '2.5', 'status' => 'Passed'];
+                            if ($grade >= 79) return ['gpa' => '2.6', 'status' => 'Passed'];
+                            if ($grade >= 78) return ['gpa' => '2.7', 'status' => 'Passed'];
+                            if ($grade >= 77) return ['gpa' => '2.8', 'status' => 'Passed'];
+                            if ($grade >= 76) return ['gpa' => '2.9', 'status' => 'Passed'];
+                            if ($grade >= 75 || $grade == 3) return ['gpa' => '3.0', 'status' => 'Passed'];
+                            if ($grade >= 74) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                            if ($grade >= 73) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                            if ($grade >= 72) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                            if ($grade >= 71) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                            if ($grade >= 70) return ['gpa' => '4.0', 'status' => 'Conditional'];
                             return ['gpa' => '5.0', 'status' => 'Failure'];
+                        } else {
+                            if ($grade >= 97 || $grade == 1) return ['gpa' => '1.00', 'status' => 'Passed'];
+                            if ($grade >= 94) return ['gpa' => '1.25', 'status' => 'Passed'];
+                            if ($grade >= 91) return ['gpa' => '1.50', 'status' => 'Passed'];
+                            if ($grade >= 88) return ['gpa' => '1.75', 'status' => 'Passed'];
+                            if ($grade >= 85 || $grade == 2) return ['gpa' => '2.00', 'status' => 'Passed'];
+                            if ($grade >= 82) return ['gpa' => '2.25', 'status' => 'Passed'];
+                            if ($grade >= 79) return ['gpa' => '2.50', 'status' => 'Passed'];
+                            if ($grade >= 76) return ['gpa' => '2.75', 'status' => 'Passed'];
+                            if ($grade >= 75 || $grade == 3) return ['gpa' => '3.00', 'status' => 'Passed'];
+                            if ($grade >= 70) return ['gpa' => '4.00', 'status' => 'Conditional'];
+                            return ['gpa' => '5.00', 'status' => 'Failure'];
                         }
                     }
 
-                    function displayGrade($grade) {
+                    function displayGrade($grade, $isOldSystem = false) {
                         if (is_numeric($grade) && strpos($grade, '.') === false) {
-                            $equivalent = getEquivalentGrade($grade);
+                            $equivalent = getEquivalentGPA($grade, $isOldSystem); // Assuming old system for this example
                             return $equivalent['gpa'];
                         }
                         return $grade;
@@ -163,7 +179,13 @@
                         <td>{{ $data['subject']->sub_title }}</td>
                         <td>{{ displayGrade($data['subject']->subjFgrade) }}</td>
                         <td>{{ displayGrade($data['subject']->subjComp) }}</td>
-                        <td>{{ $data['subject']->creditEarned }}</td>
+                        <td>
+                            @if($data['isNSTP'])
+                                ({{ $data['subject']->creditEarned }})
+                            @else
+                                {{ $data['subject']->creditEarned }}
+                            @endif
+                        </td>
                         {{-- <td>{{ $data['weightedSumPerSubject'] }}</td> --}}
                     </tr>
                 @endforeach

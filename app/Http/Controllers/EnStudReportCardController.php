@@ -114,39 +114,97 @@ class EnStudReportCardController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
 
         // Define a function to convert numerical grades to GPA equivalents
-        function getEquivalentGPA($grade) {
-            if ($grade === 'INC') {
-                return ['gpa' => 'INC', 'status' => 'Incomplete'];
-            } elseif ($grade === 'NN') {
-                return ['gpa' => 'NN', 'status' => 'No Name'];
-            } elseif ($grade === 'NG') {
-                return ['gpa' => 'NG', 'status' => 'No Grade'];
-            } elseif ($grade === 'Drp..') {
-                return ['gpa' => 'Drp.', 'status' => 'Drop'];
-            } elseif ($grade >= 97 || $grade == 1) {
-                return ['gpa' => 1.0, 'status' => 'Passed'];
-            } elseif ($grade >= 94) {
-                return ['gpa' => 1.2, 'status' => 'Passed'];
-            } elseif ($grade >= 91) {
-                return ['gpa' => 1.5, 'status' => 'Passed'];
-            } elseif ($grade >= 88) {
-                return ['gpa' => 1.7, 'status' => 'Passed'];
-            } elseif ($grade >= 85 || $grade == 2) {
-                return ['gpa' => 2.0, 'status' => 'Passed'];
-            } elseif ($grade >= 82) {
-                return ['gpa' => 2.2, 'status' => 'Passed'];
-            } elseif ($grade >= 79) {
-                return ['gpa' => 2.5, 'status' => 'Passed'];
-            } elseif ($grade >= 76) {
-                return ['gpa' => 2.7, 'status' => 'Passed'];
-            } elseif ($grade >= 75 || $grade == 3) {
-                return ['gpa' => 3.0, 'status' => 'Passed'];
-            } elseif ($grade >= 70) {
-                return ['gpa' => 4.0, 'status' => 'Conditional'];
+        // function getEquivalentGPA($grade) {
+        //     if ($grade === 'INC') {
+        //         return ['gpa' => 'INC', 'status' => 'Incomplete'];
+        //     } elseif ($grade === 'NN') {
+        //         return ['gpa' => 'NN', 'status' => 'No Name'];
+        //     } elseif ($grade === 'NG') {
+        //         return ['gpa' => 'NG', 'status' => 'No Grade'];
+        //     } elseif ($grade === 'Drp..') {
+        //         return ['gpa' => 'Drp.', 'status' => 'Drop'];
+        //     } elseif ($grade >= 97 || $grade == 1) {
+        //         return ['gpa' => 1.0, 'status' => 'Passed'];
+        //     } elseif ($grade >= 94) {
+        //         return ['gpa' => 1.2, 'status' => 'Passed'];
+        //     } elseif ($grade >= 91) {
+        //         return ['gpa' => 1.5, 'status' => 'Passed'];
+        //     } elseif ($grade >= 88) {
+        //         return ['gpa' => 1.7, 'status' => 'Passed'];
+        //     } elseif ($grade >= 85 || $grade == 2) {
+        //         return ['gpa' => 2.0, 'status' => 'Passed'];
+        //     } elseif ($grade >= 82) {
+        //         return ['gpa' => 2.2, 'status' => 'Passed'];
+        //     } elseif ($grade >= 79) {
+        //         return ['gpa' => 2.5, 'status' => 'Passed'];
+        //     } elseif ($grade >= 76) {
+        //         return ['gpa' => 2.7, 'status' => 'Passed'];
+        //     } elseif ($grade >= 75 || $grade == 3) {
+        //         return ['gpa' => 3.0, 'status' => 'Passed'];
+        //     } elseif ($grade >= 70) {
+        //         return ['gpa' => 4.0, 'status' => 'Conditional'];
+        //     } else {
+        //         return ['gpa' => 5.0, 'status' => 'Failure'];
+        //     }
+        // }
+
+        function getEquivalentGPA($grade, $isOldSystem) {
+            if ($grade === 'INC') return ['gpa' => 'INC', 'status' => 'Incomplete'];
+            if ($grade === 'NN') return ['gpa' => 'NN', 'status' => 'No Name'];
+            if ($grade === 'NG') return ['gpa' => 'NG', 'status' => 'No Grade'];
+            if ($grade === 'Drp.') return ['gpa' => 'Drp.', 'status' => 'Drop'];
+
+            if ($isOldSystem) {
+                // 4-point scale logic
+                if ($grade >= 95 || $grade == 1) return ['gpa' => '1.0', 'status' => 'Passed'];
+                if ($grade >= 94) return ['gpa' => '1.1', 'status' => 'Passed'];
+                if ($grade >= 93) return ['gpa' => '1.2', 'status' => 'Passed'];
+                if ($grade >= 92) return ['gpa' => '1.3', 'status' => 'Passed'];
+                if ($grade >= 91) return ['gpa' => '1.4', 'status' => 'Passed'];
+                if ($grade >= 90) return ['gpa' => '1.5', 'status' => 'Passed'];
+                if ($grade >= 89) return ['gpa' => '1.6', 'status' => 'Passed'];
+                if ($grade >= 88) return ['gpa' => '1.7', 'status' => 'Passed'];
+                if ($grade >= 87) return ['gpa' => '1.8', 'status' => 'Passed'];
+                if ($grade >= 86) return ['gpa' => '1.9', 'status' => 'Passed'];
+                if ($grade >= 85 || $grade == 2) return ['gpa' => '2.0', 'status' => 'Passed'];
+                if ($grade >= 84) return ['gpa' => '2.1', 'status' => 'Passed'];
+                if ($grade >= 83) return ['gpa' => '2.2', 'status' => 'Passed'];
+                if ($grade >= 82) return ['gpa' => '2.3', 'status' => 'Passed'];
+                if ($grade >= 81) return ['gpa' => '2.4', 'status' => 'Passed'];
+                if ($grade >= 80) return ['gpa' => '2.5', 'status' => 'Passed'];
+                if ($grade >= 79) return ['gpa' => '2.6', 'status' => 'Passed'];
+                if ($grade >= 78) return ['gpa' => '2.7', 'status' => 'Passed'];
+                if ($grade >= 77) return ['gpa' => '2.8', 'status' => 'Passed'];
+                if ($grade >= 76) return ['gpa' => '2.9', 'status' => 'Passed'];
+                if ($grade >= 75 || $grade == 3) return ['gpa' => '3.0', 'status' => 'Passed'];
+                if ($grade >= 74) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                if ($grade >= 73) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                if ($grade >= 72) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                if ($grade >= 71) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                if ($grade >= 70) return ['gpa' => '4.0', 'status' => 'Conditional'];
+                return ['gpa' => '5.0', 'status' => 'Failure'];
             } else {
-                return ['gpa' => 5.0, 'status' => 'Failure'];
+                if ($grade >= 97 || $grade == 1) return ['gpa' => '1.00', 'status' => 'Passed'];
+                if ($grade >= 94) return ['gpa' => '1.25', 'status' => 'Passed'];
+                if ($grade >= 91) return ['gpa' => '1.50', 'status' => 'Passed'];
+                if ($grade >= 88) return ['gpa' => '1.75', 'status' => 'Passed'];
+                if ($grade >= 85 || $grade == 2) return ['gpa' => '2.00', 'status' => 'Passed'];
+                if ($grade >= 82) return ['gpa' => '2.25', 'status' => 'Passed'];
+                if ($grade >= 79) return ['gpa' => '2.50', 'status' => 'Passed'];
+                if ($grade >= 76) return ['gpa' => '2.75', 'status' => 'Passed'];
+                if ($grade >= 75 || $grade == 3) return ['gpa' => '3.00', 'status' => 'Passed'];
+                if ($grade >= 70) return ['gpa' => '4.00', 'status' => 'Conditional'];
+                return ['gpa' => '5.00', 'status' => 'Failure'];
             }
         }
+
+        $excludedSubCodes = [
+            'KAB-SER-076', 'KAB-SER-077', 'KAB-SER-144',
+            'KAB-SER-145', 'KAB-SER-146', 'KAB-SER-147',
+            'KAB-SER-148', 'KAB-SER-149'
+        ];
+
+        $nstpSubCodes = $excludedSubCodes;
 
         $studrepcard = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                     ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
@@ -176,6 +234,7 @@ class EnStudReportCardController extends Controller
                             $q->orWhere('studgrades.campus', 'LIKE', "%$campus%");
                         }
                     })
+                    //->whereNotIn('coasv2_db_schedule.sub_offered.subCode', $excludedSubCodes)
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
                     ->get();
 
@@ -183,8 +242,12 @@ class EnStudReportCardController extends Controller
         $weightedSum = 0;
         $subjectsData = [];
 
+        $entryYear = (int)substr($stud_id, 0, 4);
+        $isOldSystem = $entryYear <= 2021;
+
         foreach ($studrepcardsub as $subject) {
             $creditEarned = (float)$subject->creditEarned;
+            $isNSTP = in_array($subject->subCode, $excludedSubCodes);
 
             // Check if subjFgrade is numeric, otherwise use subjComp
             if (is_numeric($subject->subjFgrade)) {
@@ -199,17 +262,20 @@ class EnStudReportCardController extends Controller
 
             // Convert numerical grades to GPA equivalents
             if (is_numeric($subjFgrade) && strpos($subjFgrade, '.') === false) {
-                $subjFgrade = getEquivalentGPA($subjFgrade)['gpa'];
+                $subjFgrade = getEquivalentGPA($subjFgrade, $isOldSystem)['gpa'];
             }
 
-            $weightedSumPerSubject = $subjFgrade * $creditEarned;
+            $weightedSumPerSubject = is_numeric($subjFgrade) ? $subjFgrade * $creditEarned : 0;
 
-            $totalCredits += $creditEarned;
-            $weightedSum += $weightedSumPerSubject;
+            if (!$isNSTP && is_numeric($subjFgrade)) {
+                $totalCredits += $creditEarned;
+                $weightedSum += $weightedSumPerSubject;
+            }
 
             $subjectsData[] = [
                 'subject' => $subject,
-                'weightedSumPerSubject' => $weightedSumPerSubject
+                'weightedSumPerSubject' => $weightedSumPerSubject,
+                'isNSTP' => $isNSTP
             ];
         }
 
