@@ -420,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 passingScore = 33;
                 break; 
             case 'CA': 
-                passingScore = 36;
+                passingScore = 17;
                 break;   
             case 'CC': 
                 passingScore = 40;
