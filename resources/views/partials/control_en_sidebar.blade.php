@@ -99,7 +99,7 @@
         {{-- @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
             <a href="" class="list-group-item text-center">Sorry for the inconvenience, we are currently undergoing maintenance.</a>
         @else --}}
-        @if(in_array(Auth::guard('web')->user()->role, [0, 2, 3, 4, 13, 14]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 13, 14]))
             <a href="{{ Auth::guard('web')->user()->role == 0 ? route('studInfo') : route('studInfo_search') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
         @endif
         @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
