@@ -271,7 +271,7 @@ $(document).on('click', '.btn-updateresultexam', function() {
         $('#qualifier').prop('checked', false);
     }
 
-    if (uprawScore >= 24) {
+    if (uprawScore >= 17) {
         $('#secondQualifiersGroup').show();
     } else {
         $('#secondQualifiersGroup').hide();
@@ -420,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 passingScore = 33;
                 break; 
             case 'CA': 
-                passingScore = 17;
+                passingScore = 36;
                 break;   
             case 'CC': 
                 passingScore = 40;

@@ -376,7 +376,7 @@ CISS v.1.0 || Examinee Search List Result
             var remarksValue = parseFloat(this.value);
             var secondQualifiersGroup = document.getElementById('secondQualifiersGroup');
             
-            if (!isNaN(remarksValue) && remarksValue >= 25) {
+            if (!isNaN(remarksValue) && remarksValue >= 17) {
                 secondQualifiersGroup.style.display = 'block';
             } else {
                 secondQualifiersGroup.style.display = 'none';
