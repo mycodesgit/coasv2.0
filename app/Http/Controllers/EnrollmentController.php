@@ -503,9 +503,9 @@ class EnrollmentController extends Controller
                         $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
                     })
                     ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
-                    ->where('schlyear', '=', $schlyear)
-                    ->where('semester', '=', $semester)
-                    ->where('campus', '=', $campus)
+                    ->where('class_enroll.schlyear', '=', $schlyear)
+                    ->where('class_enroll.semester', '=', $semester)
+                    ->where('class_enroll.campus', '=', $campus)
                     ->where('class_enroll.progCode', 'LIKE', '%-GSS-%')
                     ->orderBy('programs.progAcronym', 'ASC')
                     ->orderBy('class_enroll.classSection', 'ASC')
