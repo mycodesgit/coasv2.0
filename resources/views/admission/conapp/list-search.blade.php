@@ -384,7 +384,7 @@ CISS V.1.0 || Confirmed/Unconfirm Applicants
             </div>
             <form id="pushtoAcceptForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="pushtoAcceptId">
+                    <input type="hidden" name="id" id="pushtoAcceptId">
                     <div class="form-group">
                         <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Accepted Applicants</button></center>
                     </div>
