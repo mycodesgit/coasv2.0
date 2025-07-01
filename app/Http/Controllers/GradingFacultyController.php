@@ -146,7 +146,11 @@ class GradingFacultyController extends Controller
             ->update([
                 'studgrades.subjFgrade' => $grade,
                 'studgrades.status' => (empty($grade) || $grade === '') ? null : 1,
-                'studgrades.creditEarned' => (empty($grade) || in_array($grade, ['INC', 'NN', 'NG', 'Drp.'])) ? 0 : \DB::raw('coasv2_db_schedule.sub_offered.subUnit'),
+                'studgrades.creditEarned' => (
+                    empty($grade) || 
+                    in_array($grade, ['INC', 'NN', 'NG', 'Drp.']) ||
+                    (is_numeric($grade) && $grade <= 74)
+                ) ? 0 : \DB::raw('coasv2_db_schedule.sub_offered.subUnit'),
             ]);
 
         if($gradeup){
@@ -170,7 +174,11 @@ class GradingFacultyController extends Controller
             ->update([
                 'studgrades.subjComp' => $grade,
                 'studgrades.compstat' => (empty($grade)) ? null : 1,
-                'studgrades.creditEarned' => (empty($grade) || in_array($grade, ['INC', 'NN', 'NG', 'Drp.'])) ? 0 : \DB::raw('coasv2_db_schedule.sub_offered.subUnit'),
+                'studgrades.creditEarned' => (
+                    empty($grade) ||
+                    in_array($grade, ['INC', 'NN', 'NG', 'Drp.']) ||
+                    (is_numeric($grade) && $grade <= 74)
+                ) ? 0 : \DB::raw('coasv2_db_schedule.sub_offered.subUnit'),
             ]);
 
         if($gradeup){

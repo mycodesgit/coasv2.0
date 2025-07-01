@@ -37,6 +37,38 @@
         .toast-top-right {
             margin-top: 50px;
         }
+        #sidebar {
+            transition: transform 0.3s ease;
+        }
+        @media (max-width: 991.98px) {
+            #sidebar {
+                position: fixed;
+                top: 88px;
+                left: 0;
+                height: 90%;
+                width: 250px;
+                max-width: 80vw;
+                background: transparent;
+                z-index: 1040;
+                transform: translateX(-100%);
+                display: block !important;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            #sidebar.active {
+                transform: translateX(0);
+            }
+            #sidebarOverlay {
+                display: none;
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.3);
+                z-index: 1039;
+            }
+            #sidebarOverlay.active {
+                display: block;
+            }
+        }
     </style>
 </head>
 
@@ -55,7 +87,7 @@
 
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
+                        <a class="nav-link d-none d-md-block" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
                             @auth('web')
                                 @if(in_array(Auth::guard('web')->user()->role, range(0, 19)))
                                     Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
@@ -79,8 +111,12 @@
                                 @endif
                             @endauth
                         </a>
+                        <button id="sidebarToggle" class="btn btn-primary d-lg-none mb-2" style="position: fixed; top: 7px; right: 60px; z-index: 1050;">
+                            <i class="fas fa-bars"></i>
+                        </button>
                     </li>
                 </ul>
+                
             </div>
         </nav>
 
@@ -91,7 +127,7 @@
             <div class="content">
                 <div class="container-fluid1">
                     <div class="row" style="padding-top: 0px;">
-                        <div class="col-lg-2">
+                        <div id="sidebar" class="col-lg-2 sidebar-custom d-none d-lg-block">
                             <div class="card">
                                 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
                                     @section('sideheader')
@@ -197,7 +233,26 @@
             $("#alert").delay(2500).fadeOut(5000);
         }, 0); 
     </script>
-
+    
+    <script>
+        $(function() {
+            function closeSidebar() {
+                $('#sidebar').removeClass('active');
+                $('#sidebarOverlay').removeClass('active');
+            }
+            $('#sidebarToggle').on('click', function() {
+                $('#sidebar').toggleClass('active');
+                $('#sidebarOverlay').toggleClass('active');
+            });
+            $('#sidebarOverlay').on('click', closeSidebar);
+            // Optional: Hide sidebar on resize to lg and up
+            $(window).on('resize', function() {
+                if (window.innerWidth >= 992) {
+                    closeSidebar();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
    
