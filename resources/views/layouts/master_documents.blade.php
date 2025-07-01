@@ -45,11 +45,13 @@
                 position: fixed;
                 top: 88px;
                 left: 0;
-                height: 90%;
+                height: 95%;
                 width: 250px;
                 max-width: 80vw;
-                background: transparent;
-                z-index: 1040;
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                z-index: 999;
                 transform: translateX(-100%);
                 display: block !important;
                 overflow-y: auto;
