@@ -15,7 +15,7 @@ CISS V.1.0 || Grading
 @yield('sidemenu')
 
 @section('workspace')
-<div class="card">
+<div class="card text-sm">
     <div class="card-body">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">

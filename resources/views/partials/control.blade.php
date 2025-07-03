@@ -17,7 +17,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
 @endphp
 
 
-<div class="row pt-2 card">
+<div class="row pt-2">
     <div class="col-sm-12">
         <div>
             <a id="home-url" class="btn btn-app">
@@ -70,7 +70,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
                 <i class="fas fa-cog"></i> Settings
             </a>
 
-            <a id="logout-url" class="btn btn-app float-right">
+            <a id="logout-url" class="btn btn-app">
                 <i class="fas fa-sign-out-alt"></i> Sign Out
             </a>
         </div>

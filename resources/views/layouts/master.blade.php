@@ -42,7 +42,7 @@
 
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
+                        <a class="nav-link d-none d-md-block" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
                             @auth('web')
                                 @if(in_array(Auth::guard('web')->user()->role, range(0, 20)))
                                     Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
@@ -73,12 +73,19 @@
 
         <div class="content-wrapper">
             <div class="content-header">
-                <div class="container-fluid" style="padding-top: 20px">
-                    @include('partials.control')
+                <div class="container-fluid" style="padding-top: 20px; overflow-x: auto;">
+                    <div class="col-lg-12">
+                        {{-- <div class="card" style="min-width: 350px; width: max-content;">
+                            @include('partials.control')
+                        </div> --}}
+                        <div class="card" style="min-width: 450px; width: 1330px;">
+                            @include('partials.control')
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="content">
-                <div class="container-fluid1">
+                <div class="container-fluid">
                     <div class="row" style="padding-top: 0px;">
                         <div class="col-lg-2">
                             <div class="card">

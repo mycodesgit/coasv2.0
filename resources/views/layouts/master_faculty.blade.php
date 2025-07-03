@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo  -->
@@ -52,66 +53,69 @@
     </style>
 </head>
 
-<body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
+<body>
+    <header class="header" id="header">
+        <div class="header__container">
+            <a href="#" class="header__logo">
+                <i class="fas fa-diagram-predecessor"></i>
+                <span>CISS</span>
+            </a>
 
-    <div class="wrapper">
-        <nav class="main-header navbar navbar-expand-md navbar-dark" style="background-color: #04401f">
-            <div class="container-fluid">
-                <div href="" class="" style="color: #fff;font-family: Courier;">
-                    CISS V.1.0
+            <button class="btn btn-default btn-sm" id="header-toggle" style="background-color: rgb(218, 218, 218);">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!--=============== SIDEBAR ===============-->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar__container">
+            <div class="sidebar__user">
+                <div class="sidebar__img">
+                    <img src="{{ asset('template/img/cpsulogov4.png') }}" alt="image" />
                 </div>
 
-                <div class="" style="z-index: 999">
-                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:80px;" class="center-top">
+                <div class="sidebar__info">
+                    <h3 style="margin-top: 10px;">
+						@auth('faculty')
+                            @if(Auth::guard('faculty')->user()->role == '943')
+                                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+                            @endif
+                        @endauth <br>
+						<span>Faculty</span>
+					</h3>
                 </div>
-
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
-                            @auth('faculty')
-                                @if(Auth::guard('faculty')->user()->role == '943')
-                                    Logged as: {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
-                                @endif
-                            @endauth
-                        </a>
-                    </li>
-                </ul>
             </div>
-        </nav>
 
-        <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid" style="padding-top: 20px">
-                    {{-- @include('partials.control') --}}
+            <div class="sidebar__content">
+                <div>
+                    @include('partials.control_grade_sidebar')
                 </div>
             </div>
-            <div class="content">
-                <div class="container-fluid1">
-                    <div class="row" style="padding-top: 0px;">
-                        <div class="col-lg-2 sticky-column">
-                            <div class="card">
-                                <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-                                    @section('sideheader')
-                                    @show
-                                </div>
-                                @section('sidemenu')
-                                    @include('partials.control_grade_sidebar')
-                                @show
-                            </div>
-                        </div>
-                        <div class="col-lg-10">
-                            @section('workspace')
-                            @show
-                        </div>
-                    </div>
-                </div>
+
+            <div class="sidebar__actions">
+                <button style="all: unset; cursor: pointer;">
+                    <i class="fas fa-moon sidebar__link sidebar__theme" id="theme-button">
+                        <span>Dark Mode</span>
+                    </i>
+                </button>
+
+                <button style="all: unset; cursor: pointer;">
+                    <i class="fas fa-power-off sidebar__link sidebar__logout" id="theme-logout">
+                        <span>Logout</span>
+                    </i>
+                </button>
             </div>
         </div>
-        <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
-            <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
-        </footer>
-    </div>
+    </nav>
+
+    <!--=============== MAIN ===============-->
+    <main class="main" id="main">
+        <div class="carddashsection">
+            @section('workspace')
+            @show
+        </div>
+    </main>
     
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
@@ -120,14 +124,15 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
-    <script src="{{ asset('js/basic/madapak.js') }}"></script>
+    {{-- <script src="{{ asset('js/basic/madapak.js') }}"></script> --}}
     <!-- Toastr -->
     <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
 
     <!-- jquery-validation -->
     <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-    <script src="{{ asset('js/ajax/settngs/dark-mode.js') }}"></script>
+    {{-- <script src="{{ asset('js/ajax/settngs/dark-mode.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>

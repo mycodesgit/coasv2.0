@@ -4,9 +4,9 @@
 CISS V.1.0 || Home
 @endsection
 
-@section('sideheader')
+{{-- @section('sideheader')
 <h4>Grading</h4>
-@endsection
+@endsection --}}
 
 @yield('sidemenu')
 
