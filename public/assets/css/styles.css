@@ -116,6 +116,10 @@ body.dark-theme .form-control{
     color: #c0c0c0 !important;
 }
 
+body.dark-theme .sidebar__link:hover {
+    color: #ffffff;
+}
+
 /*=============== REUSABLE CSS CLASSES ===============*/
 .container {
     margin-inline: 1.5rem;
