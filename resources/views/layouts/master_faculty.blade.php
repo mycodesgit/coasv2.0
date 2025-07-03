@@ -64,12 +64,13 @@
             <button class="btn btn-default btn-sm" id="header-toggle" style="background-color: rgb(218, 218, 218);">
                 <i class="fas fa-bars"></i>
             </button>
-
-            <div class="d-block d-md-none" style="z-index: 999">
-                <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:80px;" class="center-top">
-            </div>
+        </div>
+        <div class="d-block d-md-none" style="z-index: -999">
+            <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
         </div>
     </header>
+
+    
 
     <!--=============== SIDEBAR ===============-->
     <nav class="sidebar" id="sidebar">
