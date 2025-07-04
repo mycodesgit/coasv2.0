@@ -46,7 +46,7 @@
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
 
     <header class="header" id="header">
-        <div class="header__container" style="background: linear-gradient(135deg, #1f5036 0%, #3a7d5c 100%);">
+        <div class="header__container" style="background: linear-gradient(90deg, #1f5036 0%, #2e6b4a 30%, #3a7d5c 100%); transition: background 0.5s ease;">
             <a href="#" class="header__logo">
                 <i class="fas fa-diagram-predecessor" style="color: #e9ecef"></i>
                 <span style="color: #e9ecef">CISS V.1.0</span>
