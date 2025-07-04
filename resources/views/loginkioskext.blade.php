@@ -207,7 +207,7 @@
             <div class="col-md-6 right-box">
                 <div class="row align-items-center">
                     <div class="header-text mb-4 text-center">
-                        <img src="{{ asset('template/img/studentsimg.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
+                        <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
                         <h2>Hi, Cenphilian</h2>
                         <p>Sign in to view grades</p>
 
