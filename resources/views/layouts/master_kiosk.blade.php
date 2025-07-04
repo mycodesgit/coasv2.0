@@ -16,6 +16,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/stylesonlinegrading.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo  -->
@@ -44,52 +45,76 @@
 
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
 
-    <div class="wrapper">
-        <nav class="main-header navbar navbar-expand-md navbar-light" style="background-color: #04401f">
-            <div class="container">
-                <div href="" class="" style="color: #fff;font-family: Courier;">
-                    CISS V.1.0 Student Kiosk
+    <header class="header" id="header">
+        <div class="header__container" style="background: linear-gradient(135deg, #1f5036 0%, #3a7d5c 100%);">
+            <a href="#" class="header__logo">
+                <i class="fas fa-diagram-predecessor" style="color: #e9ecef"></i>
+                <span style="color: #e9ecef">CISS V.1.0</span>
+            </a>
+
+            <button class="btn btn-default btn-sm" id="header-toggle" style="background-color: rgb(218, 218, 218);">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="d-block d-md-none" style="z-index: -999">
+            <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
+        </div>
+    </header>
+
+    <nav class="sidebar" id="sidebar" style="background: linear-gradient(135deg, #1f5036 0%, #3a7d5c 100%);">
+        <div class="sidebar__container">
+            <div class="sidebar__user">
+                <div class="sidebar__img">
+                    <img src="{{ asset('template/img/cpsulogov4.png') }}" alt="image" />
                 </div>
 
-                <div class="" style="z-index: 999">
-                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:80px;" class="center-top">
-                </div>
-
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item {{ request()->routeIs('kioskhome') ? 'active' : '' }}">
-                        <a href="{{ route('kioskhome') }}" class="nav-link {{ request()->routeIs('kioskhome') ? 'active' : '' }}" style="color: #fff">
-                            <i class="fas fa-graduation-cap"></i> View Grades
-                        </a>
-                    </li>
-                    <li class="nav-item {{ request()->routeIs('kioskaccount') ? 'active' : '' }}">
-                        <a href="{{ route('kioskaccount') }}" class="nav-link {{ request()->routeIs('kioskaccount') ? 'active' : '' }}" style="color: #fff">
-                            <i class="fas fa-file-invoice"></i> View Accounts
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('logout') }}" class="nav-link" role="button" style="color: #fff">
-                            <i class="fas fa-power-off"></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container" style="padding-top: 20px">
-                    
+                <div class="sidebar__info">
+                    <h3 style="margin-top: 10px; margin-left: -10px">
+						<span style="font-weight: bold;">{{ $studauth->lname }}, {{ $studauth->fname }} {{ substr($studauth->mname,0,1) }}.</span><br>
+						<span style="font-size: 10pt; font-weight: bold;">ID No. <span style="font-size: 10pt; font-weight: bold; font-style: italic">2021-1016-K</span></span>
+					</h3>
                 </div>
             </div>
-            <div class="content">
-                @yield('body')
+
+            <div class="sidebar__content">
+                <div>
+                    <div class="sidebar__list">
+                        <a href="{{ route('kioskhome') }}" class="sidebar__link {{ request()->routeIs('kioskhome') ? 'active-link' : '' }}">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>View Grades</span>
+                        </a>
+
+                        <a href="{{ route('kioskaccount') }}" class="sidebar__link {{ request()->routeIs('kioskaccount') ? 'active-link' : '' }}">
+                            <i class="fas fa-file-invoice"></i>
+                            <span>View Accounts</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar__actions">
+                <button style="all: unset; cursor: pointer;">
+                    <i class="fas fa-moon sidebar__link sidebar__theme" id="theme-button">
+                        <span>Dark Mode</span>
+                    </i>
+                </button>
+
+                <a href="{{ route('logout') }}" style="all: unset; cursor: pointer;">
+                    <i class="fas fa-power-off sidebar__link sidebar__logout" id="theme-logout">
+                        <span>Logout</span>
+                    </i>
+                </a>
             </div>
         </div>
-        <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
-            <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
-        </footer>
-    </div>
+    </nav>
+
+    <main class="main" id="main">
+        <div class="carddashsection">
+            @yield('body')
+        </div>
+    </main>
+
+
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
@@ -98,6 +123,7 @@
     <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <script src="{{ asset('js/basic/madapak.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
 

@@ -1,24 +1,15 @@
 @extends('layouts.master_kiosk')
 
 @section('body')
-<div class="container-fluid">
+<div class="text-xs">
     <div class="row" style="padding-top: 0px;">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
-                    <div class="">
-                        <span class="" style="border-radius: 5px; font-size: 15pt;">Student ID No.: {{ $studauth->stud_id }} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Name: {{ $studauth->lname }}, {{ $studauth->fname }} {{ substr($studauth->mname,0,1) }}.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="card card-outline card-success">
                 <div class="card-header text-center">
                     <div class="h3"><b>Student</b> Appraisal</div>
                 </div>
                 <div class="card-body">
-                    <div class="mt-2 row">
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="tab-content" id="vert-tabs-right-tabContent">
                                 <div class="tab-pane fade show active" id="vert-tabs-right-one" role="tabpanel">
@@ -135,6 +126,13 @@
                             </div>
                         </div> --}}
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved
                 </div>
             </div>
         </div>
