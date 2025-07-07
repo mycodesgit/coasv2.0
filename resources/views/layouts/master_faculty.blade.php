@@ -105,11 +105,11 @@
                     </i>
                 </button>
 
-                <button style="all: unset; cursor: pointer;">
+                <a href="{{ route('logoutfac') }}" style="all: unset; cursor: pointer;">
                     <i class="fas fa-power-off sidebar__link sidebar__logout" id="theme-logout">
                         <span>Logout</span>
                     </i>
-                </button>
+                </a>
             </div>
         </div>
     </nav>
