@@ -277,6 +277,23 @@ class KioskAdminController extends Controller
         foreach ($logs as $month => $count) {
             $monthlyData[$month] = $count;
         }
-        return view('kioskadmin.list_kioskreps', ['monthlyData' => array_values($monthlyData)]);
+
+        // Today and yesterday counts
+        $today = Carbon::today();
+        $yesterday = Carbon::yesterday();
+
+        $todayCount = KioskLogs::where('postedBy', $userId)
+            ->whereDate('created_at', $today)
+            ->count();
+
+        $yesterdayCount = KioskLogs::where('postedBy', $userId)
+            ->whereDate('created_at', $yesterday)
+            ->count();
+
+        return view('kioskadmin.list_kioskreps', [
+            'monthlyData' => array_values($monthlyData),
+            'todayCount' => $todayCount,
+            'yesterdayCount' => $yesterdayCount,
+        ]);
     }
 }

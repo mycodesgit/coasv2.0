@@ -209,17 +209,26 @@
 
                 const monthlyCounts = @json($monthlyData);
                 const monthColors = [
-                    '#007bff', '#36A2EB', '#FFCE56', '#4BC0C0',
-                    '#9966FF', '#FF9F40', '#fd7e14', '#FF6B6B',
-                    '#6BFFB8', '#B46BFF', '#FFB46B', '#6BC1FF'
+                    '#006400', // DarkGreen
+                    '#228B22', // ForestGreen
+                    '#2E8B57', // SeaGreen
+                    '#3CB371', // MediumSeaGreen
+                    '#66CDAA', // MediumAquamarine
+                    '#8FBC8F', // DarkSeaGreen
+                    '#20c997', // Tealish Green (Bootstrap)
+                    '#90EE90', // LightGreen
+                    '#98FB98', // PaleGreen
+                    '#00FA9A', // MediumSpringGreen
+                    '#7CFC00', // LawnGreen
+                    '#32CD32'  // LimeGreen
                 ];
 
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: [
-                            'January', 'February', 'March', 'April', 'May', 'June',
-                            'July', 'August', 'September', 'October', 'November', 'December'
+                            'Jan', 'Feb', 'March', 'April', 'May', 'June',
+                            'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'
                         ],
                         datasets: [{
                             label: 'Kiosk Logs',
