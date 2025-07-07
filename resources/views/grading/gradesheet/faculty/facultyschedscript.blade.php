@@ -23,6 +23,14 @@
                     faculty_id: faculty_id
                 },
                 success: function(response) {
+                    if (!response || response.length === 0) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'No Schedule',
+                            text: 'No Schedule being plotted'
+                        });
+                        return;
+                    }
                     response.forEach(function(item) {
                         let day = item.schedday;
                         let startTime = item.start_time;
@@ -37,6 +45,7 @@
                             $(`.time-slot[data-day="${day}"][data-time="${times[i]}"]`).addClass('highlighted occupied').text(subjectInfo);
                         }
                     });
+                    mergeCellsForView();
                 },
                 error: function(response) {
                     toastr.error('Error loading schedule: ' + response.responseJSON.message);

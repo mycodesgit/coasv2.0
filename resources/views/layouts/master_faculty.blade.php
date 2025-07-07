@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}" media="(min-width: 768px)">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo  -->
@@ -53,12 +54,12 @@
     </style>
 </head>
 
-<body>
+<body class="text-sm">
     <header class="header" id="header">
-        <div class="header__container">
+        <div class="header__container" style="background: linear-gradient(135deg, #1f5036 0%, #3a7d5c 100%);">
             <a href="#" class="header__logo">
-                <i class="fas fa-diagram-predecessor"></i>
-                <span>CISS</span>
+                <i class="fas fa-diagram-predecessor" style="color: #e9ecef"></i>
+                <span style="color: #e9ecef">CISS V.1.0</span>
             </a>
 
             <button class="btn btn-default btn-sm" id="header-toggle" style="background-color: rgb(218, 218, 218);">
@@ -73,7 +74,7 @@
     
 
     <!--=============== SIDEBAR ===============-->
-    <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar" style="background: linear-gradient(135deg, #3a7d5c 0%, #1f5036 100%);">
         <div class="sidebar__container">
             <div class="sidebar__user">
                 <div class="sidebar__img">
@@ -82,11 +83,13 @@
 
                 <div class="sidebar__info">
                     <h3 style="margin-top: 10px;">
+                        <span style="font-weight: bold;">
 						@auth('faculty')
                             @if(Auth::guard('faculty')->user()->role == '943')
                                 {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
                             @endif
-                        @endauth <br>
+                        @endauth 
+                        </span><br>
 						<span>Faculty</span>
 					</h3>
                 </div>
