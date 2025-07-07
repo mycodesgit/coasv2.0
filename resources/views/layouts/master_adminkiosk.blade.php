@@ -180,6 +180,8 @@
     <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- Moment -->
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
 
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}"></script>
@@ -199,6 +201,74 @@
     @if(request()->routeIs('adminbulkkioskShow'))
         <script src="{{ asset('js/ajax/enrolment/kioskbulkpassSerialize.js') }}"></script>
     @endif
+    
+    @if(request()->routeIs('kioskReport'))
+        <script>
+            $(function () {
+                var ctx = $('#barChart');
+
+                const monthlyCounts = @json($monthlyData);
+                const monthColors = [
+                    '#007bff', '#36A2EB', '#FFCE56', '#4BC0C0',
+                    '#9966FF', '#FF9F40', '#fd7e14', '#FF6B6B',
+                    '#6BFFB8', '#B46BFF', '#FFB46B', '#6BC1FF'
+                ];
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'January', 'February', 'March', 'April', 'May', 'June',
+                            'July', 'August', 'September', 'October', 'November', 'December'
+                        ],
+                        datasets: [{
+                            label: 'Kiosk Logs',
+                            data: monthlyCounts,
+                            backgroundColor: monthColors,
+                            borderColor: '#ced4da',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#495057',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: '#495057',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        return 'Logs: ' + tooltipItem.raw;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    @endif
+    
 
 </body>
 </html>

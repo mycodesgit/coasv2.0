@@ -15,6 +15,7 @@ use Carbon\Carbon;
 
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\KioskUser;
+use App\Models\EnrollmentDB\KioskLogs;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 
 use App\Models\ScheduleDB\ClassEnroll;
@@ -91,6 +92,11 @@ class KioskAdminController extends Controller
                     'postedBy' => Auth::guard('web')->user()->id
                 ]);
 
+                KioskLogs::create([
+                    'studidres' => $studidName,
+                    'postedBy' => Auth::guard('web')->user()->id
+                ]);
+
                 return response()->json(['success' => true, 'message' => 'Stored successfully'], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store'], 404);
@@ -121,7 +127,13 @@ class KioskAdminController extends Controller
                 'password' => Hash::make($request->input('password')),
                 'postedBy' => Auth::guard('web')->user()->id,
                 'resetnumber' => $kioskuser->resetnumber,
-        ]);
+            ]);
+
+            KioskLogs::create([
+                'studidres' => $studidName,
+                'postedBy' => Auth::guard('web')->user()->id
+            ]);
+
             return response()->json(['success' => true, 'message' => 'Student Password in Kiosk Updated successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => true, 'message' => 'Failed to Update Student Password'], 404);
@@ -245,5 +257,26 @@ class KioskAdminController extends Controller
             'success' => true,
             'message' => "$savedCount passwords saved successfully. $failedCount failed.",
         ]);
+    }
+
+    public function kioskReport()
+    {
+        $userId = Auth::guard('web')->user()->id;
+
+        $logs = KioskLogs::select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(studidres) as total')
+        )
+        ->where('postedBy', $userId)
+        ->whereYear('created_at', now()->year)
+        ->groupBy(DB::raw('MONTH(created_at)'))
+        ->pluck('total', 'month');
+
+        $monthlyData = array_fill(1, 12, 0);
+
+        foreach ($logs as $month => $count) {
+            $monthlyData[$month] = $count;
+        }
+        return view('kioskadmin.list_kioskreps', ['monthlyData' => array_values($monthlyData)]);
     }
 }

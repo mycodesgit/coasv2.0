@@ -1,0 +1,65 @@
+@extends('layouts.master_adminkiosk')
+
+@section('title')
+    CISS V.1.0 || Kiosk User
+@endsection
+
+@section('sideheader')
+    <h4>Kiosk Admin</h4>
+@endsection
+
+@yield('sidemenu')
+
+@section('workspace')
+    <div class="card">
+        <div class="card-body">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+                <li class="breadcrumb-item mt-1">Kiosk Admin</li>
+                <li class="breadcrumb-item active mt-1">Kiosk Reports</li>
+            </ol>
+
+            <p>
+                @if (Session::has('success'))
+                    <div class="alert alert-success">{{ Session::get('success') }}</div>
+                @elseif (Session::has('fail'))
+                    <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                @endif
+            </p>
+
+            <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+
+            <div class="page-header mt-3">
+                <div class="col-md-12">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Monthly Kiosk Report for this Year</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <canvas id="barChart"
+                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const monthlyCounts = @json($monthlyData);
+    </script>
+    
+@endsection
