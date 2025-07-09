@@ -414,7 +414,7 @@
                                                             <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} @endif disabled>Candoni (Closed)</option>
                                                             <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} @endif disabled>Cauayan (Closed)</option>
                                                             <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} @endif>Sipalay</option>
-                                                            <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} @endif disabled>Hinobaan (Closed)</option>
+                                                            <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} @endif>Hinobaan (Open)</option>
                                                             <option value="VE" @if (old('type') == 'VE') {{ 'selected' }} @endif>Valladolid</option>
                                                         </select>
                                                     </div>
