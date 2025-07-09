@@ -80,11 +80,11 @@ CISS V.1.0 || Grading
                     <div class="col-md-6">
                         <div class="breadcrumb">
                             <button id="viewSchedule" class="btn btn-secondary btn-xs ml-1">
-                                <i class="fas fa-eye"></i> View Schedule
+                                <i class="fas fa-eye"></i> View Faculty Loading/Schedule
                             </button>
-                            <button id="viewFacultyLoad" class="btn btn-secondary btn-xs ml-1">
+                            {{-- <button id="viewFacultyLoad" class="btn btn-secondary btn-xs ml-1">
                                 <i class="fas fa-bars-progress"></i> Faculty Loading
-                            </button>
+                            </button> --}}
                             <button type="button" id="refreshSchedule" class="btn btn-primary btn-xs ml-1">
                                 <i class="fas fa-sync"></i> Refresh
                             </button>  
@@ -119,7 +119,7 @@ CISS V.1.0 || Grading
                 </h5>
                 <div>
                     <button id="printSchedule" class="btn btn-info btn-md">
-                        <i class="fas fa-print"></i> Print Schedule
+                        <i class="fas fa-print"></i> Print Faculty Loading/Schedule
                     </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
