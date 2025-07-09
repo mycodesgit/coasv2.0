@@ -855,6 +855,28 @@
                 var $regionInput = $('#viewdatastudRegion');
                 var $zcodeInput = $('#viewdatastudZcode');
 
+                function updateAddress() {
+                    var hnum = document.getElementById('viewdatastudHnum').value;
+                    var brgy = document.getElementById('viewdatastudBrgy').value;
+                    var city = document.getElementById('viewdatastudCity').value;
+                    var province = document.getElementById('viewdatastudProvince').value;
+                    var region = document.getElementById('viewdatastudRegion').value;
+                    var zcode = document.getElementById('viewdatastudZcode').value;
+
+                    // Concatenate the values with commas
+                    var address = [hnum, brgy, city, province, region, zcode].filter(Boolean).join(', ');
+
+                    // Update the Address field
+                    document.getElementById('viewdatastudAddress').value = address;
+                }
+
+                document.getElementById('viewdatastudHnum').addEventListener('input', updateAddress);
+                document.getElementById('viewdatastudBrgy').addEventListener('input', updateAddress);
+                document.getElementById('viewdatastudCity').addEventListener('change', updateAddress);
+                document.getElementById('viewdatastudProvince').addEventListener('input', updateAddress);
+                document.getElementById('viewdatastudRegion').addEventListener('input', updateAddress);
+                document.getElementById('viewdatastudZcode').addEventListener('input', updateAddress);
+
                 // Populate the city dropdown
                 var sortedCities = Object.keys(cityData).sort();
 
