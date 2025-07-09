@@ -375,11 +375,8 @@ CISS V.1.0 || Student Info
     var requestedCampus = '{{ request('campus') }}'
 
     var provincesRoute = '{{ route("getProvinces", "") }}';
-var citiesRoute = '{{ route("getCities", "") }}';
-var barangaysRoute = '{{ route("getBarangays", "") }}';
-
-    
-
+    var citiesRoute = '{{ route("getCities", "") }}';
+    var barangaysRoute = '{{ route("getBarangays", "") }}';
 </script>
 
 @endsection

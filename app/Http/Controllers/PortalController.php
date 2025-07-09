@@ -19,6 +19,11 @@ use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\Time;
 use App\Models\AdmissionDB\Year;
 
+use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\Region;
+use App\Models\SettingDB\Province;
+use App\Models\SettingDB\City;
+use App\Models\SettingDB\Barangay;
 
 class PortalController extends Controller
 {
@@ -35,8 +40,8 @@ class PortalController extends Controller
         $time = Time::whereYear('date', '2025')->get();
 
         //$todayRegistrations = Applicant::whereDate('created_at', today())->count();
-
-        return view('portal.apply', compact('admissionid','program', 'strand', 'time'));
+        $regions = Region::all();
+        return view('portal.apply', compact('admissionid','program', 'strand', 'time', 'regions'));
         //->with('todayRegistrations', $todayRegistrations);
     }
 
