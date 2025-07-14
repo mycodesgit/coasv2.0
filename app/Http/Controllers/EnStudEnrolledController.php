@@ -83,7 +83,7 @@ class EnStudEnrolledController extends Controller
     
         $data = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                 ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-                ->select('students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.address', 'students.brgy', 'students.city', 'students.province', 'students.region', 'students.zcode', 'program_en_history.progCod', 'program_en_history.studentID', 'program_en_history.studYear', 'program_en_history.studSec', 'program_en_history.schlyear', 'program_en_history.semester', 'coasv2_db_schedule.programs.progAcronym')
+                ->select('students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.address', 'students.brgy', 'students.city', 'students.province', 'students.region', 'students.zcode', 'program_en_history.progCod', 'program_en_history.studentID', 'program_en_history.studYear', 'program_en_history.studSec', 'program_en_history.schlyear', 'program_en_history.semester', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
                 // ->where('program_en_history.campus', '=', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {

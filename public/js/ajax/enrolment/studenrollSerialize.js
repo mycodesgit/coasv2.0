@@ -35,7 +35,10 @@ $(document).ready(function() {
                     return lastName + ', ' + firstname + ' ' + middleInitial + (extension ? ' ' + extension : ''); // Return formatted string
                 }
             },
+            {data: 'progName'},
             {data: 'progAcronym'},
+            {data: 'studYear'},
+            {data: 'studSec'},
             {data: 'studYear'},
             {data: 'schlyear'},
             {data: 'semester'},

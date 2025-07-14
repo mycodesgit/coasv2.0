@@ -93,8 +93,10 @@ CISS V.1.0 || Student Enrolled
                             <tr>
                                 <th>StudID</th>
                                 <th>Name</th>
-                                <th>Course</th>
+                                <th>Program</th>
+                                <th>Acronym</th>
                                 <th>YearLv</th>
+                                <th>Section</th>
                                 <th>Schlyear</th>
                                 <th>Semester</th>
                                 <th>Address</th>
