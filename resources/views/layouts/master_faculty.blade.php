@@ -51,10 +51,27 @@
           top: 50px;
           height: 5vh;
         }
+        .top-bar {
+            height: 16px;
+            background: #f3f5f8;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 998;
+        }
+        @media (max-width: 767.98px) {
+            .top-bar {
+                height: 12px;
+            }
+        }
     </style>
 </head>
 
 <body class="text-sm">
+
+    <div class="top-bar"></div>
+    
     <header class="header" id="header">
         <div class="header__container" style="background: linear-gradient(135deg, #1f5036 0%, #3a7d5c 100%);">
             <a href="#" class="header__logo">
