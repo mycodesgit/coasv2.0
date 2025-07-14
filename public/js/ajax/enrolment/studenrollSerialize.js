@@ -39,7 +39,6 @@ $(document).ready(function() {
             {data: 'progAcronym'},
             {data: 'studYear'},
             {data: 'studSec'},
-            {data: 'studYear'},
             {data: 'schlyear'},
             {data: 'semester'},
             {data: 'address'},
