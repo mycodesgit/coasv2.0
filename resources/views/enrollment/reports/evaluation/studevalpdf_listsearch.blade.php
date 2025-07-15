@@ -41,6 +41,7 @@
                     {{ $studrepcard->fname ?? 'N/A' }} 
                     {{ strtoupper(substr($studrepcard->mname ?? '', 0, 1)) }}. 
                     {{ $studrepcard->lname ?? 'N/A' }}
+                    {{ $studrepcard->ext ?? '' }}
                 </th>
                 <th class="" style="text-align: left !important; font-size: 10pt; font-weight: initial; color: #000 !important;">
                     Date: &nbsp;&nbsp;{{ \Carbon\Carbon::now()->format('F j, Y') }}
