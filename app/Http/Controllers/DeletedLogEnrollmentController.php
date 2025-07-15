@@ -85,11 +85,11 @@ class DeletedLogEnrollmentController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus');
     
-        $data = DeleteEnrollmentLogs::join('students', 'delete_enrollment_log', '=', 'students.stud_id')
+        $data = DeleteEnrollmentLogs::join('students', 'delete_enrollment_logs', '=', 'students.stud_id')
         ->select('students.lname', 'students.fname', 'students.mname', 'students.ext', 'students.gender', 'delete_enrollment_logs.*', 'delete_enrollment_logs.created_at as delcrt')
-                ->where('delMC', '=', $campus)
-                ->where('delschlyear', '=', $schlyear)
-                ->where('delsemester', '=', $semester)
+                ->where('delete_enrollment_logs.delMC', '=', $campus)
+                ->where('delete_enrollment_logs.delschlyear', '=', $schlyear)
+                ->where('delete_enrollment_logs.delsemester', '=', $semester)
                 ->orderBy('delete_enrollment_logs.created_at', 'DESC')
                 ->get();
 
