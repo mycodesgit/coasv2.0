@@ -61,15 +61,15 @@
                 <i class="fas fa-mug-hot"></i>
             </div>
         </div>
-        {{-- <div class="card">
+        <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
                     Current Enrollment A.Y. 2025-2026 1st Semester
                 </h3>
             </div>
             <div class="card-body">
-                <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                <canvas id="currentSemesterBarChart" style="height:330px; min-height:330px"></canvas>
             </div>
-        </div> --}}
+        </div>
     </div>
 @endsection

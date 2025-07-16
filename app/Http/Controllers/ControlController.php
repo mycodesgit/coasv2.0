@@ -61,7 +61,79 @@ class ControlController extends Controller
     public function home()
     {
         $guard= $this->getGuard();
-        return view('control.home', compact('guard'));
+
+        $currentYear = Carbon::now()->year;
+        $previousYear = Carbon::now()->year;
+        $userCampus = Auth::guard('web')->user()->campus;
+
+        // Fetch the active configuration with set_status = 2
+        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        if (!$activeConfig) {
+            return back()->with('error', 'No active school year found.');
+        }
+        $activeConfigId = $activeConfig->id;
+        
+        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
+            ->orderBy('id', 'desc') // Get the most recent one
+            ->first();
+
+        $schlyearactiveYear = $activeConfig->schlyear;
+        $schlyearactive = $activeConfig->schlyear;
+        $semesteractive = $activeConfig->semester;
+        $prevsemesteractive = $previousConfig->semester;
+
+        $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
+
+        if (!$previousSchlyearYear) {
+            return back()->with('error', 'No previous school year found.');
+        }
+
+        // $collegesCurrentSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+        //         $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+        //     })
+        //     ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
+        //     ->where(function ($query) use ($userCampus) {
+        //         $campuses = explode(', ', $userCampus);
+        //         foreach ($campuses as $campus) {
+        //             $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
+        //         }
+        //     })
+        //     ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
+        //     ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
+        //     ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
+        //     ->orderBy('college_name', 'ASC')
+        //     ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+        //     ->groupBy('college.id')
+        //     ->get();
+        $collegesCurrentSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+                $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+            })
+            ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
+            ->where(function ($query) use ($userCampus) {
+                $campuses = explode(', ', $userCampus);
+                foreach ($campuses as $campus) {
+                    $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
+                }
+            })
+            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
+            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
+            ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
+            ->orderBy('college_name', 'ASC')
+            ->select(
+                'college.id',
+                'college.college_abbr',
+                'college.college_name',
+                'college.colcolor',
+                'coasv2_db_enrollment.program_en_history.semester',
+                'coasv2_db_enrollment.program_en_history.studYear',
+                DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as student_count')
+            )
+            ->groupBy('college.id', 'coasv2_db_enrollment.program_en_history.studYear')
+            ->get()
+            ->groupBy('college_abbr'); // Group by college for easier JS parsing
+
+
+        return view('control.home', compact('guard', 'collegesCurrentSemester', 'previousSchlyearYear', 'semesteractive', 'schlyearactiveYear'));
     }
 
     public function masterfaculty()

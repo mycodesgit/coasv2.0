@@ -157,7 +157,14 @@
 
     <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
     
-
+    <script>
+        var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!};
+        var semesteractive = {!! json_encode($semesteractive) !!};
+        var collbar1Route = {!! json_encode($collegesCurrentSemester) !!}; 
+        var groupedCollegeData = {!! json_encode($collegesCurrentSemester) !!};
+        var schlyearActive = {!! json_encode($schlyearactiveYear) !!};
+    </script>
+    @include('script.masterBarScript')
     <script>
         @if (Session::has('error'))
             toastr.options = {
