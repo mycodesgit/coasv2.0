@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <div class="small-box" style="background-color: rgb(150, 207, 178)">
             <div class="inner p-4">
-                <h3>VISION</h3>
+                <h4>VISION</h4>
 
                 <p>CPSU as the leading technology-driven multi-disciplinary University by 2030.</p>
             </div>
@@ -23,7 +23,7 @@
 
         <div class="small-box" style="background-color: rgb(87, 197, 144)">
             <div class="inner p-4">
-                <h3>MISSION</h3>
+                <h4>MISSION</h4>
 
                 <p>CPSU is committed to produce competent graduates who can generate and extend leading
                 technologies in multi-disciplinary areas beneficial to the community.</p>
@@ -35,7 +35,7 @@
 
         <div class="small-box" style="background-color: rgb(154, 240, 197)">
             <div class="inner p-4">
-                <h3>GOAL</h3>
+                <h4>GOAL</h4>
 
                 <p>To provide efficient, Quality, Technology-driven and Gender-Sensitive Products and
                 Services.</p>
@@ -49,9 +49,9 @@
     <div class="col-md-8">
         <div class="small-box" style="background-color: #e6e6e6">
             <div class="inner p-4">
-                <h4 style="font-size: 25pt">Grab a coffee before doing something.</h4>
+                <h4 style="font-size: 15pt">Grab a coffee before doing something.</h4>
 
-                <p style="font-style: italic; text-align: left"><i class="fas fa-quote-left fa-1x fa-pull-left"></i>
+                <p style="font-style: italic; text-align: left; font-size: 8pt"><i class="fas fa-quote-left fa-1x fa-pull-left"></i>
                     Gatsby believed in the green light, the orgastic future that year by year recedes before us.
                     It eluded us then, but that’s no matter tomorrow we will run faster, stretch our arms further...
                     And one fine morning, So we beat on, boats against the current, borne back ceaselessly into the past.
