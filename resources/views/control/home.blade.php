@@ -64,7 +64,19 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
-                    Current Enrollment A.Y. 2025-2026 1st Semester
+                    Current Enrollment A.Y. 2025-2026, 1st Semester -
+                    @if (Auth::guard('web')->user()->campus == 'MC') Main Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'VC') Victorias Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'SCC') San Carlos Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'HC') Hinigaran Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'MP') Moises Padilla Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'IC') Ilog Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'CA') Candoni Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'CC') Cauayan Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'SC') Sipalay  Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'HinC') Hinobaan Campus
+                        @elseif(Auth::guard('web')->user()->campus == 'VE') Valladolid Campus
+                    @endif
                 </h3>
             </div>
             <div class="card-body">
