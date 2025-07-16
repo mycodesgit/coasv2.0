@@ -9,38 +9,67 @@
 @endsection
 
 @section('sidemenu')
-    <div style="padding: 10px; font-family: 'Oxygen', sans-serif;;">
-        <h3 style="text-align: center;">VISION</h3>
-        <p style="text-align: center;">CPSU as the leading technology-driven multi-disciplinary University by 2030.</p>
+    <div class="col-md-4">
+        <div class="small-box" style="background-color: rgb(150, 207, 178)">
+            <div class="inner p-4">
+                <h3>VISION</h3>
 
-        <h3 style="text-align: center;">MISSION</h3>
-        <p style="text-align: center;">CPSU is committed to produce competent graduates who can generate and extend leading
-            technologies in multi-disciplinary areas beneficial to the community.</p>
-
-        <h3 style="text-align: center;">GOAL</h3>
-        <p style="text-align: center;">To provide efficient, Quality, Technology-driven and Gender-Sensitive Products abd
-            Services.</p>
-    </div>
-@endsection
-
-@section('workspace')
-    <div class="card">
-        <div class="card-body">
-            @if (Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success') }}</div>
-            @elseif (Session::has('fail'))
-                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
-            @endif
-            <div class="workspace-top" style="text-align: center;">
-                <h1 class="fas fa-mug-hot fa-7x" style="color: #04401f"></h1>
-                <h1><span style="color:#ffff66;font-size: 70px;">Eey!</span> Grab a coffee before doing something.</h1>
-                <p> <i class="fas fa-quote-left fa-2x fa-pull-left"></i>
-                    Gatsby believed in the green light, the orgastic future that year by year recedes before us.
-                    It eluded us then, but that’s no matter — tomorrow we will run faster, stretch our arms further...
-                    And one fine morning — So we beat on, boats against the current, borne back ceaselessly into the past.
-                </p>
-                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                <p>CPSU as the leading technology-driven multi-disciplinary University by 2030.</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-eye"></i>
             </div>
         </div>
+
+        <div class="small-box" style="background-color: rgb(87, 197, 144)">
+            <div class="inner p-4">
+                <h3>MISSION</h3>
+
+                <p>CPSU is committed to produce competent graduates who can generate and extend leading
+                technologies in multi-disciplinary areas beneficial to the community.</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-arrows-to-eye"></i>
+            </div>
+        </div>
+
+        <div class="small-box" style="background-color: rgb(154, 240, 197)">
+            <div class="inner p-4">
+                <h3>GOAL</h3>
+
+                <p>To provide efficient, Quality, Technology-driven and Gender-Sensitive Products and
+                Services.</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-bullseye"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="small-box" style="background-color: #e6e6e6">
+            <div class="inner p-4">
+                <h4 style="font-size: 25pt">Grab a coffee before doing something.</h4>
+
+                <p style="font-style: italic; text-align: left"><i class="fas fa-quote-left fa-1x fa-pull-left"></i>
+                    Gatsby believed in the green light, the orgastic future that year by year recedes before us.
+                    It eluded us then, but that’s no matter tomorrow we will run faster, stretch our arms further...
+                    And one fine morning, So we beat on, boats against the current, borne back ceaselessly into the past.
+                </p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-mug-hot"></i>
+            </div>
+        </div>
+        {{-- <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Current Enrollment A.Y. 2025-2026 1st Semester
+                </h3>
+            </div>
+            <div class="card-body">
+                <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+            </div>
+        </div> --}}
     </div>
 @endsection

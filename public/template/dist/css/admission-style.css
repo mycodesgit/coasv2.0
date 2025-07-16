@@ -18,6 +18,14 @@
     padding-right: 2.5% !important;
     padding-left: 2.5% !important;
 }
+.container-fluid2 {
+    padding-right: 2.5% !important;
+    padding-left: 15% !important;
+}
+.container-fluid3 {
+    padding-right: 2.5% !important;
+    padding-left: 6% !important;
+}
 .btn-primary{
     background-color: #1f5036 !important;
     border: #1f5036 !important;
