@@ -42,8 +42,8 @@
             label: studYearLabels[year - 1],
             data: yearCounts[year],
             backgroundColor: year === 1 ? '#3E5F44' :
-                            year === 2 ? '#5E936C' :
-                            year === 3 ? '#5E936C' :
+                            year === 2 ? '#06923E' :
+                            year === 3 ? '#06923E' :
                                         '#04401f'
         }));
 
