@@ -41,10 +41,10 @@
         var datasets = [1, 2, 3, 4].map(year => ({
             label: studYearLabels[year - 1],
             data: yearCounts[year],
-            backgroundColor: year === 1 ? '#4e73df' :
-                            year === 2 ? '#1cc88a' :
-                            year === 3 ? '#36b9cc' :
-                                        '#f6c23e'
+            backgroundColor: year === 1 ? '#3E5F44' :
+                            year === 2 ? '#5E936C' :
+                            year === 3 ? '#5E936C' :
+                                        '#04401f'
         }));
 
         new Chart(ctx, {
