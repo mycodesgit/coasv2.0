@@ -99,10 +99,10 @@
         {{-- @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
             <a href="" class="list-group-item text-center">Sorry for the inconvenience, we are currently undergoing maintenance.</a>
         @else --}}
-        @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 13, 14]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 13, 14]) || Auth::guard('web')->user()->lname == 'Gargoles')
             <a href="{{ Auth::guard('web')->user()->role == 0 ? route('studInfo') : route('studInfo_search') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
         @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 15]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 15]) || Auth::guard('web')->user()->lname == 'Gargoles')
             <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Student Info</a>
         @endif
 
@@ -117,7 +117,7 @@
         <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
         @endif
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 20]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 20]) || Auth::guard('web')->user()->lname == 'Gargoles')
         <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
         <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
         <a href="{{ route('ranking_list') }}" class="list-group-item {{ $rankActive }}">Ranking</a>
