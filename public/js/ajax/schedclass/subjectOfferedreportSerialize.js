@@ -46,6 +46,7 @@ $(document).ready(function() {
             {data: 'lecUnit'},
             {data: 'labUnit'},
             {data: 'subUnit'},
+            {data: 'isType'},
 
         ],
         "createdRow": function (row, data, index) {

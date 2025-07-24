@@ -1,7 +1,7 @@
 @extends('layouts.master_classScheduler')
 
 @section('title')
-CISS V.1.0 || Subject Offered
+CISS V.1.0 || Subject Offered/Load
 @endsection
 
 @section('sideheader')
@@ -21,7 +21,7 @@ CISS V.1.0 || Subject Offered
             </li>
             <li class="breadcrumb-item mt-1">Scheduler</li>
             <li class="breadcrumb-item active mt-1">Option</li>
-            <li class="breadcrumb-item active mt-1">Subject Offered</li>
+            <li class="breadcrumb-item active mt-1">Subject Offered/Load</li>
         </ol>
 
         <p>
@@ -37,7 +37,7 @@ CISS V.1.0 || Subject Offered
                 {{ csrf_field() }}
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                    <h4>Subject Offered</h4>
+                    <h4>Subject Offered/Load</h4>
                 </div>
 
                 <div class="mt-1">
@@ -85,6 +85,7 @@ CISS V.1.0 || Subject Offered
                             <th>Lec</th>
                             <th>Lab</th>
                             <th>Units</th>
+                            <th>Special Class</th>
                         </tr>
                     </thead>
                     <tbody>
