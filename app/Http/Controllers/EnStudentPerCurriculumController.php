@@ -329,7 +329,11 @@ class EnStudentPerCurriculumController extends Controller
             ->where('program_en_history.schlyear', $schlyear)
             ->where('program_en_history.semester', $semester)
             ->where('program_en_history.campus', $campus)
-            ->where('students.campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
+                }
+            })
             ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
             ->orderBy('students.lname', 'ASC')
             ->get();
