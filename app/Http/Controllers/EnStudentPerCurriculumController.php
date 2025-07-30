@@ -319,6 +319,7 @@ class EnStudentPerCurriculumController extends Controller
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
         $campus = Auth::guard('web')->user()->campus;
+
         $campusArray = array_map('trim', explode(',', $campus));
 
         $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
@@ -328,11 +329,17 @@ class EnStudentPerCurriculumController extends Controller
             ->where('program_en_history.studSec', $studSec)
             ->where('program_en_history.schlyear', $schlyear)
             ->where('program_en_history.semester', $semester)
-            ->where('program_en_history.campus', $campus)
+            // ->where('program_en_history.campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
+                }
+            })
+            ->where('program_en_history.status', 2)
             // ->where('students.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('students.campus', 'LIKE', "$campus");
+                    $q->orWhere('students.campus', 'LIKE', "%$campus%");
                 }
             })
             ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
