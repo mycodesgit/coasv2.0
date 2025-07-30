@@ -320,6 +320,7 @@ class EnStudentPerCurriculumController extends Controller
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
         $campus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
 
         $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
@@ -329,6 +330,7 @@ class EnStudentPerCurriculumController extends Controller
             ->where('program_en_history.schlyear', $schlyear)
             ->where('program_en_history.semester', $semester)
             ->where('program_en_history.campus', $campus)
+            // ->where('students.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
                     $q->orWhere('students.campus', 'LIKE', "$campus");
