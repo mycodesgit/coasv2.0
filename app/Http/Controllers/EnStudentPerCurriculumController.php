@@ -131,12 +131,7 @@ class EnStudentPerCurriculumController extends Controller
     {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');   
-        // $campus = Auth::guard('web')->user()->campus;
-        if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
-            $campus = $request->query('campus');    
-        } else {
-            $campus = Auth::guard('web')->user()->campus;
-        }
+        $campus = Auth::guard('web')->user()->campus;
 
         $campusArray = array_map('trim', explode(',', $campus));
 
@@ -150,7 +145,6 @@ class EnStudentPerCurriculumController extends Controller
                         $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                     }
                 })
-                ->where('program_en_history.status', 2)
                 ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
                 ->select(
                     'coasv2_db_schedule.programs.progCod', 
