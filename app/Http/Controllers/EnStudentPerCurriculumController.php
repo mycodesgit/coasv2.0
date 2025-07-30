@@ -283,7 +283,6 @@ class EnStudentPerCurriculumController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
 
         $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-            ->leftJoin('kioskstudent', 'program_en_history.studentID', '=', 'kioskstudent.studid')
             ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('program_en_history.progCod', $progCode)
             ->where('program_en_history.studYear', $studYear)
@@ -300,10 +299,10 @@ class EnStudentPerCurriculumController extends Controller
             // ->where('students.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('students.campus', 'LIKE', "$campus");
+                    $q->orWhere('students.campus', 'LIKE', "%$campus%");
                 }
             })
-            ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName','kioskstudent.passtext')
+            ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
             ->orderBy('students.lname', 'ASC')
             ->get();
 
