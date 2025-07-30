@@ -45,7 +45,7 @@ class EnreportsController extends Controller
 
         $studlist = Student::where(function ($q) use ($campusArray) {
             foreach ($campusArray as $campus) {
-                $q->orWhere('campus', 'LIKE', "$campus");
+                $q->orWhere('campus', 'LIKE', "%$campus%");
             }
         })->where('stud_id', 'NOT LIKE', '%-G%')->get();
 
