@@ -66,7 +66,7 @@ $(document).ready(function() {
                 render: function (data, type, row) {
                     let status = '';
 
-                    if (data.statuser == 1) {
+                    if (data.status == 1) {
                         status = '<span class="badge badge-success">Active</span>';
                     } else {
                         status = '<span class="badge badge-danger">Unactive</span>';
