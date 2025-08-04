@@ -75,6 +75,8 @@ use App\Http\Controllers\QueueingSettingController;
 
 use App\Http\Controllers\DocumentRequestController;
 
+use App\Http\Controllers\NstpController;
+
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SettingAddressController;
 use App\Http\Controllers\SettingSignatoryController;
@@ -894,6 +896,14 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/fetch/docs/list/ajax', [DocumentRequestController::class, 'getdocsRead'])->name('getdocsRead');
         Route::post('/fetch/docs/list/add', [DocumentRequestController::class, 'docsCreate'])->name('docsCreate');
         Route::post('/fetch/docs/list/update', [DocumentRequestController::class, 'docsUpdate'])->name('docsUpdate');
+    });
+
+    Route::prefix('gen/ntsp/view')->group(function () {
+        Route::get('/', [NstpController::class, 'index'])->name('nstp-index');
+
+        Route::get('/generate/reports/show', [NstpController::class, 'reports_nstp'])->name('reports_nstp');
+        Route::get('/generate/reports/show/result', [NstpController::class, 'reports_nstpresult'])->name('reports_nstpresult');
+        Route::get('/generate/reports/show/result/ajax', [NstpController::class, 'getreportsnstpresult'])->name('getreportsnstpresult');
     });
 
     Route::prefix('adempset/settings')->group(function () {

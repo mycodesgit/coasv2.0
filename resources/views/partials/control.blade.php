@@ -84,6 +84,12 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
 </li>
 
 <li class="nav-item" style="margin-bottom: -10px ">
+    <a id="" class="btn btn-app">
+        <i class="fas fa-person-rifle"></i> NSTP
+    </a>
+</li>
+
+<li class="nav-item" style="margin-bottom: -10px ">
     <a id="setting-url" class="btn btn-app {{ in_array('setting-url', $buttons) ? '' : 'disabled' }}">
         <i class="fas fa-cog"></i> Settings
     </a>
