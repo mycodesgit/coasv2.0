@@ -150,16 +150,58 @@
                                                     <i class="fas fa-home"></i>
                                                 </a>
                                             </li>
-                                            <li class="breadcrumb-item active mt-1">Settings</li>
+                                            <li class="breadcrumb-item active mt-1">Nstp</li>
                                         </ol>
                                         <div class="workspace-top" style="text-align: center;">
-                                            <h1 class="fas fa-mug-hot fa-7x" style="color: #04401f"></h1>
-                                            <h1><span style="color:#ffff66;font-size: 70px;">Eey!</span> Grab a coffee before doing something.</h1>
-                                            <p>  <i class="fas fa-quote-left fa-2x fa-pull-left"></i>
-                                                Gatsby believed in the green light, the orgastic future that year by year recedes before us.
-                                                It eluded us then, but that’s no matter — tomorrow we will run faster, stretch our arms further...
-                                                And one fine morning — So we beat on, boats against the current, borne back ceaselessly into the past.
-                                            </p>
+                                            @if(request()->routeIs('nstp-index'))
+                                            <div class="row">
+                                                <div class="col-lg-4 col-6">
+                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
+                                                        <div class="text-left">
+                                                            <div class="inner">
+                                                                <h3>{{ $cwtscount }}</h3>
+                                                                <p>CWTS</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <div class="icon">
+                                                                <i class="fa fa-building"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-6">
+                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #1b9173 !important">
+                                                        <div class="text-left">
+                                                            <div class="inner">
+                                                                <h3>{{ $ltscount }}</h3>
+                                                                <p>LTS</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <div class="icon">
+                                                                <i class="fa fa-graduation-cap"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-6">
+                                                    <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #467e70 !important">
+                                                        <div class="text-left">
+                                                            <div class="inner">
+                                                                <h3>{{ $rotccount }}</h3>
+                                                                <p>ROTC</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <div class="icon">
+                                                                <i class="fa fa-graduation-cap"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
                                             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                                         </div>
                                     </div>

@@ -51,8 +51,48 @@ class NstpController extends Controller
 {
     public function index()
     {
-        return view('nstpcwtsltsrotc.index');
+        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        $schlyearactive = $activeConfig->schlyear;
+        $semesteractive = $activeConfig->semester;
+        $campus = Auth::guard('web')->user()->campus;
+
+        // NSTP Subject Codes
+        $cwtscodes = ["KAB-SER-146", "KAB-SER-149"];
+        $ltscodes = ["KAB-SER-145", "KAB-SER-148"];
+        $rotccodes = ["KAB-SER-146", "KAB-SER-149"];
+
+        $cwtscount = $this->countNSTPStudents($cwtscodes, $schlyearactive, $semesteractive, $campus);
+        $ltscount  = $this->countNSTPStudents($ltscodes,  $schlyearactive, $semesteractive, $campus);
+        $rotccount = $this->countNSTPStudents($rotccodes, $schlyearactive, $semesteractive, $campus);
+
+        return view('nstpcwtsltsrotc.index', compact('schlyearactive', 'semesteractive', 'cwtscount', 'ltscount', 'rotccount'));
     }
+
+    private function countNSTPStudents(array $subjectCodes, $schlyear, $semester, $campus)
+    {
+        // Get subject_offered IDs for the given codes, semester, and campus
+        $subjectIDs = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->where('sub_offered.schlyear', $schlyear)
+            ->where('sub_offered.semester', $semester)
+            ->where('sub_offered.campus', $campus)
+            ->whereIn('sub_offered.subCode', $subjectCodes)
+            ->pluck('sub_offered.id'); // no need to get entire rows
+
+        // Count students enrolled in those subject_offered IDs
+        return Grade::join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
+            ->join('students', 'studgrades.studID', '=', 'students.stud_id')
+            ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
+            ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
+            ->leftJoin('program_en_history', 'studgrades.studID', '=', 'program_en_history.studentID')
+            ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->where('so.schlyear', $schlyear)
+            ->where('so.semester', $semester)
+            ->where('program_en_history.semester', $semester)
+            ->where('program_en_history.schlyear', $schlyear)
+            ->whereIn('studgrades.subjID', $subjectIDs)
+            ->count();
+    }
+
 
     public function cwts_nstp()
     {
@@ -239,7 +279,7 @@ class NstpController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
         
-        $cwtscodes = [
+        $ltscodes = [
             "KAB-SER-145", 'KAB-SER-148'
         ];
 
@@ -251,7 +291,7 @@ class NstpController extends Controller
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
-            ->whereIn('sub_offered.subCode', $cwtscodes)
+            ->whereIn('sub_offered.subCode', $ltscodes)
             ->select(
                 'subjects.sub_name',
                 'subjects.sub_title',
@@ -343,7 +383,7 @@ class NstpController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
         
-        $cwtscodes = [
+        $rotccodes = [
             "KAB-SER-146", 'KAB-SER-149'
         ];
 
@@ -355,7 +395,7 @@ class NstpController extends Controller
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
-            ->whereIn('sub_offered.subCode', $cwtscodes)
+            ->whereIn('sub_offered.subCode', $rotccodes)
             ->select(
                 'subjects.sub_name',
                 'subjects.sub_title',
