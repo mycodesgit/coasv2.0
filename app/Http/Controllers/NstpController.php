@@ -87,7 +87,6 @@ class NstpController extends Controller
         $semester = $request->query('semester');   
         $campus = Auth::guard('web')->user()->campus;
 
-        // Get subject_offered data first
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
@@ -101,10 +100,8 @@ class NstpController extends Controller
             )
             ->get();
 
-        // Get the subject_offered IDs from the result
         $subjectIDs = $data->pluck('sid')->toArray();
 
-        // Use whereIn to get students enrolled in those subjects
         $substudnowviewpdf = Grade::select(
                 'so.*', 
                 'studgrades.*', 
@@ -139,14 +136,13 @@ class NstpController extends Controller
             ->get();
         
         $cwtscodes = [
-            "KAB-SER-076", "KAB-SER-144"
+            "KAB-SER-076", "KAB-SER-144", "KAB-SER-147"
         ];
 
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');   
         $campus = Auth::guard('web')->user()->campus;
 
-        // Get subject_offered data first
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
@@ -160,10 +156,107 @@ class NstpController extends Controller
             )
             ->get();
 
-        // Get the subject_offered IDs from the result
         $subjectIDs = $data->pluck('sid')->toArray();
 
-        // Use whereIn to get students enrolled in those subjects
+        $data = Grade::select(
+                'so.*', 
+                'studgrades.*', 
+                'studgrades.studID', 
+                'studgrades.id as sgid', 
+                'studgrades.status as gstat', 
+                'students.lname', 
+                'students.fname', 
+                'students.ext', 
+                'students.mname', 
+                'students.mname', 
+                'students.bday', 
+                'students.gender', 
+                'students.region', 
+                'students.brgy', 
+                'students.city', 
+                'students.province', 
+                'students.course', 
+                'students.email', 
+                'students.contact', 
+                's.*'
+            )
+            ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
+            ->join('students', 'studgrades.studID', '=', 'students.stud_id')
+            ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
+            ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
+            ->where('so.schlyear', $schlyear)
+            ->where('so.semester', $semester)
+            ->whereIn('studgrades.subjID', $subjectIDs)
+            ->orderBy('students.lname', 'ASC')
+            ->get();
+
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function lts_nstp()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('nstpcwtsltsrotc.listlts', compact('sy'));
+    }
+
+    public function lts_nstpresult(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+
+        return view('nstpcwtsltsrotc.listltsresult', compact('sy'));
+    }
+
+    public function getltsnstpresult(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+        
+        $cwtscodes = [
+            "KAB-SER-145", 'KAB-SER-148'
+        ];
+
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');   
+        $campus = Auth::guard('web')->user()->campus;
+
+        $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->where('sub_offered.schlyear', $schlyear)
+            ->where('sub_offered.semester', $semester)
+            ->where('sub_offered.campus', $campus)
+            ->whereIn('sub_offered.subCode', $cwtscodes)
+            ->select(
+                'subjects.sub_name',
+                'subjects.sub_title',
+                'sub_offered.*',
+                'sub_offered.id as sid',
+            )
+            ->get();
+
+        $subjectIDs = $data->pluck('sid')->toArray();
+
         $data = Grade::select(
                 'so.*', 
                 'studgrades.*', 

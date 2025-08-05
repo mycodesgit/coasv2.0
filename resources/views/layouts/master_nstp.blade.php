@@ -219,6 +219,9 @@
     @if(request()->routeIs('cwts_nstpresult'))
         <script src="{{ asset('js/ajax/nstp/cwtsSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('lts_nstpresult'))
+        <script src="{{ asset('js/ajax/nstp/ltsSerialize.js') }}"></script>
+    @endif
 
     <script>
         $(document).ready(function () {

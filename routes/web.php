@@ -900,9 +900,14 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
     Route::prefix('gen/ntsp/view')->group(function () {
         Route::get('/', [NstpController::class, 'index'])->name('nstp-index');
+
         Route::get('/cwts', [NstpController::class, 'cwts_nstp'])->name('cwts_nstp');
         Route::get('/cwts/show/result', [NstpController::class, 'cwts_nstpresult'])->name('cwts_nstpresult');
         Route::get('/cwts/show/result/ajax', [NstpController::class, 'getcwtsnstpresult'])->name('getcwtsnstpresult');
+
+        Route::get('/lts', [NstpController::class, 'lts_nstp'])->name('lts_nstp');
+        Route::get('/lts/show/result', [NstpController::class, 'lts_nstpresult'])->name('lts_nstpresult');
+        Route::get('/lts/show/result/ajax', [NstpController::class, 'getltsnstpresult'])->name('getltsnstpresult');
 
         Route::get('/generate/reports/show', [NstpController::class, 'reports_nstp'])->name('reports_nstp');
         Route::get('/generate/reports/show/result', [NstpController::class, 'reports_nstpresult'])->name('reports_nstpresult');
