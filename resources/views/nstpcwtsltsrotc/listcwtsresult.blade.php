@@ -100,7 +100,7 @@ CISS V.1.0 || NSTP CWTS
                                     <tr>
                                         <td>1</td>
                                         <td>{{ $claEn->sub_name }}</td>
-                                        <td>{{ $claEn->lname }} {{ $claEn->lname }}</td>
+                                        <td>{{ $claEn->lname }} {{ $claEn->fname }}</td>
                                         <td>{{ $claEn->sub_name }}</td>
                                     </tr>
                                 @endforeach
