@@ -165,7 +165,7 @@
                                                         </div>
                                                         <div class="text-right">
                                                             <div class="icon">
-                                                                <i class="fa fa-building"></i>
+                                                                <i class="fa fa-people-line"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -195,7 +195,7 @@
                                                         </div>
                                                         <div class="text-right">
                                                             <div class="icon">
-                                                                <i class="fa fa-graduation-cap"></i>
+                                                                <i class="fa fa-person-rifle"></i>
                                                             </div>
                                                         </div>
                                                     </div>
