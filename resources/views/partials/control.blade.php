@@ -84,8 +84,8 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
 </li>
 
 <li class="nav-item" style="margin-bottom: -10px ">
-    <a id="" class="btn btn-app">
-        <i class="fas fa-person-rifle"></i> NSTP
+    <a id="nstp-url" class="btn btn-app {{ in_array('nstp-url', $buttons) ? '' : 'disabled' }}">
+        <i class="fas fa-person-rifle"></i> Nstp
     </a>
 </li>
 
@@ -172,6 +172,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
     var kioskRoute = "{{ route('adminkioskRead') }}";
     var queueRoute = "{{ route('queue-index') }}";
     var requestRoute = "{{ route('request-index') }}";
+    var nstpRoute = "{{ route('nstp-index') }}";
     var settingRoute = "{{ route('settings-index') }}";
     var logoutRoute = "{{ route('logout') }}";
 </script>

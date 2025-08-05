@@ -452,6 +452,7 @@ CISS V.1.0 || User's List
                                         'kiosk-url' => 'Kiosk',
                                         'queue-url' => 'Qeueuing',
                                         'request-url' => 'Request',
+                                        'nstp-url' => 'Nstp',
                                         'setting-url' => 'Settings',
                                     ];
                                 @endphp

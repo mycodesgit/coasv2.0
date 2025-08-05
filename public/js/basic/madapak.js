@@ -42,6 +42,10 @@ $('#request-url').click(function() {
     window.location.href = requestRoute;
 });
 
+$('#nstp-url').click(function() {
+    window.location.href = nstpRoute;
+});
+
 $('#setting-url').click(function() {
     window.location.href = settingRoute;
 });
