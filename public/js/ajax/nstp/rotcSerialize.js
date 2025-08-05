@@ -86,7 +86,7 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         },
         dom: 'Bfrtip'
-    }).buttons().container().appendTo('#cwtstab_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#rotctab_wrapper .col-md-6:eq(0)');
     $(document).on('nstpAdded', function() {
         dataTable.ajax.reload();
     });
