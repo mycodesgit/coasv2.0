@@ -80,48 +80,48 @@ class NstpController extends Controller
             ->get();
         
         $cwtscodes = [
-    "KAB-SER-076", "KAB-SER-144"
-];
+            "KAB-SER-076", "KAB-SER-144"
+        ];
 
-$schlyear = $request->query('schlyear');
-$semester = $request->query('semester');   
-$campus = Auth::guard('web')->user()->campus;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');   
+        $campus = Auth::guard('web')->user()->campus;
 
-// Get subject_offered data first
-$data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-    ->where('sub_offered.schlyear', $schlyear)
-    ->where('sub_offered.semester', $semester)
-    ->where('sub_offered.campus', $campus)
-    ->whereIn('sub_offered.subCode', $cwtscodes)
-    ->select(
-        'subjects.sub_name',
-        'subjects.sub_title',
-        'sub_offered.*',
-        'sub_offered.id as sid',
-    )
-    ->get();
+        // Get subject_offered data first
+        $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->where('sub_offered.schlyear', $schlyear)
+            ->where('sub_offered.semester', $semester)
+            ->where('sub_offered.campus', $campus)
+            ->whereIn('sub_offered.subCode', $cwtscodes)
+            ->select(
+                'subjects.sub_name',
+                'subjects.sub_title',
+                'sub_offered.*',
+                'sub_offered.id as sid',
+            )
+            ->get();
 
-// Get the subject_offered IDs from the result
-$subjectIDs = $data->pluck('sid')->toArray();
+        // Get the subject_offered IDs from the result
+        $subjectIDs = $data->pluck('sid')->toArray();
 
-// Use whereIn to get students enrolled in those subjects
-$substudnowviewpdf = Grade::select(
-        'so.*', 
-        'studgrades.*', 
-        'studgrades.id as sgid', 
-        'studgrades.status as gstat', 
-        'students.*', 
-        's.*'
-    )
-    ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
-    ->join('students', 'studgrades.studID', '=', 'students.stud_id')
-    ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
-    ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
-    ->where('so.schlyear', $schlyear)
-    ->where('so.semester', $semester)
-    ->whereIn('studgrades.subjID', $subjectIDs)
-    ->orderBy('students.lname', 'ASC')
-    ->get();
+        // Use whereIn to get students enrolled in those subjects
+        $substudnowviewpdf = Grade::select(
+                'so.*', 
+                'studgrades.*', 
+                'studgrades.id as sgid', 
+                'studgrades.status as gstat', 
+                'students.*', 
+                's.*'
+            )
+            ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
+            ->join('students', 'studgrades.studID', '=', 'students.stud_id')
+            ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
+            ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
+            ->where('so.schlyear', $schlyear)
+            ->where('so.semester', $semester)
+            ->whereIn('studgrades.subjID', $subjectIDs)
+            ->orderBy('students.lname', 'ASC')
+            ->get();
 
 
         return view('nstpcwtsltsrotc.listcwtsresult', compact('sy', 'substudnowviewpdf'));
