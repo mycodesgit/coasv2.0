@@ -65,7 +65,7 @@
 </div>
 
 
-@if(Auth::guard('web')->user()->role == 0 )
+@if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Gargoles')
 <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
     <h5>Reports</h5>
 </div>

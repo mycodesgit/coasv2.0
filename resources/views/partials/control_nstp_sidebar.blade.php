@@ -2,6 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $docslistActive = in_array($curr_route, ['request-index']) ? 'active' : '';
+    $cwtslistActive = in_array($curr_route, ['cwts_nstp']) ? 'active' : '';
     $reportsNSTPlistActive = in_array($curr_route, ['reports_nstp', 'reports_nstpresult']) ? 'active' : '';
 
 @endphp
@@ -9,7 +10,7 @@
 <div class="ml-2 mr-2 mt-3 mb-3">
     <ul class="list-group">
         <a href="#" class="list-group-item">Dashboard</a>
-        <a href="#" class="list-group-item">CWTS Students</a>
+        <a href="{{ route('cwts_nstp') }}" class="list-group-item {{ $cwtslistActive }}">CWTS Students</a>
         <a href="#" class="list-group-item">LTS Students</a>
         <a href="#" class="list-group-item">ROTC Students</a>
     </ul>

@@ -1,7 +1,7 @@
 @extends('layouts.master_nstp')
 
 @section('title')
-CISS V.1.0 || NSTP Reports
+CISS V.1.0 || NSTP CWTS
 @endsection
 
 @section('sideheader')
@@ -20,7 +20,7 @@ CISS V.1.0 || NSTP Reports
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">NSTP</li>
-            <li class="breadcrumb-item active mt-1">Generate Reports</li>
+            <li class="breadcrumb-item active mt-1">CWTS</li>
         </ol>
 
         <p>
@@ -33,17 +33,17 @@ CISS V.1.0 || NSTP Reports
 
         <div>
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Generate Reports</h4>
+                <h4>CWTS</h4>
             </div> 
         </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="GET" action="{{ route('reports_nstpresult') }}" id="enrollStud">
+                    <form method="GET" action="{{ route('cwts_nstpresult') }}" id="enrollStud">
                         @csrf   
 
                         <div class="form-group mt-2" style="padding: 10px">
                             <div class="form-row">
-                                @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Arlos')
+                                @if(Auth::guard('web')->user()->role == '0')
                                 <div class="col-md-2">
                                     <label><span class="badge badge-secondary">Campus</span></label>
                                     <select class="form-control form-control-sm" name="campus" id="campus">
@@ -86,8 +86,7 @@ CISS V.1.0 || NSTP Reports
                         </div>
                     </form>
                 </div>
-
-                <div class="col-md-12 mt-3">
+                <div class="col-md-12">
                     <div class="table-responsive">
                         <table id="nstptable" class="table table-hover">
                             <thead>
@@ -95,76 +94,14 @@ CISS V.1.0 || NSTP Reports
                                     <th>1</th>
                                     <th>2</th>
                                     <th>3</th>
-                                    <th>4</th>
-                                    <th>5</th>
-                                    <th>6</th>
-                                    <th>7</th>
-                                    <th>8</th>
-                                    <th>9</th>
-                                    <th>10</th>
-                                    <th>11</th>
-                                    <th>12</th>
-                                    <th>13</th>
-                                    <th>14</th>
-                                    <th>15</th>
-                                    <th>16</th>
-                                    <th>17</th>
-                                    <th>18</th>
-                                    <th>19</th>
-                                    <th>20</th>
-                                    <th>21</th>
-                                    <th>22</th>
                                 </tr>
-                                <tr>
-                                    <th>NO.</th>
-                                    <th>STUDID.</th>
-                                    <th>AWARD YEAR</th>
-                                    <th>NSTP Program</th>
-                                    <th>REGION</th>
-                                    <th>SERIAL No.</th>
-                                    <th>LAST NAME</th>
-                                    <th>FIRST NAME</th>
-                                    <th>EXT. NAME</th>
-                                    <th>MIDDLE NAME</th>
-                                    <th>BIRTHDATE</th>
-                                    <th>SEX</th>
-                                    <th>STREET/BRGY</th>
-                                    <th>TOWN/CITY</th>
-                                    <th>PROVINCE</th>
-                                    <th>HEI NAME</th>
-                                    <th>INSTITUTIONAL</th>
-                                    <th>TYPE</th>
-                                    <th>PROGRAM LEVEL</th>
-                                    <th>MAIN PROGRAM NAME</th>
-                                    <th>EMAIL</th>
-                                    <th>CONTACT NUMBER</th>
-                                </tr>
-                            </thead>
                             <tbody>
-                                @foreach($data as $claEn)
+                                @foreach($substudnowviewpdf as $claEn)
                                     <tr>
                                         <td>1</td>
-                                        <td>{{ $claEn->studentID }}</td>
-                                        <td>{{ $claEn->schlyear }}</td>
                                         <td>{{ $claEn->sub_name }}</td>
-                                        <td>{{ $claEn->region }}</td>
-                                        <td></td>
-                                        <td>{{ $claEn->lname }}</td>
-                                        <td>{{ $claEn->fname }}</td>
-                                        <td>{{ $claEn->ext == 'N/A' ? '' : $claEn->ext }}</td>
-                                        <td>{{ $claEn->mname }}</td>
-                                        <td>{{ $claEn->bday }}</td>
-                                        <td>{{ $claEn->gender }}</td>
-                                        <td>{{ $claEn->brgy }}</td>
-                                        <td>{{ $claEn->city }}</td>
-                                        <td>{{ $claEn->province }}</td>
-                                        <td>CPSU</td>
-                                        <td>6058</td>
-                                        <td>{{ $claEn->course }}</td>
-                                        <td></td>
-                                        <td>{{ $claEn->course }}</td>
-                                        <td>{{ $claEn->email }}</td>
-                                        <td>{{ $claEn->contact }}</td>
+                                        <td>{{ $claEn->lname }} {{ $claEn->lname }}</td>
+                                        <td>{{ $claEn->sub_name }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -176,8 +113,5 @@ CISS V.1.0 || NSTP Reports
     </div>
 </div>
 
-{{-- <script>
-    var nstpReadRoute = "{{ route('getreportsnstpresult') }}";
-</script> --}}
 
 @endsection

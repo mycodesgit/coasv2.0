@@ -54,6 +54,69 @@ class NstpController extends Controller
         return view('nstpcwtsltsrotc.index');
     }
 
+    public function cwts_nstp()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('nstpcwtsltsrotc.listcwts', compact('sy'));
+    }
+
+    public function cwts_nstpresult(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+        
+        $cwtscodes = [
+            "KAB-SER-076", "KAB-SER-144"
+        ];
+
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');   
+        $campus = Auth::guard('web')->user()->campus;
+
+        $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->where('sub_offered.schlyear', $schlyear)
+            ->where('sub_offered.semester', $semester)
+            ->where('sub_offered.campus', $campus)
+            ->whereIn('sub_offered.subCode', $cwtscodes)
+            ->select(
+            'subjects.sub_name',
+            'subjects.sub_title',
+            'sub_offered.*',
+            'sub_offered.id as sid',
+            )
+            ->get();
+
+        // Collect all IDs from $data
+        $subOfferedIds = $data->pluck('sid')->toArray();
+
+        $substudnowviewpdf = Grade::select('so.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
+            ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
+            ->join('students', 'studgrades.studID', '=', 'students.stud_id')
+            ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
+            ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
+            ->where('so.schlyear', $schlyear)
+            ->where('so.semester', $semester)
+            ->whereIn('studgrades.subjID', $subOfferedIds)
+            ->orderBy('students.lname', 'ASC')
+            ->get();
+
+        return view('nstpcwtsltsrotc.listcwtsresult', compact('sy', 'substudnowviewpdf'));
+    }
+
     public function reports_nstp()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
