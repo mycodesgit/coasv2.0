@@ -164,13 +164,26 @@ class NstpController extends Controller
         $subjectIDs = $data->pluck('sid')->toArray();
 
         // Use whereIn to get students enrolled in those subjects
-        $substudnowviewpdf = Grade::select(
+        $data = Grade::select(
                 'so.*', 
                 'studgrades.*', 
                 'studgrades.studID', 
                 'studgrades.id as sgid', 
                 'studgrades.status as gstat', 
-                'students.*', 
+                'students.lname', 
+                'students.fname', 
+                'students.ext', 
+                'students.mname', 
+                'students.mname', 
+                'students.bday', 
+                'students.gender', 
+                'students.region', 
+                'students.brgy', 
+                'students.city', 
+                'students.province', 
+                'students.course', 
+                'students.email', 
+                'students.contact', 
                 's.*'
             )
             ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
