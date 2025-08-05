@@ -88,7 +88,7 @@ CISS V.1.0 || NSTP ROTC
                 </div>
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table id="ltstab" class="table table-hover">
+                        <table id="rotctab" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>1</th>
@@ -149,7 +149,7 @@ CISS V.1.0 || NSTP ROTC
 </div>
 
 <script>
-    var ltsnstpReadRoute = "{{ route('getltsnstpresult') }}";
+    var rotcnstpReadRoute = "{{ route('getrotcnstpresult') }}";
 </script>
 
 @endsection
