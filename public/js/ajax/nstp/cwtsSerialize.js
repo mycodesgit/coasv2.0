@@ -21,7 +21,7 @@ $(document).ready(function() {
         },
         destroy: true,
         info: true,
-        responsive: true,
+        responsive: false,
         lengthChange: true,
         searching: true,
         paging: true,
