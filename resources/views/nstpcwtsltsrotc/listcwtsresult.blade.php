@@ -88,7 +88,7 @@ CISS V.1.0 || NSTP CWTS
                 </div>
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table id="nstptable" class="table table-hover">
+                        <table id="example1" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>1</th>
