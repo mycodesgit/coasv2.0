@@ -57,7 +57,7 @@ class NstpController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         // NSTP Subject Codes
-        $cwtscodes = ["KAB-SER-146", "KAB-SER-149"];
+        $cwtscodes = ["KAB-SER-076", "KAB-SER-144", "KAB-SER-147"];
         $ltscodes = ["KAB-SER-145", "KAB-SER-148"];
         $rotccodes = ["KAB-SER-146", "KAB-SER-149"];
 
