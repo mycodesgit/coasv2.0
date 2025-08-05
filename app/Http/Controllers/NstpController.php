@@ -178,14 +178,19 @@ class NstpController extends Controller
                 'students.course', 
                 'students.email', 
                 'students.contact', 
-                's.*'
+                's.*',
+                'coasv2_db_schedule.programs.progAcronym'
             )
             ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
             ->join('students', 'studgrades.studID', '=', 'students.stud_id')
             ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
             ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
+            ->leftJoin('program_en_history', 'studgrades.studID', '=', 'program_en_history.studentID')
+            ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('so.schlyear', $schlyear)
             ->where('so.semester', $semester)
+            ->where('program_en_history.semester', $semester)
+            ->where('program_en_history.schlyear', $schlyear)
             ->whereIn('studgrades.subjID', $subjectIDs)
             ->orderBy('students.lname', 'ASC')
             ->get();
@@ -277,14 +282,19 @@ class NstpController extends Controller
                 'students.course', 
                 'students.email', 
                 'students.contact', 
-                's.*'
+                's.*',
+                'coasv2_db_schedule.programs.progAcronym'
             )
             ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
             ->join('students', 'studgrades.studID', '=', 'students.stud_id')
             ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
             ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
+            ->leftJoin('program_en_history', 'studgrades.studID', '=', 'program_en_history.studentID')
+            ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('so.schlyear', $schlyear)
             ->where('so.semester', $semester)
+            ->where('program_en_history.semester', $semester)
+            ->where('program_en_history.schlyear', $schlyear)
             ->whereIn('studgrades.subjID', $subjectIDs)
             ->orderBy('students.lname', 'ASC')
             ->get();
@@ -376,14 +386,19 @@ class NstpController extends Controller
                 'students.course', 
                 'students.email', 
                 'students.contact', 
-                's.*'
+                's.*',
+                'coasv2_db_schedule.programs.progAcronym'
             )
             ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
             ->join('students', 'studgrades.studID', '=', 'students.stud_id')
             ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
             ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
+            ->leftJoin('program_en_history', 'studgrades.studID', '=', 'program_en_history.studentID')
+            ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('so.schlyear', $schlyear)
             ->where('so.semester', $semester)
+            ->where('program_en_history.semester', $semester)
+            ->where('program_en_history.schlyear', $schlyear)
             ->whereIn('studgrades.subjID', $subjectIDs)
             ->orderBy('students.lname', 'ASC')
             ->get();

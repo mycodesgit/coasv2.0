@@ -78,7 +78,7 @@ $(document).ready(function() {
                     return '';
                 }
             },
-            {data: 'course'},
+            {data: 'progAcronym'},
             {data: 'email'},
             {data: 'contact'},
         ],
