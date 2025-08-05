@@ -88,7 +88,7 @@ CISS V.1.0 || NSTP CWTS
                 </div>
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table id="example1" class="table table-hover">
+                        <table id="cwtstab" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>1</th>
@@ -139,7 +139,7 @@ CISS V.1.0 || NSTP CWTS
                                     <th>CONTACT NUMBER</th>
                                 </tr>
                             <tbody>
-                                @foreach($substudnowviewpdf as $claEn)
+                                {{-- @foreach($substudnowviewpdf as $claEn)
                                     <tr>
                                         <td>1</td>
                                         <td>{{ $claEn->studID }}</td>
@@ -164,7 +164,7 @@ CISS V.1.0 || NSTP CWTS
                                         <td>{{ $claEn->email }}</td>
                                         <td>{{ $claEn->contact }}</td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
@@ -174,5 +174,8 @@ CISS V.1.0 || NSTP CWTS
     </div>
 </div>
 
+<script>
+    var cwtsnstpReadRoute = "{{ route('getcwtsnstpresult') }}";
+</script>
 
 @endsection

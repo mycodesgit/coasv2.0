@@ -216,8 +216,8 @@
 
     <script src="{{ asset('js/validation/settings/setconfValidation.js') }}"></script>
 
-    @if(request()->routeIs('reports_nstpresult'))
-        <script src="{{ asset('js/ajax/nstp/gennstpSerialize.js') }}"></script>
+    @if(request()->routeIs('cwts_nstpresult'))
+        <script src="{{ asset('js/ajax/nstp/cwtsSerialize.js') }}"></script>
     @endif
 
     <script>

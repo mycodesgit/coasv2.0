@@ -902,6 +902,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/', [NstpController::class, 'index'])->name('nstp-index');
         Route::get('/cwts', [NstpController::class, 'cwts_nstp'])->name('cwts_nstp');
         Route::get('/cwts/show/result', [NstpController::class, 'cwts_nstpresult'])->name('cwts_nstpresult');
+        Route::get('/cwts/show/result/ajax', [NstpController::class, 'getcwtsnstpresult'])->name('getcwtsnstpresult');
 
         Route::get('/generate/reports/show', [NstpController::class, 'reports_nstp'])->name('reports_nstp');
         Route::get('/generate/reports/show/result', [NstpController::class, 'reports_nstpresult'])->name('reports_nstpresult');
