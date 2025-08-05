@@ -113,16 +113,18 @@ CISS V.1.0 || NSTP Reports
                                     <th>19</th>
                                     <th>20</th>
                                     <th>21</th>
+                                    <th>22</th>
                                 </tr>
-                                {{-- <tr>
+                                <tr>
                                     <th>NO.</th>
+                                    <th>STUDID.</th>
                                     <th>AWARD YEAR</th>
                                     <th>NSTP Program</th>
                                     <th>REGION</th>
-                                    <th>SERIAL NUMBER</th>
+                                    <th>SERIAL No.</th>
                                     <th>LAST NAME</th>
                                     <th>FIRST NAME</th>
-                                    <th>EXTENSION NAME</th>
+                                    <th>EXT. NAME</th>
                                     <th>MIDDLE NAME</th>
                                     <th>BIRTHDATE</th>
                                     <th>SEX</th>
@@ -136,28 +138,29 @@ CISS V.1.0 || NSTP Reports
                                     <th>MAIN PROGRAM NAME</th>
                                     <th>EMAIL</th>
                                     <th>CONTACT NUMBER</th>
-                                </tr> --}}
+                                </tr>
                             </thead>
                             <tbody>
                                 {{-- @foreach($data as $claEn)
                                     <tr>
                                         <td>1</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $claEn->studentID }}</td>
+                                        <td>{{ $claEn->schlyear }}</td>
+                                        <td>{{ $claEn->sub_name }}</td>
+                                        <td>{{ $claEn->region }}</td>
                                         <td></td>
                                         <td>{{ $claEn->lname }}</td>
                                         <td>{{ $claEn->fname }}</td>
-                                        <td>{{ $claEn->ext }}</td>
+                                        <td>{{ $claEn->ext == 'N/A' ? '' : $claEn->ext }}</td>
                                         <td>{{ $claEn->mname }}</td>
                                         <td>{{ $claEn->bday }}</td>
                                         <td>{{ $claEn->gender }}</td>
                                         <td>{{ $claEn->brgy }}</td>
                                         <td>{{ $claEn->city }}</td>
                                         <td>{{ $claEn->province }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>CPSU</td>
+                                        <td>6058</td>
+                                        <td>{{ $claEn->course }}</td>
                                         <td></td>
                                         <td>{{ $claEn->course }}</td>
                                         <td>{{ $claEn->email }}</td>

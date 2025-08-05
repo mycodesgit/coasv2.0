@@ -4,10 +4,20 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var schlyear = urlParams.get('schlyear') || ''; 
+    var semester = urlParams.get('semester') || '';
+    var campus = urlParams.get('campus') || ''; 
+
     var dataTable = $('#nstptable').DataTable({
         "ajax": {
             "url": nstpReadRoute,
             "type": "GET",
+            "data": { 
+                "schlyear": schlyear,
+                "semester": semester,
+                "campus": campus,
+            }
         },
         destroy: true,
         info: true,
@@ -22,8 +32,9 @@ $(document).ready(function() {
                     return meta.row + 1;
                 }
             },
+            {data: 'studentID'},
             {data: 'schlyear'},
-            {data: 'semester'},
+            {data: 'sub_name'},
             {data: 'region'},
             {                            
                 data: null,

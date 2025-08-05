@@ -89,10 +89,24 @@ class NstpController extends Controller
 
         $campusArray = array_map('trim', explode(',', $campus));
 
+        $kabSubcodes = [
+            "KAB-SER-076", "KAB-SER-077", "KAB-SER-144",
+            "KAB-SER-145", "KAB-SER-146", "KAB-SER-147",
+            "KAB-SER-148", "KAB-SER-149"
+        ];
+
         $data = StudEnrolmentHistory::leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                 ->join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                ->join('studgrades', 'students.stud_id', '=', 'studgrades.studID') // Join studgrades
+                ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id') // Join sub_offered
+                ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code') // Join subjects
+                ->whereIn('coasv2_db_schedule.sub_offered.subCode', $kabSubcodes) // Filter by target sub_code
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', $semester)
+                ->where('program_en_history.studYear', '=', '1')
+                ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+                ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+                ->where('coasv2_db_schedule.sub_offered.campus', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
                         $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
@@ -100,12 +114,15 @@ class NstpController extends Controller
                 })
                 ->where('program_en_history.status', 2)
                 ->select(
+                    'program_en_history.studentID', 
                     'students.lname', 
                     'students.fname', 
                     'students.ext', 
                     'students.mname', 
                     'students.mname', 
                     'students.bday', 
+                    'students.gender', 
+                    'students.region', 
                     'students.brgy', 
                     'students.city', 
                     'students.province', 
@@ -115,7 +132,9 @@ class NstpController extends Controller
                     'students.contact', 
                     'program_en_history.id', 
                     'program_en_history.schlyear', 
-                    'program_en_history.semester')
+                    'program_en_history.semester',
+                    'coasv2_db_schedule.subjects.sub_name')
+                ->limit(10)
                 ->get();
 
         return view('nstpcwtsltsrotc.reports.listgenresult', compact('sy', 'data'));
@@ -133,10 +152,24 @@ class NstpController extends Controller
 
         $campusArray = array_map('trim', explode(',', $campus));
 
+        $kabSubcodes = [
+            "KAB-SER-076", "KAB-SER-077", "KAB-SER-144",
+            "KAB-SER-145", "KAB-SER-146", "KAB-SER-147",
+            "KAB-SER-148", "KAB-SER-149"
+        ];
+
         $data = StudEnrolmentHistory::leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                 ->join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                ->join('studgrades', 'students.stud_id', '=', 'studgrades.studID') // Join studgrades
+                ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id') // Join sub_offered
+                ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code') // Join subjects
+                ->whereIn('coasv2_db_schedule.sub_offered.subCode', $kabSubcodes) // Filter by target sub_code
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', $semester)
+                ->where('program_en_history.studYear', '=', '1')
+                ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+                ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+                ->where('coasv2_db_schedule.sub_offered.campus', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
                         $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
@@ -144,12 +177,15 @@ class NstpController extends Controller
                 })
                 ->where('program_en_history.status', 2)
                 ->select(
+                    'program_en_history.studentID', 
                     'students.lname', 
                     'students.fname', 
                     'students.ext', 
                     'students.mname', 
                     'students.mname', 
                     'students.bday', 
+                    'students.gender', 
+                    'students.region', 
                     'students.brgy', 
                     'students.city', 
                     'students.province', 
@@ -159,7 +195,9 @@ class NstpController extends Controller
                     'students.contact', 
                     'program_en_history.id', 
                     'program_en_history.schlyear', 
-                    'program_en_history.semester')
+                    'program_en_history.semester',
+                    'coasv2_db_schedule.subjects.sub_name')
+                // ->limit(10)
                 ->get();
 
         return response()->json(['data' => $data]);
