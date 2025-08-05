@@ -2,7 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $docslistActive = in_array($curr_route, ['request-index']) ? 'active' : '';
-    $cwtslistActive = in_array($curr_route, ['cwts_nstp']) ? 'active' : '';
+    $cwtslistActive = in_array($curr_route, ['cwts_nstp', 'cwts_nstpresult']) ? 'active' : '';
     $reportsNSTPlistActive = in_array($curr_route, ['reports_nstp', 'reports_nstpresult']) ? 'active' : '';
 
 @endphp
