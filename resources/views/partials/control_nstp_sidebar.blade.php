@@ -17,13 +17,3 @@
         <a href="{{ route('rotc_nstp') }}" class="list-group-item {{ $rotclistActive }}">ROTC Students</a>
     </ul>
 </div>
-
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Reports</h5>
-</div>
-
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('reports_nstp') }}" class="list-group-item {{ $reportsNSTPlistActive }}">Generate</a>
-    </ul>
-</div>
