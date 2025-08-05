@@ -25,6 +25,9 @@ $(document).ready(function() {
         lengthChange: true,
         searching: true,
         paging: true,
+        buttons: [
+                'excel', 'pdf'
+            ],
         "columns": [
             {
                 data: null,
@@ -75,12 +78,7 @@ $(document).ready(function() {
                     return '';
                 }
             },
-            {
-                data: null,
-                render: function () {
-                    return 'course';
-                }
-            },
+            {data: 'course'},
             {data: 'email'},
             {data: 'contact'},
         ],
