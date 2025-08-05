@@ -86,16 +86,9 @@ class NstpController extends Controller
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', $semester);
             })
-            ->leftJoin('program_en_history', function ($join) use ($schlyear, $semester) {
-                $join->on('program_en_history.studentID', '=', 'studgrades.studID')
-                    ->where('program_en_history.schlyear', $schlyear)
-                    ->where('program_en_history.semester', $semester);
-            })
-            ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->count();
     }
-
-
+    
     public function cwts_nstp()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
