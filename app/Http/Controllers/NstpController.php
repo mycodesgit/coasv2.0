@@ -56,44 +56,39 @@ class NstpController extends Controller
         $semesteractive = $activeConfig->semester;
         $campus = Auth::guard('web')->user()->campus;
 
-        // NSTP Subject Codes
         $cwtscodes = ["KAB-SER-076", "KAB-SER-144", "KAB-SER-147"];
         $ltscodes = ["KAB-SER-145", "KAB-SER-148"];
         $rotccodes = ["KAB-SER-146", "KAB-SER-149"];
 
-        $cwtscount = $this->countNSTPStudents($cwtscodes, $schlyearactive, $semesteractive, $campus);
-        $ltscount  = $this->countNSTPStudents($ltscodes,  $schlyearactive, $semesteractive, $campus);
-        $rotccount = $this->countNSTPStudents($rotccodes, $schlyearactive, $semesteractive, $campus);
+        // ⚡ Fast counts
+        $cwtscount = $this->countNSTPStudentsFast($cwtscodes, $schlyearactive, $semesteractive, $campus);
+        $ltscount  = $this->countNSTPStudentsFast($ltscodes,  $schlyearactive, $semesteractive, $campus);
+        $rotccount = $this->countNSTPStudentsFast($rotccodes, $schlyearactive, $semesteractive, $campus);
 
         return view('nstpcwtsltsrotc.index', compact('schlyearactive', 'semesteractive', 'cwtscount', 'ltscount', 'rotccount'));
     }
 
-    private function countNSTPStudents(array $subjectCodes, $schlyear, $semester, $campus)
+    private function countNSTPStudentsFast(array $subjectCodes, $schlyear, $semester, $campus)
     {
-        // Get subject_offered IDs for the given codes, semester, and campus
-        $subjectIDs = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-            ->where('sub_offered.schlyear', $schlyear)
-            ->where('sub_offered.semester', $semester)
-            ->where('sub_offered.campus', $campus)
-            ->whereIn('sub_offered.subCode', $subjectCodes)
-            ->pluck('sub_offered.id'); // no need to get entire rows
-
-        // Count students enrolled in those subject_offered IDs
-        return Grade::join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
-            ->join('students', 'studgrades.studID', '=', 'students.stud_id')
-            ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
-            ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
-            ->leftJoin('program_en_history', 'studgrades.studID', '=', 'program_en_history.studentID')
-            ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-            ->where('so.schlyear', $schlyear)
-            ->where('so.semester', $semester)
-            ->where('program_en_history.semester', $semester)
-            ->where('program_en_history.schlyear', $schlyear)
-            ->whereIn('studgrades.subjID', $subjectIDs)
+        return Grade::whereIn('subjID', function ($query) use ($subjectCodes, $schlyear, $semester, $campus) {
+                $query->select('coasv2_db_schedule.sub_offered.id')
+                    ->from('coasv2_db_schedule.sub_offered')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', $campus)
+                    ->whereIn('coasv2_db_schedule.sub_offered.subCode', $subjectCodes);
+            })
+            ->whereExists(function ($q) use ($schlyear, $semester) {
+                $q->selectRaw(1)
+                ->from('program_en_history')
+                ->whereColumn('program_en_history.studentID', 'studgrades.studID')
+                ->where('program_en_history.schlyear', $schlyear)
+                ->where('program_en_history.semester', $semester);
+            })
             ->count();
     }
-
-
+    
     public function cwts_nstp()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
