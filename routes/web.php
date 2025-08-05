@@ -909,6 +909,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/lts/show/result', [NstpController::class, 'lts_nstpresult'])->name('lts_nstpresult');
         Route::get('/lts/show/result/ajax', [NstpController::class, 'getltsnstpresult'])->name('getltsnstpresult');
 
+        Route::get('/rotc', [NstpController::class, 'rotc_nstp'])->name('rotc_nstp');
+        Route::get('/rotc/show/result', [NstpController::class, 'rotc_nstpresult'])->name('rotc_nstpresult');
+        Route::get('/rotc/show/result/ajax', [NstpController::class, 'getrotcnstpresult'])->name('getrotcnstpresult');
+
         Route::get('/generate/reports/show', [NstpController::class, 'reports_nstp'])->name('reports_nstp');
         Route::get('/generate/reports/show/result', [NstpController::class, 'reports_nstpresult'])->name('reports_nstpresult');
         Route::get('/generate/reports/show/result/ajax', [NstpController::class, 'getreportsnstpresult'])->name('getreportsnstpresult');
