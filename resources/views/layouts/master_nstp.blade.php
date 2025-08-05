@@ -222,6 +222,9 @@
     @if(request()->routeIs('lts_nstpresult'))
         <script src="{{ asset('js/ajax/nstp/ltsSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('rotc_nstpresult'))
+        <script src="{{ asset('js/ajax/nstp/rotcSerialize.js') }}"></script>
+    @endif
 
     <script>
         $(document).ready(function () {
