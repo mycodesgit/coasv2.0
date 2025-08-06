@@ -214,7 +214,8 @@ class NstpController extends Controller
                 'students.email', 
                 'students.contact', 
                 's.*',
-                'coasv2_db_schedule.programs.progAcronym'
+                'coasv2_db_schedule.programs.progAcronym',
+                'coasv2_db_schedule.programs.progName'
             )
             ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
             ->join('students', 'studgrades.studID', '=', 'students.stud_id')
@@ -318,7 +319,8 @@ class NstpController extends Controller
                 'students.email', 
                 'students.contact', 
                 's.*',
-                'coasv2_db_schedule.programs.progAcronym'
+                'coasv2_db_schedule.programs.progAcronym',
+                'coasv2_db_schedule.programs.progName'
             )
             ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
             ->join('students', 'studgrades.studID', '=', 'students.stud_id')
@@ -422,7 +424,8 @@ class NstpController extends Controller
                 'students.email', 
                 'students.contact', 
                 's.*',
-                'coasv2_db_schedule.programs.progAcronym'
+                'coasv2_db_schedule.programs.progAcronym',
+                'coasv2_db_schedule.programs.progName'
             )
             ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
             ->join('students', 'studgrades.studID', '=', 'students.stud_id')

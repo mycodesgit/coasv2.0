@@ -57,7 +57,7 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function () {
-                    return 'CPSU';
+                    return 'Central Philippines State University';
                 }
             },
             {
@@ -78,7 +78,7 @@ $(document).ready(function() {
                     return '';
                 }
             },
-            {data: 'progAcronym'},
+            {data: 'progName'},
             {data: 'email'},
             {data: 'contact'},
         ],
