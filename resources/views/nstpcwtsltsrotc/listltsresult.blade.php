@@ -1,7 +1,7 @@
 @extends('layouts.master_nstp')
 
 @section('title')
-CISS V.1.0 || NSTP CWTS
+CISS V.1.0 || NSTP LTS
 @endsection
 
 @section('sideheader')
@@ -20,7 +20,7 @@ CISS V.1.0 || NSTP CWTS
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">NSTP</li>
-            <li class="breadcrumb-item active mt-1">CWTS</li>
+            <li class="breadcrumb-item active mt-1">LTS</li>
         </ol>
 
         <p>
@@ -33,7 +33,7 @@ CISS V.1.0 || NSTP CWTS
 
         <div>
             <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>CWTS</h4>
+                <h4>LTS</h4>
             </div> 
         </div>
             <div class="row">
