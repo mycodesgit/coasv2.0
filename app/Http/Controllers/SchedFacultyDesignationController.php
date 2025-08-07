@@ -38,7 +38,7 @@ class SchedFacultyDesignationController extends Controller
         $semester = $request->query('semester');
         $campus = $request->query('campus');
 
-        $faclist = Faculty::all();
+        $faclist = Faculty::where('campus', '=', Auth::guard('web')->user()->campus)->get();
 
         $data = FacDesignation::select('fac_designation.*', 'faculty.*', 'fac_designation.id as fcdid')
                         ->join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
