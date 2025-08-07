@@ -36,6 +36,7 @@ class SchedFacultyDesignationController extends Controller
     {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
+        $campus = $request->query('campus');
 
         $faclist = Faculty::all();
 
@@ -43,6 +44,7 @@ class SchedFacultyDesignationController extends Controller
                         ->join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
                         ->where('fac_designation.schlyear', $schlyear)
                         ->where('fac_designation.semester', $semester)
+                        ->where('fac_designation.campus', $campus)
                         ->get();
         $totalSearchResults = count($data);
 
@@ -62,11 +64,13 @@ class SchedFacultyDesignationController extends Controller
     {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
+        $campus = $request->query('campus');
 
         $data = FacDesignation::join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
                         ->leftJoin('college', 'fac_designation.facdept', '=', 'college.college_abbr')
                         ->where('fac_designation.schlyear', $schlyear)
                         ->where('fac_designation.semester', $semester)
+                        ->where('fac_designation.campus', $campus)
                         ->select('fac_designation.*', 'faculty.*', 'fac_designation.id as fcdid', 'college.college_name')
                         ->get();
 

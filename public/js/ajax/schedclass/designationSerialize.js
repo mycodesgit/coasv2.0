@@ -50,13 +50,15 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
-            { 
+            {
                 data: null,
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
-                    return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
+                    var lastName = data.lname;
+                    var ext = data.ext && data.ext !== 'N/A' ? ' ' + data.ext : ' ';
+                    
+                    return lastName + ', ' + firstname + ' ' + middleInitial + ext;
                 }
             },
             {

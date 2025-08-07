@@ -59,14 +59,15 @@ CISS V.1.0 || Faculty Designation
                                 <select class="form-control form-control-sm" name="campus">
                                     <option value="{{Auth::user()->campus}}">
                                         @if (Auth::user()->campus == 'MC') Main 
-                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
                                             @elseif(Auth::user()->campus == 'VC') Victorias 
+                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
                                             @elseif(Auth::user()->campus == 'HC') Hinigaran 
                                             @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                            @elseif(Auth::user()->campus == 'SC') Sipalay 
                                             @elseif(Auth::user()->campus == 'IC') Ilog 
+                                            @elseif(Auth::user()->campus == 'CA') Candoni 
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
+                                            @elseif(Auth::user()->campus == 'SC') Sipalay  
+                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
                                         @endif
                                     </option>
                                 </select>
@@ -144,6 +145,7 @@ CISS V.1.0 || Faculty Designation
                                 <select class="form-control form-control-sm" name="designation">
                                     <option value="Dean">Dean</option>
                                     <option value="Registrar">Registrar</option>
+                                    <option value="CampusAdmin">Campus Admin</option>
                                 </select>
                             </div>
 
@@ -180,7 +182,7 @@ CISS V.1.0 || Faculty Designation
 </div>
 
 
-<div class="modal fade" id="editDesignationModal" tabindex="-1" role="dialog" aria-labelledby="editDesignationModalLabel" aria-hidden="true">
+<div class="modal fade" id="editDesignationModal" role="dialog" aria-labelledby="editDesignationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -219,6 +221,7 @@ CISS V.1.0 || Faculty Designation
                         <select class="form-control form-control-sm" id="editDesignationDesignation" name="designation">
                             <option value="Dean">Dean</option>
                             <option value="Registrar">Registrar</option>
+                            <option value="CampusAdmin">Campus Admin</option>
                         </select>
                     </div>
                     <div class="form-group">
