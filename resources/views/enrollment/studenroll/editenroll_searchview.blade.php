@@ -319,9 +319,9 @@ CISS V.1.0 || Edit Student Enrollment
                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
                             <form action="{{ route('studrfprint') }}" method="get" target="_blank">
                                 @csrf
-                                <input type="text" name="stud_id" value="{{ request('stud_id') }}">
-                                <input type="text" name="schlyear" value="{{ request('schlyear') }}">
-                                <input type="text" name="semester" value="{{ request('semester') }}">
+                                <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
+                                <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                                <input type="hidden" name="semester" value="{{ request('semester') }}">
                             <button type="submit" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="printRFButton" target="_blank">
                                 Print RF
                             </button>
