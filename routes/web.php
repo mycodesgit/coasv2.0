@@ -26,6 +26,7 @@ use App\Http\Controllers\AdReuploadController;
 
 use App\Http\Controllers\EnStudAddController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\EnrollmentCrossController;
 use App\Http\Controllers\EnStudDupAppController;
 use App\Http\Controllers\EnProgStudEvalController;
 use App\Http\Controllers\EnStudHistoryController;
@@ -402,6 +403,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::post('/queue/next', [EnrollmentController::class, 'getNextQueue'])->name('queue.next');
             Route::post('/queue/call', [EnrollmentController::class, 'getCallQueue'])->name('queue.call');
+        });
+
+        Route::prefix('cross')->group(function () {
+            Route::get('/enroll/student', [EnrollmentCrossController::class, 'crosstudsearch'])->name('crosstudsearch');
+            Route::get('/enroll/student/search/view', [EnrollmentCrossController::class, 'editcrosstudsearchRead'])->name('editcrosstudsearchRead');
         });
 
         Route::prefix('eval')->group(function () {

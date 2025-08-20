@@ -88,7 +88,7 @@ CISS V.1.0 || Edit Student Enrollment
                                         <div class="form-row">
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Course Year&Section</span></label>
-                                                <select class="form-control form-control-sm" name="course" id="programNameEditSelect">
+                                                <select class="form-control form-control-sm" name="course" id="programNameEditSelect" readonly>
                                                     <option> --Select --</option>
                                                     @foreach ($classEnrolls as $class)
                                                     @php
@@ -131,7 +131,7 @@ CISS V.1.0 || Edit Student Enrollment
                                         <div class="form-row">
                                             <div class="col-md-6">
                                                 <label><span class="badge badge-secondary">Student Level</span></label>
-                                                <select class="form-control form-control-sm" name="studLevel">
+                                                <select class="form-control form-control-sm" name="studLevel" readonly>
                                                     <option disabled selected> --Select-- </option>
                                                     @foreach ($studlvl as $data)
                                                         <option value="{{ $data->id }}" {{ $data->id == $selectedProgStudLevel ? 'selected' : '' }}>{{ $data->studLevel }}</option>
@@ -149,7 +149,7 @@ CISS V.1.0 || Edit Student Enrollment
                                         <div class="form-row">
                                             <div class="col-md-6">
                                                 <label><span class="badge badge-secondary">Scholarship</span></label>
-                                                <select class="form-control form-control-sm" name="studSch">
+                                                <select class="form-control form-control-sm" name="studSch" readonly>
                                                     <option disabled selected> --SELECT SCHOLARSHIP-- </option>
                                                     @foreach ($studscholar as $data)
                                                         <option value="{{ $data->id }}" {{ $data->id == $selectedStudSch ? 'selected' : '' }}>{{ $data->scholar_name }}</option>
@@ -159,7 +159,7 @@ CISS V.1.0 || Edit Student Enrollment
 
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Major</span></label>
-                                                <select class="form-control form-control-sm" name="studMajor">
+                                                <select class="form-control form-control-sm" name="studMajor" readonly>
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($mamisub as $mamisubjects)
                                                         <option value="{{ $mamisubjects->submamiID }}" {{ $mamisubjects->submamiID == $selectedStudMajor ? 'selected' : '' }}>{{ $mamisubjects->submamiName }}</option>
@@ -169,7 +169,7 @@ CISS V.1.0 || Edit Student Enrollment
 
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Minor</span></label>
-                                                <select class="form-control form-control-sm" name="studMinor">
+                                                <select class="form-control form-control-sm" name="studMinor" readonly>
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($mamisub as $mamisubjects)
                                                         <option value="{{ $mamisubjects->submamiID }}" {{ $mamisubjects->submamiID == $selectedStudMinor ? 'selected' : '' }}>{{ $mamisubjects->submamiName }}</option>
@@ -183,7 +183,7 @@ CISS V.1.0 || Edit Student Enrollment
                                         <div class="form-row">
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Status</span></label>
-                                                <select class="form-control form-control-sm" name="studStatus">
+                                                <select class="form-control form-control-sm" name="studStatus" readonly>
                                                     @foreach ($studstat as $data)
                                                         <option value="{{ $data->id }}" {{ $data->id == $selectedStudStatus ? 'selected' : '' }}>{{ $data->studentStatName }}</option>
                                                     @endforeach
@@ -192,7 +192,7 @@ CISS V.1.0 || Edit Student Enrollment
 
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Type</span></label>
-                                                <select class="form-control form-control-sm" name="studType">
+                                                <select class="form-control form-control-sm" name="studType" readonly>
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($studtype as $data)
                                                         <option value="{{ $data->id }}" {{ $data->id == $selectedStudType ? 'selected' : '' }}>{{ $data->studentTypeName }}</option>
@@ -202,7 +202,7 @@ CISS V.1.0 || Edit Student Enrollment
 
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">Transferee/Shiftee</span></label>
-                                                <select class="form-control form-control-sm" name="transferee">
+                                                <select class="form-control form-control-sm" name="transferee" readonly>
                                                     <option disabled selected> --Select--</option>
                                                     @foreach ($shiftrans as $data)
                                                         <option value="{{ $data->id }}" {{ $data->id == $selectedStudTransferee ? 'selected' : '' }}>{{ $data->studentShiftTransDesc }}</option>
@@ -212,7 +212,7 @@ CISS V.1.0 || Edit Student Enrollment
 
                                             <div class="col-md-3">
                                                 <label><span class="badge badge-secondary">4P's Beneficiaries</span></label>
-                                                <select class="form-control form-control-sm" name="fourPs">
+                                                <select class="form-control form-control-sm" name="fourPs" readonly>
                                                     <option disabled selected> --Select--</option>
                                                     <option value="0" {{ $selectedStudFourPs == 0 ? 'selected' : '' }}>NO</option>
                                                     <option value="1" {{ $selectedStudFourPs == 1 ? 'selected' : '' }}>YES</option>
@@ -302,10 +302,10 @@ CISS V.1.0 || Edit Student Enrollment
                                 @endphp
                                 </tbody>
                             </table>
-                            <input type="hidden" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
-                            <input type="hidden" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
-                            <input type="hidden" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
-                            <input type="hidden" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
+                            <input type="text" id="fundnameCodeInput" name="fndCodes" class="form-control form-control-sm" value="{{ $fundIDsString }}" readonly>
+                            <input type="text" id="accountNameInput" name="accntNames" class="form-control form-control-sm" value="{{ $accountsString }}" readonly>
+                            <input type="text" id="amountFeeInput" name="amntFees" class="form-control form-control-sm" value="{{ $amountsString }}" readonly>
+                            <input type="text" id="primInput" name="id" class="form-control form-control-sm" value="{{ $primIDsString }}" readonly>
                         </div>
                     </div>
                 </div>

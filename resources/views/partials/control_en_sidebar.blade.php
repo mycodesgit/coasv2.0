@@ -4,6 +4,7 @@
     $dashEnActive = in_array($curr_route, ['enrollment-index']) ? 'active' : '';
     $studAddActive = in_array($curr_route, ['studentCreate']) ? 'active' : '';
     $searchStudActive = in_array($curr_route, ['searchStud', 'searchStudEnroll']) ? 'active' : '';
+    $crossStudActive = in_array($curr_route, ['crosstudsearch', 'editcrosstudsearchRead']) ? 'active' : '';
     $searchStudEvalActive = in_array($curr_route, ['loadstudsub', 'loadstudsub_searchview']) ? 'active' : '';
     $editEnrollStudActive = in_array($curr_route, ['editsearchStud', 'editsearchStudRead']) ? 'active' : '';
     $editDupAppEnrollStudActive = in_array($curr_route, ['dupapprslSearch', 'dupapprslSearch_listresult']) ? 'active' : '';
@@ -49,6 +50,7 @@
 
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 11, 12, 13, 14, 15]) && Auth::guard('web')->user()->lname != 'Movillion')
             <a href="{{ route('searchStud') }}" class="list-group-item {{ $searchStudActive }}">Enroll Student</a>  
+            {{-- <a href="{{ route('crosstudsearch') }}" class="list-group-item {{ $crossStudActive }}">Cross Enroll</a>   --}}
             <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
         @endif
 
