@@ -144,6 +144,7 @@ CISS V.1.0 || Applicant Reports
                             <th>Email</th>
                             <th>Contact No.</th>
                             <th>Campus</th>
+                            <th>Last School Attended</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -172,6 +173,9 @@ CISS V.1.0 || Applicant Reports
                                 <td>{{ $applicant->email }}</td>
                                 <td>{{ $applicant->contact }}</td>
                                 <td>{{ $applicant->campus }}</td>
+                                <td>
+                                    {{ $applicant->lstsch_attended ?: $applicant->suc_lst_attended }}
+                                </td>
                             </tr>
                             @else
                             @endif
