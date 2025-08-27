@@ -105,6 +105,7 @@ CISS V.1.0 || Student Enrolled
                                 <th>Province</th>
                                 <th>Region</th>
                                 <th>Zip</th>
+                                <th>Last School Attended</th>
                             </tr>
                         </thead>
                         <tbody>

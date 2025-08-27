@@ -47,6 +47,15 @@ $(document).ready(function() {
             {data: 'province'},
             {data: 'region'},
             {data: 'zcode'},
+            {
+                data: null,
+                render: function(data, type, row) {
+                    // Display lstsch_attended, if empty display suc_lst_attended
+                    return data.lstsch_attended && data.lstsch_attended.trim() !== ''
+                        ? data.lstsch_attended
+                        : (data.suc_lst_attended || '');
+                }
+            },
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
