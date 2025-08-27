@@ -91,11 +91,6 @@ class EnStudEnrolledController extends Controller
                         $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
                     }
                 })
-                ->where(function ($q) use ($campusArray) {
-                    foreach ($campusArray as $campus) {
-                        $q->orWhere('coasv2_db_admission.ad_applicant_admission.campus', 'LIKE', "%$campus%");
-                    }
-                })
                 ->where('students.stud_id', 'NOT LIKE', '%-G')
                 ->where('program_en_history.schlyear', '=', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
