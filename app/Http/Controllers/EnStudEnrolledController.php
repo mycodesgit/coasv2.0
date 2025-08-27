@@ -14,6 +14,8 @@ use PDF;
 use Storage;
 use Carbon\Carbon;
 
+use App\Models\AdmissionDB\Applicant;
+
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
 use App\Models\EnrollmentDB\Grade;
