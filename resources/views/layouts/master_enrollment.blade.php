@@ -362,6 +362,7 @@
                                                             </div>
                                                         </div>
                                                         <!-- Modal -->
+                                                        @if(Auth::guard('web')->user()->campus != 'MC')
                                                         <div class="modal fade" id="regularModal" tabindex="-1" role="dialog" aria-hidden="true">
                                                             <div class="modal-dialog modal-xl" role="document">
                                                                 <div class="modal-content">
@@ -372,7 +373,7 @@
                                                                         </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <iframe id="regularPdfFrame" src="" width="100%" height="600px" frameborder="0"></iframe>
+                                                                        <iframe id="regularPdfFrame" src="{{ route('regular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe>
                                                                         <div id="loadingText" class="text-center" style="display:none;">
                                                                             <p>Loading PDF, please wait...</p>
                                                                         </div>
@@ -380,6 +381,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @endif
                                                         <div class="modal fade" id="irregularModal" tabindex="-1" role="dialog" aria-hidden="true">
                                                             <div class="modal-dialog modal-xl" role="document">
                                                                 <div class="modal-content">
