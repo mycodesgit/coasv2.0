@@ -347,7 +347,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-6">
-                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important">
+                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important; cursor:pointer" data-toggle="modal" data-target="#irregularModal">
                                                                 <div class="text-left">
                                                                     <div class="inner">
                                                                         <h3>{{ $enrlstudIrregularcount }}</h3>
@@ -358,6 +358,22 @@
                                                                     <div class="icon">
                                                                         <i class="fa fa-users"></i>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="irregularModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                                            <div class="modal-dialog modal-xl" role="document">
+                                                                <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Irregular Students List</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span>&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <iframe src="{{ route('irregular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe>
+                                                                </div>
                                                                 </div>
                                                             </div>
                                                         </div>
