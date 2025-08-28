@@ -365,30 +365,37 @@
                                                         <div class="modal fade" id="regularModal" tabindex="-1" role="dialog" aria-hidden="true">
                                                             <div class="modal-dialog modal-xl" role="document">
                                                                 <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Regular Students List</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span>&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <iframe src="{{ route('regular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe>
-                                                                </div>
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Regular Students List</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span>&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <iframe id="regularPdfFrame" src="" width="100%" height="600px" frameborder="0"></iframe>
+                                                                        <div id="loadingText" class="text-center" style="display:none;">
+                                                                            <p>Loading PDF, please wait...</p>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="modal fade" id="irregularModal" tabindex="-1" role="dialog" aria-hidden="true">
                                                             <div class="modal-dialog modal-xl" role="document">
                                                                 <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Irregular Students List</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span>&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <iframe src="{{ route('irregular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe>
-                                                                </div>
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Irregular Students List</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span>&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        {{-- <iframe src="{{ route('irregular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe> --}}
+                                                                        <iframe id="irregularPdfFrame" src="" width="100%" height="600px" frameborder="0"></iframe>
+                                                                        <div id="loadingText" class="text-center" style="display:none;">
+                                                                            <p>Loading PDF, please wait...</p>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -498,6 +505,58 @@
             </script>
             <script src="{{ asset('js/chart/enbarchart.js') }}?v={{ time() }}"></script>
             <script src="{{ asset('js/chart/enbarchartperyearlev.js') }}?v={{ time() }}"></script>
+            <script>
+                $(document).ready(function() {
+                    $('#regularModal').on('show.bs.modal', function () {
+                        let iframe = $('#regularPdfFrame');
+                        let loading = $('#loadingText');
+                        
+                        // Show loading message
+                        loading.show();
+                        iframe.hide();
+
+                        // Load PDF only when modal opens
+                        iframe.attr('src', "{{ route('regular.students.pdf') }}");
+
+                        // Once iframe is loaded, hide loading message
+                        iframe.on('load', function() {
+                            loading.hide();
+                            iframe.show();
+                        });
+                    });
+
+                    // Optional: clear iframe when modal closes to free memory
+                    $('#regularModal').on('hidden.bs.modal', function () {
+                        $('#regularPdfFrame').attr('src', '');
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function() {
+                    $('#irregularModal').on('show.bs.modal', function () {
+                        let iframe = $('#irregularPdfFrame');
+                        let loading = $('#loadingText');
+                        
+                        // Show loading message
+                        loading.show();
+                        iframe.hide();
+
+                        // Load PDF only when modal opens
+                        iframe.attr('src', "{{ route('irregular.students.pdf') }}");
+
+                        // Once iframe is loaded, hide loading message
+                        iframe.on('load', function() {
+                            loading.hide();
+                            iframe.show();
+                        });
+                    });
+
+                    // Optional: clear iframe when modal closes to free memory
+                    $('#irregularModal').on('hidden.bs.modal', function () {
+                        $('#irregularPdfFrame').attr('src', '');
+                    });
+                });
+            </script>
         @endif
     @endif
 
