@@ -381,6 +381,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('enmod/enrollment')->group(function () {
         
         Route::get('/', [EnrollmentController::class, 'index'])->name('enrollment-index');
+        Route::get('/regpdf', [EnrollmentController::class, 'regularStudentsPDF'])->name('regular.students.pdf');
         Route::get('/irregpdf', [EnrollmentController::class, 'irregularStudentsPDF'])->name('irregular.students.pdf');
 
         Route::prefix('addnew')->group(function () {

@@ -361,6 +361,50 @@ class EnrollmentController extends Controller
         }
     }
 
+    public function regularStudentsPDF(Request $request)
+    {
+        $currentYear = Carbon::now()->year;
+        $previousYear = Carbon::now()->year;
+        $userCampus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $userCampus));
+
+        // Fetch the active configuration with set_status = 2
+        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        if (!$activeConfig) {
+            return back()->with('error', 'No active school year found.');
+        }
+        $activeConfigId = $activeConfig->id;
+        
+        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
+            ->orderBy('id', 'desc') // Get the most recent one
+            ->first();
+
+        $schlyearactiveYear = $activeConfig->schlyear;
+        $schlyearactive = $activeConfig->schlyear;
+        $semesteractive = $activeConfig->semester;
+        $prevsemesteractive = $previousConfig->semester;
+
+        $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
+
+        if (!$previousSchlyearYear) {
+            return back()->with('error', 'No previous school year found.');
+        }
+
+        $students = StudEnrolmentHistory::leftJoin('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->select('program_en_history.studentID', 'students.lname', 'students.fname', 'students.mname', 'students.ext')
+            ->where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+            ->where('program_en_history.studStatus', '=', '1')
+            ->where('program_en_history.campus', '=', $campusArray)
+            ->get();
+
+        $pdf = PDF::loadView('enrollment.reports.dashreport.regular_students', compact('students', 'semesteractive', 'schlyearactive'))
+                  ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('regular-students.pdf');
+    }
+
     public function irregularStudentsPDF(Request $request)
     {
         $currentYear = Carbon::now()->year;
