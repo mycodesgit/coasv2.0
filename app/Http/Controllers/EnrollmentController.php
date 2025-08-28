@@ -397,6 +397,7 @@ class EnrollmentController extends Controller
             ->where('program_en_history.semester', 'LIKE', $semesteractive)
             ->where('program_en_history.studStatus', '=', '1')
             ->where('program_en_history.campus', '=', $campusArray)
+            ->orderBy('students.lname', 'ASC')
             ->get();
 
         $pdf = PDF::loadView('enrollment.reports.dashreport.regular_students', compact('students', 'semesteractive', 'schlyearactive'))
@@ -441,6 +442,7 @@ class EnrollmentController extends Controller
             ->where('program_en_history.semester', 'LIKE', $semesteractive)
             ->where('program_en_history.studStatus', '=', '2')
             ->where('program_en_history.campus', '=', $campusArray)
+            ->orderBy('students.lname', 'ASC')
             ->get();
 
         $pdf = PDF::loadView('enrollment.reports.dashreport.irregular_students', compact('students', 'semesteractive', 'schlyearactive'))
