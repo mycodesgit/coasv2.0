@@ -119,8 +119,8 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                             <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                                             <input type="hidden" name="semester" value="{{ request('semester') }}">
                                             <input type="hidden" name="category" value="{{ request('category') }}">
-                                            <label>&nbsp;</label>
-                                        <button type="submit" class="btn btn-secondary form-control form-control-sm" target="_blank">
+                                            <label>&nbsp;</label><br>
+                                        <button type="submit" class="btn btn-secondary btn-sm" target="_blank">
                                             <i class="fas fa-print"></i> Print
                                         </button>
                                     </form>
