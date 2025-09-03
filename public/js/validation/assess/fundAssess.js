@@ -257,3 +257,35 @@ $(function () {
         },
     });
 });
+
+$(function () {
+    $('#adstudfeesmissing').validate({
+        rules: {
+            account: {
+                required: true,
+            },
+            amount: {
+                required: true,
+            },
+        },
+        messages: {
+            account: {
+                required: "Please Select Account",
+            },
+            amount: {
+                required: "Please Enter Amount",
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.col-md-12').append(error);        
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+    });
+});
