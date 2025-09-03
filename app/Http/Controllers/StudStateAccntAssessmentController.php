@@ -48,6 +48,10 @@ class StudStateAccntAssessmentController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+        $studAccntap = AccountAppraisal::whereIn('id', ['2', '7', '33', '42', '44', '49', '74', '76', '79', '85', '90', '91', '92', '93', '99', '118', '133', '134', '151', '152', '153', '154', '155', '156', '159', '161', '168'])
+                    ->orderBy('account_name', 'ASC')
+                    ->get();
+
         $stud_id = $request->query('stud_id');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
@@ -120,7 +124,7 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studpayment = $query->get();
 
-        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studfees', 'studpayment'));
+        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studAccntap', 'studfees', 'studpayment'));
     }
 
     public function stateaccntpersem_searchpdf(Request $request)
@@ -200,6 +204,110 @@ class StudStateAccntAssessmentController extends Controller
 
         $pdf = PDF::loadView('assessment.assessreports.reports.pdfpersemtemplate', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
+    }
+
+    public function stateaccntpersem_getsearch(Request $request)
+    {
+        $stud_id = $request->query('stud_id');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $category = $request->query('category');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $student = Student::where('stud_id', $stud_id)
+            ->where('campus', $campus)
+            ->first();
+
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+        $programEnHistory = StudEnrolmentHistory::join('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
+                ->where('program_en_history.studentID', $stud_id)
+                ->where('program_en_history.schlyear', $schlyear)
+                ->where('program_en_history.semester', '=', $semester)
+                ->where('program_en_history.campus', '=', $campus)
+                ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
+                ->first(); 
+
+        if (!$programEnHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> not enrolled at this term or school year.');
+        }
+
+        $query = StudentAppraisal::join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                    ->where('student_appraisal.schlyear',  $schlyear)
+                    ->where('student_appraisal.semester',  $semester)
+                    ->where('student_appraisal.campus',  $campus)
+                    ->where('student_appraisal.studID', $stud_id)
+                    ->where('student_appraisal.studID', $programEnHistory->studentID)
+                    ->select('student_appraisal.*', 'coasv2_db_enrollment.students.lname', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.mname')
+                    ->orderBy('student_appraisal.account', 'ASC');
+
+                    if ($category == '2') {
+                        $query->where(function($q) {
+                            $q->where('student_appraisal.studID', 'LIKE', '%-G')
+                              ->orWhere('student_appraisal.studID', 'LIKE', '%-N');
+                        });
+                    } elseif ($category == '1') {
+                        $query->where(function($q) {
+                            $q->where('student_appraisal.studID', 'NOT LIKE', '%-G');
+                        });
+                    }
+
+                    $data = $query->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function stateaccntpersem_getsearchCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'studID' => 'required',
+                'schlyear' => 'required',
+                'semester' => 'required',
+                'dateAssess' => 'required',
+                'fundID' => 'required',
+                'account' => 'required',
+                'amount' => 'required',
+            ]);
+
+            $stud_idName = $request->input('studID'); 
+            $schlyearName = $request->input('schlyear'); 
+            $semesterName = $request->input('semester'); 
+            $fundIDName = $request->input('fundID'); 
+            $accountName = $request->input('account'); 
+            $amountName = $request->input('amount'); 
+            
+            $existingStudFees = StudentAppraisal::where('studID', $stud_idName)
+                    ->where('schlyear', $schlyearName)
+                    ->where('semester', $semesterName)
+                    ->where('fundID', $fundIDName)
+                    ->where('account', $accountName)
+                    ->where('amount', $amountName)
+                    ->first();
+
+            if ($existingStudFees) {
+                return response()->json(['error' => true, 'message' => 'Student Fees' .$accountName. 'already exists'], 404);
+            }
+
+            try {
+                StudentAppraisal::create([
+                    'studID' => $stud_idName,
+                    'schlyear' => $schlyearName,
+                    'semester' => $semesterName,
+                    'dateAssess' => $request->input('dateAssess'),
+                    'fundID' => $fundIDName,
+                    'account' => $accountName,
+                    'amount' => $amountName,
+                    'campus' => Auth::guard('web')->user()->campus,
+                    'postedBy' => Auth::guard('web')->user()->id,
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Student Fees stored successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Student Fees'], 404);
+            }
+        }
     }
 
     public function stateaccntperstudent()

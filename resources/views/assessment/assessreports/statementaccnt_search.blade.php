@@ -125,6 +125,12 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                         </button>
                                     </form>
                                 </div>
+                                <div class="col-md-2">
+                                    <label for="">&nbsp;</label><br>
+                                    <button type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal" data-target="#btneditappModal">
+                                        <i class="fas fa-edit"></i> Edit Appraisal
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -208,6 +214,8 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     </table>
                 </div>
             </div>
+
+            @include('modal.studapprsalEdit')
             
             @php
                 $totalBalance = $totalAmount - $totalAmountPaid;
@@ -252,6 +260,9 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
             formatInput(input);
         }
     }
+
+    var studFeesUpdtReadRoute = "{{ route('stateaccntpersem_getsearch') }}";
+    var studFeesUpdtCreateRoute = "{{ route('stateaccntpersem_getsearchCreate') }}";
 </script>
 
 @endsection

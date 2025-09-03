@@ -346,6 +346,9 @@
     @if(request()->routeIs('stateaccntpersum_search'))
         <script src="{{ asset('js/ajax/assess/reportassessSerialize.js') }}?v={{ time() }}"></script>
     @endif
+    @if(request()->routeIs('stateaccntpersem_search'))
+        <script src="{{ asset('js/ajax/assess/apprsalUpdateSerialize.js') }}?v={{ time() }}"></script>
+    @endif
 
 
 
