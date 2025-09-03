@@ -19,6 +19,7 @@
                                     <th>Code</th>
                                     <th>Fund</th>
                                     <th>Amount</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,3 +85,4 @@
         </div>
     </div>
 </div>
+

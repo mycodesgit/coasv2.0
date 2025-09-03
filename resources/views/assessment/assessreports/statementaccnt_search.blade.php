@@ -243,6 +243,45 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
     </div>
 </div>
 
+<div class="modal fade" id="editStudFeeModal" role="dialog" aria-labelledby="editStudFeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editFundModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editStudFeeForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editStudFeeId">
+                    <div class="form-group">
+                        <label for="editstudfeeFund">Fund</label>
+                        <input type="text" name="fundID" id="editstudfeeFund" value="164" readonly class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="editstudfeeaccountName">Account Name</label>
+                        <select class="form-control form-control-sm select2bs4" id="editstudfeeaccountName" name="account">
+                            <option disabled selected> ---Select---</option>
+                            @foreach($studAccntap as $studapp)
+                                <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editstudfeeamountFee">Amount</label>
+                        <input type="number" class="form-control" id="editstudfeeamountFee" name="amount">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     function formatInput(input) {
         let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
@@ -266,6 +305,8 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
 
     var studFeesUpdtReadRoute = "{{ route('stateaccntpersem_getsearch') }}";
     var studFeesUpdtCreateRoute = "{{ route('stateaccntpersem_getsearchCreate') }}";
+    var studFeesUpdtUpdateRoute = "{{ route('stateaccntpersem_getsearchUpdate', ['id' => ':id']) }}";
+    var studFeesUpdtDeleteRoute = "{{ route('stateaccntpersem_getsearchDelete', ['id' => ':id']) }}";
 
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("refreshPageBtn").addEventListener("click", function () {

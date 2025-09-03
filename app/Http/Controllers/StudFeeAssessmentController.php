@@ -254,7 +254,7 @@ class StudFeeAssessmentController extends Controller
                 'accountName' => $request->input('accountName'),
                 'amountFee' => $request->input('amountFee'),
         ]);
-            return response()->json(['success' => true, 'message' => 'Student Feeupdate successfully'], 200);
+            return response()->json(['success' => true, 'message' => 'Student Fee update successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => true, 'message' => 'Failed to store Student Fee'], 404);
         }

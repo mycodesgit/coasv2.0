@@ -287,7 +287,7 @@ class StudStateAccntAssessmentController extends Controller
                     ->first();
 
             if ($existingStudFees) {
-                return response()->json(['error' => true, 'message' => 'Student Fees' .$accountName. 'already exists'], 404);
+                return response()->json(['error' => true, 'message' => 'Student Fees' . $accountName . 'already exists'], 404);
             }
 
             try {
@@ -308,6 +308,53 @@ class StudStateAccntAssessmentController extends Controller
                 return response()->json(['error' => true, 'message' => 'Failed to store Student Fees'], 404);
             }
         }
+    }
+
+    public function stateaccntpersem_getsearchUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+            'fundID' => 'required',
+            'account' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $schlyearName = $request->input('schlyear'); 
+        $semesterName = $request->input('semester'); 
+        $fundIDName = $request->input('fundID'); 
+        $accountName = $request->input('account'); 
+        $amountName = $request->input('amount'); 
+
+        //try {
+            $existingStudFees = StudentAppraisal::where('schlyear', $schlyearName)
+                            ->where('semester', $semesterName)
+                            ->where('fundID', $fundIDName)
+                            ->where('account', $accountName)
+                            ->where('amount', $amountName)
+                            ->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingStudFees) {
+                return response()->json(['error' => true, 'message' => 'Student Fee already exists'], 404);
+            }
+
+            $studfee = StudentAppraisal::findOrFail($request->input('id'));
+            $studfee->update([
+                'fundID' => $fundIDName,
+                'account' => $accountName,
+                'amount' => $amountName,
+        ]);
+            return response()->json(['success' => true, 'message' => 'Student Fee update successfully'], 200);
+        //} catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to store Student Fee'], 404);
+        //}
+    }
+
+    public function stateaccntpersem_getsearchDelete($id) 
+    {
+        $studfee = StudentAppraisal::find($id);
+        $studfee->delete();
+
+        return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
     public function stateaccntperstudent()
