@@ -127,8 +127,11 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                 </div>
                                 <div class="col-md-2">
                                     <label for="">&nbsp;</label><br>
-                                    <button type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal" data-target="#btneditappModal">
-                                        <i class="fas fa-edit"></i> Edit Appraisal
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#btneditappModal">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-success btn-sm" id="refreshPageBtn">
+                                        <i class="fas fa-refresh"></i> Refresh
                                     </button>
                                 </div>
                             </div>
@@ -263,6 +266,13 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
 
     var studFeesUpdtReadRoute = "{{ route('stateaccntpersem_getsearch') }}";
     var studFeesUpdtCreateRoute = "{{ route('stateaccntpersem_getsearchCreate') }}";
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("refreshPageBtn").addEventListener("click", function () {
+            // Reload the page
+            location.reload();
+        });
+    });
 </script>
 
 @endsection
