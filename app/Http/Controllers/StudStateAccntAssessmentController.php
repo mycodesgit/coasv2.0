@@ -93,8 +93,7 @@ class StudStateAccntAssessmentController extends Controller
                         });
                     } elseif ($category == '1') {
                         $query->where(function($q) {
-                            $q->where('student_appraisal.studID', 'NOT LIKE', '%-G')
-                              ->where('student_appraisal.studID', 'NOT LIKE', '%-N');
+                            $q->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                         });
                     }
 
@@ -115,8 +114,7 @@ class StudStateAccntAssessmentController extends Controller
                         });
                     } elseif ($category == '1') {
                         $query->where(function($q) {
-                            $q->where('student_appraisal.studID', 'NOT LIKE', '%-G')
-                              ->where('student_appraisal.studID', 'NOT LIKE', '%-N');
+                            $q->where('studpayment.studID', 'NOT LIKE', '%-G');
                         });
                     }
 
@@ -144,6 +142,10 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('students.stud_id', 'LIKE', '%-G')
                               ->orWhere('students.stud_id', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where(function($q) {
+                            $q->where('students.stud_id', 'NOT LIKE', '%-G');
+                        });
                     }
 
                     $studinfo = $query->get();
@@ -163,8 +165,7 @@ class StudStateAccntAssessmentController extends Controller
                         });
                     } elseif ($category == '1') {
                         $query->where(function($q) {
-                            $q->where('student_appraisal.studID', 'NOT LIKE', '%-G')
-                              ->where('student_appraisal.studID', 'NOT LIKE', '%-N');
+                            $q->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                         });
                     }
 
@@ -185,8 +186,7 @@ class StudStateAccntAssessmentController extends Controller
                         });
                     } elseif ($category == '1') {
                         $query->where(function($q) {
-                            $q->where('student_appraisal.studID', 'NOT LIKE', '%-G')
-                              ->where('student_appraisal.studID', 'NOT LIKE', '%-N');
+                            $q->where('studpayment.studID', 'NOT LIKE', '%-G');
                         });
                     }
 
