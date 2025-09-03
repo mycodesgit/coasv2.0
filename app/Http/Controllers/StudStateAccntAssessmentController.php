@@ -55,10 +55,10 @@ class StudStateAccntAssessmentController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $student = Student::where('stud_id', $stud_id)
-            ->where(function ($query) {
-                $query->where('stud_id', 'LIKE', '%-G')
-                      ->orWhere('stud_id', 'LIKE', '%-N');
-            })
+            // ->where(function ($query) {
+            //     $query->where('stud_id', 'LIKE', '%-G')
+            //           ->orWhere('stud_id', 'LIKE', '%-N');
+            // })
             ->where('campus', $campus)
             ->first();
 
