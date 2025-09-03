@@ -71,7 +71,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                     <label><span class="badge badge-secondary">Category</span></label>
                                     <select class="form-control  form-control-sm" name="category">
                                         <option disabled selected>---Select---</option>
-                                        {{-- <option value="1">Undergraduate</option> --}}
+                                        <option value="1">Undergraduate</option>
                                         <option value="2">Graduate School</option>
                                         {{-- <option value="3">All</option> --}}
                                     </select>
