@@ -96,7 +96,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                     <div class="card-body">
                         <div class="form-group">
                             <div class="form-row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label><span class="badge badge-warning">Student ID Number</span></label>
                                     <input type="text" class="form-control form-control-sm text-bold" value="{{ $studfees->first()->studID }}" readonly>
                                 </div>
@@ -112,7 +112,7 @@ CISS V.1.0 || Student Statements of Accounts Per Semester
                                     <label><span class="badge badge-warning">Lastname</span></label>
                                     <input type="text" class="form-control form-control-sm text-bold" value="{{ $studfees->first()->lname }}" readonly>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <form action="{{ route('stateaccntpersem_searchpdf') }}" method="get" target="_blank">
                                         @csrf
                                             <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
