@@ -55,10 +55,10 @@ class StudStateAccntAssessmentController extends Controller
         $campus = Auth::guard('web')->user()->campus;
 
         $student = Student::where('stud_id', $stud_id)
-            ->where(function ($query) {
-                $query->where('stud_id', 'LIKE', '%-G')
-                      ->orWhere('stud_id', 'LIKE', '%-N');
-            })
+            // ->where(function ($query) {
+            //     $query->where('stud_id', 'LIKE', '%-G')
+            //           ->orWhere('stud_id', 'LIKE', '%-N');
+            // })
             ->where('campus', $campus)
             ->first();
 
@@ -91,6 +91,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('student_appraisal.studID', 'LIKE', '%-G')
                               ->orWhere('student_appraisal.studID', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studfees = $query->get();
@@ -108,6 +110,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('studpayment.studID', 'LIKE', '%-G')
                               ->orWhere('studpayment.studID', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studpayment = $query->get();
@@ -134,6 +138,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('students.stud_id', 'LIKE', '%-G')
                               ->orWhere('students.stud_id', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studinfo = $query->get();
@@ -151,6 +157,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('student_appraisal.studID', 'LIKE', '%-G')
                               ->orWhere('student_appraisal.studID', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studfees = $query->get();
@@ -168,6 +176,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('studpayment.studID', 'LIKE', '%-G')
                               ->orWhere('studpayment.studID', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('studpayment.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studpayment = $query->get();
@@ -246,6 +256,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('students.stud_id', 'LIKE', '%-G')
                               ->orWhere('students.stud_id', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studinfo = $query->get();
@@ -261,6 +273,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('student_appraisal.studID', 'LIKE', '%-G')
                               ->orWhere('student_appraisal.studID', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studfees = $query->get();
@@ -306,6 +320,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('students.stud_id', 'LIKE', '%-G')
                               ->orWhere('students.stud_id', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studinfo = $query->get();
@@ -321,6 +337,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('student_appraisal.studID', 'LIKE', '%-G')
                               ->orWhere('student_appraisal.studID', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studfees = $query->get();
@@ -335,6 +353,8 @@ class StudStateAccntAssessmentController extends Controller
                             $q->where('studpayment.studID', 'LIKE', '%-G')
                               ->orWhere('studpayment.studID', 'LIKE', '%-N');
                         });
+                    } elseif ($category == '1') {
+                        $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                     }
 
                     $studpayment = $query->get();
@@ -421,6 +441,8 @@ class StudStateAccntAssessmentController extends Controller
                         if ($category == '2') {
                             $query->where('program_en_history.studentID', 'LIKE', '%-G');
                             $query->where('coasv2_db_assessment.student_appraisal.studID', 'LIKE', '%-G');
+                        } elseif ($category == '1') {
+                            $query->where('student_appraisal.studID', 'NOT LIKE', '%-G');
                         }
 
                         $data = $query->get();
