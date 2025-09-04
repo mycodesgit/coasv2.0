@@ -76,7 +76,7 @@ class StudHEBillingController extends Controller
                         // ->where('program_en_history.campus',  $campus)
                         ->where(function ($q) use ($campusArray) {
                             foreach ($campusArray as $campus) {
-                                $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                                $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                             }
                         })
                         ->where('coasv2_db_assessment.student_appraisal.schlyear',  $schlyear)
@@ -84,7 +84,7 @@ class StudHEBillingController extends Controller
                         // ->where('coasv2_db_assessment.student_appraisal.campus',  $campus)
                         ->where(function ($q) use ($campusArray) {
                             foreach ($campusArray as $campus) {
-                                $q->orWhere('coasv2_db_assessment.student_appraisal.campus', 'LIKE', "%$campus%");
+                                $q->orWhere('coasv2_db_assessment.student_appraisal.campus', 'LIKE', "$campus");
                             }
                         })
                         ->where('program_en_history.studentID', 'NOT LIKE', '%-G')
