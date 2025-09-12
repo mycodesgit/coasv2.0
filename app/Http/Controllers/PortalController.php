@@ -102,31 +102,55 @@ class PortalController extends Controller
     //     }
     // }
 
-    public function checkEmail(Request $request)
-{
-    $email = $request->input('email');
-    $apiKey = '0cc00b33d42c457c8623f5d9640e202f'; // replace this with your actual API key
+    // public function checkEmail(Request $request)
+    // {
+    //     $email = $request->input('email');
 
-    $url = "https://api.zerobounce.net/v2/validate";
+    //     $apiKey = 'af0087ae-c398-4a9e-8c1d-b6f29ec2de8f';
+    //     $url = 'https://api.mails.so/v1/validate?email=' . $email;
+        
+    //     $response = Http::withHeaders([
+    //         'x-mails-api-key' => $apiKey,
+    //     ])->get($url);
 
-    $response = Http::get($url, [
-        'api_key' => $apiKey,
-        'email' => $email,
-        'ip_address' => null, // optional, can add user's IP
-    ]);
+    //     if ($response->successful()) {
+    //         $data = $response->json();
 
-    if ($response->successful()) {
-        $data = $response->json();
+    //         if ($data['data']['result'] === 'deliverable') {
+    //             return response()->json(['valid' => true]);
+    //         } else {
+    //             return response()->json(['valid' => false]);
+    //         }
+    //     } else {
+    //         return response()->json(['valid' => false], 500);
+    //     }
+    // }
 
-        if (isset($data['status']) && $data['status'] === 'valid') {
-            return response()->json(['valid' => true]);
-        } else {
-            return response()->json(['valid' => false]);
-        }
-    } else {
-        return response()->json(['valid' => false], 500);
-    }
-}
+    // public function checkEmail(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => [
+    //             'required',
+    //             'email',
+    //             function ($attribute, $value, $fail) {
+    //                 if (!str_ends_with(strtolower($value), '@gmail.com')) {
+    //                     $fail('Only Gmail addresses are allowed.');
+    //                 }
+    //             }
+    //         ],
+    //     ]);
+
+    //     $email = strtolower(trim($request->input('email')));
+    //     $domain = substr(strrchr($email, "@"), 1);
+
+    //     // Check MX (gmail.com must exist)
+    //     if (!checkdnsrr($domain, "MX")) {
+    //         return response()->json(['valid' => false, 'reason' => 'Invalid MX records']);
+    //     }
+
+    //     // If passes, we consider it valid
+    //     return response()->json(['valid' => true]);
+    // }
 
     public function post_admission_apply(Request $request)
     {
