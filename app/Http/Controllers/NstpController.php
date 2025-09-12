@@ -282,12 +282,11 @@ class NstpController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');   
         $campus = Auth::guard('web')->user()->campus;
-        $campusArray = array_map('trim', explode(',', $campus));
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
-            ->where('sub_offered.campus', $campusArray)
+            ->where('sub_offered.campus', $campus)
             ->whereIn('sub_offered.subCode', $ltscodes)
             ->select(
                 'subjects.sub_name',
