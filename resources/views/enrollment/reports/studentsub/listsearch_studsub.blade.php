@@ -79,7 +79,7 @@ CISS V.1.0 || Student List per Subjects
                                     <th>Subject</th>
                                     <th>Descriptive</th>
                                     <th>Course Yr&Section</th>
-                                    {{-- <th>No of Stud</th> --}}
+                                    <th>No of Stud</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
