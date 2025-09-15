@@ -167,6 +167,8 @@ CISS V.1.0 || Edit Student Enrollment
             formatInput(input);
         }
     }
+
+    var selectQueueCatRoute  = "{{ route('counterUserUpdate') }}";
 </script>
 
 
