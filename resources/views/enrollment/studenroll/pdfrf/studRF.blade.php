@@ -221,7 +221,7 @@
     								<th width="6%">Credit</th>
     								<th width="7%">Lec Fee</th>
     								<th width="7%">Lab Fee</th>
-    								@if(Auth::guard('web')->user()->role == 15)
+									@if(Auth::guard('web')->user()->role == 15 || Str::contains($student->studentID, '-G')) 
     								<th width="">Cycle</th>
     								@endif
     							</tr>
@@ -240,7 +240,7 @@
 	    								<td class="cred-lec-lab">{{ $sub->subUnit }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->lecFee }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->labFee }}</td>
-	    								@if(Auth::guard('web')->user()->role == 15)
+	    								@if(Auth::guard('web')->user()->role == 15 || Str::contains($student->studentID, '-G'))
 	    									<td class="cred-lec-lab">{{ substr($sub->isType, 0, 3) }}</td>
 	    								@endif
 	    							</tr>
