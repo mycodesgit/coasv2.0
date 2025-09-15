@@ -193,4 +193,29 @@ class QueueingSettingController extends Controller
             return response()->json(['error' => true, 'message' => 'Failed to reset Queueing numbers'], 404);
         }
     }
+
+    public function counterUserUpdate(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+        ]);
+
+        try {
+            $counterName = Auth::guard('web')->user()->id;
+            $existingCounter = QueueCounter::where('useridlog', $counterName)->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingCounter) {
+                return response()->json(['error' => true, 'message' => 'Counters already exists'], 404);
+            }
+
+            $counter = QueueCounter::findOrFail($request->input('id'));
+            $counter->update([
+                'useridlog' => $counterName,
+                'category' => $request->input('category'),
+        ]);
+            return response()->json(['success' => true, 'message' => 'Counter update successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to Update Counter'], 404);
+        }
+    }
 }

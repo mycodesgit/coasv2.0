@@ -79,7 +79,7 @@ CISS V.1.0 || Edit Student Enrollment
                         @if($queueMode->statusqueue === 'Off')
 
                         @else
-                            <table id="holdTable" class="table table-hover">
+                            {{-- <table id="holdTable" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Queue Numbers</th>
@@ -92,28 +92,53 @@ CISS V.1.0 || Edit Student Enrollment
                                 <tbody>
                                     
                                 </tbody>
-                            </table>
+                            </table> --}}
+                            <hr>
                         @endif
-                    </div>
+                    @endif
+                </div>
 
+                @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
                     @if($queueMode->statusqueue === 'Off')
                     @else
-                    <div class="col-md-3">
-                        <div class="form-group mt-2" style="padding: 10px">
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="card" style="background-color: #dfdfdf">
-                                        <div class="card-body">
-                                            <center><label>Current No.</label></center>
-                                            <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
-                                            <button id="nextButton" class="btn btn-primary btn-block mt-3" data-counter-id="1">Next</button> 
-                                            <button id="callButton" class="btn btn-danger btn-block mt-2">Call</button>  
+                        <div class="col-md-3">
+                            <div class="form-group mt-2" style="padding: 10px">
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="card" style="background-color: #dfdfdf">
+                                            <div class="card-body">
+                                                <center><label>Current No.</label></center>
+                                                <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
+                                                <button id="nextButton" class="btn btn-primary btn-block mt-3" data-counter-id="1">Next</button> 
+                                                <button id="callButton" class="btn btn-danger btn-block mt-2">Call</button>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="padding: 10px">
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="card" style="background-color: #dfdfdf">
+                                            <div class="card-body">
+                                                <center><label>Select Transactions:</label></center>
+                                                <form action="{{ route('counterUserUpdate') }}" method="POST" id="transacCategory">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $queueUser->id }}" hidden>
+                                                    <select name="category" class="form-control form-control-sm" id="transacCategory">
+                                                        <option value="Enrollment" {{ $queueUser->category == 'Enrollment' ? 'selected' : '' }}>Enrollment</option>
+                                                        <option value="Processing" {{ $queueUser->category == 'Processing' ? 'selected' : '' }}>Evaluation</option>
+                                                        <option value="Pre-register" {{ $queueUser->category == 'Pre-register' ? 'selected' : '' }}>Pre-register</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-primary btn-block mt-3">Save</button> 
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endif
                 @endif
             </div>

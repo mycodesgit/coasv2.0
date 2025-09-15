@@ -465,8 +465,9 @@ class EnrollmentController extends Controller
             ->get();
 
         $queueMode = QueueMode::first();
+        $queueUser = QueueCounter::where('useridlog', Auth::guard('web')->user()->id)->first();
 
-        return view('enrollment.studenroll.index', compact('sy', 'queueMode'));
+        return view('enrollment.studenroll.index', compact('sy', 'queueMode', 'queueUser'));
     }
 
     public function checkEnrollment(Request $request)
@@ -982,8 +983,9 @@ class EnrollmentController extends Controller
         }
 
         $queueMode = QueueMode::first();
+        $queueUser = QueueCounter::where('useridlog', Auth::guard('web')->user()->id)->first();
             
-        return view('enrollment.studenroll.editenroll', compact('sy', 'queueMode'));
+        return view('enrollment.studenroll.editenroll', compact('sy', 'queueMode', 'queueUser'));
     }
 
     public function editsearchStudRead(Request $request)
