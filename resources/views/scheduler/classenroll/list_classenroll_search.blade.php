@@ -118,6 +118,16 @@ CISS V.1.0 || Classes Enrolled
                                 <input type="number" name="classno" class="form-control form-control-sm" min="0">
                             </div>
 
+                            @if(Auth::guard('web')->user()->lname == 'Gargoles' || Auth::guard('web')->user()->lname == 'Level')
+                                <div class="mt-2 col-md-12">
+                                    <label><span class="badge badge-secondary">Add On</span></label>
+                                    <select class="form-control form-control-sm" name="progType" id="">
+                                        <option disabled selected>Select</option>
+                                        <option value="SIKAT - CAMI">SIKAT - CAMI</option>
+                                    </select>
+                                </div>
+                            @endif
+
                             <div class="col-md-12">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Save</button>

@@ -131,7 +131,7 @@ class SchedClassEnrollController extends Controller
                     'semester' => $request->input('semester'),
                     'campus' => $request->input('campus'),
                     'progCode' => $request->input('progCode'),
-                    'classSection' => $request->input('classSection'),
+                    'classSection' => $request->input('classSection') .' '. $request->input('progType'),
                     'classno' => $request->input('classno'),
                     'remember_token' => Str::random(60),
                 ]);
