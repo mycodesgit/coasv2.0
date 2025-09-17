@@ -125,7 +125,7 @@ CISS V.1.0 || Enroll Student
                                                 <center><label>Select Transactions:</label></center>
                                                 <form action="{{ route('counterUserUpdate') }}" method="POST" id="transacCategory">
                                                     @csrf
-                                                    <input type="hidden" name="id" value="{{ $queueUser->id }}" hidden>
+                                                    <input type="hidden" name="id" value="{{ $queueUser->id ?? '' }}" hidden>
                                                     <select name="category" class="form-control form-control-sm" id="transacCategory">
                                                         <option value="Enrollment" {{ $queueUser->category == 'Enrollment' ? 'selected' : '' }}>Enrollment</option>
                                                         <option value="Processing" {{ $queueUser->category == 'Processing' ? 'selected' : '' }}>Evaluation</option>
