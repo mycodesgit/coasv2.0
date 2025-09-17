@@ -127,9 +127,9 @@ CISS V.1.0 || Enroll Student
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $queueUser->id ?? '' }}" hidden>
                                                     <select name="category" class="form-control form-control-sm" id="transacCategory">
-                                                        <option value="Enrollment" {{ $queueUser->category == 'Enrollment' ? 'selected' : '' }}>Enrollment</option>
-                                                        <option value="Processing" {{ $queueUser->category == 'Processing' ? 'selected' : '' }}>Evaluation</option>
-                                                        <option value="Pre-register" {{ $queueUser->category == 'Pre-register' ? 'selected' : '' }}>Pre-register</option>
+                                                        <option value="Enrollment" {{ (isset($queueUser) && $queueUser->category == 'Enrollment') ? 'selected' : '' }}>Enrollment</option>
+                                                        <option value="Processing" {{ (isset($queueUser) && $queueUser->category == 'Processing') ? 'selected' : '' }}>Evaluation</option>
+                                                        <option value="Pre-register" {{ (isset($queueUser) && $queueUser->category == 'Pre-register') ? 'selected' : '' }}>Pre-register</option>
                                                     </select>
                                                     <button type="submit" class="btn btn-primary btn-block mt-3">Save</button> 
                                                 </form>
