@@ -288,6 +288,7 @@ CISS V.1.0 || Class Schedule
     var classplottedDeleteRoute = "{{ route('schedclassplottedDelete', ['id' => ':id']) }}";
 
     var authUserFname = "{{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}";
+    var authUserRole  = "{{ Auth::guard('web')->user()->role }}";
 </script>
 
 <script>
