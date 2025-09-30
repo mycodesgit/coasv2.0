@@ -290,7 +290,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card">
+                                    {{-- <div class="card">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <div class="form-row">
@@ -323,6 +323,76 @@
                                                     <div class="col-md-12">
                                                         <label>Your Address</label>
                                                         <input type="text" class="form-control form-control-sm" id="viewdatastudAddress" placeholder="Present Address" name="address" value="{{old('address')}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-3">
+                                                        <label><span class="badge badge-secondary">Region</span></label>
+                                                        <select id="region" class="form-control form-control-sm select2bs4">
+                                                            <option value="">Select Region</option>
+                                                            @foreach($regions as $region)
+                                                                <option value="{{ $region->region_id }}" data-name="{{ $region->name }}">{{ $region->name }}</option>
+                                                            @endforeach
+                                                            <input type="hidden" id="region_name" name="region">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label><span class="badge badge-secondary">Province</span></label>
+                                                        <select id="province" class="form-control form-control-sm select2bs4">
+                                                            <option value="">Select Province</option>
+                                                        </select>
+                                                        <input type="hidden" id="province_name" name="province">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label><span class="badge badge-secondary">City/Municipality</span></label>
+                                                        <select id="city" class="form-control form-control-sm select2bs4">
+                                                            <option value="">Select City</option>
+                                                        </select>
+                                                        <input type="hidden" id="city_name" name="city">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        <label><span class="badge badge-secondary">Barangay</span></label>
+                                                        <select id="barangay" class="form-control form-control-sm select2bs4" style="text-transform: uppercase;">
+                                                            <option value="">Select Barangay</option>
+                                                        </select>
+                                                        <input type="hidden" id="brgy_name" name="brgy">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label><span class="badge badge-secondary">House No. / Block / Purok</span></label>
+                                                        <input type="text" name="hnum" id="viewdatastudHnum" class="form-control form-control-sm" placeholder="House No. / Block / Purok" style="text-transform: uppercase;">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label><span class="badge badge-secondary">Zipcode</span></label>
+                                                        <input type="text" name="zcode" id="zipcode" class="form-control form-control-sm" readonly placeholder="Zip Code" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
+                                                        <label><span class="badge badge-secondary">Address</span></label>
+                                                        <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -405,17 +475,17 @@
                                                         <label>Preferred Campus <i style="color: red">*</i></label>
                                                         <select class="form-control form-control-sm" name="campus" id="campus">
                                                             <option disabled selected>Select</option>
-                                                            <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} @endif disabled>Main (Closed)</option>
-                                                            <option value="VC" @if (old('type') == 'VC') {{ 'selected' }} @endif disabled>Victorias (Closed)</option>
-                                                            <option value="SCC" @if (old('type') == 'SCC') {{ 'selected' }} @endif disabled>San Carlos (Closed)</option>
-                                                            <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} @endif disabled>Moises Padilla (Closed)</option>
-                                                            <option value="HC" @if (old('type') == 'HC') {{ 'selected' }} @endif disabled>Hinigaran (Closed)</option>
-                                                            <option value="IC" @if (old('type') == 'IC') {{ 'selected' }} @endif disabled>Ilog (Closed)</option>
-                                                            <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} @endif disabled>Candoni (Closed)</option>
-                                                            <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} @endif disabled>Cauayan (Closed)</option>
-                                                            <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} @endif>Sipalay</option>
-                                                            <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} @endif>Hinobaan (Open)</option>
-                                                            <option value="VE" @if (old('type') == 'VE') {{ 'selected' }} @endif>Valladolid</option>
+                                                            <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} disabled @endif>Main</option>
+                                                            <option value="VC" @if (old('type') == 'VC') {{ 'selected' }} disabled @endif>Victorias</option>
+                                                            <option value="SCC" @if (old('type') == 'SCC') {{ 'selected' }} disabled @endif>San Carlos</option>
+                                                            <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} disabled @endif>Moises Padilla</option>
+                                                            <option value="HC" @if (old('type') == 'HC') {{ 'selected' }} disabled @endif>Hinigaran</option>
+                                                            <option value="IC" @if (old('type') == 'IC') {{ 'selected' }} disabled @endif>Ilog</option>
+                                                            <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} disabled @endif>Candoni</option>
+                                                            <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} disabled @endif>Cauayan</option>
+                                                            <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} disabled @endif>Sipalay</option>
+                                                            <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} disabled @endif>Hinobaan (Open)</option>
+                                                            <option value="VE" @if (old('type') == 'VE') {{ 'selected' }} disabled @endif>Valladolid</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -675,238 +745,306 @@
     @else
         <script src="{{ asset('js/validation/apply/applyValidation.js') }}"></script>
         <script>
-            $(document).ready(function() {
-                var cityData = {
-                    "Manila": { province: "Metro Manila", region: "NCR", zcode: "1000" },
-                    "Quezon City": { province: "Metro Manila", region: "NCR", zcode: "1100" },
-                    "Caloocan": { province: "Metro Manila", region: "NCR", zcode: "1400" },
-                    "Las Piñas": { province: "Metro Manila", region: "NCR", zcode: "1740" },
-                    "Makati": { province: "Metro Manila", region: "NCR", zcode: "1200" },
-                    "Malabon": { province: "Metro Manila", region: "NCR", zcode: "1470" },
-                    "Mandaluyong": { province: "Metro Manila", region: "NCR", zcode: "1550" },
-                    "Marikina": { province: "Metro Manila", region: "NCR", zcode: "1800" },
-                    "Muntinlupa": { province: "Metro Manila", region: "NCR", zcode: "1770" },
-                    "Navotas": { province: "Metro Manila", region: "NCR", zcode: "1485" },
-                    "Parañaque": { province: "Metro Manila", region: "NCR", zcode: "1700" },
-                    "Pasay": { province: "Metro Manila", region: "NCR", zcode: "1300" },
-                    "Pasig": { province: "Metro Manila", region: "NCR", zcode: "1600" },
-                    "San Juan": { province: "Metro Manila", region: "NCR", zcode: "1500" },
-                    "Taguig": { province: "Metro Manila", region: "NCR", zcode: "1630" },
-                    "Valenzuela": { province: "Metro Manila", region: "NCR", zcode: "1440" },
-                    "Cebu City": { province: "Cebu", region: "Region VII", zcode: "6000" },
-                    "Mandaue": { province: "Cebu", region: "Region VII", zcode: "6014" },
-                    "Lapu-Lapu": { province: "Cebu", region: "Region VII", zcode: "6015" },
-                    "Davao City": { province: "Davao del Sur", region: "Region XI", zcode: "8000" },
-                    "Baguio City": { province: "Benguet", region: "CAR", zcode: "2600" },
-                    "Iloilo City": { province: "Iloilo", region: "Region VI", zcode: "5000" },
-                    "Zamboanga City": { province: "Zamboanga del Sur", region: "Region IX", zcode: "7000" },
+            var provincesRoute = "{{ route('getPortalProvinces', '') }}";
+            var citiesRoute = "{{ route('getPortalCities', '') }}";
+            var barangaysRoute = "{{ route('getPortalBarangays', '') }}";
 
-                    // Negros Occidental
-                    "BACOLOD": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6100" },
-                    "BAGO": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6101" },
-                    "BINALBAGAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6107" },
-                    "CADIZ": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6121" },
-                    "CALATRAVA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6126" },
-                    "CANDONI": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6110" },
-                    "CAUAYAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6112" },
-                    "DON SALVADOR BENEDICTO": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6133" },
-                    "ENRIQUE MAGALONA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6118" },
-                    "ESCALANTE": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6124" },
-                    "HIMAMAYLAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6108" },
-                    "HINIGARAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6106" },
-                    "HINOBA-AN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6114" },
-                    "ILOG": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6109" },
-                    "ISABELA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6128" },
-                    "KABANKALAN CITY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6111" },
-                    "LA CARLOTA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6130" },
-                    "LA CASTELLANA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6131" },
-                    "MANAPLA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6120" },
-                    "MOISES PADILLA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6132" },
-                    "PARAISO FABRICA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6123" },
-                    "PONTEVEDRA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6105" },
-                    "SAGAY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6122" },
-                    "SAN CARLOS CITY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6127" },
-                    "SAN ENRIQUE": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6104" },
-                    "SILAY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6116" },
-                    "SILAY HAWAIIAN CENTRAL": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6117" },
-                    "SIPALAY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6113" },
-                    "TALISAY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6115" },
-                    "TOBOSO": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6125" },
-                    "VALLADOLID": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6103" },
-                    "VICTORIAS": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6119" },
+            function updateAddress() {
+                let hnum = $('#viewdatastudHnum').val(); // house number input
+                let barangay = $('#barangay').find(':selected').data('name');
+                let city = $('#city').find(':selected').data('name');
+                let province = $('#province').find(':selected').data('name');
+                let region = $('#region').find(':selected').data('name');
+                let zipcode = $('#zipcode').val(); // hidden or text input for zip
 
-                    // Negros Oriental
-                    "AMLAN": { province: "NEGROS OR.", region: "REGION VI", zcode: "6203" },
-                    "AYUNGON": { province: "NEGROS OR.", region: "REGION VII", zcode: "6210" },
-                    "BACONG": { province: "NEGROS OR.", region: "REGION VII", zcode: "6216" },
-                    "BAIS CITY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6206" },
-                    "BASAY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6222" },
-                    "BAYAWAN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6221" },
-                    "BINDOY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6209" },
-                    "CANLAON CITY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6223" },
-                    "DAUIN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6217" },
-                    "DUMAGUETE CITY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6200" },
-                    "GUIHULNGAN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6214" },
-                    "JIMALALUD": { province: "NEGROS OR.", region: "REGION VII", zcode: "6212" },
-                    "LA LIBERTAD": { province: "NEGROS OR.", region: "REGION VII", zcode: "6213" },
-                    "MABINAY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6207" },
-                    "MANJUYOD": { province: "NEGROS OR.", region: "REGION VII", zcode: "6208" },
-                    "PAMPLONA": { province: "NEGROS OR.", region: "REGION VII", zcode: "6205" },
-                    "SAN JOSE": { province: "NEGROS OR.", region: "REGION VII", zcode: "6202" },
-                    "SANTA CATALINA": { province: "NEGROS OR.", region: "REGION VII", zcode: "6220" },
-                    "SIATON": { province: "NEGROS OR.", region: "REGION VII", zcode: "6219" },
-                    "SIBULAN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6201" },
-                    "TANJAY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6204" },
-                    "TAYASAN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6211" },
-                    "VALENCIA": { province: "NEGROS OR.", region: "REGION VII", zcode: "6215" },
-                    "VALLEHERMOSO": { province: "NEGROS OR.", region: "REGION VII", zcode: "6224" },
-                    "ZAMBOANGUITA": { province: "NEGROS OR.", region: "REGION VII", zcode: "6218" },
+                // Filter out undefined or empty values, then join with comma
+                let fullAddress = [hnum, barangay, city, province, region, zipcode].filter(Boolean).join(', ');
 
+                $('#viewdatastudAddress').val(fullAddress);
+                $('#viewdatastudHnum').on('input', updateAddress);
+            }
 
-                    "Cagayan de Oro": { province: "Misamis Oriental", region: "Region X", zcode: "9000" },
-                    "General Santos": { province: "South Cotabato", region: "Region XII", zcode: "9500" },
-                    "Butuan": { province: "Agusan del Norte", region: "Caraga", zcode: "8600" },
-                    "Cotabato City": { province: "Maguindanao", region: "BARMM", zcode: "9600" },
-                    "Dagupan": { province: "Pangasinan", region: "Region I", zcode: "2400" },
-                    "Naga": { province: "Camarines Sur", region: "Region V", zcode: "4400" },
-                    "Olongapo": { province: "Zambales", region: "Region III", zcode: "2200" },
-                    "Ormoc": { province: "Leyte", region: "Region VIII", zcode: "6541" },
-                    "Puerto Princesa": { province: "Palawan", region: "MIMAROPA", zcode: "5300" },
-                    "Tacloban": { province: "Leyte", region: "Region VIII", zcode: "6500" },
+            $(document).ready(function () {
+                $('#region').on('change', function () {
+                    var regionId = $(this).val();
+                    var regionName = $(this).find(':selected').data('name');
+                    $('#region_name').val(regionName);
+                    updateAddress(); // Update address
 
-                    "Zamboanga City": { province: "Zamboanga del Sur", region: "Region IX", zcode: "7000" },
-                    "Antipolo": { province: "Rizal", region: "CALABARZON", zcode: "1870" },
-                    "Lucena": { province: "Quezon", region: "CALABARZON", zcode: "4301" },
-                    "San Pablo": { province: "Laguna", region: "CALABARZON", zcode: "4000" },
-                    "Calamba": { province: "Laguna", region: "CALABARZON", zcode: "4027" },
-                    "Batangas City": { province: "Batangas", region: "CALABARZON", zcode: "4200" },
-                    "Lipa": { province: "Batangas", region: "CALABARZON", zcode: "4217" },
-                    "San Fernando": { province: "La Union", region: "Region I", zcode: "2500" },
-                    "Urdaneta": { province: "Pangasinan", region: "Region I", zcode: "2428" },
-                    "Vigan": { province: "Ilocos Sur", region: "Region I", zcode: "2700" },
-                    "Laoag": { province: "Ilocos Norte", region: "Region I", zcode: "2900" },
-                    "Cabanatuan": { province: "Nueva Ecija", region: "Region III", zcode: "3100" },
-                    "San Jose del Monte": { province: "Bulacan", region: "Region III", zcode: "3023" },
-                    "Angeles": { province: "Pampanga", region: "Region III", zcode: "2009" },
-                    "Tarlac City": { province: "Tarlac", region: "Region III", zcode: "2300" },
-                    "San Fernando": { province: "Pampanga", region: "Region III", zcode: "2000" },
-                    "Balanga": { province: "Bataan", region: "Region III", zcode: "2100" },
-                    "Malolos": { province: "Bulacan", region: "Region III", zcode: "3000" },
-                    "Meycauayan": { province: "Bulacan", region: "Region III", zcode: "3020" },
-                    "Gapan": { province: "Nueva Ecija", region: "Region III", zcode: "3105" },
-                    "San Jose": { province: "Nueva Ecija", region: "Region III", zcode: "3121" },
-                    "Tagum": { province: "Davao del Norte", region: "Region XI", zcode: "8100" },
-                    "Panabo": { province: "Davao del Norte", region: "Region XI", zcode: "8105" },
-                    "Samal": { province: "Davao del Norte", region: "Region XI", zcode: "8119" },
-                    "Digos": { province: "Davao del Sur", region: "Region XI", zcode: "8002" },
-                    "Mati": { province: "Davao Oriental", region: "Region XI", zcode: "8200" },
-                    "Tagaytay": { province: "Cavite", region: "CALABARZON", zcode: "4120" },
-                    "Trece Martires": { province: "Cavite", region: "CALABARZON", zcode: "4109" },
-                    "Dasmariñas": { province: "Cavite", region: "CALABARZON", zcode: "4114" },
-                    "Cavite City": { province: "Cavite", region: "CALABARZON", zcode: "4100" },
-                    "Biñan": { province: "Laguna", region: "CALABARZON", zcode: "4024" },
-                    "Santa Rosa": { province: "Laguna", region: "CALABARZON", zcode: "4026" },
-                    "Tagum": { province: "Davao del Norte", region: "Region XI", zcode: "8100" },
-                    "Valencia": { province: "Bukidnon", region: "Region X", zcode: "8709" },
-                    "Malaybalay": { province: "Bukidnon", region: "Region X", zcode: "8700" },
-                    "Surigao City": { province: "Surigao del Norte", region: "Caraga", zcode: "8400" },
-                    "Cabadbaran": { province: "Agusan del Norte", region: "Caraga", zcode: "8605" },
-                    "Bislig": { province: "Surigao del Sur", region: "Caraga", zcode: "8311" },
-                    "Bayugan": { province: "Agusan del Sur", region: "Caraga", zcode: "8502" },
-                    "Koronadal": { province: "South Cotabato", region: "Region XII", zcode: "9506" },
-                    "Kidapawan": { province: "North Cotabato", region: "Region XII", zcode: "9400" },
-                    "Tacurong": { province: "Sultan Kudarat", region: "Region XII", zcode: "9800" },
-                    "Valencia": { province: "Bukidnon", region: "Region X", zcode: "8709" },
-                    "Pagadian": { province: "Zamboanga del Sur", region: "Region IX", zcode: "7016" },
-                    "Dipolog": { province: "Zamboanga del Norte", region: "Region IX", zcode: "7100" },
-                    "Isabela": { province: "Basilan", region: "BARMM", zcode: "7300" },
-                    "Iligan": { province: "Lanao del Norte", region: "Region X", zcode: "9200" },
-                    "Oroquieta": { province: "Misamis Occidental", region: "Region X", zcode: "7207" },
-                    "Ozamis": { province: "Misamis Occidental", region: "Region X", zcode: "7200" },
-                    "Tangub": { province: "Misamis Occidental", region: "Region X", zcode: "7214" },
-                    "Bais": { province: "Negros Oriental", region: "Region VII", zcode: "6206" },
-                    "Bayawan": { province: "Negros Oriental", region: "Region VII", zcode: "6221" },
-                    "Canlaon": { province: "Negros Oriental", region: "Region VII", zcode: "6223" },
-                    "Guihulngan": { province: "Negros Oriental", region: "Region VII", zcode: "6214" },
-                    "Tanjay": { province: "Negros Oriental", region: "Region VII", zcode: "6204" },
-                    "Toledo": { province: "Cebu", region: "Region VII", zcode: "6038" },
-                    "Talisay": { province: "Cebu", region: "Region VII", zcode: "6045" },
-                    "Naga": { province: "Cebu", region: "Region VII", zcode: "6037" },
-                    "Carcar": { province: "Cebu", region: "Region VII", zcode: "6019" },
-                    "Danao": { province: "Cebu", region: "Region VII", zcode: "6004" },
-                    "Bogo": { province: "Cebu", region: "Region VII", zcode: "6010" },
-                    "Tagbilaran": { province: "Bohol", region: "Region VII", zcode: "6300" },
-                    "Balanga": { province: "Bataan", region: "Region III", zcode: "2100" },
-                    "Tuguegarao": { province: "Cagayan", region: "Region II", zcode: "3500" },
-                    "Santiago": { province: "Isabela", region: "Region II", zcode: "3311" },
-                    "Cauayan": { province: "Isabela", region: "Region II", zcode: "3305" },
-                    "Baybay": { province: "Leyte", region: "Region VIII", zcode: "6521" },
-                    "Borongan": { province: "Eastern Samar", region: "Region VIII", zcode: "6800" },
-                    "Calbayog": { province: "Samar", region: "Region VIII", zcode: "6710" },
-                    "Catbalogan": { province: "Samar", region: "Region VIII", zcode: "6700" },
-                    "Maasin": { province: "Southern Leyte", region: "Region VIII", zcode: "6600" },
-                    "Baybay": { province: "Leyte", region: "Region VIII", zcode: "6521" },
-                    "Bayugan": { province: "Agusan del Sur", region: "Caraga", zcode: "8502" }
-                    // Add more cities as needed
-                };
-
-                var $citySelect = $('#viewdatastudCity');
-                var $provinceInput = $('#viewdatastudProvince');
-                var $regionInput = $('#viewdatastudRegion');
-                var $zcodeInput = $('#viewdatastudZcode');
-
-                function updateAddress() {
-                    var hnum = document.getElementById('viewdatastudHnum').value;
-                    var brgy = document.getElementById('viewdatastudBrgy').value;
-                    var city = document.getElementById('viewdatastudCity').value;
-                    var province = document.getElementById('viewdatastudProvince').value;
-                    var region = document.getElementById('viewdatastudRegion').value;
-                    var zcode = document.getElementById('viewdatastudZcode').value;
-
-                    // Concatenate the values with commas
-                    var address = [hnum, brgy, city, province, region, zcode].filter(Boolean).join(', ');
-
-                    // Update the Address field
-                    document.getElementById('viewdatastudAddress').value = address;
-                }
-
-                document.getElementById('viewdatastudHnum').addEventListener('input', updateAddress);
-                document.getElementById('viewdatastudBrgy').addEventListener('input', updateAddress);
-                document.getElementById('viewdatastudCity').addEventListener('change', updateAddress);
-                document.getElementById('viewdatastudProvince').addEventListener('input', updateAddress);
-                document.getElementById('viewdatastudRegion').addEventListener('input', updateAddress);
-                document.getElementById('viewdatastudZcode').addEventListener('input', updateAddress);
-
-                // Populate the city dropdown
-                var sortedCities = Object.keys(cityData).sort();
-
-                // Populate the city dropdown
-                sortedCities.forEach(function(city) {
-                    $citySelect.append('<option value="' + city + '">' + city + '</option>');
+                    $('#province').empty().append('<option disabled selected>Loading...</option>');
+                    $.get(provincesRoute + '/' + regionId, function (data) {
+                        $('#province').html('<option disabled selected>Select Province</option>');
+                        data.forEach(p => $('#province').append(`<option value="${p.province_id}" data-name="${p.name}">${p.name}</option>`));
+                    });
                 });
 
-                // Event listener for city dropdown change
-                $citySelect.change(function() {
-                    var selectedCity = $(this).val();
-                    var cityInfo = cityData[selectedCity];
+                $('#province').on('change', function () {
+                    var provinceId = $(this).val();
+                    var provinceName = $(this).find(':selected').data('name');
+                    $('#province_name').val(provinceName);
+                    updateAddress(); // Update address
 
-                    // Remove highlight class from all options
-                    $citySelect.find('option').removeClass('highlight');
+                    $('#city').empty().append('<option disabled selected>Loading...</option>');
+                    $.get(citiesRoute + '/' + provinceId, function (data) {
+                        $('#city').html('<option disabled selected>Select City</option>');
+                        data.forEach(c => $('#city').append(`<option value="${c.city_id}" data-name="${c.name}" data-zip="${c.zip_code}">${c.name}</option>`));
+                    });
+                });
 
-                    // Add highlight class to selected option
-                    $citySelect.find('option[value="' + selectedCity + '"]').addClass('highlight');
-                    
-                    if (cityInfo) {
-                        $provinceInput.val(cityInfo.province);
-                        $regionInput.val(cityInfo.region);
-                        $zcodeInput.val(cityInfo.zcode);
-                    } else {
-                        $provinceInput.val('');
-                        $regionInput.val('');
-                        $zcodeInput.val('');
-                    }
+                $('#city').on('change', function () {
+                    var cityName = $(this).find(':selected').data('name');
+                    var zip = $(this).find(':selected').data('zip');
+
+                    $('#city_name').val(cityName);
+                    $('#zipcode').val(zip || '');
+                    updateAddress(); // Update address
+
+                    var cityId = $(this).val();
+                    $('#barangay').empty().append('<option disabled selected>Loading...</option>');
+                    $.get(barangaysRoute + '/' + cityId, function (data) {
+                        $('#barangay').html('<option disabled selected>Select Barangay</option>');
+                        data.forEach(b => $('#barangay').append(`<option value="${b.id}" data-name="${b.name}" style="text-transform: uppercase;">${b.name}</option>`));
+                    });
+                });
+
+                $('#barangay').on('change', function () {
+                    var brgyName = $(this).find(':selected').data('name');
+                    $('#brgy_name').val(brgyName);
+                    updateAddress(); // Update address
                 });
             });
+            // $(document).ready(function() {
+            //     var cityData = {
+            //         "Manila": { province: "Metro Manila", region: "NCR", zcode: "1000" },
+            //         "Quezon City": { province: "Metro Manila", region: "NCR", zcode: "1100" },
+            //         "Caloocan": { province: "Metro Manila", region: "NCR", zcode: "1400" },
+            //         "Las Piñas": { province: "Metro Manila", region: "NCR", zcode: "1740" },
+            //         "Makati": { province: "Metro Manila", region: "NCR", zcode: "1200" },
+            //         "Malabon": { province: "Metro Manila", region: "NCR", zcode: "1470" },
+            //         "Mandaluyong": { province: "Metro Manila", region: "NCR", zcode: "1550" },
+            //         "Marikina": { province: "Metro Manila", region: "NCR", zcode: "1800" },
+            //         "Muntinlupa": { province: "Metro Manila", region: "NCR", zcode: "1770" },
+            //         "Navotas": { province: "Metro Manila", region: "NCR", zcode: "1485" },
+            //         "Parañaque": { province: "Metro Manila", region: "NCR", zcode: "1700" },
+            //         "Pasay": { province: "Metro Manila", region: "NCR", zcode: "1300" },
+            //         "Pasig": { province: "Metro Manila", region: "NCR", zcode: "1600" },
+            //         "San Juan": { province: "Metro Manila", region: "NCR", zcode: "1500" },
+            //         "Taguig": { province: "Metro Manila", region: "NCR", zcode: "1630" },
+            //         "Valenzuela": { province: "Metro Manila", region: "NCR", zcode: "1440" },
+            //         "Cebu City": { province: "Cebu", region: "Region VII", zcode: "6000" },
+            //         "Mandaue": { province: "Cebu", region: "Region VII", zcode: "6014" },
+            //         "Lapu-Lapu": { province: "Cebu", region: "Region VII", zcode: "6015" },
+            //         "Davao City": { province: "Davao del Sur", region: "Region XI", zcode: "8000" },
+            //         "Baguio City": { province: "Benguet", region: "CAR", zcode: "2600" },
+            //         "Iloilo City": { province: "Iloilo", region: "Region VI", zcode: "5000" },
+            //         "Zamboanga City": { province: "Zamboanga del Sur", region: "Region IX", zcode: "7000" },
+
+            //         // Negros Occidental
+            //         "BACOLOD": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6100" },
+            //         "BAGO": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6101" },
+            //         "BINALBAGAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6107" },
+            //         "CADIZ": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6121" },
+            //         "CALATRAVA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6126" },
+            //         "CANDONI": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6110" },
+            //         "CAUAYAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6112" },
+            //         "DON SALVADOR BENEDICTO": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6133" },
+            //         "ENRIQUE MAGALONA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6118" },
+            //         "ESCALANTE": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6124" },
+            //         "HIMAMAYLAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6108" },
+            //         "HINIGARAN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6106" },
+            //         "HINOBA-AN": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6114" },
+            //         "ILOG": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6109" },
+            //         "ISABELA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6128" },
+            //         "KABANKALAN CITY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6111" },
+            //         "LA CARLOTA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6130" },
+            //         "LA CASTELLANA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6131" },
+            //         "MANAPLA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6120" },
+            //         "MOISES PADILLA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6132" },
+            //         "PARAISO FABRICA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6123" },
+            //         "PONTEVEDRA": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6105" },
+            //         "SAGAY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6122" },
+            //         "SAN CARLOS CITY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6127" },
+            //         "SAN ENRIQUE": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6104" },
+            //         "SILAY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6116" },
+            //         "SILAY HAWAIIAN CENTRAL": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6117" },
+            //         "SIPALAY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6113" },
+            //         "TALISAY": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6115" },
+            //         "TOBOSO": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6125" },
+            //         "VALLADOLID": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6103" },
+            //         "VICTORIAS": { province: "NEGROS OCC.", region: "REGION VI", zcode: "6119" },
+
+            //         // Negros Oriental
+            //         "AMLAN": { province: "NEGROS OR.", region: "REGION VI", zcode: "6203" },
+            //         "AYUNGON": { province: "NEGROS OR.", region: "REGION VII", zcode: "6210" },
+            //         "BACONG": { province: "NEGROS OR.", region: "REGION VII", zcode: "6216" },
+            //         "BAIS CITY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6206" },
+            //         "BASAY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6222" },
+            //         "BAYAWAN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6221" },
+            //         "BINDOY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6209" },
+            //         "CANLAON CITY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6223" },
+            //         "DAUIN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6217" },
+            //         "DUMAGUETE CITY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6200" },
+            //         "GUIHULNGAN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6214" },
+            //         "JIMALALUD": { province: "NEGROS OR.", region: "REGION VII", zcode: "6212" },
+            //         "LA LIBERTAD": { province: "NEGROS OR.", region: "REGION VII", zcode: "6213" },
+            //         "MABINAY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6207" },
+            //         "MANJUYOD": { province: "NEGROS OR.", region: "REGION VII", zcode: "6208" },
+            //         "PAMPLONA": { province: "NEGROS OR.", region: "REGION VII", zcode: "6205" },
+            //         "SAN JOSE": { province: "NEGROS OR.", region: "REGION VII", zcode: "6202" },
+            //         "SANTA CATALINA": { province: "NEGROS OR.", region: "REGION VII", zcode: "6220" },
+            //         "SIATON": { province: "NEGROS OR.", region: "REGION VII", zcode: "6219" },
+            //         "SIBULAN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6201" },
+            //         "TANJAY": { province: "NEGROS OR.", region: "REGION VII", zcode: "6204" },
+            //         "TAYASAN": { province: "NEGROS OR.", region: "REGION VII", zcode: "6211" },
+            //         "VALENCIA": { province: "NEGROS OR.", region: "REGION VII", zcode: "6215" },
+            //         "VALLEHERMOSO": { province: "NEGROS OR.", region: "REGION VII", zcode: "6224" },
+            //         "ZAMBOANGUITA": { province: "NEGROS OR.", region: "REGION VII", zcode: "6218" },
+
+
+            //         "Cagayan de Oro": { province: "Misamis Oriental", region: "Region X", zcode: "9000" },
+            //         "General Santos": { province: "South Cotabato", region: "Region XII", zcode: "9500" },
+            //         "Butuan": { province: "Agusan del Norte", region: "Caraga", zcode: "8600" },
+            //         "Cotabato City": { province: "Maguindanao", region: "BARMM", zcode: "9600" },
+            //         "Dagupan": { province: "Pangasinan", region: "Region I", zcode: "2400" },
+            //         "Naga": { province: "Camarines Sur", region: "Region V", zcode: "4400" },
+            //         "Olongapo": { province: "Zambales", region: "Region III", zcode: "2200" },
+            //         "Ormoc": { province: "Leyte", region: "Region VIII", zcode: "6541" },
+            //         "Puerto Princesa": { province: "Palawan", region: "MIMAROPA", zcode: "5300" },
+            //         "Tacloban": { province: "Leyte", region: "Region VIII", zcode: "6500" },
+
+            //         "Zamboanga City": { province: "Zamboanga del Sur", region: "Region IX", zcode: "7000" },
+            //         "Antipolo": { province: "Rizal", region: "CALABARZON", zcode: "1870" },
+            //         "Lucena": { province: "Quezon", region: "CALABARZON", zcode: "4301" },
+            //         "San Pablo": { province: "Laguna", region: "CALABARZON", zcode: "4000" },
+            //         "Calamba": { province: "Laguna", region: "CALABARZON", zcode: "4027" },
+            //         "Batangas City": { province: "Batangas", region: "CALABARZON", zcode: "4200" },
+            //         "Lipa": { province: "Batangas", region: "CALABARZON", zcode: "4217" },
+            //         "San Fernando": { province: "La Union", region: "Region I", zcode: "2500" },
+            //         "Urdaneta": { province: "Pangasinan", region: "Region I", zcode: "2428" },
+            //         "Vigan": { province: "Ilocos Sur", region: "Region I", zcode: "2700" },
+            //         "Laoag": { province: "Ilocos Norte", region: "Region I", zcode: "2900" },
+            //         "Cabanatuan": { province: "Nueva Ecija", region: "Region III", zcode: "3100" },
+            //         "San Jose del Monte": { province: "Bulacan", region: "Region III", zcode: "3023" },
+            //         "Angeles": { province: "Pampanga", region: "Region III", zcode: "2009" },
+            //         "Tarlac City": { province: "Tarlac", region: "Region III", zcode: "2300" },
+            //         "San Fernando": { province: "Pampanga", region: "Region III", zcode: "2000" },
+            //         "Balanga": { province: "Bataan", region: "Region III", zcode: "2100" },
+            //         "Malolos": { province: "Bulacan", region: "Region III", zcode: "3000" },
+            //         "Meycauayan": { province: "Bulacan", region: "Region III", zcode: "3020" },
+            //         "Gapan": { province: "Nueva Ecija", region: "Region III", zcode: "3105" },
+            //         "San Jose": { province: "Nueva Ecija", region: "Region III", zcode: "3121" },
+            //         "Tagum": { province: "Davao del Norte", region: "Region XI", zcode: "8100" },
+            //         "Panabo": { province: "Davao del Norte", region: "Region XI", zcode: "8105" },
+            //         "Samal": { province: "Davao del Norte", region: "Region XI", zcode: "8119" },
+            //         "Digos": { province: "Davao del Sur", region: "Region XI", zcode: "8002" },
+            //         "Mati": { province: "Davao Oriental", region: "Region XI", zcode: "8200" },
+            //         "Tagaytay": { province: "Cavite", region: "CALABARZON", zcode: "4120" },
+            //         "Trece Martires": { province: "Cavite", region: "CALABARZON", zcode: "4109" },
+            //         "Dasmariñas": { province: "Cavite", region: "CALABARZON", zcode: "4114" },
+            //         "Cavite City": { province: "Cavite", region: "CALABARZON", zcode: "4100" },
+            //         "Biñan": { province: "Laguna", region: "CALABARZON", zcode: "4024" },
+            //         "Santa Rosa": { province: "Laguna", region: "CALABARZON", zcode: "4026" },
+            //         "Tagum": { province: "Davao del Norte", region: "Region XI", zcode: "8100" },
+            //         "Valencia": { province: "Bukidnon", region: "Region X", zcode: "8709" },
+            //         "Malaybalay": { province: "Bukidnon", region: "Region X", zcode: "8700" },
+            //         "Surigao City": { province: "Surigao del Norte", region: "Caraga", zcode: "8400" },
+            //         "Cabadbaran": { province: "Agusan del Norte", region: "Caraga", zcode: "8605" },
+            //         "Bislig": { province: "Surigao del Sur", region: "Caraga", zcode: "8311" },
+            //         "Bayugan": { province: "Agusan del Sur", region: "Caraga", zcode: "8502" },
+            //         "Koronadal": { province: "South Cotabato", region: "Region XII", zcode: "9506" },
+            //         "Kidapawan": { province: "North Cotabato", region: "Region XII", zcode: "9400" },
+            //         "Tacurong": { province: "Sultan Kudarat", region: "Region XII", zcode: "9800" },
+            //         "Valencia": { province: "Bukidnon", region: "Region X", zcode: "8709" },
+            //         "Pagadian": { province: "Zamboanga del Sur", region: "Region IX", zcode: "7016" },
+            //         "Dipolog": { province: "Zamboanga del Norte", region: "Region IX", zcode: "7100" },
+            //         "Isabela": { province: "Basilan", region: "BARMM", zcode: "7300" },
+            //         "Iligan": { province: "Lanao del Norte", region: "Region X", zcode: "9200" },
+            //         "Oroquieta": { province: "Misamis Occidental", region: "Region X", zcode: "7207" },
+            //         "Ozamis": { province: "Misamis Occidental", region: "Region X", zcode: "7200" },
+            //         "Tangub": { province: "Misamis Occidental", region: "Region X", zcode: "7214" },
+            //         "Bais": { province: "Negros Oriental", region: "Region VII", zcode: "6206" },
+            //         "Bayawan": { province: "Negros Oriental", region: "Region VII", zcode: "6221" },
+            //         "Canlaon": { province: "Negros Oriental", region: "Region VII", zcode: "6223" },
+            //         "Guihulngan": { province: "Negros Oriental", region: "Region VII", zcode: "6214" },
+            //         "Tanjay": { province: "Negros Oriental", region: "Region VII", zcode: "6204" },
+            //         "Toledo": { province: "Cebu", region: "Region VII", zcode: "6038" },
+            //         "Talisay": { province: "Cebu", region: "Region VII", zcode: "6045" },
+            //         "Naga": { province: "Cebu", region: "Region VII", zcode: "6037" },
+            //         "Carcar": { province: "Cebu", region: "Region VII", zcode: "6019" },
+            //         "Danao": { province: "Cebu", region: "Region VII", zcode: "6004" },
+            //         "Bogo": { province: "Cebu", region: "Region VII", zcode: "6010" },
+            //         "Tagbilaran": { province: "Bohol", region: "Region VII", zcode: "6300" },
+            //         "Balanga": { province: "Bataan", region: "Region III", zcode: "2100" },
+            //         "Tuguegarao": { province: "Cagayan", region: "Region II", zcode: "3500" },
+            //         "Santiago": { province: "Isabela", region: "Region II", zcode: "3311" },
+            //         "Cauayan": { province: "Isabela", region: "Region II", zcode: "3305" },
+            //         "Baybay": { province: "Leyte", region: "Region VIII", zcode: "6521" },
+            //         "Borongan": { province: "Eastern Samar", region: "Region VIII", zcode: "6800" },
+            //         "Calbayog": { province: "Samar", region: "Region VIII", zcode: "6710" },
+            //         "Catbalogan": { province: "Samar", region: "Region VIII", zcode: "6700" },
+            //         "Maasin": { province: "Southern Leyte", region: "Region VIII", zcode: "6600" },
+            //         "Baybay": { province: "Leyte", region: "Region VIII", zcode: "6521" },
+            //         "Bayugan": { province: "Agusan del Sur", region: "Caraga", zcode: "8502" }
+            //         // Add more cities as needed
+            //     };
+
+            //     var $citySelect = $('#viewdatastudCity');
+            //     var $provinceInput = $('#viewdatastudProvince');
+            //     var $regionInput = $('#viewdatastudRegion');
+            //     var $zcodeInput = $('#viewdatastudZcode');
+
+            //     function updateAddress() {
+            //         var hnum = document.getElementById('viewdatastudHnum').value;
+            //         var brgy = document.getElementById('viewdatastudBrgy').value;
+            //         var city = document.getElementById('viewdatastudCity').value;
+            //         var province = document.getElementById('viewdatastudProvince').value;
+            //         var region = document.getElementById('viewdatastudRegion').value;
+            //         var zcode = document.getElementById('viewdatastudZcode').value;
+
+            //         // Concatenate the values with commas
+            //         var address = [hnum, brgy, city, province, region, zcode].filter(Boolean).join(', ');
+
+            //         // Update the Address field
+            //         document.getElementById('viewdatastudAddress').value = address;
+            //     }
+
+            //     document.getElementById('viewdatastudHnum').addEventListener('input', updateAddress);
+            //     document.getElementById('viewdatastudBrgy').addEventListener('input', updateAddress);
+            //     document.getElementById('viewdatastudCity').addEventListener('change', updateAddress);
+            //     document.getElementById('viewdatastudProvince').addEventListener('input', updateAddress);
+            //     document.getElementById('viewdatastudRegion').addEventListener('input', updateAddress);
+            //     document.getElementById('viewdatastudZcode').addEventListener('input', updateAddress);
+
+            //     // Populate the city dropdown
+            //     var sortedCities = Object.keys(cityData).sort();
+
+            //     // Populate the city dropdown
+            //     sortedCities.forEach(function(city) {
+            //         $citySelect.append('<option value="' + city + '">' + city + '</option>');
+            //     });
+
+            //     // Event listener for city dropdown change
+            //     $citySelect.change(function() {
+            //         var selectedCity = $(this).val();
+            //         var cityInfo = cityData[selectedCity];
+
+            //         // Remove highlight class from all options
+            //         $citySelect.find('option').removeClass('highlight');
+
+            //         // Add highlight class to selected option
+            //         $citySelect.find('option[value="' + selectedCity + '"]').addClass('highlight');
+                    
+            //         if (cityInfo) {
+            //             $provinceInput.val(cityInfo.province);
+            //             $regionInput.val(cityInfo.region);
+            //             $zcodeInput.val(cityInfo.zcode);
+            //         } else {
+            //             $provinceInput.val('');
+            //             $regionInput.val('');
+            //             $zcodeInput.val('');
+            //         }
+            //     });
+            // });
         </script>
     
 

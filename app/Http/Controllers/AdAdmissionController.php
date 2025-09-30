@@ -490,7 +490,7 @@ class AdAdmissionController extends Controller
         $currentYear = Year::where('status', 'On')->value('adyear');
         $dates = AdmissionDate::orderBy('id', 'asc')
                     ->where('campus', Auth::user()->campus)
-                    ->whereYear('date', $currentYear)
+                    // ->whereYear('date', $currentYear)
                     ->get();
 
         return response()->json(['dates' => $dates]);
@@ -524,7 +524,7 @@ class AdAdmissionController extends Controller
 
         $date = AdmissionDate::orderBy('id', 'asc')
             ->where('campus', Auth::user()->campus)
-            ->whereYear('date', $currentYear)
+            // ->whereYear('date', $currentYear)
             ->get();
 
         return response()->json([
@@ -539,7 +539,7 @@ class AdAdmissionController extends Controller
 
         $time = Time::orderBy('id', 'asc')
             ->where('campus', Auth::user()->campus)
-            ->whereYear('date', $currentYear)
+            // ->whereYear('date', $currentYear)
             ->get();
 
         return response()->json([

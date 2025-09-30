@@ -115,6 +115,10 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
         Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
         Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
 
+        Route::get('/portal/provinces/{region_id}', [PortalController::class, 'getPortalProvinces'])->name('getPortalProvinces');
+        Route::get('/portal/cities/{province_id}', [PortalController::class, 'getPortalCities'])->name('getPortalCities');
+        Route::get('/portal/barangays/{city_id}', [PortalController::class, 'getPortalBarangays'])->name('getPortalBarangays');
+
         Route::get('/xYcmd/upload.documents',[AdReuploadController::class,'repup'])->name('repup');
         Route::post('/xYcmd/upload.documents/search', [AdReuploadController::class, 'searchApplicant'])->name('searchApplicant');
         Route::post('/xYcmd/upload.documents/search/uploaddocs', [AdReuploadController::class, 'uploadDocuments'])->name('uploadDocuments');

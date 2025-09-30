@@ -37,7 +37,7 @@ class PortalController extends Controller
         $admissionid = Applicant::orderBy('admission_id', 'desc')->first();
         $program = Programs::orderBy('id', 'asc')->get();
         $strand = Strands::orderBy('code', 'asc')->get();
-        $time = Time::whereYear('date', '2025')->get();
+        $time = Time::whereYear('date', '2026')->get();
 
         //$todayRegistrations = Applicant::whereDate('created_at', today())->count();
         $regions = Region::all();
@@ -66,6 +66,7 @@ class PortalController extends Controller
                     // Count applicants with the same date and time
                     $applicantCount = Applicant::where('d_admission', $sched->date)
                         ->where('time', $sched->time)
+                        ->where('p_status', '!=', 7) // Exclude cancelled applicants
                         ->count();
 
                     // Subtract from available slots
@@ -406,5 +407,20 @@ class PortalController extends Controller
             }
         
         }
+    }
+
+    public function getPortalProvinces($region_id) 
+    {
+        return response()->json(Province::where('region_id', $region_id)->get());
+    }
+    
+    public function getPortalCities($province_id) 
+    {
+        return response()->json(City::where('province_id', $province_id)->get());
+    }
+    
+    public function getPortalBarangays($city_id) 
+    {
+        return response()->json(Barangay::where('city_id', $city_id)->get());
     }
 }
