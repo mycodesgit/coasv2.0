@@ -133,7 +133,7 @@ CISS V.1.0 || Applicant Reports
             </form>
 
             <div class="mt-2">
-                <table id="report" class="table table-hover">
+                <table id="appsreplistTable" class="table table-hover" style="width:100%;">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -148,7 +148,7 @@ CISS V.1.0 || Applicant Reports
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status != 7)   
                             <tr>
@@ -179,7 +179,7 @@ CISS V.1.0 || Applicant Reports
                             </tr>
                             @else
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -187,7 +187,9 @@ CISS V.1.0 || Applicant Reports
     </div>
 </div>
 
-
+<script>
+    var allApplicantRoute = "{{ route('getapplicantreportsRead') }}";
+</script>
 
 @endsection
 

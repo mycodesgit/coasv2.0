@@ -351,10 +351,12 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('reports')->group(function () {    
             Route::get('/applicant', [AdPrntController::class, 'applicant_printing'])->name('applicant_printing');
             Route::post('/applicantReports', [AdPrntController::class, 'applicant_reports'])->name('applicant_reports');
+            Route::get('/applicantReports/ajax', [AdPrntController::class, 'getapplicantreportsRead'])->name('getapplicantreportsRead');
             Route::get('/applicantsReports/PDF', [AdPrntController::class, 'applicantPDF_reports'])->name('applicantPDF_reports');
 
             Route::get('/schedules', [AdPrntController::class, 'schedules_printing'])->name('schedules_printing');
             Route::get('/schedulesReports', [AdPrntController::class, 'schedules_reports'])->name('schedules_reports');
+            Route::get('/schedulesReports/ajax', [AdPrntController::class, 'getschedulesreportsRead'])->name('getschedulesreportsRead');
             Route::get('/schedulesReports/PDF', [AdPrntController::class, 'schedulesPDF_reports'])->name('schedulesPDF_reports');
 
             Route::get('/no/sched', [AdPrntController::class, 'nosched_printing'])->name('nosched_printing');

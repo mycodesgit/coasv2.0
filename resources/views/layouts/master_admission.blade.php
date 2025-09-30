@@ -358,6 +358,12 @@
     @if(request()->routeIs('configure_admission'))
         <script src="{{ asset('js/ajax/admssion/configureAdSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('applicant_reports'))
+        @include('script.admssn.rprt.applicantgenSerialize')
+    @endif
+    @if(request()->routeIs('schedules_reports'))
+        @include('script.admssn.rprt.applicantschedSerialize')
+    @endif
 
     @php $curr_route = request()->route()->getName(); @endphp
         @if($curr_route == 'admission-index')

@@ -77,7 +77,7 @@
         <tbody>
             @php $no = 1; @endphp
             @foreach($data as $applicant)
-                @if ($applicant->p_status = [1,2])
+                @if ($applicant->p_status != 7)   
                 <tr>
                     <td>{{ $no++ }}</td>
                     <td>{{ $applicant->admission_id }}</td>

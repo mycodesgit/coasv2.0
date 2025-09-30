@@ -79,7 +79,7 @@ CISS V.1.0 || Admission Schedules
         </div>
         <div class="mt-5">
             <div class="">
-                <table id="report" class="table table-hover">
+                <table id="appsschedlistTable" class="table table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -93,7 +93,7 @@ CISS V.1.0 || Admission Schedules
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status != 7)  
                             <tr>
@@ -117,7 +117,7 @@ CISS V.1.0 || Admission Schedules
                             </tr>
                             @else
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -125,7 +125,9 @@ CISS V.1.0 || Admission Schedules
     </div>
 </div>
 
-
+<script>
+    var allApplicantSchedRoute = "{{ route('getschedulesreportsRead') }}";
+</script>
 
 @endsection
 

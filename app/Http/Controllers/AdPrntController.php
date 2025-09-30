@@ -97,7 +97,7 @@ class AdPrntController extends Controller
     {
         $strand = Strands::orderBy('id', 'asc')->get();
 
-        $data = Applicant::where('p_status', '!=', 6);
+        $data = Applicant::where('p_status', '!=', 7);
 
         if ($request->year) {
             $data = $data->where('year', $request->year);
@@ -123,6 +123,13 @@ class AdPrntController extends Controller
             ->with('strand', $strand)->with('curryear', $curryear);
     }
 
+    public function getapplicantreportsRead(Request $request) 
+    {
+        $data = Applicant::where('p_status', '!=', 7)->get();
+
+        return response()->json(['data' => $data]);
+    }
+
     public function applicantPDF_reports(Request $request)
     {
         try {
@@ -142,7 +149,7 @@ class AdPrntController extends Controller
                 $query->whereIn('ad_applicant_admission.strand', $selectedStrand);
             }
 
-            $data = $query->where('p_status', '!=', 6)->get();
+            $data = $query->where('p_status', '!=', 7)->get();
 
             $totalSearchResults = count($data);
 
@@ -186,6 +193,23 @@ class AdPrntController extends Controller
         $totalSearchResults = count($data);
 
         return view('admission.reports.schedulesgen', compact('data', 'totalSearchResults', 'strand', 'time', 'venue', 'repdates'));
+    }
+
+    public function getschedulesreportsRead(Request $request) 
+    {
+        $selectedYear = $request->query('year');
+        $selectedCampus = $request->query('campus');
+        $selectedDates = $request->query('date');
+
+        $data = Applicant::leftJoin('ad_time', 'ad_applicant_admission.dateID', '=', 'ad_time.id')
+                        ->where('ad_applicant_admission.year', $selectedYear)
+                        ->where('ad_applicant_admission.campus', $selectedCampus)
+                        ->where('ad_time.id', $selectedDates)
+                        ->where('ad_applicant_admission.p_status', '!=', 7)
+                        ->select('ad_applicant_admission.*', 'ad_time.*')
+                        ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function schedulesPDF_reports(Request $request)
