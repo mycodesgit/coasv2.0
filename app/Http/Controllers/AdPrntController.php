@@ -156,7 +156,6 @@ class AdPrntController extends Controller
             $pdf = PDF::loadView('admission.reports.pdf.applicantPDF', ['data' => $data, 'totalSearchResults' => $totalSearchResults])->setPaper('Legal', 'landscape');
             return $pdf->stream();
         } catch (\Exception $e) {
-            \Log::error('Error in applicantPDF_reports: ' . $e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -251,7 +250,8 @@ class AdPrntController extends Controller
 
     public function nosched_reports(Request $request)
     {
-        $data = Applicant::whereNull('dateID')->whereNull('d_admission')->where('campus', '=', Auth::user()->campus);
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $data = Applicant::whereNull('venue')->where('p_status', '!=', 7)->where('campus', '=', Auth::user()->campus);
 
         if ($request->year) {
             $data = $data->where('year', $request->year);
@@ -266,30 +266,31 @@ class AdPrntController extends Controller
         $request->session()->put('recent_search', $data);
         $totalSearchResults = count($data);
         
-        return view('admission.reports.noschedgen', compact('totalSearchResults', 'data'));
+        return view('admission.reports.noschedgen', compact('totalSearchResults', 'data', 'curryear'));
+    }
+
+    public function getnoschedulesreportsRead(Request $request) 
+    {
+        $selectedCampus = $request->query('campus');
+
+        //$data = Applicant::whereNull('dateID')->whereNull('d_admission')->whereNull('venue')->where('campus', '=', Auth::user()->campus)->get();
+        $data = Applicant::whereNull('venue')->where('p_status', '!=', 7)->where('campus', '=', Auth::user()->campus)->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function noschedPDF_reports(Request $request)
     {
         try {
-            $selectedYear = $request->query('year', []);
-            $selectedCampus = $request->query('campus', []);
+            $selectedCampus = $request->query('campus');
 
-            $selectedYear = is_array($selectedYear) ? $selectedYear : [$selectedYear];
-            $selectedCampus = is_array($selectedCampus) ? $selectedCampus : [$selectedCampus];
-
-            $query = Applicant::select('ad_applicant_admission.*')
-                            ->whereIn('ad_applicant_admission.year', $selectedYear)
-                            ->whereIn('ad_applicant_admission.campus', $selectedCampus);
-
-            $data = $query->whereNull('dateID')->whereNull('d_admission')->where('campus', '=', Auth::user()->campus)->orderBy('admission_id','ASC')->get();
+            $data = Applicant::whereNull('venue')->where('p_status', '!=', 7)->where('campus', '=', Auth::user()->campus)->get();
 
             $totalSearchResults = count($data);
 
             $pdf = PDF::loadView('admission.reports.pdf.noschedPDF', ['data' => $data, 'totalSearchResults' => $totalSearchResults])->setPaper('Legal', 'landscape');
             return $pdf->stream();
         } catch (\Exception $e) {
-            \Log::error('Error in applicantPDF_reports: ' . $e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }

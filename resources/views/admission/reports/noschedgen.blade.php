@@ -32,7 +32,11 @@ CISS v.1.0 || Applicant Reports
                         <div class="form-row">
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Year</span></label>
-                                <select class="form-control form-control-sm" id="year" name="year"></select>
+                                <select class="form-control form-control-sm" id="year" name="year">
+                                    @foreach($curryear as $datacurryear)
+                                        <option>{{ $datacurryear->adyear }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-2">
@@ -107,7 +111,7 @@ CISS v.1.0 || Applicant Reports
             </form>
 
             <div class="">
-                <table id="report" class="table table-hover">
+                <table id="appsnoschedlistTable" class="table table-hover" style="width: 100%">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -122,7 +126,7 @@ CISS v.1.0 || Applicant Reports
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        {{-- @php $no = 1; @endphp
                         @foreach($data as $applicant)
                             @if ($applicant->p_status = 1)
                             <tr>
@@ -151,7 +155,7 @@ CISS v.1.0 || Applicant Reports
                             </tr>
                             @else
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -159,7 +163,9 @@ CISS v.1.0 || Applicant Reports
     </div>
 </div>
 
-
+<script>
+    var allApplicantnoschedRoute = "{{ route('getnoschedulesreportsRead') }}";
+</script>
 
 @endsection
 

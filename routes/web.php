@@ -361,6 +361,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/no/sched', [AdPrntController::class, 'nosched_printing'])->name('nosched_printing');
             Route::post('/no/sched/reports', [AdPrntController::class, 'nosched_reports'])->name('nosched_reports');
+            Route::get('/no/sched/ajax', [AdPrntController::class, 'getnoschedulesreportsRead'])->name('getnoschedulesreportsRead');
             Route::get('/no/sched/PDF', [AdPrntController::class, 'noschedPDF_reports'])->name('noschedPDF_reports');
 
             Route::get('/examination', [AdPrntController::class, 'examination_printing'])->name('examination_printing');

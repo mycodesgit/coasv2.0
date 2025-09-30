@@ -364,6 +364,9 @@
     @if(request()->routeIs('schedules_reports'))
         @include('script.admssn.rprt.applicantschedSerialize')
     @endif
+    @if(request()->routeIs('nosched_reports'))
+        @include('script.admssn.rprt.applicantnoschedSerialize')
+    @endif
 
     @php $curr_route = request()->route()->getName(); @endphp
         @if($curr_route == 'admission-index')
