@@ -364,9 +364,9 @@ class PortalController extends Controller
         $email = $request->input('email');
         
 
-        Mail::raw("Congratulations! You have successfully registered for the {$year} Admission Test", function ($message) use ($email) {
+        Mail::raw('Congratulations! You have successfully registered for the 2026 Admission Test', function ($message) use ($email) {
             $message->to($email)
-                ->subject('Thank You for Your Application');
+                    ->subject('Thank You for Your Application');
         });
 
         return response()->json(['message' => 'Email sent successfully']);
