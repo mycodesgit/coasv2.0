@@ -170,11 +170,13 @@ class PortalController extends Controller
             'studiddoc_image' => 'required',
         ]);
 
+        $yearOn = Year::where('status', 'On')->value('adyear');
+
         $existingApplicantValidator = Validator::make([], []);
 
         $existingApplicant = Applicant::where('lname', $request->input('lastname'))
             ->where('fname', $request->input('firstname'))
-            ->whereYear('created_at', 2025)
+            ->where('year', $yearOn)
             ->first();
 
         if ($existingApplicant) {
