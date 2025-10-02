@@ -82,7 +82,8 @@
                                 </div>
                                 <form method="post" action="{{ route('sendThankYouEmail') }}">
                                     @csrf
-                                    <input type="hidden" name="email" class="form-control" value="{{ old('email, $email') }}">
+                                    <input type="text" name="email" class="form-control" value="{{ old('email, $email') }}">
+                                    <input type="text" name="year" class="form-control" value="{{ old('year, $year') }}">
                                 </form>
                             </div>
                         </div>
