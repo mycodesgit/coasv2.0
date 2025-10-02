@@ -360,7 +360,6 @@ class PortalController extends Controller
             'email' => 'required|email'
         ]);
         
-        $year = $request->input('year');
         $email = $request->input('email');
         
 
