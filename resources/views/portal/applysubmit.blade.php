@@ -82,7 +82,8 @@
                                 </div>
                                 <form method="post" action="{{ route('sendThankYouEmail') }}">
                                     @csrf
-                                    <input type="text" name="email" class="form-control" value="{{ old('email, $email') }}">
+                                    <input type="text" name="email" class="form-control" value="{{ old('email', $email) }}">
+                                    <input type="text" name="year" class="form-control" value="{{ old('year', $year) }}">
                                 </form>
                             </div>
                         </div>
@@ -158,14 +159,24 @@
         }, 2000);
 
         // Function to send the email
-        function sendEmail(email) {
+        function sendEmail(email, year) {
+            const emailInput = document.querySelector('input[name="email"]');
+            const yearInput  = document.querySelector('input[name="year"]');
+
+            if (!email && emailInput) {
+                email = emailInput.value;
+            }
+            if (!year && yearInput) {
+                year = yearInput.value;
+            }
+
             fetch('{{ route('sendThankYouEmail') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ email: email })
+                body: JSON.stringify({ email: email,  year: year })
             })
             .then(response => {
                 if (!response.ok) {

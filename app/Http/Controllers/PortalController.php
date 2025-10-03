@@ -352,8 +352,9 @@ class PortalController extends Controller
 
     public function submitsucapply()
     {
+        $year = session('year');
         $email = session('email');
-        return view('portal.applysubmit', compact('email'));
+        return view('portal.applysubmit', compact('email', 'year'));
     }
 
     public function sendThankYouEmail(Request $request)
@@ -362,10 +363,11 @@ class PortalController extends Controller
             'email' => 'required|email'
         ]);
         
+        $year = $request->input('year');
         $email = $request->input('email');
         
 
-        Mail::raw('Congratulations! You have successfully registered for the 2026 Admission Test', function ($message) use ($email) {
+        Mail::raw("Congratulations! You have successfully registered for the {$year} Admission Test", function ($message) use ($email) {
             $message->to($email)
                     ->subject('Thank You for Your Application');
         });
