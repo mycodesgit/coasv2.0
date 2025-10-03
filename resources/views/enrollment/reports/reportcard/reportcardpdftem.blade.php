@@ -217,6 +217,8 @@
                             ELYSA JANE S. ARLOS<br><span style="padding-left: 1px;">OIC - University Registrar</span>
                         @elseif(Auth::guard('web')->user()->campus == 'VC')
                             JUNO E. PAJARILLO, DPA<br><span style="padding-left: 30px;">Campus Registrar</span>
+                        @elseif(Auth::guard('web')->user()->campus == 'SCC')
+                            JUJE C. RAMADA, LPT, Ph. D., Asst. Prof<br><span style="padding-left: 30px;">Campus Registrar</span>
                         @endif
                     </th>
                 </thead>
