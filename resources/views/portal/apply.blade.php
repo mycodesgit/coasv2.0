@@ -619,10 +619,57 @@
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-12">
-                                                        <label>Upload School ID <i style="color: red">*</i></label>
+                                                        <label>Upload School ID / Valid ID <i style="color: red">*</i></label>
                                                         <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*">
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                                                <h4>Application Requirement <span style="font-size: 12pt;color:#ff0000;"></span></h4>
+                                            </div>
+
+                                            <!-- Selection -->
+                                            <div class="form-group">
+                                                <label for="applicantType">Select Applicant Type <i style="color: red">*</i></label>
+                                                <select id="applicantType" class="form-control form-control-sm">
+                                                    <option value="">-- Select an option --</option>
+                                                    <option value="grade12">Grade 12 Students (Graduating)</option>
+                                                    <option value="shsGrad">Senior High School Graduates</option>
+                                                    <option value="apptransferee">Transferees</option>
+                                                    <option value="als">ALS Graduates/Passers</option>
+                                                    <option value="lifelong">Life-long Learner</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Upload Sections -->
+                                            <div class="form-group upload-section" id="grade12" style="">
+                                                <label>Upload Grade 12 Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="grade12File" class="form-control form-control-sm file-input">
+                                            </div>
+
+                                            <div class="form-group upload-section" id="shsGrad" style="display:none;">
+                                                <label>Upload SHS Graduate Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="shsFile" class="form-control form-control-sm file-input">
+                                            </div>
+
+                                            <div class="form-group upload-section" id="apptransferee" style="display:none;">
+                                                <label>Upload Transferee Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="transfereeFile" class="form-control form-control-sm file-input">
+                                            </div>
+
+                                            <div class="form-group upload-section" id="als" style="display:none;">
+                                                <label>Upload ALS Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="alsFile" class="form-control form-control-sm file-input">
+                                            </div>
+
+                                            <div class="form-group upload-section" id="lifelong" style="display:none;">
+                                                <label>Upload Life-long Learner Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="lifelongFile" class="form-control form-control-sm file-input">
                                             </div>
                                         </div>
                                     </div>
@@ -1046,7 +1093,6 @@
             //     });
             // });
         </script>
-    
 
         <script>
             function calculateAge() {
@@ -1119,18 +1165,18 @@
         </script> --}}
 
         <script>
-        $(document).ready(function () {
-            $('#email').on('blur', function () {
-                let email = $(this).val();
+            $(document).ready(function () {
+                $('#email').on('blur', function () {
+                    let email = $(this).val();
 
-                // Check if the email input is not empty
-                if (email.trim() !== '') {
-                    $('#next-btn').show(); // Enable the "Next" button
-                } else {
-                    $('#next-btn').hide(); // Hide the button if the email is empty
-                }
+                    // Check if the email input is not empty
+                    if (email.trim() !== '') {
+                        $('#next-btn').show(); // Enable the "Next" button
+                    } else {
+                        $('#next-btn').hide(); // Hide the button if the email is empty
+                    }
+                });
             });
-        });
         </script>
 
 

@@ -24,6 +24,11 @@ class ApplicantDocs extends Model
         'qstion2',
         'typefileproofupload',
         'studiddoc_image',
-        'proofdoc_image'
+        'proofdoc_image',
+        'grade12File',
+        'shsFile',
+        'transfereeFile',
+        'alsFile',
+        'lifelongFile'
     ];
 }

@@ -29,6 +29,11 @@ return new class extends Migration
             $table->string('typefileproofupload')->nullable();
             $table->string('studiddoc_image')->nullable();
             $table->string('proofdoc_image')->nullable();
+            $table->string('grade12File')->nullable();
+            $table->string('shsFile')->nullable();
+            $table->string('transfereeFile')->nullable();
+            $table->string('alsFile')->nullable();
+            $table->string('lifelongFile')->nullable();
             $table->timestamps();
         });
     }

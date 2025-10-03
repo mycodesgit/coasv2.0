@@ -249,13 +249,24 @@ function updateProgressBar() {
 }
 
 // Check if all fields in the last card are filled out
+// function checkLastCardCompletion() {
+//     const lastCardFields = document.querySelectorAll(`#card-${totalCards} input, #card-${totalCards} select`);
+//     const allFilled = Array.from(lastCardFields).every(field => field.value.trim() !== "");
+    
+//     // Enable submit button if all fields are filled
+//     document.getElementById("submit-btn").disabled = !allFilled;
+// }
+
 function checkLastCardCompletion() {
     const lastCardFields = document.querySelectorAll(`#card-${totalCards} input, #card-${totalCards} select`);
-    const allFilled = Array.from(lastCardFields).every(field => field.value.trim() !== "");
     
-    // Enable submit button if all fields are filled
+    const allFilled = Array.from(lastCardFields)
+        .filter(field => field.offsetParent !== null) // only visible fields
+        .every(field => field.value.trim() !== "");
+    
     document.getElementById("submit-btn").disabled = !allFilled;
 }
+
 
 // Move to the next card
 function nextCard(cardNumber) {
@@ -297,3 +308,32 @@ document.querySelectorAll(`#card-${totalCards} input, #card-${totalCards} select
 
 // Initialize the progress bar on page load
 updateProgressBar();
+
+
+const applicantType = document.getElementById('applicantType');
+const sections = document.querySelectorAll('.upload-section');
+
+applicantType.addEventListener('change', function() {
+    sections.forEach(section => {
+        const input = section.querySelector('.file-input');
+
+        // Always clear the file input when switching
+        input.value = "";
+
+        if (section.id === this.value) {
+            section.style.display = 'block';
+            input.setAttribute('required', true);
+        } else {
+            section.style.display = 'none';
+            input.removeAttribute('required');
+        }
+    });
+
+    // After switching, check again so submit button updates
+    checkLastCardCompletion();
+});
+
+// Also check again when user uploads a new file
+document.querySelectorAll('.file-input').forEach(input => {
+    input.addEventListener('change', checkLastCardCompletion);
+});

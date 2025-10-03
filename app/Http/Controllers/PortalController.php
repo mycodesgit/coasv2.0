@@ -314,7 +314,8 @@ class PortalController extends Controller
                 $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
                 $extension = $file->getClientOriginalExtension();
                 $filenameWithExtension = $filename . '.' . $extension;
-                $path = $file->storeAs('studentIDfolder', $filenameWithExtension, 'public');
+                $folderPath = $year . '/studentIDfolder';
+                $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
                 $docs->studiddoc_image = $path;
             }
             if ($request->hasFile('proofdoc_image')) {
@@ -322,8 +323,18 @@ class PortalController extends Controller
                 $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
                 $extension = $file->getClientOriginalExtension();
                 $filenameWithExtension = $filename . '.' . $extension;
-                $path = $file->storeAs('prooffolder', $filenameWithExtension, 'public');
+                $folderPath = $year . '/prooffolder';
+                $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
                 $docs->proofdoc_image = $path;
+            }
+            if ($request->hasFile('grade12File')) {
+                $file = $request->file('grade12File');
+                $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
+                $extension = $file->getClientOriginalExtension();
+                $filenameWithExtension = $filename . '.' . $extension;
+                $folderPath = $year . '/applcntrequirement';
+                $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
+                $docs->grade12File = $path;
             }
             $docs->save();
 
