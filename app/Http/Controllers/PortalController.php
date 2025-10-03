@@ -352,7 +352,7 @@ class PortalController extends Controller
 
     public function submitsucapply()
     {
-        $year = session('year');
+        $year = Year::where('status', 'On')->value('adyear');
         $email = session('email');
         return view('portal.applysubmit', compact('email', 'year'));
     }
