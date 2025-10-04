@@ -41,7 +41,9 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    // Only display ext if it's not null, not 'N/A', and not empty
+                    var ext = (data.ext && data.ext !== 'N/A') ? ' ' + data.ext : '';
+                    var lastNameWithExt = data.lname + ext;
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
@@ -86,6 +88,10 @@ $(document).ready(function() {
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
                                 '<i class="fas fa-image"></i> School ID' +
+                                '</a>' +
+                                '<a href="#" class="dropdown-item btn-imagereportcardtor" data-id="' + row.adid + '" data-uploadreportcard="' + 
+                                    (row.grade12File || row.shsFile || row.transfereeFile || row.alsFile || row.lifelongFile || '') + '">' +
+                                '<i class="fas fa-image"></i> Report Card/TOR' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-imageproof" data-id="' + row.adid + '" data-imageproof="' + row.proofdoc_image + '" data-proof="' + row.typefileproofupload + '">' +
                                 '<i class="fas fa-image"></i> Proof/Evidence' +
@@ -279,6 +285,42 @@ $(document).on('click', '.btn-image', function() {
         success: function(response) {
             //alert(response); 
             $('#editUploadPhotoId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
+    });
+});
+
+$(document).on('click', '.btn-imagereportcardtor', function() {
+    var id = $(this).data('id');
+    var imagereportcard = $(this).data('uploadreportcard');
+    
+    $('#editUploadReportCardId').val(id);
+    $('#editUploadReportCardDoc').val(imagereportcard);
+
+    if (imagereportcard) {
+        $('#uploadedPhotoReportCard').attr('src', photoStorage + "/" + imagereportcard).show();
+        $('#uploadedPhotoReportCard').removeAttr('alt');
+        $('#noDocumentTextReportCard').hide();
+    } else {
+        $('#uploadedPhotoReportCard').attr('src', '').hide();
+        $('#noDocumentTextReportCard').show();
+        $('#noDocumentTextReportCard').css('font-size', '58px');
+    }
+
+    $('#editUploadReportCardModal').modal('show');
+
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#editUploadReportCardId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editUploadReportCardId').val(response)
         },
         error: function(xhr, status, error) {
             alert('Error: ' + error); 

@@ -207,7 +207,8 @@
                                                     <div class="col-md-12">
                                                         <label>Name Extension (Jr., Sr., II, III, IV)</label>
                                                         <select class="form-control form-control-sm" name="ext">
-                                                            <option>N/A</option>
+                                                            <option disabled selected> --Select-- </option>
+                                                            <option value="">N/A</option>
                                                             <option value="Jr." @if (old('ext') == "Jr.") {{ 'selected' }} @endif>Jr.</option>
                                                             <option value="Sr." @if (old('ext') == "Sr.") {{ 'selected' }} @endif>Sr.</option>
                                                             <option value="III" @if (old('ext') == "III") {{ 'selected' }} @endif>III</option>
