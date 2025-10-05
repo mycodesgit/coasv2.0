@@ -284,7 +284,27 @@
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Religion <i style="color: red">*</i></label>
-                                                        <input type="text" class="form-control form-control-sm" placeholder="Enter Religion" oninput="this.value = this.value.toUpperCase()" name="religion" value="{{old('religion')}}">
+                                                        {{-- <input type="text" class="form-control form-control-sm" placeholder="Enter Religion" oninput="this.value = this.value.toUpperCase()" name="religion" value="{{old('religion')}}"> --}}
+                                                        <select class="form-control form-control-sm" name="religion" id="religionSelect" onchange="handleReligionChange()">
+                                                            <option value="" disabled selected>Select Religion</option>
+                                                            <option value="ROMAN CATHOLIC">ROMAN CATHOLIC</option>
+                                                            <option value="CHRISTIAN">CHRISTIAN</option>
+                                                            <option value="BAPTIST">BAPTIST</option>
+                                                            <option value="METHODIST">METHODIST</option>
+                                                            <option value="IGLESIA NI CRISTO">IGLESIA NI CRISTO</option>
+                                                            <option value="SEVENTH-DAY ADVENTIST">SEVENTH-DAY ADVENTIST</option>
+                                                            <option value="JEHOVAH'S WITNESS">JEHOVAH'S WITNESS</option>
+                                                            <option value="ISLAM">ISLAM</option>
+                                                            <option value="BUDDHISM">BUDDHISM</option>
+                                                            <option value="HINDUISM">HINDUISM</option>
+                                                            <option value="JUDAISM">JUDAISM</option>
+                                                            <option value="ATHEIST">ATHEIST</option>
+                                                            <option value="AGNOSTIC">AGNOSTIC</option>
+                                                            <option value="OTHER">OTHER (SPECIFY)</option>
+                                                        </select>
+                                                        <input type="text" id="otherReligionInput" class="form-control form-control-sm mt-2" placeholder="Please specify religion" style="display: none;"
+                                                            oninput="this.value = this.value.toUpperCase()"
+                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -1437,6 +1457,21 @@
                 label.innerHTML = `Upload Proof of Equity Target Documents from Parents/Legal Guardians – <b style="color:#007AFF">${selectedText}</b> <i style="color: red">*</i>`;
                 });
             });
+        </script>
+        <script>
+            function handleReligionChange() {
+                const select = document.getElementById('religionSelect');
+                const otherInput = document.getElementById('otherReligionInput');
+                
+                if (select.value === 'OTHER') {
+                    otherInput.style.display = 'block';
+                    otherInput.setAttribute('name', 'religion'); // include in form submission
+                    otherInput.focus();
+                } else {
+                    otherInput.style.display = 'none';
+                    otherInput.removeAttribute('name'); // prevent duplicate field in submission
+                }
+            }
         </script>
     @endif
 </body>
