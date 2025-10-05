@@ -190,7 +190,7 @@ $(function () {
                 required: "Upload one image from the requirements",
             },
             typefileproofupload: {
-                required: "Select Proof/Evidence of Disadvantage Situation",
+                required: "Select Proof of Equity Target Documents from Parents/Legal Guardians",
             },
             proofdoc_image: {
                 required: "Upload one image from the requirements",
