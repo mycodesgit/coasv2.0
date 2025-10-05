@@ -284,6 +284,95 @@ CISS v.1.0 || Examinee Search List
     </div>
 </div>
 
+<div class="modal fade" id="editUploadPhotoModal" role="dialog" aria-labelledby="editUploadPhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUploadPhotoModalLabel">Uploaded Photo/Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editUploadPhotoId">
+                    <div class="form-group">
+                        <input type="hidden" id="editUploadPhotoDoc" class="form-control form-control-sm" >
+                        <img id="uploadedPhoto" class="img-square" width="90%" src="" alt="Image">
+                        <p id="noDocumentText" style="text-align: center;" class="big-text">No document uploaded</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editUploadReportCardModal" role="dialog" aria-labelledby="editUploadReportCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUploadReportCardModalLabel">Uploaded Report Card / TOR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editUploadReportCardId">
+                    <div class="form-group">
+                        <input type="hidden" id="editUploadReportCardDoc" class="form-control form-control-sm" >
+                        <img id="uploadedPhotoReportCard" class="img-square" width="90%" src="" alt="Image">
+                        <p id="noDocumentTextReportCard" style="text-align: center;" class="big-text">No document uploaded</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editUploadPhotoProofModal" role="dialog" aria-labelledby="editUploadPhotoProofModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUploadPhotoProofModalLabel">Uploaded Photo/Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editUploadPhotoProofId">
+                    <div class="form-group">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; font-size: 13pt;"><i>Selected Proof/Evidence of Disadvantage Situation: </i>
+                                        <input type="text" id="uploadedTypeProof" style="border: none; background-color: #fff !important; text-align: left; text-decoration: underline;" class="text-bold" readonly>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="editUploadPhotoProofDoc" class="form-control form-control-sm" >
+                        <img id="uploadedPhotoProof" class="img-square" width="90%" src="" alt="Image">
+                        <p id="noDocumentTextProof" style="text-align: center;" class="big-text">No document uploaded</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="assignresultexamModal" role="dialog" aria-labelledby="assignresultexamModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -353,7 +442,7 @@ CISS v.1.0 || Examinee Search List
             </div>
             <form id="editAssignSchedForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="editAssignSchedId">
+                    <input type="hidden" name="id" id="editAssignSchedId">
                     <div class="form-group">
                         <center><label style="text-align: center; font-size: 15pt;"><span class="badge badge-primary">Date and Venue for Admission Test</span></label></center>
                         <table class="table table-bordered">
@@ -440,9 +529,10 @@ CISS v.1.0 || Examinee Search List
     var allExamDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";
     var pushtoresultRoute = "{{ route('examinee_confirmajax',  ['id' => ':id']) }}";
     var appidEncryptRoute = "{{ route('idcrypt') }}";
+    var photoStorage = "{{ asset('storage/') }}";
 
-    var isCampus = '{{ Auth::guard('web')->user()->campus }}';
-    var requestedCampus = '{{ request('campus') }}'
+    var isCampus = "{{ Auth::guard('web')->user()->campus }}";
+    var requestedCampus = "{{ request('campus') }}";
 
     document.getElementById('changeTimeSchedButton').addEventListener('click', function() {
         var formDateSched = document.getElementById('formdatesched');

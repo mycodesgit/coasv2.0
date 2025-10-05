@@ -41,7 +41,8 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    var ext = (data.ext && data.ext !== 'N/A') ? ' ' + data.ext : '';
+                    var lastNameWithExt = data.lname + ext;
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
@@ -87,6 +88,16 @@ $(document).ready(function() {
                         if (isCampus) {
                             dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
                                 '<i class="fas fa-eye"></i> View Data' +
+                                '</a>' +
+                                '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
+                                '<i class="fas fa-image"></i> School ID' +
+                                '</a>' +
+                                '<a href="#" class="dropdown-item btn-imagereportcardtor" data-id="' + row.adid + '" data-uploadreportcard="' + 
+                                    (row.grade12File || row.shsFile || row.transfereeFile || row.alsFile || row.lifelongFile || '') + '">' +
+                                '<i class="fas fa-image"></i> Report Card/TOR' +
+                                '</a>' +
+                                '<a href="#" class="dropdown-item btn-imageproof" data-id="' + row.adid + '" data-imageproof="' + row.proofdoc_image + '" data-proof="' + row.typefileproofupload + '">' +
+                                '<i class="fas fa-image"></i> Proof/Evidence' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-assignsched" data-id="' + row.adid + '" data-dateid="' + row.dateID + '" data-dadmission="' + row.d_admission + '" data-time="' + row.time + '" data-venue="' + row.venue + '">' +
                                 '<i class="fas fa-calendar"></i> Schedule' +
@@ -247,6 +258,116 @@ $('#editAppDataPersonalinfoForm').submit(function(event) {
         error: function(xhr, status, error, message) {
             var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
             toastr.error(errorMessage);
+        }
+    });
+});
+
+$(document).on('click', '.btn-image', function() {
+    var id = $(this).data('id');
+    var image = $(this).data('image');
+    
+    $('#editUploadPhotoId').val(id);
+    $('#editUploadPhotoDoc').val(image);
+
+    if (image) {
+        $('#uploadedPhoto').attr('src', photoStorage + "/" + image).show();
+        $('#uploadedPhoto').removeAttr('alt');
+        $('#noDocumentText').hide();
+    } else {
+        $('#uploadedPhoto').attr('src', '').hide();
+        $('#noDocumentText').show();
+        $('#noDocumentText').css('font-size', '58px');
+    }
+
+    $('#editUploadPhotoModal').modal('show');
+
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#editUploadPhotoId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editUploadPhotoId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
+    });
+});
+
+$(document).on('click', '.btn-imagereportcardtor', function() {
+    var id = $(this).data('id');
+    var imagereportcard = $(this).data('uploadreportcard');
+    
+    $('#editUploadReportCardId').val(id);
+    $('#editUploadReportCardDoc').val(imagereportcard);
+
+    if (imagereportcard) {
+        $('#uploadedPhotoReportCard').attr('src', photoStorage + "/" + imagereportcard).show();
+        $('#uploadedPhotoReportCard').removeAttr('alt');
+        $('#noDocumentTextReportCard').hide();
+    } else {
+        $('#uploadedPhotoReportCard').attr('src', '').hide();
+        $('#noDocumentTextReportCard').show();
+        $('#noDocumentTextReportCard').css('font-size', '58px');
+    }
+
+    $('#editUploadReportCardModal').modal('show');
+
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#editUploadReportCardId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editUploadReportCardId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
+        }
+    });
+});
+
+$(document).on('click', '.btn-imageproof', function() {
+    var id = $(this).data('id');
+    var imageproof = $(this).data('imageproof');
+    var typeproof = $(this).data('proof');
+    
+    $('#editUploadPhotoProofId').val(id);
+    $('#editUploadPhotoProofDoc').val(imageproof);
+    $('#uploadedTypeProof').val(typeproof);
+
+    if (imageproof) {
+        $('#uploadedPhotoProof').attr('src', photoStorage + "/" + imageproof).show();
+        $('#uploadedPhotoProof').removeAttr('alt');
+        $('#noDocumentTextProof').hide();
+    } else {
+        $('#uploadedPhotoProof').attr('src', '').hide();
+        $('#noDocumentTextProof').show();
+        $('#noDocumentTextProof').css('font-size', '58px');
+    }
+
+    $('#editUploadPhotoProofModal').modal('show');
+
+    $.ajax({
+        url: appidEncryptRoute,
+        type: "POST",
+        data: { data: $('#editUploadPhotoProofId').val() },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            //alert(response); 
+            $('#editUploadPhotoProofId').val(response)
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + error); 
         }
     });
 });

@@ -4,8 +4,13 @@
     <title>Examination Schedule</title>
 </head>
 <body>
+    @php
+        use App\Models\AdmissionDB\Year;
+        $year = Year::where('status', 'On')->value('adyear');
+    @endphp
+    
     <p>Congratulations {{ $emailData['applicant_name'] }}!</p>
-    <p>You have successfully registered for the 2025 Admission Test.</p>
+    <p>You have successfully registered for the {{ $year }} Admission Test.</p>
 
     <p><strong>Schedule of Examination:</strong></p>
     <p><strong>Date:</strong> {{ $emailData['date'] }}</p>
