@@ -116,7 +116,7 @@ use App\Models\AdmissionDB\AdmissionDate;
                                     <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$slot->time)->format('h:i A')}}</td>
                                     <td>
                                         <span class="badge badge-secondary">
-                                            {{ $avail =  Applicant::where('time','=', $slot->time)->where('d_admission','=', $slot->date)->where('p_status','!=', 7)->whereYear('year', $currentYear)->where('campus','=', Auth::guard('web')->user()->campus)->count() }}
+                                            {{ $avail =  Applicant::where('time','=', $slot->time)->where('d_admission','=', $slot->date)->where('p_status','!=', 7)->count() }}
                                         </span> / {{ $slot->slots }}
                                     </td>
                                 </tr>
