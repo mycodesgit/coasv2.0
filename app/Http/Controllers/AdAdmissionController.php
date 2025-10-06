@@ -47,36 +47,38 @@ class AdAdmissionController extends Controller
 
     private function shareCounts()
     {
-        $MainRegCount = Applicant::where('campus', 'MC')->where('p_status', 1)->count();
-        $MainSchedCount = Applicant::where('campus', 'MC')->where('p_status', 2)->count();
+        $currentYear = Year::where('status', 'On')->value('adyear');
+
+        $MainRegCount = Applicant::where('campus', 'MC')->where('p_status', 1)->where('year', $currentYear)->count();
+        $MainSchedCount = Applicant::where('campus', 'MC')->where('p_status', 2)->where('year', $currentYear)->count();
 
 
-        $IlogRegCount = Applicant::where('campus', 'IC')->where('p_status', '1')->count();
-        $IlogSchedCount = Applicant::where('campus', 'IC')->where('p_status', '2')->count();
+        $IlogRegCount = Applicant::where('campus', 'IC')->where('p_status', '1')->where('year', $currentYear)->count();
+        $IlogSchedCount = Applicant::where('campus', 'IC')->where('p_status', '2')->where('year', $currentYear)->count();
 
-        $CauayanRegCount = Applicant::where('campus', 'CC')->where('p_status', '1')->count();
-        $CauayanSchedCount = Applicant::where('campus', 'CC')->where('p_status', '2')->count();
+        $CauayanRegCount = Applicant::where('campus', 'CC')->where('p_status', '1')->where('year', $currentYear)->count();
+        $CauayanSchedCount = Applicant::where('campus', 'CC')->where('p_status', '2')->where('year', $currentYear)->count();
 
-        $CandoniRegCount = Applicant::where('campus', 'CA')->where('p_status', '1')->count();
-        $CandoniSchedCount = Applicant::where('campus', 'CA')->where('p_status', '2')->count();
+        $CandoniRegCount = Applicant::where('campus', 'CA')->where('p_status', '1')->where('year', $currentYear)->count();
+        $CandoniSchedCount = Applicant::where('campus', 'CA')->where('p_status', '2')->where('year', $currentYear)->count();
 
-        $SipalayRegCount = Applicant::where('campus', 'SC')->where('p_status', '1')->count();
-        $SipalaySchedCount = Applicant::where('campus', 'SC')->where('p_status', '2')->count();
+        $SipalayRegCount = Applicant::where('campus', 'SC')->where('p_status', '1')->where('year', $currentYear)->count();
+        $SipalaySchedCount = Applicant::where('campus', 'SC')->where('p_status', '2')->where('year', $currentYear)->count();
 
-        $HinobaanRegCount = Applicant::where('campus', 'HinC')->where('p_status', '1')->count();
-        $HinobaanSchedCount = Applicant::where('campus', 'HinC')->where('p_status', '2')->count();
+        $HinobaanRegCount = Applicant::where('campus', 'HinC')->where('p_status', '1')->where('year', $currentYear)->count();
+        $HinobaanSchedCount = Applicant::where('campus', 'HinC')->where('p_status', '2')->where('year', $currentYear)->count();
 
-        $HinigaranRegCount = Applicant::where('campus', 'HC')->where('p_status', '1')->count();
-        $HinigaranSchedCount = Applicant::where('campus', 'HC')->where('p_status', '2')->count();
+        $HinigaranRegCount = Applicant::where('campus', 'HC')->where('p_status', '1')->where('year', $currentYear)->count();
+        $HinigaranSchedCount = Applicant::where('campus', 'HC')->where('p_status', '2')->where('year', $currentYear)->count();
 
-        $MoisesRegCount = Applicant::where('campus', 'MP')->where('p_status', '1')->count();
-        $MoisesSchedCount = Applicant::where('campus', 'MP')->where('p_status', '2')->count();
+        $MoisesRegCount = Applicant::where('campus', 'MP')->where('p_status', '1')->where('year', $currentYear)->count();
+        $MoisesSchedCount = Applicant::where('campus', 'MP')->where('p_status', '2')->where('year', $currentYear)->count();
 
-        $SancarlosRegCount = Applicant::where('campus', 'SCC')->where('p_status', '1')->count();
-        $SancarlosSchedCount = Applicant::where('campus', 'SCC')->where('p_status', '2')->count();
+        $SancarlosRegCount = Applicant::where('campus', 'SCC')->where('p_status', '1')->where('year', $currentYear)->count();
+        $SancarlosSchedCount = Applicant::where('campus', 'SCC')->where('p_status', '2')->where('year', $currentYear)->count();
 
-        $VictoriasRegCount = Applicant::where('campus', 'VC')->where('p_status', '1')->count();
-        $VictoriasSchedCount = Applicant::where('campus', 'VC')->where('p_status', '2')->count();
+        $VictoriasRegCount = Applicant::where('campus', 'VC')->where('p_status', '1')->where('year', $currentYear)->count();
+        $VictoriasSchedCount = Applicant::where('campus', 'VC')->where('p_status', '2')->where('year', $currentYear)->count();
 
         view()->share(compact('MainRegCount', 'MainSchedCount', 'IlogRegCount', 'IlogSchedCount', 'CauayanRegCount', 'CauayanSchedCount', 'CandoniRegCount', 'CandoniSchedCount', 'SipalayRegCount', 'SipalaySchedCount', 'HinobaanRegCount', 'HinobaanSchedCount', 'HinigaranRegCount', 'HinigaranSchedCount', 'MoisesRegCount', 'MoisesSchedCount', 'SancarlosRegCount', 'SancarlosSchedCount', 'VictoriasRegCount', 'VictoriasSchedCount'));
     }
