@@ -396,7 +396,15 @@ $(document).ready(function() {
         paging: true,
         "columns": [
             {data: 'campus'},
-            {data: 'date'},
+            {
+                data: 'date',
+                render: function(data, type, row) {
+                    if (type === 'display' && data) {
+                        return moment(data).format('MMMM D, YYYY');
+                    }
+                    return data;
+                }
+            },
             {
                 data: 'id',
                 render: function(data, type, row) {
