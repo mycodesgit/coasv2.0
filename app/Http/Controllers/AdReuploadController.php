@@ -93,6 +93,51 @@ class AdReuploadController extends Controller
             $applicant->proofdoc_image = $proofPath;
         }
 
+        if ($request->hasFile('grade12File')) {
+            $file = $request->file('grade12File');
+            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
+            $extension = $file->getClientOriginalExtension();
+            $filenameWithExtension = $filename . '.' . $extension;
+            $folderPath = $year . '/applcntrequirement';
+            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
+            $docs->grade12File = $path;
+        }
+        if ($request->hasFile('shsFile')) {
+            $file = $request->file('shsFile');
+            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
+            $extension = $file->getClientOriginalExtension();
+            $filenameWithExtension = $filename . '.' . $extension;
+            $folderPath = $year . '/applcntrequirement';
+            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
+            $docs->shsFile = $path;
+        }
+        if ($request->hasFile('transfereeFile')) {
+            $file = $request->file('transfereeFile');
+            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
+            $extension = $file->getClientOriginalExtension();
+            $filenameWithExtension = $filename . '.' . $extension;
+            $folderPath = $year . '/applcntrequirement';
+            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
+            $docs->transfereeFile = $path;
+        }
+        if ($request->hasFile('alsFile')) {
+            $file = $request->file('alsFile');
+            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
+            $extension = $file->getClientOriginalExtension();
+            $filenameWithExtension = $filename . '.' . $extension;
+            $folderPath = $year . '/applcntrequirement';
+            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
+            $docs->alsFile = $path;
+        }
+        if ($request->hasFile('lifelongFile')) {
+            $file = $request->file('lifelongFile');
+            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
+            $extension = $file->getClientOriginalExtension();
+            $filenameWithExtension = $filename . '.' . $extension;
+            $folderPath = $year . '/applcntrequirement';
+            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
+            $docs->lifelongFile = $path;
+        }
         // Save changes to the database
         $applicant->save();
 

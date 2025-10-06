@@ -165,7 +165,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card">
+                                    {{-- <div class="card">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <div class="form-row">
@@ -176,7 +176,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="card">
                                         <div class="card-body">
@@ -225,7 +225,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card">
+                                    {{-- <div class="card">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <div class="form-row">
@@ -236,7 +236,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="progress-section d-flex align-items-center justify-content-between mt-3">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
@@ -392,38 +392,29 @@
                 }
             });
         });
-
-
     </script>
 
     <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var admissionType = document.getElementById('admissionType');
-                var newReturneeForm = document.getElementById('newReturneeForm');
-                var transfereeForm = document.getElementById('transfereeForm');
+        const applicantType = document.getElementById('applicantType');
+        const sections = document.querySelectorAll('.upload-section');
 
-                // Show/hide forms based on the initial value
-                toggleFormSections(admissionType.value);
+        applicantType.addEventListener('change', function() {
+            sections.forEach(section => {
+                const input = section.querySelector('.file-input');
 
-                // Add event listener for change event
-                admissionType.addEventListener('change', function() {
-                    toggleFormSections(this.value);
-                });
+                // Always clear the file input when switching
+                input.value = "";
 
-                function toggleFormSections(value) {
-                    if (value == 1 || value == 2) { // New or Returnee
-                        newReturneeForm.style.display = 'block';
-                        transfereeForm.style.display = 'none';
-                    } else if (value == 3) { // Transferee
-                        newReturneeForm.style.display = 'none';
-                        transfereeForm.style.display = 'block';
-                    } else { // Hide all if no selection
-                        newReturneeForm.style.display = 'none';
-                        transfereeForm.style.display = 'none';
-                    }
+                if (section.id === this.value) {
+                    section.style.display = 'block';
+                    input.setAttribute('required', true);
+                } else {
+                    section.style.display = 'none';
+                    input.removeAttribute('required');
                 }
             });
-        </script>
+        });
+    </script>
 </body>
 </html>
    
