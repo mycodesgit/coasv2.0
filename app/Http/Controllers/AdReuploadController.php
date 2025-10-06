@@ -61,8 +61,8 @@ class AdReuploadController extends Controller
     public function uploadDocuments(Request $request)
     {
         $request->validate([
-            'studiddoc_image' => 'nullable|image',
-            'proofdoc_image' => 'nullable|image',
+            // 'studiddoc_image' => 'nullable|image',
+            // 'proofdoc_image' => 'nullable|image',
         ]);
 
         $app_id = $request->input('id');
