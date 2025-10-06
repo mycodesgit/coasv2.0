@@ -96,6 +96,10 @@ use App\Models\AdmissionDB\AdmissionDate;
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
+                @php
+                    use App\Models\AdmissionDB\Year;
+                    $currentYear = Year::where('status', 'On')->value('adyear');
+                @endphp
                 @foreach ($dateAd as $date)
                 <h4>Admission Date: {{ \Carbon\Carbon::parse($date->date)->format('F d, Y') }}</h4>
                 <table class="table table-striped">
@@ -106,17 +110,13 @@ use App\Models\AdmissionDB\AdmissionDate;
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            use App\Models\AdmissionDB\Year;
-                            $currentYear = Year::where('status', 'On')->value('adyear');
-                        @endphp
                         @if ($slots =  Time::where('date', $date->date)->get())
                             @foreach($slots as $slot)
                                 <tr>
                                     <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$slot->time)->format('h:i A')}}</td>
                                     <td>
                                         <span class="badge badge-secondary">
-                                            {{ $avail =  Applicant::where('time','=', $slot->time)->where('d_admission','=', $slot->date)->where('p_status','!=', 7)->whereYear('date', $currentYear)->where('campus','=', Auth::guard('web')->user()->campus)->count() }}
+                                            {{ $avail =  Applicant::where('time','=', $slot->time)->where('d_admission','=', $slot->date)->where('p_status','!=', 7)->whereYear('year', $currentYear)->where('campus','=', Auth::guard('web')->user()->campus)->count() }}
                                         </span> / {{ $slot->slots }}
                                     </td>
                                 </tr>
