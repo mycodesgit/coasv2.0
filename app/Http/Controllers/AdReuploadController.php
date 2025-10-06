@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\AdmissionDB\Applicant;
 use App\Models\AdmissionDB\ApplicantDocs;
+use App\Models\AdmissionDB\Year;
 
 class AdReuploadController extends Controller
 {
@@ -30,10 +31,12 @@ class AdReuploadController extends Controller
             'campus' => 'required|string',
         ]);
 
+        $year = Year::where('status', 'On')->value('adyear');
         // Search for the applicant based on the provided criteria
         $applicant = Applicant::where('lname', $request->lastname)
             ->where('fname', $request->firstname)
             ->where('campus', $request->campus)
+            ->where('year', $year)
             ->first();
 
         // Check if an applicant was found
