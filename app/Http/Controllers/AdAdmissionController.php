@@ -646,7 +646,7 @@ class AdAdmissionController extends Controller
             ]);
 
             $dateName = $request->input('date'); 
-            $existingDate = AdmissionDate::where('date', $dateName)->first();
+            $existingDate = AdmissionDate::where('date', $dateName)->where('campus', Auth::guard('web')->user()->campus)->first();
 
             if ($existingDate) {
                 return response()->json(['error' => true, 'message' => 'Date already exists!']);
