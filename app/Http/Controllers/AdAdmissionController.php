@@ -524,7 +524,7 @@ class AdAdmissionController extends Controller
 
         $date = AdmissionDate::orderBy('id', 'asc')
             ->where('campus', Auth::user()->campus)
-            // ->whereYear('date', $currentYear)
+            ->whereYear('date', $currentYear)
             ->get();
 
         return response()->json([
