@@ -670,22 +670,22 @@
                                             <!-- Upload Sections -->
                                             <div class="form-group upload-section" id="grade12" style="">
                                                 <label>Upload Grade 12 Requirement <i style="color: red">*</i></label>
-                                                <input type="file" name="grade12File" class="form-control form-control-sm file-input">
+                                                <input type="file" name="grade12File" class="form-control form-control-sm file-input" accept="image/*">
                                             </div>
 
                                             <div class="form-group upload-section" id="shsGrad" style="display:none;">
                                                 <label>Upload SHS Graduate Requirement <i style="color: red">*</i></label>
-                                                <input type="file" name="shsFile" class="form-control form-control-sm file-input">
+                                                <input type="file" name="shsFile" class="form-control form-control-sm file-input" accept="image/*">
                                             </div>
 
                                             <div class="form-group upload-section" id="apptransferee" style="display:none;">
                                                 <label>Upload Transferee Requirement <i style="color: red">*</i></label>
-                                                <input type="file" name="transfereeFile" class="form-control form-control-sm file-input">
+                                                <input type="file" name="transfereeFile" class="form-control form-control-sm file-input" accept="image/*">
                                             </div>
 
                                             <div class="form-group upload-section" id="als" style="display:none;">
                                                 <label>Upload ALS Requirement <i style="color: red">*</i></label>
-                                                <input type="file" name="alsFile" class="form-control form-control-sm file-input">
+                                                <input type="file" name="alsFile" class="form-control form-control-sm file-input" accept="image/*">
                                             </div>
 
                                             <div class="form-group upload-section" id="lifelong" style="display:none;">

@@ -87,7 +87,7 @@
                             <div class="card card-secondary card-outline">
                                 <div class="card-body">
                                     <h6 class="card-title text-dark">
-                                        <strong>To all applicants who registered on November 13, 2024, please re-upload your documents.<br><br>
+                                        <strong>To all applicants who has missing documents, please re-upload your documents.<br><br>
                                         <div>
                                             <label for="checkboxPrimaryAgree1">
                                                 <span style="font-weight: bold;">Thank you.</span>
@@ -174,6 +174,53 @@
                                                         <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*" required>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                                                <h4>Application Requirement <span style="font-size: 12pt;color:#ff0000;"></span></h4>
+                                            </div>
+
+                                            <!-- Selection -->
+                                            <div class="form-group">
+                                                <label for="applicantType">Select Applicant Type <i style="color: red">*</i></label>
+                                                <select id="applicantType" class="form-control form-control-sm">
+                                                    <option value="">-- Select an option --</option>
+                                                    <option value="grade12">Grade 12 Students (Graduating)</option>
+                                                    <option value="shsGrad">Senior High School Graduates</option>
+                                                    <option value="apptransferee">Transferees</option>
+                                                    <option value="als">ALS Graduates/Passers</option>
+                                                    <option value="lifelong">Life-long Learner</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Upload Sections -->
+                                            <div class="form-group upload-section" id="grade12" style="">
+                                                <label>Upload Grade 12 Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="grade12File" class="form-control form-control-sm file-input" accept="image/*">
+                                            </div>
+
+                                            <div class="form-group upload-section" id="shsGrad" style="display:none;">
+                                                <label>Upload SHS Graduate Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="shsFile" class="form-control form-control-sm file-input" accept="image/*">
+                                            </div>
+
+                                            <div class="form-group upload-section" id="apptransferee" style="display:none;">
+                                                <label>Upload Transferee Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="transfereeFile" class="form-control form-control-sm file-input" accept="image/*">
+                                            </div>
+
+                                            <div class="form-group upload-section" id="als" style="display:none;">
+                                                <label>Upload ALS Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="alsFile" class="form-control form-control-sm file-input" accept="image/*">
+                                            </div>
+
+                                            <div class="form-group upload-section" id="lifelong" style="display:none;">
+                                                <label>Upload Life-long Learner Requirement <i style="color: red">*</i></label>
+                                                <input type="file" name="lifelongFile" class="form-control form-control-sm file-input" accept="image/*">
                                             </div>
                                         </div>
                                     </div>
@@ -348,6 +395,35 @@
 
 
     </script>
+
+    <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var admissionType = document.getElementById('admissionType');
+                var newReturneeForm = document.getElementById('newReturneeForm');
+                var transfereeForm = document.getElementById('transfereeForm');
+
+                // Show/hide forms based on the initial value
+                toggleFormSections(admissionType.value);
+
+                // Add event listener for change event
+                admissionType.addEventListener('change', function() {
+                    toggleFormSections(this.value);
+                });
+
+                function toggleFormSections(value) {
+                    if (value == 1 || value == 2) { // New or Returnee
+                        newReturneeForm.style.display = 'block';
+                        transfereeForm.style.display = 'none';
+                    } else if (value == 3) { // Transferee
+                        newReturneeForm.style.display = 'none';
+                        transfereeForm.style.display = 'block';
+                    } else { // Hide all if no selection
+                        newReturneeForm.style.display = 'none';
+                        transfereeForm.style.display = 'none';
+                    }
+                }
+            });
+        </script>
 </body>
 </html>
    
