@@ -29,13 +29,14 @@ class AdAdmissionController extends Controller
 {
     public function countApplicantsByCampus()
     {
+        $currentYear = Year::where('status', 'On')->value('adyear');
         $campuses = ['MC', 'VC', 'SCC', 'MP', 'HC', 'IC', 'CA', 'CC', 'SC', 'HinC'];
 
         $counts = [];
         $totalCount = 0;
 
         foreach ($campuses as $campus) {
-            $count = Applicant::where('campus', $campus)->count();
+            $count = Applicant::where('campus', $campus)->where('year', $currentYear)->count();
             $counts[$campus] = $count;
             $totalCount += $count;
         }
