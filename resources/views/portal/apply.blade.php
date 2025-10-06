@@ -690,7 +690,7 @@
 
                                             <div class="form-group upload-section" id="lifelong" style="display:none;">
                                                 <label>Upload Life-long Learner Requirement <i style="color: red">*</i></label>
-                                                <input type="file" name="lifelongFile" class="form-control form-control-sm file-input">
+                                                <input type="file" name="lifelongFile" class="form-control form-control-sm file-input" accept="image/*">
                                             </div>
                                         </div>
                                     </div>
