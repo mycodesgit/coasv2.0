@@ -104,7 +104,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
 
     Route::prefix('/portal')->group(function () {
         Route::get('/',[PortalController::class,'index'])->name('admission-portal');
-        Route::get('/apply/now', [PortalController::class, 'admission_apply'])->name('admission-apply');
+        // Route::get('/apply/now', [PortalController::class, 'admission_apply'])->name('admission-apply');
         Route::get('/getProgramsByCampus', [PortalController::class, 'getProgramsByCampus'])->name('getProgramsByCampus');
         Route::get('/getTestSchedByCampus', [PortalController::class, 'getExamSchedCampus'])->name('getExamSchedCampus');
         Route::post('/check-email', [PortalController::class, 'checkEmail'])->name('checkEmail');
