@@ -226,7 +226,7 @@ class PortalController extends Controller
 
         // Find the latest applicant for the campus
         $latestApplicant = Applicant::where('campus', $campus)
-            ->whereYear('created_at', $year)
+            ->where('admission_id', 'like', $year . '%')
             ->orderByDesc('admission_id')
             ->first();
 
