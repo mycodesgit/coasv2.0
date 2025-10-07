@@ -146,8 +146,8 @@ use App\Models\AdmissionDB\AdmissionDate;
                                             <tr>
                                                 <td>{{ Carbon::createFromFormat('H:i:s', $slot->time)->format('h:i A') }}</td>
                                                 <td>
-                                                    <span class="badge bg-secondary">{{ $booked }}</span>
-                                                    / {{ $slot->slots }}
+                                                    <span class="badge bg-success">{{ $booked }}</span>
+                                                    / <span class="badge bg-secondary">{{ $slot->slots }} </span>
                                                     <small class="text-muted">({{ $remaining }} left)</small>
                                                 </td>
                                             </tr>
