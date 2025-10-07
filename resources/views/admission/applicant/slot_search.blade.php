@@ -96,61 +96,69 @@ use App\Models\AdmissionDB\AdmissionDate;
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
-    @php
-        use App\Models\AdmissionDB\Year;
-        use Illuminate\Support\Facades\Auth;
-        use Carbon\Carbon;
+                @php
+                    use App\Models\AdmissionDB\Year;
+                    use Carbon\Carbon;
 
-        $currentYear = Year::where('status', 'On')->value('adyear');
-        $campus = Auth::guard('web')->user()->campus;
-    @endphp
+                    $currentYear = Year::where('status', 'On')->value('adyear');
+                    $campus = Auth::guard('web')->user()->campus;
+                @endphp
 
-    @foreach ($dateAd as $date)
-        @php
-            // Fetch all time slots for this date
-            $slots = Time::whereYear('date', $currentYear)
-                ->where('campus', $campus)
-                ->whereDate('date', $date->date)
-                ->get();
-        @endphp
+                @foreach ($dateAd as $date)
+                    @php
+                        // Normalize the admission date
+                        $admissionDate = Carbon::parse($date->date)->format('Y-m-d');
 
-        @if ($slots->count())
-            <h4 class="mt-3 mb-2">Admission Date: {{ Carbon::parse($date->date)->format('F d, Y') }}</h4>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Availability</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($slots as $slot)
-                        @php
-                            $avail = Applicant::where('time', $slot->time)
-                                ->where('d_admission', $slot->date)
-                                ->where('p_status', '!=', 7)
-                                ->whereYear('year', $currentYear)
-                                ->where('campus', $campus)
-                                ->count();
+                        // Get all time slots for this date and campus
+                        $slots = Time::whereDate('date', $admissionDate)
+                            ->where('campus', $campus)
+                            ->orderBy('time', 'asc')
+                            ->get();
+                    @endphp
 
-                            $remaining = $slot->slots - $avail;
-                        @endphp
-                        <tr>
-                            <td>{{ Carbon::createFromFormat('H:i:s', $slot->time)->format('h:i A') }}</td>
-                            <td>
-                                <span class="badge badge-secondary">{{ $avail }}</span>
-                                /
-                                <span class="badge badge-success">{{ $slot->slots }}</span>
-                                <small>({{ $remaining }} left)</small>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
-    @endforeach
-</div>
+                    @if ($slots->count())
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">Admission Date: {{ Carbon::parse($admissionDate)->format('F d, Y') }}</h5>
+                            </div>
 
+                            <div class="card-body p-0">
+                                <table class="table table-striped mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>Availability</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($slots as $slot)
+                                            @php
+                                                // Count all applicants for this date + time + campus
+                                                $booked = Applicant::whereDate('d_admission', $admissionDate)
+                                                    ->where('time', $slot->time)
+                                                    ->where('campus', $campus)
+                                                    ->where('p_status', '!=', 7)
+                                                    ->count();
+
+                                                $remaining = $slot->slots - $booked;
+                                            @endphp
+
+                                            <tr>
+                                                <td>{{ Carbon::createFromFormat('H:i:s', $slot->time)->format('h:i A') }}</td>
+                                                <td>
+                                                    <span class="badge bg-secondary">{{ $booked }}</span>
+                                                    / {{ $slot->slots }}
+                                                    <small class="text-muted">({{ $remaining }} left)</small>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
         </div>
     </div>
 </div>
