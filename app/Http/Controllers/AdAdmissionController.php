@@ -864,8 +864,10 @@ class AdAdmissionController extends Controller
                 'venue' => 'required',
             ]);
 
+            $currentYear = Year::where('status', 'On')->value('adyear');
+
             $venueName = $request->input('venue'); 
-            $existingVenue = Venue::where('venue', $venueName)->first();
+            $existingVenue = Venue::where('venue', $venueName)->where('adyear', $currentYear)->first();
 
             if ($existingVenue) {
                 return response()->json(['error' => true, 'message' => 'Venue already exists!']);
