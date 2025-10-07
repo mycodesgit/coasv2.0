@@ -575,12 +575,31 @@
 
                                                         <div class="col-md-6">
                                                             <label>Course <i style="color: red">*</i></label>
-                                                            <select class="form-control form-control-sm" name="course" style="text-transform: uppercase;">
+                                                            <select class="form-control form-control-sm" name="course" id="courseSelect" style="text-transform: uppercase;">
                                                                 <option value="">Select Course</option>
                                                                 @foreach ($program as $programs)
                                                                 <option value="{{ $programs->code }}">{{ $programs->program }}</option>
                                                                 @endforeach
+                                                                <option value="OTHER">Other (Specify)</option>
                                                             </select>
+                                                            <input type="text" class="form-control form-control-sm mt-2" id="otherCourseInput" name="course" placeholder="Please specify course" style="display: none; text-transform: uppercase;" />
+
+                                                            <script>
+                                                                document.addEventListener('DOMContentLoaded', function() {
+                                                                    const courseSelect = document.getElementById('courseSelect');
+                                                                    const otherCourseInput = document.getElementById('otherCourseInput');
+                                                                    courseSelect.addEventListener('change', function() {
+                                                                        if (this.value === 'OTHER') {
+                                                                            otherCourseInput.style.display = 'block';
+                                                                            otherCourseInput.required = true;
+                                                                        } else {
+                                                                            otherCourseInput.style.display = 'none';
+                                                                            otherCourseInput.required = false;
+                                                                            otherCourseInput.value = '';
+                                                                        }
+                                                                    });
+                                                                });
+                                                            </script>
                                                         </div>
                                                     </div>
                                                 </div>
