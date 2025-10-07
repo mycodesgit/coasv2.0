@@ -110,23 +110,19 @@ use App\Models\AdmissionDB\AdmissionDate;
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            // Get slots for the current date in the loop, not just by year
-                            $slots = Time::where('date', $date->date)
-                                ->where('campus', Auth::guard('web')->user()->campus)
-                                ->get();
-                        @endphp
-                        @if ($slots->count())
-                            @foreach($slots as $slot)
-                                <tr>
-                                    <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $slot->time)->format('h:i A') }}</td>
-                                    <td>
-                                        <span class="badge badge-secondary">
-                                            {{ $avail =  Applicant::where('time','=', $slot->time)->where('d_admission','=', $slot->date)->where('p_status','!=', 7)->whereYear('year', $currentYear)->where('campus','=', Auth::guard('web')->user()->campus)->count() }}
-                                        </span> / {{ $slot->slots }}
-                                    </td>
-                                </tr>
-                            @endforeach
+                        @if ($slots =  Time::whereYear('date', $currentYear)->where('campus','=', Auth::guard('web')->user()->campus)->get())
+                            @if ($slots->count())
+                                @foreach($slots as $slot)
+                                    <tr>
+                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $slot->time)->format('h:i A') }}</td>
+                                        <td>
+                                            <span class="badge badge-secondary">
+                                                {{ $avail =  Applicant::where('time','=', $slot->time)->where('d_admission','=', $slot->date)->where('p_status','!=', 7)->whereYear('year', $currentYear)->where('campus','=', Auth::guard('web')->user()->campus)->count() }}
+                                            </span> / {{ $slot->slots }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         @endif
                     </tbody>
                 </table>
