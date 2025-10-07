@@ -578,7 +578,7 @@
                                                             <select class="form-control form-control-sm" name="course" id="courseSelect" style="text-transform: uppercase;">
                                                                 <option value="">Select Course</option>
                                                                 @foreach ($program as $programs)
-                                                                <option value="{{ $programs->code }}">{{ $programs->program }}</option>
+                                                                    <option value="{{ $programs->code }}">{{ $programs->program }}</option>
                                                                 @endforeach
                                                                 <option value="OTHER">Other (Specify)</option>
                                                             </select>
