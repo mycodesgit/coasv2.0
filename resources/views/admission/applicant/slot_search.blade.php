@@ -96,38 +96,61 @@ use App\Models\AdmissionDB\AdmissionDate;
         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
         <div class="mt-5">
             <div class="">
-                @php
-                    use App\Models\AdmissionDB\Year;
-                    $currentYear = Year::where('status', 'On')->value('adyear');
-                @endphp
-                @foreach ($dateAd as $date)
-                <h4>Admission Date: {{ \Carbon\Carbon::parse($date->date)->format('F d, Y') }}</h4>
-                <table class="table table-striped">
-                    <thead>
+    @php
+        use App\Models\AdmissionDB\Year;
+        use Illuminate\Support\Facades\Auth;
+        use Carbon\Carbon;
+
+        $currentYear = Year::where('status', 'On')->value('adyear');
+        $campus = Auth::guard('web')->user()->campus;
+    @endphp
+
+    @foreach ($dateAd as $date)
+        @php
+            // Fetch all time slots for this date
+            $slots = Time::whereYear('date', $currentYear)
+                ->where('campus', $campus)
+                ->whereDate('date', $date->date)
+                ->get();
+        @endphp
+
+        @if ($slots->count())
+            <h4 class="mt-3 mb-2">Admission Date: {{ Carbon::parse($date->date)->format('F d, Y') }}</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Availability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($slots as $slot)
+                        @php
+                            $avail = Applicant::where('time', $slot->time)
+                                ->where('d_admission', $slot->date)
+                                ->where('p_status', '!=', 7)
+                                ->whereYear('year', $currentYear)
+                                ->where('campus', $campus)
+                                ->count();
+
+                            $remaining = $slot->slots - $avail;
+                        @endphp
                         <tr>
-                            <th>Time</th>
-                            <th>Availability</th>
+                            <td>{{ Carbon::createFromFormat('H:i:s', $slot->time)->format('h:i A') }}</td>
+                            <td>
+                                <span class="badge badge-secondary">{{ $avail }}</span>
+                                /
+                                <span class="badge badge-success">{{ $slot->slots }}</span>
+                                <small>({{ $remaining }} left)</small>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @if ($slots =  Time::whereYear('date', $currentYear)->where('campus','=', Auth::guard('web')->user()->campus)->get())
-                            @if ($slots->count())
-                                @foreach($slots as $slot)
-                                    <tr>
-                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $slot->time)->format('h:i A') }}</td>
-                                        <td>
-                                            <span class="badge badge-secondary">
-                                                {{ $avail =  Applicant::where('time','=', $slot->time)->where('d_admission','=', $slot->date)->where('p_status','!=', 7)->whereYear('year', $currentYear)->where('campus','=', Auth::guard('web')->user()->campus)->count() }}
-                                            </span> / {{ $slot->slots }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                        @endif
-                    </tbody>
-                </table>
-                @endforeach
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    @endforeach
+</div>
+
         </div>
     </div>
 </div>
