@@ -125,7 +125,8 @@ class EnStudentPerSubjectController extends Controller
                 'subjects.sub_title',
                 'sub_offered.*',
                 'sub_offered.id as sid',
-                DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud'),
+                //DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
+                //DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
                 DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
             )
             ->get();
