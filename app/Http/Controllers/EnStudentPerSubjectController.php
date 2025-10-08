@@ -107,15 +107,15 @@ class EnStudentPerSubjectController extends Controller
         $semester = $request->query('semester');   
         $campus = Auth::guard('web')->user()->campus;
 
-        $studCountSubquery = DB::table('coasv2_db_enrollment.studgrades')
-            ->select('subjID', DB::raw('COUNT(subjID) as countstud'))
-            ->where('campus', $campus)
-            ->groupBy('subjID');
+        // $studCountSubquery = DB::table('coasv2_db_enrollment.studgrades')
+        //     ->select('subjID', DB::raw('COUNT(subjID) as countstud'))
+        //     ->where('campus', $campus)
+        //     ->groupBy('subjID');
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-            ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
-                $join->on('sub_offered.id', '=', 'studgrades.subjID');
-            })
+            // ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
+            //     $join->on('sub_offered.id', '=', 'studgrades.subjID');
+            // })
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
@@ -127,7 +127,7 @@ class EnStudentPerSubjectController extends Controller
                 'sub_offered.id as sid',
                 //DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
                 //DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
-                DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
+                //DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
             )
             ->get();
 
