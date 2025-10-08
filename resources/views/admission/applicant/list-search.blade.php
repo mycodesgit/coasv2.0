@@ -349,7 +349,7 @@ CISS V.1.0 || Applicant Search List
                     <div class="form-group"> 
                         <div class="form-row">
                             <div class="col-md-8">
-                                <label for="reuploadaccess">Select Buttons</label>
+                                <label for="reuploadaccess">Check certain documents needed to re-upload by the applicant.</label>
                                 @php
                                     $reuploadallow = [
                                         'validid' => 'School ID / Valid ID',
