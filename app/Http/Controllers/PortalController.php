@@ -393,6 +393,7 @@ class PortalController extends Controller
 
             $examinee = new AdReupload;
             $examinee->appid = $appid;
+            $examinee->camp = $camp;
             $examinee->save();
 
             return Redirect::route('submitsucapply')->withInput()->with('success', 'Application was successfully submitted. Check status in the (Track) Admission Page.')->with('admission_id' ,$admissionid)->with('email', $applicant->email);

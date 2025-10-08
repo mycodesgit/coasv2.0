@@ -14,6 +14,7 @@ class AdReupload extends Model
 
     protected $fillable = [
         'appid', 
+        'camp', 
         'reuploadallow', 
         'status'
     ];
