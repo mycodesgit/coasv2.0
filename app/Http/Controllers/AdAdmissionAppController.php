@@ -18,6 +18,7 @@ use App\Models\AdmissionDB\Applicant;
 use App\Models\AdmissionDB\ApplicantDocs;
 use App\Models\AdmissionDB\ExamineeResult;
 use App\Models\AdmissionDB\DeptRating;
+use App\Models\AdmissionDB\AdReupload;
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\AdmissionDate;
@@ -88,6 +89,39 @@ class AdAdmissionAppController extends Controller
         $data = $query->get();
 
         return response()->json(['data' => $data]);
+    }
+
+    public function getReuploadAccess($id)
+    {
+        $access = AdReupload::where('appid', $id)->first();
+        
+        if ($access) {
+            return response()->json([
+                'reuploadallow' => $access->reuploadallow
+            ]);
+        }
+        
+        return response()->json([
+            'reuploadallow' => [] 
+        ]);
+    }
+
+    public function saveAppUploadAccess(Request $request, $id)
+    {
+        $reuploadallow = $request->input('reuploadallow', []); 
+        
+        AdReupload::updateOrCreate(
+            ['appid' => $id],
+            [
+                'reuploadallow' => $reuploadallow,
+                'status' => '2'
+            ],
+        );
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Applicant re-upload access updated successfully.'
+        ]);
     }
 
     public function applicantUpdate(Request $request) 

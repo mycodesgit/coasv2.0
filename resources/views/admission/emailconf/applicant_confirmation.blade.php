@@ -23,6 +23,10 @@
         <li>Pencil with Eraser</li>
     </ol>
 
-    <p>Good luck!</p>
+    <p>God Bless!</p>
+
+    <p>
+        <span style="font-weight: bold">Note: Do not send message in this email. This email don't reply. Thank you.</span>
+    </p>
 </body>
 </html>

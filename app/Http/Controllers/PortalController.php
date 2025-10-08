@@ -14,6 +14,7 @@ use App\Models\AdmissionDB\Applicant;
 use App\Models\AdmissionDB\ApplicantDocs;
 use App\Models\AdmissionDB\ExamineeResult;
 use App\Models\AdmissionDB\DeptRating;
+use App\Models\AdmissionDB\AdReupload;
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\Time;
@@ -388,6 +389,10 @@ class PortalController extends Controller
             $examinee->camp = $camp;
             $examinee->admission_id =  $admissionid;
             $examinee->created_at = $dt;
+            $examinee->save();
+
+            $examinee = new AdReupload;
+            $examinee->appid = $appid;
             $examinee->save();
 
             return Redirect::route('submitsucapply')->withInput()->with('success', 'Application was successfully submitted. Check status in the (Track) Admission Page.')->with('admission_id' ,$admissionid)->with('email', $applicant->email);

@@ -334,7 +334,7 @@ CISS V.1.0 || Applicant Search List
     </div>
 </div>
 
-<div class="modal fade" id="editReUploadModal" role="dialog" aria-labelledby="editReUploadModalLabel" aria-hidden="true">
+<div class="modal fade" id="editReUploadModal" role="dialog" aria-labelledby="editReUploadModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -343,17 +343,35 @@ CISS V.1.0 || Applicant Search List
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form>
+            <form id="editReUploadAccessForm">
                 <div class="modal-body">
-                    <input type="hidden" name="id" id="editReUploadPhotoId">
-                    <div class="form-group">
-                        <input type="hidden" id="editReUploadPhotoDoc" class="form-control form-control-sm" >
-                        <img id="uploadedPhoto" class="img-square" width="90%" src="" alt="Image">
-                        <p id="noDocumentText" style="text-align: center;" class="big-text">No document uploaded</p>
+                    <input type="hidden" name="id" id="editReUploadId">
+                    <div class="form-group"> 
+                        <div class="form-row">
+                            <div class="col-md-8">
+                                <label for="reuploadaccess">Select Buttons</label>
+                                @php
+                                    $reuploadallow = [
+                                        'validid' => 'School ID / Valid ID',
+                                        'appreq' => 'Application Requirement',
+                                        'proofdoc' => 'Proof of Equity Target Documents',
+                                    ];
+                                @endphp
+
+                                @foreach($reuploadallow as $value => $label)
+                                    <div class="icheck-success">
+                                        <input type="checkbox" id="{{ $value }}" name="reuploadallow[]" value="{{ $value }}">
+                                        <label for="{{ $value }}">{{ $label }}</label>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
         </div>
@@ -566,6 +584,8 @@ CISS V.1.0 || Applicant Search List
 
 <script>
     var allApplicantRoute = "{{ route('getsrchappList') }}";
+    var appaccessRoute = "{{ route('getReuploadAccess', ['id' => ':id']) }}";
+    var appSaveAccessRoute = "{{ route('saveAppUploadAccess', ['id' => ':id']) }}";
     var allAppAssignSchedRoute = "{{ route('applicant_schedulemod_save', ['id' => ':id']) }}";
     var allAppUpdateRoute = "{{ route('applicantUpdate', ['id' => ':id']) }}";
     var allAppDeleteRoute = "{{ route('applicant_delete', ['id' => ':id']) }}";

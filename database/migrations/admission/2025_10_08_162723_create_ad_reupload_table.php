@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('ad_reupload', function (Blueprint $table) {
             $table->id();
+            $table->integer('appid');
+            $table->longtext('reuploadallow')->nullable();
+            $table->enum('status', array(1, 2))->default(1);
             $table->timestamps();
         });
     }

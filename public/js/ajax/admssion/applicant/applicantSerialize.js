@@ -86,7 +86,7 @@ $(document).ready(function() {
                             dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
-                                '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
+                                '<a href="#" class="dropdown-item btn-reupload" data-id="' + row.adid + '">' +
                                 '<i class="fas fa-upload"></i> Re-Upload' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
@@ -255,6 +255,65 @@ $('#editAppDataPersonalinfoForm').submit(function(event) {
         error: function(xhr, status, error, message) {
             var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
             toastr.error(errorMessage);
+        }
+    });
+});
+
+$(document).on('click', '.btn-reupload', function() {
+    var id = $(this).data('id');
+    
+    $('#editReUploadId').val(id);
+
+    $('input[name="buttons[]"]').prop('checked', false);
+
+    $.ajax({
+        url: appaccessRoute.replace(':id', id), // Replace :id with actual ID
+        type: 'GET',
+        success: function(response) {
+            if (response.buttons) {
+                response.buttons.forEach(function(button) {
+                    $('input[name="reuploadallow[]"][value="' + button + '"]').prop('checked', true);
+                });
+            }
+            $('#editReUploadModal').modal('show');
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText); 
+        }
+    });
+});
+
+$('#editReUploadAccessForm').submit(function(event) {
+    event.preventDefault(); 
+    
+    var formData = $(this).serialize(); 
+
+    var id = $('#editReUploadId').val(); 
+    var selectedReuploadaccess = [];
+
+    $('input[name="reuploadallow[]"]:checked').each(function() {
+        selectedReuploadaccess.push($(this).val()); 
+    });
+
+    $.ajax({
+        url: appSaveAccessRoute.replace(':id', id), 
+        type: "POST",
+        data: {
+            reuploadallow: selectedReuploadaccess,
+            _token: $('meta[name="csrf-token"]').attr('content') 
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                $('#editReUploadModal').modal('hide'); 
+                $(document).trigger('schedExamUpdated'); 
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText); 
+            toastr.error('An error occurred while saving the user access.');
         }
     });
 });

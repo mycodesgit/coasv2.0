@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\AdmissionDB\Applicant;
 use App\Models\AdmissionDB\ApplicantDocs;
+use App\Models\AdmissionDB\AdReupload;
 use App\Models\AdmissionDB\Year;
 
 class AdReuploadController extends Controller
@@ -24,7 +25,6 @@ class AdReuploadController extends Controller
 
     public function searchApplicant(Request $request)
     {
-        // Validate incoming request data
         $request->validate([
             'lastname' => 'required|string',
             'firstname' => 'required|string',
@@ -32,14 +32,15 @@ class AdReuploadController extends Controller
         ]);
 
         $year = Year::where('status', 'On')->value('adyear');
-        // Search for the applicant based on the provided criteria
-        $applicant = Applicant::where('lname', $request->lastname)
-            ->where('fname', $request->firstname)
-            ->where('campus', $request->campus)
-            ->where('year', $year)
+        $applicant = Applicant::leftJoin('ad_reupload', 'ad_applicant_admission.id', '=', 'ad_reupload.appid')
+            ->where('ad_applicant_admission.lname', $request->lastname)
+            ->where('ad_applicant_admission.fname', $request->firstname)
+            ->where('ad_applicant_admission.campus', $request->campus)
+            ->where('ad_applicant_admission.year', $year)
+            ->where('ad_reupload.status', 2)
+            ->select('ad_applicant_admission.*', 'ad_reupload.reuploadallow')
             ->first();
 
-        // Check if an applicant was found
         if ($applicant) {
             return response()->json([
                 'success' => true,
@@ -47,7 +48,8 @@ class AdReuploadController extends Controller
                     'admission_id' => $applicant->admission_id,
                     'lname' => $applicant->lname,
                     'fname' => $applicant->fname,
-                    'primaryid' => $applicant->id // Assuming 'id' is the primary key
+                    'primaryid' => $applicant->id,
+                    'reuploadallow' => $applicant->reuploadallow, 
                 ]
             ]);
         } else {

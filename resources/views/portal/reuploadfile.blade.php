@@ -130,7 +130,6 @@
                                                     <option value="CC">Cauayan</option>
                                                     <option value="SC">Sipalay</option>
                                                     <option value="HinC">Hinobaan</option>
-                                                    <option value="VE">Valladolid</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -161,24 +160,24 @@
                                 
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5 class="card-title m-0">Documents Information</h5>
+                                            <h5 class="card-title m-0">Please re-upload the missing documents listed below</h5>
                                         </div>
                                     </div>
 
-                                    {{-- <div class="card">
+                                    <div class="card" id="validid">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-12">
                                                         <label>Upload School ID <i style="color: red">*</i></label>
-                                                        <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*" required>
+                                                        <input type="file" name="studiddoc_image" class="form-control form-control-sm" id="fileInput" accept="image/*">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div>
 
-                                    <div class="card">
+                                    <div class="card" id="appreq">
                                         <div class="card-body">
                                             <div class="page-header" style="border-bottom: 1px solid #04401f;">
                                                 <h4>Application Requirement <span style="font-size: 12pt;color:#ff0000;"></span></h4>
@@ -225,18 +224,183 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="card">
+                                    <div class="card" id="proofdoc">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <div class="col-md-12">
-                                                        <label>Upload Proof/Evidence of Disadvantage Situation <i style="color: red">*</i></label>
-                                                        <input type="file" name="proofdoc_image" class="form-control form-control-sm" accept="image/*" required>
+                                                        <label>Select one (1) Proof of Equity Target Documents from Parents/Legal Guardians <i style="color: red">*</i></label>
+                                                        <div class="form-group clearfix">
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary1" name="typefileproofupload" value="4Ps">
+                                                                <label for="radioPrimary1" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray" style="margin-top: -10px;">
+                                                                        <h5 style="text-align:left !important; color:gold">4Ps MEMBERS:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a 4Ps Certification from MSWD/DSWD showing the household number and beneficiary's name.<br>
+                                                                            • A 4Ps Household ID is also acceptable.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary2" name="typefileproofupload" value="IPs">
+                                                                <label for="radioPrimary2" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">INDIGENOUS PEOPLE (IPs):</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload an original IP Certificate from the Municipal or City Indigenous Office with an Original signature and your valid ID.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary3" name="typefileproofupload" value="RACA">
+                                                                <label for="radioPrimary3" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">RESIDENT OF ARMED CONFLICT AREAS:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a Certification from DILG with your name.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary4" name="typefileproofupload" value="PWABO">
+                                                                <label for="radioPrimary4" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">PARENTS WHO ARE BUSINESS OWNERS:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a BIR Form 1701A-2021.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary5" name="typefileproofupload" value="PEIGPA">
+                                                                <label for="radioPrimary5" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">PARENTS EMPLOYED IN GOVERNMENT OR PRIVATE AGENCIES:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a BIR Form 2316-2021 or Certification from Human Resource Office showing salary  and compensation details.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary6" name="typefileproofupload" value="PWA">
+                                                                <label for="radioPrimary6" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">PARENTS WORKING ABROAD:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload an Overseas Employment Contract.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary7" name="typefileproofupload" value="Low Income">
+                                                                <label for="radioPrimary7" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">APPLICANT WITH DECEASED PARENTS:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a Barangay Certification confirming both parents are deceased.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary8" name="typefileproofupload" value="Solo Parent">
+                                                                <label for="radioPrimary8" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">SOLO/SINGLE PARENTS:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a Solo Parent ID/Certification from MSWD/DSWD or a Notarized Sworn Statement indicating current status (Single, Solo parent, Separated, Widow/er).
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary9" name="typefileproofupload" value="PWDs">
+                                                                <label for="radioPrimary9" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">PERSON WITH DISABILITIES (PWDs):</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • For applicants: Upload a PWD ID.<br>
+                                                                            • For family members: Upload a PWD Certificate from DSWD stating the relationship with the applicant.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary10" name="typefileproofupload" value="CORCF">
+                                                                <label for="radioPrimary10" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">CHILDREN OF RICE/CORN FARMERS:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a Certificate of Membership from the local Department of Agriculture listing the parent/guardian's name.<br>
+                                                                            • Upload a Certification issued by an Association or Cooperative President.<br>
+                                                                            • Upload a Certification from DA/DAR/CAO confirming status as an Agrarian Reform Beneficiary.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary11" name="typefileproofupload" value="COCF">
+                                                                <label for="radioPrimary11" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">CHILDREN OF COCONUT FARMERS:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a Certificate of Membership from the local coconut association listing the parent/guardian's name.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary12" name="typefileproofupload" value="COF">
+                                                                <label for="radioPrimary12" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">CHILDREN OF FISHERFOLK:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a Certificate of Membership from a local fisherfolk association or a certification issued by the Association President. <br>
+                                                                            • Note: The association must be active.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary13" name="typefileproofupload" value="COTJDO">
+                                                                <label for="radioPrimary13" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">CHILDREN OF TRICYCLE/JEEPNEY DRIVERS/OPERATORS:</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a Certificate of Membership from a local TODA listing the parent/guardian's name.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="icheck-primary">
+                                                                <input type="radio" id="radioPrimary14" name="typefileproofupload" value="UHNFIS">
+                                                                <label for="radioPrimary14" style="width: 100%;">
+                                                                    <div class="alert alert-default alert-dismissible bg-gray col-md-12" style="margin-top: -10px">
+                                                                        <h5 style="text-align:left !important; color:gold">UNCLASSIFIED (UNEMPLOYED HOUSEWIVED/HOUSEHUSBAND, NO FIXED INCOME, SELFSUPPORTING):</h5>
+                                                                        <span style="font-weight: normal; font-style: italic;">
+                                                                            • Upload a Notarized Sworn Statement indicating parents/guardian name, source of income, and income amount.
+                                                                        </span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label id="uploadLabel">Upload Proof of Equity Target Documents from Parents/Legal Guardians <i style="color: red">*</i></label>
+                                                        <input type="file" name="proofdoc_image" class="form-control form-control-sm" accept="image/*">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div>
+
                                     <div class="progress-section d-flex align-items-center justify-content-between mt-3">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
@@ -254,8 +418,6 @@
             <i class="text-dark">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
         </footer>
     </div>
-
-    @include('portal.modal-terms')
 
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
@@ -298,7 +460,6 @@
                 return;
             }
 
-            // Perform AJAX request to search for the applicant
             fetch('{{ route("searchApplicant") }}', {
                 method: 'POST',
                 headers: {
@@ -310,25 +471,52 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Auto-fill the fields with the retrieved data
                     document.getElementById('admissionid').value = data.applicant.admission_id;
                     document.getElementById('primaryid').value = data.applicant.primaryid;
                     document.getElementById('lname').value = data.applicant.lname;
                     document.getElementById('fname').value = data.applicant.fname;
+
                     document.getElementById('card-1').style.display = 'block';
+
+                    document.getElementById('validid').style.display = 'none';
+                    document.getElementById('appreq').style.display = 'none';
+                    document.getElementById('proofdoc').style.display = 'none';
+
+                    let allowed = [];
+                    try {
+                        allowed = JSON.parse(data.applicant.reuploadallow);
+                    } catch (e) {
+                        console.warn('Invalid reuploadallow format:', e);
+                    }
+
+                    if (Array.isArray(allowed)) {
+                        allowed.forEach(id => {
+                            let card = document.getElementById(id);
+                            if (card) {
+                                card.style.display = 'block';
+                            }
+                        });
+                    }
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Applicant Found',
                         text: 'The applicant data has been retrieved successfully.',
                         confirmButtonText: 'OK'
                     });
+
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Not Found',
-                        text: 'No applicant found with the provided details.',
+                        text: 'No applicant found with the provided details. Only Applicant needed to re-upload documents will be show',
                         confirmButtonText: 'OK'
                     });
+
+                    document.getElementById('card-1').style.display = 'none';
+                    document.getElementById('validid').style.display = 'none';
+                    document.getElementById('appreq').style.display = 'none';
+                    document.getElementById('proofdoc').style.display = 'none';
                 }
             })
             .catch(error => {
@@ -357,8 +545,7 @@
                     if (response.success) {
                         console.log('Updated files:', response.data);
 
-                        // Show SweetAlert with countdown timer and redirect
-                        let countdown = 5; // Countdown in seconds
+                        let countdown = 5; 
                         Swal.fire({
                             icon: 'success',
                             title: 'Successful',
@@ -366,7 +553,6 @@
                             timer: countdown * 1000,
                             showConfirmButton: false,
                             didOpen: () => {
-                                // Update countdown every second
                                 const countdownElement = Swal.getHtmlContainer().querySelector('#countdown');
                                 const interval = setInterval(() => {
                                     countdown--;
@@ -377,8 +563,7 @@
                                 }, 1000);
                             },
                             willClose: () => {
-                                // Redirect after countdown
-                                window.location.href = "{{ route('repupredirectexpire') }}"; // Change this to your target route
+                                window.location.href = "{{ route('repupredirectexpire') }}"; 
                             }
                         });
                     }
