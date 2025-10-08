@@ -60,27 +60,22 @@ class AdReuploadController extends Controller
 
     public function uploadDocuments(Request $request)
     {
-        $request->validate([
-            // 'studiddoc_image' => 'nullable|image',
-            // 'proofdoc_image' => 'nullable|image',
-        ]);
+        
+        $year = Year::where('status', 'On')->value('adyear');
 
         $app_id = $request->input('id');
         $admissionid = $request->input('admissionid');
         $lname = $request->input('lname');
         $fname = $request->input('fname');
-
-        // Fetch the applicant record by `app_id`
+        
         $applicant = ApplicantDocs::where('app_id', $app_id)->first();
 
         if (!$applicant) {
             return response()->json(['error' => 'Applicant not found'], 404);
         }
 
-        // Generate a base filename using lname, fname, and admission ID
         $baseFilename = $lname . '_' . $fname . '_' . $admissionid;
 
-        // Update the `studiddoc_image` if a new file is uploaded
         if ($request->hasFile('studiddoc_image')) {
             $extension = $request->file('studiddoc_image')->getClientOriginalExtension();
             $filename = $baseFilename . '_studid.' . $extension;
@@ -88,7 +83,6 @@ class AdReuploadController extends Controller
             $applicant->studiddoc_image = $studIdPath;
         }
 
-        // Update the `proofdoc_image` if a new file is uploaded
         if ($request->hasFile('proofdoc_image')) {
             $extension = $request->file('proofdoc_image')->getClientOriginalExtension();
             $filename = $baseFilename . '_proof.' . $extension;
@@ -97,60 +91,54 @@ class AdReuploadController extends Controller
         }
 
         if ($request->hasFile('grade12File')) {
-            $file = $request->file('grade12File');
-            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
-            $extension = $file->getClientOriginalExtension();
-            $filenameWithExtension = $filename . '.' . $extension;
+            $extension = $request->file('grade12File')->getClientOriginalExtension();
+            $filename = $baseFilename . '.' . $extension;
             $folderPath = $year . '/applcntrequirement';
-            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
-            $docs->grade12File = $path;
+            $path = $request->file('grade12File')->storeAs($folderPath, $filename, 'public');
+            $applicant->grade12File = $path;
         }
+
         if ($request->hasFile('shsFile')) {
-            $file = $request->file('shsFile');
-            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
-            $extension = $file->getClientOriginalExtension();
-            $filenameWithExtension = $filename . '.' . $extension;
+            $extension = $request->file('shsFile')->getClientOriginalExtension();
+            $filename = $baseFilename . '.' . $extension;
             $folderPath = $year . '/applcntrequirement';
-            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
-            $docs->shsFile = $path;
+            $path = $request->file('shsFile')->storeAs($folderPath, $filename, 'public');
+            $applicant->shsFile = $path;
         }
+
         if ($request->hasFile('transfereeFile')) {
-            $file = $request->file('transfereeFile');
-            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
-            $extension = $file->getClientOriginalExtension();
-            $filenameWithExtension = $filename . '.' . $extension;
+            $extension = $request->file('transfereeFile')->getClientOriginalExtension();
+            $filename = $baseFilename . '.' . $extension;
             $folderPath = $year . '/applcntrequirement';
-            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
-            $docs->transfereeFile = $path;
+            $path = $request->file('transfereeFile')->storeAs($folderPath, $filename, 'public');
+            $applicant->transfereeFile = $path;
         }
+
         if ($request->hasFile('alsFile')) {
-            $file = $request->file('alsFile');
-            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
-            $extension = $file->getClientOriginalExtension();
-            $filenameWithExtension = $filename . '.' . $extension;
+            $extension = $request->file('alsFile')->getClientOriginalExtension();
+            $filename = $baseFilename . '.' . $extension;
             $folderPath = $year . '/applcntrequirement';
-            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
-            $docs->alsFile = $path;
+            $path = $request->file('alsFile')->storeAs($folderPath, $filename, 'public');
+            $applicant->alsFile = $path;
         }
+
         if ($request->hasFile('lifelongFile')) {
-            $file = $request->file('lifelongFile');
-            $filename = $request->input('lastname') . '_' . $request->input('firstname') . '_' . $admissionid;
-            $extension = $file->getClientOriginalExtension();
-            $filenameWithExtension = $filename . '.' . $extension;
+            $extension = $request->file('lifelongFile')->getClientOriginalExtension();
+            $filename = $baseFilename . '.' . $extension;
             $folderPath = $year . '/applcntrequirement';
-            $path = $file->storeAs($folderPath, $filenameWithExtension, 'public');
-            $docs->lifelongFile = $path;
+            $path = $request->file('lifelongFile')->storeAs($folderPath, $filename, 'public');
+            $applicant->lifelongFile = $path;
         }
-        // Save changes to the database
+
         $applicant->save();
 
         return response()->json([
             'success' => true,
             'message' => 'Files updated successfully',
-            'data' => [
-                'studiddoc_image' => $applicant->studiddoc_image,
-                'proofdoc_image' => $applicant->proofdoc_image,
-            ]
+            // 'data' => [
+            //     'studiddoc_image' => $applicant->studiddoc_image,
+            //     'proofdoc_image' => $applicant->proofdoc_image,
+            // ]
         ]);
     }
 

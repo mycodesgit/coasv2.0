@@ -324,6 +324,7 @@
     <!-- Ajax -->
     @if(request()->routeIs('srchappList'))
         <script src="{{ asset('js/ajax/admssion/applicant/applicantSerialize.js') }}"></script>
+        {{-- @include('script.admssn.applicant.applicantSerialize') --}}
     @endif
     @if(request()->routeIs('applicant_edit'))
         <script src="{{ asset('js/ajax/admssion/applicant/appAssignSchedSerialize.js') }}"></script>

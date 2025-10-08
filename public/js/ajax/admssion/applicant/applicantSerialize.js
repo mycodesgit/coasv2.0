@@ -87,11 +87,14 @@ $(document).ready(function() {
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
-                                '<i class="fas fa-image"></i> School ID' +
+                                '<i class="fas fa-upload"></i> Re-Upload' +
+                                '</a>' +
+                                '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
+                                '<i class="fas fa-id-card-clip"></i> School ID' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-imagereportcardtor" data-id="' + row.adid + '" data-uploadreportcard="' + 
                                     (row.grade12File || row.shsFile || row.transfereeFile || row.alsFile || row.lifelongFile || '') + '">' +
-                                '<i class="fas fa-image"></i> Report Card/TOR' +
+                                '<i class="fas fa-file-lines"></i> Report Card/TOR' +
                                 '</a>' +
                                 '<a href="#" class="dropdown-item btn-imageproof" data-id="' + row.adid + '" data-imageproof="' + row.proofdoc_image + '" data-proof="' + row.typefileproofupload + '">' +
                                 '<i class="fas fa-image"></i> Proof/Evidence' +
