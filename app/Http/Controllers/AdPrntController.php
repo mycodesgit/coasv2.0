@@ -227,6 +227,7 @@ class AdPrntController extends Controller
                         ->where('ad_applicant_admission.campus', $selectedCampus)
                         ->where('ad_time.id', $selectedDates)
                         ->where('ad_applicant_admission.p_status', '!=', 7)
+                        ->where('ad_applicant_admission.venue', '!=', NULL)
                         ->select('ad_applicant_admission.*', 'ad_time.*')
                         ->get();
 
