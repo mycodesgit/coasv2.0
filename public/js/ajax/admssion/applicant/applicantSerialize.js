@@ -264,7 +264,7 @@ $(document).on('click', '.btn-reupload', function() {
     
     $('#editReUploadId').val(id);
 
-    $('input[name="buttons[]"]').prop('checked', false);
+    $('input[name="reuploadallow[]"]').prop('checked', false);
 
     $.ajax({
         url: appaccessRoute.replace(':id', id), // Replace :id with actual ID
