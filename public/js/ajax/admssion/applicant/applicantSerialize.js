@@ -81,7 +81,7 @@ $(document).ready(function() {
                     } else if (data == 2) {
                         return '<span class="badge badge-warning">Reupload</span>';
                     } else if (data == 3) {
-                        return '<span class="badge badge-warning">Done Reupload</span>';
+                        return '<span class="badge badge-secondary">Done Reupload</span>';
                     } else {
                         return '<span class="badge badge-secondary">Unknown</span>';
                     }
