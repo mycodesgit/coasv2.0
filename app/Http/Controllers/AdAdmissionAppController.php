@@ -151,7 +151,8 @@ class AdAdmissionAppController extends Controller
 
     public function applicant_delete($id) {
         try {
-            $applicant = Applicant::find($id);
+            $decryptedId = Crypt::decryptString($id);
+            $applicant = Applicant::find($decryptedId);
             
             if ($applicant) {
                 $applicant->update(['p_status' => 7]);

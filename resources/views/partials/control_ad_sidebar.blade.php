@@ -15,6 +15,7 @@
     $changecampActive = in_array($curr_route, ['alllistappRead', 'alllistappRead_search']) ? 'active' : '';
 
     $appsreportActive = in_array($curr_route, ['applicant_printing', 'applicant_reports']) ? 'active' : '';
+    $appschoolreportActive = in_array($curr_route, ['applicantperschool_printing']) ? 'active' : '';
     $schedreportActive = in_array($curr_route, ['schedules_printing', 'schedules_reports']) ? 'active' : '';
     $noschedreportActive = in_array($curr_route, ['nosched_printing', 'nosched_reports']) ? 'active' : '';   
     $examreportActive = in_array($curr_route, ['examination_printing', 'examination_reports']) ? 'active' : '';  
@@ -61,6 +62,7 @@
     <ul class="list-group">
         @if(!in_array(Auth::user()->role, [5, 6, 7]))
         <a href="{{ route('applicant_printing') }}" class="list-group-item {{ $appsreportActive }}">Applicants</a>
+        <a href="{{ route('applicantperschool_printing') }}" class="list-group-item {{ $appschoolreportActive }}">Applicants per School</a>
         <a href="{{ route('schedules_printing') }}" class="list-group-item {{ $schedreportActive }}">Admission Schedules</a>
         <a href="{{ route('nosched_printing') }}" class="list-group-item {{ $noschedreportActive}}">Applicants No Sched</a>
         <a href="{{ route('examination_printing') }}" class="list-group-item {{ $examreportActive }}">Examination Results</a>

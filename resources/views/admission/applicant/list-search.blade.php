@@ -334,7 +334,7 @@ CISS V.1.0 || Applicant Search List
     </div>
 </div>
 
-<div class="modal fade" id="editReUploadModal" role="dialog" aria-labelledby="editReUploadModalLabel" aria-hidden="false">
+<div class="modal fade" id="editReUploadModal" role="dialog" aria-labelledby="editReUploadModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">

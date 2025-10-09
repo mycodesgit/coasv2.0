@@ -355,6 +355,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/applicantReports', [AdPrntController::class, 'applicant_reports'])->name('applicant_reports');
             Route::get('/applicantReports/ajax', [AdPrntController::class, 'getapplicantreportsRead'])->name('getapplicantreportsRead');
             Route::get('/applicantsReports/PDF', [AdPrntController::class, 'applicantPDF_reports'])->name('applicantPDF_reports');
+            
+            Route::get('/applicant/per/school', [AdPrntController::class, 'applicantperschool_printing'])->name('applicantperschool_printing');
 
             Route::get('/schedules', [AdPrntController::class, 'schedules_printing'])->name('schedules_printing');
             Route::get('/schedulesReports', [AdPrntController::class, 'schedules_reports'])->name('schedules_reports');

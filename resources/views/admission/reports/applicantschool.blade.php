@@ -20,7 +20,7 @@ CISS V.1.0 || Applicant Reports
                 </a>
             </li>
             <li class="breadcrumb-item mt-1">Admission</li>
-            <li class="breadcrumb-item active mt-1">Applicant Reports</li>
+            <li class="breadcrumb-item active mt-1">Applicant per School</li>
         </ol>
 
         <div class="page-header">

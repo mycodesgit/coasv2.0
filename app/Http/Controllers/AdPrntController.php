@@ -160,6 +160,16 @@ class AdPrntController extends Controller
         }
     }
 
+    public function applicantperschool_printing()
+    {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $currentYear = Year::where('status', 'On')->value('adyear');
+
+        $repdates = AdmissionDate::groupBy('date')->pluck('date');
+        $time = Time::whereYear('date', $currentYear)->get();
+        return view('admission.reports.applicantschool', compact('repdates', 'time', 'curryear'));
+    }
+
     public function schedules_printing()
     {
         $curryear = Year::orderBy('adyear', 'DESC')->get();
