@@ -74,6 +74,18 @@ $(document).ready(function() {
             {data: 'campus'},
             {data: 'appstrand'},
             {
+            data: 'status',
+                render: function(data, type, row) {
+                    if (data == 1) {
+                        return '<span class="badge badge-success">No Need to Reupload</span>';
+                    } else if (data == 2) {
+                        return '<span class="badge badge-warning">Reupload</span>';
+                    } else {
+                        return '<span class="badge badge-secondary">Unknown</span>';
+                    }
+                }
+            },
+            {
                 data: 'adid',
                 className: "action-column",
                 render: function(data, type, row) {

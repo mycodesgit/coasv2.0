@@ -113,6 +113,7 @@ CISS V.1.0 || Applicant Search List
                             <th>Date Applied</th>
                             <th>Campus</th>
                             <th>Strand</th>
+                            <th>Status</th>
                             <th id="actionColumnHeader" style="display: none;">Action</th>
                         </tr>
                     </thead>

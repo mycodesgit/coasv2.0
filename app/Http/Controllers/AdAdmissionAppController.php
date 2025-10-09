@@ -77,7 +77,8 @@ class AdAdmissionAppController extends Controller
         $strand = $request->query('strand');
 
         $query  = Applicant::join('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
-                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_docs.*')
+                        ->leftJoin('ad_reupload', 'ad_applicant_admission.id', '=', 'ad_reupload.appid')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_docs.*', 'ad_reupload.status')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
                         ->where('p_status', '=', 1);
@@ -87,7 +88,7 @@ class AdAdmissionAppController extends Controller
         }
 
         $data = $query->get();
-        
+
         $data->transform(function ($item) {
             $item->adid = Crypt::encryptString($item->adid);
             return $item;
