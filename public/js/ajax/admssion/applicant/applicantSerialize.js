@@ -123,7 +123,7 @@ $(document).ready(function() {
             }
         ],
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.id); 
+            $(row).attr('id', 'tr-' + data.adid); 
         }
     });
     toggleActionColumn();
@@ -580,7 +580,7 @@ $('#pushtoexamForm').submit(function(event) {
 
 $(document).on('click', '.examinee-delete', function(e) {
     var id = $(this).val();
-    alert(id);
+    // alert(id);
     
     $.ajaxSetup({
         headers: {
