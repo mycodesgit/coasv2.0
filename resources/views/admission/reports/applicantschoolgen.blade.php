@@ -24,8 +24,8 @@ CISS V.1.0 || Applicant Reports
         </ol>
 
         <div class="page-header">
-            <form method="POST" action="{{ route('applicant_reports') }}">
-                {{ csrf_field() }}
+            <form method="POST" action="{{ route('applicantperschool_reports') }}" id="adAppSchoolAd">
+                @csrf
 
                 <div class="custom-container">
                     <div class="form-group">
@@ -41,49 +41,33 @@ CISS V.1.0 || Applicant Reports
 
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Campus</span></label>
-                                <select class="form-control form-control-sm" name="campus" id="campus">
+                                <select class="form-control form-control-sm" name="campus">
                                     <option value="{{Auth::user()->campus}}">
                                         @if (Auth::user()->campus == 'MC') Main 
-                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
                                             @elseif(Auth::user()->campus == 'VC') Victorias 
+                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
                                             @elseif(Auth::user()->campus == 'HC') Hinigaran 
                                             @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                            @elseif(Auth::user()->campus == 'SC') Sipalay 
                                             @elseif(Auth::user()->campus == 'IC') Ilog 
+                                            @elseif(Auth::user()->campus == 'CA') Candoni 
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
+                                            @elseif(Auth::user()->campus == 'SC') Sipalay  
+                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
                                         @endif
                                     </option>
-                                    @if (Auth::user()->role == 0)
+                                    @if(Auth::user()->role == 0 || (Auth::user()->campus == 'MC' && Auth::user()->role == 1))
                                         <option value="MC">Main</option>
-                                        <option value="SCC">San Carlos</option>
                                         <option value="VC">Victorias</option>
+                                        <option value="SCC">San Carlos</option>
                                         <option value="HC">Hinigaran</option>
                                         <option value="MP">Moises Padilla</option>
-                                        <option value="HinC">Hinobaan</option>
-                                        <option value="SC">Sipalay</option>
                                         <option value="IC">Ilog</option>
+                                        <option value="CA">Candoni</option>
                                         <option value="CC">Cauayan</option>
+                                        <option value="SC">Sipalay</option>
+                                        <option value="HinC">Hinobaan</option>
                                     @else
                                     @endif
-                                </select>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label><span class="badge badge-secondary">Strand</span></label>
-                                <select class="form-control  form-control-sm" name="strand">
-                                    <option disabled selected>Select</option>
-                                    <option value="All">All</option>
-                                    <option value="BAM">Accountancy, Business, & Management (BAM)</option>
-                                    <option value="GAS">General Academic Strand (GAS)</option>
-                                    <option value="HUMSS">Humanities, Education, Social Sciences (HUMSS)</option>
-                                    <option value="STEM">Science, Technology, Engineering, & Mathematics (STEM)</option>
-                                    <option value="TVL-CHF">TVL - Cookery, Home Economics, & FBS (TVL-CHF)</option>
-                                    <option value="TVL-CIV">TVL - CSS, ICT, & VGD (TVL-CIV)</option>
-                                    <option value="TVL-AFA">TVL - Agricultural & Fisheries Arts (TVL-AFA)</option>
-                                    <option value="TVL-EIM">TVL - Electrical Installation & Maintenance (TVL-EIM)</option>
-                                    <option value="TVL-SMAW">TVL - Shielded Metal Arc Welding (TVL-SMAW)</option>
-                                    <option value="OLD">Old Curriculum</option>
                                 </select>
                             </div>
 
@@ -95,15 +79,10 @@ CISS V.1.0 || Applicant Reports
                     </div>
                 </div>
             </form>
-            <h5>Search Results: {{ $totalSearchResults }} 
-                <small>
-                    <i>Year-<b>{{ request('year') }}</b>,
-                        Campus-<b>{{ request('campus') }}</b>,
-                    </i>
-                </small>
-            </h5>
         </div>
+
         <div class="page-header mt-2" style="border-bottom: 1px solid #04401f;"></div>
+
         <div class="mt-2">
             <form method="GET" action="{{ route('applicantPDF_reports') }}" id="" target="_blank">
                 {{ csrf_field() }}

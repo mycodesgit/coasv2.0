@@ -41,29 +41,31 @@ CISS V.1.0 || Admission Schedules
 
                             <div class="col-md-2">
                                 <label><span class="badge badge-secondary">Campus</span></label>
-                                <select class="form-control form-control-sm" name="campus" id="campus">
+                                <select class="form-control form-control-sm" name="campus">
                                     <option value="{{Auth::user()->campus}}">
                                         @if (Auth::user()->campus == 'MC') Main 
-                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
                                             @elseif(Auth::user()->campus == 'VC') Victorias 
+                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
                                             @elseif(Auth::user()->campus == 'HC') Hinigaran 
                                             @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                            @elseif(Auth::user()->campus == 'SC') Sipalay 
                                             @elseif(Auth::user()->campus == 'IC') Ilog 
+                                            @elseif(Auth::user()->campus == 'CA') Candoni 
                                             @elseif(Auth::user()->campus == 'CC') Cauayan 
+                                            @elseif(Auth::user()->campus == 'SC') Sipalay  
+                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
                                         @endif
                                     </option>
-                                    @if (Auth::user()->role == 0)
+                                    @if(Auth::user()->role == 0 || (Auth::user()->campus == 'MC' && Auth::user()->role == 1))
                                         <option value="MC">Main</option>
-                                        <option value="SCC">San Carlos</option>
                                         <option value="VC">Victorias</option>
+                                        <option value="SCC">San Carlos</option>
                                         <option value="HC">Hinigaran</option>
                                         <option value="MP">Moises Padilla</option>
-                                        <option value="HinC">Hinobaan</option>
-                                        <option value="SC">Sipalay</option>
                                         <option value="IC">Ilog</option>
+                                        <option value="CA">Candoni</option>
                                         <option value="CC">Cauayan</option>
+                                        <option value="SC">Sipalay</option>
+                                        <option value="HinC">Hinobaan</option>
                                     @else
                                     @endif
                                 </select>

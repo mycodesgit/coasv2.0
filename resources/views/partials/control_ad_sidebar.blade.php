@@ -15,7 +15,7 @@
     $changecampActive = in_array($curr_route, ['alllistappRead', 'alllistappRead_search']) ? 'active' : '';
 
     $appsreportActive = in_array($curr_route, ['applicant_printing', 'applicant_reports']) ? 'active' : '';
-    $appschoolreportActive = in_array($curr_route, ['applicantperschool_printing']) ? 'active' : '';
+    $appschoolreportActive = in_array($curr_route, ['applicantperschool_printing', 'applicantperschool_reports']) ? 'active' : '';
     $schedreportActive = in_array($curr_route, ['schedules_printing', 'schedules_reports']) ? 'active' : '';
     $noschedreportActive = in_array($curr_route, ['nosched_printing', 'nosched_reports']) ? 'active' : '';   
     $examreportActive = in_array($curr_route, ['examination_printing', 'examination_reports']) ? 'active' : '';  
