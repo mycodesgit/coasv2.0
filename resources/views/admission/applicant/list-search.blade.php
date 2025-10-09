@@ -353,7 +353,7 @@ CISS V.1.0 || Applicant Search List
                                 @php
                                     $reuploadallow = [
                                         'validid' => 'School ID / Valid ID',
-                                        'appreq' => 'Application Requirement',
+                                        'appreq' => 'Report Card / TOR',
                                         'proofdoc' => 'Proof of Equity Target Documents',
                                     ];
                                 @endphp

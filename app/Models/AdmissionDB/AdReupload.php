@@ -18,4 +18,9 @@ class AdReupload extends Model
         'reuploadallow', 
         'status'
     ];
+
+    protected $casts = [
+        'reuploadallow' => 'array',
+    ];
+
 }

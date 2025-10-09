@@ -267,11 +267,11 @@ $(document).on('click', '.btn-reupload', function() {
     $('input[name="reuploadallow[]"]').prop('checked', false);
 
     $.ajax({
-        url: appaccessRoute.replace(':id', id), // Replace :id with actual ID
+        url: appaccessRoute.replace(':id', id),
         type: 'GET',
         success: function(response) {
-            if (response.buttons) {
-                response.buttons.forEach(function(button) {
+            if (response.reuploadallow) {
+                response.reuploadallow.forEach(function(button) {
                     $('input[name="reuploadallow[]"][value="' + button + '"]').prop('checked', true);
                 });
             }
@@ -313,7 +313,7 @@ $('#editReUploadAccessForm').submit(function(event) {
         },
         error: function(xhr) {
             console.error(xhr.responseText); 
-            toastr.error('An error occurred while saving the user access.');
+            toastr.error('An error occurred while saving the applicant access.');
         }
     });
 });
