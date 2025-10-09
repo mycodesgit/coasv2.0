@@ -70,8 +70,8 @@ class AdReuploadController extends Controller
         $lname = $request->input('lname');
         $fname = $request->input('fname');
         
-        $applicant = ApplicantDocs::leftJoin('ad_reupload', 'ad_applicant_docs.id', '=', 'ad_reupload.appid')
-            ->where('app_id', $app_id)->first();
+        $applicant = ApplicantDocs::where('app_id', $app_id)->first();
+        $reupload = AdReupload::where('appid', $app_id)->first();
 
         if (!$applicant) {
             return response()->json(['error' => 'Applicant not found'], 404);
@@ -132,7 +132,10 @@ class AdReuploadController extends Controller
             $path = $request->file('lifelongFile')->storeAs($folderPath, $filename, 'public');
             $applicant->lifelongFile = $path;
         }
-
+        if ($reupload) {
+            $reupload->status = 3;
+            $reupload->save();
+        }
         $applicant->save();
 
         return response()->json([

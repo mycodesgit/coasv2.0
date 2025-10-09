@@ -99,7 +99,8 @@ class AdAdmissionAppController extends Controller
 
     public function getReuploadAccess($id)
     {
-        $access = AdReupload::where('appid', $id)->first();
+        $decryptedId = Crypt::decryptString($id);
+        $access = AdReupload::where('appid', $decryptedId)->first();
         
         if ($access) {
             return response()->json([
@@ -114,10 +115,11 @@ class AdAdmissionAppController extends Controller
 
     public function saveAppUploadAccess(Request $request, $id)
     {
+        $decryptedId = Crypt::decryptString($id);
         $reuploadallow = $request->input('reuploadallow', []); 
         
         AdReupload::updateOrCreate(
-            ['appid' => $id],
+            ['appid' => $decryptedId],
             [
                 'reuploadallow' => $reuploadallow,
                 'status' => '2'
