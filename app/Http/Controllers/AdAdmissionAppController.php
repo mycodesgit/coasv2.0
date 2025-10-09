@@ -78,7 +78,7 @@ class AdAdmissionAppController extends Controller
 
         $query  = Applicant::join('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
                         ->leftJoin('ad_reupload', 'ad_applicant_admission.id', '=', 'ad_reupload.appid')
-                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_docs.*', 'ad_reupload.status')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_docs.*', 'ad_reupload.*')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
                         ->where('p_status', '=', 1);
@@ -193,7 +193,7 @@ class AdAdmissionAppController extends Controller
         ]);
 
         try {
-            $decryptedId = Crypt::decrypt($request->input('id'));
+            $decryptedId = Crypt::decryptString($request->input('id'));
             $appsched = Applicant::findOrFail($decryptedId);
             $appsched->update([
                 'dateID' => $request->input('dateID'),
@@ -209,7 +209,7 @@ class AdAdmissionAppController extends Controller
 
     public function applicant_confirmajax(Request $request) 
     {
-        $decryptedId = Crypt::decrypt($request->input('id'));
+        $decryptedId = Crypt::decryptString($request->input('id'));
         $applicantsWithoutSchedule = Applicant::where('p_status', 1)
             ->where('id', $decryptedId)
             ->where(function ($query) {
@@ -238,15 +238,15 @@ class AdAdmissionAppController extends Controller
 
         if ($affectedRows > 0) {
             $applicant = Applicant::find($decryptedId);
-            $formattedDate = \Carbon\Carbon::parse($applicant->d_admission)->format('F d, Y'); // e.g., January 01, 2024
-            $formattedTime = \Carbon\Carbon::parse($applicant->time)->format('h:i A');         // e.g., 11:00 AM
+            $formattedDate = \Carbon\Carbon::parse($applicant->d_admission)->format('F d, Y');
+            $formattedTime = \Carbon\Carbon::parse($applicant->time)->format('h:i A');         
 
             // Prepare email data
             $emailData = [
                 'date' => $formattedDate,
                 'time' => $formattedTime,
-                'venue' => $applicant->venue, // assuming 'venue' is a column in the Applicant model
-                'applicant_name' => $applicant->name // assuming 'name' is a column in the Applicant model
+                'venue' => $applicant->venue, 
+                'applicant_name' => $applicant->name
             ];
 
             // Send the email

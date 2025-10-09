@@ -493,21 +493,21 @@ $(document).on('click', '.btn-assignsched', function() {
 
     $('#editAssignSchedModal').modal('show');
 
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#editAssignSchedId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#editAssignSchedId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#editAssignSchedId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#editAssignSchedId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 $('#editAssignSchedForm').submit(function(event) {
@@ -545,21 +545,21 @@ $(document).on('click', '.btn-pushtoexam', function() {
     $('#pushtoexamEmail').val(email);
     $('#pushtoexamModal').modal('show');
     
-    $.ajax({
-        url: appidEncryptRoute,
-        type: "POST",
-        data: { data: $('#pushtoexamId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#pushtoexamId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
+    // $.ajax({
+    //     url: appidEncryptRoute,
+    //     type: "POST",
+    //     data: { data: $('#pushtoexamId').val() },
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     success: function(response) {
+    //         //alert(response); 
+    //         $('#pushtoexamId').val(response)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         alert('Error: ' + error); 
+    //     }
+    // });
 });
 
 

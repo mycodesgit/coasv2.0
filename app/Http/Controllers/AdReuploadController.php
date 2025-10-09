@@ -70,7 +70,8 @@ class AdReuploadController extends Controller
         $lname = $request->input('lname');
         $fname = $request->input('fname');
         
-        $applicant = ApplicantDocs::where('app_id', $app_id)->first();
+        $applicant = ApplicantDocs::leftJoin('ad_reupload', 'ad_applicant_docs.id', '=', 'ad_reupload.appid')
+            ->where('app_id', $app_id)->first();
 
         if (!$applicant) {
             return response()->json(['error' => 'Applicant not found'], 404);
