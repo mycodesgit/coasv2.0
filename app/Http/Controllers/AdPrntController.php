@@ -182,6 +182,18 @@ class AdPrntController extends Controller
         return view('admission.reports.applicantschoolgen', compact('curryear', 'appschool'));
     }
 
+    public function getapplicantperschool_reports(Request $request)
+    {
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+
+        $data = Applicant::where('year', $year)->where('campus', $campus)->where('p_status', '!=', 7)->get();
+
+        return response()->json(['data' => $data]);
+    }
+
     public function schedules_printing()
     {
         $curryear = Year::orderBy('adyear', 'DESC')->get();

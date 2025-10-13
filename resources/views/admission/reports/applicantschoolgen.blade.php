@@ -112,7 +112,7 @@ CISS V.1.0 || Applicant Reports
             </form>
 
             <div class="mt-2">
-                <table id="appsreplistTable" class="table table-hover" style="width:100%;">
+                <table id="appschoolreplistTable" class="table table-hover" style="width:100%;">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -167,7 +167,7 @@ CISS V.1.0 || Applicant Reports
 </div>
 
 <script>
-    var allApplicantRoute = "{{ route('getapplicantreportsRead') }}";
+    var allApplicantRoute = "{{ route('getapplicantperschool_reports') }}";
 </script>
 
 @endsection
