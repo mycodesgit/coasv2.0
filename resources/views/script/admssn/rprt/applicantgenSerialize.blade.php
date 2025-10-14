@@ -19,6 +19,9 @@
             lengthChange: true,
             searching: true,
             paging: true,
+            buttons: [
+                'excel'
+            ],
             "columns": [
                 { 
                     data: null,
@@ -64,7 +67,8 @@
             ],
             "createdRow": function (row, data, index) {
                 $(row).attr('id', 'tr-' + data.id); 
-            }
-        });
+            },
+            dom: 'Bfrtip'
+        }).buttons().container().appendTo('#appsreplistTable_wrapper .col-md-6:eq(0)');
     });
 </script>
