@@ -1373,7 +1373,7 @@
                     select.append('<option value="' + value.code + '">' + value.program + '</option>');
                 });
                 // Re-select previous value if still exists
-                select.val(currentVal);
+                // select.val(currentVal);
             }
             function updateSchedOptions(selectName, options) {
                 const select = $('select[name=' + selectName + ']');
@@ -1393,7 +1393,7 @@
                     }
                 });
                 // Keep selected value if still available
-                select.val(currentVal);
+                // select.val(currentVal);
             }
             $('select[name="d_admissionselect"]').change(function() {
                 const selectedOption = $(this).find('option:selected');
@@ -1424,12 +1424,12 @@
             });
 
             //  Auto refresh every 30 seconds (you can adjust)
-            setInterval(function() {
-                const selectedCampus = $('#campus').val();
-                if (selectedCampus) {
-                    updateExamSchedule(selectedCampus);
-                }
-            }, 30000);
+            // setInterval(function() {
+            //     const selectedCampus = $('#campus').val();
+            //     if (selectedCampus) {
+            //         updateExamSchedule(selectedCampus);
+            //     }
+            // }, 30000);
         </script>
 
         {{-- <script type="text/javascript">

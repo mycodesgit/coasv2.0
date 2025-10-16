@@ -420,10 +420,21 @@ class PortalController extends Controller
         $email = $request->input('email');
         
 
-        Mail::raw("Congratulations! You have successfully registered for the {$year} Admission Test", function ($message) use ($email) {
-            $message->to($email)
-                    ->subject('Thank You for Your Application');
+        Mail::raw("
+            Dear Applicant,
+
+            Congratulations! You have successfully registered for the {$year} Admission Test.
+
+            Please note that your application is currently under review. You will receive a confirmation email once it has been approved.
+
+            Thank you for your interest and patience.
+
+            This is a system-generated message. Please do not reply.
+            ", function ($message) use ($email) {
+                $message->to($email)
+                        ->subject('Admission Test Application - System Notification');
         });
+
 
         return response()->json(['message' => 'Email sent successfully']);
     }
