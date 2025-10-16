@@ -26,7 +26,7 @@
     <p>God Bless!</p>
 
     <p>
-        <span style="font-weight: bold">Note: Do not send message in this email. This email don't reply. Thank you.</span>
+        <span style="font-weight: bold">Note: This is a system-generated message. Please do not reply.</span>
     </p>
 </body>
 </html>
