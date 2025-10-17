@@ -33,8 +33,8 @@ CISS V.1.0 || Curriculumn
         </p>
 
         <div class="page-header">
-            <form method="GET" action="{{ route('courseEnroll_list_search') }}" id="classEnroll">
-                {{ csrf_field() }}
+            <form method="GET" action="{{ route('curRead_search') }}" id="curriculumSearch">
+                @csrf
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
                     <h4>Curriculumn</h4>
@@ -45,19 +45,14 @@ CISS V.1.0 || Curriculumn
                         <div class="form-row">
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Semester</span></label>
-                                <select class="form-control  form-control-sm" name="semester" id="semester">
-                                    <option disabled selected>---Select---</option>
-                                    <option value="1">First Semester</option>
-                                    <option value="2">Second Semester</option>
-                                    <option value="3">Summer</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Course</span></label>
                                 <select class="form-control form-control-sm select2bs4" name="progCod" id="progCod">
                                     <option disabled selected>Select a course</option>
+                                    @foreach ($program as $programs)
+                                        <option value="{{ $programs->progCod }}">
+                                            {{ $programs->progAcronym }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
 

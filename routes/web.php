@@ -638,6 +638,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('program')->group(function () {
             Route::get('/curriculum', [SchedCurriculumController::class, 'curRead'])->name('curRead');
+            Route::get('/curriculum/search', [SchedCurriculumController::class, 'curRead_search'])->name('curRead_search');
         });
 
         Route::prefix('designation')->group(function () {

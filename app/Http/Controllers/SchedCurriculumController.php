@@ -19,6 +19,29 @@ class SchedCurriculumController extends Controller
 {
     public function curRead()
     {
-        return view('scheduler.curriculum.curlist');
+        $program = EnPrograms::whereRaw("FIND_IN_SET(?, campus)", [Auth::guard('web')->user()->campus])
+                    ->orderBy('progAcronym', 'ASC')
+                    ->get();
+
+        return view('scheduler.curriculum.curlist', compact('program'));
+    }
+
+    public function curRead_search(Request $request)
+    {
+        $progCod = $request->query('progCod');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $curriculum = EnPrograms::whereRaw("FIND_IN_SET(?, campus)", [Auth::guard('web')->user()->campus])
+                ->where('progCod', $progCod)
+            // ->where('semester', $semester)
+            // ->where('campus', $campus)
+            // ->distinct()
+            ->get();
+
+        $program = EnPrograms::whereRaw("FIND_IN_SET(?, campus)", [Auth::guard('web')->user()->campus])
+                    ->orderBy('progAcronym', 'ASC')
+                    ->get();
+
+        return view('scheduler.curriculum.curlist_search', compact('progCod', 'curriculum', 'program'));
     }
 }

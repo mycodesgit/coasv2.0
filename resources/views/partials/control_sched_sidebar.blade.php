@@ -8,7 +8,7 @@
     $classEnrollActive = in_array($curr_route, ['courseEnroll_list', 'courseEnroll_list_search']) ? 'active' : '';
     $suboffActive = in_array($curr_route, ['subjectsOffered', 'subjectsOffered_search']) ? 'active' : '';
     $facultyActive = in_array($curr_route, ['faculty_list', 'faculty_listsearch']) ? 'active' : '';
-    $curriActive = in_array($curr_route, ['curRead']) ? 'active' : '';
+    $curriActive = in_array($curr_route, ['curRead', 'curRead_search']) ? 'active' : '';
     $facDesigActive = in_array($curr_route, ['faculty_design', 'faculty_design_search']) ? 'active' : '';
     $classSchedActive = in_array($curr_route, ['classSchedRead', 'classSchedSetRead']) ? 'active' : '';
     $facultySchedActive = in_array($curr_route, ['facultySchedRead']) ? 'active' : '';
