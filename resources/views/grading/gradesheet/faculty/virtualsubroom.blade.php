@@ -66,9 +66,9 @@ CISS V.1.0 || Grading
                         <li class="nav-item ml-1">
                             <a class="nav-link active text-dark text-bold" id="custom-tabs-one-tab" data-toggle="pill" href="#custom-tabs-one" role="tab" aria-controls="custom-tabs-one" aria-selected="true">Input Grades</a>
                         </li>
-                        <li class="nav-item ml-1">
+                        {{-- <li class="nav-item ml-1">
                             <a class="nav-link text-dark text-bold" id="custom-tabs-two-tab" data-toggle="pill" href="#custom-tabs-two" role="tab" aria-controls="custom-tabs-two" aria-selected="false">Gradesheet PDF</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <div class="card-body">
