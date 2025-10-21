@@ -45,14 +45,15 @@ CISS V.1.0 || Kiosk User
                                 <label><span class="badge badge-secondary">Campus</span></label>
                                 <select class="form-control form-control-sm" name="campus" id="campus">
                                     <option value="MC">Main</option>
-                                    <option value="SCC">San Carlos</option>
                                     <option value="VC">Victorias</option>
+                                    <option value="SCC">San Carlos</option>
                                     <option value="HC">Hinigaran</option>
                                     <option value="MP">Moises Padilla</option>
-                                    <option value="HinC">Hinobaan</option>
-                                    <option value="SC">Sipalay</option>
                                     <option value="IC">Ilog</option>
+                                    <option value="CA">Candoni</option>
                                     <option value="CC">Cauayan</option>
+                                    <option value="SC">Sipalay</option>
+                                    <option value="HinC">Hinobaan</option>
                                 </select>
                             </div>
                             @endif
