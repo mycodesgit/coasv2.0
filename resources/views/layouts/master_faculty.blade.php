@@ -60,6 +60,9 @@
             right: 0;
             z-index: 998;
         }
+        body.dark-theme .top-bar {
+            background: #1e1e1e;
+        }
         @media (max-width: 767.98px) {
             .top-bar {
                 height: 12px;
