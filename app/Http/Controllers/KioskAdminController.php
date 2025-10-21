@@ -41,7 +41,7 @@ class KioskAdminController extends Controller
             //->where('campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                    $q->orWhere('campus', 'LIKE', "$campus");
                 }
             })
             ->first();
