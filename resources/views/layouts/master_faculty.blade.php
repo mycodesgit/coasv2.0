@@ -61,7 +61,7 @@
             z-index: 998;
         }
         body.dark-theme .top-bar {
-            background: #1e1e1e;
+            background: #454d55;
         }
         @media (max-width: 767.98px) {
             .top-bar {
