@@ -95,7 +95,7 @@ CISS V.1.0 || Curriculumn
                             <div class="tab-pane fade show active" id="custom-tabs-one" role="tabpanel" aria-labelledby="custom-tabs-one-tab">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <form method="post" action="{{ route('classEnrollCreate') }}"  id="classEnrollAdd">
+                                        <form method="post" action="{{ route('classEnrollCreate') }}"  id="adCurriculumForm">
                                             @csrf
                                             <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                                                 <h5>Add</h5>
@@ -217,22 +217,18 @@ CISS V.1.0 || Curriculumn
                                     </div>
 
                                     <div class="col-md-9">
-                                        <div>
-                                            <table id="currlumlist" class="table table-hover">
+                                        <div class="table-responsive">
+                                            <table id="currTable" class="table table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th>Code</th>
-                                                        <th>Program</th>
-                                                        <th>Semester</th>
                                                         <th>Subject</th>
                                                         <th>Lec</th>
                                                         <th>Lab</th>
                                                         <th>Units</th>
-                                                        <th>MaxStud</th>
                                                         <th>LecFee</th>
                                                         <th>LabFee</th>
                                                         <th>DevFee</th>
-                                                        <th>Type</th>
                                                         <th>Fund</th>
                                                         <th>IT Subj</th>
                                                         <th>Action</th>
@@ -254,6 +250,9 @@ CISS V.1.0 || Curriculumn
     </div>
 </div>
 
-
+<script>
+    var curriculumReadRoute = "{{ route('curriculum.show') }}";
+    var curriculumCreateRoute = "{{ route('curriculum.store') }}";
+</script>
 
 @endsection

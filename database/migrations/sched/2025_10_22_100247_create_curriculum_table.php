@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('progCode')->nullable()->index();
             $table->string('semester')->nullable();
+            $table->string('campus')->nullable();
             $table->string('subCode')->nullable()->index();
             $table->string('lecUnit')->nullable();
             $table->string('labUnit')->nullable();

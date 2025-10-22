@@ -15,6 +15,7 @@ class Curriculum extends Model
     protected $fillable = [
         'progCode',
         'semester',
+        'campus',
         'subCode',
         'lecUnit',
         'labUnit',

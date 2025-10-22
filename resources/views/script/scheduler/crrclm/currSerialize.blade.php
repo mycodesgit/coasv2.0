@@ -5,19 +5,19 @@
         "positionClass": "toast-top-right"
     };
     $(document).ready(function() {
-        $('#subjOffer').submit(function(event) {
+        $('#adCurriculumForm').submit(function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
 
             $.ajax({
-                url: subOfferedCreateRoute,
+                url: curriculumCreateRoute,
                 type: "POST",
                 data: formData,
                 success: function(response) {
                     if(response.success) {
                         toastr.success(response.message);
                         console.log(response);
-                        $(document).trigger('subjOffAdded');
+                        $(document).trigger('currAdded');
                     } else {
                         toastr.error(response.message);
                         console.log(response);
@@ -31,23 +31,16 @@
         });
 
         var urlParams = new URLSearchParams(window.location.search);
-        var schlyear = urlParams.get('schlyear') || ''; 
         var semester = urlParams.get('semester') || '';
-        var campus = '';
-        if (isuserRole) {
-            campus = urlParams.get('campus') || '';
-        }
+        var progCod = urlParams.get('progCod') || ''; 
 
-        var dataTable = $('#subofferedlist').DataTable({
+        var dataTable = $('#currTable').DataTable({
             "ajax": {
-                "url": subOfferedReadRoute,
+                "url": curriculumReadRoute,
                 "type": "GET",
-                "data": function(d) { 
-                    d.schlyear = schlyear;
-                    d.semester = semester;
-                    if (isuserRole) {
-                        d.campus = campus;
-                    }
+                "data": { 
+                    "semester": semester,
+                    "progCod": progCod
                 }
             },
             responsive: true,
@@ -56,30 +49,13 @@
             paging: true,
             "columns": [
                 {data: 'subCode'},
-                {data: 'subSec'},
-                {
-                    data: 'semester',
-                    render: function(data, type, row) {
-                        if (data == 1) {
-                            return '1st';
-                        } else if (data == 2) {
-                            return '2nd';
-                        } else if (data == 3) {
-                            return 'Summer';
-                        } else {
-                            return 'Unknown Semester';
-                        }
-                    }
-                },
                 {data: 'sub_name'},
                 {data: 'lecUnit'},
                 {data: 'labUnit'},
                 {data: 'subUnit'},
-                {data: 'maxstud'},
                 {data: 'lecFee'},
                 {data: 'labFee'},
                 {data: 'devFee'},
-                {data: 'isType'},
                 {
                     data: 'fundAccount',
                     render: function(data, type, row) {
@@ -88,13 +64,13 @@
                 },
                 {data: 'itfee'},
                 {
-                    data: 'soid',
+                    data: 'id',
                     render: function(data, type, row) {
                         if (type === 'display') {
                             var dropdown = '<div class="d-inline-block">' +
                                 '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                                 '<div class="dropdown-menu">' +
-                                '<a href="#" class="dropdown-item btn-studSubOffer" data-id="' + row.soid + '" data-subcode="' + row.subCode + '" data-subsec="' + row.subSec + '" data-lecunit="' + row.lecUnit + '" data-labunit="' + row.labUnit + '" data-subunit="' + row.subUnit + '" data-lecfee="' + row.lecFee + '" data-labfee="' + row.labFee + '" data-devfee="' + row.devFee + '" data-maxstud="' + row.maxstud + '" data-fund="' + row.fund + '" data-istemp="' + row.isTemp + '" data-isojt="' + row.isOJT + '" data-istype="' + row.isType + '" data-itfee="' + row.itfee + '" data-fundaccount="' + row.fundAccount + '">' +
+                                '<a href="#" class="dropdown-item btn-studSubOffer" data-id="' + row.id + '" data-subcode="' + row.subCode + '" data-subsec="' + row.subSec + '" data-lecunit="' + row.lecUnit + '" data-labunit="' + row.labUnit + '" data-subunit="' + row.subUnit + '" data-lecfee="' + row.lecFee + '" data-labfee="' + row.labFee + '" data-devfee="' + row.devFee + '" data-maxstud="' + row.maxstud + '" data-fund="' + row.fund + '" data-istemp="' + row.isTemp + '" data-isojt="' + row.isOJT + '" data-istype="' + row.isType + '" data-itfee="' + row.itfee + '" data-fundaccount="' + row.fundAccount + '">' +
                                 '<i class="fas fa-pen"></i> Edit' +
                                 '</a>' +
                                 '<button type="button" value="' + data + '" class="dropdown-item subsoff-delete">' +
@@ -114,7 +90,7 @@
                 $(row).attr('id', 'tr-' + data.soid); 
             }
         });
-        $(document).on('subjOffAdded', function() {
+        $(document).on('currAdded', function() {
             dataTable.ajax.reload();
         });
     });
