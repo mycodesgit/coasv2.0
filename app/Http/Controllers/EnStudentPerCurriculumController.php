@@ -284,6 +284,7 @@ class EnStudentPerCurriculumController extends Controller
 
         $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->leftJoin('kioskstudent', 'students.stud_id', '=', 'kioskstudent.studid')
             ->where('program_en_history.progCod', $progCode)
             ->where('program_en_history.studYear', $studYear)
             ->where('program_en_history.studSec', $studSec)
@@ -302,7 +303,7 @@ class EnStudentPerCurriculumController extends Controller
                     $q->orWhere('students.campus', 'LIKE', "%$campus%");
                 }
             })
-            ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
+            ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName', 'kioskstudent.passtext')
             ->orderBy('students.lname', 'ASC')
             ->get();
 

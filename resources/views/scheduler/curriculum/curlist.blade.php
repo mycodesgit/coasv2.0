@@ -43,6 +43,15 @@ CISS V.1.0 || Curriculumn
                 <div class="mt-1">
                     <div class="form-group">
                         <div class="form-row">
+                            <div class="col-md-3">
+                                <label><span class="badge badge-secondary">Semester</span></label>
+                                <select class="form-control  form-control-sm" name="semester">
+                                    <option disabled selected>---Select---</option>
+                                    <option value="1">First Semester</option>
+                                    <option value="2">Second Semester</option>
+                                    <option value="3">Summer</option>
+                                </select>
+                            </div>
 
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Course</span></label>

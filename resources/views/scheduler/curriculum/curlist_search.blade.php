@@ -43,6 +43,16 @@ CISS V.1.0 || Curriculumn
                 <div class="mt-1">
                     <div class="form-group">
                         <div class="form-row">
+                            <div class="col-md-3">
+                                <label><span class="badge badge-secondary">Semester</span></label>
+                                <select class="form-control  form-control-sm" name="semester">
+                                    <option disabled selected>---Select---</option>
+                                    <option value="1">First Semester</option>
+                                    <option value="2">Second Semester</option>
+                                    <option value="3">Summer</option>
+                                </select>
+                            </div>
+
                             <div class="col-md-4">
                                 <label><span class="badge badge-secondary">Course</span></label>
                                 <select class="form-control form-control-sm select2bs4" name="progCod" id="progCod">
@@ -98,34 +108,104 @@ CISS V.1.0 || Curriculumn
                                                     <div class="mt-2 col-md-12">
                                                         <label><span class="badge badge-secondary">Programs</span></label>
                                                         <select class="form-control form-control-sm" name="progCode" id="">
-                                                            <option disabled selected>Select</option>
-                                                            @foreach ($program as $programs)
+                                                            @foreach ($curriculum as $programs)
                                                                 <option value="{{ $programs->progCod }}">
                                                                     {{ $programs->progAcronym }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    
+
                                                     <div class="mt-2 col-md-12">
-                                                        <label><span class="badge badge-secondary">Year & Section</span></label>
-                                                        <input type="text" name="classSection" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" placeholder="e.g., 1-A">
+                                                        <label><span class="badge badge-secondary">Semester</span></label>
+                                                        <input type="text" class="form-control form-control-sm" name="semester" value="{{ request()->query('semester') }}" readonly>
                                                     </div>
 
                                                     <div class="mt-2 col-md-12">
-                                                        <label><span class="badge badge-secondary">Est. Number of Student</span></label>
-                                                        <input type="number" name="classno" class="form-control form-control-sm" min="0">
+                                                        <label><span class="badge badge-secondary">Subjects</span></label>
+                                                        <select class="form-control form-control-sm select2bs4" id="subCode">
+                                                            <option disabled selected>---Select---</option>
+                                                            @foreach($subjects as $sub)
+                                                                <option value="{{ $sub->sub_code }}" data-sub-code="{{ $sub->sub_code }}" data-lec-unit="{{ $sub->sublecredit }}" data-lab-unit="{{ $sub->sublabcredit }}">{{ $sub->sub_name }} - {{ $sub->sub_title }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
 
-                                                    @if(Auth::guard('web')->user()->lname == 'Gargoles' || Auth::guard('web')->user()->lname == 'Level')
-                                                        <div class="mt-2 col-md-12">
-                                                            <label><span class="badge badge-secondary">Add On</span></label>
-                                                            <select class="form-control form-control-sm" name="progType" id="">
-                                                                <option disabled selected>Select</option>
-                                                                <option value="SIKAT - CAMI">SIKAT - CAMI</option>
-                                                            </select>
-                                                        </div>
-                                                    @endif
+                                                    <div class="mt-2 col-md-4">
+                                                        <label><span class="badge badge-secondary">Subject Code</span></label>
+                                                        <input type="text" name="subCode" id="subcode" class="form-control form-control-sm" readonly="">
+                                                    </div>
+
+                                                    <div class="col-md-4 mt-2">
+                                                        <label><span class="badge badge-secondary">Lecture Credit</span></label>
+                                                        <input type="number" name="lecUnit" id="lecUnit" class="form-control form-control-sm" readonly="">
+                                                    </div>
+
+                                                    <div class="col-md-4 mt-2">
+                                                        <label><span class="badge badge-secondary">Laboratory Credit</span></label>
+                                                        <input type="number" name="labUnit" id="labUnit" class="form-control form-control-sm" readonly="">
+                                                    </div>
+
+                                                    <div class="col-md-4 mt-2">
+                                                        <label><span class="badge badge-secondary">Total Credit</span></label>
+                                                        <input type="number" name="subUnit" id="subUnit" class="form-control form-control-sm" readonly="">
+                                                    </div>
+
+                                                    <div class="col-md-4 mt-2">
+                                                        <label><span class="badge badge-warning">Lecture Fee</span></label>
+                                                        <input type="number" name="lecFee" id="lecFee" class="form-control form-control-sm" value="0" min="0" readonly>
+                                                    </div>
+
+                                                    <div class="col-md-4 mt-2">
+                                                        <label><span class="badge badge-warning">Laboratory Fee</span></label>
+                                                        <input type="number" name="labFee" id="labFee" class="form-control form-control-sm" value="0" min="0" readonly>
+                                                    </div>
+
+                                                    <div class="col-md-4 mt-2">
+                                                        <label><span class="badge badge-warning">Developmental Fee</span></label>
+                                                        <input type="number" name="devFee" id="devFee" class="form-control form-control-sm" value="0" min="0" readonly>
+                                                    </div>
+
+                                                    <div class="col-md-4 mt-2">
+                                                        <label><span class="badge badge-warning">OJT/Thesis</span></label>
+                                                        <select class="form-control form-control-sm" name="isOJT" id="isOJT">
+                                                            <option value="No">No</option>
+                                                            @if(request('semester') == '3')
+                                                                <option value="YesThesis">Yes, it's Thesis</option>
+                                                                <option value="YesPrac">Yes, it's Practicum</option>
+                                                            @endif
+                                                            <option value="Yes">Yes, it's OJT</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4 mt-2">
+                                                        <label><span class="badge badge-success">Template</span></label>
+                                                        <select class="form-control form-control-sm" name="isTemp">
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No">No</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-2">
+                                                        <label><span class="badge badge-info">Fund</span></label>
+                                                        <select class="form-control form-control-sm" id="fundSelect">
+                                                            <option value="">No Account</option>
+                                                            @foreach($funds as $fund)
+                                                                <option value="{{ $fund->fund_id }}" data-account-name="{{ $fund->account_name }}">{{ $fund->fund_id }} - {{ $fund->account_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-2">
+                                                        <label><span class="badge badge-secondary">IT Subject</span></label>
+                                                        <select class="form-control form-control-sm" id="itfee" name="itfee">
+                                                            <option value="No">No</option>
+                                                            <option value="Yes">Yes, IT Subject</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <input type="hidden" id="fundIdInput" name="fund" class="form-control form-control-sm" readonly>
+                                                    <input type="hidden" id="accountNameInput" name="fundAccount" class="form-control form-control-sm" readonly>
 
                                                     <div class="col-md-12">
                                                         <label>&nbsp;</label>
@@ -134,6 +214,35 @@ CISS V.1.0 || Curriculumn
                                                 </div>
                                             </div>
                                         </form>
+                                    </div>
+
+                                    <div class="col-md-9">
+                                        <div>
+                                            <table id="currlumlist" class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Code</th>
+                                                        <th>Program</th>
+                                                        <th>Semester</th>
+                                                        <th>Subject</th>
+                                                        <th>Lec</th>
+                                                        <th>Lab</th>
+                                                        <th>Units</th>
+                                                        <th>MaxStud</th>
+                                                        <th>LecFee</th>
+                                                        <th>LabFee</th>
+                                                        <th>DevFee</th>
+                                                        <th>Type</th>
+                                                        <th>Fund</th>
+                                                        <th>IT Subj</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

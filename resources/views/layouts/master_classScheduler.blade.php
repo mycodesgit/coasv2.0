@@ -295,6 +295,9 @@
     @if(request()->routeIs('subjectsOffered_search'))
         <script src="{{ asset('js/ajax/schedclass/subjectOfferedSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('curRead_search'))
+        @include('script.scheduler.crrclm.currSerialize')
+    @endif
     @if(request()->routeIs('classSchedRead', 'classSchedSetRead'))
         <script src="{{ asset('js/ajax/schedclass/getCourseYrSecSerialize.js') }}"></script>
     @endif
