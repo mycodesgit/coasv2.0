@@ -248,7 +248,7 @@ class AdAdmissionAppController extends Controller
                 'date' => $formattedDate,
                 'time' => $formattedTime,
                 'venue' => $applicant->venue, 
-                'applicant_name' => $applicant->name
+                'applicant_name' => $applicant->fname . ' ' . $applicant->lname,
             ];
 
             // Send the email

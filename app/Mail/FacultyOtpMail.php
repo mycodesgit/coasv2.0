@@ -21,7 +21,7 @@ class FacultyOtpMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($emailData)
     {
         $this->emailData = $emailData;
     }
@@ -52,8 +52,8 @@ class FacultyOtpMail extends Mailable
 
     public function build()
     {
-        return $this->view('admission.emailconf.applicant_confirmation')
-                    ->subject('Examination Schedule')
+        return $this->view('grading.gradesheet.faculty.facultyconfirmationcode')
+                    ->subject('Faculty Verification Code')
                     ->with('emailData', $this->emailData);
     }
 

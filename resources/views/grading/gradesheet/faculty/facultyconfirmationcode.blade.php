@@ -70,26 +70,16 @@
             Faculty Verification Code
         </div>
         <div class="email-body">
-            @php
-                use App\Models\AdmissionDB\Year;
-                $year = Year::where('status', 'On')->value('adyear');
-            @endphp
 
-            <p>Congratulations <strong>{{ $emailData['applicant_name'] }}</strong>!</p>
-            <p>You have successfully registered for the <strong>{{ $year }}</strong> Admission Test.</p>
+            <p>Hi, <strong>{{ $emailData['faculty_name'] }}</strong>!</p>
+            <p>We received a login request for your CISS account using your personal institutional Google account.</p>
+            <p>Please use the verification code below to complete your sign-in process:</p>
 
             <div class="schedule-box">
-                <p><strong>Schedule of Examination</strong></p>
-                <p><strong>Date:</strong> {{ $emailData['date'] }}</p>
-                <p><strong>Time:</strong> {{ $emailData['time'] }}</p>
-                <p><strong>Venue:</strong> {{ $emailData['venue'] }}</p>
+                <h2>{{ $emailData['verification_code'] }}</h2>
             </div>
 
-            <p>Please bring the following:</p>
-            <ol>
-                <li>School ID or any valid ID</li>
-                <li>Pencil with Eraser</li>
-            </ol>
+            <p>If you did not initiate this login, please ignore this email for your security.</p>
 
             <p>God Bless!</p>
 

@@ -23,9 +23,11 @@ return new class extends Migration
             $table->string('ext');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('isFaculty');
             $table->string('rank');
+            $table->string('role');
             $table->integer('adrID');
+            $table->string('verification_code')->nullable();
+            $table->integer('status');
             $table->rememberToken();
             $table->timestamps();
         });

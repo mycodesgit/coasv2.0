@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
+use App\Mail\FacultyOtpMail;
 
 use App\Models\ScheduleDB\Faculty;
 
@@ -33,11 +34,17 @@ class GoogleFacAuthController extends Controller
             if ($employee) {
                 $employee->verification_code = $verification_code;
                 $employee->save();
+
+                $emailData = [
+                    'faculty_name' => $employee->fname . ' ' . $employee->lname,
+                    'verification_code' => $verification_code,
+                ];
                 
-                Mail::raw("Your OTP Code is: $verification_code", function ($message) use ($employee) {
-                    $message->to($employee->email)
-                            ->subject('Verification Code');
-                });
+                // Mail::raw("Your OTP Code is: $verification_code", function ($message) use ($employee) {
+                //     $message->to($employee->email)
+                //             ->subject('Verification Code');
+                // });
+                Mail::to($employee->email)->send(new \App\Mail\FacultyOtpMail($emailData));
     
                 session()->flash('email', $employee->email);
             }
