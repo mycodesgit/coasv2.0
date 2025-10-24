@@ -22,7 +22,7 @@ class StudKioskAuth
                 return redirect()->route('kioskhome')->with('error', 'No permission to access this page');
             }
         }else {
-            return redirect()->route('loginkioskstud')->with('error', 'You have to sign in first to access this page');
+            return redirect()->route('stud_login')->with('error', 'You have to sign in first to access this page');
         }
         
         $response = $next($request);

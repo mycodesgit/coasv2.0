@@ -44,7 +44,7 @@
 </head>
 
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
-
+    <div style="height: 15px; background: #f4f6f9; position: fixed; top: 0; left: 0; right: 0; z-index: 998;"></div>
     <header class="header" id="header">
         <div class="header__container" style="background: linear-gradient(90deg, #1f5036 0%, #2e6b4a 30%, #3a7d5c 100%); transition: background 0.5s ease;">
             <a href="#" class="header__logo">

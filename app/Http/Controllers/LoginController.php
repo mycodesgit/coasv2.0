@@ -25,9 +25,9 @@ class LoginController extends Controller
         return view('loginkioskext');
     }
 
-    public function loginkioskstudonline()
+    public function loginstudonline()
     {
-        return view('loginkioskonline');
+        return view('loginstudent');
     }
 
     public function adminloginme()
@@ -50,30 +50,35 @@ class LoginController extends Controller
             'password' => $request->password,
         ]);
 
-        // $validatedFaculty = auth()->guard('faculty')->attempt([
-        //     'email' => $request->email,
-        //     'password' => $request->password,
-        // ]);
+        $validatedStudent = auth()->guard('kioskstudent')->attempt([
+            'studid' => $request->studid,
+            'password' => $request->password,
+        ]);
+
+        if ($validatedUser) {
+            return redirect()->route('home')->with('success', 'You have successfully logged in.');
+        } 
+        elseif($validatedStudent) {
+            return redirect()->route('kioskhome')->with('success', 'You have successfully logged in.');
+        } 
+        else {
+            return redirect()->back()->with('error', 'Invalid Credentials');
+        }
+    }
+
+    public function stud_login(Request $request)
+    {
+        $request->validate([
+            'studid' => 'required',
+            'password' => 'required|min:5|max:20',
+        ]);
 
         $validatedStudent = auth()->guard('kioskstudent')->attempt([
             'studid' => $request->studid,
             'password' => $request->password,
         ]);
-        //dd($validatedStudent);
 
-        // if(\Auth::guard('web')->check()) {
-        //     return 'web';
-        // } elseif(\Auth::guard('faculty')->check()) {
-        //     return 'faculty';
-        // }
-
-        if ($validatedUser) {
-            return redirect()->route('home')->with('success', 'You have successfully logged in.');
-        } 
-        // elseif($validatedFaculty) {
-        //     return redirect()->route('homefaculty')->with('success', 'You have successfully logged in.');
-        // } 
-        elseif($validatedStudent) {
+        if($validatedStudent) {
             return redirect()->route('kioskhome')->with('success', 'You have successfully logged in.');
         } 
         else {
