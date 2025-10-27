@@ -214,13 +214,13 @@ class EnStudentPerCurriculumController extends Controller
             // ->where('program_en_history.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('program_en_history.campus', 'LIKE', "SC");
+                    $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                 }
             })
             // ->where('students.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('students.campus', 'LIKE', "SC");
+                    $q->orWhere('students.campus', 'LIKE', "$campus");
                 }
             })
             ->select('program_en_history.*', 'students.*')
