@@ -296,7 +296,7 @@ class EnStudentPerCurriculumController extends Controller
                     $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                 }
             })
-            ->where('program_en_history.status', 2)
+            // ->where('program_en_history.status', 2)
             // ->where('students.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
