@@ -36,8 +36,6 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden; /* full layout protection */
-	margin: 0 !important;
-    padding: 0 !important;
 }
 
 html {
@@ -313,26 +311,7 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 
 /* mobile: centered, full-ish width, keep rounded corners */
 @media (max-width: 800px) {
-  	.navbar-fixed-custom {
-		left: 50%;
-		right: auto;
-		width: 95%;
-		transform: translateX(-50%);
-		top: 30px;
-  	}
-
-  	/* push content further because navbar is slightly taller on mobile */
-  	main {
-    	padding-top: calc(var(--navbar-height) + 40px);
-  	}
-
-  	/* show mobile-only logo placement if you use one */
-  	.navbar-fixed-custom .center-top-img {
-    	display: block;
-  	}
-
-	/* Mobile bottom nav overrides */
-	#sidebar {
+  	#sidebar {
 		position: fixed !important;
 		bottom: 0 !important;
 		left: 0 !important;
@@ -345,91 +324,51 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 		padding: 0 !important;
 		margin: 0 !important;
 		box-sizing: border-box;
-
-		/* THIS IS THE KEY: forces it to the edge */
-		padding-bottom: 0 !important;
-		height: 60px !important;
-
-		/* Optional: safe area for iPhone (won’t hurt Android) */
 		padding-bottom: env(safe-area-inset-bottom, 0px);
 		height: calc(60px + env(safe-area-inset-bottom, 0px));
   	}
-	#sidebar ul {
-		padding-top: 0;
-	}
-	#sidebar > ul > li:first-child {
-    	display: none !important;
-  	}
-	#sidebar > ul {
+
+  	#sidebar > ul > li:first-child { display: none !important; }
+
+  	#sidebar > ul {
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
+		height: 100%;
 		margin: 0;
-		padding: 0;
+		padding: 0 10px;
 		list-style: none;
-	}
-	#sidebar > ul li {
+		box-sizing: border-box;
+  	}
+
+  	#sidebar > ul li {
 		flex: 1;
 		text-align: center;
-		margin-left: 2px;
-	}
-	#sidebar > ul li a {
+		margin: 0;
+  	}
+
+  	#sidebar > ul li a {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		flex-direction: column;
-		height: 50px;
+		height: 100%;
 		color: var(--text-clr);
-		font-size: 20px;
-		transition: all 0.3s ease;
-	}
-	#sidebar > ul li.active a {
-    	background-color: var(--hover-clr);
-    	border-radius: 10px;
-    	color: var(--accent-clr);
+		text-decoration: none;
+		font-size: 18px;
+		transition: all .3s ease;
+		padding: 5px 0;
+		box-sizing: border-box;
   	}
-  	#sidebar > ul li.active a i {
-    	color: var(--accent-clr);
-  	}
-  	#sidebar > ul li a i {
-    	font-size: 20px;
-    	margin: 0;
-  	}
-  	#sidebar > ul li a:hover {
-		background-color: var(--hover-clr);
-		border-radius: 10px;
-  	}
+
+  	#sidebar > ul li a i { font-size: 20px; margin-bottom: 2px; }
+  	#sidebar > ul li a span { font-size: 9px; margin-top: -2px; color: var(--text-clr); }
+
   	main {
     	padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
     	margin-left: 0 !important;
     	width: 100% !important;
   	}
-	#sidebar > ul li a {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 50px;
-		color: var(--text-clr);
-		text-decoration: none;
-	}
-	#sidebar > ul li a span {
-		display: block;
-		font-size: 9px;
-		margin-top: -10px;
-		color: var(--text-clr);
-	}
-	#sidebar > ul li.active a span {
-		color: var(--accent-clr);
-		font-weight: 500;
-	}
-	#sidebar > ul li a i {
-		font-size: 18px;
-		margin-top: 7px;
-	}
-	#sidebar.close {
-		display: none; /* Hide collapsed on mobile */
-	}
 }
 
 @media (min-width: 800px) {
