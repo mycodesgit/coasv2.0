@@ -135,7 +135,7 @@ CISS V.1.0 || Student Grades
                                 $currentYear = '';
                                 $currentSemester = '';
                                 $currentColor = '';
-                                $colorClasses = ['bg-light', 'bg-secondary'];
+                                $colorClasses = ['bg-light', '#c1c4cc'];
                                 $colorIndex = 0;
                             @endphp
                             @foreach($studsub as $datastudsubowner)
