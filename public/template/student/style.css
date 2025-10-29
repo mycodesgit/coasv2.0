@@ -36,6 +36,8 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden; /* full layout protection */
+	margin: 0 !important;
+    padding: 0 !important;
 }
 
 html {
