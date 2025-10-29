@@ -48,7 +48,7 @@
                         </li> -->
                     </ul>
                 </div>
-                <form class="d-flex">
+                <form class="">
                     <a href="{{ route('destory.logout') }}" class="btn btn-outline-secondary btn-sm">
                         <i class="fas fa-power-off"></i> Sign Out
                     </a>
