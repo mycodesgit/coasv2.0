@@ -9,7 +9,7 @@ CISS V.1.0 || Student Grades
         <div class="col-md-12">
             <div class="content-box">
                 <div class="table-responsive">
-                    <table id="ss" class="table table-striped">
+                    <table id="ss" class="table table-striped" style="font-size: 10pt">
                         <thead>
                             <tr>
                                 <th>A.Y. Semester</th>
@@ -31,7 +31,7 @@ CISS V.1.0 || Student Grades
                                     </td>
                                     <td>{{ $history->progAcronym }} {{ $history->studYear }}-{{ $history->studSec }}</td>
                                     <td>
-                                        <a href="{{ route('schedstudentclassShow', ['schlyear' => $history->schlyear, 'semester' => $history->semester, 'progCod' => $history->progCod.'+'.$history->studYear.'-'.$history->studSec]) }}" class="btn btn-outline-success btn-xs">
+                                        <a href="{{ route('schedstudentclassShow', ['schlyear' => $history->schlyear, 'semester' => $history->semester, 'progCod' => $history->progCod.'+'.$history->studYear.'-'.$history->studSec]) }}" class="btn btn-outline-success btn-sm">
                                             View Sched
                                         </a>
                                     </td>
