@@ -331,7 +331,6 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 
 	/* Mobile bottom nav overrides */
 	#sidebar {
-		position: fixed;
 		top: auto;
 		bottom: 0;
 		height: 60px;
@@ -340,12 +339,7 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 		z-index: 1000;
 		padding: 0;
 		padding-top: 0; /* Reset */
-		margin: 0;
 		border-top: 1px solid var(--sidebar-text-clr);
-		box-sizing: border-box;
-
-		padding-bottom: env(safe-area-inset-bottom);
-		height: calc(60px + env(safe-area-inset-bottom));
 	}
 	#sidebar ul {
 		padding-top: 0;
@@ -393,7 +387,7 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 		border-radius: 10px;
   	}
   	main {
-    	padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    	padding-bottom: 80px;
     	margin-left: 0 !important;
     	width: 100% !important;
   	}
