@@ -36,6 +36,8 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden; /* full layout protection */
+	margin: 0 !important;
+    padding: 0 !important;
 }
 
 html {
@@ -331,16 +333,27 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 
 	/* Mobile bottom nav overrides */
 	#sidebar {
-		top: auto;
-		bottom: 0;
+		position: fixed !important;
+		bottom: 0 !important;
+		left: 0 !important;
+		right: 0 !important;
+		width: 100% !important;
 		height: 60px;
-		width: 100%;
-		left: 0;
+		background-color: var(--base-clr);
+		border-top: 1px solid var(--line-clr);
 		z-index: 1000;
-		padding: 0;
-		padding-top: 0; /* Reset */
-		border-top: 1px solid var(--sidebar-text-clr);
-	}
+		padding: 0 !important;
+		margin: 0 !important;
+		box-sizing: border-box;
+
+		/* THIS IS THE KEY: forces it to the edge */
+		padding-bottom: 0 !important;
+		height: 60px !important;
+
+		/* Optional: safe area for iPhone (won’t hurt Android) */
+		padding-bottom: env(safe-area-inset-bottom, 0px);
+		height: calc(60px + env(safe-area-inset-bottom, 0px));
+  	}
 	#sidebar ul {
 		padding-top: 0;
 	}
@@ -387,7 +400,7 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 		border-radius: 10px;
   	}
   	main {
-    	padding-bottom: 80px;
+    	padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
     	margin-left: 0 !important;
     	width: 100% !important;
   	}
