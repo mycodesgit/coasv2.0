@@ -193,49 +193,7 @@
             }
         });
 
-        $(function () {
-            $('#scheduleForm').validate({
-                rules: {
-                    subject_id: {
-                        required: true,
-                    },
-                    faculty_id: {
-                        required: true,
-                    },
-                    room_id: {
-                        required: true,
-                    },
-                    remarks: {
-                        required: true,
-                    },
-                },
-                messages: {
-                    subject_id: {
-                        required: "Select Subject",
-                    },
-                    faculty_id: {
-                        required: "Select Faculty",
-                    },
-                    room_id: {
-                        required: "Select Room",
-                    },
-                    remarks: {
-                        required: "Select Remarks",
-                    },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.col-md-12').append(error);        
-                },
-                highlight: function (element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                },
-            });
-        });
+        
 
         // View Schedule button click handler
         $('#viewSchedule').click(function() {

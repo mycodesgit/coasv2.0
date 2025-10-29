@@ -134,6 +134,7 @@ class StudentController extends Controller
                         ->where('class_enroll.schlyear', '=', $schlyear)
                         ->where('class_enroll.semester', '=', $semester)
                         ->where('class_enroll.progCode', $progCod)
+                        ->where('class_enroll.campus', $campus)
                         ->select('programs.progAcronym', 'class_enroll.*')
                         ->get();
 
