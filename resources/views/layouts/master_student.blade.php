@@ -48,7 +48,7 @@
                         </li> -->
                     </ul>
                 </div>
-                <form class="">
+                <form class="d-flex">
                     <a href="{{ route('destory.logout') }}" class="btn btn-outline-secondary btn-sm">
                         <i class="fas fa-power-off"></i> Sign Out
                     </a>
@@ -72,8 +72,8 @@
                         </li> -->
                     </ul>
                 </div>
-                <form class="">
-                    <a href="{{ route('destory.logout') }}" class="btn btn-outline-light btn-sm">
+                <form class="d-flex">
+                    <button class="btn btn-outline-light btn-sm" type="submit">
                         <i class="fas fa-power-off"></i> Sign Out
                     </button>
                 </form>
