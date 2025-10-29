@@ -13,7 +13,7 @@ CISS V.1.0 || Student Grades
                         <thead>
                             <tr>
                                 <th>A.Y. Semester</th>
-                                <th>Course Yr&Section</th>
+                                <th>Yr&Section</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
