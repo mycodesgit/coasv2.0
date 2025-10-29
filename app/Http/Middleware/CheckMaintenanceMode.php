@@ -34,7 +34,7 @@ class CheckMaintenanceMode
             }
 
             // Redirect all other authenticated users to maintenance page
-            if (Auth::guard('web')->check() || Auth::guard('faculty')->check()) {
+            if (Auth::guard('web')->check() || Auth::guard('faculty')->check() || Auth::guard('kioskstudent')->check()) {
                 return response()->view('maintenanceserver');
             }
         }

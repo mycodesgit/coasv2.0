@@ -19,10 +19,10 @@ class StudKioskAuth
     {
         if (auth()->guard('kioskstudent')->check()) {
             if ($request->is('emp/admission') || $request->is('emp/admission/*') || $request->is('enmod/enrollment') || $request->is('enmod/enrollment/*')) {
-                return redirect()->route('kioskhome')->with('error', 'No permission to access this page');
+                return redirect()->route('index.student')->with('error', 'No permission to access this page');
             }
         }else {
-            return redirect()->route('stud_login')->with('error', 'You have to sign in first to access this page');
+            return redirect()->route('loginstudonline')->with('error', 'You have to sign in first to access this page');
         }
         
         $response = $next($request);

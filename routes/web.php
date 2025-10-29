@@ -84,6 +84,8 @@ use App\Http\Controllers\SettingSignatoryController;
 
 use App\Http\Controllers\KioskDashController;
 
+use App\Http\Controllers\StudentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -145,10 +147,10 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
     Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
 
     Route::get('/student/section', [LoginController::class, 'loginstudonline'])->name('loginstudonline');
-    Route::post('/emp/student_login', [LoginController::class, 'stud_login'])->name('stud_login');
+    Route::post('/student/student_login', [LoginController::class, 'stud_login'])->name('stud_login');
 
-    Route::get('/extkioskstud', [LoginController::class, 'loginextkioskstud'])->name('loginextkioskstud');
-    Route::post('/stud/kiosk/extension/online', [LoginController::class, 'extensionstud_login'])->name('extensionstud_login');
+    // Route::get('/extkioskstud', [LoginController::class, 'loginextkioskstud'])->name('loginextkioskstud');
+    // Route::post('/stud/kiosk/extension/online', [LoginController::class, 'extensionstud_login'])->name('extensionstud_login');
 
 
     Route::get('/faculty', [LoginFacultyController::class, 'loginfac'])->name('loginfac');
@@ -161,10 +163,24 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
 });
 
 
+// Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
+//     Route::prefix('student')->group(function () {
+//         Route::get('/info/kiosk/dashboard/view', [KioskDashController::class, 'kioskhome'])->name('kioskhome');
+//         Route::get('/info/kiosk/account/view', [KioskDashController::class, 'kioskaccount'])->name('kioskaccount');
+//     });
+// });
+
 Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('student')->group(function () {
-        Route::get('/info/kiosk/dashboard/view', [KioskDashController::class, 'kioskhome'])->name('kioskhome');
-        Route::get('/info/kiosk/account/view', [KioskDashController::class, 'kioskaccount'])->name('kioskaccount');
+        Route::get('/section/student/dashboard/view', [StudentController::class, 'index'])->name('index.student');
+        Route::get('/section/student/grades/view', [StudentController::class, 'show'])->name('show.grades');
+        Route::get('/section/student/accounts/appraisal/view', [StudentController::class, 'showaccount'])->name('show.account');
+
+        Route::get('/section/info/kiosk/schedule/view', [StudentController::class, 'schedclassRead'])->name('schedclassRead');
+        Route::get('/section/info/kiosk/schedule/view/result', [StudentController::class, 'schedclassShow'])->name('schedclassShow');
+        Route::get('/section/info/kiosk/schedule/view/result/ajax', [StudentController::class, 'fetchSchedule'])->name('fetchSchedule');
+
+        Route::get('/logout/stud', [ControlController::class, 'logout'])->name('destory.logout');
     });
 });
 

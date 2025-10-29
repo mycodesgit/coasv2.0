@@ -79,7 +79,7 @@ class LoginController extends Controller
         ]);
 
         if($validatedStudent) {
-            return redirect()->route('kioskhome')->with('success', 'You have successfully logged in.');
+            return redirect()->route('index.student')->with('success', 'You have successfully logged in.');
         } 
         else {
             return redirect()->back()->with('error', 'Invalid Credentials');
