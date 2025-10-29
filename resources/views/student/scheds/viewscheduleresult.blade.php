@@ -13,8 +13,5 @@ CISS V.1.0 || Student Grades
         </div>
     </div>
 
-    <script>
-        var days = @json($days);
-        var times = @json($times);
-    </script>
+    
 @endsection

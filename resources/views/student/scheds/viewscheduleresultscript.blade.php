@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-
+        
         let days = @json($days);
         let times = @json($times);
 

@@ -112,7 +112,7 @@ class StudentController extends Controller
         return view('student.scheds.viewschedule', compact('studauth', 'enrollmentHistory'));
     }
 
-    public function schedclassShow(Request $request)
+    public function schedstudentclassShow(Request $request)
     {
         $guard= $this->getGuard();
         $studentowner = Auth::guard($guard)->user()->studid;
@@ -143,7 +143,7 @@ class StudentController extends Controller
         return view('student.scheds.viewscheduleresult', compact('studauth', 'progAcronym', 'progCodPart', 'progCodSuffix', 'days', 'times'));
     }
 
-    public function fetchSchedule(Request $request)
+    public function fetchSchedulestud(Request $request)
     {
         $guard= $this->getGuard();
         $studentowner = Auth::guard($guard)->user()->studid;

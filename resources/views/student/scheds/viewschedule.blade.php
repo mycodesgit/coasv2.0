@@ -31,7 +31,7 @@ CISS V.1.0 || Student Grades
                                     </td>
                                     <td>{{ $history->progAcronym }} {{ $history->studYear }}-{{ $history->studSec }}</td>
                                     <td>
-                                        <a href="{{ route('schedclassShow', ['schlyear' => $history->schlyear, 'semester' => $history->semester, 'progCod' => $history->progCod.'+'.$history->studYear.'-'.$history->studSec]) }}" class="btn btn-outline-success btn-xs">
+                                        <a href="{{ route('schedstudentclassShow', ['schlyear' => $history->schlyear, 'semester' => $history->semester, 'progCod' => $history->progCod.'+'.$history->studYear.'-'.$history->studSec]) }}" class="btn btn-outline-success btn-xs">
                                             View Sched
                                         </a>
                                     </td>

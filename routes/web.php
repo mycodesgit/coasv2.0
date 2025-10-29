@@ -177,8 +177,8 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/student/accounts/appraisal/view', [StudentController::class, 'showaccount'])->name('show.account');
 
         Route::get('/section/info/kiosk/schedule/view', [StudentController::class, 'schedclassRead'])->name('schedclassRead');
-        Route::get('/section/info/kiosk/schedule/view/result', [StudentController::class, 'schedclassShow'])->name('schedclassShow');
-        Route::get('/section/info/kiosk/schedule/view/result/ajax', [StudentController::class, 'fetchSchedule'])->name('fetchSchedule');
+        Route::get('/section/info/kiosk/schedule/view/result', [StudentController::class, 'schedstudentclassShow'])->name('schedstudentclassShow');
+        Route::get('/section/info/kiosk/schedule/view/result/ajax', [StudentController::class, 'fetchSchedulestud'])->name('fetchSchedulestud');
 
         Route::get('/logout/stud', [ControlController::class, 'logout'])->name('destory.logout');
     });
