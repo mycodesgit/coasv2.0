@@ -15,7 +15,7 @@
 
         function loadSchedule() {
             $.ajax({
-                url: '{{ route('fetchSchedule') }}',
+                url: '{{ route('fetchSchedulestud') }}',
                 method: 'GET',
                 data: {
                     schlyear: schlyear,

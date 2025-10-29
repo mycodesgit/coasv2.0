@@ -118,6 +118,10 @@ class StudentController extends Controller
         $studentowner = Auth::guard($guard)->user()->studid;
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
+        if (!$studauth) {
+            abort(404, 'Student record not found.');
+        }
+
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $progCod = $request->query('progCod');
@@ -149,6 +153,10 @@ class StudentController extends Controller
         $guard= $this->getGuard();
         $studentowner = Auth::guard($guard)->user()->studid;
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        if (!$studauth) {
+            return response()->json(['message' => 'Student record not found'], 404);
+        }
         
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');

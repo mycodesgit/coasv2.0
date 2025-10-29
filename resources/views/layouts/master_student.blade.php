@@ -14,7 +14,7 @@
 
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
-    
+
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
@@ -107,10 +107,10 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     @if(request()->routeIs('schedstudentclassShow'))
-    <script>
-        var days = @json($days);
-        var times = @json($times);
-    </script>
+        <script>
+            var days = @json($days);
+            var times = @json($times);
+        </script>
         @include('student.scheds.viewscheduleresultscript')
     @endif
 </body>
