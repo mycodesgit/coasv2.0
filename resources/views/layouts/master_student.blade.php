@@ -23,8 +23,7 @@
     
 
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" crossorigin="anonymous" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('template/plugins/fullcalendar/fullcalendar.css') }}">
 
 </head>
 
@@ -105,6 +104,9 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('template/plugins/fullcalendar/fullcalendar.js') }}"></script>
 
     @if(request()->routeIs('schedstudentclassShow'))
         <script>
