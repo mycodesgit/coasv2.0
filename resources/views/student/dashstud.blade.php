@@ -64,15 +64,15 @@ CISS V.1.0 || Student Dashboard
                 </div>
                 <div class="col-md-12">
                     <div class="vision-mission-goal">
-                        <div class="card">
+                        <div class="content-box">
                             <h3>Vision</h3>
                             <p>CPSU as the leading technology-driven multi-disciplinary University by 2030.</p>
                         </div>
-                        <div class="card">
+                        <div class="content-box">
                             <h3>Mission</h3>
                             <p>CPSU is committed to produce competent graduates who can generate and extend technologies in multi-disciplinary areas beneficial to the community.</p>
                         </div>
-                        <div class="card">
+                        <div class="content-box">
                             <h3>Goal</h3>
                             <p>To provide efficient, quality, technology-driven and Gender-sensitive Products and Services.</p>
                         </div>
