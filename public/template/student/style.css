@@ -628,8 +628,6 @@ a.badge-dark.focus {
 .vision-mission-goal {
     display: flex;
     gap: 1rem; /* Space between cards */
-    margin-top: 5px;
-    margin-bottom: 20px;
     align-items: stretch; /* Ensures all cards stretch to the tallest one for equal height */
 }
 
