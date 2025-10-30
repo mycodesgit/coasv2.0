@@ -1,7 +1,7 @@
 @extends('layouts.master_student')
 
 @section('title')
-CISS V.1.0 || Student Grades
+CISS V.1.0 || Student Class Schedule
 @endsection
 
 @section('body')
