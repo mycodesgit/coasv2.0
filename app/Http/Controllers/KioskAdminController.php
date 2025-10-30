@@ -61,7 +61,7 @@ class KioskAdminController extends Controller
                     //->where('students.campus', $campus)
                     ->where(function ($q) use ($campusArray) {
                         foreach ($campusArray as $campus) {
-                            $q->orWhereRaw("FIND_IN_SET(?, students.campus) > 0", [$campus]);
+                            $q->orWhereRaw("FIND_IN_SET(?, REPLACE(students.campus, ' ', ''))", [$campus]);
                         }
                     })
                     ->select('kioskstudent.*', 'kioskstudent.id as studkiosid', 'students.lname', 'students.fname', 'students.mname')
