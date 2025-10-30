@@ -199,7 +199,7 @@ class KioskAdminController extends Controller
                 // ->where('program_en_history.campus', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
-                        $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
+                        $q->orWhereRaw("FIND_IN_SET(?, REPLACE(students.campus, ' ', ''))", [$campus]);
                     }
                 })
                 ->where('program_en_history.status', 2)
