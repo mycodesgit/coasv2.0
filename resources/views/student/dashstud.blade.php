@@ -84,10 +84,10 @@ CISS V.1.0 || Student Dashboard
                         <table id="enrhstry" class="table table-striped" style="font-size: 10pt">
                             <thead>
                                 <tr>
-                                    <th>School Year</th>
+                                    <th>A.Y.</th>
                                     <th>Semester</th>
                                     <th>Course</th>
-                                    <th>Year Level</th>
+                                    <th>Y.L.</th>
                                     <th>Section</th>
                                 </tr>
                             </thead>
