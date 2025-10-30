@@ -49,7 +49,7 @@
                     </ul>
                 </div>
                 <form class="">
-                    <a href="{{ route('destory.logout') }}" class="btn btn-outline-secondary btn-sm">
+                    <a href="{{ route('destory.logout') }}" class="btn btn-default btn-sm btnsignout">
                         <i class="fas fa-power-off"></i> Sign Out
                     </a>
                 </form>

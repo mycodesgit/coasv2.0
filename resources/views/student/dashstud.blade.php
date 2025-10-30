@@ -50,14 +50,36 @@ CISS V.1.0 || Student Dashboard
 
     <div class="row">
         <div class="col-md-9">
-            <div class="content-box">
-                <h3>
-                    Hi, {{ ucfirst(strtolower($studauth->fname)) }} 
-                    {{ ucfirst(strtolower(substr($studauth->mname, 0, 1))) }}. 
-                    {{ ucfirst(strtolower($studauth->lname)) }}
-                </h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content-box">
+                        <h3>
+                            Hi, {{ ucwords(strtolower(trim($studauth->fname))) }} 
+                            {{ ucfirst(strtolower(trim(substr($studauth->mname, 0, 1)))) }}. 
+                            {{ ucfirst(strtolower(trim($studauth->lname))) }}
+                        </h3>
 
-                <p>Manage your academic life with ease — view your grades, update your account, check your class schedule, and prepare for pre-enrollment. Stay organized and take charge of your success!</p>
+                        <p>Manage your academic life with ease — view your grades, update your account, check your class schedule, and prepare for pre-enrollment. Stay organized and take charge of your success!</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="content-box p-4">
+                        <h3 class="text-center">Vision</h3>
+                        <p>CPSU as the leading technology-driven multi-disciplinary University by 2030.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="content-box p-4">
+                        <h3 class="text-center">Mission</h3>
+                        <p>CPSU is committed to produce competent graduates who can generate and extend leading technologies in multi-disciplinary areas beneficial to the community.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="content-box p-4">
+                        <h3 class="text-center">Goal</h3>
+                        <p>To provide efficient, Quality, Technology-driven and Gender-Sensitive Products and Services.</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-3">
@@ -69,6 +91,9 @@ CISS V.1.0 || Student Dashboard
                 </div>
                 <div id="calendarDays" class="calendar-grid text-center"></div>
             </div>
+        </div>
+        <div class="col-md-3">
+            
         </div>
     </div>
 

@@ -57,7 +57,7 @@
     </li>
     <li>
         <a href="dashboard.html" style="margin-top: 2px;">
-            <i class="fas fa-code"></i>
+            <i class="fas fa-graduation-cap"></i>
             <span data-full="Pre-Enrolment">Pre-Enrolment</span>
         </a>
     </li>

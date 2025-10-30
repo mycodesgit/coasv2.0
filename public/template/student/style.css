@@ -58,11 +58,10 @@ body {
 	/* Removed grid layout - now using fixed sidebar + margin for main */
 }
 
-@media (max-width: 992px) {
+/* @media (max-width: 992px) {
 	body {
-		/* No block change needed - handled via margins */
 	}
-}
+} */
 
 /* ✅ keep content-box responsive */
 .content-box {
@@ -210,10 +209,9 @@ body {
 	transition: transform 0.3s ease;
 }
 
-#toggle-btn:hover {
-	/* background-color: var(--hover-clr); */
+/* #toggle-btn:hover {
 	
-}
+} */
 
 main {
 	/* Adjusted for fixed sidebar */
@@ -612,4 +610,14 @@ a.badge-dark.focus {
     margin-bottom: 2rem;
     background-color: #e9ecef;
     border-radius: 0.3rem;
+}
+
+.btnsignout {
+	border-color: #dbdee4; 
+	font-weight: 500;
+}
+.btnsignout:hover {
+	background-color: #dbdee4;
+	border-color: #adb0b8; 
+	color: #000000;
 }
