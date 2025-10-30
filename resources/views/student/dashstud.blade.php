@@ -62,22 +62,57 @@ CISS V.1.0 || Student Dashboard
                         <p>Manage your academic life with ease — view your grades, update your account, check your class schedule, and prepare for pre-enrollment. Stay organized and take charge of your success!</p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="content-box p-4">
-                        <h3 class="text-center">Vision</h3>
-                        <p>CPSU as the leading technology-driven multi-disciplinary University by 2030.</p>
+                <div class="col-md-12">
+                    <div class="vision-mission-goal">
+                        <div class="card">
+                            <h3>Vision</h3>
+                            <p>CPSU as the leading technology-driven multi-disciplinary University by 2030.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Mission</h3>
+                            <p>CPSU is committed to produce competent graduates who can generate and extend technologies in multi-disciplinary areas beneficial to the community.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Goal</h3>
+                            <p>To provide efficient, quality, technology-driven and Gender-sensitive Products and Services.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="content-box p-4">
-                        <h3 class="text-center">Mission</h3>
-                        <p>CPSU is committed to produce competent graduates who can generate and extend leading technologies in multi-disciplinary areas beneficial to the community.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="content-box p-4">
-                        <h3 class="text-center">Goal</h3>
-                        <p>To provide efficient, Quality, Technology-driven and Gender-Sensitive Products and Services.</p>
+                <div class="col-md-12">
+                    <div class="content-box">
+                        <h3>Enrollment History</h3>
+                        <table id="enrhstry" class="table table-striped" style="font-size: 10pt">
+                            <thead>
+                                <tr>
+                                    <th>School Year</th>
+                                    <th>Semester</th>
+                                    <th>Course</th>
+                                    <th>Year Level</th>
+                                    <th>Section</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($enrollmentHistory as $item)
+                                    <tr>
+                                        <td>{{ $item->schlyear }}</td>
+                                        <td>
+                                            @if($item->semester == 1)
+                                                <span class="badge badge-primary">1st Sem</span>
+                                            @elseif($item->semester == 2)
+                                                <span class="badge badge-success">2nd Sem</span>
+                                            @elseif($item->semester == 3)
+                                                <span class="badge badge-secondary">Summer</span>
+                                            @else
+                                                <span class="badge badge-light text-dark">{{ $item->semester }}</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->progAcronym }}</td>
+                                        <td>{{ $item->studYear }}</td>
+                                        <td>{{ $item->studSec }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -91,9 +126,6 @@ CISS V.1.0 || Student Dashboard
                 </div>
                 <div id="calendarDays" class="calendar-grid text-center"></div>
             </div>
-        </div>
-        <div class="col-md-3">
-            
         </div>
     </div>
 

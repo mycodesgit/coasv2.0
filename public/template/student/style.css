@@ -621,3 +621,53 @@ a.badge-dark.focus {
 	border-color: #adb0b8; 
 	color: #000000;
 }
+
+/* Add this new section to your style.css file, after the existing .content-box rules */
+
+/* Vision-Mission-Goal Container - Matches .content-box style */
+.vision-mission-goal {
+    display: flex;
+    gap: 1rem; /* Space between cards */
+    margin-top: 5px;
+    margin-bottom: 20px;
+    align-items: stretch; /* Ensures all cards stretch to the tallest one for equal height */
+}
+
+.vision-mission-goal .card {
+    flex: 1; /* Equal width sharing */
+    border: 1px solid var(--container-text-clr);
+    border-radius: 1em;
+    background-color: #ffffff;
+    padding: min(2em, 15%); /* Matches .content-box padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligns content to top, like .content-box */
+    box-sizing: border-box;
+}
+
+.vision-mission-goal .card h3,
+.vision-mission-goal .card p {
+    margin-top: 1em;
+    color: var(--text-clr);
+}
+
+.vision-mission-goal .card h3 {
+    margin-top: 0; /* Override for title - no top margin */
+    font-size: 1.5rem; /* Adjust if needed to match your h2 style */
+    font-weight: 600;
+    text-align: center; /* Optional: center titles for balance */
+}
+
+.vision-mission-goal .card p {
+    margin-bottom: 0; /* No bottom margin to avoid extra space */
+    line-height: 1.5; /* Improves readability for longer text */
+    text-align: justify; /* Optional: justifies text for a clean look */
+}
+
+/* Responsive: Stack on small screens, matching .content-box behavior */
+@media (max-width: 768px) {
+    .vision-mission-goal {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

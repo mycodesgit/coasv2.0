@@ -59,7 +59,22 @@ class StudentController extends Controller
 
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
-        return view('student.dashstud', compact('guard', 'studauth'));
+        $campus = $studauth->campus;
+
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $enrollmentHistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->where('program_en_history.studentID', $studauth->stud_id)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
+            ->orderBy('schlyear', 'ASC')
+            ->get();
+
+        return view('student.dashstud', compact('guard', 'studauth', 'enrollmentHistory'));
     }
 
     public function show()
