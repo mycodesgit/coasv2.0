@@ -39,6 +39,8 @@ use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\AssessmentDB\StudPayment;
 
+use App\Models\SettingDB\ConfigureCurrent;
+
 class StudentController extends Controller
 {
     public function getGuard()
@@ -198,5 +200,37 @@ class StudentController extends Controller
                         ->get();
 
         return response()->json($schedule);
+    }
+
+    public function preenrolment()
+    {
+        $guard= $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
+                ->where('set_status', 3)
+                ->orderBy('id', 'DESC')
+                ->get()
+                ->unique('schlyear');
+
+        return view('student.preenrol.prelist', compact('studauth', 'sy'));
+    }
+
+    public function preenrolment_searchResult()
+    {
+        $guard= $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
+                ->where('set_status', 3)
+                ->orderBy('id', 'DESC')
+                ->get()
+                ->unique('schlyear');
+
+        return view('student.preenrol.prelistview', compact('studauth', 'sy'));
     }
 }

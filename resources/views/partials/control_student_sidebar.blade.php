@@ -5,6 +5,7 @@
     $studentgradesActive = in_array($curr_route, ['show.grades']) ? 'active' : '';
     $studentaccntsActive = in_array($curr_route, ['show.account']) ? 'active' : '';
     $schedviewActive = in_array($curr_route, ['schedclassRead','schedstudentclassShow']) ? 'active' : '';
+    $preenrolviewActive = in_array($curr_route, ['pre.index']) ? 'active' : '';
 @endphp
 
 <ul>
@@ -16,7 +17,7 @@
 
             <div class="ms-2" style="line-height: 1.2;">
                 <div class="student-id-text" style="font-size: 12px; color: #666;">
-                    Student ID <br><span style="font-size: 10px; color: #198754">{{ $studauth->stud_id }}</span>
+                    <span style="font-size: 13px; color: #198754">{{ $studauth->stud_id }}</span><br> <span style="font-size: 10px;">Student ID</span>
                 </div>
             </div>
         </span>
@@ -55,10 +56,10 @@
             <span data-full="View Schedule"> Schedule</span>
         </a>
     </li>
-    <li>
-        <a href="dashboard.html" style="margin-top: 2px;">
+    <li class="{{ $preenrolviewActive }}">
+        <a href="{{ route('pre.index') }}" style="margin-top: 2px;">
             <i class="fas fa-graduation-cap"></i>
-            <span data-full="Pre-Enrolment">Pre-Enrolment</span>
+            <span data-full="Pre-Enrollment">Pre-Enroll</span>
         </a>
     </li>
 </ul>

@@ -218,7 +218,7 @@ main {
 	margin-left: var(--sidebar-width); /* Dynamic margin based on sidebar width */
 	padding: min(20px, 7%);
 	padding-top: calc(var(--navbar-height) + 50px); /* Extra padding for navbar */
-	background-color: #f7f7f7;
+	background-color: #fdfdfd;
 	overflow-y: auto;
 	overflow-x: hidden;
 	height: 100vh; /* Full height for scrolling */
@@ -359,6 +359,7 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 		flex: 1;
 		text-align: center;
 		margin-left: 2px;
+		margin-right: 3px;
 	}
 	#sidebar > ul li a {
 		display: flex;

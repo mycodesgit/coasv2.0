@@ -73,16 +73,22 @@ class LoginController extends Controller
             'password' => 'required|min:5|max:20',
         ]);
 
-        $validatedStudent = auth()->guard('kioskstudent')->attempt([
-            'studid' => $request->studid,
-            'password' => $request->password,
-        ]);
+        $student = \App\Models\EnrollmentDB\Student::where('stud_id', $request->studid)->first();
 
-        if($validatedStudent) {
-            return redirect()->route('index.student')->with('success', 'You have successfully logged in.');
-        } 
-        else {
-            return redirect()->back()->with('error', 'Invalid Credentials');
+        if ($student && $student->campus === 'MC') {
+            $validatedStudent = auth()->guard('kioskstudent')->attempt([
+                'studid' => $request->studid,
+                'password' => $request->password,
+            ]);
+
+            if($validatedStudent) {
+                return redirect()->route('index.student')->with('success', 'You have successfully logged in.');
+            } 
+            else {
+                return redirect()->back()->with('error', 'Invalid Credentials');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Access restricted to Main campus students only.');
         }
     }
 

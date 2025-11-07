@@ -28,7 +28,7 @@
 </head>
 
 <body class="text-sm">
-    <div style="height: 25px; background: #f7f7f7; position: fixed; top: 0; left: 0; right: 0; z-index: 998;"></div>
+    <div style="height: 25px; background: #fdfdfd; position: fixed; top: 0; left: 0; right: 0; z-index: 998;"></div>
     <nav id="sidebar">
         @include('partials.control_student_sidebar')
     </nav>

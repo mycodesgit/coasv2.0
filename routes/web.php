@@ -147,7 +147,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
     Route::post('/emp/user_login', [LoginController::class, 'emp_login'])->name('emp_login');
 
     Route::get('/student/section', [LoginController::class, 'loginstudonline'])->name('loginstudonline');
-    Route::post('/student/student_login', [LoginController::class, 'stud_login'])->name('stud_login');
+    Route::post('/student/section', [LoginController::class, 'stud_login'])->name('stud_login');
 
     // Route::get('/extkioskstud', [LoginController::class, 'loginextkioskstud'])->name('loginextkioskstud');
     // Route::post('/stud/kiosk/extension/online', [LoginController::class, 'extensionstud_login'])->name('extensionstud_login');
@@ -179,6 +179,9 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/info/kiosk/schedule/view', [StudentController::class, 'schedclassRead'])->name('schedclassRead');
         Route::get('/section/info/kiosk/schedule/view/result', [StudentController::class, 'schedstudentclassShow'])->name('schedstudentclassShow');
         Route::get('/section/info/kiosk/schedule/view/result/ajax', [StudentController::class, 'fetchSchedulestud'])->name('fetchSchedulestud');
+        
+        Route::get('/section/pre/enrollment/sem/view', [StudentController::class, 'preenrolment'])->name('pre.index');
+        Route::get('/section/pre/enrollment/sem/view/search/result', [StudentController::class, 'preenrolment_searchResult'])->name('pre.show');
 
         Route::get('/logout/stud', [ControlController::class, 'logout'])->name('destory.logout');
     });
