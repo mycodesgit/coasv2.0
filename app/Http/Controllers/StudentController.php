@@ -103,24 +103,10 @@ class StudentController extends Controller
 
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
-        $studfees = DB::table('coasv2_db_assessment.student_appraisal')
-            ->leftJoin('coasv2_db_assessment.studpayment', function($join) {
-                $join->on('coasv2_db_assessment.student_appraisal.studID', '=', 'coasv2_db_assessment.studpayment.studID')
-                    ->on('coasv2_db_assessment.student_appraisal.account', '=', 'coasv2_db_assessment.studpayment.account');
-            })
-            ->where('coasv2_db_assessment.student_appraisal.studID', $studentowner)
-            ->select(
-                'coasv2_db_assessment.student_appraisal.schlyear',
-                'coasv2_db_assessment.student_appraisal.semester',
-                'coasv2_db_assessment.student_appraisal.fundID',
-                'coasv2_db_assessment.student_appraisal.account',
-                DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) as total_fee'),
-                DB::raw('IFNULL(SUM(coasv2_db_assessment.studpayment.amountpaid), 0) as total_payment'),
-                DB::raw('(SUM(coasv2_db_assessment.student_appraisal.amount) - IFNULL(SUM(coasv2_db_assessment.studpayment.amountpaid), 0)) as balance')
-            )
-            ->groupBy('coasv2_db_assessment.student_appraisal.schlyear', 'coasv2_db_assessment.student_appraisal.semester', 'coasv2_db_assessment.student_appraisal.fundID', 'coasv2_db_assessment.student_appraisal.account')
-            ->orderBy('coasv2_db_assessment.student_appraisal.id', 'ASC')
-            ->get();
+        $studfees = StudentAppraisal::select('student_appraisal.*')
+                    ->where('student_appraisal.studID', $studentowner)
+                    ->orderBy('student_appraisal.id', 'ASC')
+                    ->get();
 
         
 
