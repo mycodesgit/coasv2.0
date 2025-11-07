@@ -116,7 +116,7 @@ class StudentController extends Controller
                 'coasv2_db_assessment.student_appraisal.account',
                 DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) as total_fee'),
                 DB::raw('IFNULL(SUM(coasv2_db_assessment.studpayment.amountpaid), 0) as total_payment'),
-                DB::raw('(SUM(coasv2_db_assessment.student_appraisal.amount) - IFNULL(SUM(coasv2_db_assessment.studpayment.amount), 0)) as balance')
+                DB::raw('(SUM(coasv2_db_assessment.student_appraisal.amount) - IFNULL(SUM(coasv2_db_assessment.studpayment.amountpaid), 0)) as balance')
             )
             ->groupBy('coasv2_db_assessment.student_appraisal.schlyear', 'coasv2_db_assessment.student_appraisal.semester', 'coasv2_db_assessment.student_appraisal.fundID', 'coasv2_db_assessment.student_appraisal.account')
             ->orderBy('coasv2_db_assessment.student_appraisal.id', 'ASC')
