@@ -59,7 +59,7 @@
     <li class="{{ $preenrolviewActive }}">
         <a href="{{ route('pre.index') }}" style="margin-top: 2px;">
             <i class="fas fa-graduation-cap"></i>
-            <span data-full="Pre-Enrollment">Pre-Enroll</span>
+            <span data-full="Pre-Enrollment">Enroll</span>
         </a>
     </li>
 </ul>
