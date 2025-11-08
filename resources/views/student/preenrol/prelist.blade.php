@@ -17,7 +17,7 @@
                                 <span style="font-family: Verdana, sans-serif">Student ID Number</span>
                             </label>
                             <input type="text" name="stud_id" class="form-control form-control-sm"
-                                oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                oninput="formatInput(this); this.value = this.value.toUpperCase()">
                         </div>
 
                         <div class="col-12 col-md-3">
