@@ -356,10 +356,10 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 		list-style: none;
 	}
 	#sidebar > ul li {
-		flex: 1;
+		flex: 0 0 auto; /* prevent items from stretching too far */
 		text-align: center;
-		margin-left: 0px;
-		margin-right: 3px;
+		margin: 0 6px; /* smaller horizontal gap */
+		padding: 0;
 	}
 	#sidebar > ul li a {
 		display: flex;
