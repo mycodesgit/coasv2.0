@@ -311,125 +311,132 @@ body:has(#sidebar.close) .navbar-fixed-custom {
 
 /* mobile: centered, full-ish width, keep rounded corners */
 @media (max-width: 800px) {
-  	.navbar-fixed-custom {
-		left: 50%;
-		right: auto;
-		width: 95%;
-		transform: translateX(-50%);
-		top: 30px;
-  	}
+  .navbar-fixed-custom {
+    left: 50%;
+    right: auto;
+    width: 95%;
+    transform: translateX(-50%);
+    top: 30px;
+  }
 
-  	/* push content further because navbar is slightly taller on mobile */
-  	main {
-    	padding-top: calc(var(--navbar-height) + 40px);
-  	}
+  /* push content further because navbar is slightly taller on mobile */
+  main {
+    padding-top: calc(var(--navbar-height) + 40px);
+  }
 
-  	/* show mobile-only logo placement if you use one */
-  	.navbar-fixed-custom .center-top-img {
-    	display: block;
-  	}
+  /* show mobile-only logo placement if you use one */
+  .navbar-fixed-custom .center-top-img {
+    display: block;
+  }
 
-	/* Mobile bottom nav overrides */
-	#sidebar {
-		top: auto;
-		bottom: 0;
-		height: 60px;
-		width: 100%;
-		left: 0;
-		z-index: 1000;
-		padding: 0;
-		padding-top: 0; /* Reset */
-		border-top: 1px solid var(--sidebar-text-clr);
-	}
-	#sidebar ul {
-		padding-top: 0;
-	}
-	#sidebar > ul > li:first-child {
-    	display: none !important;
-  	}
-	#sidebar > ul {
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-	#sidebar > ul li {
-		flex: 1;
-		text-align: center;
-		margin-left: 2px;
-		margin-right: 3px;
-	}
-	#sidebar > ul li a {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		height: 50px;
-		color: var(--text-clr);
-		font-size: 20px;
-		transition: all 0.3s ease;
-	}
-	#sidebar > ul li.active a {
-    	background-color: var(--hover-clr);
-    	border-radius: 10px;
-    	color: var(--accent-clr);
-  	}
-  	#sidebar > ul li.active a i {
-    	color: var(--accent-clr);
-  	}
-  	#sidebar > ul li a i {
-    	font-size: 20px;
-    	margin: 0;
-  	}
-  	#sidebar > ul li a:hover {
-		background-color: var(--hover-clr);
-		border-radius: 10px;
-  	}
-  	main {
-    	padding-bottom: 80px;
-    	margin-left: 0 !important;
-    	width: 100% !important;
-  	}
-	#sidebar > ul li a {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 50px;
-		color: var(--text-clr);
-		text-decoration: none;
-	}
-	#sidebar > ul li a span {
-		display: block;
-		font-size: 9px;
-		margin-top: -10px;
-		color: var(--text-clr);
-	}
-	#sidebar > ul li.active a span {
-		color: var(--accent-clr);
-		font-weight: 500;
-	}
-	#sidebar > ul li a i {
-		font-size: 18px;
-		margin-top: 7px;
-	}
-	#sidebar.close {
-		display: none; /* Hide collapsed on mobile */
-	}
+  /* Mobile bottom nav overrides - FIXED POSITIONING & ALIGNMENT FIXES */
+  #sidebar {
+    position: fixed !important; /* Explicitly enforce fixed for all devices */
+    top: auto !important;
+    bottom: 0 !important;
+    height: 70px !important; /* Slightly taller for better touch targets & text fit */
+    width: 100% !important;
+    left: 0 !important;
+    z-index: 1000 !important;
+    padding: 0 !important;
+    margin: 0 !important; /* Reset any inherited margins */
+    border-top: 1px solid var(--sidebar-text-clr);
+    display: flex !important; /* Ensure container flex for full control */
+    justify-content: center !important; /* Center the entire nav */
+    align-items: center !important;
+    background-color: var(--base-clr) !important; /* Ensure background */
+    overflow: hidden !important; /* Prevent any horizontal scroll */
+  }
+
+  #sidebar ul {
+    display: flex !important;
+    justify-content: space-around !important; /* Even spacing, no bias */
+    align-items: center !important;
+    margin: 0 !important; /* Override base negative margins */
+    padding: 0 !important; /* No padding interference */
+    list-style: none !important;
+    width: 100% !important; /* Full width */
+    height: 100% !important; /* Full height of sidebar */
+    gap: 0 !important; /* No gaps, let space-around handle */
+  }
+
+  #sidebar > ul > li:first-child {
+    display: none !important; /* Hide profile/toggle on bottom nav */
+  }
+
+  #sidebar > ul li {
+    flex: 1 !important; /* Equal width sharing */
+    text-align: center !important;
+    margin: 0 !important; /* Remove asymmetric 2px/3px margins for perfect alignment */
+    padding: 2px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100% !important; /* Full height of ul */
+    min-width: 0 !important; /* Allow shrinking if needed on very narrow screens */
+  }
+
+  #sidebar > ul li a {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-direction: column !important;
+    height: 60px !important; /* Tighter height for fit, with room for icon + text */
+    width: 100% !important;
+    color: var(--text-clr) !important;
+    font-size: 14px !important; /* Base font for link, but span overrides */
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    padding: 0 !important; /* No extra padding */
+    border-radius: 0 !important; /* Flat for bottom nav, or keep 10px if rounded preferred */
+    margin: 0 !important; /* No margins */
+  }
+
+  #sidebar > ul li.active a {
+    background-color: var(--hover-clr) !important;
+    border-radius: 10px !important; /* Keep rounded for active */
+    color: var(--accent-clr) !important;
+  }
+
+  #sidebar > ul li.active a i {
+    color: var(--accent-clr) !important;
+    fill: var(--accent-clr) !important; /* For SVG icons if used */
+  }
+
+  #sidebar > ul li a:hover {
+    background-color: var(--hover-clr) !important;
+    border-radius: 10px !important;
+  }
+
+  #sidebar > ul li a i {
+	padding-top: 10px;
+    font-size: 14pt !important; /* Slightly smaller icons for 6.1"+ fit without crowding */
+    margin: 0 !important; /* No margins */
+    margin-bottom: -5px !important; /* Tiny space before text */
+    flex-shrink: 0 !important; /* Prevent icon squish */
+  }
+
+  #sidebar > ul li a span {
+    display: block !important;
+    font-size: 9px !important; /* Tighter text for better fit on wider phones */
+    margin: 0 !important; /* No margins */
+    margin-top: 0 !important; /* Reset any base */
+    color: var(--text-clr) !important;
+    white-space: nowrap !important; /* Prevent wrapping */
+    overflow: hidden !important; /* Hide if too long (rare) */
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+  }
+
+  #sidebar > ul li.active a span {
+    color: var(--accent-clr) !important;
+    font-weight: 500 !important;
+  }
+
+  #sidebar.close {
+    display: none !important; /* Hide collapsed state on mobile */
+  }
 }
-
-@media (min-width: 800px) {
-	#sidebar span::before { content: attr(data-full); }
-	#sidebar span { font-size: 0; margin-top: 0;}
-	#sidebar span::before { font-size: 14px; color: var(--text-clr); }
-}
-
-#sidebar.close .student-id-text {
-  display: none !important;
-}
-
 
 .badge {
     display: inline-block;
