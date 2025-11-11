@@ -18,6 +18,7 @@ use App\Models\EnrollmentDB\GradeCode;
 use App\Models\EnrollmentDB\YearLevel;
 use App\Models\EnrollmentDB\StudentStatus;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\StudentType;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -218,19 +219,150 @@ class StudentController extends Controller
         return view('student.preenrol.prelist', compact('studauth', 'sy'));
     }
 
-    public function preenrolment_searchResult()
+    public function preenrolment_searchResult(Request $request)
     {
-        $guard= $this->getGuard();
+        $guard = $this->getGuard(); 
         $studentowner = Auth::guard($guard)->user()->studid;
+        
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
 
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
+        $campus = $studauth->campus;
+        $campusArray = array_map('trim', explode(',', $studauth->campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
                 ->where('set_status', 3)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
+        
+        $studstat = StudentStatus::all();
+        $studtype = StudentType::all();
+        $studlvl = StudentLevel::all();
 
-        return view('student.preenrol.prelistview', compact('studauth', 'sy'));
+        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $studauth->stud_id)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campusItem) {
+                    $q->orWhere('campus', 'LIKE', "%$campusItem%");
+                }
+            })
+            ->first();
+        
+        $selectedStudType = $enrollmentHistory->studType;
+
+        $currentProgCode = $enrollmentHistory ? $enrollmentHistory->progCod : null;
+
+        // Now query classEnrolls, filtered by student's progCod if available
+        $classEnrollsQuery = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                    ->join('coasv2_db_enrollment.yearlevel', function($join) {
+                        $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
+                    })
+                    ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                    ->where('class_enroll.schlyear', '=', $schlyear)
+                    ->where('class_enroll.semester', '=', $semester)
+                    ->where('class_enroll.campus', '=', $campus);
+
+        // Filter by progCod if set (only show student's program sections)
+        if ($currentProgCode) {
+            $classEnrollsQuery->where('programs.progCod', '=', $currentProgCode);
+        }
+
+        $classEnrolls = $classEnrollsQuery
+                    ->orderBy('programs.progAcronym', 'ASC')
+                    ->orderBy('class_enroll.classSection', 'ASC')
+                    ->get();
+
+        return view('student.preenrol.prelistview', compact('studauth', 'sy', 'studstat', 'studtype', 'studlvl', 'selectedStudType', 'classEnrolls', 'currentProgCode'));
+    }
+
+    public function checkPreEnroll(Request $request)
+    {
+        try {
+            $guard = $this->getGuard();  
+            $studentowner = Auth::guard($guard)->user()->studid;
+            $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+            $progCod = $request->input('programCode');
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $studauth->campus;
+            $stud_id = $studauth->stud_id;
+            $classSection = $request->input('classSection');
+            $campusArray = array_map('trim', explode(',', $campus));
+
+            $parts = explode('-', $classSection);
+            if (count($parts) !== 2) {
+                return response()->json(['error' => 'Invalid classSection format'], 400);
+            }
+            $studYear = $parts[0];
+            $studSec = $parts[1];
+
+            // Count the number of students enrolled in the specified program, school year, semester, and campus
+            $enrolledStudents = StudEnrolmentHistory::where('schlyear', $schlyear)
+                                ->where('semester', $semester)
+                                // ->where('campus', $campus)
+                                ->where(function ($q) use ($campusArray) {
+                                    foreach ($campusArray as $campus) {
+                                        $q->orWhere('campus', 'LIKE', "$campus");
+                                    }
+                                })
+                                ->where('progCod', $progCod)
+                                ->where('studYear', $studYear)
+                                ->where('studSec', $studSec)
+                                ->count();
+
+
+            // Fetch the classno from the ClassEnroll model
+            $classEnroll = ClassEnroll::where('schlyear', $schlyear)
+                            ->where('semester', $semester)
+                            // ->where('campus', $campus)
+                            ->where(function ($q) use ($campusArray) {
+                                foreach ($campusArray as $campus) {
+                                    $q->orWhere('campus', 'LIKE', "$campus");
+                                }
+                            })
+                            ->where('progCode', $progCod)
+                            ->where('classSection', $classSection)
+                            ->first();
+
+            if (!$classEnroll) {
+                return response()->json(['error' => 'Class not found'], 404);
+            }
+
+            $classNo = $classEnroll->classno;
+
+
+            return response()->json([
+                'enrolledStudents' => $enrolledStudents,
+                'classNo' => $classNo,
+                'isFull' => $enrolledStudents >= $classNo,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function fetchpreenrolSubjects(Request $request)
+    {
+        $guard = $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        $course = $request->input('course');
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = $studauth->campus;
+        $subjects = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
+                        ->select('subjects.*', 'sub_offered.*', 'sub_offered.id as subjID')
+                        ->where('subSec', $course)
+                        ->where('isTemp', 'Yes')
+                        ->where('schlyear', $schlyear)
+                        ->where('semester', $semester)
+                        ->where('campus', $campus)
+                        ->orderBy('sub_offered.subCode', 'ASC')
+                        ->get();
+
+        return response()->json($subjects);
     }
 }

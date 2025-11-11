@@ -8,21 +8,20 @@
     <div class="row">
         <div class="col-md-12">
             <div class="content-box">
-                <form method="GET" action="" id="enrollStud" class="container-fluid">
+                <form method="GET" action="{{ route('pre.show') }}" id="enrollStud" class="">
                     @csrf
                     <div class="row g-3 align-items-end">
 
                         <div class="col-12 col-md-3">
                             <label class="form-label mb-1">
-                                <span style="font-family: Verdana, sans-serif">Student ID Number</span>
+                                <span>Student ID Number</span>
                             </label>
-                            <input type="text" name="stud_id" class="form-control form-control-sm"
-                                oninput="formatInput(this); this.value = this.value.toUpperCase()">
+                            <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $studauth->stud_id }}" readonly>
                         </div>
 
                         <div class="col-12 col-md-3">
                             <label class="form-label mb-1">
-                                <span style="font-family: Verdana, sans-serif">School Year</span>
+                                <span>School Year</span>
                             </label>
                             <select class="form-select form-select-sm" name="schlyear">
                                 @foreach ($sy as $datasy)
@@ -33,7 +32,7 @@
 
                         <div class="col-12 col-md-3">
                             <label class="form-label mb-1">
-                                <span style="font-family: Verdana, sans-serif">Semester</span>
+                                <span>Semester</span>
                             </label>
                             <select class="form-select form-select-sm" name="semester">
                                 @foreach ($sy as $datasy)

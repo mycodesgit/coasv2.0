@@ -5,7 +5,7 @@
     $studentgradesActive = in_array($curr_route, ['show.grades']) ? 'active' : '';
     $studentaccntsActive = in_array($curr_route, ['show.account']) ? 'active' : '';
     $schedviewActive = in_array($curr_route, ['schedclassRead','schedstudentclassShow']) ? 'active' : '';
-    $preenrolviewActive = in_array($curr_route, ['pre.index']) ? 'active' : '';
+    $preenrolviewActive = in_array($curr_route, ['pre.index', 'pre.show']) ? 'active' : '';
 @endphp
 
 <ul>

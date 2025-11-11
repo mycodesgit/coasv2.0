@@ -182,6 +182,8 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         
         Route::get('/section/pre/enrollment/sem/view', [StudentController::class, 'preenrolment'])->name('pre.index');
         Route::get('/section/pre/enrollment/sem/view/search/result', [StudentController::class, 'preenrolment_searchResult'])->name('pre.show');
+        Route::get('/StudentController/student/enroll/check-preenrollment', [StudentController::class, 'checkPreEnroll'])->name('checkPreEnroll');
+        Route::get('/fetch-subjects/preenrol', [StudentController::class, 'fetchpreenrolSubjects'])->name('fetchpreenrolSubjects');
 
         Route::get('/logout/stud', [ControlController::class, 'logout'])->name('destory.logout');
     });

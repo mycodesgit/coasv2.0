@@ -115,6 +115,10 @@
         </script>
         @include('student.scheds.viewscheduleresultscript')
     @endif
+
+    @if(request()->routeIs('pre.show'))
+        @include('script.enrllmnt.preenrolSerialize')
+    @endif
 </body>
 
 </html>
