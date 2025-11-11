@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 use PDF;
 use Storage;
@@ -18,6 +19,9 @@ use App\Models\EnrollmentDB\GradeCode;
 use App\Models\EnrollmentDB\YearLevel;
 use App\Models\EnrollmentDB\StudentStatus;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\StudHisLog;
+use App\Models\EnrollmentDB\PreEnroll;
+use App\Models\EnrollmentDB\PreEnrollSubj;
 use App\Models\EnrollmentDB\StudentType;
 
 use App\Models\ScheduleDB\ClassEnroll;
@@ -364,5 +368,110 @@ class StudentController extends Controller
                         ->get();
 
         return response()->json($subjects);
+    }
+
+    public function studPreEnrollmentCreate(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'studentID' => 'required',
+                'schlyear' => 'required',
+                'semester' => 'required',
+                'campus' => 'required',
+                'course' => 'required',
+                'progCod' => 'required',
+                'studMajor' => 'required',
+                'studMinor' => 'required',
+                'studLevel' => 'required',
+                'studStatus' => 'required',
+                'studClassID' => 'required',
+                'studType' => 'required',
+                'transferee' => 'required',
+                'fourPs' => 'required',
+            ]);
+
+
+            $studentID = $request->input('studentID');
+
+            if (empty($studentID)) {
+                return response()->json(['error' => true, 'message' => 'Student ID is required'], 400);
+            }   
+
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $request->input('campus');
+
+            $existingStudEnroll = PreEnroll::where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', $campus)
+                    ->where('studentID', $studentID)
+                    ->first();
+
+            if ($existingStudEnroll) {
+                return response()->json(['error' => true, 'message' => 'Enrollment for this Student ID No. already exists this semester'], 404);
+            }
+
+            // Check maxstud attribute
+            $subjIDs = $request->input('subjIDs');
+            $fullSubjects = [];
+            foreach ($subjIDs as $subjID) {
+                $subject = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')->find($subjID);
+                if ($subject) {
+                    $currentEnrollmentCount = Grade::where('subjID', $subjID)->count();
+                    if ($currentEnrollmentCount >= $subject->maxstud) {
+                        $fullSubjects[] = [
+                            //'id' => $subjID,
+                            'name' => $subject->sub_name, // Assuming you have a name attribute
+                            'section' => $subject->subSec,
+                            'maxstud' => $subject->maxstud
+                        ];
+                    }
+                } else {
+                    return response()->json(['error' => true, 'message' => 'Subject ID ' . $subjID . ' not found'], 404);
+                }
+            }
+
+            if (!empty($fullSubjects)) {
+                return response()->json(['error' => true, 'message' => 'Some subjects are full', 'fullSubjects' => $fullSubjects], 400);
+            }
+
+            $encode = str_replace('-', '', now()->format('Ymd')) .'-'. strtoupper(Str::random(4)) .'-'. str_replace('-', '', $request->input('studentID'));
+
+            try {
+                PreEnroll::create([
+                    'studentID' => $request->input('studentID'),
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'campus' => $request->input('campus'),
+                    'course' => $request->input('course'),
+                    'progCod' => $request->input('progCod'),
+                    'studMajor' => $request->input('studMajor'),
+                    'studMinor' => $request->input('studMinor'),
+                    'studLevel' => $request->input('studLevel'),
+                    'studYear' => $request->input('studYear'),
+                    'studSec' => $request->input('studSec'),
+                    'studUnit' => $request->input('studUnit'),
+                    'studStatus' => $request->input('studStatus'),
+                    'studClassID' => $request->input('studClassID'),
+                    'postedDate' => $request->input('postedDate'),
+                    'studType' => $request->input('studType'),
+                    'transferee' => $request->input('transferee'),
+                    'fourPs' => $request->input('fourPs'),
+                ]);
+
+                $subjIDs = $request->input('subjIDs');
+                foreach ($subjIDs as $subjID) {
+                    PreEnrollSubj::create([
+                        'studID' => $studentID,
+                        'subjID' => $subjID,
+                        'campus' => $request->campus,
+                    ]);
+                }
+
+                return response()->json(['success' => true, 'message' => 'Your Pre-enrollment submitted successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Submit Pre-enrollment'], 404);
+            }
+        }
     }
 }

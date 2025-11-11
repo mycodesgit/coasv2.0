@@ -1,4 +1,79 @@
 <script>
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right"
+    };
+
+    $(document).ready(function() {
+        $('#submitPreButton').click(function(event) {
+            event.preventDefault();
+            var formData = $('#AddpreenrollStud').serialize();
+
+            var studentID = $('#studentID').val(); 
+
+            var subjIDs = [];
+            $('input[name="subjIDs"]').each(function() {
+                subjIDs.push($(this).val());
+            });
+
+            formData += '&studentID=' + studentID;
+
+            var subjIDsString = $('#subjIDsInput').val();
+            var subjIDsArray = subjIDsString.split(',');
+
+            subjIDsArray.forEach(function(subjID) {
+                formData += '&subjIDs[]=' + subjID.trim(); 
+            });
+
+            $.ajax({
+                url: savePreEnrollmentRoute,
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData, 
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        console.log(response);
+                    } else {
+                        // if (response.fullSubjects && response.fullSubjects.length > 0) {
+                        //     var fullSubjectsList = response.fullSubjects;
+                            
+                        //     Swal.fire({
+                        //         icon: 'error',
+                        //         title: 'Subjects Full',
+                        //         html: 'The following subjects are full: <br>' + fullSubjectsList.replace(/,/g, '<br>'),
+                        //     });
+                        // } 
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.error && response.fullSubjects && response.fullSubjects.length > 0) {
+                        var fullSubjectsList = response.fullSubjects.map(function(subject) {
+                            // return 'Subject ID: ' + subject.id + ', Name: ' + subject.name + ', Max Students: ' + subject.maxstud;
+                            return ' ' + subject.name + ' - ' + subject.section + ', Max Students: ' + subject.maxstud;
+                        }).join('<br>');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Subjects Full',
+                            html: 'The following subjects are full:<br>' + fullSubjectsList,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                }
+            });
+        });
+    });
+
     //for update units, lecfee, labfee and subjectID
     function updateTotalsAndIDs() {
         var totalUnits = 0;
@@ -130,7 +205,7 @@
                         var row = tableBody.insertRow();
                         row.insertCell(0).textContent = subject.subjID;
                         row.insertCell(1).textContent = subject.subCode;
-                        row.insertCell(2).textContent = subject.sub_name + ' - ' + subject.subSec + ' - ' + subject.isType;
+                        row.insertCell(2).textContent = subject.sub_name + ' - ' + subject.subSec;
                         row.insertCell(3).textContent = subject.sub_title;
                         row.insertCell(4).textContent = subject.subUnit;
                         row.insertCell(5).textContent = subject.lecFee;

@@ -7,151 +7,99 @@
 @section('body')
     <div class="row">
         <div class="col-md-12">
-            <div class="content-box" style="background-color: #dbdee4">
-                <h5>Search Info Section</h5>
-                <hr>
-                <form method="GET" action="{{ route('pre.show') }}" id="enrollStud" class="">
-                    @csrf
-                    <div class="row g-3 align-items-end">
-
-                        <div class="col-12 col-md-3">
-                            <label class="text-bold">
-                                <span>Student ID Number</span>
-                            </label>
-                            <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $studauth->stud_id }}" readonly>
-                        </div>
-
-                        <div class="col-12 col-md-3">
-                            <label class="text-bold">
-                                <span>School Year</span>
-                            </label>
-                            <select class="form-select form-select-sm" name="schlyear">
-                                @foreach ($sy as $datasy)
-                                    <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-12 col-md-3">
-                            <label class="text-bold">
-                                <span>Semester</span>
-                            </label>
-                            <select class="form-select form-select-sm" name="semester">
-                                @foreach ($sy as $datasy)
-                                    <option value="{{ $datasy->semester }}">
-                                        @if ($datasy->semester == 1)
-                                            1st Sem
-                                        @elseif($datasy->semester == 2)
-                                            2nd Sem
-                                        @elseif($datasy->semester == 3)
-                                            Summer
-                                        @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-12 col-md-3">
-                            <label class="text-bold d-block">&nbsp;</label>
-                            <button type="submit" class="btn btn-success btn-sm w-100">OK</button>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="content-box" style="background-color: #dbdee4">
+            <div class="content-box" style="background-color: rgb(240, 242, 247)">
                 <h5>Selection Section</h5>
                 <hr>
-                <div class="row g-3 align-items-end">
-                    <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
-                    <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
-                    <input type="hidden" value="{{ $studauth->stud_id }}" name="studentID" id="studentID" readonly>
-                    <input type="hidden" value="{{ $studauth->campus }}" name="campus" id="campusInput" readonly>
-                    <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
-                    <input type="hidden" value="99" name="studMajor" readonly>
-                    <input type="hidden" value="50" name="studMinor" readonly>
-                    <input type="hidden" value="3" name="transferee" readonly>
-                    <input type="hidden" value="0" name="fourPs" readonly>
+                <form method="POST" id="AddpreenrollStud">
+                    @csrf
+                    <div class="row g-3 align-items-end">
+                        <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
+                        <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
+                        <input type="hidden" value="{{ $studauth->stud_id }}" name="studentID" id="studentID" readonly>
+                        <input type="hidden" value="{{ $studauth->campus }}" name="campus" id="campusInput" readonly>
+                        <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
+                        <input type="hidden" value="99" name="studMajor" readonly>
+                        <input type="hidden" value="50" name="studMinor" readonly>
+                        <input type="hidden" value="3" name="transferee" readonly>
+                        <input type="hidden" value="0" name="fourPs" readonly>
 
-                    <div class="col-12 col-md-2">
-                        <label class="text-bold">Status <span class="text-danger">*</span></label>
-                        <select class="form-control form-control-sm" name="studStatus">
-                            @foreach ($studstat as $data)
-                                <option value="{{ $data->id }}">{{ $data->studentStatName }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <div class="col-12 col-md-2">
+                            <label class="text-bold">Status <span class="text-danger">*</span></label>
+                            <select class="form-control form-control-sm" name="studStatus">
+                                @foreach ($studstat as $data)
+                                    <option value="{{ $data->id }}">{{ $data->studentStatName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                    <div class="col-12 col-md-3">
-                        <labe class="text-bold">Type <span class="text-danger">*</span></labe>
-                        <select class="form-control form-control-sm" name="studType">
-                            <option disabled selected> --Select--</option>
-                            @foreach ($studtype as $data)
-                                <option value="{{ $data->id }}" {{ $data->id == $selectedStudType ? 'selected' : '' }}>{{ $data->studentTypeName }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
-                    <div class="col-12 col-md-3">
-                        <label class="text-bold">Course Year&Section <span class="text-danger">*</span></label>
-                        <select class="form-control form-control-sm" name="course" id="programNameSelect">
-                            <option disabled selected> --Select --</option> {{-- Always default to this; JS can auto-select if needed --}}
-                            @forelse ($classEnrolls as $class) {{-- Use @forelse to handle empty --}}
-                            @php
-                                $yearsection = preg_replace('/\D/', '', $class->classSection);
-                                // Optional: Auto-select first or based on current year (e.g., if you have $currentSection)
-                                $isSelected = false; // Or: $isSelected = ($class->classSection === $currentSection ?? false);
-                            @endphp
-                            <option value="{{ $class->progAcronym }} {{ $class->classSection }}" 
-                                    data-pkey="{{ $class->subjID}}" 
-                                    data-section="{{ $class->classSection }}"  
-                                    data-program-code="{{ $class->progCode }}" 
-                                    data-program-classid="{{ $class->clid }}" 
-                                    data-program-name="{{ $class->progName }}" 
-                                    data-year-section="{{ $class->yearleveldesc }}"
-                                    {{ $isSelected ? 'selected' : '' }}>
-                                {{ $class->progAcronym }} {{ $class->classSection }}
-                            </option>
-                            @empty
-                                <option disabled>No sections available for your program.</option>
-                            @endforelse
-                        </select>
-                    </div>
+                        <div class="col-12 col-md-3">
+                            <labe class="text-bold">Type <span class="text-danger">*</span></labe>
+                            <select class="form-control form-control-sm" name="studType">
+                                <option disabled selected> --Select--</option>
+                                @foreach ($studtype as $data)
+                                    <option value="{{ $data->id }}" {{ $data->id == $selectedStudType ? 'selected' : '' }}>{{ $data->studentTypeName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="col-12 col-md-3">
+                            <label class="text-bold">Course Year&Section <span class="text-danger">*</span></label>
+                            <select class="form-control form-control-sm" name="course" id="programNameSelect">
+                                <option disabled selected> --Select --</option> {{-- Always default to this; JS can auto-select if needed --}}
+                                @forelse ($classEnrolls as $class) {{-- Use @forelse to handle empty --}}
+                                @php
+                                    $yearsection = preg_replace('/\D/', '', $class->classSection);
+                                    // Optional: Auto-select first or based on current year (e.g., if you have $currentSection)
+                                    $isSelected = false; // Or: $isSelected = ($class->classSection === $currentSection ?? false);
+                                @endphp
+                                <option value="{{ $class->progAcronym }} {{ $class->classSection }}" 
+                                        data-pkey="{{ $class->subjID}}" 
+                                        data-section="{{ $class->classSection }}"  
+                                        data-program-code="{{ $class->progCode }}" 
+                                        data-program-classid="{{ $class->clid }}" 
+                                        data-program-name="{{ $class->progName }}" 
+                                        data-year-section="{{ $class->yearleveldesc }}"
+                                        {{ $isSelected ? 'selected' : '' }}>
+                                    {{ $class->progAcronym }} {{ $class->classSection }}
+                                </option>
+                                @empty
+                                    <option disabled>No sections available for your program.</option>
+                                @endforelse
+                            </select>
+                        </div>
 
-                    <input type="hidden" id="programIDInput" name="studClassID" class="form-control form-control-sm" readonly>
-                    <input type="hidden" id="programCodeInput" name="progCod" class="form-control form-control-sm" readonly>
-                    <input type="hidden" id="numericPart" name="studYear" placeholder="Numeric Part">
-                    <input type="hidden" id="alphabeticalPart" name="studSec" placeholder="Alphabetical Part">
+                        <input type="hidden" id="programIDInput" name="studClassID" class="form-control form-control-sm" readonly>
+                        <input type="hidden" id="programCodeInput" name="progCod" class="form-control form-control-sm" readonly>
+                        <input type="hidden" id="numericPart" name="studYear" placeholder="Numeric Part">
+                        <input type="hidden" id="alphabeticalPart" name="studSec" placeholder="Alphabetical Part">
 
-                    <div class="col-12 col-md-2">
-                        <label class="text-bold">Total Units</label>
-                        <input type="text" id="totalunitInput" name="studUnit" class="form-control form-control-sm" readonly>
-                    </div>
+                        <div class="col-12 col-md-2">
+                            <label class="text-bold">Total Units</label>
+                            <input type="text" id="totalunitInput" name="studUnit" class="form-control form-control-sm" readonly>
+                        </div>
 
-                    <div class="col-12 col-md-2">
-                        <label class="text-bold">Year Level</label>
-                        <input type="text" id="yearsectionInput" name="" class="form-control form-control-sm" readonly>
-                    </div>
+                        <div class="col-12 col-md-2">
+                            <label class="text-bold">Year Level</label>
+                            <input type="text" id="yearsectionInput" name="" class="form-control form-control-sm" readonly>
+                        </div>
 
-                    <div class="col-12 col-md-5">
-                        <label class="text-bold">Program Name</label>
-                        <input type="text" id="programNameInput" name="" class="form-control form-control-sm" readonly>
-                    </div>
+                        <div class="col-12 col-md-5">
+                            <label class="text-bold">Program Name</label>
+                            <input type="text" id="programNameInput" name="" class="form-control form-control-sm" readonly>
+                        </div>
 
-                    <div class="col-12 col-md-7">
-                        <label class="text-bold">Student Level</label>
-                        <input type="hidden" name="studLevel" id="studLevelHidden" value="50">
-                        <select class="form-control form-control-sm" name="studLevel" id="studLevel" disabled style="background-color: #fff !important">
-                            <option disabled selected> --Select Course-- </option>
-                            @foreach ($studlvl as $data)
-                                <option value="{{ $data->id }}" {{ $data->id == 50 ? 'selected' : '' }}>{{ $data->studLevel }}</option>
-                            @endforeach
-                        </select>
+                        <div class="col-12 col-md-7">
+                            <label class="text-bold">Student Level</label>
+                            <input type="hidden" name="studLevel" id="studLevelHidden" value="50">
+                            <select class="form-control form-control-sm" name="studLevel" id="studLevel" disabled style="background-color: #fff !important">
+                                <option disabled selected> --Select Course-- </option>
+                                @foreach ($studlvl as $data)
+                                    <option value="{{ $data->id }}" {{ $data->id == 50 ? 'selected' : '' }}>{{ $data->studLevel }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
@@ -202,6 +150,10 @@
                     </div>
                 </div>      
                 <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
+                <hr>
+                <div class="row g-3 align-items-end">
+                    <button class="btn btn-success btn-block" id="submitPreButton">Submit Pre-enrolment</button>
+                </div>
             </div>
         </div>
         <br>
@@ -232,5 +184,6 @@
 
         var checkEnrollmentRoute  = "{{ route('checkPreEnroll') }}";
         var fetchTemplateRoute  = "{{ route('fetchpreenrolSubjects') }}";
+        var savePreEnrollmentRoute  = "{{ route('studPreEnrollmentCreate') }}";
     </script>
 @endsection
