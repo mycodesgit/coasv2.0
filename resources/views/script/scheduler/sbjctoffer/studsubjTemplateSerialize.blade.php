@@ -162,6 +162,7 @@
                             title: 'Success',
                             text: 'Subjects saved successfully! ' + response.savedCount + ' records created.'
                         }).then(() => {
+                            $(document).trigger('subjOffAdded');
                             $('#subjectsModal').modal('hide'); // Close modal
                         });
                     } else {
