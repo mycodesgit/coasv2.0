@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Storage;
 use Carbon\Carbon;
 use App\Models\ScheduleDB\ClassEnroll;
+use App\Models\ScheduleDB\Curriculum;
 use App\Models\ScheduleDB\Subject;
 use App\Models\ScheduleDB\SubjectOffered;
 use App\Models\ScheduleDB\EnPrograms;
@@ -291,5 +292,101 @@ class SchedSubOfferController extends Controller
         $studSubOffer->delete();
 
         return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
+    }
+
+    public function getSubjectsBySubSec($subsec, $campus, $semester)
+    {
+        $subjects = Curriculum::join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
+                            ->where('curriculum.subSec', $subsec)
+                            ->where('curriculum.campus', $campus)
+                            ->where('curriculum.semester', $semester)
+                            ->select('subjects.sub_name', 'subjects.sub_title', 'curriculum.*')
+                            ->get();
+
+        // Cast booleans if stored as integers/strings in DB
+        // $subjects->each(function ($subject) {
+        //     $subject->isOJT = (bool) $subject->isOJT;
+        //     $subject->isTemp = (bool) $subject->isTemp;
+        // });
+
+        return response()->json($subjects);
+    }
+
+    public function saveSubjectsOffered(Request $request)
+    {
+        $request->validate([
+            'subjects' => 'required|array|min:1',
+            'subjects.*.subCode' => 'required|string|max:255',
+            'common.subSec' => 'required|string|max:255',
+            'common.schlyear' => 'required|string|max:20',
+            'common.semester' => 'required|string|max:10',
+            'common.campus' => 'required|string|max:100',
+            'common.postedBy' => 'required|string|max:255',
+        ]);
+
+        $subjects = $request->input('subjects', []);
+        $common = $request->input('common', []);
+        $schlyear = $common['schlyear'] ?? null;
+        $schlyear = $common['schlyear'] ?? null;
+        $semester = $common['semester'] ?? null;
+        $campus = $common['campus'] ?? null;
+        $subSec = $common['subSec'] ?? null;
+        $savedCount = 0;
+
+        try {
+            foreach ($subjects as $subject) {
+                $subCode = $subject['subCode'] ?? null;
+                $isType = $subject['isType'] ?? null;
+
+                $existingSubjectOff = SubjectOffered::where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', $campus)
+                    ->where('subCode', $subCode)
+                    ->where('subSec', $subSec)
+                    ->where('isType', $isType)
+                    ->first();
+
+                if ($existingSubjectOff) {
+                    return response()->json(['error' => true, 'message' => 'Subject already exists'], 404);
+                }
+
+                $offeredData = [
+                    'subCode' => $subject['subCode'] ?? null,
+                    'subSec' => $common['subSec'] ?? null,
+                    'schlyear' => $common['schlyear'] ?? null,
+                    'semester' => $common['semester'] ?? null,
+                    'campus' => $common['campus'] ?? null,
+                    'lecUnit' => $subject['lecUnit'] ?? 0,
+                    'labUnit' => $subject['labUnit'] ?? 0,
+                    'subUnit' => $subject['subUnit'] ?? 0,
+                    'lecFee' => $subject['lecFee'] ?? 0,
+                    'labFee' => $subject['labFee'] ?? 0,
+                    'devFee' => $subject['devFee'] ?? 0,
+                    'itfee' => $subject['itfee'] ?? 0,
+                    'fund' => $subject['fund'] ?? null,
+                    'fundAccount' => $subject['fundAccount'] ?? null,
+                    'isOJT' => $subject['isOJT'] ?? 0,
+                    'isTemp' => $subject['isTemp'] ?? 0,
+                    'isType' => $subject['isType'] ?? null, // If present in data
+                    'postedBy' => $common['postedBy'] ?? Auth::guard('web')->user()->id,
+                    'datePosted' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'maxstud' => $common['maxstud'] ?? 50, // Default max students
+                ];
+
+                SubjectOffered::create($offeredData);
+                $savedCount++;
+            }
+
+            return response()->json([
+                'success' => true,
+                'savedCount' => $savedCount,
+                'message' => 'All subjects saved successfully.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

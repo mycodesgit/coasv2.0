@@ -650,6 +650,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/list/search/add', [SchedSubOfferController::class, 'subjectsOfferedCreate'])->name('subjectsOfferedCreate');
             Route::post('/list/search/suboff/update', [SchedSubOfferController::class, 'subjectsOfferedUpdate'])->name('subjectsOfferedUpdate');
             Route::get('/list/search/suboff/delete{id}', [SchedSubOfferController::class, 'subjectsOfferedDelete'])->name('subjectsOfferedDelete');
+
+            Route::get('/get-subjects/{subsec}/{campus}/{semester}', [SchedSubOfferController::class, 'getSubjectsBySubSec'])->name('get.subjects.by.subsec');
+            Route::post('/save-subjects-offered', [SchedSubOfferController::class, 'saveSubjectsOffered'])->name('save.subjects.offered');
         });
 
         Route::prefix('faculty')->group(function () {

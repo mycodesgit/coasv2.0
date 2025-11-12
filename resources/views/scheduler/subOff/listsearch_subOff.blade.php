@@ -124,6 +124,11 @@ CISS V.1.0 || Subject Offered
                         <li class="nav-item ml-1">
                             <a class="nav-link text-dark text-bold" id="custom-tabs-two-tab" data-toggle="pill" href="#custom-tabs-two" role="tab" aria-controls="custom-tabs-two" aria-selected="false">Add New Subject to be offer</a>
                         </li>
+                        @if(Auth::guard('web')->user()->campus == 'MC')
+                            <li class="nav-item ml-1">
+                                <a class="nav-link text-dark text-bold" id="custom-tabs-three-tab" data-toggle="pill" href="#custom-tabs-three" role="tab" aria-controls="custom-tabs-three" aria-selected="false">Add New Subject using Template</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
                 <div class="card-body">
@@ -288,6 +293,41 @@ CISS V.1.0 || Subject Offered
                                                 <label>&nbsp;</label>
                                                 <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Add</button>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-three" role="tabpanel" aria-labelledby="custom-tabs-three-tab">
+                            <form method="GET" action="" id="studSubjectShowTemplate">
+                                @csrf
+                                <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                                    <h5>Add Student Subject Template</h5>
+                                </div>
+
+                                <input type="hidden" name="campus" value="{{ Auth::guard('web')->user()->campus }}">
+                                <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                                <input type="hidden" name="semester" value="{{ request('semester') }}">
+
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col-md-6 mt-3">
+                                            <label><span class="badge badge-primary">Subject Year&Section</span></label>
+                                            <select class="form-control form-control-sm select2bs4" name="subSec" id="subSecSelect">
+                                                <option disabled selected>---Select---</option>
+                                                @foreach($class as $classes)
+                                                    <option value="{{ $classes->progAcronym }} {{ $classes->classSection }}">{{ $classes->progAcronym }} {{ $classes->classSection }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <label>&nbsp;</label>
+                                            <button type="submit" class="form-control form-control-sm btn btn-primary">Show Subject Offer Template</button>
                                         </div>
                                     </div>
                                 </div>
@@ -462,6 +502,57 @@ CISS V.1.0 || Subject Offered
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+{{-- Modal for displaying subjects --}}
+<div class="modal fade" id="subjectsModal" tabindex="-1" role="dialog" aria-labelledby="subjectsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="subjectsModalLabel">Subjects for Selected Year & Section</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modalCampus" value="{{ Auth::guard('web')->user()->campus }}">
+                <input type="hidden" id="modalSchlyear" value="{{ request('schlyear') }}">
+                <input type="hidden" id="modalSemester" value="{{ request('semester') }}">
+                <input type="hidden" id="modalPostedBy" value="{{ Auth::guard('web')->user()->id  }}">
+                
+                <div class="table-responsive">
+                    <table class="table table-striped text-sm" id="subjectsTable">
+                        <thead class="">
+                            <tr>
+                                <th>SubCode</th>
+                                <th>Subject</th>
+                                <th>Desc</th>
+                                <th>LecUnits</th>
+                                <th>LabUnits</th>
+                                <th>Units</th>
+                                <th>LecFee</th>
+                                <th>LabFee</th>
+                                <th>DevFee</th>
+                                <th>ITFee</th>
+                                <th>Fund</th>
+                                <th>Account</th>
+                                <th>IsOJT</th>
+                                <th>IsTemp</th>
+                                <th>IsType</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectsTableBody">
+                            {{-- Data will be populated via JavaScript --}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="saveSubjectsBtn">Save as Subject Offered</button>
+            </div>
         </div>
     </div>
 </div>

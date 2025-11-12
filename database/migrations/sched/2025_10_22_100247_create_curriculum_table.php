@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('curriculum', function (Blueprint $table) {
             $table->id();
             $table->string('progCode')->nullable()->index();
+            $table->string('subSec')->nullable();
             $table->string('semester')->nullable();
             $table->string('campus')->nullable();
             $table->string('subCode')->nullable()->index();
