@@ -263,7 +263,7 @@ CISS V.1.0 || Curriculumn
                                 </div>
                             </div>
                             <div class="tab-pane fade show" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">
-                                <iframe src="{{ route('currpdfview') }}" width="100%" height="500"></iframe>
+                                <iframe src="{{ route('currpdfview') }}" width="100%" height="800"></iframe>
                             </div>
                         </div>
                     </div>

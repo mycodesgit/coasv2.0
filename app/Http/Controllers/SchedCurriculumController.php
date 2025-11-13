@@ -138,6 +138,7 @@ class SchedCurriculumController extends Controller
                     ->join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
                     ->select(
                         'programs.progAcronym', 
+                        'programs.progName', 
                         'subjects.sub_name', 
                         'subjects.sub_title', 
                         'subjects.sub_unit',
@@ -151,7 +152,8 @@ class SchedCurriculumController extends Controller
         $groupedCurr = $curr->groupBy(['yrlvl', 'semester']);
         $data = [
             'progAcronym' => $curr->first()->progAcronym ?? 'Unknown Program', // Get program name once
-            'groupedCurr' => $groupedCurr
+            'groupedCurr' => $groupedCurr,
+            'curr' => $curr
         ];
 
         $pdf = PDF::loadView('scheduler.curriculum.curpdf', $data)->setPaper('Legal', 'portrait');

@@ -15,14 +15,14 @@
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 15px; /* Reduced font size */
+            font-size: 9pt; /* Reduced font size */
         }
         .schedule-table th, .schedule-table td {
             border: 1px solid #000;
             padding: 1px; /* Reduced padding */
         }
         .schedule-table th {
-            background-color: #e9ecef;
+            background-color: #cdd6df;
         }
         .schedule-table td {
             padding: 4px !important;
@@ -47,7 +47,7 @@
 <body>
     <div class="header">
         <h4 class="text-bold">
-            {{-- {{ $curr->first()->progName }} --}}
+            {{ $curr->first()->progName }}
         </h4>
     </div>
 
@@ -58,6 +58,7 @@
         @endphp
 
         @foreach ($yearLevels as $yearLevel)
+            <br>
             <div class="year-header">
                 {{ $yearLevel == 1 ? 'FIRST YEAR' : ($yearLevel == 2 ? 'SECOND YEAR' : ($yearLevel == 3 ? 'THIRD YEAR' : ($yearLevel == 4 ? 'FOURTH YEAR' : 'YEAR LEVEL ' . $yearLevel))) }}
             </div>
