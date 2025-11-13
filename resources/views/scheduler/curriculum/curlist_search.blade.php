@@ -145,7 +145,7 @@ CISS V.1.0 || Curriculumn
 
                                                     <div class="mt-2 col-md-12">
                                                         <label><span class="badge badge-secondary">Pre-Requisite</span></label>
-                                                        <select class="form-control form-control-sm select2bs4" id="prerequisite">
+                                                        <select class="form-control form-control-sm select2bs4" name="prerequisite">
                                                             <option disabled selected>---Select---</option>
                                                             @foreach($subjects as $sub)
                                                                 <option value="{{ $sub->sub_code }}">{{ $sub->sub_name }} - {{ $sub->sub_title }}</option>
