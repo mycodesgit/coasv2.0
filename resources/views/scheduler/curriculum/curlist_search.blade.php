@@ -94,7 +94,7 @@ CISS V.1.0 || Curriculumn
                         <div class="tab-content" id="custom-tabs-four-tabContent">
                             <div class="tab-pane fade show active" id="custom-tabs-one" role="tabpanel" aria-labelledby="custom-tabs-one-tab">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <form method="post" action="{{ route('classEnrollCreate') }}"  id="adCurriculumForm">
                                             @csrf
                                             <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
@@ -105,9 +105,9 @@ CISS V.1.0 || Curriculumn
 
                                             <div class="form-group mt-2">
                                                 <div class="form-row">
-                                                    <div class="mt-2 col-md-12">
+                                                    <div class="mt-2 col-md-4">
                                                         <label><span class="badge badge-secondary">Programs</span></label>
-                                                        <select class="form-control form-control-sm" name="progCode" id="">
+                                                        <select class="form-control form-control-sm" name="progCode" id="progCode">
                                                             @foreach ($curriculum as $programs)
                                                                 <option value="{{ $programs->progCod }}">
                                                                     {{ $programs->progAcronym }}
@@ -116,10 +116,22 @@ CISS V.1.0 || Curriculumn
                                                         </select>
                                                     </div>
 
-                                                    <div class="mt-2 col-md-12">
+                                                    <div class="mt-2 col-md-4">
                                                         <label><span class="badge badge-secondary">Semester</span></label>
                                                         <input type="text" class="form-control form-control-sm" name="semester" value="{{ request()->query('semester') }}" readonly>
                                                     </div>
+
+                                                    <div class="mt-2 col-md-4">
+                                                        <label><span class="badge badge-secondary">Year Level</span></label>
+                                                        <select class="form-control form-control-sm select2bs4" id="yrlvl" name="yrlvl">
+                                                            <option disabled selected>---Select---</option>
+                                                            <option value="1">1st Year</option>
+                                                            <option value="2">2nd Year</option>
+                                                            <option value="3">3rd Year</option>
+                                                            <option value="4">4th Year</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" id="combinedValue" name="subSec" value="">
 
                                                     <div class="mt-2 col-md-12">
                                                         <label><span class="badge badge-secondary">Subjects</span></label>
@@ -127,6 +139,16 @@ CISS V.1.0 || Curriculumn
                                                             <option disabled selected>---Select---</option>
                                                             @foreach($subjects as $sub)
                                                                 <option value="{{ $sub->sub_code }}" data-sub-code="{{ $sub->sub_code }}" data-lec-unit="{{ $sub->sublecredit }}" data-lab-unit="{{ $sub->sublabcredit }}">{{ $sub->sub_name }} - {{ $sub->sub_title }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="mt-2 col-md-12">
+                                                        <label><span class="badge badge-secondary">Pre-Requisite</span></label>
+                                                        <select class="form-control form-control-sm select2bs4" id="prerequisite">
+                                                            <option disabled selected>---Select---</option>
+                                                            @foreach($subjects as $sub)
+                                                                <option value="{{ $sub->sub_code }}">{{ $sub->sub_name }} - {{ $sub->sub_title }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -216,19 +238,17 @@ CISS V.1.0 || Curriculumn
                                         </form>
                                     </div>
 
-                                    <div class="col-md-9">
+                                    <div class="col-md-8">
                                         <div class="table-responsive">
                                             <table id="currTable" class="table table-hover">
                                                 <thead>
                                                     <tr>
+                                                        <th>YrLevel</th>
                                                         <th>Code</th>
                                                         <th>Subject</th>
                                                         <th>Lec</th>
                                                         <th>Lab</th>
                                                         <th>Units</th>
-                                                        <th>LecFee</th>
-                                                        <th>LabFee</th>
-                                                        <th>DevFee</th>
                                                         <th>Fund</th>
                                                         <th>IT Subj</th>
                                                         <th>Action</th>
@@ -241,6 +261,9 @@ CISS V.1.0 || Curriculumn
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="tab-pane fade show" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">
+                                <iframe src="{{ route('currpdfview') }}" width="100%" height="500"></iframe>
                             </div>
                         </div>
                     </div>

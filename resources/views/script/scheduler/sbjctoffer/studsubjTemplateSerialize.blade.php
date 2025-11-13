@@ -10,11 +10,15 @@
 
             // Use Select2's val method for proper value retrieval
             var selectedSubSec = $('#subSecSelect').select2('val') || $('#subSecSelect').val();
+            var progCode = $('#subSecSelect option:selected').data('prog-code'); // Get progCode from data attribute
+            var year = $('#subSecSelect option:selected').data('year'); // Get year from data attribute (e.g., "1")
             var campus = $('input[name="campus"]').val();
             var semester = $('input[name="semester"]').val();
 
             // Debug: Log the values to console (check browser dev tools > Console)
             console.log('Selected subSec:', selectedSubSec);
+            console.log('progCode:', progCode);
+            console.log('Year:', year);
             console.log('Campus:', campus);
             console.log('Semester:', semester);
 
@@ -27,29 +31,20 @@
                 return;
             }
 
-            // Parse selectedSubSec like "AB EL 1-A"
-            // Split by space to separate progAcronym from classSection
-            var parts = selectedSubSec.split(' ');
-            var progAcronym = parts.slice(0, -1).join(' '); // e.g., "AB EL"
-            var classSection = parts[parts.length - 1]; // e.g., "1-A"
+            if (!progCode || !year) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Missing program code or year data.'
+                });
+                return;
+            }
 
-            // Split classSection by '-' to get year and section
-            var classParts = classSection.split('-');
-            var year = classParts[0]; // e.g., "1"
-            var section = classParts.slice(1).join('-'); // e.g., "A" (handles multi-part sections if any)
-
-            // Construct full DB subSec like "AB EL 1-1 A" (year-semester section)
-            var fullDbSubSec = progAcronym + ' ' + year + '-' +  section;
-
-            console.log('Parsed progAcronym:', progAcronym);
-            console.log('Parsed year:', year);
-            console.log('Parsed section:', section);
-            console.log('Constructed fullDbSubSec:', fullDbSubSec);
-
-            // AJAX call to fetch subjects using constructed fullDbSubSec
+            // AJAX call to fetch subjects by progCode and year 1 (LIKE for subSec)
             $.ajax({
-                url: '{{ route("get.subjects.by.subsec", ["subsec" => ":subsec", "campus" => ":campus", "semester" => ":semester"]) }}'
-                    .replace(':subsec', encodeURIComponent(fullDbSubSec))
+                url: '{{ route("get.subjects.by.prog.year", ["progcode" => ":progcode", "year" => ":year", "campus" => ":campus", "semester" => ":semester"]) }}'
+                    .replace(':progcode', encodeURIComponent(progCode))
+                    .replace(':year', year)
                     .replace(':campus', campus)
                     .replace(':semester', semester),
                 type: 'GET',
@@ -59,7 +54,7 @@
                     tbody.empty(); // Clear existing rows
 
                     if (data.length === 0) {
-                        tbody.append('<tr><td colspan="13" class="text-center">No subjects found for ' + selectedSubSec + '.</td></tr>');
+                        tbody.append('<tr><td colspan="15" class="text-center">No subjects found for Year ' + year + ' (All Sections).</td></tr>');
                     } else {
                         $.each(data, function(index, subject) {
                             var row = '<tr>' +
@@ -75,21 +70,21 @@
                                 '<td>' + (subject.itfee || '') + '</td>' +
                                 '<td>' + (subject.fund || '') + '</td>' +
                                 '<td>' + (subject.fundAccount || '') + '</td>' +
-                                '<td>' + (subject.isOJT || '') + '</td>' +
-                                '<td>' + (subject.isTemp || '') + '</td>' +
+                                '<td>' + (subject.isOJT ? 'Yes' : 'No') + '</td>' +
+                                '<td>' + (subject.isTemp ? 'Yes' : 'No') + '</td>' +
                                 '<td>' + (subject.isType || '') + '</td>' +
                                 '</tr>';
                             tbody.append(row);
                         });
                     }
 
-                    // Update modal title with selected value
-                    $('#subjectsModalLabel').text('Subjects for ' + selectedSubSec);
+                    // Update modal title to reflect year-level view
+                    $('#subjectsModalLabel').text('Subjects for Year ' + year + ' (All Sections)');
 
                     $('#subjectsModal').modal('show'); // Show the modal
                 },
                 error: function(xhr, status, error) {
-                    console.log('AJAX Error Details:', xhr.responseText); // Debug: Full error response
+                    console.log('AJAX Error Details:', xhr.responseText);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -99,7 +94,7 @@
             });
         });
 
-        // Add event listener for Save button
+        // Save button logic remains the same (uses selectedSubSec for section-specific saving)
         $('#saveSubjectsBtn').on('click', function() {
             var rows = $('#subjectsTableBody tr').get(); // Get all rows
             if (rows.length === 0 || $(rows[0]).find('td').first().text() === 'No subjects found') {

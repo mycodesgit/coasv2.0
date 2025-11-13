@@ -294,23 +294,24 @@ class SchedSubOfferController extends Controller
         return response()->json(['success'=> true, 'message'=>'Deleted Successfully',]);
     }
 
-    public function getSubjectsBySubSec($subsec, $campus, $semester)
-    {
-        $subjects = Curriculum::join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
-                            ->where('curriculum.subSec', $subsec)
-                            ->where('curriculum.campus', $campus)
-                            ->where('curriculum.semester', $semester)
-                            ->select('subjects.sub_name', 'subjects.sub_title', 'curriculum.*')
-                            ->get();
+    public function getSubjectsByProgYear($progcode, $year, $campus, $semester)
+{
+    $subjects = Curriculum::join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
+                          ->where('curriculum.progCode', $progcode)  // Filter by progCode (e.g., "CAS-LHD-001")
+                          ->where('curriculum.subSec', 'LIKE', '% ' . $year)  // Matches subSec like "AB EL 1-1 A", "AB EL 1-2 B", etc. (year 1 only)
+                          ->where('curriculum.campus', $campus)
+                          ->where('curriculum.semester', $semester)
+                          ->select('subjects.sub_name', 'subjects.sub_title', 'curriculum.*')
+                          ->get();
 
-        // Cast booleans if stored as integers/strings in DB
-        // $subjects->each(function ($subject) {
-        //     $subject->isOJT = (bool) $subject->isOJT;
-        //     $subject->isTemp = (bool) $subject->isTemp;
-        // });
+    // Cast booleans for display
+    $subjects->each(function ($subject) {
+        $subject->isOJT = (bool) $subject->isOJT;
+        $subject->isTemp = (bool) $subject->isTemp;
+    });
 
-        return response()->json($subjects);
-    }
+    return response()->json($subjects);
+}
 
     public function saveSubjectsOffered(Request $request)
     {
@@ -370,7 +371,7 @@ class SchedSubOfferController extends Controller
                     'isType' => $subject['isType'] ?? null, // If present in data
                     'postedBy' => $common['postedBy'] ?? Auth::guard('web')->user()->id,
                     'datePosted' => Carbon::now()->format('Y-m-d H:i:s'),
-                    'maxstud' => $common['maxstud'] ?? 50, // Default max students
+                    'maxstud' => 35, // Default max students
                 ];
 
                 SubjectOffered::create($offeredData);

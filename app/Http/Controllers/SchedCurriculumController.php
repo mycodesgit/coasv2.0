@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use PDF;
 
 use Storage;
 use Carbon\Carbon;
@@ -103,6 +104,8 @@ class SchedCurriculumController extends Controller
             try {
                 Curriculum::create([
                     'progCode' => $request->input('progCode'),
+                    'yrlvl' => $request->input('yrlvl'),
+                    'subSec' => $request->input('subSec'),
                     'semester' => $request->input('semester'),
                     'campus' => Auth::guard('web')->user()->campus,
                     'subCode' => $request->input('subCode'),
@@ -119,6 +122,7 @@ class SchedCurriculumController extends Controller
                     'itfee' => $request->input('itfee'),
                     'isType' => "No",
                     'postedBy' => Auth::guard('web')->user()->id,
+                    'prerequisite' => $request->input('prerequisite'),
                 ]);
 
                 return response()->json(['success' => true, 'message' => 'Subject stored successfully'], 200);
@@ -126,5 +130,31 @@ class SchedCurriculumController extends Controller
                 return response()->json(['error' => true, 'message' => 'Failed to store Subject'], 404);
             }
         }
+    }
+
+    public function currpdfview(Request $request)
+    {
+        $curr = Curriculum::join('programs', 'curriculum.progCode', '=', 'programs.progCod')
+                    ->join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
+                    ->select(
+                        'programs.progAcronym', 
+                        'subjects.sub_name', 
+                        'subjects.sub_title', 
+                        'subjects.sub_unit',
+                        'curriculum.yrlvl',
+                        'curriculum.semester'
+                    )
+                    ->orderBy('curriculum.yrlvl')
+                    ->orderBy('curriculum.semester')
+                    ->orderBy('subjects.sub_name')
+                    ->get();
+        $groupedCurr = $curr->groupBy(['yrlvl', 'semester']);
+        $data = [
+            'progAcronym' => $curr->first()->progAcronym ?? 'Unknown Program', // Get program name once
+            'groupedCurr' => $groupedCurr
+        ];
+
+        $pdf = PDF::loadView('scheduler.curriculum.curpdf', $data)->setPaper('Legal', 'portrait');
+        return $pdf->stream();
     }
 }

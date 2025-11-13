@@ -5,6 +5,34 @@
         "positionClass": "toast-top-right"
     };
     $(document).ready(function() {
+        // Initialize Select2 for year level
+        $('#yrlvl').select2({
+            theme: 'bootstrap4'
+        });
+
+        // Function to update hidden input
+        function updateHidden() {
+            var progAcronym = $('#progCode option:selected').text().trim();
+            var yrlvl = $('#yrlvl').val();
+
+            if (progAcronym && yrlvl) {
+                $('#combinedValue').val(progAcronym + ' ' + yrlvl); // e.g., "AB EL 1"
+            } else {
+                $('#combinedValue').val(''); // Clear if incomplete
+            }
+
+            // Optional: Log for debugging
+            console.log('Combined Value:', $('#combinedValue').val());
+        }
+
+        // Listen to changes on both selects
+        $('#progCode').on('change', updateHidden);
+        $('#yrlvl').on('change', updateHidden);
+
+        // Initial check (in case pre-selected)
+        updateHidden();
+    });
+    $(document).ready(function() {
         $('#adCurriculumForm').submit(function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
@@ -48,14 +76,12 @@
             searching: true,
             paging: true,
             "columns": [
+                {data: 'yrlvl'},
                 {data: 'subCode'},
                 {data: 'sub_name'},
                 {data: 'lecUnit'},
                 {data: 'labUnit'},
                 {data: 'subUnit'},
-                {data: 'lecFee'},
-                {data: 'labFee'},
-                {data: 'devFee'},
                 {
                     data: 'fundAccount',
                     render: function(data, type, row) {

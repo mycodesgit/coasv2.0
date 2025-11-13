@@ -651,7 +651,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/list/search/suboff/update', [SchedSubOfferController::class, 'subjectsOfferedUpdate'])->name('subjectsOfferedUpdate');
             Route::get('/list/search/suboff/delete{id}', [SchedSubOfferController::class, 'subjectsOfferedDelete'])->name('subjectsOfferedDelete');
 
-            Route::get('/get-subjects/{subsec}/{campus}/{semester}', [SchedSubOfferController::class, 'getSubjectsBySubSec'])->name('get.subjects.by.subsec');
+            Route::get('/get-subjects/{progcode}/{year}/{campus}/{semester}', [SchedSubOfferController::class, 'getSubjectsByProgYear'])->name('get.subjects.by.prog.year');
             Route::post('/save-subjects-offered', [SchedSubOfferController::class, 'saveSubjectsOffered'])->name('save.subjects.offered');
         });
 
@@ -668,6 +668,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/curriculum/search', [SchedCurriculumController::class, 'curRead_search'])->name('curRead_search');
             Route::get('/curriculum/search/show', [SchedCurriculumController::class, 'show'])->name('curriculum.show');
             Route::post('/curriculum/search/add', [SchedCurriculumController::class, 'store'])->name('curriculum.store');
+            Route::get('/curriculum/list/view/search/pdf/curr', [SchedCurriculumController::class, 'currpdfview'])->name('currpdfview');
         });
 
         Route::prefix('designation')->group(function () {

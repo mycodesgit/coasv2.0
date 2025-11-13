@@ -14,6 +14,7 @@ class Curriculum extends Model
 
     protected $fillable = [
         'progCode',
+        'yrlvl',
         'subSec',
         'semester',
         'campus',
@@ -31,5 +32,6 @@ class Curriculum extends Model
         'itfee',
         'isType',
         'postedBy',
+        'prerequisite',
     ];
 }

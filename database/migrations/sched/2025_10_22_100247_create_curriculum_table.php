@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('curriculum', function (Blueprint $table) {
             $table->id();
             $table->string('progCode')->nullable()->index();
+            $table->integer('yrlvl')->nullable();
             $table->string('subSec')->nullable();
             $table->string('semester')->nullable();
             $table->string('campus')->nullable();
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->enum('itfee', ['No', 'Yes'])->default('No');
             $table->string('isType')->nullable();
             $table->string('postedBy')->nullable();
+            $table->string('prerequisite')->nullable();
             $table->timestamps();
         });
     }
