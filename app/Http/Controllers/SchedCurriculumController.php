@@ -135,6 +135,8 @@ class SchedCurriculumController extends Controller
 
     public function currpdfview(Request $request)
     {
+        $cpngCod = $request->query('progCod');
+        $cpn = Curriculum::where('progCode', $cpngCod)->first();
         $curr = Curriculum::join('programs', 'curriculum.progCode', '=', 'programs.progCod')
                     ->join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
                     ->leftJoin('subjects as prereq', 'curriculum.prerequisite', '=', 'prereq.sub_code') // Added left join for prerequisite subject name
@@ -157,7 +159,8 @@ class SchedCurriculumController extends Controller
         $data = [
             'progAcronym' => $curr->first()->progAcronym ?? 'Unknown Program', // Get program name once
             'groupedCurr' => $groupedCurr,
-            'curr' => $curr
+            'curr' => $curr,
+            'cpn' => $cpn,
         ];
 
         $pdf = PDF::loadView('scheduler.curriculum.curpdf', $data)->setPaper('Legal', 'portrait');
