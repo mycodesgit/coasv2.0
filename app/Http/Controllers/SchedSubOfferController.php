@@ -295,23 +295,23 @@ class SchedSubOfferController extends Controller
     }
 
     public function getSubjectsByProgYear($progcode, $year, $campus, $semester)
-{
-    $subjects = Curriculum::join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
-                          ->where('curriculum.progCode', $progcode)  // Filter by progCode (e.g., "CAS-LHD-001")
-                          ->where('curriculum.subSec', 'LIKE', '% ' . $year)  // Matches subSec like "AB EL 1-1 A", "AB EL 1-2 B", etc. (year 1 only)
-                          ->where('curriculum.campus', $campus)
-                          ->where('curriculum.semester', $semester)
-                          ->select('subjects.sub_name', 'subjects.sub_title', 'curriculum.*')
-                          ->get();
+    {
+        $subjects = Curriculum::join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
+                            ->where('curriculum.progCode', $progcode)  // Filter by progCode (e.g., "CAS-LHD-001")
+                            ->where('curriculum.subSec', 'LIKE', '% ' . $year)  // Matches subSec like "AB EL 1-1 A", "AB EL 1-2 B", etc. (year 1 only)
+                            ->where('curriculum.campus', $campus)
+                            ->where('curriculum.semester', $semester)
+                            ->select('subjects.sub_name', 'subjects.sub_title', 'curriculum.*')
+                            ->get();
 
-    // Cast booleans for display
-    $subjects->each(function ($subject) {
-        $subject->isOJT = (bool) $subject->isOJT;
-        $subject->isTemp = (bool) $subject->isTemp;
-    });
+        // Cast booleans for display
+        // $subjects->each(function ($subject) {
+        //     $subject->isOJT = (bool) $subject->isOJT;
+        //     $subject->isTemp = (bool) $subject->isTemp;
+        // });
 
-    return response()->json($subjects);
-}
+        return response()->json($subjects);
+    }
 
     public function saveSubjectsOffered(Request $request)
     {

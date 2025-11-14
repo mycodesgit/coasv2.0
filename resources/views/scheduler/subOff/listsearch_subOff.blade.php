@@ -316,9 +316,11 @@ CISS V.1.0 || Subject Offered
                                             <select class="form-control form-control-sm select2bs4" name="subSec" id="subSecSelect">
                                                 <option disabled selected>---Select---</option>
                                                 @foreach($class as $classes)
-                                                    <option value="{{ $classes->progAcronym }} {{ $classes->classSection }}" data-prog-code="{{ $classes->progCode }}" data-year="{{ explode('-', $classes->classSection)[0] }}">{{ $classes->progAcronym }} {{ $classes->classSection }}</option>
+                                                    <option value="{{ $classes->progAcronym }} {{ $classes->classSection }}" data-prog-code="{{ $classes->progCode }}" data-year="{{ explode('-', $classes->classSection)[0] }}" data-section="{{ $classes->classSection }}" data-prog-acronym="{{ $classes->progAcronym }}">{{ $classes->progAcronym }} {{ $classes->classSection }}</option>
                                                 @endforeach
                                             </select>
+                                            <input type="text" id="hiddenProgYear" name="progYear">
+                                            <input type="text" id="hiddenProgYearSection" name="progYearSection">
                                         </div>
                                     </div>
                                 </div>

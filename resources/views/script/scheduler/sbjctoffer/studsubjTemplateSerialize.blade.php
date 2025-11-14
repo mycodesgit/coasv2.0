@@ -5,12 +5,29 @@
             theme: 'bootstrap4'
         });
 
+        $(document).ready(function() {
+            $('#subSecSelect').on('change', function() {
+                var selectedOption = $(this).find('option:selected');
+                var progAcronym = selectedOption.data('prog-acronym');
+                var section = selectedOption.data('section');
+                var year = selectedOption.data('year');
+                
+                if (progAcronym && section && year) {
+                    $('#hiddenProgYear').val(progAcronym + ' ' + year);
+                    $('#hiddenProgYearSection').val(progAcronym + ' ' + section);
+                    console.log('Hidden input updated to: ' + progAcronym + ' ' + section);  // Optional: for debugging
+                }
+            });
+        });
+
         $('#studSubjectShowTemplate').on('submit', function(e) {
             e.preventDefault(); // Prevent default form submission
 
             // Use Select2's val method for proper value retrieval
             var selectedSubSec = $('#subSecSelect').select2('val') || $('#subSecSelect').val();
             var progCode = $('#subSecSelect option:selected').data('prog-code'); // Get progCode from data attribute
+            var progAcronym = $('#subSecSelect option:selected').data('prog-acronym');
+            var section = $('#subSecSelect option:selected').data('section');
             var year = $('#subSecSelect option:selected').data('year'); // Get year from data attribute (e.g., "1")
             var campus = $('input[name="campus"]').val();
             var semester = $('input[name="semester"]').val();
@@ -54,7 +71,7 @@
                     tbody.empty(); // Clear existing rows
 
                     if (data.length === 0) {
-                        tbody.append('<tr><td colspan="15" class="text-center">No subjects found for Year ' + year + ' (All Sections).</td></tr>');
+                        tbody.append('<tr><td colspan="15" class="text-center">No subjects found for Year ' + progAcronym + ' ' + section + ' (All Sections).</td></tr>');
                     } else {
                         $.each(data, function(index, subject) {
                             var row = '<tr>' +
@@ -70,8 +87,8 @@
                                 '<td>' + (subject.itfee || '') + '</td>' +
                                 '<td>' + (subject.fund || '') + '</td>' +
                                 '<td>' + (subject.fundAccount || '') + '</td>' +
-                                '<td>' + (subject.isOJT ? 'Yes' : 'No') + '</td>' +
-                                '<td>' + (subject.isTemp ? 'Yes' : 'No') + '</td>' +
+                                '<td>' + (subject.isOJT || '') + '</td>' +
+                                '<td>' + (subject.isTemp || '') + '</td>' +
                                 '<td>' + (subject.isType || '') + '</td>' +
                                 '</tr>';
                             tbody.append(row);
@@ -79,7 +96,7 @@
                     }
 
                     // Update modal title to reflect year-level view
-                    $('#subjectsModalLabel').text('Subjects for Year ' + year + ' (All Sections)');
+                    $('#subjectsModalLabel').text('Subjects for Year ' + progAcronym + ' ' + section + '');
 
                     $('#subjectsModal').modal('show'); // Show the modal
                 },
@@ -109,7 +126,7 @@
             var subjectsData = [];
             $.each(rows, function(index, row) {
                 var cells = $(row).find('td');
-                if (cells.length >= 13) { // Ensure full row
+                if (cells.length >= 14) { // Ensure full row
                     subjectsData.push({
                         subCode: cells.eq(0).text().trim() || '', // Assuming subCode is in first column; adjust if Desc is separate
                         subName: cells.eq(1).text().trim() || '', // Assuming subCode is in first column; adjust if Desc is separate
@@ -132,7 +149,7 @@
             });
 
             var commonData = {
-                subSec: $('#subjectsModalLabel').text().replace('Subjects for ', '').trim(), // Extract from title, e.g., "AB EL 1-A"
+                subSec: $('#subjectsModalLabel').text().replace('Subjects for Year', '').trim(), // Extract from title, e.g., "AB EL 1-A"
                 schlyear: $('#modalSchlyear').val(),
                 semester: $('#modalSemester').val(),
                 campus: $('#modalCampus').val(),
