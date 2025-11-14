@@ -136,7 +136,7 @@ class SchedCurriculumController extends Controller
     public function currpdfview(Request $request)
     {
         $cpngCod = request('progCod');
-        
+
         $cpn = EnPrograms::where('progCod', $cpngCod)->first();
 
         $curr = Curriculum::join('programs', 'curriculum.progCode', '=', 'programs.progCod')
@@ -156,10 +156,10 @@ class SchedCurriculumController extends Controller
                     ->orderBy('curriculum.yrlvl')
                     ->orderBy('curriculum.semester')
                     ->orderBy('subjects.sub_name')
-                    ->get();
+                    ->first();
         $groupedCurr = $curr->groupBy(['yrlvl', 'semester']);
         $data = [
-            'progAcronym' => $curr->first()->progAcronym ?? 'Unknown Program', // Get program name once
+            'progAcronym' => $curr->progAcronym ?? 'Unknown Program', // Get program name once
             'groupedCurr' => $groupedCurr,
             'curr' => $curr,
             'cpn' => $cpn,
