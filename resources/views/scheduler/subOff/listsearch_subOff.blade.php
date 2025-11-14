@@ -319,8 +319,8 @@ CISS V.1.0 || Subject Offered
                                                     <option value="{{ $classes->progAcronym }} {{ $classes->classSection }}" data-prog-code="{{ $classes->progCode }}" data-year="{{ explode('-', $classes->classSection)[0] }}" data-section="{{ $classes->classSection }}" data-prog-acronym="{{ $classes->progAcronym }}">{{ $classes->progAcronym }} {{ $classes->classSection }}</option>
                                                 @endforeach
                                             </select>
-                                            <input type="text" id="hiddenProgYear" name="progYear">
-                                            <input type="text" id="hiddenProgYearSection" name="progYearSection">
+                                            <input type="hidden" id="hiddenProgYear" name="progYear">
+                                            <input type="hidden" id="hiddenProgYearSection" name="progYearSection">
                                         </div>
                                     </div>
                                 </div>
