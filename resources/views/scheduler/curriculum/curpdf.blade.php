@@ -47,7 +47,8 @@
 <body>
     <div class="header">
         <h4 class="text-bold">
-            {{ $cpn->progName }}
+            {{ $cpn->progName ?? '' }}
+
         </h4>
     </div>
 

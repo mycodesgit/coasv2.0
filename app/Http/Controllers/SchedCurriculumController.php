@@ -135,8 +135,9 @@ class SchedCurriculumController extends Controller
 
     public function currpdfview(Request $request)
     {
-        $cpngCod = $request->query('progCod');
-        $cpn = Curriculum::join('programs', 'curriculum.progCode', '=', 'programs.progCod')->where('curriculum.progCode', $cpngCod)->first();
+        $cpngCod = request('progCod');
+        
+        $cpn = EnPrograms::where('progCod', $cpngCod)->first();
 
         $curr = Curriculum::join('programs', 'curriculum.progCode', '=', 'programs.progCod')
                     ->join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
