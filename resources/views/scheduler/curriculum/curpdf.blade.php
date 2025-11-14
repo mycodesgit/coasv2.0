@@ -75,7 +75,7 @@
                             <th>Descriptive Title</th>
                             <th>Units</th>
                             {{-- Add PR column if needed; assuming it's empty or from another field --}}
-                            <th>PR</th>
+                            <th style="width: 90px">PR</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,7 +84,7 @@
                                 <td>{{ $item->sub_name }}</td>
                                 <td>{{ $item->sub_title }}</td>
                                 <td>{{ $item->sub_unit }}</td>
-                                <td>{{ $item->prerequisite }}</td> {{-- Placeholder for PR; add logic if you have PR data --}}
+                                <td style="text-align: right">{{ $item->prerequisite }}</td> {{-- Placeholder for PR; add logic if you have PR data --}}
                             </tr>
                         @endforeach
                         <tr>
@@ -107,7 +107,7 @@
                             <th>Grade/Course No</th>
                             <th>Descriptive Title</th>
                             <th>Units</th>
-                            <th>PR</th>
+                            <th style="width: 90px">PR</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,7 +116,7 @@
                                 <td>{{ $item->sub_name }}</td>
                                 <td>{{ $item->sub_title }}</td>
                                 <td>{{ $item->sub_unit }}</td>
-                                <td>{{ $item->prerequisite }}</td> {{-- Placeholder for PR --}}
+                                <td style="text-align: right">{{ $item->prerequisite }}</td> {{-- Placeholder for PR --}}
                             </tr>
                         @endforeach
                         <tr>
