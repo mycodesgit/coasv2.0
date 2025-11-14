@@ -48,7 +48,6 @@
     <div class="header">
         <h4 class="text-bold">
             {{ $cpn->progName ?? '' }}
-
         </h4>
     </div>
 

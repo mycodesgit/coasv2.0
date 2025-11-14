@@ -156,8 +156,11 @@ class SchedCurriculumController extends Controller
                     ->orderBy('curriculum.yrlvl')
                     ->orderBy('curriculum.semester')
                     ->orderBy('subjects.sub_name')
+                    ->where('curriculum.progCode', $cpngCod)
                     ->get();
+
         $groupedCurr = $curr->groupBy(['yrlvl', 'semester']);
+        
         $data = [
             'progAcronym' => $curr->first()->progAcronym ?? 'Unknown Program', // Get program name once
             'groupedCurr' => $groupedCurr,
