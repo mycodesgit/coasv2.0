@@ -322,6 +322,7 @@
     <script src="{{ asset('js/ajax/settngs/dark-mode.js') }}"></script>
 
     <script src="{{ asset('js/validation/schedule/classenrollValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/schedule/curriculumValidation.js') }}"></script>
     <script src="{{ asset('js/validation/schedule/facdegValidation.js') }}"></script>
     <script src="{{ asset('js/validation/schedule/facultyValidation.js') }}"></script>
     <script src="{{ asset('js/validation/schedule/roomValidation.js') }}"></script>

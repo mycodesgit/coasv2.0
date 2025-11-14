@@ -84,6 +84,7 @@ class SchedCurriculumController extends Controller
                 'labFee' => 'required',
                 'isTemp' => 'required',
                 'isOJT' => 'required',
+                'yrlvl' => 'required',
             ]);
 
             $progCod = $request->input('progCode');
