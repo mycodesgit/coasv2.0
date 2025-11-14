@@ -84,7 +84,7 @@
                                 <td>{{ $item->sub_name }}</td>
                                 <td>{{ $item->sub_title }}</td>
                                 <td>{{ $item->sub_unit }}</td>
-                                <td style="text-align: right">{{ $item->prerequisite }}</td> {{-- Placeholder for PR; add logic if you have PR data --}}
+                                <td style="text-align: right">{{ $item->sub_name }}</td> {{-- Placeholder for PR; add logic if you have PR data --}}
                             </tr>
                         @endforeach
                         <tr>
@@ -116,7 +116,7 @@
                                 <td>{{ $item->sub_name }}</td>
                                 <td>{{ $item->sub_title }}</td>
                                 <td>{{ $item->sub_unit }}</td>
-                                <td style="text-align: right">{{ $item->prerequisite }}</td> {{-- Placeholder for PR --}}
+                                <td style="text-align: right">{{ $item->sub_name }}</td> {{-- Placeholder for PR --}}
                             </tr>
                         @endforeach
                         <tr>
