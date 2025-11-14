@@ -144,7 +144,8 @@ class SchedCurriculumController extends Controller
                         'subjects.sub_title', 
                         'subjects.sub_unit',
                         'curriculum.yrlvl',
-                        'curriculum.semester'
+                        'curriculum.semester',
+                        'curriculum.prerequisite'
                     )
                     ->orderBy('curriculum.yrlvl')
                     ->orderBy('curriculum.semester')
