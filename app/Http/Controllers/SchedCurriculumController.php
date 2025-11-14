@@ -137,6 +137,7 @@ class SchedCurriculumController extends Controller
     {
         $curr = Curriculum::join('programs', 'curriculum.progCode', '=', 'programs.progCod')
                     ->join('subjects', 'curriculum.subCode', '=', 'subjects.sub_code')
+                    ->leftJoin('subjects as prereq', 'curriculum.prerequisite', '=', 'prereq.sub_code') // Added left join for prerequisite subject name
                     ->select(
                         'programs.progAcronym', 
                         'programs.progName', 
@@ -145,7 +146,8 @@ class SchedCurriculumController extends Controller
                         'subjects.sub_unit',
                         'curriculum.yrlvl',
                         'curriculum.semester',
-                        'curriculum.prerequisite'
+                        'curriculum.prerequisite',
+                        'prereq.sub_name as prerequisite_name'
                     )
                     ->orderBy('curriculum.yrlvl')
                     ->orderBy('curriculum.semester')
