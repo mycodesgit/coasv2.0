@@ -591,6 +591,9 @@
     @if(request()->routeIs('searchStudEnroll', 'loadstudsub_searchview'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}?v={{ time() }}"></script>
     @endif
+    @if(request()->routeIs('loadstudsub'))
+        @include('script.enrllmnt.preenrolEvalSerialize')
+    @endif
     @if(request()->routeIs('searchStud', 'editsearchStud'))
         @include('script.queuetransacScript')
     @endif

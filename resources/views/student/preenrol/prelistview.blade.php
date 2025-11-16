@@ -19,7 +19,7 @@
                         <input type="hidden" value="{{ $studauth->campus }}" name="campus" id="campusInput" readonly>
                         <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
                         <input type="hidden" value="99" name="studMajor" readonly>
-                        <input type="hidden" value="50" name="studMinor" readonly>
+                        <input type="hidden" value="99" name="studMinor" readonly>
                         <input type="hidden" value="3" name="transferee" readonly>
                         <input type="hidden" value="0" name="fourPs" readonly>
 

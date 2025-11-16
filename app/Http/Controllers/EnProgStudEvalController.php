@@ -25,6 +25,8 @@ use App\Models\EnrollmentDB\StudentStatus;
 use App\Models\EnrollmentDB\StudentType;
 use App\Models\EnrollmentDB\StudentShifTrans;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\PreEnroll;
+use App\Models\EnrollmentDB\PreEnrollSubj;
 use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
 use App\Models\EnrollmentDB\StudHisLog;
 use App\Models\EnrollmentDB\StudSubLog;
@@ -61,6 +63,29 @@ class EnProgStudEvalController extends Controller
 
         return view('enrollment.evalstud.search_studeval', compact('sy', 'queueMode'));
     }
+
+    public function searchstudsubfetch()
+    {
+        $campus = "MC";
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $sy = ConfigureCurrent::where('set_status', 3)
+            ->first(['schlyear', 'semester']);
+
+        $student = PreEnroll::join('students', 'preenrol.studentID', '=', 'students.stud_id')
+            ->where('preenrol.schlyear', $sy->schlyear)
+            ->where('preenrol.semester', $sy->semester)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('preenrol.campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->get();
+
+    return response()->json(['data' => $student], 200);
+        
+    }
+
 
     public function loadstudsub_searchview(Request $request)
     {
@@ -160,6 +185,156 @@ class EnProgStudEvalController extends Controller
             ->value('studSch');
 
         return view('enrollment.evalstud.searchlist_studeval', compact('sy', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedScholar'));
+    }
+
+    public function loadstudsubpreenrol_searchview(Request $request)
+    {
+        if(Auth::guard('web')->user()->role == 15) 
+        {
+            $studlvl = StudentLevel::whereIn('id', ['80', '90'])->get();
+        } else {
+            $studlvl = StudentLevel::where('id', '=', '50')->get();
+        }
+
+        $studscholar = Scholar::all();
+        $mamisub = MajorMinor::all();
+        $studstat = StudentStatus::all();
+        $studtype = StudentType::all();
+        $shiftrans = StudentShifTrans::all();
+        $program = EnPrograms::all();
+
+        $stud_id = $request->stud_id;
+        $campus = "MC";
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $syold = ConfigureCurrent::where('set_status', '=', '2')->get();
+        $sy = ConfigureCurrent::where('set_status', 3)
+            ->first(['schlyear', 'semester']);
+
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $student = Student::where('stud_id', $stud_id)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
+        }
+        $programEnHistory = PreEnroll::where('preenrol.studentID', $stud_id)
+                ->where('preenrol.schlyear', $sy->schlyear)
+                ->where('preenrol.semester', $sy->semester)
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('preenrol.campus', 'LIKE', "%$campus%");
+                    }
+                })
+                ->select('preenrol.*')
+                ->first(); 
+
+        if (!$programEnHistory) {
+            return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> not enrolled at this term or school year.');
+        }
+
+        $selectedProgValue = $programEnHistory->progCod . ' '. $programEnHistory->studYear . '-' . $programEnHistory->studSec;
+
+        $selectedProgStudLevel = $programEnHistory->studLevel;
+        $selectedStudSch = $programEnHistory->studSch;
+        $selectedStudMajor = $programEnHistory->studMajor;
+        $selectedStudMinor = $programEnHistory->studMinor;
+        $selectedStudStatus = $programEnHistory->studStatus;
+        $selectedStudType = $programEnHistory->studType;
+        $selectedStudTransferee = $programEnHistory->transferee;
+        $selectedStudFourPs = $programEnHistory->fourPs ?? 0;
+        $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
+
+
+        $subjectsEn = PreEnrollSubj::join('coasv2_db_schedule.sub_offered', 'preenrollsubj.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
+                    ->get();
+
+        $subjectsEnID = PreEnrollSubj::join('coasv2_db_schedule.sub_offered', 'preenrollsubj.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
+                    ->pluck('coasv2_db_schedule.sub_offered.id');
+        $subOfferedIds = implode(',', $subjectsEnID->toArray());
+
+        $studsubview = PreEnrollSubj::join('coasv2_db_schedule.sub_offered', 'preenrollsubj.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
+                    ->pluck('preenrollsubj.subjID');
+        $studsubenrollIds = implode(',', $studsubview->toArray());
+
+        $studsubviewprimID = PreEnrollSubj::join('coasv2_db_schedule.sub_offered', 'preenrollsubj.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
+                    ->pluck('preenrollsubj.id');
+        $studsubenrollIdsprimID = implode(',', $studsubviewprimID->toArray());
+
+        $studsubviewprimIDitfee = PreEnrollSubj::join('coasv2_db_schedule.sub_offered', 'preenrollsubj.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
+                    ->pluck('coasv2_db_schedule.sub_offered.itfee');
+        $studsubenrollIdsprimIDitfee = implode(',', $studsubviewprimIDitfee->toArray());
+
+        if(Auth::guard('web')->user()->role == 15) 
+        {
+            $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                    ->join('coasv2_db_enrollment.yearlevel', function($join) {
+                        $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
+                    })
+                    ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                    ->where('schlyear', '=', $sy->schlyear)
+                    ->where('semester', '=', $sy->semester)
+                    ->where('campus', '=', $campus)
+                    ->where('class_enroll.progCode', 'LIKE', '%-GSS-%')
+                    ->orderBy('programs.progAcronym', 'ASC')
+                    ->orderBy('class_enroll.classSection', 'ASC')
+                    ->get();
+        } else { 
+                $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                    ->join('coasv2_db_enrollment.yearlevel', function($join) {
+                        $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
+                    })
+                    ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
+                    ->where('class_enroll.schlyear', '=', $sy->schlyear)
+                    ->where('class_enroll.semester', '=', $sy->semester)
+                    ->where('class_enroll.campus', '=', $campus)
+                    ->orderBy('programs.progAcronym', 'ASC')
+                    ->orderBy('class_enroll.classSection', 'ASC')
+                    ->get();
+        }
+
+        $subjOffer = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
+                        ->select('subjects.*', 'sub_offered.*',)
+                        ->where('schlyear', $sy->schlyear)
+                        ->where('semester', $sy->semester)
+                        ->where('campus', $campus)
+                        ->orderBy('subjects.sub_name', 'ASC')
+                        ->orderBy('sub_offered.subSec', 'ASC')
+                        ->get();
+                        
+        $subjectCount = $subjOffer->count();
+
+        return view('enrollment.evalstud.searchlistpreenrol_studeval', compact('syold', 'sy', 'studlvl', 'student', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'programEnHistory', 'selectedProgValue', 'subjectsEn', 'selectedProgStudLevel', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subOfferedIds', 'studsubenrollIds', 'studsubenrollIdsprimID', 'studsubenrollIdsprimIDitfee'));
     }
 
     public function studEvalEnrollmentCreate(Request $request) 

@@ -37,7 +37,7 @@ CISS V.1.0 || Student Evaluation
             </div> 
         </div>
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <form method="GET" action="{{ route('loadstudsub_searchview') }}" id="enrollStud">
                         @csrf   
 
@@ -54,7 +54,6 @@ CISS V.1.0 || Student Evaluation
                                         @foreach($sy as $datasy)
                                             <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
                                         @endforeach
-                                        {{-- <option value="2023-2024">2023-2024</option> --}}
                                     </select>
                                 </div>
 
@@ -75,28 +74,32 @@ CISS V.1.0 || Student Evaluation
                             </div>
                         </div>
                     </form>
+                    <hr>
                     @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
                         @if($queueMode->statusqueue === 'Off')
 
                         @else
-                            <table id="holdTable" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Queue Numbers</th>
-                                        <th>Category</th>
-                                        <th>Status</th>
-                                        <th>Campus</th>
-                                        <th width="10%">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
+                            <div class="mt-5">
+                                <h4>List of Pre-Enrolled Students</h4>
+                                <table id="holdTable" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Student ID No.</th>
+                                            <th>Fullname</th>
+                                            <th>Course Yr&Section</th>
+                                            <th>Campus</th>
+                                            <th width="10%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                         @endif
                     @endif
                 </div>
-                @if($queueMode->statusqueue === 'Off')
+                {{-- @if($queueMode->statusqueue === 'Off')
                 @else
                     <div class="col-md-3">
                         <div class="form-group mt-2" style="padding: 10px">
@@ -114,7 +117,7 @@ CISS V.1.0 || Student Evaluation
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
             </div>
         </div>
         
@@ -141,6 +144,9 @@ CISS V.1.0 || Student Evaluation
             formatInput(input);
         }
     }
+    
+    var preenrollistReadRoute = "{{ route('searchstudsubfetch') }}";
+    var preenrollistShowRoute  = "{{ route('loadstudsubpreenrol_searchview') }}";
 </script>
 
 

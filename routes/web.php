@@ -451,7 +451,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('eval')->group(function () {
             Route::get('/load/subject/stud', [EnProgStudEvalController::class, 'loadstudsub'])->name('loadstudsub');
+            Route::get('/load/subject/stud/fetch/list', [EnProgStudEvalController::class, 'searchstudsubfetch'])->name('searchstudsubfetch');
             Route::get('/load/subject/stud/view/search', [EnProgStudEvalController::class, 'loadstudsub_searchview'])->name('loadstudsub_searchview');
+            Route::get('/load/subject/stud/view/loaded/search/preenroll', [EnProgStudEvalController::class, 'loadstudsubpreenrol_searchview'])->name('loadstudsubpreenrol_searchview');
             Route::post('/student/enroll/eval/submit', [EnProgStudEvalController::class, 'studEvalEnrollmentCreate'])->name('studEvalEnrollmentCreate');
             Route::get('/student/enroll/viewPrereg', [EnProgStudEvalController::class, 'studevalrfprint'])->name('studevalrfprint');
         });

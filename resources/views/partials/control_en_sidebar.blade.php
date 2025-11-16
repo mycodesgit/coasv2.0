@@ -5,7 +5,7 @@
     $studAddActive = in_array($curr_route, ['studentCreate']) ? 'active' : '';
     $searchStudActive = in_array($curr_route, ['searchStud', 'searchStudEnroll']) ? 'active' : '';
     $crossStudActive = in_array($curr_route, ['crosstudsearch', 'editcrosstudsearchRead']) ? 'active' : '';
-    $searchStudEvalActive = in_array($curr_route, ['loadstudsub', 'loadstudsub_searchview']) ? 'active' : '';
+    $searchStudEvalActive = in_array($curr_route, ['loadstudsub', 'loadstudsub_searchview', 'loadstudsubpreenrol_searchview']) ? 'active' : '';
     $editEnrollStudActive = in_array($curr_route, ['editsearchStud', 'editsearchStudRead']) ? 'active' : '';
     $editDupAppEnrollStudActive = in_array($curr_route, ['dupapprslSearch', 'dupapprslSearch_listresult']) ? 'active' : '';
     $stuEnrollmentHisActive = in_array($curr_route, ['studentEnHistory', 'viewsearchenStudHistory']) ? 'active' : '';

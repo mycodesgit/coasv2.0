@@ -114,10 +114,10 @@ CISS V.1.0 || Edit Student Enrollment
                                             </div>
 
                                             @php
-                                            $totalUnits = 0;
-                                            foreach ($subjectsEn as $dataen) {
-                                                $totalUnits += $dataen->subUnit;
-                                            }
+                                                $totalUnits = 0;
+                                                foreach ($subjectsEn as $dataen) {
+                                                    $totalUnits += $dataen->subUnit;
+                                                }
                                             @endphp
 
                                             <div class="col-md-2">
