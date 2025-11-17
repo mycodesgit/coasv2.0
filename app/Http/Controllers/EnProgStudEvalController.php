@@ -73,8 +73,8 @@ class EnProgStudEvalController extends Controller
             ->first(['schlyear', 'semester']);
 
         $student = PreEnroll::join('students', 'preenrol.studentID', '=', 'students.stud_id')
-            ->where('preenrol.schlyear', $sy->schlyear)
-            ->where('preenrol.semester', $sy->semester)
+            ->where('preenrol.schlyear', $sy->schlyear ?? '')
+            ->where('preenrol.semester', $sy->semester ?? '')
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
                     $q->orWhere('preenrol.campus', 'LIKE', "%$campus%");
