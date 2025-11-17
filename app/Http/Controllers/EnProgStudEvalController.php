@@ -295,6 +295,35 @@ class EnProgStudEvalController extends Controller
                     ->pluck('coasv2_db_schedule.sub_offered.itfee');
         $studsubenrollIdsprimIDitfee = implode(',', $studsubviewprimIDitfee->toArray());
 
+        // Start for studsublogtable
+        $subjectsEnIDlog = StudSubLog::join('coasv2_db_schedule.sub_offered', 'studsublog.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('studsublog.studID', '=', $programEnHistory->studentID)
+                    ->pluck('coasv2_db_schedule.sub_offered.id');
+        $subOfferedIdslog = implode(',', $subjectsEnIDlog->toArray());
+
+        $studsubviewlog = StudSubLog::join('coasv2_db_schedule.sub_offered', 'studsublog.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('studsublog.studID', '=', $programEnHistory->studentID)
+                    ->pluck('studsublog.subjID');
+        $studsubenrollIdslog = implode(',', $studsubviewlog->toArray());
+
+        $studsubviewprimIDlog = StudSubLog::join('coasv2_db_schedule.sub_offered', 'studsublog.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where('studsublog.studID', '=', $programEnHistory->studentID)
+                    ->pluck('studsublog.id');
+        $studsubenrollIdsprimIDlog = implode(',', $studsubviewprimIDlog->toArray());
+        // End for studsublogtable
+
         if(Auth::guard('web')->user()->role == 15) 
         {
             $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
@@ -334,7 +363,7 @@ class EnProgStudEvalController extends Controller
                         
         $subjectCount = $subjOffer->count();
 
-        return view('enrollment.evalstud.searchlistpreenrol_studeval', compact('syold', 'sy', 'studlvl', 'student', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'programEnHistory', 'selectedProgValue', 'subjectsEn', 'selectedProgStudLevel', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subOfferedIds', 'studsubenrollIds', 'studsubenrollIdsprimID', 'studsubenrollIdsprimIDitfee'));
+        return view('enrollment.evalstud.searchlistpreenrol_studeval', compact('syold', 'sy', 'studlvl', 'student', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'programEnHistory', 'selectedProgValue', 'subjectsEn', 'selectedProgStudLevel', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subOfferedIds', 'studsubenrollIds', 'studsubenrollIdsprimID', 'studsubenrollIdsprimIDitfee', 'subOfferedIdslog', 'studsubenrollIdslog', 'studsubenrollIdsprimIDlog'));
     }
 
     public function studEvalEnrollmentCreate(Request $request) 

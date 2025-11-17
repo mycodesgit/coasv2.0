@@ -597,7 +597,7 @@
     @if(request()->routeIs('searchStud', 'editsearchStud'))
         @include('script.queuetransacScript')
     @endif
-    @if(request()->routeIs('editsearchStudRead', 'editcrosstudsearchRead'))
+    @if(request()->routeIs('editsearchStudRead', 'editcrosstudsearchRead', 'loadstudsubpreenrol_searchview'))
         <script src="{{ asset('js/ajax/enrolment/editEnrollmentSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('dupapprslSearch_listresult'))

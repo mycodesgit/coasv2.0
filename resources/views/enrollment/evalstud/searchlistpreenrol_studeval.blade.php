@@ -318,7 +318,7 @@ CISS V.1.0 || Student Evaluation
                                     <div class="card mt-2" style="background-color: #e9ecef">
                                         <div class="card-body">
                                             <a href="{{ route('loadstudsub') }}" class="form-control form-control-sm btn btn-success btn-sm">New</a>
-                                            <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
+                                            <a href="#" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton" style="display: none;">Assess</button>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitEvalButton">Save</button>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="sendEmailEvalButton">Email</button>
@@ -358,6 +358,10 @@ CISS V.1.0 || Student Evaluation
                                             <input type="text" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
                                             <input type="text" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
                                             <input type="text" id="itsubjInput" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDitfee }}">
+                                            <br>
+                                            <input type="hidden" id="subjIDsInputlog" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIdslog }}">
+                                            <input type="hidden" id="subjprimIDsInputlog" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdslog }}">
+                                            <input type="hidden" id="primaryIDsInputlog" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDlog }}">
                                         </div>
                                     </div>
                                 </div>
@@ -399,7 +403,7 @@ CISS V.1.0 || Student Evaluation
                                             data-lab-fee="{{ $subs->labFee }}"
                                             data-dev-fee="{{ $subs->devFee }}"
                                             data-it-fee="{{ $subs->itfee }}">
-                                        {{ $subs->sub_name }} - {{ $subs->subSec }} {{ $subs->isType }}
+                                        {{ $subs->sub_name }} - {{ $subs->subSec }}
                                     </option>
                                 @endforeach
                             </select>
@@ -447,8 +451,7 @@ CISS V.1.0 || Student Evaluation
     var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";
     var getfetchSubjectRoute  = "{{ route('coursefetchSubjects') }}";
     var fetchFeeDataRoute  = "{{ route('fetchFeeSubjects') }}";
-    var saveEvalEnrollmentRoute  = "{{ route('studEvalEnrollmentCreate') }}";
-    var checkEnrollmentRoute  = "{{ route('checkEnrollment') }}";
+    var updateEnrollmentRoute  = "{{ route('studEnrollmentUpdate') }}";
 
     document.addEventListener('DOMContentLoaded', function() {
     var scrollableColumn = document.querySelector('.scrolling-column');
