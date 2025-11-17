@@ -321,6 +321,7 @@ CISS V.1.0 || Student Evaluation
                                             <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-toggle="modal" data-target="#modal-addSub">Add Subject</a>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton" style="display: none;">Assess</button>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitEvalButton">Save</button>
+                                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="sendEmailEvalButton">Email</button>
                                         </div>
                                     </div>
 
