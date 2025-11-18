@@ -18,6 +18,11 @@ use App\Models\EnrollmentDB\StudentInfoGrad;
 use App\Models\EnrollmentDB\StudentCvlStatus;
 use App\Models\EnrollmentDB\StudentGnderStatus;
 
+use App\Models\SettingDB\Region;
+use App\Models\SettingDB\Province;
+use App\Models\SettingDB\City;
+use App\Models\SettingDB\Barangay;
+
 class EnStudAddController extends Controller
 {
     public function studentCreate()
@@ -26,8 +31,78 @@ class EnStudAddController extends Controller
         $strand = Strands::orderBy('id', 'asc')->get();
         $civilStatuses = StudentCvlStatus::all();
         $genderStatuses = StudentGnderStatus::all();
+        $regions = Region::all();
 
-        return view('enrollment.students.addstud', compact('strand', 'program', 'civilStatuses', 'genderStatuses'));
+        return view('enrollment.students.addstud', compact('strand', 'program', 'civilStatuses', 'genderStatuses', 'regions'));
+    }
+
+    public function studentUnderStore(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'type' => 'required',
+                'lname' => 'required',
+                'fname' => 'required',
+                'mname' => 'required',
+                'gender' => 'required',
+                'bday' => 'required',
+                'contact' => 'required',
+                'civil_status' => 'required',
+            ]);
+
+            $campus = Auth::guard('web')->user()->campus;
+            $studentId = $this->generateAdmissionId($campus);
+
+            $lname = $request->input('lname');
+            $fname = $request->input('fname');
+            $mname = $request->input('mname');
+
+            $existingStud = Student::where('campus', $campus)
+                            ->where('lname', $lname)
+                            ->where('fname', $fname)
+                            ->where('mname', $mname)
+                            ->where('stud_id', 'NOT LIKE', '%-G')
+                            ->first();
+
+            if ($existingStud) {
+                return response()->json(['error' => true, 'message' => 'Student already exists'], 404);
+            }
+
+            try {
+                $newstudID = Student::create([
+                    'app_id' => $request->input('app_id'),
+                    'status' => $request->input('status'),
+                    'en_status' => $request->input('en_status'),
+                    'p_status' => $request->input('p_status'),
+                    'campus' => Auth::guard('web')->user()->campus,
+                    'stud_id' =>  $studentId,
+                    'type' => $request->input('type'),
+                    'lname' => $request->input('lname'),
+                    'fname' => $request->input('fname'),
+                    'mname' => $request->input('mname'),
+                    'ext' => $request->input('ext'),
+                    'gender' => $request->input('gender'),
+                    'civil_status' => $request->input('civil_status'),
+                    'bday' => $request->input('bday'),
+                    'pbirth' => $request->input('pbirth'),
+                    'email' => $request->input('email'),
+                    'contact' => $request->input('contact'),
+                    'religion' => $request->input('religion'),
+                    'address' => $request->input('address'),
+                    'hnum' => $request->input('hnum'),
+                    'brgy' => $request->input('brgy'),
+                    'city' => $request->input('city'),
+                    'province' => $request->input('province'),
+                    'region' => $request->input('region'),
+                    'zcode' => $request->input('zcode'),
+                    'posted_by' => Auth::guard('web')->user()->id,
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Student stored successfully', 'student_id' => $studentId], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Student'], 404);
+            }
+        }
     }
 
     public function studentStore(Request $request) 
@@ -264,5 +339,20 @@ class EnStudAddController extends Controller
                 return response()->json(['error' => true, 'message' => 'Failed to store Student'], 404);
             }
         }
+    }
+
+    public function getProvinces($region_id) 
+    {
+        return response()->json(Province::where('region_id', $region_id)->get());
+    }
+    
+    public function getCities($province_id) 
+    {
+        return response()->json(City::where('province_id', $province_id)->get());
+    }
+    
+    public function getBarangays($city_id) 
+    {
+        return response()->json(Barangay::where('city_id', $city_id)->get());
     }
 }

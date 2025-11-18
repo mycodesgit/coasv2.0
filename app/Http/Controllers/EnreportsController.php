@@ -242,15 +242,18 @@ class EnreportsController extends Controller
         return view('enrollment.reports.regform.searchresult_studrf', compact('sy'));
     }
 
-    public function getProvinces($region_id) {
+    public function getProvinces($region_id) 
+    {
         return response()->json(Province::where('region_id', $region_id)->get());
     }
     
-    public function getCities($province_id) {
+    public function getCities($province_id) 
+    {
         return response()->json(City::where('province_id', $province_id)->get());
     }
     
-    public function getBarangays($city_id) {
+    public function getBarangays($city_id) 
+    {
         return response()->json(Barangay::where('city_id', $city_id)->get());
     }
     

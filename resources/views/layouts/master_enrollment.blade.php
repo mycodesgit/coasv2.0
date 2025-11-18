@@ -587,6 +587,7 @@
     @endif
     @if(request()->routeIs('studentCreate'))
         <script src="{{ asset('js/ajax/enrolment/studentAddSerialize.js') }}?v={{ time() }}"></script>
+        @include('enrollment.students.addressesScript')
     @endif
     @if(request()->routeIs('searchStudEnroll', 'loadstudsub_searchview'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}?v={{ time() }}"></script>

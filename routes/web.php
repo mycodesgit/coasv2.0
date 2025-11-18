@@ -424,6 +424,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('addnew')->group(function () {
             Route::get('/student', [EnStudAddController::class, 'studentCreate'])->name('studentCreate');
             Route::post('/student/add', [EnStudAddController::class, 'studentStore'])->name('studentStore');
+            Route::post('/student/add/now.new', [EnStudAddController::class, 'studentUnderStore'])->name('studentUnderStore');
             Route::post('/student/add/new', [EnStudAddController::class, 'studentUnderGradStore'])->name('studentUnderGradStore');
         });
 
