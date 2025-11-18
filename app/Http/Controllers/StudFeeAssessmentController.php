@@ -111,6 +111,7 @@ class StudFeeAssessmentController extends Controller
         $fees = StudFeeTemplate::where('semester', $request->query('semester'))
             ->where('yrlevel', $mappedYrLevel)
             ->orderBy('accountName', 'ASC')
+            ->where('temptype', '=', 'UGS')
             ->get();
 
         $filteredFees = $fees->filter(function ($fee) use ($progCode) {
