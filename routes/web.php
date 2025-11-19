@@ -45,6 +45,7 @@ use App\Http\Controllers\EnStudNoEnrolleeController;
 use App\Http\Controllers\DeletedLogEnrollmentController;
 use App\Http\Controllers\EnStudEnrolledController;
 use App\Http\Controllers\EnStudEncodeGradesLogController;
+use App\Http\Controllers\ChatMessageController;
 
 use App\Http\Controllers\SchedClassCollegeController;
 use App\Http\Controllers\SchedClassProgramsController;
@@ -462,6 +463,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/load/subject/stud/view/loaded/search/preenroll', [EnProgStudEvalController::class, 'loadstudsubpreenrol_searchview'])->name('loadstudsubpreenrol_searchview');
             Route::post('/student/enroll/eval/submit', [EnProgStudEvalController::class, 'studEvalEnrollmentCreate'])->name('studEvalEnrollmentCreate');
             Route::get('/student/enroll/viewPrereg', [EnProgStudEvalController::class, 'studevalrfprint'])->name('studevalrfprint');
+
+            Route::post('/student/faculty/chat/send', [ChatMessageController::class, 'sendMessage'])->name('sendMessage');
+            Route::get('/student/faculty/chat/messages/show/{receiver}', [ChatMessageController::class, 'fetchMessages'])->name('fetchMessages');
         });
 
         Route::prefix('edit')->group(function () {

@@ -12,6 +12,8 @@ use PDF;
 use Storage;
 use Carbon\Carbon;
 
+use App\Models\AdmissionDB\User;
+
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
 use App\Models\EnrollmentDB\Grade;
@@ -19,6 +21,7 @@ use App\Models\EnrollmentDB\GradeCode;
 use App\Models\EnrollmentDB\YearLevel;
 use App\Models\EnrollmentDB\StudentStatus;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\KioskUser;
 use App\Models\EnrollmentDB\StudHisLog;
 use App\Models\EnrollmentDB\PreEnroll;
 use App\Models\EnrollmentDB\PreEnrollSubj;
@@ -44,6 +47,7 @@ use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\AssessmentDB\StudPayment;
 
+use App\Models\SettingDB\ChatMessage;
 use App\Models\SettingDB\ConfigureCurrent;
 
 class StudentController extends Controller

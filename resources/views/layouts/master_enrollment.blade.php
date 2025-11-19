@@ -606,6 +606,7 @@
     @endif
     @if(request()->routeIs('loadstudsubpreenrol_searchview'))
         @include('script.enrllmnt.evalEnrolmentSerialize')
+        @include('script.enrllmnt.chatmessageSerialize')
     @endif
     @if(request()->routeIs('dupapprslSearch_listresult'))
         <script src="{{ asset('js/ajax/enrolment/editDupAppEnrollmentSerialize.js') }}?v={{ time() }}"></script>

@@ -323,7 +323,11 @@ CISS V.1.0 || Student Evaluation
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton" style="display: none;">Assess</button>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitEvalButton">Save</button>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="sendEmailEvalButton">Email</button>
-                                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="sendChatEvalButton">Chat</button>
+                                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="sendChatEvalButton"
+                                                    data-receiver-id="{{ $faculty->id ?? $student->id ?? $user->id }}"
+        data-receiver-name="{{ $faculty->name ?? $student->student_name ?? $user->name ?? 'User' }}"
+        data-bs-toggle="modal"
+        data-bs-target="#chatModal">Chat</button>
                                         </div>
                                     </div>
 
@@ -375,6 +379,37 @@ CISS V.1.0 || Student Evaluation
         </div>
     </div>
 </div>
+
+
+@php
+    $currentUserId = Auth::guard('web')->check() 
+        ? Auth::guard('web')->id() 
+        : (Auth::guard('kioskstudent')->check() ? Auth::guard('kioskstudent')->id() : null);
+@endphp
+
+@if($currentUserId)
+    <meta name="current-user-id" content="{{ $currentUserId }}">
+@endif
+
+<!-- Chat Modal -->
+<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chatModalLabel">Chat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="direct-chat-messages" id="chatMessages" style="height:400px; overflow-y:auto;"></div>
+            </div>
+            <div class="modal-footer">
+                <input type="text" class="form-control" id="chatInput" placeholder="Type a message">
+                <button type="button" class="btn btn-primary" id="sendMessageButton">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-addSub">
     <div class="modal-dialog modal-md">
