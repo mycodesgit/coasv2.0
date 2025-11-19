@@ -30,6 +30,7 @@ use App\Http\Controllers\EnrollmentCrossController;
 use App\Http\Controllers\EnStudDupAppController;
 use App\Http\Controllers\EnProgStudEvalController;
 use App\Http\Controllers\EnStudHistoryController;
+use App\Http\Controllers\EnrollmentQueueController;
 use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnTransferStudController;
 use App\Http\Controllers\EnSubjectsController;
@@ -443,6 +444,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::post('/queue/next', [EnrollmentController::class, 'getNextQueue'])->name('queue.next');
             Route::post('/queue/call', [EnrollmentController::class, 'getCallQueue'])->name('queue.call');
+        });
+
+        Route::prefix('studqueue')->group(function () {
+            Route::get('/fetch/stud', [EnrollmentQueueController::class, 'studqueuefetch'])->name('studqueuefetch');
         });
 
         Route::prefix('cross')->group(function () {

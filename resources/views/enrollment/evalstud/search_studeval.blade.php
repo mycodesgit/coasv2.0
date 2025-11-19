@@ -84,10 +84,12 @@ CISS V.1.0 || Student Evaluation
                                 <table id="holdTable" class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>Date</th>
                                             <th>Student ID No.</th>
                                             <th>Fullname</th>
                                             <th>Course Yr&Section</th>
                                             <th>Campus</th>
+                                            <th>Status</th>
                                             <th width="10%">Action</th>
                                         </tr>
                                     </thead>

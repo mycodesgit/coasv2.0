@@ -79,20 +79,24 @@ CISS V.1.0 || Edit Student Enrollment
                         @if($queueMode->statusqueue === 'Off')
 
                         @else
-                            {{-- <table id="holdTable" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Queue Numbers</th>
-                                        <th>Category</th>
-                                        <th>Status</th>
-                                        <th>Campus</th>
-                                        <th width="10%">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table> --}}
+                            <div class="mt-5">
+                                <h5>List of Pre-Enrolled Students</h5>
+                                <table id="queueTable" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Student ID No.</th>
+                                            <th>Fullname</th>
+                                            <th>Course Yr&Section</th>
+                                            <th>Campus</th>
+                                            <th width="10%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                             <hr>
                         @endif
                     @endif
@@ -169,6 +173,8 @@ CISS V.1.0 || Edit Student Enrollment
     }
 
     var selectQueueCatRoute  = "{{ route('counterUserUpdate') }}";
+    var studqueuelistReadRoute = "{{ route('studqueuefetch') }}";
+    var studqueuelistShowReadRoute = "{{ route('editsearchStudRead') }}";
 </script>
 
 

@@ -596,6 +596,9 @@
         @include('script.enrllmnt.preenrolEvalSerialize')
     @endif
     @if(request()->routeIs('searchStud', 'editsearchStud'))
+        @include('script.enrllmnt.studqueueSerialize')
+    @endif
+    @if(request()->routeIs('searchStud', 'editsearchStud'))
         @include('script.queuetransacScript')
     @endif
     @if(request()->routeIs('editsearchStudRead', 'editcrosstudsearchRead'))

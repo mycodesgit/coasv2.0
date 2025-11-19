@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('studType')->nullable();
             $table->string('transferee')->nullable();
             $table->integer('fourPs')->nullable();
-            $table->integer('status')->nullable();
+            $table->enum('status', [1, 2])->default(1);
             $table->timestamps();
         });
     }

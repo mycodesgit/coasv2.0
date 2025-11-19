@@ -74,7 +74,12 @@ class EnProgStudEvalController extends Controller
 
         $student = PreEnroll::join('students', 'preenrol.studentID', '=', 'students.stud_id')
             ->leftJoin('coasv2_db_schedule.programs', 'preenrol.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-            ->select('students.*', 'preenrol.*', 'preenrol.updated_at as updated_ats', 'coasv2_db_schedule.programs.progAcronym')
+            ->select(
+                'students.*', 
+                'preenrol.*', 
+                'preenrol.created_at as created_ats', 
+                'coasv2_db_schedule.programs.progAcronym'
+            )
             ->where('preenrol.schlyear', $sy->schlyear ?? '')
             ->where('preenrol.semester', $sy->semester ?? '')
             ->whereRaw("SUBSTRING_INDEX(preenrol.progCod, '-', 1) = ?", [
@@ -85,6 +90,8 @@ class EnProgStudEvalController extends Controller
                     $q->orWhere('preenrol.campus', 'LIKE', "%$campus%");
                 }
             })
+            ->where('preenrol.status', 1)
+            ->orderBy('preenrol.created_at', 'asc')
             ->get();
 
         return response()->json(['data' => $student], 200);

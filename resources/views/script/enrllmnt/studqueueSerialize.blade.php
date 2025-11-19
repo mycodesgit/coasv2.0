@@ -5,10 +5,15 @@
         "positionClass": "toast-top-right"
     };
     $(document).ready(function() {
-        var dataTable = $('#holdTable').DataTable({
+        var dataTable = $('#queueTable').DataTable({
             "ajax": {
-                "url": preenrollistReadRoute,
+                "url": studqueuelistReadRoute,
                 "type": "GET",
+                // "data": { 
+                //     "schlyear": schlyear,
+                //     "semester": semester,
+                //     "campus": campus
+                // }
             },
             destroy: true,
             info: true,
@@ -58,24 +63,12 @@
                         return map[value] ?? value; // fallback if unknown
                     }
                 },
-                {data: 'status',
-                        render: function(data, type, row) {
-                        switch(parseInt(data)) {
-                            case 1:
-                                return '<span class="badge badge-warning">Pending</span>';
-                            case 2:
-                                return '<span class="badge badge-info">Submitted</span>';
-                            default:
-                                return '<span class="badge badge-secondary">Unknown Status</span>';
-                        }
-                    },
-                },
                 {
                     data: 'id',
                     render: function (data, type, row) {
                         if (type === 'display') {
 
-                            let url = preenrollistShowRoute
+                            let url = studqueuelistShowReadRoute
                                 + '?stud_id=' + encodeURIComponent(row.studentID)
                                 + '&schlyear=' + encodeURIComponent(row.schlyear)
                                 + '&semester=' + encodeURIComponent(row.semester);
@@ -94,8 +87,8 @@
                 $(row).attr('id', 'tr-' + data.id); 
             }
         });
-        setInterval(function() {
-            dataTable.ajax.reload(null, false); // false = keeps current page
-        }, 10000);
+        $(document).on('fundAdded', function() {
+            dataTable.ajax.reload();
+        });
     });
 </script>
