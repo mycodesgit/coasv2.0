@@ -598,8 +598,11 @@
     @if(request()->routeIs('searchStud', 'editsearchStud'))
         @include('script.queuetransacScript')
     @endif
-    @if(request()->routeIs('editsearchStudRead', 'editcrosstudsearchRead', 'loadstudsubpreenrol_searchview'))
+    @if(request()->routeIs('editsearchStudRead', 'editcrosstudsearchRead'))
         <script src="{{ asset('js/ajax/enrolment/editEnrollmentSerialize.js') }}?v={{ time() }}"></script>
+    @endif
+    @if(request()->routeIs('loadstudsubpreenrol_searchview'))
+        @include('script.enrllmnt.evalEnrolmentSerialize')
     @endif
     @if(request()->routeIs('dupapprslSearch_listresult'))
         <script src="{{ asset('js/ajax/enrolment/editDupAppEnrollmentSerialize.js') }}?v={{ time() }}"></script>

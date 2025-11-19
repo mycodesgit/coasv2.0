@@ -146,7 +146,7 @@ CISS V.1.0 || Student Evaluation
                                                         <div class="form-row">
                                                             <div class="col-md-3">
                                                                 <label><span class="badge badge-secondary">Course Year&Section</span></label>
-                                                                <select class="form-control form-control-sm" name="course" id="programNameEditSelect">
+                                                                <select class="form-control form-control-sm" name="course" id="programNameEditSelect" disabled style="background-color: #fff">
                                                                     <option> --Select --</option>
                                                                     @foreach ($classEnrolls as $class)
                                                                     @php
@@ -161,6 +161,7 @@ CISS V.1.0 || Student Evaluation
                                                                 </select>
                                                             </div>
 
+                                                            <input type="hidden" name="course" value="{{ $selectedStudCourse }}">
                                                             <input type="hidden" id="editprogramIDInput" name="studClassID" class="form-control form-control-sm" readonly>
                                                             <input type="hidden" id="editprogramCodeInput" name="progCod" class="form-control form-control-sm" readonly>
                                                             <input type="hidden" id="editnumericPart" name="studYear" placeholder="Numeric Part">
@@ -360,9 +361,9 @@ CISS V.1.0 || Student Evaluation
                                             <input type="text" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
                                             <input type="text" id="itsubjInput" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDitfee }}">
                                             <br>
-                                            <input type="hidden" id="subjIDsInputlog" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIdslog }}">
-                                            <input type="hidden" id="subjprimIDsInputlog" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdslog }}">
-                                            <input type="hidden" id="primaryIDsInputlog" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDlog }}">
+                                            <input type="text" id="subjIDsInputlog" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIdslog }}">
+                                            <input type="text" id="subjprimIDsInputlog" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdslog }}">
+                                            <input type="text" id="primaryIDsInputlog" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimIDlog }}">
                                         </div>
                                     </div>
                                 </div>
@@ -452,7 +453,7 @@ CISS V.1.0 || Student Evaluation
     var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";
     var getfetchSubjectRoute  = "{{ route('coursefetchSubjects') }}";
     var fetchFeeDataRoute  = "{{ route('fetchFeeSubjects') }}";
-    var updateEnrollmentRoute  = "{{ route('studEnrollmentUpdate') }}";
+    var saveEvalEnrollmentRoute  = "{{ route('studEvalEnrollmentCreate') }}";
 
     document.addEventListener('DOMContentLoaded', function() {
     var scrollableColumn = document.querySelector('.scrolling-column');

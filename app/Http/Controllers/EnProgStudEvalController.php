@@ -73,8 +73,13 @@ class EnProgStudEvalController extends Controller
             ->first(['schlyear', 'semester']);
 
         $student = PreEnroll::join('students', 'preenrol.studentID', '=', 'students.stud_id')
+            ->leftJoin('coasv2_db_schedule.programs', 'preenrol.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->select('students.*', 'preenrol.*', 'preenrol.updated_at as updated_ats', 'coasv2_db_schedule.programs.progAcronym')
             ->where('preenrol.schlyear', $sy->schlyear ?? '')
             ->where('preenrol.semester', $sy->semester ?? '')
+            ->whereRaw("SUBSTRING_INDEX(preenrol.progCod, '-', 1) = ?", [
+                Auth::guard('web')->user()->dept
+            ])
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
                     $q->orWhere('preenrol.campus', 'LIKE', "%$campus%");
@@ -82,8 +87,7 @@ class EnProgStudEvalController extends Controller
             })
             ->get();
 
-    return response()->json(['data' => $student], 200);
-        
+        return response()->json(['data' => $student], 200);
     }
 
 
@@ -248,6 +252,7 @@ class EnProgStudEvalController extends Controller
         $selectedStudType = $programEnHistory->studType;
         $selectedStudTransferee = $programEnHistory->transferee;
         $selectedStudFourPs = $programEnHistory->fourPs ?? 0;
+        $selectedStudCourse = $programEnHistory->course;
         $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
 
 
@@ -363,7 +368,7 @@ class EnProgStudEvalController extends Controller
                         
         $subjectCount = $subjOffer->count();
 
-        return view('enrollment.evalstud.searchlistpreenrol_studeval', compact('syold', 'sy', 'studlvl', 'student', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'programEnHistory', 'selectedProgValue', 'subjectsEn', 'selectedProgStudLevel', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'subOfferedIds', 'studsubenrollIds', 'studsubenrollIdsprimID', 'studsubenrollIdsprimIDitfee', 'subOfferedIdslog', 'studsubenrollIdslog', 'studsubenrollIdsprimIDlog'));
+        return view('enrollment.evalstud.searchlistpreenrol_studeval', compact('syold', 'sy', 'studlvl', 'student', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'programEnHistory', 'selectedProgValue', 'subjectsEn', 'selectedProgStudLevel', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedStudCourse', 'subOfferedIds', 'studsubenrollIds', 'studsubenrollIdsprimID', 'studsubenrollIdsprimIDitfee', 'subOfferedIdslog', 'studsubenrollIdslog', 'studsubenrollIdsprimIDlog'));
     }
 
     public function studEvalEnrollmentCreate(Request $request) 
@@ -380,7 +385,6 @@ class EnProgStudEvalController extends Controller
                 'studMinor' => 'required',
                 'studLevel' => 'required',
                 'studStatus' => 'required',
-                'studSch' => 'required',
                 'studClassID' => 'required',
                 'studType' => 'required',
                 'transferee' => 'required',

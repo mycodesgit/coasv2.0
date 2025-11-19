@@ -33,8 +33,27 @@
                         return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                     }
                 },
-                {data: 'progCod'},
-                {data: 'campus'},
+                {data: 'course'},
+                { 
+                    data: 'campus',
+                    render: function(value) {
+                        const map = {
+                            "MC": "Main",
+                            "VC": "Victorias",
+                            "SCC": "San Carlos",
+                            "HC": "Hinigaran",
+                            "MP": "Moises Padilla",
+                            "IC": "Ilog",
+                            "CA": "Candoni",
+                            "CC": "Cauayan",
+                            "SC": "Sipalay",
+                            "HinC": "Hinobaan",
+                            "VE": "Valladolid"
+                        };
+
+                        return map[value] ?? value; // fallback if unknown
+                    }
+                },
                 {
                     data: 'id',
                     render: function (data, type, row) {
