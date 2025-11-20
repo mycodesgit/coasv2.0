@@ -223,8 +223,21 @@ class StudentController extends Controller
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
+        
+        $sypre = ConfigureCurrent::select('id', 'schlyear', 'semester')
+                ->where('set_status', 3)
+                ->orderBy('id', 'DESC')
+                ->get()
+                ->unique('schlyear')
+                ->first();
+        
+        $prewait  = PreEnroll::where('studentID', '=', $studentowner)
+                    ->where('schlyear', '=', $sypre->schlyear)
+                    ->where('semester', '=', $sypre->semester)
+                    ->where('status', 1)
+                    ->first();
 
-        return view('student.preenrol.prelist', compact('studauth', 'sy'));
+        return view('student.preenrol.prelist', compact('studauth', 'sy', 'prewait'));
     }
 
     public function preenrolment_searchResult(Request $request)
