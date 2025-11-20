@@ -446,6 +446,11 @@ class EnProgStudEvalController extends Controller
             $encode = str_replace('-', '', now()->format('Ymd')) .'-'. strtoupper(Str::random(4)) .'-'. str_replace('-', '', $request->input('studentID'));
 
             try {
+                $enrolment = PreEnroll::findOrFail($request->input('id'));
+                $enrolment->update([
+                    'status' => 2,
+                ]);
+                
                 StudEnrolmentHistory::create([
                     'studentID' => $request->input('studentID'),
                     'schlyear' => $request->input('schlyear'),

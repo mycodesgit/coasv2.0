@@ -234,10 +234,22 @@ class StudentController extends Controller
         $prewait  = PreEnroll::where('studentID', '=', $studentowner)
                     ->where('schlyear', '=', $sypre->schlyear)
                     ->where('semester', '=', $sypre->semester)
+                    ->whereIn('status', [1])
+                    ->first();
+
+        $prewaitreg  = StudEnrolmentHistory::where('studentID', '=', $studentowner)
+                    ->where('schlyear', '=', $sypre->schlyear)
+                    ->where('semester', '=', $sypre->semester)
                     ->where('status', 1)
                     ->first();
 
-        return view('student.preenrol.prelist', compact('studauth', 'sy', 'prewait'));
+        $preenrollreg  = StudEnrolmentHistory::where('studentID', '=', $studentowner)
+                    ->where('schlyear', '=', $sypre->schlyear)
+                    ->where('semester', '=', $sypre->semester)
+                    ->where('status', 2)
+                    ->first();
+
+        return view('student.preenrol.prelist', compact('studauth', 'sy', 'prewait', 'prewaitreg', 'preenrollreg'));
     }
 
     public function preenrolmentfetch()
@@ -268,7 +280,7 @@ class StudentController extends Controller
                     $q->orWhere('preenrol.campus', 'LIKE', "%$campus%");
                 }
             })
-            ->where('preenrol.status', 1)
+            ->whereIn('preenrol.status', [1, 2])
             ->orderBy('preenrol.created_at', 'asc')
             ->get();
 

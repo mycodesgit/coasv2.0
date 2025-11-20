@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <div class="content-box">
                 @if($prewait)
-                    <div class="alert alert-info text-center mb-0" role="alert">
+                    <div class="alert alert-warning text-center mb-0" role="alert">
                         <h5>Your Pre-enrollment for {{ $sy->first()->schlyear }} 
                             @if($sy->first()->semester == 1)
                                 1st Sem
@@ -18,7 +18,7 @@
                             @elseif($sy->first()->semester == 3)
                                 Summer
                             @endif
-                            has already been submitted. Waiting for Program Head Evaluation.
+                            has already been submitted for evaluation by the College Enrollment Committee.
                         </h5>
                     </div>
                     <div class="mt-4">
@@ -34,6 +34,32 @@
                                 
                             </tbody>
                         </table>
+                    </div>
+                @elseif ($prewaitreg)
+                    <div class="alert alert-info text-center mb-0" role="alert">
+                        <h5>Your Pre-enrollment for {{ $sy->first()->schlyear }} 
+                            @if($sy->first()->semester == 1)
+                                1st Sem
+                            @elseif($sy->first()->semester == 2)
+                                2nd Sem
+                            @elseif($sy->first()->semester == 3)
+                                Summer
+                            @endif
+                            has already been approved. Pending in Registrar Office.
+                        </h5>
+                    </div>
+                @elseif ($preenrollreg)
+                    <div class="alert alert-success text-center mb-0" role="alert">
+                        <h5>You are Officially Enrolled for {{ $sy->first()->schlyear }} 
+                            @if($sy->first()->semester == 1)
+                                1st Sem
+                            @elseif($sy->first()->semester == 2)
+                                2nd Sem
+                            @elseif($sy->first()->semester == 3)
+                                Summer
+                            @endif
+                            in Main Campus.
+                        </h5>
                     </div>
                 @else
                     <form method="GET" action="{{ route('pre.show') }}" id="enrollStud" class="">
