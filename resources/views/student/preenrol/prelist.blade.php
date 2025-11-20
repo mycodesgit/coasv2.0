@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="content-box">
-                @if($prewait)
+                {{-- @if($prewait)
                     <div class="alert alert-warning text-center mb-0" role="alert">
                         <h5>Your Pre-enrollment for {{ $sy->first()->schlyear }} 
                             @if($sy->first()->semester == 1)
@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-md-9 mt-2">
                             <div class="content-box">
-                                {{-- <iframe src="{{ route('rfstudactconfirm') }}" width="100%" height="500"></iframe> --}}
+                                <iframe src="{{ route('rfstudactconfirm') }}" width="100%" height="500"></iframe>
                                 @include('enrollment.studenroll.pdfrf.studRFconfirm')
                             </div>
                         </div>
@@ -141,7 +141,8 @@
                             </div>
                         </div>
                     </form>
-                @endif
+                @endif --}}
+                <h5>Pre-enrollment not yet started</h5>
             </div>
         </div>
     </div>
