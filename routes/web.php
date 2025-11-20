@@ -188,6 +188,7 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/StudentController/student/enroll/check-preenrollment', [StudentController::class, 'checkPreEnroll'])->name('checkPreEnroll');
         Route::get('/fetch-subjects/preenrol', [StudentController::class, 'fetchpreenrolSubjects'])->name('fetchpreenrolSubjects');
         Route::post('/section/student/enroll/pre/submit', [StudentController::class, 'studPreEnrollmentCreate'])->name('studPreEnrollmentCreate');
+        Route::get('student/registrationform/pdf', [StudentController::class, 'rfstudactconfirm'])->name('rfstudactconfirm');
 
         Route::get('/chat/messages', [ChatController::class, 'fetchMessages'])->name('chat.fetch');
         Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');

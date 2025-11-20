@@ -142,25 +142,25 @@
 </head>
 <body>
 	<header>
-		@if(Auth::guard('web')->user()->campus == 'MC')
+		@if($student->campus == 'MC')
         	<img src="{{ public_path('template/img/studrf/studrfheader.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'VC')
+        @elseif($student->campus == 'VC')
         	<img src="{{ public_path('template/img/studrf/studrfheader-VC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'SCC')
+        @elseif($student->campus == 'SCC')
         	<img src="{{ public_path('template/img/studrf/studrfheader-SCC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'HC')
+        @elseif($student->campus == 'HC')
         	<img src="{{ public_path('template/img/studrf/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'MP')
+        @elseif($student->campus == 'MP')
         	<img src="{{ public_path('template/img/studrf/studrfheader-MP.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'IC')
+        @elseif($student->campus == 'IC')
         	<img src="{{ public_path('template/img/studrf/studrfheader-IC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'CA')
+        @elseif($student->campus == 'CA')
         	<img src="{{ public_path('template/img/studrf/studrfheader-CA.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'CC')
+        @elseif($student->campus == 'CC')
         	<img src="{{ public_path('template/img/studrf/studrfheader-CC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'SC')
+        @elseif($student->campus == 'SC')
         	<img src="{{ public_path('template/img/studrf/studrfheader-SC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'HinC')
+        @elseif($student->campus == 'HinC')
         	<img src="{{ public_path('template/img/studrf/studrfheader-HinC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
         @endif
 
@@ -217,11 +217,11 @@
     							<tr>
     								<th width="15%">Subj Code</th>
     								<th>Subject Name</th>
-    								<th @if(Auth::guard('web')->user()->role == 15) width="32%" @elseif(Auth::guard('web')->user()->role != 15) width="35%" @endif style="padding-left: 10px !important;">Descriptive Title</th>
+    								<th @if(Auth::guard('kioskstudent')->user()->role == 15) width="32%" @elseif(Auth::guard('kioskstudent')->user()->role != 15) width="35%" @endif style="padding-left: 10px !important;">Descriptive Title</th>
     								<th width="6%">Credit</th>
     								<th width="7%">Lec Fee</th>
     								<th width="7%">Lab Fee</th>
-									@if(Auth::guard('web')->user()->role == 15 || Str::contains($student->studentID, '-G')) 
+									@if(Auth::guard('kioskstudent')->user()->role == 15 || Str::contains($student->studentID, '-G')) 
     								<th width="">Cycle</th>
     								@endif
     							</tr>
@@ -240,7 +240,7 @@
 	    								<td class="cred-lec-lab">{{ $sub->subUnit }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->lecFee }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->labFee }}</td>
-	    								@if(Auth::guard('web')->user()->role == 15 || Str::contains($student->studentID, '-G'))
+	    								@if(Auth::guard('kioskstudent')->user()->role == 15 || Str::contains($student->studentID, '-G'))
 	    									<td class="cred-lec-lab">{{ substr($sub->isType, 0, 3) }}</td>
 	    								@endif
 	    							</tr>

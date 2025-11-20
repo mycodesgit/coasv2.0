@@ -48,17 +48,47 @@
                             has already been approved. Pending in Registrar Office.
                         </h5>
                     </div>
-                @elseif ($preenrollreg)
+                @elseif ($preconfirmenrollreg)
+                    <div class="alert alert-warning text-center mb-0" role="alert">
+                        <h5>
+                            Your pre-enrollment for {{ $sy->first()->schlyear }} 
+                            @if($sy->first()->semester == 1)
+                                1st Semester
+                            @elseif($sy->first()->semester == 2)
+                                2nd Semester
+                            @elseif($sy->first()->semester == 3)
+                                Summer Term
+                            @endif
+                            at the Main Campus in {{ $preconfirmenrollreg->course }} is ready for confirmation.
+                        </h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-2">
+                            <div class="content-box">
+                                <div class="text-center mt-3">
+                                    <a href="#" class="btn btn-primary btn-md">
+                                        Click Here to Confirm Your Enrollment
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 mt-2">
+                            <div class="content-box">
+                                <iframe src="{{ route('rfstudactconfirm') }}" width="100%" height="500"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                @elseif ($preofficialenrollreg)
                     <div class="alert alert-success text-center mb-0" role="alert">
                         <h5>You are Officially Enrolled for {{ $sy->first()->schlyear }} 
                             @if($sy->first()->semester == 1)
-                                1st Sem
+                                1st Semester
                             @elseif($sy->first()->semester == 2)
-                                2nd Sem
+                                2nd Semester
                             @elseif($sy->first()->semester == 3)
                                 Summer
                             @endif
-                            at the Main Campus in {{ $preenrollreg->course }}.
+                            at the Main Campus in {{ $preofficialenrollreg->course }}.
                         </h5>
                     </div>
                 @else
