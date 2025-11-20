@@ -64,17 +64,19 @@
                     </div>
                     <div class="row">
                         <div class="col-md-3 mt-2">
-                            <div class="content-box">
+                            <div class="content-box pt-0 pb-3">
                                 <div class="text-center mt-3">
-                                    <a href="#" class="btn btn-primary btn-md">
-                                        Click Here to Confirm Your Enrollment
+                                    <h6>Click Here to Confirm Your Enrollment</h6>
+                                    <a href="#" class="btn btn-success btn-md mt-2">
+                                        Yes, I Confirm Enrollment.
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-9 mt-2">
                             <div class="content-box">
-                                <iframe src="{{ route('rfstudactconfirm') }}" width="100%" height="500"></iframe>
+                                {{-- <iframe src="{{ route('rfstudactconfirm') }}" width="100%" height="500"></iframe> --}}
+                                @include('enrollment.studenroll.pdfrf.studRFconfirm')
                             </div>
                         </div>
                     </div>

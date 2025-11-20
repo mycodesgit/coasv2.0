@@ -217,6 +217,9 @@ class StudentController extends Controller
         $studentowner = Auth::guard($guard)->user()->studid;
 
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
+        
+        $campus = "MC";
+        $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
                 ->where('set_status', 3)
@@ -255,7 +258,59 @@ class StudentController extends Controller
                     ->where('status', 2)
                     ->first();
 
-        return view('student.preenrol.prelist', compact('studauth', 'sy', 'prewait', 'prewaitreg', 'preconfirmenrollreg', 'preofficialenrollreg'));
+        $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+                    ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
+                    ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->select('students.*', 'program_en_history.*', 'coasv2_db_scholarship.scholarship.*', 'coasv2_db_schedule.programs.progAcronym')
+                    ->where('program_en_history.schlyear',  $sypre->schlyear)
+                    ->where('program_en_history.semester',  $sypre->semester)
+                    // ->where('program_en_history.campus',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
+                        }
+                    })
+                    ->where('program_en_history.studentID', $studentowner)->first();
+
+        $programEnHistory = StudEnrolmentHistory::join('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
+                ->where('program_en_history.studentID', $studentowner)
+                ->where('program_en_history.schlyear', $sypre->schlyear)
+                ->where('program_en_history.semester', '=', $sypre->semester)
+                ->where('program_en_history.campus', '=', $campus)
+                ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
+                ->first(); 
+        $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
+
+        $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select( 'studgrades.*', 'coasv2_db_schedule.sub_offered.*', 'coasv2_db_schedule.subjects.*')
+                    ->where('coasv2_db_schedule.sub_offered.schlyear',  $sypre->schlyear)
+                    ->where('coasv2_db_schedule.sub_offered.semester',  $sypre->semester)
+                    ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
+                    ->where('studgrades.studID', $studentowner)
+                    ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
+                    ->get();
+
+        $studfees = StudentAppraisal::select('student_appraisal.*')
+                    ->where('student_appraisal.schlyear',  $sypre->schlyear)
+                    ->where('student_appraisal.semester',  $sypre->semester)
+                    // ->where('student_appraisal.campus',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('student_appraisal.campus', 'LIKE', "%$campus%");
+                        }
+                    })
+                    ->where('student_appraisal.studID', $studentowner)
+                    ->orderBy('student_appraisal.account', 'ASC')
+                    ->get();
+
+        $studor = StudPayment::select('studpayment.*')
+                    ->where('studpayment.studID', $studentowner)
+                    ->where('studpayment.schlyear',  $sypre->schlyear)
+                    ->where('studpayment.semester',  $sypre->semester)
+                    ->get();
+
+        return view('student.preenrol.prelist', compact('studauth', 'sy', 'prewait', 'prewaitreg', 'preconfirmenrollreg', 'preofficialenrollreg', 'student', 'programEnHistory', 'selectedpostedby', 'studsub', 'studfees', 'studor'));
     }
 
     public function preenrolmentfetch()
@@ -557,7 +612,6 @@ class StudentController extends Controller
         $sy = ConfigureCurrent::where('set_status', 3)
             ->first(['schlyear', 'semester']);
 
-        $campusArray = array_map('trim', explode(',', $campus));
 
         $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
                     ->join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')

@@ -141,87 +141,25 @@
 	</style>
 </head>
 <body>
-	<header>
-		@if(Auth::guard('web')->user()->campus == 'MC')
-        	<img src="{{ public_path('template/img/studrf/studrfheader.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'VC')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-VC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'SCC')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-SCC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'HC')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-HC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'MP')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-MP.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'IC')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-IC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'CA')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-CA.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'CC')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-CC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'SC')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-SC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @elseif(Auth::guard('web')->user()->campus == 'HinC')
-        	<img src="{{ public_path('template/img/studrf/studrfheader-HinC.png') }}" width="72%" style="margin-top: -30px; margin-left: -20px; text-align: left;">
-        @endif
-
-        <div class="textdoccode">
-        	Doc Control Code:&nbsp;&nbsp;&nbsp; CPSU-F-REG-13<br>
-        	Effective Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9/12/2018<br>
-        	Revision No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00<br>
-        	Page No.:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 of 1<br>
-        </div>
-    </header>
-
     <h3 class="titlecenter">
-    	REGISTRATION FORM
+    	REGISTRATION FORM PREVIEW CONFIRMATION
     </h3>
-
-    <div class="studinfolabel">
-    	<span style="font-weight: bold;">Student ID No.:</span> <span class="studinfoID">{{ $student->studentID }}</span>
-    </div>
-
-    <div class="studinfolabel">
-    	<span style="font-weight: bold;">Name:</span> <span class="studinfoName">{{ $student->lname }}, {{ $student->fname }} {{ substr($student->mname, 0, 1) }}. @if ($student->ext !== 'N/A'){{ $student->ext }} @endif
-    	</span>
-    	<span style="font-weight: bold; text-align: right !important; margin-left: 10px;">Scholarship:</span> <span class="studinfoScholar">{{ $student->scholar_name}}</span>
-    </div>
-
-    <div class="studinfolabel">
-    	<span style="font-weight: bold;">Curriculum, Yr. & Section:</span> <span class="studinfoCourse">{{ $student->progAcronym }} {{ $student->studYear }}-{{ $student->studSec }}</span>
-    </div>
-
-    <div class="studinfolabel">
-    	<span style="font-weight: bold;">Academic Year:</span> <span class="studinfoAcadYear">{{ $student->schlyear }}</span>
-    	<span style="font-weight: bold; text-align: right !important; margin-left: 110px;">Enrollment Status:</span>
-    	<span class="studinfoenstat">
-    		@if(request('semester') == '1')
-		        First Semester
-		    @elseif(request('semester') == '2')
-		        Second Semester
-		    @elseif(request('semester') == '3')
-		        Summer
-		    @else
-		        Unknown Semester
-		    @endif
-    	</span>
-    </div>
 
     <div>
     	<table id="table">
     		<tbody>
     			<tr>
-    				<td rowspan="" width="4%"><img src="{{ public_path('template/img/studrf/subsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
     				<td>
     					<table id="table-inside">
     						<thead>
     							<tr>
     								<th width="15%">Subj Code</th>
     								<th>Subject Name</th>
-    								<th @if(Auth::guard('web')->user()->role == 15) width="32%" @elseif(Auth::guard('web')->user()->role != 15) width="35%" @endif style="padding-left: 10px !important;">Descriptive Title</th>
+    								<th @if(Auth::guard('kioskstudent')->user()->role == 15) width="32%" @elseif(Auth::guard('kioskstudent')->user()->role != 15) width="35%" @endif style="padding-left: 10px !important;">Descriptive Title</th>
     								<th width="6%">Credit</th>
     								<th width="7%">Lec Fee</th>
     								<th width="7%">Lab Fee</th>
-									@if(Auth::guard('web')->user()->role == 15 || Str::contains($student->studentID, '-G')) 
+									@if(Auth::guard('kioskstudent')->user()->role == 15 || Str::contains($student->studentID, '-G')) 
     								<th width="">Cycle</th>
     								@endif
     							</tr>
@@ -240,7 +178,7 @@
 	    								<td class="cred-lec-lab">{{ $sub->subUnit }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->lecFee }}</td>
 	    								<td class="cred-lec-lab">{{ $sub->labFee }}</td>
-	    								@if(Auth::guard('web')->user()->role == 15 || Str::contains($student->studentID, '-G'))
+	    								@if(Auth::guard('kioskstudent')->user()->role == 15 || Str::contains($student->studentID, '-G'))
 	    									<td class="cred-lec-lab">{{ substr($sub->isType, 0, 3) }}</td>
 	    								@endif
 	    							</tr>
@@ -270,22 +208,10 @@
     		</tbody>
     	</table>
 
-    	<div class="studinfolabel">
-			<span style="font-weight: bold;">Posted By:</span>
-			@auth('web')
-				@if(Auth::guard('web')->user()->role == 0)
-					{{ $selectedpostedby }}
-				@else
-					{{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
-				@endif
-			@endauth
-		</div>
-
     	<table id="table" style="margin-top: 10px !important">
     		<tbody>
     			<tr>
-    				<td width="4%"><img src="{{ public_path('template/img/studrf/cashsec.png') }}" width="50%" style="margin-left: 5px; padding-top: 55px;"></td>
-    				<td colspan="2" style="border-right: none !important" width="35%">
+    				<td colspan="2" style="border-right: none !important" width="40%">
     					<div class="studinfolabel">
 							<span style="font-weight: normal;">StudID: {{ request('stud_id') }}</span>
 						</div>
@@ -364,36 +290,6 @@
     			</tr>
     		</tbody>
     	</table>
-
-    	<table id="table" style="margin-top: 20px !important">
-    		<thead>
-    			<tr>
-    				<th class="signatories-rf" width="30%">Adviser and Checker/Date</th>
-    				<th class="signatories-rf" width="35%">Dean/Date</th>
-    				<th class="signatories-rf" width="30%">Accounting/Assessment/Date</th>
-    			</tr>
-    		</thead>
-    		<tbody>
-    			<tr>
-    				<td class="signatories-rf-sign"></td>
-    				<td class="signatories-rf-sign"></td>
-    				<td class="signatories-rf-sign"></td>
-    			</tr>
-    		</tbody>
-    	</table>
-
-    	<div class="terms-rf">
-    		As an applicant for Central Philippines State University, this term, I hereby promise to abide by the rules and regulations of the University, now in force as well as the rules and regulations that maybe promulgated by the University from time to time. If I violate any of the University rules and standards I shall bind myself to whatever disciplinary action the University may impose upon me.
-    	</div>
-
-    	<div class="date-sign-rf">
-    		Date: ____________________
-    		<span class="rf-stud-sign">Signature: ______________________</span>
-    	</div>
-
-    	<div class="footer-logo-container">
-		    <img src="{{ public_path('template/img/studrf/footerLogo.png') }}" class="footer-logo" width="100%">
-		</div>
     </div>
 
 </body>
