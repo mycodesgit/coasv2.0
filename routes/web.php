@@ -183,6 +183,7 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/info/kiosk/schedule/view/result/ajax', [StudentController::class, 'fetchSchedulestud'])->name('fetchSchedulestud');
         
         Route::get('/section/pre/enrollment/sem/view', [StudentController::class, 'preenrolment'])->name('pre.index');
+        Route::get('/section/pre/enrollment/sem/fetch/list/status', [StudentController::class, 'preenrolmentfetch'])->name('preenrolmentfetch');
         Route::get('/section/pre/enrollment/sem/view/search/result', [StudentController::class, 'preenrolment_searchResult'])->name('pre.show');
         Route::get('/StudentController/student/enroll/check-preenrollment', [StudentController::class, 'checkPreEnroll'])->name('checkPreEnroll');
         Route::get('/fetch-subjects/preenrol', [StudentController::class, 'fetchpreenrolSubjects'])->name('fetchpreenrolSubjects');

@@ -21,6 +21,20 @@
                             has already been submitted. Waiting for Program Head Evaluation.
                         </h5>
                     </div>
+                    <div class="mt-4">
+                        <table id="waitpreTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Course</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
                 @else
                     <form method="GET" action="{{ route('pre.show') }}" id="enrollStud" class="">
                         @csrf
@@ -96,5 +110,6 @@
         }
 
         var selectQueueCatRoute  = "{{ route('counterUserUpdate') }}";
+        var preenrollistReadRoute = "{{ route('preenrolmentfetch') }}";
     </script>
 @endsection

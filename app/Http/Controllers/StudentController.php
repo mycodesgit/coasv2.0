@@ -240,6 +240,41 @@ class StudentController extends Controller
         return view('student.preenrol.prelist', compact('studauth', 'sy', 'prewait'));
     }
 
+    public function preenrolmentfetch()
+    {
+        $guard= $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        $campus = "MC";
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $sy = ConfigureCurrent::where('set_status', 3)
+            ->first(['schlyear', 'semester']);
+
+        $student = PreEnroll::join('students', 'preenrol.studentID', '=', 'students.stud_id')
+            ->leftJoin('coasv2_db_schedule.programs', 'preenrol.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            ->select(
+                'students.*', 
+                'preenrol.*', 
+                'preenrol.created_at as created_ats', 
+                'coasv2_db_schedule.programs.progAcronym'
+            )
+            ->where('preenrol.schlyear', $sy->schlyear ?? '')
+            ->where('preenrol.semester', $sy->semester ?? '')
+            ->where('preenrol.studentID', $studauth->stud_id)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('preenrol.campus', 'LIKE', "%$campus%");
+                }
+            })
+            ->where('preenrol.status', 1)
+            ->orderBy('preenrol.created_at', 'asc')
+            ->get();
+
+        return response()->json(['data' => $student], 200);
+    }
+
     public function preenrolment_searchResult(Request $request)
     {
         $guard = $this->getGuard(); 

@@ -178,104 +178,11 @@
     @if(request()->routeIs('pre.show'))
         @include('script.enrllmnt.preenrolSerialize')
     @endif
-    <script>
-        // Authenticated user
-        window.USER_ID = "{{ auth()->id() }}";
-        // For admin: set dynamically when selecting student
-        window.RECEIVER_ID = null; 
-    </script>
-
-    <script>
-const USER_ID = window.USER_ID ?? null;
-let RECEIVER_ID = window.RECEIVER_ID ?? null;
-
-const fab = document.getElementById('openChat');
-const popup = document.getElementById('chatPopup');
-const closeBtn = document.getElementById('closeChat');
-const sendBtn = document.getElementById('sendBtn');
-const msgInput = document.getElementById('msgInput');
-const chatBody = document.querySelector('.chat-body');
-
-// Open chat popup
-fab.addEventListener('click', () => {
-    popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
-    loadMessages();
-});
-
-// Close chat
-closeBtn.addEventListener('click', () => popup.style.display = 'none');
-
-// Open chat for a specific student (admin only)
-function openChat(studentId) {
-    RECEIVER_ID = studentId;
-    popup.style.display = 'flex';
-    loadMessages();
-}
-
-// Load messages
-function loadMessages() {
-    if (!RECEIVER_ID) return;
-
-    fetch(`/chat/messages?receiver_id=${RECEIVER_ID}`)
-        .then(res => res.json())
-        .then(messages => {
-            chatBody.innerHTML = "";
-
-            if (messages.length === 0) {
-                chatBody.innerHTML = `<div class="message bot">No messages yet.</div>`;
-                return;
-            }
-
-            messages.forEach(msg => {
-                const div = document.createElement("div");
-                div.classList.add("message");
-
-                if (msg.sender_id == USER_ID) {
-                    div.classList.add("user");
-                } else {
-                    div.classList.add("bot");
-                }
-
-                div.textContent = msg.message;
-                chatBody.appendChild(div);
-            });
-
-            chatBody.scrollTop = chatBody.scrollHeight;
-        });
-}
-
-// Polling every 2 seconds
-setInterval(loadMessages, 2000);
-
-// Send message
-function sendMessage() {
-    const text = msgInput.value.trim();
-    if (!text || !RECEIVER_ID) return;
-
-    fetch("/chat/send", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            message: text,
-            receiver_id: RECEIVER_ID
-        })
-    })
-    .then(res => res.json())
-    .then(() => {
-        msgInput.value = "";
-        loadMessages();
-    });
-}
-
-sendBtn.addEventListener('click', sendMessage);
-msgInput.addEventListener('keypress', e => {
-    if (e.key === 'Enter') sendMessage();
-});
-</script>
-
+    
+    @if(request()->routeIs('pre.index'))
+        @include('script.enrllmnt.preenrolStudSerialize')
+    @endif
+    
 </body>
 
 </html>
