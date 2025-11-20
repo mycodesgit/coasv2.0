@@ -51,55 +51,6 @@ CISS V.1.0 || Student Dashboard
     <div class="row">
         <div class="col-md-9">
             <div class="row">
-                @php
-    $person = $faculty ?? $student ?? $user ?? null;
-@endphp
-
-<button type="button" 
-        class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim floating-chat-btn" 
-        id="sendChatEvalButton"
-        data-receiver-id="{{ $person?->id ?? '' }}"
-        data-receiver-name="{{ $person?->name ?? $person?->student_name ?? 'User' }}"
-        data-bs-toggle="modal"
-        data-bs-target="#chatModal">
-    <i class="fas fa-comment"></i>
-</button>
-
-@php
-    $currentUserId = null;
-
-    if (auth('web')->check()) {
-        $currentUserId = auth('web')->id();
-    } elseif (auth('kioskstudent')->check()) {
-        $currentUserId = auth('kioskstudent')->id();
-    }
-@endphp
-
-<meta name="csrf-token" content="{{ csrf_token() }}">
-@if($currentUserId)
-    <meta name="current-user-id" content="{{ $currentUserId }}">
-@else
-    <meta name="current-user-id" content="">
-@endif
-
-<!-- Chat Modal -->
-<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chatModalLabel">Chat</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="direct-chat-messages" id="chatMessages" style="height:400px; overflow-y:auto;"></div>
-            </div>
-            <div class="modal-footer">
-                <input type="text" class="form-control" id="chatInput" placeholder="Type a message">
-                <button type="button" class="btn btn-primary" id="sendMessageButton">Send</button>
-            </div>
-        </div>
-    </div>
-</div>
                 <div class="col-md-12">
                     <div class="content-box">
                         <h3>

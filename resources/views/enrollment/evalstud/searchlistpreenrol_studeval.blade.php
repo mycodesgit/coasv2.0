@@ -323,11 +323,6 @@ CISS V.1.0 || Student Evaluation
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="assessButton" style="display: none;">Assess</button>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="submitEvalButton">Save</button>
                                             <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="sendEmailEvalButton">Email</button>
-                                            <button type="button" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim" id="sendChatEvalButton"
-                                                    data-receiver-id="{{ $faculty->id ?? $student->id ?? $user->id }}"
-        data-receiver-name="{{ $faculty->name ?? $student->student_name ?? $user->name ?? 'User' }}"
-        data-bs-toggle="modal"
-        data-bs-target="#chatModal">Chat</button>
                                         </div>
                                     </div>
 
@@ -380,36 +375,24 @@ CISS V.1.0 || Student Evaluation
     </div>
 </div>
 
-
-@php
-    $currentUserId = Auth::guard('web')->check() 
-        ? Auth::guard('web')->id() 
-        : (Auth::guard('kioskstudent')->check() ? Auth::guard('kioskstudent')->id() : null);
-@endphp
-
-@if($currentUserId)
-    <meta name="current-user-id" content="{{ $currentUserId }}">
-@endif
-
-<!-- Chat Modal -->
-<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chatModalLabel">Chat</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="direct-chat-messages" id="chatMessages" style="height:400px; overflow-y:auto;"></div>
-            </div>
-            <div class="modal-footer">
-                <input type="text" class="form-control" id="chatInput" placeholder="Type a message">
-                <button type="button" class="btn btn-primary" id="sendMessageButton">Send</button>
-            </div>
-        </div>
-    </div>
+<div class="fab" id="openChat">
+    <i class="fas fa-comment-dots"></i>
 </div>
 
+<!-- Chat Popup -->
+<div class="chat-popup" id="chatPopup">
+    <div class="chat-header">
+        <span>Chat to {{ request('stud_id') }}</span>
+        <button class="close-chat" id="closeChat">&times;</button>
+    </div>
+    <div class="chat-body">
+        {{-- <div class="message bot">Welcome to CodeHim 🇵🇭</div> --}}
+    </div>
+    <div class="chat-input">
+        <input type="text" placeholder="Send a message..." id="msgInput">
+        <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
 
 <div class="modal fade" id="modal-addSub">
     <div class="modal-dialog modal-md">
@@ -499,6 +482,42 @@ CISS V.1.0 || Student Evaluation
             behavior: 'smooth'
             });
         });
+    });
+</script>
+
+<script>
+    const fab = document.getElementById('openChat');
+    const popup = document.getElementById('chatPopup');
+    const close = document.getElementById('closeChat');
+    const sendBtn = document.getElementById('sendBtn');
+    const msgInput = document.getElementById('msgInput');
+    const chatBody = document.querySelector('.chat-body');
+
+    fab.addEventListener('click', () => {
+        popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    close.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+
+    // Send message on button click or Enter
+    function sendMessage() {
+        const text = msgInput.value.trim();
+        if (!text) return;
+
+        const userMsg = document.createElement('div');
+        userMsg.className = 'message user';
+        userMsg.textContent = text;
+        chatBody.appendChild(userMsg);
+
+        msgInput.value = '';
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    msgInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
     });
 </script>
 

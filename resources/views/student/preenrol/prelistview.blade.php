@@ -185,5 +185,6 @@
         var checkEnrollmentRoute  = "{{ route('checkPreEnroll') }}";
         var fetchTemplateRoute  = "{{ route('fetchpreenrolSubjects') }}";
         var savePreEnrollmentRoute  = "{{ route('studPreEnrollmentCreate') }}";
+        var preenrolRoute  = "{{ route('pre.index') }}";
     </script>
 @endsection

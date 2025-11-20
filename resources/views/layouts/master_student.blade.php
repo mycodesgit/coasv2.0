@@ -22,57 +22,44 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('template/student/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/dist/css/chatstyle.css') }}">
     
 
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/fullcalendar/fullcalendar.css') }}">
 
     <style>
-        .floating-chat-btn {
+        #chat-box {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 60px;
-            height: 60px;
-            background: #28a745;
+            width: 260px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #chat-header {
+            background: #007bff;
             color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            padding: 10px;
             cursor: pointer;
-            z-index: 1050;
-            transition: all 0.3s ease;
-            border: 4px solid white;
         }
-        .floating-chat-btn:hover {
-            transform: scale(1.1);
-            background: #218838;
+
+        #chat-messages {
+            height: 260px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
         }
-        .floating-chat-btn i {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        .badge-notif {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #dc3545;
-            color: white;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+
+        #chat-input-area {
+            padding: 10px;
+            border-top: 1px solid #ddd;
         }
     </style>
 </head>
@@ -134,6 +121,23 @@
         </nav>
 
         @yield('body')
+        {{-- <div class="fab" id="openChat">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-header">
+                <span>ChatBot</span>
+                <button class="close-chat" id="closeChat">&times;</button>
+            </div>
+            <div class="chat-body">
+
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Send a message..." id="msgInput">
+                <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div> --}}
     </main>
 
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
@@ -174,128 +178,104 @@
     @if(request()->routeIs('pre.show'))
         @include('script.enrllmnt.preenrolSerialize')
     @endif
-    
     <script>
-        const currentUserId = $('meta[name="current-user-id"]').attr('content') || null;
-        let chatReceiverId = null;
-        let chatInterval = null;
+        // Authenticated user
+        window.USER_ID = "{{ auth()->id() }}";
+        // For admin: set dynamically when selecting student
+        window.RECEIVER_ID = null; 
+    </script>
 
-        // Open chat
-        $(document).on('click', '#sendChatEvalButton', function() {
-            chatReceiverId = $(this).data('receiver-id');
-            const receiverName = $(this).data('receiver-name') || 'User';
+    <script>
+const USER_ID = window.USER_ID ?? null;
+let RECEIVER_ID = window.RECEIVER_ID ?? null;
 
-            $('#chatModalLabel').text('Chat with ' + receiverName);
-            $('#chatMessages').html('<div class="text-center"><small>Loading messages...</small></div>');
+const fab = document.getElementById('openChat');
+const popup = document.getElementById('chatPopup');
+const closeBtn = document.getElementById('closeChat');
+const sendBtn = document.getElementById('sendBtn');
+const msgInput = document.getElementById('msgInput');
+const chatBody = document.querySelector('.chat-body');
 
-            loadMessages();
+// Open chat popup
+fab.addEventListener('click', () => {
+    popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    loadMessages();
+});
 
-            const chatModal = document.getElementById('chatModal');
-            chatModal.style.display = 'block';
-            chatModal.classList.add('show');
-            chatModal.setAttribute('aria-hidden', 'false');
-            chatModal.setAttribute('aria-modal', 'true');
-            chatModal.setAttribute('role', 'dialog');
+// Close chat
+closeBtn.addEventListener('click', () => popup.style.display = 'none');
 
-            // Auto-refresh every 5 seconds
-            if (chatInterval) clearInterval(chatInterval);
-            chatInterval = setInterval(loadMessages, 5000);
+// Open chat for a specific student (admin only)
+function openChat(studentId) {
+    RECEIVER_ID = studentId;
+    popup.style.display = 'flex';
+    loadMessages();
+}
 
-            // Cleanup on close
-            $('#chatModal').off('hidden.bs.modal').on('hidden.bs.modal', function () {
-                clearInterval(chatInterval);
-                chatInterval = null;
-                chatReceiverId = null;
-            });
-        });
+// Load messages
+function loadMessages() {
+    if (!RECEIVER_ID) return;
 
-        // Load messages
-        function loadMessages() {
-            if (!chatReceiverId || !currentUserId) return;
+    fetch(`/chat/messages?receiver_id=${RECEIVER_ID}`)
+        .then(res => res.json())
+        .then(messages => {
+            chatBody.innerHTML = "";
 
-            $.get("{{ route('fetchMessages', '') }}/" + chatReceiverId)
-                .done(function(data) {
-                    let html = '';
-                    if (data.length === 0) {
-                        html = '<div class="text-center text-muted"><small>No messages yet. Start the conversation!</small></div>';
-                    }
-
-                    data.forEach(msg => {
-                        const isMe = parseInt(msg.sender_id) === parseInt(currentUserId);
-                        const name = isMe ? 'You' : (msg.sender?.name || 'User');
-                        const time = moment(msg.created_at).format('MMM D, h:mm A');
-
-                        if (isMe) {
-                            html += `
-                            <div class="direct-chat-msg right mb-3">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-right text-muted">${name}</span>
-                                    <span class="direct-chat-timestamp float-left text-muted">${time}</span>
-                                </div>
-                                <div class="direct-chat-text bg-primary text-white float-right">${escapeHtml(msg.message)}</div>
-                            </div>`;
-                        } else {
-                            html += `
-                            <div class="direct-chat-msg mb-3">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">${name}</span>
-                                    <span class="direct-chat-timestamp float-right text-muted">${time}</span>
-                                </div>
-                                <div class="direct-chat-text bg-light border">${escapeHtml(msg.message)}</div>
-                            </div>`;
-                        }
-                    });
-
-                    $('#chatMessages').html(html);
-                    scrollToBottom();
-                })
-                .fail(function() {
-                    $('#chatMessages').html('<div class="text-danger text-center">Failed to load messages.</div>');
-                });
-        }
-
-        // Send message
-        $('#sendMessageButton').on('click', sendMessage);
-        $('#chatInput').on('keypress', function(e) {
-            if (e.which === 13 && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
+            if (messages.length === 0) {
+                chatBody.innerHTML = `<div class="message bot">No messages yet.</div>`;
+                return;
             }
-        });
 
-        function sendMessage() {
-            const message = $('#chatInput').val().trim();
-            if (!message || !chatReceiverId) return;
+            messages.forEach(msg => {
+                const div = document.createElement("div");
+                div.classList.add("message");
 
-            $.post("{{ route('sendMessage') }}", {
-                receiver_id: chatReceiverId,
-                message: message,
-                _token: $('meta[name="csrf-token"]').attr('content')
-            })
-            .done(function(res) {
-                if (res.success) {
-                    $('#chatInput').val('');
-                    loadMessages();
+                if (msg.sender_id == USER_ID) {
+                    div.classList.add("user");
                 } else {
-                    alert('Failed to send message.');
+                    div.classList.add("bot");
                 }
-            })
-            .fail(function() {
-                alert('Network error. Please try again.');
+
+                div.textContent = msg.message;
+                chatBody.appendChild(div);
             });
-        }
 
-        function scrollToBottom() {
-            const elem = $('#chatMessages')[0];
-            elem.scrollTop = elem.scrollHeight;
-        }
+            chatBody.scrollTop = chatBody.scrollHeight;
+        });
+}
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+// Polling every 2 seconds
+setInterval(loadMessages, 2000);
+
+// Send message
+function sendMessage() {
+    const text = msgInput.value.trim();
+    if (!text || !RECEIVER_ID) return;
+
+    fetch("/chat/send", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            message: text,
+            receiver_id: RECEIVER_ID
+        })
+    })
+    .then(res => res.json())
+    .then(() => {
+        msgInput.value = "";
+        loadMessages();
+    });
+}
+
+sendBtn.addEventListener('click', sendMessage);
+msgInput.addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendMessage();
+});
 </script>
+
 </body>
 
 </html>

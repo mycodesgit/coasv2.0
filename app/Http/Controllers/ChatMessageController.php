@@ -14,63 +14,43 @@ use App\Models\SettingDB\ChatMessage;
 
 class ChatMessageController extends Controller
 {
-    private function currentUserId()
+    public function fetchMessages(Request $request)
     {
-        if (Auth::guard('web')->check()) {
-            return Auth::guard('web')->id();
+        $userId = Auth::id(); // current user
+        $receiverId = $request->receiver_id;
+
+        if (!$receiverId) {
+            return response()->json([]);
         }
 
-        if (Auth::guard('kioskstudent')->check()) {
-            return Auth::guard('kioskstudent')->id();
-        }
-
-        abort(403, 'Unauthorized: No authenticated user.');
-    }
-
-    public function sendMessage(Request $request)
-    {
-        try {
-            $currentUserId = $this->currentUserId();
-
-            $message = ChatMessage::create([
-                'sender_id' => $currentUserId,
-                'receiver_id' => $request->receiver_id,
-                'message' => $request->message,
-            ]);
-
-            return response()->json(['success' => true, 'message' => $message]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
-            ], 500);
-        }
-    }
-
-    public function fetchMessages($receiverId)
-    {
-        $currentUserId = $this->currentUserId();
-
-        $messages = ChatMessage::with('sender') // This now works correctly!
-            ->where(function ($q) use ($receiverId, $currentUserId) {
-                $q->where('sender_id', $currentUserId)->where('receiver_id', $receiverId);
-            })->orWhere(function ($q) use ($receiverId, $currentUserId) {
-                $q->where('sender_id', $receiverId)->where('receiver_id', $currentUserId);
+        $messages = ChatMessage::where(function ($q) use ($userId, $receiverId) {
+                $q->where('sender_id', $userId)
+                  ->where('receiver_id', $receiverId);
             })
-            ->orderBy('created_at', 'asc')
+            ->orWhere(function ($q) use ($userId, $receiverId) {
+                $q->where('sender_id', $receiverId)
+                  ->where('receiver_id', $userId);
+            })
+            ->orderBy('id', 'asc')
             ->get();
 
-        // Add sender name directly so JS doesn't have to guess
-        $messages->transform(function ($msg) {
-            $msg->sender_name = $msg->sender?->name 
-                ?? $msg->sender?->student_name 
-                ?? 'User';
-            return $msg;
-        });
-
         return response()->json($messages);
+    }
+
+    // Send a message to a receiver
+    public function sendMessage(Request $request)
+    {
+        $request->validate([
+            'message'     => 'required|string|max:500',
+            'receiver_id' => 'required|integer',
+        ]);
+
+        $msg = ChatMessage::create([
+            'sender_id'   => Auth::id(),
+            'receiver_id' => $request->receiver_id,
+            'message'     => $request->message,
+        ]);
+
+        return response()->json($msg);
     }
 }

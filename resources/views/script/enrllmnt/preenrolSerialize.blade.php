@@ -35,7 +35,19 @@
                 data: formData, 
                 success: function(response) {
                     if (response.success) {
-                        toastr.success(response.message);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            confirmButtonText: 'Okay'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = preenrolRoute;
+                            }
+                        });
                         console.log(response);
                     } else {
                         // if (response.fullSubjects && response.fullSubjects.length > 0) {

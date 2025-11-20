@@ -188,6 +188,9 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/fetch-subjects/preenrol', [StudentController::class, 'fetchpreenrolSubjects'])->name('fetchpreenrolSubjects');
         Route::post('/section/student/enroll/pre/submit', [StudentController::class, 'studPreEnrollmentCreate'])->name('studPreEnrollmentCreate');
 
+        Route::get('/chat/messages', [ChatController::class, 'fetchMessages'])->name('chat.fetch');
+        Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+
         Route::get('/logout/stud', [ControlController::class, 'logout'])->name('destory.logout');
     });
 });
@@ -463,9 +466,6 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/load/subject/stud/view/loaded/search/preenroll', [EnProgStudEvalController::class, 'loadstudsubpreenrol_searchview'])->name('loadstudsubpreenrol_searchview');
             Route::post('/student/enroll/eval/submit', [EnProgStudEvalController::class, 'studEvalEnrollmentCreate'])->name('studEvalEnrollmentCreate');
             Route::get('/student/enroll/viewPrereg', [EnProgStudEvalController::class, 'studevalrfprint'])->name('studevalrfprint');
-
-            Route::post('/student/faculty/chat/send', [ChatMessageController::class, 'sendMessage'])->name('sendMessage');
-            Route::get('/student/faculty/chat/messages/show/{receiver}', [ChatMessageController::class, 'fetchMessages'])->name('fetchMessages');
         });
 
         Route::prefix('edit')->group(function () {

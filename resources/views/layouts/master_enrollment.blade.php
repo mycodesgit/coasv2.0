@@ -20,6 +20,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/dist/css/chatstyle.css') }}">
     <!-- Logo  -->
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
 
