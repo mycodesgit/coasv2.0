@@ -58,7 +58,7 @@
                             @elseif($sy->first()->semester == 3)
                                 Summer
                             @endif
-                            in Main Campus.
+                            at the Main Campus in {{ $preenrollreg->course }}.
                         </h5>
                     </div>
                 @else
