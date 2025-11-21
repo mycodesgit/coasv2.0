@@ -46,7 +46,7 @@
         @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7, 12, 14]))
             <a href="{{ route('faculty_list') }}" class="list-group-item {{ $facultyActive }}">Faculty</a>
         @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->lname == 'Rosalie')
+        @if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->lname == 'ROSALIE')
             <a href="{{ route('curRead') }}" class="list-group-item {{ $curriActive }}">Curriculumn</a>
         @endif
     </ul>
