@@ -279,7 +279,7 @@ class StudentController extends Controller
                 ->where('program_en_history.campus', '=', $campus)
                 ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
                 ->first(); 
-        $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
+        //$selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
 
         $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
@@ -310,7 +310,7 @@ class StudentController extends Controller
                     ->where('studpayment.semester',  $sypre->semester)
                     ->get();
 
-        return view('student.preenrol.prelist', compact('studauth', 'sy', 'prewait', 'prewaitreg', 'preconfirmenrollreg', 'preofficialenrollreg', 'student', 'programEnHistory', 'selectedpostedby', 'studsub', 'studfees', 'studor'));
+        return view('student.preenrol.prelist', compact('studauth', 'sy', 'prewait', 'prewaitreg', 'preconfirmenrollreg', 'preofficialenrollreg', 'student', 'programEnHistory', 'studsub', 'studfees', 'studor'));
     }
 
     public function preenrolmentfetch()
