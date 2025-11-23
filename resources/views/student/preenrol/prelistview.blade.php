@@ -25,21 +25,23 @@
 
                         <div class="col-12 col-md-2">
                             <label class="text-bold">Status <span class="text-danger">*</span></label>
-                            <select class="form-control form-control-sm" name="studStatus">
+                            <select class="form-control form-control-sm bg-white" disabled>
                                 @foreach ($studstat as $data)
-                                    <option value="{{ $data->id }}">{{ $data->studentStatName }}</option>
+                                    <option value="{{ $data->id }}" {{ $data->id == $selectedStudStatus ? 'selected' : '' }}>{{ $data->studentStatName }}</option>
                                 @endforeach
                             </select>
+                            <input type="hidden" name="studStatus" value="{{ $selectedStudStatus }}">
                         </div>
 
                         <div class="col-12 col-md-3">
                             <labe class="text-bold">Type <span class="text-danger">*</span></labe>
-                            <select class="form-control form-control-sm" name="studType">
+                            <select class="form-control form-control-sm bg-white" disabled>
                                 <option disabled selected> --Select--</option>
                                 @foreach ($studtype as $data)
-                                    <option value="{{ $data->id }}" {{ $data->id == $selectedStudType ? 'selected' : '' }}>{{ $data->studentTypeName }}</option>
+                                    <option value="{{ $data->id }}" {{ $data->id == 2 ? 'selected' : '' }}>{{ $data->studentTypeName }}</option>
                                 @endforeach
                             </select>
+                            <input type="hidden" name="studType" value="2">
                         </div>
                         
                         <div class="col-12 col-md-3">

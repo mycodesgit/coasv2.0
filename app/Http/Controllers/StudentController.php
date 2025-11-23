@@ -379,6 +379,7 @@ class StudentController extends Controller
             ->first();
         
         $selectedStudType = $enrollmentHistory->studType;
+        $selectedStudStatus = $enrollmentHistory->studStatus;
 
         $currentProgCode = $enrollmentHistory ? $enrollmentHistory->progCod : null;
 
@@ -402,7 +403,7 @@ class StudentController extends Controller
                     ->orderBy('class_enroll.classSection', 'ASC')
                     ->get();
 
-        return view('student.preenrol.prelistview', compact('studauth', 'sy', 'studstat', 'studtype', 'studlvl', 'selectedStudType', 'classEnrolls', 'currentProgCode'));
+        return view('student.preenrol.prelistview', compact('studauth', 'sy', 'studstat', 'studtype', 'studlvl', 'selectedStudType', 'selectedStudStatus', 'classEnrolls', 'currentProgCode'));
     }
 
     public function checkPreEnroll(Request $request)
@@ -675,5 +676,62 @@ class StudentController extends Controller
         $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRFconfirmation', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
 
+    }
+
+    public function chatmessagefetch()
+    {
+        $guard= $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        $messages = ChatMessage::where('recipient_type', 'student')
+                    ->where('recipient_id', $studauth->stud_id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        return response()->json(['data' => $messages], 200);
+    }
+
+    public function chatmessageview($id)
+    {
+        $guard= $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        $message = ChatMessage::where('id', $id)
+                    ->where('recipient_type', 'student')
+                    ->where('recipient_id', $studauth->stud_id)
+                    ->first();
+
+        if (!$message) {
+            return response()->json(['error' => 'Message not found'], 404);
+        }
+
+        // Mark the message as read
+        if (!$message->is_read) {
+            $message->is_read = true;
+            $message->save();
+        }
+
+        return response()->json(['data' => $message], 200);
+    }
+
+    public function confirmEnrollment(Request $request)
+    {
+        $guard = $this->getGuard();
+        $studentId = Auth::guard($guard)->user()->studid;
+
+        // find authenticated student
+        $student = Student::where('stud_id', $studentId)->first();
+
+        // update enrollment history to status 2
+        StudEnrolmentHistory::where('studentID', $student->stud_id)
+            ->where('schlyear', $request->schlyear)
+            ->where('semester', $request->semester)
+            ->update([
+                'status' => 2
+            ]);
+
+        return back()->with('success', 'Enrollment confirmed.');
     }
 }
