@@ -143,9 +143,6 @@
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('template/student/app.js') }}" defer></script>
 
-    <!-- Toastr -->
-    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
-
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
@@ -166,6 +163,7 @@
     <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}?v={{ time() }}"></script>
 
     @if(request()->routeIs('schedstudentclassShow'))
         <script>
