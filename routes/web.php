@@ -6,6 +6,7 @@ use App\Http\Controllers\QueueingMonitorController;
 
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PortalController;
+use App\Http\Controllers\PassResetController;
 use App\Http\Controllers\RequestDocumentsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LoginFacultyController;
@@ -127,6 +128,8 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
         Route::post('/xYcmd/upload.documents/search', [AdReuploadController::class, 'searchApplicant'])->name('searchApplicant');
         Route::post('/xYcmd/upload.documents/search/uploaddocs', [AdReuploadController::class, 'uploadDocuments'])->name('uploadDocuments');
         Route::get('/xYcmd/upload.documents/redirect/expire',[AdReuploadController::class,'repupredirectexpire'])->name('repupredirectexpire');
+
+        Route::get('/request/password/reset',[PassResetController::class,'index'])->name('index-resetpass');
     });
 
     Route::prefix('/documents/request')->group(function () {
