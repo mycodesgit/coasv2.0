@@ -376,6 +376,7 @@ class StudentController extends Controller
                     $q->orWhere('campus', 'LIKE', "%$campusItem%");
                 }
             })
+            ->latest() 
             ->first();
         
         $selectedStudType = $enrollmentHistory->studType;
