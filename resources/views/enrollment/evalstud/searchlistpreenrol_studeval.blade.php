@@ -375,24 +375,24 @@ CISS V.1.0 || Student Evaluation
     </div>
 </div>
 
-<div class="fab" id="openChat">
+{{-- <div class="fab" id="openChat">
     <i class="fas fa-comment-dots"></i>
 </div>
 
-<!-- Chat Popup -->
+
 <div class="chat-popup" id="chatPopup">
     <div class="chat-header">
         <span>Chat to {{ request('stud_id') }}</span>
         <button class="close-chat" id="closeChat">&times;</button>
     </div>
     <div class="chat-body">
-        {{-- <div class="message bot">Welcome to CodeHim 🇵🇭</div> --}}
+        <div class="message bot">Welcome to CodeHim 🇵🇭</div>
     </div>
     <div class="chat-input">
         <input type="text" placeholder="Send a message..." id="msgInput">
         <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
     </div>
-</div>
+</div> --}}
 
 <div class="modal fade" id="modal-addSub">
     <div class="modal-dialog modal-md">
