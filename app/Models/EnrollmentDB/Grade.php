@@ -21,6 +21,8 @@ class Grade extends Model
         'status',
         'compstat',
         'postedBy',
+        'schlyear',
+        'semester',
         'campus'
     ];
 }
