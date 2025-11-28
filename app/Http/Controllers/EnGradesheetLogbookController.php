@@ -100,7 +100,7 @@ class EnGradesheetLogbookController extends Controller
     {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $collegeabbr = $request->query('collegeabbr');
+        //$collegeabbr = $request->query('collegeabbr');
         $campus = Auth::guard('web')->user()->campus;
 
         $gslog = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -110,7 +110,7 @@ class EnGradesheetLogbookController extends Controller
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
-                        ->where('faculty.dept', $collegeabbr)
+                        //->where('faculty.dept', $collegeabbr)
                         ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
                         ->orderBy('faculty.lname', 'ASC')
                         ->groupBy('sub_offered.id')
