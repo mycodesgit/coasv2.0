@@ -146,7 +146,7 @@ CISS V.1.0 || Student Evaluation
                                                         <div class="form-row">
                                                             <div class="col-md-3">
                                                                 <label><span class="badge badge-secondary">Course Year&Section</span></label>
-                                                                <select class="form-control form-control-sm" name="course" id="programNameEditSelect" disabled style="background-color: #fff">
+                                                                <select class="form-control form-control-sm" name="course" id="programNameEditSelect">
                                                                     <option> --Select --</option>
                                                                     @foreach ($classEnrolls as $class)
                                                                     @php
