@@ -97,7 +97,7 @@ CISS V.1.0 || Gradesheet Logbook
                                                 <th>Subject Title</th>
                                                 <th>Curr/Yr/Sec</th>
                                                 <th>College</th>
-                                                <th>Signature</th>
+                                                <th>Date Submitted</th>
                                             </tr>
                                         </thead>
                                         <tbody>

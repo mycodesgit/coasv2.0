@@ -54,12 +54,15 @@ $(document).ready(function() {
             {data: 'sub_title'},
             {data: 'subSec'},
             {data: 'dept'},
-            {
-                data: null,
-                render: function(data, type, row) {
-                    return ''; // Default empty column
+            { data: 'lastupdated',
+                render: function (data, type, row) {
+                    if (type === 'display') {
+                        return moment(data).format('MMMM D, YYYY');
+                    } else {
+                        return data;
+                    }
                 }
-            }
+            },
 
         ],
         "createdRow": function (row, data, index) {
