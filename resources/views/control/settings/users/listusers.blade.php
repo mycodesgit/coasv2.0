@@ -296,7 +296,7 @@ CISS V.1.0 || User's List
                                     <option disabled selected>Select</option>
                                     <option value="CAS" @if (old('dept') == 'CAS') {{ 'selected' }} @endif>College of Arts and Sciences</option>
                                     <option value="CCS" @if (old('dept') == 'CCS') {{ 'selected' }} @endif>College of Computer Studies</option>
-                                    <option value="COTED" @if (old('dept') == 'COTED') {{ 'selected' }} @endif>College of Teacher Education</option>
+                                    <option value="CTE" @if (old('dept') == 'CTE') {{ 'selected' }} @endif>College of Teacher Education</option>
                                     <option value="CCJE" @if (old('dept') == 'CCJE') {{ 'selected' }} @endif>College of Criminal Justice Education</option>
                                     <option value="COE" @if (old('dept') == 'COE') {{ 'selected' }} @endif>College of Engineering</option>
                                     <option value="CAF" @if (old('dept') == 'CAF') {{ 'selected' }} @endif>College of Agriculture and Forestry</option>

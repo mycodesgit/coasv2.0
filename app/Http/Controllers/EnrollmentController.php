@@ -842,6 +842,8 @@ class EnrollmentController extends Controller
                         'studID' => $studentID,
                         'subjID' => $subjID,
                         'postedBy' => $request->input('postedBy'),
+                        'schlyear' => $request->input('schlyear'),
+                        'semester' => $request->input('semester'),
                         'campus' => Auth::guard('web')->user()->campus,
                     ]);
                 }
