@@ -68,7 +68,7 @@ CISS V.1.0 || Gradesheet Logbook
                                     <select class="form-control form-control-sm" name="collegeabbr">
                                         <option disabled selected>Select</option>
                                         @foreach ($colleges as $item)
-                                            <option value="">{{ $item->college_name }}</option>
+                                            <option value="{{ $item->college_abbr }}">{{ $item->college_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

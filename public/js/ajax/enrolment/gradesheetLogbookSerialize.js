@@ -15,6 +15,7 @@ $(document).ready(function() {
             "data": { 
                 "schlyear": schlyear,
                 "semester": semester,
+                "semester": semester,
             }
         },
         responsive: true,
