@@ -47,8 +47,10 @@ class EnGradesheetLogbookController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
+        
+        $colleges = College::whereIn('id', [2, 3, 4, 5, 6, 7, 8])->orderBy('college_name', 'ASC')->get();
 
-        return view('enrollment.reports.logbok.search_gslogbook', compact('sy'));
+        return view('enrollment.reports.logbok.search_gslogbook', compact('sy', 'colleges'));
     }
 
     public function logbook_search(Request $request)
@@ -64,6 +66,7 @@ class EnGradesheetLogbookController extends Controller
 
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
+        $collegeabbr = $request->query('collegeabbr');
         $campus = Auth::guard('web')->user()->campus;
 
         return view('enrollment.reports.logbok.searchlist_gslogbook', compact('sy'));
@@ -74,6 +77,7 @@ class EnGradesheetLogbookController extends Controller
 
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
+        $collegeabbr = $request->query('collegeabbr');
         $campus = Auth::guard('web')->user()->campus;
     
         $data = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -83,6 +87,7 @@ class EnGradesheetLogbookController extends Controller
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
+                        ->where('faculty.dept', $collegeabbr)
                         ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
                         ->orderBy('faculty.lname', 'ASC')
                         ->groupBy('sub_offered.id')
@@ -95,6 +100,7 @@ class EnGradesheetLogbookController extends Controller
     {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
+        $collegeabbr = $request->query('collegeabbr');
         $campus = Auth::guard('web')->user()->campus;
 
         $gslog = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -104,6 +110,7 @@ class EnGradesheetLogbookController extends Controller
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
+                        ->where('faculty.dept', $collegeabbr)
                         ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
                         ->orderBy('faculty.lname', 'ASC')
                         ->groupBy('sub_offered.id')

@@ -64,6 +64,16 @@ CISS V.1.0 || Gradesheet Logbook
                                 </div>
 
                                 <div class="col-md-3">
+                                    <label><span class="badge badge-secondary">Colleges</span></label>
+                                    <select class="form-control form-control-sm" name="collegeabbr">
+                                        <option disabled selected>Select</option>
+                                        @foreach ($colleges as $item)
+                                            <option value="">{{ $item->college_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
                                     <label>&nbsp;</label>
                                     <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
                                 </div>
