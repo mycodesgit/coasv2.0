@@ -84,7 +84,7 @@ class EnGradesheetLogbookController extends Controller
                         ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
                         ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
                         ->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
-                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.dept', 'coasv2_db_enrollment.studgrades. updated_at as lastupdated')
+                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.dept', 'coasv2_db_enrollment.studgrades.updated_at as lastupdated')
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)
