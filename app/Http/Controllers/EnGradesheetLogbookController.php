@@ -64,12 +64,14 @@ class EnGradesheetLogbookController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+        $colleges = College::whereIn('id', [2, 3, 4, 5, 6, 7, 8])->orderBy('college_name', 'ASC')->get();
+
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $collegeabbr = $request->query('collegeabbr');
         $campus = Auth::guard('web')->user()->campus;
 
-        return view('enrollment.reports.logbok.searchlist_gslogbook', compact('sy'));
+        return view('enrollment.reports.logbok.searchlist_gslogbook', compact('sy', 'colleges'));
     }
 
     public function getlogbook_search(Request $request)
