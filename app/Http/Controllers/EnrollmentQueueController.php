@@ -70,7 +70,7 @@ class EnrollmentQueueController extends Controller
             )
             ->where('program_en_history.schlyear', $sy->schlyear ?? '')
             ->where('program_en_history.semester', $sy->semester ?? '')
-            ->whereRaw("SUBSTRING_INDEX(program_en_history.progCod, '-', 1) = ?", [$dept])
+            //->whereRaw("SUBSTRING_INDEX(program_en_history.progCod, '-', 1) = ?", [$dept])
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
                     $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
