@@ -379,8 +379,8 @@ class StudentController extends Controller
             ->latest() 
             ->first();
         
-        $selectedStudType = $enrollmentHistory->studType;
-        $selectedStudStatus = $enrollmentHistory->studStatus;
+        $selectedStudType = $enrollmentHistory->studType ?? null;
+        $selectedStudStatus = $enrollmentHistory->studStatus ?? null;
 
         $currentProgCode = $enrollmentHistory ? $enrollmentHistory->progCod : null;
 
@@ -510,7 +510,6 @@ class StudentController extends Controller
                 'studMajor' => 'required',
                 'studMinor' => 'required',
                 'studLevel' => 'required',
-                'studStatus' => 'required',
                 'studClassID' => 'required',
                 'studType' => 'required',
                 'transferee' => 'required',
