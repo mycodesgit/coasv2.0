@@ -445,91 +445,93 @@ class EnProgStudEvalController extends Controller
 
             $encode = str_replace('-', '', now()->format('Ymd')) .'-'. strtoupper(Str::random(4)) .'-'. str_replace('-', '', $request->input('studentID'));
 
-            try {
-                $enrolment = PreEnroll::findOrFail($request->input('id'));
-                $enrolment->update([
-                    'status' => 2,
-                ]);
-                
-                StudEnrolmentHistory::create([
-                    'studentID' => $request->input('studentID'),
-                    'schlyear' => $request->input('schlyear'),
-                    'semester' => $request->input('semester'),
-                    'campus' => $request->input('campus'),
-                    'course' => $request->input('course'),
-                    'progCod' => $request->input('progCod'),
-                    'studMajor' => $request->input('studMajor'),
-                    'studMinor' => $request->input('studMinor'),
-                    'studLevel' => $request->input('studLevel'),
-                    'studYear' => $request->input('studYear'),
-                    'studSec' => $request->input('studSec'),
-                    'studUnit' => $request->input('studUnit'),
-                    'studStatus' => $request->input('studStatus'),
-                    'studSch' => $request->input('studSch'),
-                    'studClassID' => $request->input('studClassID'),
-                    'postedBy' => $request->input('postedBy'),
-                    'confirmBy' => $request->input('confirmBy'),
-                    'postedDate' => $request->input('postedDate'),
-                    'studType' => $request->input('studType'),
-                    'transferee' => $request->input('transferee'),
-                    'fourPs' => $request->input('fourPs'),
-                ]);
-
-                StudHisLog::create([
-                    'studentID' => $request->input('studentID'),
-                    'schlyear' => $request->input('schlyear'),
-                    'semester' => $request->input('semester'),
-                    'campus' => $request->input('campus'),
-                    'course' => $request->input('course'),
-                    'progCod' => $request->input('progCod'),
-                    'studMajor' => $request->input('studMajor'),
-                    'studMinor' => $request->input('studMinor'),
-                    'studLevel' => $request->input('studLevel'),
-                    'studYear' => $request->input('studYear'),
-                    'studSec' => $request->input('studSec'),
-                    'studUnit' => $request->input('studUnit'),
-                    'studStatus' => $request->input('studStatus'),
-                    'studSch' => $request->input('studSch'),
-                    'studClassID' => $request->input('studClassID'),
-                    'postedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
-                    'confirmBy' => $request->input('confirmBy'),
-                    'postedDate' => $request->input('postedDate'),
-                    'studType' => $request->input('studType'),
-                    'transferee' => $request->input('transferee'),
-                    'fourPs' => $request->input('fourPs'),
-                    'encode' => $encode,
-                ]);
-
-                $subjIDs = $request->input('subjIDs');
-                foreach ($subjIDs as $subjID) {
-                    Grade::create([
-                        'studID' => $studentID,
-                        'subjID' => $subjID,
-                        'postedBy' => $request->input('postedBy'),
+            //try {
+                $enrolment = PreEnroll::find($request->input('id'));
+                if ($enrolment) {
+                    $enrolment->update([
+                        'status' => 2,
+                    ]);
+                    
+                    StudEnrolmentHistory::create([
+                        'studentID' => $request->input('studentID'),
                         'schlyear' => $request->input('schlyear'),
                         'semester' => $request->input('semester'),
-                        'campus' => Auth::guard('web')->user()->campus,
-                    ]);
-                }
-
-                $subjIDs = $request->input('subjIDs');
-                foreach ($subjIDs as $subjID) {
-                    StudSubLog::create([
-                        'studID' => $studentID,
-                        'subjID' => $subjID,
+                        'campus' => $request->input('campus'),
+                        'course' => $request->input('course'),
+                        'progCod' => $request->input('progCod'),
+                        'studMajor' => $request->input('studMajor'),
+                        'studMinor' => $request->input('studMinor'),
+                        'studLevel' => $request->input('studLevel'),
+                        'studYear' => $request->input('studYear'),
+                        'studSec' => $request->input('studSec'),
+                        'studUnit' => $request->input('studUnit'),
+                        'studStatus' => $request->input('studStatus'),
+                        'studSch' => $request->input('studSch'),
+                        'studClassID' => $request->input('studClassID'),
                         'postedBy' => $request->input('postedBy'),
-                        'campus' => Auth::guard('web')->user()->campus,
+                        'confirmBy' => $request->input('confirmBy'),
+                        'postedDate' => $request->input('postedDate'),
+                        'studType' => $request->input('studType'),
+                        'transferee' => $request->input('transferee'),
+                        'fourPs' => $request->input('fourPs'),
+                    ]);
+
+                    StudHisLog::create([
+                        'studentID' => $request->input('studentID'),
+                        'schlyear' => $request->input('schlyear'),
+                        'semester' => $request->input('semester'),
+                        'campus' => $request->input('campus'),
+                        'course' => $request->input('course'),
+                        'progCod' => $request->input('progCod'),
+                        'studMajor' => $request->input('studMajor'),
+                        'studMinor' => $request->input('studMinor'),
+                        'studLevel' => $request->input('studLevel'),
+                        'studYear' => $request->input('studYear'),
+                        'studSec' => $request->input('studSec'),
+                        'studUnit' => $request->input('studUnit'),
+                        'studStatus' => $request->input('studStatus'),
+                        'studSch' => $request->input('studSch'),
+                        'studClassID' => $request->input('studClassID'),
+                        'postedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
+                        'confirmBy' => $request->input('confirmBy'),
+                        'postedDate' => $request->input('postedDate'),
+                        'studType' => $request->input('studType'),
+                        'transferee' => $request->input('transferee'),
+                        'fourPs' => $request->input('fourPs'),
                         'encode' => $encode,
-                        'schlyear' => $request->input('schlyear'),
-                        'semester' => $request->input('semester'),
-                        'campus' => Auth::guard('web')->user()->campus,
                     ]);
+
+                    $subjIDs = $request->input('subjIDs');
+                    foreach ($subjIDs as $subjID) {
+                        Grade::create([
+                            'studID' => $studentID,
+                            'subjID' => $subjID,
+                            'postedBy' => $request->input('postedBy'),
+                            'schlyear' => $request->input('schlyear'),
+                            'semester' => $request->input('semester'),
+                            'campus' => Auth::guard('web')->user()->campus,
+                        ]);
+                    }
+
+                    $subjIDs = $request->input('subjIDs');
+                    foreach ($subjIDs as $subjID) {
+                        StudSubLog::create([
+                            'studID' => $studentID,
+                            'subjID' => $subjID,
+                            'postedBy' => $request->input('postedBy'),
+                            'campus' => Auth::guard('web')->user()->campus,
+                            'encode' => $encode,
+                            'schlyear' => $request->input('schlyear'),
+                            'semester' => $request->input('semester'),
+                            'campus' => Auth::guard('web')->user()->campus,
+                        ]);
+                    }
                 }
 
                 return response()->json(['success' => true, 'message' => 'Student Subject Loaded successfully'], 200);
-            } catch (\Exception $e) {
+            //} catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Student Subjects'], 404);
-            }
+            //}
         }
     }
 
