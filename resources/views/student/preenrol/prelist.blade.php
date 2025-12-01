@@ -33,6 +33,10 @@
                                 has already been submitted for evaluation by the College Enrollment Committee.
                             </h5>
                         </div>
+                        <br>
+                        <button class="btn btn-outline-success" onclick="location.reload();">
+                            <i class="fas fa-refresh"></i> Refresh Page for Updates
+                        </button>
                         <div class="mt-4">
                             <table id="waitpreTable" class="table table-hover">
                                 <thead>
@@ -60,6 +64,10 @@
                                 has already been approved. Pending in Registrar Office.
                             </h5>
                         </div>
+                        <br>
+                        <button class="btn btn-outline-success" onclick="location.reload();">
+                            <i class="fas fa-refresh"></i> Refresh Page for Updates
+                        </button>
                     @elseif ($preconfirmenrollreg)
                         <div class="alert alert-warning text-center mb-0" role="alert">
                             <h5>
