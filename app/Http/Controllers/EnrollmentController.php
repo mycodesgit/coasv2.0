@@ -809,6 +809,7 @@ class EnrollmentController extends Controller
                     'studType' => $request->input('studType'),
                     'transferee' => $request->input('transferee'),
                     'fourPs' => $request->input('fourPs'),
+                    'status' => 2,
                 ]);
 
                 StudHisLog::create([
