@@ -520,6 +520,9 @@ class EnProgStudEvalController extends Controller
                         'postedBy' => $request->input('postedBy'),
                         'campus' => Auth::guard('web')->user()->campus,
                         'encode' => $encode,
+                        'schlyear' => $request->input('schlyear'),
+                        'semester' => $request->input('semester'),
+                        'campus' => Auth::guard('web')->user()->campus,
                     ]);
                 }
 

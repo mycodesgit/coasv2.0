@@ -21,6 +21,8 @@ class StudSubLog extends Model
         'compstat',
         'postedBy',
         'campus',
-        'encode'
+        'encode',
+        'schlyear',
+        'semester',
     ];
 }

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('postedBy')->nullable();
             $table->string('campus')->nullable();
             $table->string('encode')->nullable();
+            $table->string('schlyear')->nullable();
+            $table->string('semester')->nullable();
             $table->timestamps();
         });
     }
