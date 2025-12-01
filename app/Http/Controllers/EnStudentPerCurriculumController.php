@@ -145,6 +145,7 @@ class EnStudentPerCurriculumController extends Controller
                         $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                     }
                 })
+                ->where('program_en_history.status', 2)
                 ->groupBy('program_en_history.progCod', 'program_en_history.studYear', 'program_en_history.studSec')
                 ->select(
                     'coasv2_db_schedule.programs.progCod', 
