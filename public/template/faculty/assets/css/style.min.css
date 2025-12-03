@@ -437,9 +437,6 @@ select.form-control:not([size]):not([multiple]) {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background: #563d7c
-        url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E")
-        no-repeat center center/50% 50%;
     color: #fff;
     z-index: 1;
     border-radius: 3px;
@@ -517,8 +514,6 @@ select.form-control:not([size]):not([multiple]) {
     height: 1.25rem;
     width: 1.25rem;
     transition: 0.3s opacity;
-    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E")
-        no-repeat center center/50% 50%;
 }
 .list-unstyled-border li {
     border-bottom: 1px solid #f9f9f9;
@@ -789,7 +784,6 @@ select.form-control:not([size]):not([multiple]) {
     transform: translate(-50%, -50%);
 }
 .card.card-progress:not(.remove-spinner):after {
-    background-image: url("http://puffintheme.com/craft/codiepie/dist/assets/img/spinner.svg");
     background-size: 80px;
     background-repeat: no-repeat;
     background-position: center;
@@ -1178,7 +1172,6 @@ table tr:hover .table-links {
     height: 100%;
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 999;
-    background-image: url("http://puffintheme.com/craft/codiepie/dist/assets/img/spinner.svg");
     background-size: 80px;
     background-repeat: no-repeat;
     background-position: center;
@@ -1708,7 +1701,6 @@ h6 .badge {
 }
 .btn-progress {
     position: relative;
-    background-image: url("http://puffintheme.com/craft/codiepie/dist/assets/img/spinner-white.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: 30px;
@@ -3709,12 +3701,6 @@ body:not(.sidebar-mini) .sidebar-style-3 .sidebar-menu li.active ul.dropdown-men
 }
 @font-face {
     font-family: "simple-Line-Icons";
-    src: url("http://puffintheme.com/craft/codiepie/fonts/simple-Line-Icons.eot");
-    src:
-        url("http://puffintheme.com/craft/codiepie/fonts/simple-Line-Icons.eot") format("embedded-opentype"),
-        url("http://puffintheme.com/craft/codiepie/fonts/simple-Line-Icons.woff") format("woff"),
-        url("http://puffintheme.com/craft/codiepie/fonts/simple-Line-Icons.ttf") format("truetype"),
-        url("http://puffintheme.com/craft/codiepie/fonts/simple-Line-Icons.svg#Simple-Line-Icons") format("svg");
     font-weight: normal;
     font-style: normal;
 }
@@ -4389,13 +4375,6 @@ body:not(.sidebar-mini) .sidebar-style-3 .sidebar-menu li.active ul.dropdown-men
 }
 @font-face {
     font-family: "feather";
-    src: url("http://puffintheme.com/craft/codiepie/fonts/feather-webfont.eot?t=1501841394106");
-    src:
-        url("http://puffintheme.com/craft/codiepie/fonts/feather-webfont.eot?t=1501841394106#iefix")
-            format("embedded-opentype"),
-        url("http://puffintheme.com/craft/codiepie/fonts/feather-webfont.woff?t=1501841394106") format("woff"),
-        url("http://puffintheme.com/craft/codiepie/fonts/feather-webfont.ttf?t=1501841394106") format("truetype"),
-        url("http://puffintheme.com/craft/codiepie/fonts/feather-webfont.svg?t=1501841394106#feather") format("svg");
 }
 .fe {
     font-family: "feather" !important;
