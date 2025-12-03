@@ -359,7 +359,6 @@ table.dataTable.no-footer {
 div.dataTables_wrapper div.dataTables_processing {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     font-size: 0 !important;
-    background-image: url("http://puffintheme.com/craft/codiepie/dist/assets/img/spinner.svg") !important;
     background-color: #fff;
     background-size: 100%;
     width: 50px !important;
