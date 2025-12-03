@@ -67,6 +67,15 @@
                         <div id="calendarDays" class="calendar-grid text-center"></div>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="card" style="border-radius: 20px !important;">
+                        <div class="card-body">
+                            <div class="chart-responsive pt-1">
+                                <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
