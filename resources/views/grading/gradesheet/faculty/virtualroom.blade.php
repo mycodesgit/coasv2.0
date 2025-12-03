@@ -15,110 +15,100 @@ CISS V.1.0 || Grading
 @yield('sidemenu')
 
 @section('workspace')
-<div class="card">
-    <div class="card-body">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('homefaculty') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-home"></i>
-                </a>
-            </li>
-            <li class="breadcrumb-item mt-1">Grade Sheet</li>
-            <li class="breadcrumb-item mt-1"><a href="{{ route('semesterfac') }}">Semester</a></li>
-            <li class="breadcrumb-item active mt-1">
-                @php
-                    $semester = request('semester');
-                    $semesterName = '';
+    <section class="section mt-4">
+        <!-- <div class="section-header" style="border-radius: 20px !important;">
+            <h1>Blank Page</h1>
+        </div> -->
 
-                    if ($semester == 1) {
-                        $semesterName = '1st Semester';
-                    } elseif ($semester == 2) {
-                        $semesterName = '2nd Semester';
-                    } elseif ($semester == 3) {
-                        $semesterName = 'Summer';
-                    }
-                @endphp
+        <div class="section-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="border-radius: 20px">
+                        <div class="card-body">
+                            <h6>
+                                @php
+                                    $semester = request('semester');
+                                    $semesterName = '';
 
-                {{ $semesterName }} - {{ request('schlyear') }}
-            </li>
-        </ol>
+                                    if ($semester == 1) {
+                                        $semesterName = '1st Semester';
+                                    } elseif ($semester == 2) {
+                                        $semesterName = '2nd Semester';
+                                    } elseif ($semester == 3) {
+                                        $semesterName = 'Summer';
+                                    }
+                                @endphp
 
-        <p>
-            @if(Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success')}}</div>
-            @elseif (Session::has('fail'))
-                <div class="alert alert-danger">{{Session::get('fail')}}</div>
-            @endif
-        </p>
-
-        <div>
-            <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Grade Sheet</h4>
-            </div>
-        </div>
-
-        <div class="mt-5 row">
-             @if($facsubprogen->isEmpty())
-                <div class="col-12">
-                    <div class="alert alert-secondary alert-dismissible">
-                        <div class="form-group">
-                            <div class="form-row">
-                                <div class="col-12 mt-3">
-                                    <div class="icheck-warning">
-                                        <label for="maintenance">
-                                            <h3 style="margin-top: -5px"><i class="icon fas fa-exclamation-triangle text-warning"></i>No subject plotted or loaded in this academic year and semester!</h3>
-                                        </label>
+                                {{ $semesterName }} - {{ request('schlyear') }}
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card" style="border-radius: 20px">
+                        <div class="card-body">
+                            <div class="mt-5 row">
+                                @if($facsubprogen->isEmpty())
+                                    <div class="col-12">
+                                        <div class="alert alert-secondary alert-dismissible">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-12 mt-3">
+                                                        <div class="icheck-warning">
+                                                            <label for="maintenance">
+                                                                <h3 style="margin-top: -5px"><i class="icon fas fa-exclamation-triangle text-warning"></i>No subject plotted or loaded in this academic year and semester!</h3>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    @foreach($facsubprogen as $datafacsubprogen)
+                                        @auth('faculty')
+                                            @if(Auth::guard('faculty')->user()->role == '943') 
+                                                <a href="{{ route('virtual_facultysubjectclass', ['id' => $datafacsubprogen->subjID, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}">
+                                                    <div class="col-lg-3 col-6">
+                                                        <div class="card card-widget widget-user" style="border-radius: 20px !important;">
+                                                            <div class="widget-user-header" style="background: url('{{ asset('template/img/img_bookclub.jpg') }}')no-repeat; background-position: center; background-size: cover;">
+                                                                <h5 class="widget-user-username text-light" style="text-align: left; font-weight: bold;">{{ $datafacsubprogen->sub_name }}</h5>
+                                                                <h6 class="widget-user-desc text-light" style="text-align: left;">{{ $datafacsubprogen->subSec }}</h6>
+                                                            </div>
+                                                            <div class="widget-user-image">
+                                                                <img class="img-circle elevation-2" src="{{ asset('template/img/user.png') }}" alt="User Avatar">
+                                                            </div>
+                                                            <div class="modal-footer justify-content-between" style="background-color: antiquewhite">
+                                                                <h6 class="widget-user-desc text-dark">
+                                                                    @if(isset($datafacsubprogen->fname) && isset($datafacsubprogen->lname))
+                                                                        {{ substr($datafacsubprogen->fname, 0, 1) }}. {{ $datafacsubprogen->lname }}
+                                                                    @else
+                                                                        No Instructor
+                                                                    @endif
+                                                                </h6>
+
+                                                                @auth('faculty')
+                                                                    @if(Auth::guard('faculty')->user()->role == '943') 
+                                                                        <a href="{{ route('virtual_facultysubjectclass', ['id' => $datafacsubprogen->subjID, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="btn btn-outline-success btn-sm">
+                                                                            <i class="fas fa-folder-open"></i>
+                                                                        </a>
+                                                                    @endif
+                                                                @endauth
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            @elseif (Auth::guard('faculty')->user()->role == '943')
+                                                No
+                                            @endif
+                                        @endauth
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
-            @else
-                @foreach($facsubprogen as $datafacsubprogen)
-                    @auth('faculty')
-                        @if(Auth::guard('faculty')->user()->role == '943') 
-                            <a href="{{ route('virtual_facultysubjectclass', ['id' => $datafacsubprogen->subjID, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}">
-                                <div class="col-lg-3 col-6">
-                                    <div class="card card-widget widget-user">
-                                        <div class="widget-user-header" style="background: url('{{ asset('template/img/img_bookclub.jpg') }}')no-repeat; background-position: center; background-size: cover;">
-                                            <h5 class="widget-user-username text-light" style="text-align: left; font-weight: bold;">{{ $datafacsubprogen->sub_name }}</h5>
-                                            <h6 class="widget-user-desc text-light" style="text-align: left;">{{ $datafacsubprogen->subSec }}</h6>
-                                        </div>
-                                        <div class="widget-user-image">
-                                            <img class="img-circle elevation-2" src="{{ asset('template/img/user.png') }}" alt="User Avatar">
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <h6 class="widget-user-desc text-dark">
-                                                @if(isset($datafacsubprogen->fname) && isset($datafacsubprogen->lname))
-                                                    {{ substr($datafacsubprogen->fname, 0, 1) }}. {{ $datafacsubprogen->lname }}
-                                                @else
-                                                    No Instructor
-                                                @endif
-                                            </h6>
-
-                                            @auth('faculty')
-                                                @if(Auth::guard('faculty')->user()->role == '943') 
-                                                    <a href="{{ route('virtual_facultysubjectclass', ['id' => $datafacsubprogen->subjID, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="btn btn-outline-success btn-sm">
-                                                        <i class="fas fa-folder-open"></i>
-                                                    </a>
-                                                @endif
-                                            @endauth
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        @elseif (Auth::guard('faculty')->user()->role == '943')
-                            No
-                        @endif
-                    @endauth
-                @endforeach
-            @endif
+            </div>
         </div>
-        
-    </div>
-</div>
-
-
-
+    </section>
 @endsection

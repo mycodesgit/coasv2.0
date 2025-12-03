@@ -1,166 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <title>CISS - Home</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/custom.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title')</title>
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="{{ asset('template/faculty/assets/modules/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/faculty/assets/modules/fontawesome-free-V6/css/all.min.css') }}">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{{ asset('template/faculty/assets/css/style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/faculty/assets/css/components.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/faculty/assets/css/customstyle.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}" media="(min-width: 768px)">
-    <!-- Toastr -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
-    <!-- Logo  -->
-    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
+    <link rel="stylesheet" href="{{ asset('template/dist/css/custom.css') }}">
 
     <!-- DataTables  -->
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    <!-- Logo  -->
+    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
+
     <style>
-        .toast-top-right {
-            margin-top: 50px;
+        ::-webkit-scrollbar {
+            width: 6px !important;
         }
-        .folder-icon {
-            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1 !important;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888 !important;
+            border-radius: 5px !important;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555 !important;
+        }
+        .my-element {
+            width: 100%;
+            height: 100%;
+            background-image: url("{{ asset('template/faculty/assets/img/bg-gradient.jpg') }}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center; 
+        }
+        .main-navbar {
+            background: linear-gradient(135deg, #3a7d5c 0%, #1f5036 100%);
+            color: #000;
         }
 
-        .folder-icon:hover {
-            transform: scale(1.1);  /* Enlarge the icon on hover */
-            color: #000;  /* Change color when hovered */
-        }
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            color: #495057;
-            /*background-color: #c9c2c2;*/
-            border-color: #32ac71 #32ac71 #ffffff;
-        }
-        .sticky-column {
-          position: sticky;
-          top: 50px;
-          height: 5vh;
-        }
-        .top-bar {
-            height: 16px;
-            background: #f3f5f8;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 998;
-        }
-        body.dark-theme .top-bar {
-            background: #3f474e;
-        }
-        @media (max-width: 767.98px) {
-            .top-bar {
-                height: 12px;
+        @media (min-width: 992px) {
+            .main-navbar {
+                background: #ffffff !important;
             }
+        }
+        .modal-lg {
+            max-width: 70% !important;
+        }
+        .styled-table thead tr {
+            border-bottom: 2px solid #009879;
+            border-top: 2px solid #009879;
+            color: #000;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+            color: #000;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 1px solid #009879;
+        }
+
+        .toast-top-right {
+            margin-top: 80px;
+        }
+        .card-widget {
+            border: 0;
+            position: relative;
+        }
+        .widget-user .widget-user-header {
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+            height: 135px;
+            padding: 1rem;
+            text-align: center;
         }
     </style>
 </head>
 
-<body class="text-sm">
+<body class="layout-4">
+<!-- Page Loader -->
+<!-- <div class="page-loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+</div> -->
 
-    <div class="top-bar"></div>
-    
-    <header class="header" id="header">
-        <div class="header__container" style="background: linear-gradient(135deg, #1f5036 0%, #3a7d5c 100%);">
-            <a href="#" class="header__logo">
-                <i class="fas fa-diagram-predecessor" style="color: #e9ecef"></i>
-                <span style="color: #e9ecef">CISS V.1.0</span>
-            </a>
+    <div id="app" class="">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div> 
+            <div style="height: 15px; background: #f0eff1; position: fixed; top: 0; left: 0; right: 0; z-index: 998;"></div>
+            
+            <!-- Start app top navbar -->
+            <nav class="navbar navbar-expand-lg main-navbar" style="position: fixed; margin-top: 15px; border-radius: 20px; margin-left: 15px; margin-right: 20px; z-index: 999">
+                <form class="form-inline mr-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg text-dark"><i class="fas fa-bars"></i></a></li>
+                    </ul>
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <img alt="image" src="{{ asset('template/img/cpsulogov4.png') }}" class="rounded-circle mr-1">
+                            <div class="d-sm-none d-lg-inline-block">
+                                Hi, 
+                                @auth('faculty')
+                                    @if(Auth::guard('faculty')->user()->role == '943')
+                                        {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+                                    @endif
+                                @endauth 
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-title">Logged in 5 min ago</div>
+                            <a href="#" class="dropdown-item has-icon">
+                                <i class="far fa-user"></i> Profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ route('logoutfac') }}" class="dropdown-item has-icon text-danger">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
 
-            <button class="btn btn-default btn-sm" id="header-toggle" style="background-color: rgb(218, 218, 218);">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        <div class="d-block d-md-none" style="z-index: -999">
-            <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
-        </div>
-    </header>
-
-    
-
-    <!--=============== SIDEBAR ===============-->
-    <nav class="sidebar" id="sidebar" style="background: linear-gradient(135deg, #3a7d5c 0%, #1f5036 100%);">
-        <div class="sidebar__container">
-            <div class="sidebar__user">
-                <div class="sidebar__img">
-                    <img src="{{ asset('template/img/cpsulogov4.png') }}" alt="image" />
-                </div>
-
-                <div class="sidebar__info">
-                    <h3 style="margin-top: 10px;">
-                        <span style="font-weight: bold;">
-						@auth('faculty')
-                            @if(Auth::guard('faculty')->user()->role == '943')
-                                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
-                            @endif
-                        @endauth 
-                        </span><br>
-						<span>Faculty</span>
-					</h3>
-                </div>
-            </div>
-
-            <div class="sidebar__content">
-                <div>
+            <!-- Start main left sidebar menu -->
+            <div class="main-sidebar sidebar-style-2" style="border-radius: 20px;">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand">
+                        <a href="index-2.html">Faculty</a>
+                    </div>
+                    <div class="sidebar-brand sidebar-brand-sm">
+                        <a href="index-2.html">CP</a>
+                    </div>
                     @include('partials.control_grade_sidebar')
+                    {{-- <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
+                        <a href="#" class="btn btn-success btn-lg btn-block btn-icon-split"><i class="fas fa-rocket"></i> Documentation</a>
+                    </div> --}}
+                </aside>
+            </div>
+
+            <!-- Start app main Content -->
+            <div class="main-content">
+                @section('workspace')
+                @show
+            </div>
+
+            <!-- Start app Footer part -->
+            <footer class="main-footer">
+                <div class="footer-left">
+                    <div></div> CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved
                 </div>
-            </div>
-
-            <div class="sidebar__actions">
-                <button style="all: unset; cursor: pointer;">
-                    <i class="fas fa-moon sidebar__link sidebar__theme" id="theme-button">
-                        <span>Dark Mode</span>
-                    </i>
-                </button>
-
-                <a href="{{ route('logoutfac') }}" style="all: unset; cursor: pointer;">
-                    <i class="fas fa-power-off sidebar__link sidebar__logout" id="theme-logout">
-                        <span>Logout</span>
-                    </i>
-                </a>
-            </div>
+                <div class="footer-right">
+                
+                </div>
+            </footer>
         </div>
-    </nav>
+    </div>
 
-    <!--=============== MAIN ===============-->
-    <main class="main" id="main">
-        <div class="carddashsection">
-            @section('workspace')
-            @show
-        </div>
-    </main>
-    
-    <!-- jQuery -->
-    <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
-    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
-    {{-- <script src="{{ asset('js/basic/madapak.js') }}"></script> --}}
-    <!-- Toastr -->
-    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- General JS Scripts -->
+    <script src="{{ asset('template/faculty/assets/bundles/lib.vendor.bundle.js') }}"></script>
+    <script src="{{ asset('template/faculty/js/CodiePie.js') }}"></script>
 
-    <!-- jquery-validation -->
-    <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-    {{-- <script src="{{ asset('js/ajax/settngs/dark-mode.js') }}"></script> --}}
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <!-- Template JS File -->
+    <script src="{{ asset('template/faculty/js/scripts.js') }}"></script>
+    <script src="{{ asset('template/faculty/js/custom.js') }}"></script>
 
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -175,10 +197,6 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
-
-    <script src="{{ asset('js/validation/grading/gradingAttendanceValidation.js') }}"></script>
 
     @if(request()->routeIs('homefaculty'))
         <script>
@@ -267,4 +285,3 @@
     @endif
 </body>
 </html>
-   

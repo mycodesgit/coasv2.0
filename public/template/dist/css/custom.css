@@ -28,7 +28,7 @@
 }
 
 .widget-user .widget-user-image > img {
-    border: 3px solid #fff !important;
+    /* border: 3px solid #fff !important; */
     height: auto !important;
     width: 50px !important;
 }
