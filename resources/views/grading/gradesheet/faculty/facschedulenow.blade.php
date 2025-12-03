@@ -23,7 +23,7 @@ CISS V.1.0 || Grading
         <div class="section-body">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card" style="border-radius: 20px">
                         <div class="card-body">
                             <form method="GET" action="{{ route('schedulefac_searchview') }}" id="attendancegrading">
                                 @csrf   

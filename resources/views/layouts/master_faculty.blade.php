@@ -183,7 +183,10 @@
 
     <!-- Template JS File -->
     <script src="{{ asset('template/faculty/js/scripts.js') }}"></script>
+    @if(request()->routeIs('homefaculty'))
     <script src="{{ asset('template/faculty/js/custom.js') }}"></script>
+    @endif
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
