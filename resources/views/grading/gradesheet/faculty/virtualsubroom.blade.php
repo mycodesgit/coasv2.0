@@ -74,9 +74,7 @@ CISS V.1.0 || Grading
                                                             <button type="button" class="btn btn-success btn-sm btn-block" id="submitgradeid" data-toggle="modal" data-target="#submitgrades" @if($grade == 0) disabled @endif>Submit Grades</button>
                                                         </form>
                                                     </div>
-
-                                                    @include('modal.submitgrades')
-
+                                                    
                                                     <div class="card-body table-responsive p-0 text-dark" style="height: 500px;">
                                                         <table id="" class="table table-bordered table-striped table-head-fixed text-nowrap">
                                                             <thead>
@@ -178,5 +176,6 @@ CISS V.1.0 || Grading
             </div>
         </div>
     </section>
+    @include('modal.submitgrades')
 
 @endsection
