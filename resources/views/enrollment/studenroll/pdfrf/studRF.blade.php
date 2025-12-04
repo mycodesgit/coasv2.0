@@ -381,7 +381,7 @@
     				<td class="signatories-rf-sign">
 						@if(Auth::guard('web')->user()->campus == 'MC')
 							@if($progPrefix == 'CAF')
-								<img src="{{ public_path('template/img/empsign/caf.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 550px; width: 100px; z-index: 5;">
+								<img src="{{ public_path('template/img/empsign/caf.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 550px; width: 200px; z-index: 5;">
 							@elseif($progPrefix == 'CCS')
 								<img src="{{ public_path('template/img/empsign/ccs.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 550px; width: 100px; z-index: 5;">
 							@elseif($progPrefix == 'CBM')
@@ -400,7 +400,7 @@
     				<td class="signatories-rf-sign">
 						@if(Auth::guard('web')->user()->campus == 'MC')
 							@if($progPrefix == 'CAF')
-								<img src="{{ public_path('template/img/empsign/caf.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 300px; width: 100px; z-index: 5;">
+								<img src="{{ public_path('template/img/empsign/caf.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 300px; width: 200px; z-index: 5;">
 							@elseif($progPrefix == 'CCS')
 								<img src="{{ public_path('template/img/empsign/ccs.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 300px; width: 100px; z-index: 5;">
 							@elseif($progPrefix == 'CBM')
