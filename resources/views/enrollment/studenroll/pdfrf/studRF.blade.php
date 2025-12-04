@@ -393,7 +393,7 @@
 							@elseif($progPrefix == 'COE')
 								<img src="{{ public_path('template/img/empsign/coe.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 550px; width: 100px; z-index: 5;">
 							@elseif($progPrefix == 'CAS')
-								<img src="{{ public_path('template/img/empsign/cas.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 550px; width: 100px; z-index: 5;">
+								<img src="{{ public_path('template/img/empsign/cas.png') }}" alt="signature" style="position: absolute; margin-top: -10px; right: 550px; width: 100px; z-index: 5;">
 							@endif
 						@endif
 					</td>
@@ -412,7 +412,7 @@
 							@elseif($progPrefix == 'COE')
 								<img src="{{ public_path('template/img/empsign/coe.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 300px; width: 100px; z-index: 5;">
 							@elseif($progPrefix == 'CAS')
-								<img src="{{ public_path('template/img/empsign/cas.png') }}" alt="signature" style="position: absolute; margin-top: -20px; right: 300px; width: 100px; z-index: 5;">
+								<img src="{{ public_path('template/img/empsign/cas.png') }}" alt="signature" style="position: absolute; margin-top: -10px; right: 300px; width: 100px; z-index: 5;">
 							@endif
 						@endif
 					</td>
