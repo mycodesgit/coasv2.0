@@ -350,8 +350,8 @@ CISS V.1.0 || Add Student
                                                 @foreach($regions as $region)
                                                     <option value="{{ $region->region_id }}" data-name="{{ $region->name }}">{{ $region->name }}</option>
                                                 @endforeach
-                                                <input type="hidden" id="region_name" name="region">
                                             </select>
+                                            <input type="hidden" id="region_name" name="region">
                                         </div>
                                         <div class="col-md-4">
                                             <label><span class="badge badge-secondary">Province</span></label>
@@ -366,6 +366,26 @@ CISS V.1.0 || Add Student
                                                 <option value="">Select City</option>
                                             </select>
                                             <input type="hidden" id="city_name" name="city">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">Barangay</span></label>
+                                            <select id="barangay" class="form-control form-control-sm select2bs4" style="text-transform: uppercase;">
+                                                <option value="">Select Barangay</option>
+                                            </select>
+                                            <input type="hidden" id="brgy_name" name="brgy">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">House No. / Block / Purok</span></label>
+                                            <input type="text" name="hnum" id="viewdatastudHnum" class="form-control form-control-sm" placeholder="House No. / Block / Purok" style="text-transform: uppercase;">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">Zipcode</span></label>
+                                            <input type="text" name="zcode" id="zipcode" class="form-control form-control-sm" readonly placeholder="Zip Code" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
                                         </div>
                                     </div>
                                 </div>
@@ -402,7 +422,7 @@ CISS V.1.0 || Add Student
                             </form>
                         </div>
                         <div class="tab-pane fade show" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">
-                            <form method="post" action="{{ route('studentStore') }}" id="addStudentApply">
+                            <form method="post" action="{{ route('studentStore') }}" id="addStudentGradApply">
                                 @csrf
 
                                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
@@ -497,31 +517,49 @@ CISS V.1.0 || Add Student
 
                                 <div class="form-group">
                                     <div class="form-row">
-                                        <div class="col-md-2">
-                                            <label><span class="badge badge-secondary">House No.</span></label>
-                                            <input type="text" name="hnum" class="form-control form-control-sm" id="viewdatastudHnum" oninput="this.value = this.value.toUpperCase()">
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">Region</span></label>
+                                            <select id="region1" class="form-control form-control-sm select2bs4">
+                                                <option value="">Select Region</option>
+                                                @foreach($regions as $region)
+                                                    <option value="{{ $region->region_id }}" data-name="{{ $region->name }}">{{ $region->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <input type="hidden" id="region_name1" name="region">
                                         </div>
-                                        <div class="col-md-2">
-                                            <label><span class="badge badge-secondary">Street/Barangay</span></label>
-                                            <input type="text" name="brgy" class="form-control form-control-sm" id="viewdatastudBrgy" oninput="this.value = this.value.toUpperCase()">
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">Province</span></label>
+                                            <select id="province1" class="form-control form-control-sm select2bs4">
+                                                <option value="">Select Province</option>
+                                            </select>
+                                            <input type="hidden" id="province_name1" name="province">
                                         </div>
-                                        <div class="col-md-2">
-                                            <label><span class="badge badge-secondary">Munipality/City</span></label>
-                                            <select name="city" class="form-control form-control-sm select2bs4" id="viewdatastudCity1">
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">City/Municipality</span></label>
+                                            <select id="city1" class="form-control form-control-sm select2bs4">
                                                 <option value="">Select City</option>
                                             </select>
+                                            <input type="hidden" id="city_name1" name="city">
                                         </div>
-                                        <div class="col-md-2">
-                                            <label><span class="badge badge-secondary">Province</span></label>
-                                            <input type="text" name="province" class="form-control form-control-sm" id="viewdatastudProvince1">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">Barangay</span></label>
+                                            <select id="barangay1" class="form-control form-control-sm select2bs4" style="text-transform: uppercase;">
+                                                <option value="">Select Barangay</option>
+                                            </select>
+                                            <input type="hidden" id="brgy_name1" name="brgy">
                                         </div>
-                                        <div class="col-md-2">
-                                            <label><span class="badge badge-secondary">Region</span></label>
-                                            <input type="text" name="region" class="form-control form-control-sm" id="viewdatastudRegion1">
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">House No. / Block / Purok</span></label>
+                                            <input type="text" name="hnum" id="viewdatastudHnum1" class="form-control form-control-sm" placeholder="House No. / Block / Purok" style="text-transform: uppercase;">
                                         </div>
-                                        <div class="col-md-2">
-                                            <label><span class="badge badge-secondary">Zip Code</span></label>
-                                            <input type="text" name="zcode" class="form-control form-control-sm" id="viewdatastudZcode1">
+                                        <div class="col-md-4">
+                                            <label><span class="badge badge-secondary">Zipcode</span></label>
+                                            <input type="text" name="zcode" id="zipcode1" class="form-control form-control-sm" readonly placeholder="Zip Code" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
                                         </div>
                                     </div>
                                 </div>
@@ -538,7 +576,7 @@ CISS V.1.0 || Add Student
                                         </div>
                                         <div class="col-md-6">
                                             <label><span class="badge badge-secondary">Address</span></label>
-                                            <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
+                                            <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress1" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
                                         </div>
                                         <div class="col-md-2">
                                             <label><span class="badge badge-secondary">Age</span></label>
