@@ -95,6 +95,13 @@
             padding: 1rem;
             text-align: center;
         }
+        .form-control-sm {
+            height: calc(1.8125rem + 2px) !important;
+            padding: .25rem .5rem !important;
+            font-size: .875rem !important;
+            line-height: 1.5 !important;
+            border-radius: .2rem !important;
+        }
     </style>
 </head>
 
