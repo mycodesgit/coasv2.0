@@ -79,6 +79,9 @@ CISS V.1.0 || List of Scholars Student
                             <th>Scholarship</th>
                             <th>Father</th>
                             <th>Mother</th>
+                            <th>Gender</th>
+                            <th>Contact</th>
+                            <th>Email</th>
                         </tr>
                     </thead>
                     <tbody>

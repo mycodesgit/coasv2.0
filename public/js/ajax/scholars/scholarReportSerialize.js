@@ -39,6 +39,9 @@ $(document).ready(function() {
             { data: 'scholar_name' },
             { data: 'stud_father' },
             { data: 'stud_mother' },
+            { data: 'gender' },
+            { data: 'contact' },
+            { data: 'email' },
         ],
         dom: 'Bfrtip'
     }).buttons().container().appendTo('#studreportscholar_wrapper .col-md-6:eq(0)');
