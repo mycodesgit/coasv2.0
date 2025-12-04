@@ -145,6 +145,7 @@ CISS V.1.0 || Faculty Designation
                                 <select class="form-control form-control-sm" name="designation">
                                     <option value="Dean">Dean</option>
                                     <option value="Registrar">Registrar</option>
+                                    <option value="Assessment">Assessment</option>
                                     <option value="CampusAdmin">Campus Admin</option>
                                 </select>
                             </div>

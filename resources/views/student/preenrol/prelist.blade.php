@@ -120,6 +120,7 @@
                                 at the Main Campus in {{ $preofficialenrollreg->course }}.
                             </h5>
                         </div>
+                        <iframe src="{{ route('rfstudactconfirm') }}" width="100%" height="500"></iframe>
                     @else
                         <form method="GET" action="{{ route('pre.show') }}" id="enrollStud" class="">
                             @csrf

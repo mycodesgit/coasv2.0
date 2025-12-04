@@ -18,5 +18,6 @@ class SigPresVice extends Model
         'schlyear',
         'semester',
         'status',
+        'esign',
     ];
 }

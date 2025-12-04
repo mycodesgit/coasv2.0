@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('schlyear')->nullable();
             $table->string('semester')->nullable();
             $table->enum('status', ['1', '2'])->default('1');
+            $table->text('esign')->nullable();
             $table->timestamps();
         });
     }
