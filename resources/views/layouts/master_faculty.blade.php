@@ -225,6 +225,7 @@
             var undercolors = {!! json_encode($underproglevsecname) !!};
         </script>
         <script src="{{ asset('js/chart/enbarchartperyearlevfaculty.js') }}?v={{ time() }}"></script>
+        @include('script.faculty.dashSerialize')
     @endif
 
     <script>

@@ -180,7 +180,37 @@ class ControlController extends Controller
             $countstudsubfac[] = $program->count;
         }
 
-        return view('control.facultyhome', compact('guard', 'schlyearactiveYear', 'schlyearactive', 'semesteractive', 'underproglevsecname', 'countstudsubfac'));
+        return view('control.facultyhome', compact('guard', 'schlyearactiveYear', 'schlyearactive', 'semesteractive', 'underproglevsecname', 'countstudsubfac', 'datafacsubprogen'));
+    }
+
+    public function dashcountstud()
+    {
+        $data = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
+                    ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
+                    ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select(
+                        'studgrades.*',
+                        'studgrades.id as stugdeID',
+                        DB::raw('COUNT(DISTINCT studgrades.studID) as countsub'),
+                        'coasv2_db_schedule.subjects.sub_name',
+                        'coasv2_db_schedule.sub_offered.subSec',
+                        'coasv2_db_schedule.sub_offered.schlyear',
+                        'coasv2_db_schedule.sub_offered.semester',
+                        'coasv2_db_schedule.sub_offered.campus',
+                        'coasv2_db_schedule.scheduleclass.faculty_id',
+                        'coasv2_db_schedule.scheduleclass.subject_id',
+                        'coasv2_db_schedule.faculty.fname',
+                        'coasv2_db_schedule.faculty.lname',
+                    )
+            ->where('coasv2_db_schedule.sub_offered.semester', '1')
+            ->where('coasv2_db_schedule.sub_offered.schlyear', '2024-2025')
+            ->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
+            ->where('coasv2_db_schedule.scheduleclass.faculty_id', Auth::guard('faculty')->user()->id)
+            ->groupBy('studgrades.subjID')
+            ->get();
+        
+        return response()->json(['data' => $data]);
     }
     
     public function logout()

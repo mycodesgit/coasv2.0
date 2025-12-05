@@ -204,6 +204,7 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
 Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('faculty')->group(function () {
         Route::get('/dashboard', [ControlController::class, 'homefaculty'])->name('homefaculty');
+        Route::get('/stud/count/dash', [ControlController::class, 'dashcountstud'])->name('dashcountstud');
         Route::get('/logout/fac', [ControlController::class, 'logout'])->name('logoutfac');
     });
 

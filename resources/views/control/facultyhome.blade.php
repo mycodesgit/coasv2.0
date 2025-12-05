@@ -67,7 +67,7 @@
                         <div id="calendarDays" class="calendar-grid text-center"></div>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="card" style="border-radius: 20px !important;">
                         <div class="card-body">
                             <div class="chart-responsive pt-1">
@@ -76,7 +76,28 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="card" style="border-radius: 20px !important;">
+                        <div class="card-body">
+                            <table id="countstuddash" class="table table-striped styled-table" style="font-size: 10pt">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>No. of Stud</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <script>
+        var studCountRoute = "{{ route('dashcountstud') }}";
+    </script>
 @endsection
