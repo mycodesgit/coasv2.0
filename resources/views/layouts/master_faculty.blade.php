@@ -108,10 +108,10 @@
         @media (max-width: 991px) {
             .bottom-nav {
                 position: fixed;
-                bottom: 20px;
+                bottom: 10px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: rgba(82, 82, 82, 0.068);
+                background: rgba(37, 37, 37, 0);
                 backdrop-filter: blur(10px);
                 width: 90%;
                 max-width: 400px;
