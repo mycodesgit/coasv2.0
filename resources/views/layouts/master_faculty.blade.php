@@ -102,6 +102,48 @@
             line-height: 1.5 !important;
             border-radius: .2rem !important;
         }
+        .bottom-nav {
+            display: none;
+        }
+        @media (max-width: 991px) {
+            .bottom-nav {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(82, 82, 82, 0.068);
+                backdrop-filter: blur(10px);
+                width: 90%;
+                max-width: 400px;
+                padding: 10px 0;
+                border-radius: 20px;
+                display: flex;
+                justify-content: space-around;
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+                z-index: 999;
+            }
+
+            .nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 8pt;
+                color: #000000;
+                cursor: pointer;
+                transition: 0.2s;
+            }
+
+            .nav-item .icon {
+                font-size: 20px;
+                margin-bottom: 1px;
+                margin-top: 3px;
+            }
+
+            .nav-item.active {
+                color: #000000;
+                font-weight: normal;
+            }
+        }
     </style>
 </head>
 
@@ -169,6 +211,27 @@
             <div class="main-content">
                 @section('workspace')
                 @show
+                <div class="bottom-nav">
+                    <div class="nav-item active" data-label="Dashboard">
+                        <i class="fas fa-th icon"></i>
+                        <span>Dashboard</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Attendance">
+                        <i class="fas fa-file-pdf icon"></i>
+                        <span>Attendance</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Schedule">
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <span>Schedule</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Grade Sheet">
+                        <i class="fas fa-list-ol icon"></i>
+                        <span>Grade Sheet</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Start app Footer part -->

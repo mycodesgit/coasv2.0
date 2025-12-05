@@ -79,7 +79,7 @@
                 <div class="col-md-4">
                     <div class="card" style="border-radius: 20px !important;">
                         <div class="card-body">
-                            <table id="countstuddash" class="table table-striped styled-table" style="font-size: 10pt">
+                            <table id="countstuddash" class="table table-striped styled-table" style="font-size: 10pt; width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>Subject</th>
