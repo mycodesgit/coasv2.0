@@ -25,13 +25,13 @@ CISS V.1.0 || Grading
                 <div class="col-md-12">
                     <div class="card" style="border-radius: 20px">
                         <div class="card-body">
-                            <table id="example1" class="table table-hover styled-table">
+                            <table id="example1" class="table table-hover styled-table" style="width: 100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Semester</th>
                                         <th>School Year</th>
-                                        <th width="60">Action</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
