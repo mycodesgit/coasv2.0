@@ -119,7 +119,7 @@
                 border-radius: 20px;
                 display: flex;
                 justify-content: space-around;
-                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 6px 16px rgba(128, 128, 128, 0.404);
                 z-index: 999;
             }
 
