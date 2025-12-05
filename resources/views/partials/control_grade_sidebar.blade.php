@@ -11,7 +11,7 @@
 
 <ul class="sidebar-menu">
     <li class="menu-header">Main Navigation</li>
-    <li class={{ $dashSchActive }}>
+    <li class="{{ $dashSchActive }}">
         <a class="nav-link" href="{{ route('homefaculty') }}">
             <i class="fas fa-square"></i> <span>Dashboard</span>
         </a>

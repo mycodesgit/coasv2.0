@@ -216,27 +216,7 @@
             <div class="main-content">
                 @section('workspace')
                 @show
-                <div class="bottom-nav">
-                    <div class="nav-item active" data-label="Dashboard">
-                        <i class="fas fa-th icon"></i>
-                        <span>Dashboard</span>
-                    </div>
-
-                    <div class="nav-item" data-label="Attendance">
-                        <i class="fas fa-file-pdf icon"></i>
-                        <span>Attendance</span>
-                    </div>
-
-                    <div class="nav-item" data-label="Schedule">
-                        <i class="fas fa-calendar-alt icon"></i>
-                        <span>Schedule</span>
-                    </div>
-
-                    <div class="nav-item" data-label="Grade Sheet">
-                        <i class="fas fa-list-ol icon"></i>
-                        <span>Grade Sheet</span>
-                    </div>
-                </div>
+                @include('partials.control_grade_bottombar')
             </div>
 
             <!-- Start app Footer part -->
