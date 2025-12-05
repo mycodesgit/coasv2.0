@@ -29,7 +29,7 @@ CISS V.1.0 || Grading
                                 <thead>
                                     <tr>
                                         <th>Semester</th>
-                                        <th>School Year</th>
+                                        <th>A.Y.</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
