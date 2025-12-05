@@ -203,8 +203,8 @@ class ControlController extends Controller
                         'coasv2_db_schedule.faculty.fname',
                         'coasv2_db_schedule.faculty.lname',
                     )
-            ->where('coasv2_db_schedule.sub_offered.semester', '1')
-            ->where('coasv2_db_schedule.sub_offered.schlyear', '2024-2025')
+            ->where('coasv2_db_schedule.sub_offered.semester', '2')
+            ->where('coasv2_db_schedule.sub_offered.schlyear', '2025-2026')
             ->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
             ->where('coasv2_db_schedule.scheduleclass.faculty_id', Auth::guard('faculty')->user()->id)
             ->groupBy('studgrades.subjID')
