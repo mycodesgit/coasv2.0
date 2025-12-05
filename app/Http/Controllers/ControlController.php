@@ -180,7 +180,7 @@ class ControlController extends Controller
             $countstudsubfac[] = $program->count;
         }
 
-        return view('control.facultyhome', compact('guard', 'schlyearactiveYear', 'schlyearactive', 'semesteractive', 'underproglevsecname', 'countstudsubfac', 'datafacsubprogen'));
+        return view('control.facultyhome', compact('guard', 'schlyearactiveYear', 'schlyearactive', 'semesteractive', 'underproglevsecname', 'countstudsubfac'));
     }
 
     public function dashcountstud()
