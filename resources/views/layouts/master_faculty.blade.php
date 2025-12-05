@@ -139,7 +139,7 @@
                 flex-direction: column;
                 align-items: center;
                 font-size: 7pt;
-                color: #000000;
+                color: #377858;
                 cursor: pointer;
                 transition: 0.2s;
                 padding: 5px;
@@ -152,7 +152,7 @@
             }
 
             .nav-item.active {
-                color: #000000;
+                color: #377858;
                 font-weight: normal;
                 background: rgba(170, 165, 165, 0.342);
                 backdrop-filter: blur(10px);
