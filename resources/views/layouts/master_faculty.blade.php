@@ -127,14 +127,15 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                font-size: 8pt;
+                font-size: 7pt;
                 color: #000000;
                 cursor: pointer;
                 transition: 0.2s;
+                padding: 5px;
             }
 
             .nav-item .icon {
-                font-size: 20px;
+                font-size: 18px;
                 margin-bottom: 1px;
                 margin-top: 3px;
             }
@@ -142,6 +143,10 @@
             .nav-item.active {
                 color: #000000;
                 font-weight: normal;
+                background: rgba(170, 165, 165, 0.342);
+                backdrop-filter: blur(10px);
+                border-radius: 10px;
+                padding: 5px;
             }
         }
     </style>
