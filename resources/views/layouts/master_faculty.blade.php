@@ -123,6 +123,17 @@
                 z-index: 999;
             }
 
+            .bottom-nav a {
+                text-decoration: none !important;
+                color: inherit; /* keep text/icon color the same */
+            }
+
+            .bottom-nav a:visited,
+            .bottom-nav a:active,
+            .bottom-nav a:focus {
+                text-decoration: none !important;
+            }
+            
             .nav-item {
                 display: flex;
                 flex-direction: column;
@@ -147,6 +158,11 @@
                 backdrop-filter: blur(10px);
                 border-radius: 10px;
                 padding: 5px;
+            }
+        }
+        @media (max-width: 991px) {
+            .main-sidebar.sidebar-style-2 {
+                display: none !important;
             }
         }
     </style>
