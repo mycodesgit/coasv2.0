@@ -28,7 +28,6 @@ CISS V.1.0 || Grading
                             <table id="example1" class="table table-hover styled-table" style="width: 100%">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Semester</th>
                                         <th>School Year</th>
                                         <th>Action</th>
@@ -38,8 +37,8 @@ CISS V.1.0 || Grading
                                     @php $no = 1; @endphp
                                     @foreach($progen as $dataprogen)
                                     <tr>
-                                        <td>{{ $no++ }}</td>
                                         <td>
+                                            <span style="color: transparent">{{ $no++ }}</span>
                                             @if($dataprogen->semester == 1)
                                                 1st Semester
                                             @elseif($dataprogen->semester == 2)
