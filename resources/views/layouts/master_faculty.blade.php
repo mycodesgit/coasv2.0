@@ -133,7 +133,7 @@
             .bottom-nav a:focus {
                 text-decoration: none !important;
             }
-            
+
             .nav-item {
                 display: flex;
                 flex-direction: column;
@@ -164,6 +164,9 @@
             .main-sidebar.sidebar-style-2 {
                 display: none !important;
             }
+            .togglebar{
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -183,8 +186,9 @@
             <nav class="navbar navbar-expand-lg main-navbar" style="position: fixed; margin-top: 15px; border-radius: 20px; margin-left: 15px; margin-right: 20px; z-index: 999">
                 <form class="form-inline mr-auto">
                     <ul class="navbar-nav mr-3">
-                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg text-dark"><i class="fas fa-bars"></i></a></li>
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg text-dark togglebar"><i class="fas fa-bars"></i></a></li>
                     </ul>
+                    <div class="text-white">CISS</div>
                 </form>
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown">
