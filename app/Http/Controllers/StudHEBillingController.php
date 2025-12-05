@@ -88,7 +88,7 @@ class StudHEBillingController extends Controller
                             }
                         })
                         ->where('program_en_history.studentID', 'NOT LIKE', '%-G')
-                        ->where('program_en_history.studentID', 'NOT LIKE', '%-N')
+                        //->where('program_en_history.studentID', 'NOT LIKE', '%-N')
                         ->select(
                             'program_en_history.studentID',
                             'students.lname',
