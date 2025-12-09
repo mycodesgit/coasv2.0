@@ -51,6 +51,7 @@ class EnStudNoEnrolleeController extends Controller
                             ->where('schlyear', '=', $schlyear)
                             ->where('semester', '=', $semester)
                             ->where('campus', '=', $campus)
+                            ->where('status', '=', 2)
                             ->where('studentID', 'NOT LIKE', '%-G%')
                             ->count();
 
@@ -58,6 +59,7 @@ class EnStudNoEnrolleeController extends Controller
                             ->where('schlyear', '=', $schlyear)
                             ->where('semester', '=', $semester)
                             ->where('campus', '=', $campus)
+                            ->where('status', '=', 2)
                             ->where('studentID', 'NOT LIKE', '%-G%')
                             ->where('studYear', '=', 1)
                             ->count();
@@ -66,6 +68,7 @@ class EnStudNoEnrolleeController extends Controller
                             ->where('schlyear', '=', $schlyear)
                             ->where('semester', '=', $semester)
                             ->where('campus', '=', $campus)
+                            ->where('status', '=', 2)
                             ->where('studentID', 'NOT LIKE', '%-G%')
                             ->where('studYear', '=', 2)
                             ->count();
@@ -74,6 +77,7 @@ class EnStudNoEnrolleeController extends Controller
                             ->where('schlyear', '=', $schlyear)
                             ->where('semester', '=', $semester)
                             ->where('campus', '=', $campus)
+                            ->where('status', '=', 2)
                             ->where('studentID', 'NOT LIKE', '%-G%')
                             ->where('studYear', '=', 3)
                             ->count();
@@ -82,6 +86,7 @@ class EnStudNoEnrolleeController extends Controller
                             ->where('schlyear', '=', $schlyear)
                             ->where('semester', '=', $semester)
                             ->where('campus', '=', $campus)
+                            ->where('status', '=', 2)
                             ->where('studentID', 'NOT LIKE', '%-G%')
                             ->where('studYear', '=', 4)
                             ->count();
