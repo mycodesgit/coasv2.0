@@ -64,7 +64,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
-                    Current Enrollment A.Y. 2025-2026, 1st Semester -
+                    Current Enrollment A.Y. 2025-2026, 2nd Semester -
                     @if (Auth::guard('web')->user()->campus == 'MC') Main Campus
                         @elseif(Auth::guard('web')->user()->campus == 'VC') Victorias Campus
                         @elseif(Auth::guard('web')->user()->campus == 'SCC') San Carlos Campus
