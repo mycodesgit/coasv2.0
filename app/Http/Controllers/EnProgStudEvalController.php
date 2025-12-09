@@ -219,7 +219,7 @@ class EnProgStudEvalController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
 
         $syold = ConfigureCurrent::where('set_status', '=', '2')->get();
-        $sy = ConfigureCurrent::where('set_status', 3)
+        $sy = ConfigureCurrent::where('set_status', 2)
             ->first(['schlyear', 'semester']);
 
         $campusArray = array_map('trim', explode(',', $campus));
