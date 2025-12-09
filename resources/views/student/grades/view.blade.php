@@ -17,7 +17,8 @@ CISS V.1.0 || Student Grades
                                 <th>Course</th>
                                 <th>Subject</th>
                                 <th>Descriptive Title</th>
-                                <th>Final Grade</th>
+                                <th>FR. Eqv.</th>
+                                <th>N. Eqv.</th>
                                 <th>SubjComp</th>
                                 <th>Credit</th>
                             </tr>
@@ -162,6 +163,7 @@ CISS V.1.0 || Student Grades
                                     <td>{{ $datastudsubowner->sub_name }}</td>
                                     <td>{{ $datastudsubowner->sub_title }}</td>
                                     <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade, $isFourScale) }}</b></td>
+                                    <td>{{ $datastudsubowner->subjFgrade }}</td>
                                     <td><b>{{ displayGrade($datastudsubowner->subjComp, $isFourScale) }}</b></td>
                                     <td>{{ $datastudsubowner->creditEarned }}</td>
                                 </tr>
