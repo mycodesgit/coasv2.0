@@ -222,13 +222,13 @@ class StudentController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 4)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
         
         $sypre = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 4)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear')
@@ -322,7 +322,7 @@ class StudentController extends Controller
         $campus = "MC";
         $campusArray = array_map('trim', explode(',', $campus));
 
-        $sy = ConfigureCurrent::where('set_status', 4)
+        $sy = ConfigureCurrent::where('set_status', 2)
             ->first(['schlyear', 'semester']);
 
         $student = PreEnroll::join('students', 'preenrol.studentID', '=', 'students.stud_id')
@@ -361,7 +361,7 @@ class StudentController extends Controller
         $campusArray = array_map('trim', explode(',', $studauth->campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 4)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
@@ -610,7 +610,7 @@ class StudentController extends Controller
         $campus = "MC";
         $campusArray = array_map('trim', explode(',', $campus));
 
-        $sy = ConfigureCurrent::where('set_status', 4)
+        $sy = ConfigureCurrent::where('set_status', 2)
             ->first(['schlyear', 'semester']);
 
 
