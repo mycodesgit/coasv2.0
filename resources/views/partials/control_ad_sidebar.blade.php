@@ -33,7 +33,7 @@
     </ul>
     <ul class="list-group mt-1">
         @if(in_array(Auth::user()->role, [0, 1, 2]))
-            <a href="{{ route('applicant-add') }}" class="list-group-item {{ $appAddActive }}">Add Applicants</a>
+            {{-- <a href="{{ route('applicant-add') }}" class="list-group-item {{ $appAddActive }}">Add Applicants</a> --}}
             <a href="{{ route('applicant-list') }}" class="list-group-item {{ $appListActive }}">List of Applicants</a>  
             <a href="{{ route('examinee-list') }}" class="list-group-item {{ $examineeListActive }}">List of Examinees</a>
             <a href="{{ route('result-list') }}" class="list-group-item {{ $resultListActive }}">Examination Results</a>

@@ -480,7 +480,7 @@
                                                             <option value="">Select</option>
                                                             <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>New</option>
                                                             <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Returnee</option>
-                                                            <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Transferee</option>
+                                                            {{-- <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Transferee</option> --}}
                                                         </select>
                                                     </div>
                                                 </div>
