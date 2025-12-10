@@ -73,7 +73,7 @@ CISS V.1.0 || Transfered Students
             </div>
             <form id="editStudTransferForm">
                 <div class="modal-body">
-                    <input type="text" name="id" id="editStudTransferId">
+                    <input type="hidden" name="id" id="editStudTransferId">
                     <div class="form-group">
                         <label for="editStudTransferidcardno">Student ID</label>
                         <input type="text" class="form-control" id="editStudTransferidcardno" name="stud_id">
