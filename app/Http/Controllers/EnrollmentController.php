@@ -185,20 +185,20 @@ class EnrollmentController extends Controller
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.campus', '=', 'MC')
-                                ->whereIn('program_en_history.status', '=', [2, 3])
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
 
             $VcEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.campus', '=', 'VC')
-                                ->whereIn('program_en_history.status', '=', [2, 3])
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
             $SccEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.campus', '=', 'SCC')
-                                ->whereIn('program_en_history.status', '=', [2, 3])
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
 
             $HcEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
@@ -212,42 +212,42 @@ class EnrollmentController extends Controller
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.campus', '=', 'MP')
-                                ->whereIn('program_en_history.status', '=', [2, 3])
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
 
             $IcEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.campus', '=', 'IC')
-                                ->whereIn('program_en_history.status', '=', [2, 3])
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
 
             $CaEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.campus', '=', 'CA')
-                                ->whereIn('program_en_history.status', '=', [2, 3])
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
 
             $CcEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.campus', '=', 'CC')
-                                ->whereIn('program_en_history.status', '=', [2, 3])
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
 
             $ScEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.campus', '=', 'SC')
-                                ->whereIn('program_en_history.status', '=', [2, 3])
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
 
             $HinCEnrollmentCount = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                             ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                             ->where('program_en_history.semester', 'LIKE', $semesteractive)
                             ->where('program_en_history.campus', '=', 'HinC')
-                            ->whereIn('program_en_history.status', '=', [2, 3])
+                            ->whereIn('program_en_history.status', [2, 3])
                             ->count();
 
             $currunderprogramenrolmentCounts = [];
