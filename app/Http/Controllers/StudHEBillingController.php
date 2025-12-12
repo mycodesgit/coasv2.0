@@ -72,7 +72,7 @@ class StudHEBillingController extends Controller
                         ->leftJoin('coasv2_db_assessment.student_appraisal', 'program_en_history.studentID', '=', 'coasv2_db_assessment.student_appraisal.studID')
                         ->where('program_en_history.schlyear',  $schlyear)
                         ->where('program_en_history.semester',  $semester)
-                        ->where('program_en_history.status',  2)
+                        ->whereIn('program_en_history.status',  [2, 3])
                         // ->where('program_en_history.campus',  $campus)
                         ->where(function ($q) use ($campusArray) {
                             foreach ($campusArray as $campus) {
