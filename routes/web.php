@@ -384,6 +384,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/change/applicant/campus/search', [AdChangeCampusController::class, 'alllistappRead_search'])->name('alllistappRead_search');
             Route::get('/change/applicant/campus/search/ajax', [AdChangeCampusController::class, 'getalllistappRead_search'])->name('getalllistappRead_search');
             Route::post('/change/applicant/campus/search/update', [AdChangeCampusController::class, 'alllistappUpdate'])->name('alllistappUpdate');
+
+            Route::get('/transfer/applicant/studcampus/view', [AdChangeCampusController::class, 'transferstud'])->name('transferstud');
+            Route::get('/transfer/applicantstud/fetch', [AdChangeCampusController::class, 'getadstudTransferRead'])->name('getadstudTransferRead');
         });
 
         Route::prefix('reports')->group(function () {    

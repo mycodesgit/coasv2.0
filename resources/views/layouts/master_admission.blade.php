@@ -353,6 +353,9 @@
     @if(request()->routeIs('alllistappRead_search'))
         <script src="{{ asset('js/ajax/admssion/applicant/applicantChangeCamSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('transferstud'))
+        <script src="{{ asset('js/ajax/enrolment/transferSerialize.js') }}?v={{ time() }}"></script>
+    @endif
     @if(request()->routeIs('indexcoursepref_search'))
         <script src="{{ asset('js/ajax/admssion/examresult/allcourseprefSerialize.js') }}"></script>
     @endif

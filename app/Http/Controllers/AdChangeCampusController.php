@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 
 use Storage;
 use Carbon\Carbon;
+
 use App\Models\AdmissionDB\Applicant;
 use App\Models\AdmissionDB\ApplicantDocs;
 use App\Models\AdmissionDB\ExamineeResult;
@@ -22,6 +23,8 @@ use App\Models\AdmissionDB\AdmissionDate;
 use App\Models\AdmissionDB\Time;
 use App\Models\AdmissionDB\Venue;
 use App\Models\AdmissionDB\Year;
+
+use App\Models\EnrollmentDB\StudentTransfered;
 
 
 class AdChangeCampusController extends Controller
@@ -91,6 +94,20 @@ class AdChangeCampusController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => true, 'message' => 'Failed to change campus!'], 404);
         }
+    }
+
+    public function transferstud()
+    {
+        return view('admission.configure.transfer');
+    }
+
+    public function getadstudTransferRead()
+    {
+        $data = StudentTransfered::leftJoin('students', 'studenttransfer.studbaseprim_id', '=', 'students.id')
+                    ->select('studenttransfer.*', 'studenttransfer.stud_id as transcardidno', 'students.lname', 'students.fname', 'students.mname')
+                    ->get();
+
+        return response()->json(['data' => $data]);
     }
 
 }

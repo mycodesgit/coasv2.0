@@ -13,6 +13,7 @@
     $slotActive = in_array($curr_route, ['slots', 'slots_search']) ? 'active' : '';
     $confActive = in_array($curr_route, ['configure_admission', 'edit_program', 'edit_strand', 'edit_date', 'edit_time', 'edit_venue']) ? 'active' : '';
     $changecampActive = in_array($curr_route, ['alllistappRead', 'alllistappRead_search']) ? 'active' : '';
+    $transferActive = in_array($curr_route, ['transferstud']) ? 'active' : '';
 
     $appsreportActive = in_array($curr_route, ['applicant_printing', 'applicant_reports']) ? 'active' : '';
     $appschoolreportActive = in_array($curr_route, ['applicantperschool_printing', 'applicantperschool_reports']) ? 'active' : '';
@@ -50,6 +51,7 @@
             <a href="{{ route('slots') }}" class="list-group-item {{ $slotActive }}">Availability/Slots</a>
             <a href="{{ route('configure_admission') }}" class="list-group-item {{ $confActive }}">Configure Admission</a>
             <a href="{{ route('alllistappRead') }}" class="list-group-item {{ $changecampActive }}">Change Campus</a>
+            <a href="{{ route('transferstud') }}" class="list-group-item {{ $transferActive }}">Transferee Students</a>
         @endif
     </ul>
 </div>
