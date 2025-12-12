@@ -133,7 +133,7 @@ class EnrollmentController extends Controller
                     ->where('program_en_history.semester', 'LIKE', $prevsemesteractive)
                     ->where('program_en_history.studYear', '=', $year)
                     ->where('program_en_history.campus', '=', $userCampus)
-                    ->whereIn('program_en_history.status', '=', [2, 3])
+                    ->whereIn('program_en_history.status', [2, 3])
                     ->count();
             }
 
