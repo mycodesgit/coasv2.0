@@ -120,7 +120,7 @@ CISS V.1.0 || Higher Education Billing
                                     if (!isset($students[$studentID])) {
                                         $students[$studentID] = [
                                             'studentID' => $datastudfeesbill->studentID,
-                                            'studStatus' => $datastudfeesbill->studStatus,
+                                            'studStatus' => $datastudfeesbill->studStatus == 1 ? 'Regular' : ($datastudfeesbill->studStatus == 2 ? 'Irregular' : 'Underpro'),
                                             'lname' => $datastudfeesbill->lname,
                                             'fname' => $datastudfeesbill->fname,
                                             'mname' => substr($datastudfeesbill->mname, 0, 1) . '.',
