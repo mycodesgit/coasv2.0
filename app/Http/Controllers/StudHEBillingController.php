@@ -102,6 +102,7 @@ class StudHEBillingController extends Controller
                             'students.email',
                             'students.contact',
                             'program_en_history.studUnit',
+                            'program_en_history.studStatus',
                             'coasv2_db_assessment.student_appraisal.account',
                             'coasv2_db_assessment.student_appraisal.amount'
                             //'coasv2_db_assessment.studpayment.amountpaid',

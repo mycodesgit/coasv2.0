@@ -82,6 +82,7 @@ CISS V.1.0 || Higher Education Billing
                         <thead>
                             <tr>
                                 <th>StudID</th>
+                                <th>Status</th>
                                 <th>Last</th>
                                 <th>Given</th>
                                 <th>Middle</th>
@@ -145,6 +146,7 @@ CISS V.1.0 || Higher Education Billing
                                 @endphp
                                 <tr>
                                     <td>{{ $student['studentID'] }}</td>
+                                    <td>{{ $student['studStatus'] }}</td>
                                     <td>{{ $student['lname'] }}</td>
                                     <td>{{ $student['fname'] }}</td>
                                     <td>{{ $student['mname'] }}</td>
