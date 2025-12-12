@@ -75,6 +75,7 @@ class ScholarshipController extends Controller
             })
             ->where('coasv2_db_enrollment.program_en_history.semester', '=', $prevsemesteractive)
             ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
+            ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
             ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
             ->orderBy('college_name', 'ASC')
             ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
@@ -95,6 +96,7 @@ class ScholarshipController extends Controller
             })
             ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
             ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
+            ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
             ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
             ->orderBy('college_name', 'ASC')
             ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
@@ -105,6 +107,7 @@ class ScholarshipController extends Controller
                             ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                             ->where('program_en_history.semester', 'LIKE', $semesteractive)
                             ->where('program_en_history.studYear', '=', '1')
+                            ->whereIn('program_en_history.status', [2, 3])
                             ->where('program_en_history.campus', '=', $userCampus)
                             ->count();
 
@@ -113,6 +116,7 @@ class ScholarshipController extends Controller
                             ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                             ->where('program_en_history.semester', 'LIKE', $semesteractive)
                             ->where('program_en_history.studYear', '=', '2')
+                            ->whereIn('program_en_history.status', [2, 3])
                             ->where('program_en_history.campus', '=', $userCampus)
                             ->count();
 
@@ -120,6 +124,7 @@ class ScholarshipController extends Controller
                             ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                             ->where('program_en_history.semester', 'LIKE', $semesteractive)
                             ->where('program_en_history.studYear', '=', '3')
+                            ->whereIn('program_en_history.status', [2, 3])
                             ->where('program_en_history.campus', '=', $userCampus)
                             ->count();
 
@@ -127,6 +132,7 @@ class ScholarshipController extends Controller
                             ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                             ->where('program_en_history.semester', 'LIKE', $semesteractive)
                             ->where('program_en_history.studYear', '=', '4')
+                            ->whereIn('program_en_history.status', [2, 3])
                             ->where('program_en_history.campus', '=', $userCampus)
                             ->count();
 
@@ -142,6 +148,7 @@ class ScholarshipController extends Controller
             ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
             ->where('program_en_history.semester', 'LIKE', $semesteractive)
             ->where('program_en_history.campus', '=', $userCampus)
+            ->whereIn('program_en_history.status', [2, 3])
             //->where('coasv2_db_schedule.programs.progDep', 'LIKE', '%GSS%')
             ->select('coasv2_db_schedule.programs.progAcronym', DB::raw('COUNT(*) as count'))
             ->groupBy('coasv2_db_schedule.programs.progAcronym')
