@@ -192,7 +192,7 @@
 
     <div class="studinfolabel">
     	<span style="font-weight: bold;">Academic Year:</span> <span class="studinfoAcadYear">{{ $student->schlyear }}</span>
-    	<span style="font-weight: bold; text-align: right !important; margin-left: 110px;">Enrollment Status:</span>
+    	<span style="font-weight: bold; text-align: right !important; margin-left: 110px;">Enrollment Status: </span>
     	<span class="studinfoenstat">
     		{{ $student->semester == 1 ? 'First Semester' : ($student->semester == 2 ? 'Second Semester' : 'Summer') }}
     	</span>
