@@ -267,6 +267,13 @@
     @if(request()->routeIs('rotc_nstpresult'))
         <script src="{{ asset('js/ajax/nstp/rotcSerialize.js') }}"></script>
     @endif
+    @if(request()->routeIs('gradenstp_searchlist'))
+        <script src="{{ asset('js/ajax/nstp/gradeSerialize.js') }}?v={{ time() }}"></script>
+    @endif
+    @if(request()->routeIs('gradenstpview'))
+        <script src="{{ asset('js/ajax/nstp/passwordNSTPGrade.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/validation/enroll/gradesheetValidation.js') }}?v={{ time() }}"></script>
+    @endif
 
     <script>
         $(document).ready(function () {
@@ -302,6 +309,47 @@
                 }
             });
         });
+    </script>
+
+    <script type="text/javascript">
+        function updateGrade(id, grade){
+            //alert(id);
+             $.ajax({
+                url: '{{ route('nstpsave_grades') }}',
+                method: 'POST',
+                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
+                success: function (data) {
+                    console.log(data.gradeCount);
+                    if(data.gradeCount > 0){
+                        $('#submitgradeid').prop('disabled', false);
+                    }else{
+                        $('#submitgradeid').prop('disabled', true);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function updateGradeComp(id, grade){
+            //alert(id);
+             $.ajax({
+                url: '{{ route('nstpsave_gradesComp') }}',
+                method: 'POST',
+                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
+                success: function (data) {
+                    console.log(data.gradeCount);
+                    if(data.gradeCount > 0){
+                        $('#submitgradeid').prop('disabled', false);
+                    }else{
+                        $('#submitgradeid').prop('disabled', true);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
     </script>
 </body>
 </html>

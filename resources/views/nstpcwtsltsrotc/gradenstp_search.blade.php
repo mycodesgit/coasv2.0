@@ -1,11 +1,11 @@
-@extends('layouts.master_enrollment')
+@extends('layouts.master_nstp')
 
 @section('title')
-CISS V.1.0 || Grading
+CISS V.1.0 || NSTP Grading
 @endsection
 
 @section('sideheader')
-<h4>Enrollment</h4>
+<h4>NSTP</h4>
 @endsection
 
 @yield('sidemenu')
@@ -19,7 +19,7 @@ CISS V.1.0 || Grading
                     <i class="fas fa-home"></i>
                 </a>
             </li>
-            <li class="breadcrumb-item mt-1">Grading</li>
+            <li class="breadcrumb-item mt-1">NSTP Grading</li>
             <li class="breadcrumb-item active mt-1">Grade Sheet</li>
         </ol>
 
@@ -32,11 +32,11 @@ CISS V.1.0 || Grading
         </p>
 
         <div style="border-bottom: 1px solid #04401f;">
-            <form method="GET" action="{{ route('studgrade_searchlist') }}" enctype="multipart/form-data" id="gradeSht">
+            <form method="GET" action="{{ route('gradenstp_searchlist') }}" enctype="multipart/form-data" id="gradeSht">
                 @csrf
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                    <h4>Grade Sheet</h4>
+                    <h4>NSTP Grade Sheet</h4>
                 </div>
 
                 <div class="form-group mt-2">
@@ -140,15 +140,11 @@ CISS V.1.0 || Grading
 </div>
 
 <script>
-    var studsubgradeoffered = @if(Auth::guard('web')->user()->role == 15)
-        "{{ route('studgradegrad_searchlistajax') }}";
-    @else
-        "{{ route('studgrade_searchlistajax') }}";
-    @endif
+    var studsubgradeoffered = "{{ route('gradenstp_searchlistajax') }}";
 
     var schlyear = "{{ request('schlyear') }}";
     var semester = "{{ request('semester') }}";
-    var routeTemplate = "{{ route('geneStudent1', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
+    var routeTemplate = "{{ route('gradenstpview', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
 </script>
 
 @endsection

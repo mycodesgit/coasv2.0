@@ -1,11 +1,11 @@
-@extends('layouts.master_enrollment')
+@extends('layouts.master_nstp')
 
 @section('title')
-CISS V.1.0 || Grading
+CISS V.1.0 || NSTP Grading
 @endsection
 
 @section('sideheader')
-<h4>Enrollment</h4>
+<h4>NSTP</h4>
 @endsection
 
 @yield('sidemenu')
@@ -19,7 +19,7 @@ CISS V.1.0 || Grading
                     <i class="fas fa-home"></i>
                 </a>
             </li>
-            <li class="breadcrumb-item mt-1">Grading</li>
+            <li class="breadcrumb-item mt-1">NSTP Grading</li>
             <li class="breadcrumb-item mt-1">
                 <a href="{{ url()->previous() }}"> 
                     @if($genstud && $genstud->isNotEmpty())
@@ -29,7 +29,7 @@ CISS V.1.0 || Grading
                     @endif
                 </a>
             </li>
-            <li class="breadcrumb-item active mt-1">Grade Sheet</li>
+            <li class="breadcrumb-item active mt-1">NSTP Grade Sheet</li>
         </ol>
 
         {{-- <p>
@@ -45,7 +45,7 @@ CISS V.1.0 || Grading
                 @csrf
 
                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                    <h4>Grade Sheet</h4>
+                    <h4>NSTP Grade Sheet</h4>
                 </div>
 
                 <div class="form-group mt-2">
@@ -87,16 +87,16 @@ CISS V.1.0 || Grading
 
         <div class="col-md-2 float-right mt-3 mb-2">
             @if($genstud && $genstud->isNotEmpty())
-            <form method="POST" action="{{ route('registrarupdateStatus_gradessubmit', ['subjID' => $genstud->first()->subjID]) }}" id="confirmationForm">
-                @csrf
-                <input type="hidden" name="subjID[]" value="{{ $genstud->first()->subjID }}">
-                <button type="button" class="btn btn-primary btn-sm btn-block" id="submitgradeid" data-toggle="modal" data-target="#submitgrades" @if($gradereg == 0) disabled @endif>Submit Grades</button>
-            </form>
+                <form method="POST" action="{{ route('nstpupdateStatus_gradessubmit', ['subjID' => $genstud->first()->subjID]) }}" id="confirmationForm">
+                    @csrf
+                    <input type="hidden" name="subjID[]" value="{{ $genstud->first()->subjID }}">
+                    <button type="button" class="btn btn-primary btn-sm btn-block" id="submitgradeid" data-toggle="modal" data-target="#submitgrades" @if($gradereg == 0) disabled @endif>Submit Grades</button>
+                </form>
             @else
                 <strong>No Students in this subject</strong>
             @endif
         </div>
-        @include('modal.submitgrades')
+        @include('modal.submitnstpgrades')
         <div class="mt-3 table-responsive p-0" style="height: 400px;">
             <table id="" class="table table-bordered table-head-fixed text-nowrap">
                 <thead>

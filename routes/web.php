@@ -995,6 +995,14 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/generate/reports/show', [NstpController::class, 'reports_nstp'])->name('reports_nstp');
         Route::get('/generate/reports/show/result', [NstpController::class, 'reports_nstpresult'])->name('reports_nstpresult');
         Route::get('/generate/reports/show/result/ajax', [NstpController::class, 'getreportsnstpresult'])->name('getreportsnstpresult');
+
+        Route::get('/grade/all/nstp', [NstpController::class, 'gradenstp'])->name('gradenstp');
+        Route::get('/grade/all/nstp/search/result', [NstpController::class, 'gradenstp_searchlist'])->name('gradenstp_searchlist');
+        Route::get('/grade/all/nstp/search/result/ajax', [NstpController::class, 'gradenstp_searchlistajax'])->name('gradenstp_searchlistajax');
+        Route::get('/grade/allsearch/list/studentsGrade/{id}', [NstpController::class, 'gradenstpview'])->name('gradenstpview');
+        Route::post('/grade/alllist/view/studgrde/save', [NstpController::class, 'nstpsave_grades'])->name('nstpsave_grades');
+        Route::post('/grade/alllist/view/studgrdeComp/save', [NstpController::class, 'nstpsave_gradesComp'])->name('nstpsave_gradesComp');
+        Route::post('/grade/alllistlist/view/studgrde/submit/{subjID}', [NstpController::class, 'nstpupdateStatus_gradessubmit'])->name('nstpupdateStatus_gradessubmit');
     });
 
     Route::prefix('adempset/settings')->group(function () {
