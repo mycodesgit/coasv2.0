@@ -931,7 +931,7 @@ class EnrollmentController extends Controller
                     ->where('program_en_history.campus',  $campus)
                     ->where(function ($q) use ($campusArray) {
                             foreach ($campusArray as $campus) {
-                                $q->orWhere('students.campus', 'LIKE', "$campus");
+                                $q->orWhere('students.campus', 'LIKE', "%$campus%");
                             }
                         })
                     ->where('program_en_history.studentID', $stud_id)->first();
