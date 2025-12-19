@@ -177,7 +177,7 @@
     </h3>
 
     <div class="studinfolabel">
-    	<span style="font-weight: bold;">Student ID No.:</span> <span class="studinfoID">{{ $student->studentID }}</span>
+    	<span style="font-weight: bold;">Student ID No.:</span> <span class="studinfoID">{{ $student->stud_id }}</span>
     </div>
 
     <div class="studinfolabel">
