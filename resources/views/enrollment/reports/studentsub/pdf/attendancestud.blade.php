@@ -88,67 +88,76 @@
 
 	    <div style="margin-top: 15px;">
 			@php
-				$pages = collect($substudnowviewpdf)->chunk(50);
+				$perPage = 50; // 25 left + 25 right
+				$totalRows = 25;
+				$totalStudents = count($substudnowviewpdf);
+				$totalPages = ceil($totalStudents / $perPage);
 			@endphp
-			@foreach ($pages as $pageIndex => $students)
-			<table>
-		        <thead>
-		            <tr>
-		                <th>No.</th>
-		                <th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
-		                <th>Signature</th>
-		                <th>No.</th>
-		                <th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
-		                <th>Signature</th>
-		            </tr>
-		        </thead>
-		        <tbody>
-		            @php
-						$leftNumber = 1;
-						$rightNumber = 26;
-						$totalRows = 25;
-					@endphp
 
-					@for ($i = 0; $i < $totalRows; $i++)
+			@for ($page = 0; $page < $totalPages; $page++)
+
+				@php
+					$offset = $page * $perPage;
+					$leftNumber = $offset + 1;
+					$rightNumber = $offset + 26;
+				@endphp
+
+				<table width="100%" border="1" cellspacing="0">
+					<thead>
 						<tr>
-							{{-- LEFT COLUMN --}}
-							<td>{{ $leftNumber++ }}</td>
-							@if (isset($students[$i]))
-								@php $student = $students[$i]; @endphp
-								<td>
-									{{ $student->lname }},
-									{{ $student->fname }}
-									{{ strtoupper(substr($student->mname, 0, 1)) }}
-									{{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}
-								</td>
-							@else
-								<td></td>
-							@endif
-							<td></td>
-
-							{{-- RIGHT COLUMN --}}
-							<td>{{ $rightNumber++ }}</td>
-							@if (isset($students[$i + 25]))
-								@php $student = $students[$i + 25]; @endphp
-								<td>
-									{{ $student->lname }},
-									{{ $student->fname }}
-									{{ strtoupper(substr($student->mname, 0, 1)) }}
-									{{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}
-								</td>
-							@else
-								<td></td>
-							@endif
-							<td></td>
+							<th>No.</th>
+							<th>Name<br><i>(Last, First, Middle Initial)</i></th>
+							<th>Signature</th>
+							<th>No.</th>
+							<th>Name<br><i>(Last, First, Middle Initial)</i></th>
+							<th>Signature</th>
 						</tr>
-					@endfor
-		        </tbody>
-		    </table>
-			{{-- PAGE BREAK --}}
-    @if (!$loop->last)
-        <div style="page-break-after: always;"></div>
-    @endif
-@endforeach
+					</thead>
+
+					<tbody>
+						@for ($i = 0; $i < $totalRows; $i++)
+							<tr>
+								{{-- LEFT --}}
+								<td>{{ $leftNumber <= $totalStudents ? $leftNumber++ : '' }}</td>
+								@if (isset($substudnowviewpdf[$offset + $i]))
+									@php $student = $substudnowviewpdf[$offset + $i]; @endphp
+									<td>
+										{{ $student->lname }},
+										{{ $student->fname }}
+										{{ strtoupper(substr($student->mname, 0, 1)) }}
+										{{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}
+									</td>
+								@else
+									<td></td>
+								@endif
+								<td></td>
+
+								{{-- RIGHT --}}
+								<td>{{ $rightNumber <= $totalStudents ? $rightNumber++ : '' }}</td>
+								@if (isset($substudnowviewpdf[$offset + $i + $totalRows]))
+									@php $student = $substudnowviewpdf[$offset + $i + $totalRows]; @endphp
+									<td>
+										{{ $student->lname }},
+										{{ $student->fname }}
+										{{ strtoupper(substr($student->mname, 0, 1)) }}
+										{{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}
+									</td>
+								@else
+									<td></td>
+								@endif
+								<td></td>
+							</tr>
+						@endfor
+					</tbody>
+				</table>
+
+				{{-- PAGE BREAK --}}
+				@if ($page + 1 < $totalPages)
+					<div style="page-break-after: always;"></div>
+				@endif
+
+			@endfor
+
 		</div>
 		<div style="margin-top: 10px">
 			<span style="font-size: 12pt;">Remarks: __________________________________________________________________________________</span>
