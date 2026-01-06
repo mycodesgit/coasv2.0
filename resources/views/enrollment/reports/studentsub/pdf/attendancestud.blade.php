@@ -87,53 +87,67 @@
 		</div>
 
 	    <div style="margin-top: 15px;">
-			<table>
-		        <thead>
-		            <tr>
-		                <th>No.</th>
-		                <th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
-		                <th>Signature</th>
-		                <th>No.</th>
-		                <th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
-		                <th>Signature</th>
-		            </tr>
-		        </thead>
-		        <tbody>
-		            @php
-		                $leftNumber = 1; // Counter for the left column
-		                $rightNumber = 26; // Counter for the right column
-		                $totalRows = 25; // Total rows to display (per side)
-		                $studentCount = count($substudnowviewpdf); // Total number of students
-		                $halfway = ceil($studentCount / 2); // Midpoint for splitting students
-		            @endphp
+			@foreach ($pages as $pageIndex => $students)
+				@php
+					$pageStartNumber = ($pageIndex * 50) + 1;
+					$leftNumber  = $pageStartNumber;
+					$rightNumber = $pageStartNumber + 25;
+					$totalRows = 25;
+				@endphp
+				<table>
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
+							<th>Signature</th>
+							<th>No.</th>
+							<th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
+							<th>Signature</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for ($i = 0; $i < $totalRows; $i++)
+							<tr>
+								{{-- LEFT --}}
+								<td>{{ $leftNumber <= count($substudnowviewpdf) ? $leftNumber++ : '' }}</td>
+								@if (isset($students[$i]))
+									@php $student = $students[$i]; @endphp
+									<td>
+										{{ $student->lname }},
+										{{ $student->fname }}
+										{{ strtoupper(substr($student->mname, 0, 1)) }}
+										{{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}
+									</td>
+								@else
+									<td></td>
+								@endif
+								<td></td>
 
-		            @for ($i = 0; $i < $totalRows; $i++)
-		                <tr>
-		                    <td>{{ $leftNumber++ }}</td>
-		                    @if (isset($substudnowviewpdf[$i]))
-		                        @php
-		                            $student = $substudnowviewpdf[$i];
-		                        @endphp
-		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}</td>
-		                    @else
-		                        <td></td>
-		                    @endif
-		                    <td></td>
+								{{-- RIGHT --}}
+								<td>{{ $rightNumber <= count($substudnowviewpdf) ? $rightNumber++ : '' }}</td>
+								@if (isset($students[$i + 25]))
+									@php $student = $students[$i + 25]; @endphp
+									<td>
+										{{ $student->lname }},
+										{{ $student->fname }}
+										{{ strtoupper(substr($student->mname, 0, 1)) }}
+										{{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}
+									</td>
+								@else
+									<td></td>
+								@endif
+								<td></td>
+							</tr>
+						@endfor
+					</tbody>
+				</table>
+				{{-- PAGE BREAK --}}
+				@if (!$loop->last)
+					<div style="page-break-after: always;"></div>
+				@endif
 
-		                    <td>{{ $rightNumber++ }}</td>
-		                    @if (isset($substudnowviewpdf[$i + $totalRows]))
-		                        @php
-		                            $student = $substudnowviewpdf[$i + $totalRows];
-		                        @endphp
-		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}</td>
-		                    @else
-		                        <td></td>
-		                    @endif
-		                    <td></td>
-		                </tr>
-		            @endfor
-		        </tbody>
-		    </table>
+			@endforeach
+
 		</div>
 		<div style="margin-top: 10px">
 			<span style="font-size: 12pt;">Remarks: __________________________________________________________________________________</span>
