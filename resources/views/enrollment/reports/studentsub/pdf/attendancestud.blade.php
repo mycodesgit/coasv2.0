@@ -87,6 +87,10 @@
 		</div>
 
 	    <div style="margin-top: 15px;">
+			@php
+				$pages = collect($substudnowviewpdf)->chunk(50);
+			@endphp
+
 			@foreach ($pages as $pageIndex => $students)
 				@php
 					$pageStartNumber = ($pageIndex * 50) + 1;
