@@ -87,53 +87,62 @@
 		</div>
 
 	    <div style="margin-top: 15px;">
-			<table>
-		        <thead>
-		            <tr>
-		                <th>No.</th>
-		                <th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
-		                <th>Signature</th>
-		                <th>No.</th>
-		                <th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
-		                <th>Signature</th>
-		            </tr>
-		        </thead>
-		        <tbody>
-		            @php
-		                $leftNumber = 1; // Counter for the left column
-		                $rightNumber = 26; // Counter for the right column
-		                $totalRows = 25; // Total rows to display (per side)
-		                $studentCount = count($substudnowviewpdf); // Total number of students
-		                $halfway = ceil($studentCount / 2); // Midpoint for splitting students
-		            @endphp
+			@php
+				$pages = collect($substudnowviewpdf)->chunk(50);
+			@endphp
+			@foreach ($pages as $pageIndex => $students)
+				<table>
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
+							<th>Signature</th>
+							<th>No.</th>
+							<th>Name <br><span style="font-style: italic !important;">(Last, First, Middle Initial)</span></th>
+							<th>Signature</th>
+						</tr>
+					</thead>
+					<tbody>
+						@php
+							$leftNumber = 1; // Counter for the left column
+							$rightNumber = 26; // Counter for the right column
+							$totalRows = 25; // Total rows to display (per side)
+							$studentCount = count($substudnowviewpdf); // Total number of students
+							$halfway = ceil($studentCount / 2); // Midpoint for splitting students
+						@endphp
 
-		            @for ($i = 0; $i < $totalRows; $i++)
-		                <tr>
-		                    <td>{{ $leftNumber++ }}</td>
-		                    @if (isset($substudnowviewpdf[$i]))
-		                        @php
-		                            $student = $substudnowviewpdf[$i];
-		                        @endphp
-		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}</td>
-		                    @else
-		                        <td></td>
-		                    @endif
-		                    <td></td>
+						@for ($i = 0; $i < $totalRows; $i++)
+							<tr>
+								<td>{{ $leftNumber++ }}</td>
+								@if (isset($substudnowviewpdf[$i]))
+									@php
+										$student = $substudnowviewpdf[$i];
+									@endphp
+									<td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}</td>
+								@else
+									<td></td>
+								@endif
+								<td></td>
 
-		                    <td>{{ $rightNumber++ }}</td>
-		                    @if (isset($substudnowviewpdf[$i + $totalRows]))
-		                        @php
-		                            $student = $substudnowviewpdf[$i + $totalRows];
-		                        @endphp
-		                        <td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}</td>
-		                    @else
-		                        <td></td>
-		                    @endif
-		                    <td></td>
-		                </tr>
-		            @endfor
-		        </tbody>
-		    </table>
+								<td>{{ $rightNumber++ }}</td>
+								@if (isset($substudnowviewpdf[$i + $totalRows]))
+									@php
+										$student = $substudnowviewpdf[$i + $totalRows];
+									@endphp
+									<td>{{ $student->lname }}, {{ $student->fname }} {{ strtoupper(substr($student->mname, 0, 1)) }} {{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}</td>
+								@else
+									<td></td>
+								@endif
+								<td></td>
+							</tr>
+						@endfor
+					</tbody>
+				</table>
+				{{-- PAGE BREAK --}}
+				@if (!$loop->last)
+					<div style="page-break-after: always;"></div>
+				@endif
+			@endforeach
 		</div>
 		<div style="margin-top: 10px">
 			<span style="font-size: 12pt;">Remarks: __________________________________________________________________________________</span>
