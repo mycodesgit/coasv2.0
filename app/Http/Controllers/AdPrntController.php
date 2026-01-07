@@ -199,7 +199,7 @@ class AdPrntController extends Controller
         $curryear = Year::orderBy('adyear', 'DESC')->get();
         $currentYear = Year::where('status', 'On')->value('adyear');
 
-        $time = Time::whereYear('date', $currentYear)->where('campus', Auth::guard('web')->user->campus)->get();
+        $time = Time::whereYear('date', $currentYear)->where('campus', Auth::guard('web')->user()->campus)->get();
         
         return view('admission.reports.schedules', compact('time', 'curryear'));
     }
