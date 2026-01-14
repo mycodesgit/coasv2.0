@@ -306,6 +306,7 @@ class KioskAdminController extends Controller
         ->get();
 
 
+
         return view('kioskadmin.list_kioskreps', [
             'monthlyData' => array_values($monthlyData),
             'todayCount' => $todayCount,

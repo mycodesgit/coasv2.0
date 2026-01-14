@@ -92,14 +92,17 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($logsexport as $row)
-                                        <tr>
-                                            <td>
-                                                {{ DateTime::createFromFormat('!m', $row->month)->format('F') }}
-                                                {{ $row->year }}
-                                            </td>
-                                            <td>{{ $row->total }}</td>
-                                        </tr>
-                                    @endforeach
+            @php
+                $orderValue = sprintf('%04d-%02d', $row->year, $row->month);
+            @endphp
+            <tr>
+                <td data-order="{{ $orderValue }}">
+                    {{ DateTime::createFromFormat('!m', $row->month)->format('F') }}
+                    {{ $row->year }}
+                </td>
+                <td>{{ $row->total }}</td>
+            </tr>
+        @endforeach
                                 </tbody>
                             </table>
                         </div>
