@@ -79,6 +79,10 @@
 
                     <div class="col-md-12">
                         <div class="table-responsive">
+                            @php
+                                $logsexport = $logsexport->sortKeysDesc();
+                                $year = now()->year;
+                            @endphp
                             <table id="example3" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -87,10 +91,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($logsexport as $month => $count)
+                                    @foreach ($logsexport as $row)
                                         <tr>
-                                            <td>{{ DateTime::createFromFormat('m', $month)->format('F') }}</td>
-                                            <td>{{ $count }}</td>
+                                            <td>
+                                                {{ DateTime::createFromFormat('!m', $row->month)->format('F') }}
+                                                {{ $row->year }}
+                                            </td>
+                                            <td>{{ $row->total }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

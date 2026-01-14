@@ -292,12 +292,19 @@ class KioskAdminController extends Controller
 
         
         $logsexport = KioskLogs::select(
+            DB::raw('YEAR(created_at) as year'),
             DB::raw('MONTH(created_at) as month'),
             DB::raw('COUNT(studidres) as total')
         )
         ->where('postedBy', $userId)
-        ->groupBy(DB::raw('MONTH(created_at)'))
-        ->pluck('total', 'month');
+        ->groupBy(
+            DB::raw('YEAR(created_at)'),
+            DB::raw('MONTH(created_at)')
+        )
+        ->orderByDesc('year')
+        ->orderByDesc('month')
+        ->get();
+
 
         return view('kioskadmin.list_kioskreps', [
             'monthlyData' => array_values($monthlyData),
