@@ -76,6 +76,27 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="example3" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Number of  Students</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($logsexport as $month => $count)
+                                        <tr>
+                                            <td>{{ DateTime::createFromFormat('m', $month)->format('F') }}</td>
+                                            <td>{{ $count }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

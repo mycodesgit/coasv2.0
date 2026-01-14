@@ -290,10 +290,20 @@ class KioskAdminController extends Controller
             ->whereDate('created_at', $yesterday)
             ->count();
 
+        
+        $logsexport = KioskLogs::select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(studidres) as total')
+        )
+        ->where('postedBy', $userId)
+        ->groupBy(DB::raw('MONTH(created_at)'))
+        ->pluck('total', 'month');
+
         return view('kioskadmin.list_kioskreps', [
             'monthlyData' => array_values($monthlyData),
             'todayCount' => $todayCount,
             'yesterdayCount' => $yesterdayCount,
+            'logsexport' => $logsexport,
         ]);
     }
 }
