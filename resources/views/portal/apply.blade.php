@@ -505,7 +505,7 @@
                                                             <option value="CA" @if (old('type') == 'CA') {{ 'selected' }} disabled @endif>Candoni</option>
                                                             <option value="CC" @if (old('type') == 'CC') {{ 'selected' }} disabled @endif>Cauayan</option>
                                                             <option value="SC" @if (old('type') == 'SC') {{ 'selected' }} disabled @endif>Sipalay</option>
-                                                            <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} disabled @endif>Hinobaan (Open)</option>
+                                                            {{-- <option value="HinC" @if (old('type') == 'HinC') {{ 'selected' }} disabled @endif>Hinobaan (Open)</option> --}}
                                                             <option value="VE" @if (old('type') == 'VE') {{ 'selected' }} disabled @endif>Valladolid</option>
                                                         </select>
                                                     </div>
