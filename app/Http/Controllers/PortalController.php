@@ -157,6 +157,7 @@ class PortalController extends Controller
 
     public function post_admission_apply(Request $request)
     {
+        $yearOn = Year::where('status', 'On')->value('adyear');
         $validator = Validator::make($request->all(), [
             'type' => 'required',
             'campus' => 'required',
