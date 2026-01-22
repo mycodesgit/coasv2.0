@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 
 use Carbon\Carbon;
 use App\Models\AdmissionDB\Applicant;
@@ -161,7 +162,15 @@ class PortalController extends Controller
             'campus' => 'required',
             'lastname' => 'required',
             'firstname' => 'required',
-            'email' => 'required|unique:ad_applicant_admission,email|max:191',
+            // 'email' => 'required|unique:ad_applicant_admission,email|max:191',
+            'email' => [
+                'required',
+                'max:191',
+                Rule::unique('ad_applicant_admission', 'email')
+                    ->where(function ($query) use ($yearOn) {
+                        return $query->where('year', $yearOn);
+                    }),
+            ],
             'gender' => 'required',
             'age' => 'required',
             'contact' => 'required|numeric|min:11',
