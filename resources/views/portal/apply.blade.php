@@ -498,7 +498,7 @@
                                                             <option disabled selected>Select</option>
                                                             <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} disabled @endif>Main</option>
                                                             <option value="VC" @if (old('type') == 'VC') {{ 'selected' }} disabled @endif>Victorias</option>
-                                                            <option value="SCC" @if (old('type') == 'SCC') {{ 'selected' }} disabled @endif>San Carlos</option>
+                                                            {{-- <option value="SCC" @if (old('type') == 'SCC') {{ 'selected' }} disabled @endif>San Carlos</option> --}}
                                                             <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} disabled @endif>Moises Padilla</option>
                                                             {{-- <option value="HC" @if (old('type') == 'HC') {{ 'selected' }} disabled @endif>Hinigaran</option> --}}
                                                             <option value="IC" @if (old('type') == 'IC') {{ 'selected' }} disabled @endif>Ilog</option>
