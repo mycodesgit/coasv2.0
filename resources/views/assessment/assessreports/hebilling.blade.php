@@ -69,7 +69,7 @@ CISS V.1.0 || Higher Education Billing
                                                 @elseif(Auth::user()->campus == 'VE') Valladolid 
                                             @endif
                                         </option>
-                                        @if(Auth::user()->role == 0 || (Auth::user()->campus == 'MC' && Auth::user()->role == 23))
+                                        @if(Auth::user()->role == 0 || && Auth::user()->role == 23)
                                             <option value="MC">Main</option>
                                             <option value="VC">Victorias</option>
                                             <option value="SCC">San Carlos</option>
