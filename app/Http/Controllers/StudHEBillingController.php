@@ -49,7 +49,12 @@ class StudHEBillingController extends Controller
 
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = Auth::guard('web')->user()->campus;
+
+        if(Auth::guard('web')->user()->role == 0 || Auth::user()->role == 1) {
+            $campus = $request->query('campus');    
+        } else {
+            $campus = Auth::guard('web')->user()->campus;
+        }
 
         $campusArray = array_map('trim', explode(',', $campus));
 
