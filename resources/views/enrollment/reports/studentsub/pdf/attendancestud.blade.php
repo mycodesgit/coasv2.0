@@ -140,7 +140,7 @@
 										{{ $student->lname }},
 										{{ $student->fname }}
 										{{ strtoupper(substr($student->mname, 0, 1)) }}
-										{{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 2)) . '.' : '' }}
+										{{ ($student->ext && $student->ext !== 'N/A') ? strtoupper(substr($student->ext, 0, 3)) . '.' : '' }}
 									</td>
 								@else
 									<td></td>
