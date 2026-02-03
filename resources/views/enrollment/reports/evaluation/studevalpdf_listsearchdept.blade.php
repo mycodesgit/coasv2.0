@@ -110,7 +110,6 @@
                 <th style="font-weight: bold; font-size: 10pt; width: 20%">Subject Code</th>
                 <th class="" style="font-weight: bold; font-size: 10pt; width: 48%;">Decriptive Title</th>
                 <th class="" style="font-weight: bold; font-size: 10pt;">Rating</th>
-                <th class="" style="font-weight: bold; font-size: 10pt;">FR</th>
                 <th class="" style="font-weight: bold; font-size: 10pt;">Comp.</th>
                 <th class="" style="font-weight: bold; font-size: 10pt;">Credits</th>
             </thead>
@@ -130,7 +129,6 @@
                         <td style="font-weight: initial; font-size: 10pt; width: 20%">{{ $data['subject']->sub_name }}</td>
                         <td class="" style="font-weight: initial; font-size: 10pt; width: 48%;">{{ $data['subject']->sub_title }}</td>
                         <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['gpaFgrade'] }}</td>
-                        <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subjFgrade'] }}</td>
                         <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['gpaComp'] }}</td>
                         <td class="" style="font-weight: initial; font-size: 10pt;">{{ $data['subject']->creditEarned }}</td>
                     </tr>

@@ -481,7 +481,8 @@ class EnStudReportCardController extends Controller
             $subjectsData[$schoolYear][$semester][] = [
                 'subject' => $subject,
                 'gpaFgrade' => $gpaFgrade,
-                'gpaComp' => $gpaComp
+                'gpaComp' => $gpaComp,
+                'subjFgrade' => $subjFgrade,
             ];
         }
 
