@@ -109,8 +109,8 @@
             <thead>
                 <th style="font-weight: bold; font-size: 10pt; width: 20%">Subject Code</th>
                 <th class="" style="font-weight: bold; font-size: 10pt; width: 48%;">Decriptive Title</th>
-                <th class="" style="font-weight: bold; font-size: 10pt;">Rating</th>
-                <th class="" style="font-weight: bold; font-size: 10pt;">FR</th>
+                <th class="" style="font-weight: bold; font-size: 10pt;">N. Eqv.</th>
+                <th class="" style="font-weight: bold; font-size: 10pt;">FR % Eqv.</th>
                 <th class="" style="font-weight: bold; font-size: 10pt;">Comp.</th>
                 <th class="" style="font-weight: bold; font-size: 10pt;">Credits</th>
             </thead>
