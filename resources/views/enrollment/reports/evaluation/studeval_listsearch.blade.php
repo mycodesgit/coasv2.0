@@ -89,6 +89,7 @@ CISS V.1.0 || Student Record
                                                     <th>Subject</th>
                                                     <th>Descriptive Title</th>
                                                     <th>Final Grade</th>
+                                                    <th>N Grade</th>
                                                     <th>SubjComp</th>
                                                     <th>Credit</th>
                                                 </tr>
@@ -193,6 +194,7 @@ CISS V.1.0 || Student Record
                                                         <td>{{ $datastudsubowner->sub_name }}</td>
                                                         <td>{{ $datastudsubowner->sub_title }}</td>
                                                         <td><b style="{{ $datastudsubowner->subjFgrade == 'INC' ? 'color: red;' : '' }}">{{ displayGrade($datastudsubowner->subjFgrade, $isOldSystem) }}</b></td>
+                                                        <td>{{ $datastudsubowner->subjFgrade }}</td>
                                                         <td><b>{{ displayGrade($datastudsubowner->subjComp, $isOldSystem) }}</b></td>
                                                         <td>{{ $datastudsubowner->creditEarned }}</td>
                                                     </tr>
