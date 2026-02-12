@@ -68,6 +68,7 @@ class PortalController extends Controller
                     // Count applicants with the same date and time
                     $applicantCount = Applicant::where('d_admission', $sched->date)
                         ->where('time', $sched->time)
+                        ->where('campus', $selectedCampus)
                         ->where('p_status', '!=', 7) // Exclude cancelled applicants
                         ->count();
 
