@@ -88,7 +88,6 @@ class SchedFacultyListController extends Controller
             'lname' => 'required',
             'fname' => 'required',
             'mname' => 'required',
-            'dept' => 'required',
             'adrID' => 'required',
         ]);
 
