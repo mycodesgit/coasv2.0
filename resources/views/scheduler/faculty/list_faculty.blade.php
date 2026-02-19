@@ -119,6 +119,7 @@ CISS V.1.0 || List if Faculty
                             <th>Salutation</th>
                             <th>College</th>
                             <th>Campus</th>
+                            <th>Rank</th>
                             <th>Action</th>
                         </tr>
                     </thead>

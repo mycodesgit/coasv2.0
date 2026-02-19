@@ -56,6 +56,7 @@ $(document).ready(function() {
             },
             {data: 'adrDesc'},
             {data: 'college_abbr'},
+            {data: 'rank'},
             {data: 'fcamp'},
             {
                 data: 'fctyid',
