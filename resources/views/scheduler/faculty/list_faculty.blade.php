@@ -181,6 +181,32 @@ CISS V.1.0 || List if Faculty
                         <label for="editEmail">Email</label>
                         <input type="email" name="email" class="form-control form-control-sm" id="editEmail">
                     </div>
+                    <div class="form-group">
+                        <label for="editEmail">Academic Rank</label>
+                        <select name="rank" id="eeditacadrank" class="form-control form-control-sm">
+                            <option disabled selected> --Select Rank-- </option>
+                            <option value=""> --None-- </option>
+                            <option value="Professor VI">Professor VI</option>
+                            <option value="Professor V">Professor V</option>
+                            <option value="Professor IV">Professor IV</option>
+                            <option value="Professor III">Professor III</option>
+                            <option value="Professor II">Professor II</option>
+                            <option value="Professor I">Professor I</option>
+                            <option value="Associate Professor V">Associate Professor V</option>
+                            <option value="Associate Professor IV">Associate Professor IV</option>
+                            <option value="Associate Professor III">Associate Professor III</option>
+                            <option value="Associate Professor II">Associate Professor II</option>
+                            <option value="Associate Professor I">Associate Professor I</option>
+                            <option value="Assistant Professor IV">Assistant Professor IV</option>
+                            <option value="Assistant Professor III">Assistant Professor III</option>
+                            <option value="Assistant Professor II">Assistant Professor II</option>
+                            <option value="Assistant Professor I">Assistant Professor I</option>
+                            <option value="Instructor III">Instructor III</option>
+                            <option value="Instructor II">Instructor II</option>
+                            <option value="Instructor I">Instructor I</option>
+                            <option value="Part-Time">Part-Time</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

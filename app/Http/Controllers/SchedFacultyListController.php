@@ -110,6 +110,7 @@ class SchedFacultyListController extends Controller
                 'dept' => $request->input('dept'),
                 'adrID' => $request->input('adrID'),
                 'email' => $request->input('email'),
+                'rank' => $request->input('rank'),
         ]);
             return response()->json(['success' => true, 'message' => 'Faculty update successfully'], 200);
         } catch (\Exception $e) {

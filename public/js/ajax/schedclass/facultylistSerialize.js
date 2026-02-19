@@ -64,7 +64,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '" data-deptname="' + row.dept + '" data-email="' + row.email + '">' +
+                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '" data-deptname="' + row.dept + '" data-email="' + row.email + '" data-rank="' + row.rank + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item faclty-delete">' +
@@ -97,6 +97,7 @@ $(document).on('click', '.btn-facultyedit', function() {
     var salName = $(this).data('adrname');
     var deptName = $(this).data('deptname');
     var email = $(this).data('email');
+    var rank = $(this).data('rank');
 
     $('#editFacultyId').val(id);
     $('#editLastname').val(lName);
@@ -106,6 +107,7 @@ $(document).on('click', '.btn-facultyedit', function() {
     $('#editSalutation').val(salName);
     $('#college_room').val(deptName);
     $('#editEmail').val(email);
+    $('#eeditacadrank').val(rank);
 
     $('#editFacultyModal').modal('show');
 });
