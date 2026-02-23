@@ -100,6 +100,8 @@ class EnGradesheetLogbookController extends Controller
             ->select([
                 'sub_offered.id as soid',
                 'sub_offered.subCode',
+                'sub_offered.semester',
+                'sub_offered.schlyear',
                 'subjects.sub_name',
                 'faculty.lname',
                 'faculty.fname',
