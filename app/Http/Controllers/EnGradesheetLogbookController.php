@@ -76,77 +76,52 @@ class EnGradesheetLogbookController extends Controller
 
     public function getlogbook_search(Request $request)
     {
-        $schlyear   = $request->query('schlyear');
-        $semester   = $request->query('semester');
-        $collegeabbr = $request->query('collegeabbr');
-        $campus     = Auth::guard('web')->user()->campus;
 
-        $data = DB::select("
-    SELECT
-        so.id AS soid,
-        so.subCode,
-        s.sub_name,
-        f.lname,
-        f.fname,
-        f.dept,
-        (
-            SELECT MAX(sg.updated_at)
-            FROM coasv2_db_enrollment.studgrades sg
-            WHERE sg.subjID = so.id
-        ) AS lastupdated
-    FROM sub_offered so
-    LEFT JOIN scheduleclass sc ON sc.subject_id = so.id
-    LEFT JOIN faculty f ON f.id = sc.faculty_id
-    LEFT JOIN subjects s ON s.sub_code = so.subCode
-    WHERE so.schlyear = ?
-      AND so.semester = ?
-      AND so.campus = ?
-      AND f.dept = ?
-      AND so.subCode NOT LIKE '%-GSS-%'
-    ORDER BY f.lname ASC
-", [$schlyear, $semester, $campus, $collegeabbr]);
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $collegeabbr = $request->query('collegeabbr');
+        $campus = Auth::guard('web')->user()->campus;
+    
+        $data = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.dept', DB::raw('(
+                            SELECT MAX(sg.updated_at)
+                            FROM coasv2_db_enrollment.studgrades sg
+                            WHERE sg.subjID = sub_offered.id
+                        ) as lastupdated'))
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
+                        ->where('sub_offered.campus', $campus)
+                        ->where('faculty.dept', $collegeabbr)
+                        ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
+                        ->orderBy('faculty.lname', 'ASC')
+                        ->groupBy('sub_offered.id')
+                        ->get();
 
         return response()->json(['data' => $data]);
     }
 
     public function logbookpdfprint(Request $request)
     {
-        $schlyear   = $request->query('schlyear');
-        $semester   = $request->query('semester');
-        $collegeabbr = $request->query('collegeabbr');
-        $campus     = Auth::guard('web')->user()->campus;
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        //$collegeabbr = $request->query('collegeabbr');
+        $campus = Auth::guard('web')->user()->campus;
 
-        $data = SubjectOffered::query()
-
-            // FILTER FIRST (VERY IMPORTANT)
-            ->where('sub_offered.schlyear', $schlyear)
-            ->where('sub_offered.semester', $semester)
-            ->where('sub_offered.campus', $campus)
-            ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
-
-            ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
-            ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-            ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-
-            // ✅ Replace heavy join with subquery
-            ->select([
-                'sub_offered.id as soid',
-                'sub_offered.subCode',
-                'subjects.sub_name',
-                'faculty.lname',
-                'faculty.fname',
-                'faculty.dept',
-
-                \DB::raw('(
-                    SELECT MAX(updated_at)
-                    FROM coasv2_db_enrollment.studgrades sg
-                    WHERE sg.subjID = sub_offered.id
-                ) as lastupdated')
-            ])
-
-            ->where('faculty.dept', $collegeabbr)
-            ->orderBy('faculty.lname', 'ASC')
-            ->get();
+        $gslog = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.dept')
+                        ->where('sub_offered.schlyear', $schlyear)
+                        ->where('sub_offered.semester', $semester)
+                        ->where('sub_offered.campus', $campus)
+                        //->where('faculty.dept', $collegeabbr)
+                        ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
+                        ->orderBy('faculty.lname', 'ASC')
+                        ->groupBy('sub_offered.id')
+                        ->get();
         
         $data = [
             'gslog' => $gslog,
