@@ -81,37 +81,30 @@ class EnGradesheetLogbookController extends Controller
         $collegeabbr = $request->query('collegeabbr');
         $campus     = Auth::guard('web')->user()->campus;
 
-        $data = SubjectOffered::query()
-
-            // FILTER FIRST (VERY IMPORTANT)
-            ->where('sub_offered.schlyear', $schlyear)
-            ->where('sub_offered.semester', $semester)
-            ->where('sub_offered.campus', $campus)
-            ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
-
-            ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
-            ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-            ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-
-            // ✅ Replace heavy join with subquery
-            ->select([
-                'sub_offered.id as soid',
-                'sub_offered.subCode',
-                'subjects.sub_name',
-                'faculty.lname',
-                'faculty.fname',
-                'faculty.dept',
-
-                \DB::raw('(
-                    SELECT MAX(updated_at)
-                    FROM coasv2_db_enrollment.studgrades sg
-                    WHERE sg.subjID = sub_offered.id
-                ) as lastupdated')
-            ])
-
-            ->where('faculty.dept', $collegeabbr)
-            ->orderBy('faculty.lname', 'ASC')
-            ->get();
+        $data = DB::select("
+    SELECT
+        so.id AS soid,
+        so.subCode,
+        s.sub_name,
+        f.lname,
+        f.fname,
+        f.dept,
+        (
+            SELECT MAX(sg.updated_at)
+            FROM coasv2_db_enrollment.studgrades sg
+            WHERE sg.subjID = so.id
+        ) AS lastupdated
+    FROM sub_offered so
+    LEFT JOIN scheduleclass sc ON sc.subject_id = so.id
+    LEFT JOIN faculty f ON f.id = sc.faculty_id
+    LEFT JOIN subjects s ON s.sub_code = so.subCode
+    WHERE so.schlyear = ?
+      AND so.semester = ?
+      AND so.campus = ?
+      AND f.dept = ?
+      AND so.subCode NOT LIKE '%-GSS-%'
+    ORDER BY f.lname ASC
+", [$schlyear, $semester, $campus, $collegeabbr]);
 
         return response()->json(['data' => $data]);
     }
