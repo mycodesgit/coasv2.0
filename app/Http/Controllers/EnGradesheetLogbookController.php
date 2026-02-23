@@ -76,31 +76,48 @@ class EnGradesheetLogbookController extends Controller
 
     public function getlogbook_search(Request $request)
     {
-
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
+        $schlyear    = $request->query('schlyear');
+        $semester    = $request->query('semester');
         $collegeabbr = $request->query('collegeabbr');
-        $campus = Auth::guard('web')->user()->campus;
-    
-        $data = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
-                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                        ->leftJoin('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
-                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.dept', DB::raw('(
-                            SELECT MAX(sg.updated_at)
-                            FROM coasv2_db_enrollment.studgrades sg
-                            WHERE sg.subjID = sub_offered.id
-                        ) as lastupdated'))
-                        ->where('sub_offered.schlyear', $schlyear)
-                        ->where('sub_offered.semester', $semester)
-                        ->where('sub_offered.campus', $campus)
-                        ->where('faculty.dept', $collegeabbr)
-                        ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
-                        ->orderBy('faculty.lname', 'ASC')
-                        ->groupBy('sub_offered.id')
-                        ->get();
+        $campus      = Auth::guard('web')->user()->campus;
 
-        return response()->json(['data' => $data]);
+        $data = SubjectOffered::query()
+
+            // ✅ FILTER FIRST (reduces rows early)
+            ->where('sub_offered.schlyear', $schlyear)
+            ->where('sub_offered.semester', $semester)
+            ->where('sub_offered.campus', $campus)
+            ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
+
+            // joins (light tables only)
+            ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
+            ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+
+            ->where('faculty.dept', $collegeabbr)
+
+            // ✅ select only needed columns
+            ->select([
+                'sub_offered.id as soid',
+                'sub_offered.subCode',
+                'subjects.sub_name',
+                'faculty.lname',
+                'faculty.fname',
+                'faculty.dept',
+
+                DB::raw('(
+                    SELECT MAX(sg.updated_at)
+                    FROM coasv2_db_enrollment.studgrades sg
+                    WHERE sg.subjID = sub_offered.id
+                ) as lastupdated')
+            ])
+
+            ->orderBy('faculty.lname', 'ASC')
+
+            // ✅ VERY IMPORTANT (prevents timeout)
+            ->paginate(50);   // change size if needed
+
+        return response()->json($data);
     }
 
     public function logbookpdfprint(Request $request)
