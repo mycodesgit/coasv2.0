@@ -107,7 +107,7 @@
                         <td>{{ $datalogbook->sub_title }}</td>
                         <td>{{ $datalogbook->subSec }}</td>
                         <td>{{ $datalogbook->dept }}</td>
-                        <td></td>
+                        <td>{{ $datalogbook->updated_at }}</td>
                         <td></td>
                     </tr>
                 @endforeach
