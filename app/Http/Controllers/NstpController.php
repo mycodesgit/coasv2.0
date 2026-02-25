@@ -391,7 +391,7 @@ class NstpController extends Controller
             ->get();
         
         $rotccodes = [
-            "KAB-SER-146", 'KAB-SER-149'
+            "KAB-SER-146", 'KAB-SER-149', 'KAB-SER-077'
         ];
 
         $schlyear = $request->query('schlyear');
