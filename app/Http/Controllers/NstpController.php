@@ -68,7 +68,7 @@ class NstpController extends Controller
 
         $cwtscodes = ["KAB-SER-076", "KAB-SER-144", "KAB-SER-147"];
         $ltscodes = ["KAB-SER-145", "KAB-SER-148"];
-        $rotccodes = ["KAB-SER-146", "KAB-SER-149"];
+        $rotccodes = ["KAB-SER-146", "KAB-SER-149", "KAB-SER-077"];
 
         // ⚡ Fast counts
         $cwtscount = $this->countNSTPStudentsFast($cwtscodes, $schlyearactive, $semesteractive, $campus);
