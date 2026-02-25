@@ -2,185 +2,291 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta charset="UTF-8" />
+    <title>@yield('title')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
 
-    <link rel="stylesheet" href="{{ asset('template/student/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}" media="(min-width: 768px)">
-
+    <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
-    <!-- DataTable -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('template/student/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/chatstyle.css') }}">
-    
-
-    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/fullcalendar/fullcalendar.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <!-- DataTables  -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
 
     <style>
-        #chat-box {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 260px;
-            background: white;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        .nav-link {
+            font-size: 14px;
+        }
+
+        .nav-link:hover {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .collapse .nav-link {
+            color: #555;
+        }
+        .sidebar .nav-link.active {
+            color: #000000 !important;
+            background-color: #65ac86 !important;
+        }
+        /* When sidebar is collapsed, remove active background */
+        .sidebar.collapsed .nav-link.active,
+        .sidebar.collapsed .nav-link:hover {
+            background-color: transparent !important;
+            color: inherit !important;
+        }
+        /* main {
+            background-color: #f4f6f9;
+        } */
+        .fc-event {
+            border-color: #198754; background-color: #198754;
+        }
+        @media (max-width: 768px) {
+            .fc .fc-daygrid-day-frame {
+                min-height: 45px;
+            }
+        }
+        .card-hover {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card-hover:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .sidebar .nav-link .fa {
+            font-size: 18px !important;
+        }
+        .fa {
+            font-family: tabler-icons !important;
+            speak: none;
+            font-style: normal;
+            font-weight: 400;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .bottom-nav {
             display: none;
-            flex-direction: column;
-            overflow: hidden;
         }
+        @media (max-width: 991px) {
+            .bottom-nav {
+                position: fixed;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(37, 37, 37, 0.7);
+                backdrop-filter: blur(9px);
+                width: 90%;
+                max-width: 400px;
+                padding: 10px 0;
+                border-radius: 20px;
+                display: flex;
+                justify-content: space-around;
+                box-shadow: 0 6px 16px rgba(128, 128, 128, 0.404);
+                z-index: 999;
+            }
 
-        #chat-header {
-            background: #007bff;
-            color: white;
-            padding: 10px;
-            cursor: pointer;
+            .bottom-nav a {
+                text-decoration: none !important;
+                color: inherit; /* keep text/icon color the same */
+            }
+
+            .bottom-nav a:visited,
+            .bottom-nav a:active,
+            .bottom-nav a:focus {
+                text-decoration: none !important;
+            }
+
+            .nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 7pt;
+                /* color: #377858; */
+                color: #ffffff;
+                cursor: pointer;
+                transition: 0.2s;
+                padding: 5px;
+            }
+
+            .nav-item .icon {
+                font-size: 18px;
+                margin-bottom: 1px;
+                margin-top: 3px;
+            }
+
+            .nav-item.active {
+                /* color: #377858; */
+                color: #ffffff;
+                font-weight: normal;
+                background: rgba(37, 37, 37, 0);
+                backdrop-filter: blur(10px);
+                border-radius: 10px;
+                padding: 5px;
+                /* width: 60px;
+                height: 47px; */
+            }
         }
-
-        #chat-messages {
-            height: 260px;
-            overflow-y: auto;
-            padding: 10px;
-            background: #f8f9fa;
-        }
-
-        #chat-input-area {
-            padding: 10px;
-            border-top: 1px solid #ddd;
+        @media (max-width: 991px) {
+            .main-sidebar.sidebar-style-2 {
+                display: none !important;
+            }
+            .togglebar{
+                display: none !important;
+            }
         }
     </style>
 </head>
 
-<body class="text-sm">
-    <div style="height: 25px; background: #fdfdfd; position: fixed; top: 0; left: 0; right: 0; z-index: 998;"></div>
-    <nav id="sidebar">
-        @include('partials.control_student_sidebar')
-    </nav>
-    
-    <main>
+<body>
+    <div id="overlay" class="overlay"></div>
+    <!-- TOPBAR -->
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top topbar px-3">
+        <button id="toggleBtn" class="d-none d-lg-inline-flex btn btn-light btn-icon btn-sm ">
+            <i class="fas fa-bars"></i>
+        </button>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-custom" style="border-radius: 15px; background-color: #ffffff !important; margin-top: -15px;">
-            <div class="container-fluid">
-                <a class="navbar-brand text-gray" href="#"><i class="fas fa-diagram-predecessor" style="color: #666"></i> CISS</a>
-                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <!-- <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li> -->
-                    </ul>
-                </div>
-                <form class="">
-                    <a href="{{ route('destory.logout') }}" class="btn btn-default btn-sm btnsignout">
-                        <i class="fas fa-power-off"></i> Sign Out
-                    </a>
-                </form>
-            </div>
-            <div class="d-block" style="z-index: 999">
-                <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
-            </div>
-        </nav>
-        
-        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-custom d-lg-none" style="border-radius: 15px; background-color: #198754 !important; margin-top: -15px;">
-            <div class="container-fluid">
-                <a class="navbar-brand text-light" href="#"><i class="fas fa-diagram-predecessor" style="color: #e9ecef"></i> CISS</a>
-                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <!-- <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li> -->
-                    </ul>
-                </div>
-                <form class="">
-                    <a href="{{ route('destory.logout') }}" class="btn btn-outline-light btn-sm">
-                        <i class="fas fa-power-off"></i> Sign Out
-                    </a>
-                </form>
-            </div>
-            <div class="d-block d-md-none" style="z-index: 999">
-                <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
-            </div>
-        </nav>
+        <!-- MOBILE -->
+        <button id="mobileBtn" class="btn btn-light btn-icon btn-sm d-lg-none me-2 d-none d-md-block">
+            <i class="ti ti-layout-sidebar-left-expand"></i>
+        </button>
 
-        @yield('body')
-        {{-- <div class="fab" id="openChat">
-            <i class="fas fa-comment-dots"></i>
+        <div class="d-md-none">
+            <div class="d-flex align-items-center gap-3">
+            <div class="d-inline-flex">
+                <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
+                <span class="logo-text ms-2" style="font-weight: bold">Student Portal</span>
+            </div>
+            </div>
         </div>
 
-        <div class="chat-popup" id="chatPopup">
-            <div class="chat-header">
-                <span>ChatBot</span>
-                <button class="close-chat" id="closeChat">&times;</button>
-            </div>
-            <div class="chat-body">
+        <div>
+            <!-- Navbar nav -->
+            <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
+                <!-- Dropdown -->
+                <li class="ms-3 dropdown">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ asset('uilibs/images/user.png') }}" alt="" class="avatar avatar-sm rounded-circle" /> {{ $studauth->fname }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end p-0" style="min-width: 200px;">
+                        <div>
+                            <div class="d-flex gap-3 align-items-center border-dashed border-bottom px-3 py-3">
+                                <img src="{{ asset('uilibs/images/user.png') }}" alt="" class="avatar avatar-md rounded-circle" />
+                                <div>
+                                    <h5 class="mb-0 small">{{ $studauth->fname }}</h5>
+                                    <p class="mb-0 small text-warning"></p>
+                                </div>
+                            </div>
+                            <div class="p-3 d-flex flex-column gap-1 medium lh-lg">
+                                <a href="#!" class="text-secondary">
+                                    <i class="ti ti-settings"></i> <span>Account Settings</span>
+                                </a>
+                                <a href="#!" class="text-success">
+                                    <i class="ti ti-message"></i><span> Chat Message</span>
+                                </a>
+                                <a href="{{ route('logout') }}" class="text-danger">
+                                    <i class="ti ti-logout"></i><span> Signout</span>
+                                </a>
+                            </div>
 
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+        <div class="logo-area">
+            <div class="d-inline-flex">
+                <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
+                <span class="logo-text ms-2" style="font-weight: bold">Student Kiosk</span>
             </div>
-            <div class="chat-input">
-                <input type="text" placeholder="Send a message..." id="msgInput">
-                <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        @include('partials.control_student_sidebar')
+
+    </aside>
+
+    <!-- MAINmainCONTENT -->
+    <main id="content" class="content py-10">
+        <div class="container-fluid">
+            @yield('body')
+
+            <div class="row d-none d-md-block">
+                <div class="col-12">
+                    <footer class="text-center py-2 mt-6 text-secondary fixed-bottom bg-white" style="z-index: 99">
+                        <p class="mb-0">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</p>
+                    </footer>
+                </div>
             </div>
-        </div> --}}
+        </div>
+        @include('partials.control_mobile_bottomenu')
     </main>
 
-    <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('template/student/app.js') }}" defer></script>
+    <!-- Bootstrap JS -->
 
-    <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script> 
-    <script src="{{ asset('template/plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('uilibs/js/main.js') }}"></script>
+    <!-- jQuery -->
+    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
 
-    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/fullcalendar/fullcalendar.js') }}"></script>
-
-    <!-- Toastr -->
-    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('uilibs/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.js') }}"></script>
     <!-- SweetAlert2 -->
-    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('js/basic/contextmenucoas.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('uilibs/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('uilibs/plugins/select2/js/select2.full.min.js') }}"></script>
+    <!-- Validation JS -->
+    <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-    @if(request()->routeIs('schedstudentclassShow'))
-        <script>
-            var days = @json($days);
-            var times = @json($times);
-        </script>
-        @include('student.scheds.viewscheduleresultscript')
-    @endif
+    <script>
+        $(function () {
+            $('.select2').select2();
 
-    @if(request()->routeIs('pre.show'))
-        @include('script.enrllmnt.preenrolSerialize')
-    @endif
-    
-    @if(request()->routeIs('pre.index'))
-        @include('script.enrllmnt.preenrolStudSerialize')
-    @endif
-    
+            $('.select2bs4').select2({
+                theme: 'bootstrap4',
+                //height: '150'
+            })
+        });
+    </script>
 </body>
 
 </html>

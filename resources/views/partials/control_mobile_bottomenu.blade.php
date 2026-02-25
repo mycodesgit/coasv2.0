@@ -1,0 +1,39 @@
+@php
+    $current_route=request()->route()->getName();
+
+    $studentdashActive = in_array($current_route, ['index.student']) ? 'active' : '';
+    $studentgradesActive = in_array($current_route, ['show.grades']) ? 'active' : '';
+    $studentaccntsActive = in_array($current_route, ['show.account']) ? 'active' : '';
+    $schedviewActive = in_array($current_route, ['schedclassRead','schedstudentclassShow']) ? 'active' : '';
+    $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
+@endphp
+
+<div class="bottom-nav">
+    <a href="{{ route('index.student') }}">
+        <div class="nav-item {{$studentdashActive}}" data-label="Dashboard">
+            <i class="fas fa-th icon"></i>
+            <span>Home</span>
+        </div>
+    </a>
+
+    <a href="{{ route('show.grades') }}">
+        <div class="nav-item {{$studentgradesActive}}" data-label="Attendance">
+            <i class="fas fa-graduation-cap icon"></i>
+            <span>Grades</span>
+        </div>
+    </a>
+
+    <a href="{{ route('show.account') }}">
+        <div class="nav-item {{$studentaccntsActive}}" data-label="Schedule">
+            <i class="fas fa-server icon"></i>
+            <span>Services</span>
+        </div>
+    </a>
+
+    <a href="#">
+        <div class="nav-item" data-label="Grade Sheet">
+            <i class="fas fa-user icon"></i>
+            <span>Profile</span>
+        </div>
+    </a>
+</div>
