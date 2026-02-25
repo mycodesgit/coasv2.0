@@ -204,7 +204,7 @@
                                 <a href="#!" class="text-success">
                                     <i class="ti ti-message"></i><span> Chat Message</span>
                                 </a>
-                                <a href="{{ route('logout') }}" class="text-danger">
+                                <a href="{{ route('destory.logout') }}" class="text-danger">
                                     <i class="ti ti-logout"></i><span> Signout</span>
                                 </a>
                             </div>
