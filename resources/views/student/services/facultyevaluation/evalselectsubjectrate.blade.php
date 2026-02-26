@@ -15,7 +15,7 @@
                         <div class="card border-0">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
-                                    <i class="ti ti-book"></i>
+                                    <i class="ti ti-book"></i> {{ $mysubjstarteval->first()->sub_name ?? 'No Subject Name' }} - {{ $mysubjstarteval->first()->sub_title ?? 'No Subject Title' }}
                                 </h6>
                             </div>
                             <div class="card-body">
@@ -64,7 +64,7 @@
 
                                                         <div class="col-md-4">
                                                             <label>Subject: <span class="text-danger">*</span></label>
-                                                            <input type="text" name="qcesubject" class="form-control" placeholder="Subject" value="{{ $mysubjstarteval->first()->subSec }} | {{ $mysubjstarteval->first()->sub_name }} - {{ $mysubjstarteval->first()->sub_title }}" required readonly>
+                                                            <input type="text" name="qcesubject" class="form-control" placeholder="Subject" value="{{ $mysubjstarteval->first()->subSec ?? 'No Section' }} | {{ $mysubjstarteval->first()->sub_name ?? 'No Subject Name' }} - {{ $mysubjstarteval->first()->sub_title ?? 'No Subject Title' }}" required readonly>
                                                         </div>
                                                     </div>
                                                 </div>
