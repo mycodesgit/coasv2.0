@@ -134,7 +134,7 @@
         <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
         <a href="{{ route('logbookindex') }}" class="list-group-item {{ $facgdeshtlgbokActive }}">Gradesheet Logbook</a>
         @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3]))
         <a href="{{ route('studenrollRead') }}" class="list-group-item {{ $studenpersemActive }}">Students Enrolled</a>
         @endif
         {{-- @endif --}}
