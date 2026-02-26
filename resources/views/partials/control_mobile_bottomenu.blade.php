@@ -9,23 +9,23 @@
 @endphp
 
 @if (request()->routeIs('show.evaluation'))
-    <div class="bottom-nav">
-        <a href="{{ route('show.services') }}">
+    <a href="{{ route('show.services') }}">
+        <div class="bottom-nav">
             <div class="nav-item" data-label="Dashboard">
                 <i class="fas fa-arrow-left icon"></i>
                 <span>Go Back</span>
             </div>
-        </a>
-    </div>
+        </div>
+    </a>
 @elseif (request()->routeIs('evalformStore'))
-    <div class="bottom-nav">
-        <a href="{{ route('show.evaluation') }}">
+    <a href="{{ route('show.evaluation') }}">
+        <div class="bottom-nav">
             <div class="nav-item" data-label="Dashboard">
                 <i class="fas fa-arrow-left icon"></i>
                 <span>Go Back</span>
             </div>
-        </a>
-    </div>
+        </div>
+    </a>
 @else
     <div class="bottom-nav">
         <a href="{{ route('index.student') }}">
