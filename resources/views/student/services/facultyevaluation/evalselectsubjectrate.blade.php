@@ -26,7 +26,7 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <label>Rating Period: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="ratingfromto" class="form-control required-input" placeholder="Rating Period" value="{{ $currsem->first()->qceratingfrom }} - {{ $currsem->first()->qceratingto }}" required readonly>
+                                                        <input type="text" name="ratingfromto" class="form-control textbold required-input" placeholder="Rating Period" value="{{ $currsem->first()->qceratingfrom }} - {{ $currsem->first()->qceratingto }}" required readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -34,7 +34,7 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <label>Name of Faculty: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="facultyname" class="form-control required-input" placeholder="Name of Faculty" value="{{ $facdetail->first()->fname ?? '' }} {{ substr($facdetail->first()->mname ?? '', 0, 1) }} {{ $facdetail->first()->lname ?? '' }}" required readonly>
+                                                        <input type="text" name="qcefacname" class="form-control textbold required-input" placeholder="Name of Faculty" value="{{ $facdetail->first()->fname ?? '' }} {{ substr($facdetail->first()->mname ?? '', 0, 1) }} {{ $facdetail->first()->lname ?? '' }}" required readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -42,21 +42,34 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <label>Academic Rank: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="facultyname" class="form-control required-input" placeholder="Name of Faculty" value="{{ $facdetail->first()->rank ?? 'Part-time' }}" required readonly>
+                                                        <input type="text" class="form-control textbold required-input" placeholder="Name of Faculty" value="{{ $facdetail->first()->rank ?? 'Part-time' }}" required readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div id="card-2" style="display: none;">
-                                            <div class="col-md-12 mb-2">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <label>Name of Faculty: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="qcefacname" class="form-control" placeholder="Name of Faculty" value="{{ request('qcefacname') ?? '' }}" required readonly>
+                                            <div class="card mb-4 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 rounded-2">
+                                                <div class="card-body">
+                                                    <div class="row g-2">
+                                                        <div class="col-md-4">
+                                                            <label>Name of Faculty: <span class="text-danger">*</span></label>
+                                                            <input type="text" name="qcefacname" class="form-control textbold" placeholder="Name of Faculty" value="{{ request('qcefacname') ?? '' }}" required readonly>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label>Academic Rank: <span class="text-danger">*</span></label>
+                                                            <input type="text" name="qcefacrank" class="form-control textbold" placeholder="Academic Rank" value="{{ $facdetail->first()->rank ?? 'Part-time' }}" required readonly>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label>Subject: <span class="text-danger">*</span></label>
+                                                            <input type="text" name="qcesubject" class="form-control" placeholder="Subject" value="{{ $mysubjstarteval->first()->subSec }} | {{ $mysubjstarteval->first()->sub_name }} - {{ $mysubjstarteval->first()->sub_title }}" required readonly>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             @foreach ($question as $catName => $questions)
                                                 <div class="card bg-success bg-opacity-10 mb-1" style="">
                                                     <div class="card-body">

@@ -222,6 +222,9 @@
             color: white; /* White text */
             border-color: #28a745;
         }
+        .textbold{
+            font-weight: bold;
+        }
     </style>
 </head>
 
