@@ -155,6 +155,73 @@
                 display: none !important;
             }
         }
+        .radio-group {
+            display: flex;
+            gap: 20px; /* Space between radio options */
+            margin-top: 15px;
+        }
+
+        /* Style the radio buttons */
+        .radio-group input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            accent-color: black; /* Change selected radio button color */
+            cursor: pointer;
+            vertical-align: middle; /* Ensure alignment with text */
+        }
+
+        /* Style the links and keep alignment */
+        .radio-group a {
+            display: flex;
+            align-items: center;
+            gap: 2px; /* Space between radio and text */
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none; /* Remove underline from links */
+            color: black;
+        }
+
+        /* Ensure text and radio button are aligned */
+        .radio-group a span {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        /* Hide the default radio button */
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+
+        /* Style for the custom radio button */
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px; /* Size of the radio button */
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #999; /* Default border */
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .radio-group label {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        /* When radio is selected, change background color */
+        .radio-group input[type="radio"]:checked + label {
+            background-color: #28a745; /* Blue background */
+            color: white; /* White text */
+            border-color: #28a745;
+        }
     </style>
 </head>
 
@@ -287,6 +354,11 @@
             })
         });
     </script>
+
+    @if (request()->routeIs('evalformStore'))
+        @include('script.evaluation.validation.ratecardnextbutton')
+    @endif
+
 </body>
 
 </html>

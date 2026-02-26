@@ -105,7 +105,7 @@ class StudentController extends Controller
         return view('student.grades.view', compact('guard', 'studauth', 'studsub'));
     }
 
-    public function showaccount()
+    public function showservices()
     {
         $guard= $this->getGuard();
         $studentowner = Auth::guard($guard)->user()->studid;
@@ -119,7 +119,7 @@ class StudentController extends Controller
 
         
 
-        return view('student.accnts.viewacct', compact('guard', 'studauth', 'studfees'));
+        return view('student.services.list', compact('guard', 'studauth', 'studfees'));
     }
 
     public function schedclassRead()

@@ -3,7 +3,7 @@
 
     $studentdashActive = in_array($current_route, ['index.student']) ? 'active' : '';
     $studentgradesActive = in_array($current_route, ['show.grades']) ? 'active' : '';
-    $studentaccntsActive = in_array($current_route, ['show.account']) ? 'active' : '';
+    $studentaccntsActive = in_array($current_route, ['show.services']) ? 'active' : '';
     $schedviewActive = in_array($current_route, ['schedclassRead','schedstudentclassShow']) ? 'active' : '';
     $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
 @endphp
@@ -23,7 +23,7 @@
         </div>
     </a>
 
-    <a href="{{ route('show.account') }}">
+    <a href="{{ route('show.services') }}">
         <div class="nav-item {{$studentaccntsActive}}" data-label="Schedule">
             <i class="fas fa-server icon"></i>
             <span>Services</span>

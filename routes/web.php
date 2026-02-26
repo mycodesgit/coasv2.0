@@ -88,6 +88,7 @@ use App\Http\Controllers\SettingSignatoryController;
 use App\Http\Controllers\KioskDashController;
 
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentFacultyEvaluationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -179,7 +180,10 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('student')->group(function () {
         Route::get('/section/student/dashboard/view', [StudentController::class, 'index'])->name('index.student');
         Route::get('/section/student/grades/view', [StudentController::class, 'show'])->name('show.grades');
-        Route::get('/section/student/accounts/appraisal/view', [StudentController::class, 'showaccount'])->name('show.account');
+        Route::get('/section/student/services/view', [StudentController::class, 'showservices'])->name('show.services');
+
+        Route::get('/section/student/services/fac/evaluation/view', [StudentFacultyEvaluationController::class, 'index'])->name('show.evaluation');
+        Route::get('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'evalformStore'])->name('evalformStore');
 
         Route::get('/section/info/kiosk/schedule/view', [StudentController::class, 'schedclassRead'])->name('schedclassRead');
         Route::get('/section/info/kiosk/schedule/view/result', [StudentController::class, 'schedstudentclassShow'])->name('schedstudentclassShow');

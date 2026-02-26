@@ -18429,7 +18429,7 @@ a {
     text-decoration: none;
 }
 a:hover {
-    --bs-link-color-rgb: var(--bs-link-hover-color-rgb);
+    --bs-link-color-rgb: var(--bs-link-color-rgb);
     text-decoration: none;
 }
 a:not([href]):not([class]),

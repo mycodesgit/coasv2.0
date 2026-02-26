@@ -3,7 +3,7 @@
 
     $studentdashActive = in_array($current_route, ['index.student']) ? 'active' : '';
     $studentgradesActive = in_array($current_route, ['show.grades']) ? 'active' : '';
-    $studentaccntsActive = in_array($current_route, ['show.account']) ? 'active' : '';
+    $studentaccntsActive = in_array($current_route, ['show.services', 'show.evaluation', 'evalformStore']) ? 'active' : '';
     $schedviewActive = in_array($current_route, ['schedclassRead','schedstudentclassShow']) ? 'active' : '';
     $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
 @endphp
@@ -23,7 +23,7 @@
         </a>
     </li>
     <li>
-        <a class="nav-link {{$studentaccntsActive}}" href="{{ route('show.account') }}">
+        <a class="nav-link {{$studentaccntsActive}}" href="{{ route('show.services') }}">
             <i class="ti ti-server"></i><span class="nav-text">Services</span>
         </a>
     </li>
