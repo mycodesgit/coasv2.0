@@ -34,7 +34,7 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <label>Name of Faculty: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="facultyname" class="form-control required-input" placeholder="Name of Faculty" value="Joshua D. Dela Cruz" required readonly>
+                                                        <input type="text" name="facultyname" class="form-control required-input" placeholder="Name of Faculty" value="{{ $facdetail->first()->fname ?? '' }} {{ substr($facdetail->first()->mname ?? '', 0, 1) }} {{ $facdetail->first()->lname ?? '' }}" required readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,7 +53,7 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <label>Name of Faculty: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="qcefacname" class="form-control" placeholder="Name of Faculty" value="{{ $facdetail->first()->fname ?? 'N/A' }} {{ $facdetail->first()->mname ?? 'N/A' }} {{ $facdetail->first()->lname ?? 'N/A' }}">
+                                                        <input type="text" name="qcefacname" class="form-control" placeholder="Name of Faculty" value="{{ $facdetail->first()->qcefacname ?? '' }}" required readonly>
                                                     </div>
                                                 </div>
                                             </div>
