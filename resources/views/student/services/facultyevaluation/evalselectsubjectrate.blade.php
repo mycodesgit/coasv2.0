@@ -15,7 +15,7 @@
                         <div class="card border-0">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
-                                    <i class="ti ti-book"></i> {{ $mysubjstarteval->first()->sub_name }} - {{ $mysubjstarteval->first()->sub_title }}
+                                    <i class="ti ti-book"></i> {{ $mysubjstarteval->first()->sub_name ?? 'No Subject Name' }} - {{ $mysubjstarteval->first()->sub_title ?? 'No Subject Title' }}
                                 </h6>
                             </div>
                             <div class="card-body">
