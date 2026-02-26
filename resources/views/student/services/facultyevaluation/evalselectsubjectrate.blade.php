@@ -53,7 +53,7 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <label>Name of Faculty: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="qcefacname" class="form-control" placeholder="Name of Faculty" value="{{ $facdetail->first()->qcefacname ?? '' }}" required readonly>
+                                                        <input type="text" name="qcefacname" class="form-control" placeholder="Name of Faculty" value="{{ request('qcefacname') ?? '' }}" required readonly>
                                                     </div>
                                                 </div>
                                             </div>
