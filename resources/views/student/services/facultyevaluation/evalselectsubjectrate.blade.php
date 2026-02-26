@@ -15,7 +15,7 @@
                         <div class="card border-0">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
-                                    <i class="ti ti-server"></i> Subjects for Evaluation
+                                    <i class="ti ti-book"></i> {{ $mysubjstarteval->first()->sub_name }} - {{ $mysubjstarteval->first()->sub_title }}
                                 </h6>
                             </div>
                             <div class="card-body">
