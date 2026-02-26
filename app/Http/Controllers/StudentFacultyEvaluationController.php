@@ -118,7 +118,7 @@ class StudentFacultyEvaluationController extends Controller
         $inst = QCEinstruction::where('instructcat', 1)->get();
         $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
         $currsem = QCEsemester::where('qcesemstat', 2)
-            ->get([
+            ->first([
                 'qceschlyear',
                 'qcesemester',
                 'qceratingfrom',
@@ -149,8 +149,8 @@ class StudentFacultyEvaluationController extends Controller
                             'coasv2_db_schedule.sub_offered.semester',
                             'coasv2_db_schedule.sub_offered.campus',
                         )
-                        ->where('coasv2_db_schedule.sub_offered.semester', $currsem->first()->qcesemester)
-                        ->where('coasv2_db_schedule.sub_offered.schlyear', $currsem->first()->qceschlyear)
+                        ->where('coasv2_db_schedule.sub_offered.semester', $currsem->qcesemester)
+                        ->where('coasv2_db_schedule.sub_offered.schlyear', $currsem->qceschlyear)
                         ->where('studgrades.studID', '=', Auth::guard('kioskstudent')->user()->studid)
                         ->where('studgrades.subjID', $subjsIDselected)
                         ->groupBy('studgrades.subjID')
