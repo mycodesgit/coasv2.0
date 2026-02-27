@@ -31,7 +31,7 @@
                                                                     <h3 class="fw-bold h4">{{ $datafacsubprogen->sub_name }}</h3>
                                                                     <span>{{ $datafacsubprogen->subSec }}</span><br>
                                                                     <span style="font-size: 9pt;">
-                                                                        <span class="text-danger">{{ $datafacsubprogen->schlyear }}</span>, {{ $datafacsubprogen->semester == 1 ? '1st Sem' : ($datafacsubprogen->semester == 2 ? '2nd Sem' : ($datafacsubprogen->semester == 3 ? 'Summer' : $datafacsubprogen->semester)) }}
+                                                                        <span class="text-success">{{ $datafacsubprogen->schlyear }}</span>, {{ $datafacsubprogen->semester == 1 ? '1st Sem' : ($datafacsubprogen->semester == 2 ? '2nd Sem' : ($datafacsubprogen->semester == 3 ? 'Summer' : $datafacsubprogen->semester)) }}
                                                                     </span>
                                                                 </div>
                                                                 <div>
@@ -64,7 +64,7 @@
                                                                     <h3 class="fw-bold h4">{{ $datafacsubprogen->sub_name }}</h3>
                                                                     <span>{{ $datafacsubprogen->subSec }}</span><br>
                                                                     <span style="font-size: 9pt;">
-                                                                        <span class="text-danger">{{ $datafacsubprogen->schlyear }}</span>, {{ $datafacsubprogen->semester == 1 ? '1st Sem' : ($datafacsubprogen->semester == 2 ? '2nd Sem' : ($datafacsubprogen->semester == 3 ? 'Summer' : $datafacsubprogen->semester)) }}
+                                                                        <span class="text-success">{{ $datafacsubprogen->schlyear }}</span>, {{ $datafacsubprogen->semester == 1 ? '1st Sem' : ($datafacsubprogen->semester == 2 ? '2nd Sem' : ($datafacsubprogen->semester == 3 ? 'Summer' : $datafacsubprogen->semester)) }}
                                                                     </span>
                                                                 </div>
                                                                 <div>
@@ -81,7 +81,7 @@
                                                                         @endif
                                                                     </span>
                                                                 </div>
-                                                                <div><span class="badge bg-warning textbold"><i class="ti ti-x"></i> Not Done</span></div>
+                                                                <div><span class="badge bg-info textbold"><i class="ti ti-x"></i> Not Done</span></div>
                                                             </div>
                                                         </div>
                                                     </div>

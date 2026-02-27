@@ -34,7 +34,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted"><span class="text-success">All Schedule</span>, <span class="text-dark">A.Y.</span></div>
-                                                    <div><a href="#" class="link-primary text-decoration-underline">View Schedule</a></div>
+                                                    <div><a href="#" class="link-defalt text-decoration-underline">View Schedule</a></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted"><span class="text-success">Upcoming</span>, <span class="text-dark">1st Sem</span></div>
-                                                    <div><a href="#" class="link-primary text-decoration-underline">Pre-Enrol Now</a></div>
+                                                    <div><a href="#" class="link-defalt text-decoration-underline">Pre-Enrol Now</a></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,7 +74,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted"><span class="text-success">2025-2026</span>, <span class="text-dark">2nd Sem</span></div>
-                                                    <div><a href="{{ route('index.evaluation') }}" class="link-primary text-decoration-underline">Start Evaluation</a></div>
+                                                    <div><a href="{{ route('index.evaluation') }}" class="link-defalt text-decoration-underline">Start Evaluation</a></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,7 +94,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted"><span class="text-success">All Assessment</span>, <span class="text-dark">A.Y.</span></div>
-                                                    <div><a href="{{ route('index.assessmentstudentfees') }}" class="link-primary text-decoration-underline">View Fees</a></div>
+                                                    <div><a href="{{ route('index.assessmentstudentfees') }}" class="link-defalt text-decoration-underline">View Fees</a></div>
                                                 </div>
                                             </div>
                                         </div>
