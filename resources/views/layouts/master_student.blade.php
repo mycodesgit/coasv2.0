@@ -94,7 +94,7 @@
                 bottom: 10px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: rgba(197, 197, 197, 0.3);
+                background: rgb(51, 168, 143, 0.9);
                 backdrop-filter: blur(3px);
                 width: 90%;
                 max-width: 400px;
@@ -123,7 +123,7 @@
                 align-items: center;
                 font-size: 7pt;
                 /* color: #377858; */
-                color: #000000;
+                color: #ffffff;
                 cursor: pointer;
                 transition: 0.2s;
                 padding: 5px;
@@ -137,9 +137,9 @@
 
             .nav-item.active {
                 /* color: #377858; */
-                color: #000000;
+                color: #ffffff;
                 font-weight: normal;
-                background: rgba(37, 37, 37, 0);
+                background: rgba(37, 37, 37, 0.2);
                 backdrop-filter: blur(10px);
                 border-radius: 10px;
                 padding: 5px;
