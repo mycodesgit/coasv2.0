@@ -94,8 +94,8 @@
                 bottom: 10px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: rgb(20, 82, 68, 0.95);
-                backdrop-filter: blur(1px);
+                background: rgba(197, 197, 197, 0.3);
+                backdrop-filter: blur(3px);
                 width: 90%;
                 max-width: 400px;
                 padding: 10px 0;
@@ -123,7 +123,7 @@
                 align-items: center;
                 font-size: 7pt;
                 /* color: #377858; */
-                color: #ffffff;
+                color: #000000;
                 cursor: pointer;
                 transition: 0.2s;
                 padding: 5px;
@@ -137,7 +137,7 @@
 
             .nav-item.active {
                 /* color: #377858; */
-                color: #ffffff;
+                color: #000000;
                 font-weight: normal;
                 background: rgba(37, 37, 37, 0);
                 backdrop-filter: blur(10px);
