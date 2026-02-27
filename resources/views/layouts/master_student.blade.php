@@ -94,7 +94,7 @@
                 bottom: 10px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: rgb(20, 82, 68, 0.8);
+                background: rgb(20, 82, 68, 0.9);
                 backdrop-filter: blur(1px);
                 width: 90%;
                 max-width: 400px;
