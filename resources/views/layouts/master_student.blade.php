@@ -94,8 +94,8 @@
                 bottom: 10px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: rgba(177, 177, 177, 0.2);
-                backdrop-filter: blur(9px);
+                background: rgba(173, 191, 205, 0.7);
+                backdrop-filter: blur(5px);
                 width: 90%;
                 max-width: 400px;
                 padding: 10px 0;
