@@ -214,6 +214,9 @@
                 width: 28px;
                 height: 28px;
             }
+            #topbar {
+                border-bottom: 0 !important;
+            }
         }
 
         /* When radio is selected, change background color */
