@@ -5,6 +5,38 @@
 @endsection
 
 @section('body')
+<style>
+    #table {
+            margin-top: 10px;
+            font-family: Arial;
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #000;
+        }
+        #table td {
+        	vertical-align: center !important;
+    		text-align: left;
+            border: 1px solid #000;
+            font-size: 12pt;
+			font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial,
+        	sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+        } 
+        #table th {
+			font-size: 13pt;
+            border: 1px solid #000;
+            padding: 5px;
+			font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial,
+        	sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+        }
+        @media (max-width: 768px) {
+            #table th {
+                font-size: 11pt;
+            }
+            #table td {
+                font-size: 10pt;
+            }
+        }
+</style>
     <div class="row ">
         <div class="col-12">
             <div class="mb-6">
@@ -19,7 +51,21 @@
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <form action="">
+                                <form action="{{ route('create.evaluation.rate') }}" method="POST" id="evaluation-form">
+                                    @csrf
+
+                                    <input type="hidden" name="campus" value="{{ $studauth->campus }}">
+                                    <input type="hidden" name="qceschlyearsemID" value="{{ $currsem->first()->id }}">
+                                    <input type="hidden" name="schlyear" value="{{ $currsem->first()->qceschlyear }}">
+                                    <input type="hidden" name="semester" value="{{ $currsem->first()->qcesemester }}">
+                                    <input type="hidden" name="qcefacID" value="{{ request('qcefacID') }}">
+                                    <input type="hidden" name="evaluatorname" value="{{ $studauth->fname }} {{ substr($studauth->mname, 0, 1) }} {{ $studauth->lname }}">
+                                    <input type="hidden" name="evaluatorID" value="{{ $studauth->id }}">
+                                    <input type="hidden" name="studidno" value="{{ $studauth->stud_id }}">
+                                    <input type="hidden" name="prog" value="{{ $facdetail->first()->dept ?? 'N/A' }}">
+                                    <input type="hidden" name="subjidrate" value="{{ request('id') }}">
+                                    <input type="hidden" name="qceevaluator" value="Student">
+
                                     <div class="row mb-1">
                                         <div id="card-1" class="row g-2 mb-2">
                                             <div class="col-md-4 mb-2">
@@ -66,10 +112,31 @@
                                                             <label>Subject: <span class="text-danger">*</span></label>
                                                             <input type="text" name="qcesubject" class="form-control" placeholder="Subject" value="{{ $mysubjstarteval->first()->subSec ?? 'No Section' }} | {{ $mysubjstarteval->first()->sub_name ?? 'No Subject Name' }} - {{ $mysubjstarteval->first()->sub_title ?? 'No Subject Title' }}" required readonly>
                                                         </div>
+                                                        <div class="col-md-12">
+                                                            <table id="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="ratingscale" width="10%">Scale</th>
+                                                                        <th class="ratingscale" width="28%">Qualitative Description</th>
+                                                                        <th>Operational Definition</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach($ratingscale as $dataratingscale)
+                                                                        <tr>
+                                                                            <td class="ratingscaletd" style="text-align: center; font-weight: bold">{{ $dataratingscale->inst_scale }}</td>
+                                                                            <td class="ratingscaletd" style="text-align: center; font-weight: normal; width: 188px">{!! $dataratingscale->inst_descRating !!}</td>
+                                                                            <td class="ratingscaletd">{{ $dataratingscale->inst_qualDescription }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            @php $no = 1; @endphp
                                             @foreach ($question as $catName => $questions)
                                                 <div class="card bg-success bg-opacity-10 mb-1" style="">
                                                     <div class="card-body">
@@ -81,7 +148,7 @@
                                                     <div class="card mb-2">
                                                         <div class="card-body">
                                                             <h5 class="card-title text-bold">
-                                                                {{ $loop->iteration }}.) {{ $dataformlinksquestions->questiontext }}
+                                                                {{ $no++ }}.  {{ $dataformlinksquestions->questiontext }}
                                                             </h5>
                                                             <p class="card-text mt-5"></p>
                                                             <div class="radio-group" style="margin-top: 5px">
@@ -96,6 +163,15 @@
                                                     </div>
                                                 @endforeach
                                             @endforeach
+
+                                            <div class="col-md-4 mb-2">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <label>Comments: <span class="text-danger">*</span></label>
+                                                        <textarea name="qcecomments" class="form-control" id="" cols="30" rows="10"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -112,7 +188,7 @@
                                             <span id="progress-text">Page 1 of <span id="total-pages"></span></span>
                                         </div>
 
-                                        <a href="#" onclick="clearForm()" class="btn btn-default" style="color: #5e5df0; text-decoration: underline;">Clear form</a>
+                                        <a href="#" onclick="clearForm()" class="btn btn-default" style="color: #5e5df0; text-decoration: underline;">Clear</a>
                                     </div>
                                 </form>
                             </div>

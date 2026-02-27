@@ -8,7 +8,7 @@
     $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
 @endphp
 
-@if (request()->routeIs('show.evaluation'))
+@if (request()->routeIs('index.evaluation'))
     <a href="{{ route('show.services') }}">
         <div class="bottom-nav">
             <div class="nav-item" data-label="Dashboard">
@@ -17,8 +17,8 @@
             </div>
         </div>
     </a>
-@elseif (request()->routeIs('evalformStore'))
-    <a href="{{ route('show.evaluation') }}">
+@elseif (request()->routeIs('show.evaluation.rate'))
+    <a href="{{ route('index.evaluation') }}">
         <div class="bottom-nav">
             <div class="nav-item" data-label="Dashboard">
                 <i class="fas fa-arrow-left icon"></i>

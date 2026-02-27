@@ -357,9 +357,28 @@
                 //height: '150'
             })
         });
+        $(document).ready(function() {
+            @if(session('error'))
+                toastr.error("{{ session('error') }}", "Error", {
+                    closeButton: true,
+                    progressBar: true,
+                    positionClass: "toast-bottom-left",
+                    timeOut: 5000
+                });
+            @endif
+
+            @if(session('success'))
+                toastr.success("{{ session('success') }}", "Success", {
+                    closeButton: true,
+                    progressBar: true,
+                    positionClass: "toast-bottom-left",
+                    timeOut: 10000
+                });
+            @endif
+        });
     </script>
 
-    @if (request()->routeIs('evalformStore'))
+    @if (request()->routeIs('show.evaluation.rate'))
         @include('script.evaluation.validation.ratecardnextbutton')
     @endif
 

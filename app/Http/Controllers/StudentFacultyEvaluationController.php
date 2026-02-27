@@ -56,6 +56,7 @@ use App\Models\EvaluationDB\QCEcategory;
 use App\Models\EvaluationDB\QCEquestion;
 use App\Models\EvaluationDB\QCEsubquestion;
 use App\Models\EvaluationDB\QCEsemester;
+use App\Models\EvaluationDB\QCEfevalrate;
 
 class StudentFacultyEvaluationController extends Controller
 {
@@ -96,16 +97,20 @@ class StudentFacultyEvaluationController extends Controller
                             'coasv2_db_schedule.faculty.lname',
                             'coasv2_db_schedule.faculty.id',
                         )
-                        ->where('coasv2_db_schedule.sub_offered.semester', $sy->semester)
-                        ->where('coasv2_db_schedule.sub_offered.schlyear', $sy->schlyear)
-                        ->where('studgrades.studID', '=', Auth::guard('kioskstudent')->user()->studid)
+                        ->where('coasv2_db_schedule.sub_offered.semester', 2)
+                        ->where('coasv2_db_schedule.sub_offered.schlyear', '=', '2025-2026')
+                        ->where('studgrades.studID', $studauth->stud_id)
                         ->groupBy('studgrades.subjID')
                         ->get();
 
-        return view('student.services.facultyevaluation.evalselectsubject', compact('guard', 'studentowner', 'studauth', 'mysubj'));
+        $disabledsubj = QCEfevalrate::where('qceformevalrate.studidno', $studauth->stud_id)
+                        ->whereIn('qceformevalrate.statprint', [1,2])
+                        ->get();
+
+        return view('student.services.facultyevaluation.evalselectsubject', compact('guard', 'studentowner', 'studauth', 'mysubj', 'disabledsubj'));
     }
 
-    public function evalformStore(Request $request)
+    public function show(Request $request)
     {
         $guard= $this->getGuard();
         $studentowner = Auth::guard($guard)->user()->studid;
@@ -122,12 +127,14 @@ class StudentFacultyEvaluationController extends Controller
                 'qceschlyear',
                 'qcesemester',
                 'qceratingfrom',
-                'qceratingto'
+                'qceratingto',
+                'id'
             ]);
 
         $question = QCEquestion::join('qcecategory', 'qcequestion.catName_id', '=', 'qcecategory.id')
                 ->select('qcecategory.catName', 'qcequestion.id', 'qcequestion.questiontext')
                 ->where('qcecategory.catstatus', 2)
+                ->where('qcequestion.questcat', 1)
                 ->orderBy('qcecategory.catName') 
                 ->orderBy('qcequestion.id') 
                 ->get()
@@ -157,5 +164,77 @@ class StudentFacultyEvaluationController extends Controller
                         ->get();
 
         return view('student.services.facultyevaluation.evalselectsubjectrate', compact('studauth', 'inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'mysubjstarteval'));
+    }
+
+    public function create(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                // 'qceschlyearsemID' => 'required',
+                // 'schlyear' => 'required',
+                // 'semester' => 'required',
+                // 'ratingfromto' => 'required',
+                // 'question' => 'required|array',
+                'question_rate' => 'required|array',
+                // 'evaluatorname' => 'required',
+                // 'evaluatorID' => 'required',
+                // 'qcecomments' => [
+                //     'required',
+                //     function ($attribute, $value, $fail) {
+                //         if (str_word_count($value) > 50) {
+                //             $fail("The $attribute must not be more than 50 words.");
+                //         }
+                //     }
+                // ],
+            ]);
+            
+            try {
+                $existingSurvey = QCEfevalrate::where('campus', $request->input('campus'))
+                        ->where('semester', $request->input('semester'))
+                        ->where('schlyear', $request->input('schlyear'))
+                        ->where('qcefacname', $request->input('qcefacname'))
+                        ->where('subjidrate', $request->input('subjidrate'))
+                        ->where('evaluatorname', $request->input('evaluatorname'))
+                        ->first();
+
+                if ($existingSurvey) {
+                    return redirect()->route('formRead')->with('error', 'You already submitted a survey for this subject and faculty');
+                }
+
+                $latestRateCount = QCEfevalrate::where('campus', $request->input('campus'))
+                    ->where('semester', $request->input('semester'))
+                    ->where('schlyear', $request->input('schlyear'))
+                    ->where('qcefacname', $request->input('qcefacname'))
+                    // ->where('subjidrate', $request->input('subjidrate'))
+                    ->max('ratecount');
+
+                // Increment the latest count or start from 1 if no previous record exists
+                $newRateCount = $latestRateCount ? $latestRateCount + 1 : 1;
+
+                QCEfevalrate::create([
+                    'ratecount' => $newRateCount,
+                    'campus' => $request->input('campus'),
+                    'qceschlyearsemID' => $request->input('qceschlyearsemID'),
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'ratingfromto' => $request->input('ratingfromto'),
+                    'qcefacID' => $request->input('qcefacID'),
+                    'qcefacname' => $request->input('qcefacname'),
+                    'qceevaluator' => $request->input('qceevaluator'),
+                    'question' => json_encode($request->input('question')),
+                    'question_rate' => json_encode($request->input('question_rate')),
+                    'qcecomments' => $request->input('qcecomments'),
+                    'evaluatorname' => $request->input('evaluatorname'),
+                    'evaluatorID' => $request->input('evaluatorID'),
+                    'studidno' => $request->input('studidno'),
+                    'prog' => $request->input('prog'),
+                    'subjidrate' => $request->input('subjidrate'),
+                ]);
+
+                return redirect()->route('index.evaluation')->with('success', 'Survey Submitted Successfully');
+            } catch (\Exception $e) {
+                return back()->with('error', 'Failed to Submit Survey');
+            }
+        }
     }
 }

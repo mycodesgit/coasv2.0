@@ -182,8 +182,9 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/student/grades/view', [StudentController::class, 'show'])->name('show.grades');
         Route::get('/section/student/services/view', [StudentController::class, 'showservices'])->name('show.services');
 
-        Route::get('/section/student/services/fac/evaluation/view', [StudentFacultyEvaluationController::class, 'index'])->name('show.evaluation');
-        Route::get('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'evalformStore'])->name('evalformStore');
+        Route::get('/section/student/services/fac/evaluation/view', [StudentFacultyEvaluationController::class, 'index'])->name('index.evaluation');
+        Route::get('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'show'])->name('show.evaluation.rate');
+        Route::post('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'create'])->name('create.evaluation.rate');
 
         Route::get('/section/info/kiosk/schedule/view', [StudentController::class, 'schedclassRead'])->name('schedclassRead');
         Route::get('/section/info/kiosk/schedule/view/result', [StudentController::class, 'schedstudentclassShow'])->name('schedstudentclassShow');
