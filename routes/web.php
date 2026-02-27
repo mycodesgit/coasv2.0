@@ -89,6 +89,7 @@ use App\Http\Controllers\KioskDashController;
 
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentFacultyEvaluationController;
+use App\Http\Controllers\StudentFeeAssessAccntController;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,6 +186,8 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/student/services/fac/evaluation/view', [StudentFacultyEvaluationController::class, 'index'])->name('index.evaluation');
         Route::get('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'show'])->name('show.evaluation.rate');
         Route::post('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'create'])->name('create.evaluation.rate');
+
+        Route::get('/section/student/services/stud/assessment/view', [StudentFeeAssessAccntController::class, 'index'])->name('index.assessmentstudentfees');
 
         Route::get('/section/info/kiosk/schedule/view', [StudentController::class, 'schedclassRead'])->name('schedclassRead');
         Route::get('/section/info/kiosk/schedule/view/result', [StudentController::class, 'schedstudentclassShow'])->name('schedstudentclassShow');

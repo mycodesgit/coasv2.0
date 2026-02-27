@@ -263,17 +263,15 @@
                             <div class="d-flex gap-3 align-items-center border-dashed border-bottom px-3 py-3">
                                 <img src="{{ asset('uilibs/images/user.png') }}" alt="" class="avatar avatar-md rounded-circle" />
                                 <div>
-                                    <h5 class="mb-0 small">{{ $studauth->fname }}</h5>
-                                    <p class="mb-0 small text-warning"></p>
+                                    <h5 class="mb-0 small">{{ $studauth->fname }} {{ substr($studauth->mname, 0, 1) }} {{ $studauth->lname }}</h5>
+                                    <p class="mb-0 small text-success"></p>
                                 </div>
                             </div>
                             <div class="p-3 d-flex flex-column gap-1 medium lh-lg">
                                 <a href="#!" class="text-secondary">
-                                    <i class="ti ti-settings"></i> <span>Account Settings</span>
+                                    <i class="ti ti-id"></i> <span>ID No. {{ $studauth->stud_id }}</span>
                                 </a>
-                                <a href="#!" class="text-success">
-                                    <i class="ti ti-message"></i><span> Chat Message</span>
-                                </a>
+                                <div style="border-bottom: 1px solid #dddddd;" class="mb-2"></div>
                                 <a href="{{ route('destory.logout') }}" class="text-danger">
                                     <i class="ti ti-logout"></i><span> Signout</span>
                                 </a>
