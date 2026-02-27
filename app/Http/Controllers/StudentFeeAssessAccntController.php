@@ -27,22 +27,6 @@ use App\Models\EnrollmentDB\PreEnroll;
 use App\Models\EnrollmentDB\PreEnrollSubj;
 use App\Models\EnrollmentDB\StudentType;
 
-use App\Models\ScheduleDB\ClassEnroll;
-use App\Models\ScheduleDB\College;
-use App\Models\ScheduleDB\ClassesSubjects;
-use App\Models\ScheduleDB\EnPrograms;
-use App\Models\ScheduleDB\Faculty;
-use App\Models\ScheduleDB\FacultyLoad;
-use App\Models\ScheduleDB\FacDesignation;
-use App\Models\ScheduleDB\Room;
-use App\Models\ScheduleDB\Subject;
-use App\Models\ScheduleDB\SubjectOffered;
-use App\Models\ScheduleDB\Stime;
-use App\Models\ScheduleDB\Sday;
-use App\Models\ScheduleDB\SetClassSchedule;
-
-use App\Models\ScholarshipDB\Scholar;
-
 use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudentAppraisal;
 use App\Models\AssessmentDB\StudPayment;
