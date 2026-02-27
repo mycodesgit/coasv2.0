@@ -21,7 +21,7 @@
                             <div class="card-body">
                                 <div class="row g-3 mb-4">
                                     <div class="col-lg-3 col-12">
-                                        <div class="card h-100">
+                                        <div class="card card-hover h-100">
                                             <div class="card-body p-6">
                                                 <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
                                                     <div>
@@ -41,7 +41,7 @@
                                     </div>
 
                                     <div class="col-lg-3 col-12">
-                                        <div class="card h-100">
+                                        <div class="card card-hover h-100">
                                             <div class="card-body p-6">
                                                 <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
                                                     <div>
@@ -61,7 +61,7 @@
                                     </div>
 
                                     <div class="col-lg-3 col-12">
-                                        <div class="card h-100">
+                                        <div class="card card-hover h-100">
                                             <div class="card-body p-6">
                                                 <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
                                                     <div>
@@ -81,7 +81,7 @@
                                     </div>
 
                                     <div class="col-lg-3 col-12">
-                                        <div class="card h-100">
+                                        <div class="card card-hover h-100">
                                             <div class="card-body p-6">
                                                 <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
                                                     <div>
