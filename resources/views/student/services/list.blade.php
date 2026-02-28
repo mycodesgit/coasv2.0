@@ -46,7 +46,7 @@
                                                 <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
                                                     <div>
                                                         <h3 class="fw-bold h4">Pre-Enrollment</h3>
-                                                        <span>Secure your spot by enrolling in your courses for next semester.</span>
+                                                        <span>Enroll in courses for the upcoming semester.</span>
                                                     </div>
                                                     <div>
                                                         <i class="ti ti-device-laptop fs-1 text-success"></i>
@@ -66,7 +66,7 @@
                                                 <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
                                                     <div>
                                                         <h3 class="fw-bold h4">Faculty Evaluation</h3>
-                                                        <span>Help improve teaching by sharing your experience.</span>
+                                                        <span>Evaluate your teachers and share feedback to improve learning quality.</span>
                                                     </div>
                                                     <div>
                                                         <i class="ti ti-chalkboard-teacher fs-1 text-success"></i>
