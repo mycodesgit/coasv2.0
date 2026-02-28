@@ -4,11 +4,10 @@
     $studentdashActive = in_array($current_route, ['index.student']) ? 'active' : '';
     $studentgradesActive = in_array($current_route, ['show.grades']) ? 'active' : '';
     $studentaccntsActive = in_array($current_route, ['show.services', 'index.assessmentstudentfees']) ? 'active' : '';
-    $schedviewActive = in_array($current_route, ['schedclassRead','schedstudentclassShow']) ? 'active' : '';
     $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
 @endphp
 
-@if (request()->routeIs('index.evaluation', 'index.scheduleclass', 'index.assessmentstudentfees'))
+@if (request()->routeIs('index.scheduleclass', 'show.scheduleclass', 'index.evaluation', 'index.assessmentstudentfees'))
     <a href="{{ route('show.services') }}">
         <div class="bottom-nav">
             <div class="nav-item" data-label="Dashboard">
