@@ -93,7 +93,7 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <label>Academic Rank: <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control textbold required-input" placeholder="Name of Faculty" value="{{ $facdetail->first()->rank ?? 'Part-time' }}" required readonly>
+                                                        <input type="text" class="form-control textbold required-input" placeholder="Academic Rank" value="{{ $facdetail->first()->rank ?? 'Part-time' }}" required readonly>
                                                     </div>
                                                 </div>
                                             </div>
