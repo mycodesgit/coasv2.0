@@ -380,7 +380,14 @@
     </script>
 
     @if (request()->routeIs('show.evaluation.rate'))
-        @include('script.evaluation.validation.ratecardnextbutton')
+        @include('script.studnts.evaluation.ratecardnextbutton')
+    @endif
+    @if (request()->routeIs('show.scheduleclass'))
+        <script>
+            var days = @json($days);
+            var times = @json($times);
+        </script>
+        @include('script.studnts.class.schedjs')
     @endif
 
 </body>

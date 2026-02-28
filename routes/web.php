@@ -186,16 +186,13 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
 
         Route::get('/section/student/services/class/schedule', [StudentClassSchedController::class, 'index'])->name('index.scheduleclass');
         Route::get('/section/student/services/class/schedule/show', [StudentClassSchedController::class, 'show'])->name('show.scheduleclass');
+        Route::get('/section/student/services/class/schedule/fetch/ajax', [StudentClassSchedController::class, 'fetch'])->name('fetch.scheduleclass');
 
         Route::get('/section/student/services/fac/evaluation/view', [StudentFacultyEvaluationController::class, 'index'])->name('index.evaluation');
         Route::get('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'show'])->name('show.evaluation.rate');
         Route::post('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'create'])->name('create.evaluation.rate');
 
         Route::get('/section/student/services/stud/assessment/view', [StudentFeeAssessAccntController::class, 'index'])->name('index.assessmentstudentfees');
-
-        Route::get('/section/info/kiosk/schedule/view', [StudentController::class, 'schedclassRead'])->name('schedclassRead');
-        Route::get('/section/info/kiosk/schedule/view/result', [StudentController::class, 'schedstudentclassShow'])->name('schedstudentclassShow');
-        Route::get('/section/info/kiosk/schedule/view/result/ajax', [StudentController::class, 'fetchSchedulestud'])->name('fetchSchedulestud');
         
         Route::get('/section/pre/enrollment/sem/view', [StudentController::class, 'preenrolment'])->name('pre.index');
         Route::get('/section/pre/enrollment/sem/fetch/list/status', [StudentController::class, 'preenrolmentfetch'])->name('preenrolmentfetch');

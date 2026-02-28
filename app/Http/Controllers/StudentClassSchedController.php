@@ -108,4 +108,41 @@ class StudentClassSchedController extends Controller
 
         return view('student.services.classschedule.viewschedsemyear', compact('studauth', 'progAcronym', 'progCodPart', 'progCodSuffix', 'days', 'times'));
     }
+
+    public function fetchSchedulestud(Request $request)
+    {
+        $guard= $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        if (!$studauth) {
+            return response()->json(['message' => 'Student record not found'], 404);
+        }
+        
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $progCod = $request->query('progCod');
+        $campus = $studauth->campus;
+
+        $parts = preg_split('/[\+\s]/', $progCod);
+        $progCodPart = $parts[0];
+        $progCodSuffix = isset($parts[1]) ? $parts[1] : null;
+        $program = EnPrograms::whereRaw('LOWER(progCod) = ?', [strtolower($progCodPart)])->first();
+
+        $progAcronym = $program ? $program->progAcronym : 'N/A';
+
+        $schedule = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                        ->where('scheduleclass.schlyear', '=', $schlyear)
+                        ->where('scheduleclass.semester', '=', $semester)
+                        ->where('scheduleclass.progcodename', $progCodPart)
+                        ->where('scheduleclass.progcodesection', $progCodSuffix)
+                        ->where('scheduleclass.campus', $campus)
+                        ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
+                        ->get();
+
+        return response()->json($schedule);
+    }
 }
