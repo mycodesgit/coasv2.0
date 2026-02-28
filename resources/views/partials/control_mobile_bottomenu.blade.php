@@ -8,7 +8,7 @@
     $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
 @endphp
 
-@if (request()->routeIs('index.evaluation', 'index.assessmentstudentfees'))
+@if (request()->routeIs('index.evaluation', 'index.scheduleclass', 'index.assessmentstudentfees'))
     <a href="{{ route('show.services') }}">
         <div class="bottom-nav">
             <div class="nav-item" data-label="Dashboard">
