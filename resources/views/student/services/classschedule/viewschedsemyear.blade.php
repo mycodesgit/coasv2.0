@@ -36,9 +36,7 @@
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <div class="row g-3 mb-2">
-                                    <div class="" id="schedule-grid" style="font-size: 10pt;"></div>
-                                </div>
+                                <div class="" id="schedule-grid" style="font-size: 10pt;"></div>
                             </div>
                         </div>
                     </div>
