@@ -109,7 +109,7 @@ class StudentClassSchedController extends Controller
         return view('student.services.classschedule.viewschedsemyear', compact('studauth', 'progAcronym', 'progCodPart', 'progCodSuffix', 'days', 'times'));
     }
 
-    public function fetchSchedulestud(Request $request)
+    public function fetch(Request $request)
     {
         $guard= $this->getGuard();
         $studentowner = Auth::guard($guard)->user()->studid;
