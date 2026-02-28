@@ -48,7 +48,7 @@
                                                         </td>
                                                         <td>{{ $history->progAcronym }} {{ $history->studYear }}-{{ $history->studSec }}</td>
                                                         <td>
-                                                            <a href="{{ route('schedstudentclassShow', ['schlyear' => $history->schlyear, 'semester' => $history->semester, 'progCod' => $history->progCod.'+'.$history->studYear.'-'.$history->studSec]) }}" class="btn btn-outline-success btn-sm">
+                                                            <a href="{{ route('show.scheduleclass', ['schlyear' => $history->schlyear, 'semester' => $history->semester, 'progCod' => $history->progCod.'+'.$history->studYear.'-'.$history->studSec]) }}" class="btn btn-outline-success btn-sm">
                                                                 View Sched
                                                             </a>
                                                         </td>

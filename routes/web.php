@@ -185,6 +185,7 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/student/services/view', [StudentController::class, 'showservices'])->name('show.services');
 
         Route::get('/section/student/services/class/schedule', [StudentClassSchedController::class, 'index'])->name('index.scheduleclass');
+        Route::get('/section/student/services/class/schedule/show', [StudentClassSchedController::class, 'show'])->name('show.scheduleclass');
 
         Route::get('/section/student/services/fac/evaluation/view', [StudentFacultyEvaluationController::class, 'index'])->name('index.evaluation');
         Route::get('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'show'])->name('show.evaluation.rate');

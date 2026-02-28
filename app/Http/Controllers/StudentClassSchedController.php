@@ -72,4 +72,40 @@ class StudentClassSchedController extends Controller
         
         return view('student.services.classschedule.viewsched', compact('studauth', 'enrollmentHistory'));
     }
+
+    public function show(Request $request)
+    {
+        $guard= $this->getGuard();
+        $studentowner = Auth::guard($guard)->user()->studid;
+        $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        if (!$studauth) {
+            abort(404, 'Student record not found.');
+        }
+
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $progCod = $request->query('progCod');
+        $campus = $studauth->campus;
+
+        $parts = preg_split('/[\+\s]/', $progCod);
+        $progCodPart = $parts[0];
+        $progCodSuffix = isset($parts[1]) ? $parts[1] : null;
+        $program = EnPrograms::whereRaw('LOWER(progCod) = ?', [strtolower($progCodPart)])->first();
+
+        $progAcronym = $program ? $program->progAcronym : 'N/A';
+
+        $studclass = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
+                        ->where('class_enroll.schlyear', '=', $schlyear)
+                        ->where('class_enroll.semester', '=', $semester)
+                        ->where('class_enroll.progCode', $progCod)
+                        ->where('class_enroll.campus', $campus)
+                        ->select('programs.progAcronym', 'class_enroll.*')
+                        ->get();
+
+        $days = Sday::all()->pluck('dayDesc')->toArray();
+        $times = Stime::all()->pluck('timeDesc')->toArray();
+
+        return view('student.services.classschedule.viewschedsemyear', compact('studauth', 'progAcronym', 'progCodPart', 'progCodSuffix', 'days', 'times'));
+    }
 }
