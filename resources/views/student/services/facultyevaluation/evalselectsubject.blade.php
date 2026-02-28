@@ -20,7 +20,7 @@
                         <div class="card">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
-                                    <i class="ti ti-server"></i> Subjects for Evaluation
+                                    <i class="ti ti-server"></i> Students Evaluation for Teachers
                                 </h6>
                             </div>
                             <div class="card-body">
