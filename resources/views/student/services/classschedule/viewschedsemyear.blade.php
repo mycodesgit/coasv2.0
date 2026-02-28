@@ -33,6 +33,18 @@
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
                                     <i class="ti ti-server"></i> Class Schedule
+                                    <span class="text-muted">/
+                                        {{ request('schlyear') }},
+                                        @if(request('semester') == 1)
+                                            1st Sem
+                                        @elseif(request('semester') == 2)
+                                            2nd Sem
+                                        @elseif(request('semester') == 3)
+                                            Summer
+                                        @else
+                                            Unknown Semester
+                                        @endif
+                                    </span>
                                 </h6>
                             </div>
                             <div class="card-body">
