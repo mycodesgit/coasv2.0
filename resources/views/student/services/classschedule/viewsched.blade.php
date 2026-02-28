@@ -24,14 +24,14 @@
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <div class="row g-3 mb-4">
+                                <div class="row g-3 mb-2">
                                     <div class="table-responsive">
                                         <table class="table table-head-fixed text-nowrap" style="font-size: 10pt">
                                             <thead>
                                                 <tr>
                                                     <th>A.Y. Semester</th>
                                                     <th>Prog. Yr&Section</th>
-                                                    <th>Amount</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -54,6 +54,9 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+                                                <tr>
+                                                    <td colspan="3" class="text-center">No Class Schedule Found</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
