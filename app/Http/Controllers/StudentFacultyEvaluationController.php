@@ -57,6 +57,7 @@ use App\Models\EvaluationDB\QCEquestion;
 use App\Models\EvaluationDB\QCEsubquestion;
 use App\Models\EvaluationDB\QCEsemester;
 use App\Models\EvaluationDB\QCEfevalrate;
+use App\Models\EvaluationDB\QCEsetting;
 
 class StudentFacultyEvaluationController extends Controller
 {
@@ -76,6 +77,8 @@ class StudentFacultyEvaluationController extends Controller
         $guard= $this->getGuard();
         $studentowner = Auth::guard($guard)->user()->studid;
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
+
+        $setevalmode = QCEsetting::first();
 
         $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
 
@@ -107,7 +110,7 @@ class StudentFacultyEvaluationController extends Controller
                         ->whereIn('qceformevalrate.statprint', [1,2])
                         ->get();
 
-        return view('student.services.facultyevaluation.evalselectsubject', compact('guard', 'studentowner', 'studauth', 'mysubj', 'disabledsubj'));
+        return view('student.services.facultyevaluation.evalselectsubject', compact('guard', 'studentowner', 'studauth', 'mysubj', 'disabledsubj', 'setevalmode'));
     }
 
     public function show(Request $request)
