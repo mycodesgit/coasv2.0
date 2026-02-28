@@ -5,42 +5,47 @@
 @endsection
 
 @section('body')
-<style>
-    #table {
-            margin-top: 10px;
-            font-family: Arial;
-            border-collapse: collapse;
-            width: 100%;
-            border: 1px solid #000;
-        }
-        #table td {
-        	vertical-align: center !important;
-    		text-align: left;
-            border: 1px solid #000;
-            font-size: 12pt;
-			font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial,
-        	sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
-        } 
-        #table th {
-			font-size: 13pt;
-            border: 1px solid #000;
-            padding: 5px;
-			font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial,
-        	sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
-        }
-        @media (max-width: 768px) {
-            #table th {
-                font-size: 11pt;
+    <style>
+        #table {
+                margin-top: 10px;
+                font-family: Arial;
+                border-collapse: collapse;
+                width: 100%;
+                border: 1px solid #000;
             }
             #table td {
-                font-size: 10pt;
+                vertical-align: center !important;
+                text-align: left;
+                border: 1px solid #000;
+                font-size: 12pt;
+                font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial,
+                sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+            } 
+            #table th {
+                font-size: 13pt;
+                border: 1px solid #000;
+                padding: 5px;
+                font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial,
+                sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
             }
-        }
-</style>
+            @media (max-width: 768px) {
+                #table th {
+                    font-size: 11pt;
+                }
+                #table td {
+                    font-size: 10pt;
+                }
+            }
+    </style>
     <div class="row ">
         <div class="col-12">
             <div class="mb-6">
-                <h1 class="fs-3 mb-4 d-none d-md-block">Services <span class="text-muted">/</span> Faculty Evaluation</h1>
+                <h1 class="fs-5 mb-4 d-none d-md-block">
+                    <a href="{{ route('index.evaluation') }}">
+                        <i class="ti ti-arrow-left"></i> Services 
+                    </a>
+                    <span class="text-muted">/ Faculty Evaluation</span>
+                </h1>
 
                 <div class="row">
                     <div class="col-md-12">

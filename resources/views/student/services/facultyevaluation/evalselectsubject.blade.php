@@ -8,7 +8,12 @@
     <div class="row ">
         <div class="col-12">
             <div class="mb-6">
-                <h1 class="fs-3 mb-4 d-none d-md-block">Services <span class="text-muted">/</span> Faculty Evaluation</h1>
+                <h1 class="fs-5 mb-4 d-none d-md-block">
+                    <a href="{{ route('show.services') }}">
+                        <i class="ti ti-arrow-left"></i> Services 
+                    </a>
+                    <span class="text-muted">/ Faculty Evaluation</span> 
+                </h1>
 
                 <div class="row">
                     <div class="col-md-12">

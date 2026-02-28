@@ -3,7 +3,7 @@
 
     $studentdashActive = in_array($current_route, ['index.student']) ? 'active' : '';
     $studentgradesActive = in_array($current_route, ['show.grades']) ? 'active' : '';
-    $studentaccntsActive = in_array($current_route, ['show.services', 'index.evaluation', 'show.evaluation.rate', 'index.assessmentstudentfees']) ? 'active' : '';
+    $studentaccntsActive = in_array($current_route, ['show.services', 'index.scheduleclass', 'index.evaluation', 'show.evaluation.rate', 'index.assessmentstudentfees']) ? 'active' : '';
     $schedviewActive = in_array($current_route, ['schedclassRead','schedstudentclassShow']) ? 'active' : '';
     $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
 @endphp

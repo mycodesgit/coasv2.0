@@ -34,7 +34,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted"><span class="text-success">All Schedule</span>, <span class="text-dark">A.Y.</span></div>
-                                                    <div><a href="#" class="link-defalt text-decoration-underline">View Schedule</a></div>
+                                                    <div><a href="{{ route('index.scheduleclass') }}" class="link-defalt text-decoration-underline">View Schedule</a></div>
                                                 </div>
                                             </div>
                                         </div>

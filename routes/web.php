@@ -88,6 +88,7 @@ use App\Http\Controllers\SettingSignatoryController;
 use App\Http\Controllers\KioskDashController;
 
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentClassSchedController;
 use App\Http\Controllers\StudentFacultyEvaluationController;
 use App\Http\Controllers\StudentFeeAssessAccntController;
 
@@ -182,6 +183,8 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/student/dashboard/view', [StudentController::class, 'index'])->name('index.student');
         Route::get('/section/student/grades/view', [StudentController::class, 'show'])->name('show.grades');
         Route::get('/section/student/services/view', [StudentController::class, 'showservices'])->name('show.services');
+
+        Route::get('/section/student/services/class/schedule', [StudentClassSchedController::class, 'index'])->name('index.scheduleclass');
 
         Route::get('/section/student/services/fac/evaluation/view', [StudentFacultyEvaluationController::class, 'index'])->name('index.evaluation');
         Route::get('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'show'])->name('show.evaluation.rate');
