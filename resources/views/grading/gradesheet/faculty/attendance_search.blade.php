@@ -35,17 +35,17 @@ CISS V.1.0 || Attendance Sheet
                                 @endphp
 
                                 <div class="row">
+                                    @php
+                                        $randomColor = ($index < 10) ? $fixedColors[$index % count($fixedColors)] : $colors[array_rand($colors)];
+                                    @endphp
                                     @foreach($datafacsubprogen as $index => $attendfac)
-                                        @php
-                                            $randomColor = ($index < 10) ? $fixedColors[$index % count($fixedColors)] : $colors[array_rand($colors)];
-                                        @endphp
                                         <div class="col-6 col-sm-4 col-md-2 text-center mb-3">
                                             <h2>
                                                 <a href="{{ route('attendance_searchfacpdfpage', ['id' => $attendfac->subjID, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="text-dark">
-                                                <i class="fa-regular fa-file-lines folder-icon" aria-hidden="true" style="color: {{ $randomColor }}; font-size: 60px;"></i>
-                                                <br>
-                                                <span style="color: {{ $randomColor }}; font-size: 14px; display: inline-block; margin-top: 5px;"></span>
-                                                <span style="font-size: 12px; font-weight: bold;">{{ $attendfac->sub_name }} - {{ $attendfac->subSec }}</span>
+                                                    <i class="fa-regular fa-file-lines folder-icon" aria-hidden="true" style="color: {{ $randomColor }}; font-size: 60px;"></i>
+                                                    <br>
+                                                    <span style="color: {{ $randomColor }}; font-size: 14px; display: inline-block; margin-top: 5px;"></span>
+                                                    <span style="font-size: 12px; font-weight: bold;">{{ $attendfac->sub_name }} - {{ $attendfac->subSec }}</span>
                                                 </a>
                                             </h2>
                                         </div>
