@@ -35,7 +35,7 @@ CISS V.1.0 || Grading
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label><span class="badge badge-success">School Year</span></label>
+                                                <label>School Year</span></label>
                                                 <select class="form-control form-control-sm" name="schlyear">
                                                     @foreach($sy as $datasy)
                                                         <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
@@ -44,7 +44,7 @@ CISS V.1.0 || Grading
                                             </div>
 
                                             <div class="col-md-3">
-                                                <label><span class="badge badge-success">Semester</span></label>
+                                                <label>Semester</span></label>
                                                 <select class="form-control form-control-sm" name="semester">
                                                     <option disabled selected>Select</option>
                                                     <option value="1">First Semester</option>

@@ -24,7 +24,7 @@
         </a>
     </li>
     <li>
-        <a class="nav-link {{$schedfacActive}}" href="{{ route('show.services') }}">
+        <a class="nav-link {{$schedfacActive}}" href="{{ route('schedulefac') }}">
             <i class="ti ti-calendar"></i><span class="nav-text">Schedule</span>
         </a>
     </li>

@@ -15,52 +15,56 @@ CISS V.1.0 || Grading
 @yield('sidemenu')
 
 @section('workspace')
-    <section class="section mt-4">
-        <!-- <div class="section-header" style="border-radius: 20px !important;">
-            <h1>Blank Page</h1>
-        </div> -->
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-6">
+                <h1 class="fs-5 mb-4 d-none d-md-block">Attendance</h1>
 
-        <div class="section-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card" style="border-radius: 20px">
-                        <div class="card-body">
-                            <form method="GET" action="{{ route('schedulefac_searchview') }}" id="attendancegrading">
-                                @csrf   
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-file"></i> View Attendance
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <form method="GET" action="{{ route('schedulefac_searchview') }}" id="attendancegrading">
+                                    @csrf   
 
-                                <div class="form-group mt-2" style="padding: 10px">
-                                    <div class="form-row">
-                                        <div class="col-md-3">
-                                            <label><span class="badge badge-success">School Year</span></label>
-                                            <select class="form-control form-control-sm" name="schlyear">
-                                                @foreach($sy as $datasy)
-                                                    <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                    <div class="">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>School Year</label>
+                                                <select class="form-control form-control-sm" name="schlyear">
+                                                    @foreach($sy as $datasy)
+                                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
-                                        <div class="col-md-3">
-                                            <label><span class="badge badge-success">Semester</span></label>
-                                            <select class="form-control form-control-sm" name="semester">
-                                                <option disabled selected>Select</option>
-                                                <option value="1">First Semester</option>
-                                                <option value="2">Second Semester</option>
-                                                <option value="3">Summer</option>
-                                            </select>
-                                        </div>
+                                            <div class="col-md-3">
+                                                <label>Semester</label>
+                                                <select class="form-control form-control-sm" name="semester">
+                                                    <option disabled selected>Select</option>
+                                                    <option value="1">First Semester</option>
+                                                    <option value="2">Second Semester</option>
+                                                    <option value="3">Summer</option>
+                                                </select>
+                                            </div>
 
-                                        <div class="col-md-3">
-                                            <label>&nbsp;</label>
-                                            <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                            <div class="col-md-3">
+                                                <label>&nbsp;</label>
+                                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
+    </div>
 @endsection
