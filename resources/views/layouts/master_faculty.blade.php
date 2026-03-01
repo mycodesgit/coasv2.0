@@ -391,6 +391,9 @@
         });
     </script>
 
+    @if(request()->routeIs('schedulefac_searchview'))
+        @include('grading.gradesheet.faculty.facultyschedscript')
+    @endif
 </body>
 
 </html>

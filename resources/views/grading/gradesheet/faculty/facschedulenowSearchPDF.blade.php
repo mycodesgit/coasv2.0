@@ -60,7 +60,7 @@ CISS V.1.0 || Grading
                                         </div>
                                     </div>
                                 </form>
-                                <div class="col-md-12">
+                                <div class="col-md-12 mt-3">
                                     <div class="card">
                                         <div class="card-body">
                                             <button id="viewSchedule" class="btn btn-success btn-xs ml-1">
