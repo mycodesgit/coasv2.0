@@ -88,7 +88,7 @@ CISS V.1.0 || Grading
 
     <!-- Schedule View Modal -->
     <div class="modal fade" id="viewfacultyScheduleModal" tabindex="-1" role="dialog" aria-labelledby="viewfacultyScheduleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center">
                     <h5 class="modal-title" id="viewfacultyScheduleModalLabel">
@@ -109,7 +109,7 @@ CISS V.1.0 || Grading
                         <button id="printSchedule" class="btn btn-success btn-md">
                             <i class="fas fa-print"></i> Print Faculty Loading/Schedule
                         </button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
                 <div class="modal-body" id="schedule-view">

@@ -248,7 +248,7 @@
             <div class="d-flex align-items-center gap-3">
             <div class="d-inline-flex">
                 <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
-                <span class="logo-text ms-2" style="font-weight: bold">Student Portal</span>
+                <span class="logo-text ms-2" style="font-weight: bold">Faculty Portal</span>
             </div>
             </div>
         </div>
