@@ -35,10 +35,10 @@ CISS V.1.0 || Grading
                                 @endphp
 
                                 <div class="row">
-                                    @php
-                                        $randomColor = ($index < 10) ? $fixedColors[$index % count($fixedColors)] : $colors[array_rand($colors)];
-                                    @endphp
                                     @foreach($datafacsubprogen as $index => $attendfac)
+                                        @php
+                                            $randomColor = ($index < 10) ? $fixedColors[$index % count($fixedColors)] : $colors[array_rand($colors)];
+                                        @endphp
                                         <div class="col-6 col-sm-4 col-md-2 text-center mb-3">
                                             <h2>
                                                 <a href="{{ route('attendance_searchfacpdfpage', ['id' => $attendfac->subjID, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="text-dark">
