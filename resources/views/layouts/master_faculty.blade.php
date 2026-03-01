@@ -325,7 +325,7 @@
                 </div>
             </div>
         </div>
-        @include('partials.control_mobile_bottomenu')
+        @include('partials.control_mobilefac_bottomenu')
     </main>
 
     <!-- Bootstrap JS -->
