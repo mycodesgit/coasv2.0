@@ -18,14 +18,14 @@ CISS V.1.0 || Grading
     <div class="row">
         <div class="col-12">
             <div class="mb-6">
-                <h1 class="fs-5 mb-4 d-none d-md-block">Attendance</h1>
+                <h1 class="fs-5 mb-4 d-none d-md-block">Schedule</h1>
 
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
-                                    <i class="ti ti-file"></i> View Attendance
+                                    <i class="ti ti-file"></i> View Schedule
                                 </h6>
                             </div>
                             <div class="card-body">
@@ -35,7 +35,7 @@ CISS V.1.0 || Grading
                                     <div class="">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label>School Year</label>
+                                                <label>School Year: <span class="text-danger">*</span></label>
                                                 <select class="form-control form-control-sm" name="schlyear">
                                                     @foreach($sy as $datasy)
                                                         <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
@@ -44,7 +44,7 @@ CISS V.1.0 || Grading
                                             </div>
 
                                             <div class="col-md-3">
-                                                <label>Semester</label>
+                                                <label>Semester: <span class="text-danger">*</span></label>
                                                 <select class="form-control form-control-sm" name="semester">
                                                     <option disabled selected>Select</option>
                                                     <option value="1">First Semester</option>
