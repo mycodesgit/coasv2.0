@@ -5,7 +5,7 @@
 @endsection
 
 @section('body')
-    <div class="row ">
+    <div class="row">
         <div class="col-12">
             <div class="mb-6">
                 <h1 class="fs-3 mb-4 d-none d-md-block">Dashboard</h1>

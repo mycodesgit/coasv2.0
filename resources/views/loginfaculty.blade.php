@@ -56,11 +56,29 @@
                         <p>Sign in to start session</p>
 
                     </div>
-                    <div class="input-group mb-3">
+                    <div class="">
                         {{-- <button class="btn btn-lg btn-success w-100 fs-6">Login</button> --}}
-                        <a href="{{ route('google.login') }}" class="btn btn-lg btn-light w-100 fs-8"><img src="{{ asset('template/img/googlelogo.png') }}" style="width:25px" class="me-2">
+                        {{-- <a href="{{ route('google.login') }}" class="btn btn-lg btn-light w-100 fs-8"><img src="{{ asset('template/img/googlelogo.png') }}" style="width:25px" class="me-2">
                             <small>Sign In with Google</small>
-                        </a>
+                        </a> --}}
+                        <form action="{{ route('fac_login') }}" method="post">
+                            @csrf
+                            <div class="input-group mb-3">
+                                <input type="email" name="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email" id="empEmailInput" autofocus>
+                            </div>
+                            <div class="input-group mb-1">
+                                <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" id="studentPassInput">
+                            </div>
+                            <div class="input-group mb-4 d-flex justify-content-between">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="formCheck" onclick="myFunction()">
+                                    <label for="formCheck" class="form-check-label text-secondary"><small>Show Password</small></label>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <button class="btn btn-lg btn-success w-100 fs-6">Login</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div> 

@@ -1,16 +1,36 @@
 @php
     $curr_route = request()->route()->getName();
 
-    $dashSchActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
+    $dashfacActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
+    $attendfacActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
+    $schedfacActive = in_array($curr_route, ['schedulefac', 'schedulefac_searchview']) ? 'active' : '';
+    $semesterSchActive = in_array($curr_route, ['semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass']) ? 'active' : '';
+    $gradeActive = in_array($curr_route, ['grades', 'gradesstud', 'gradesstud_search']) ? 'active' : '';
     
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('homefaculty') }}" class="list-group-item {{ $dashSchActive }}">Dashboard</a>
-    </ul>
-    <ul class="list-group mt-1"> 
-        <a href="{{ route('grades') }}" class="list-group-item">Grading</a>
-        <a href="" class="list-group-item">Student List</a>
-    </ul>
-</div>
+<ul class="nav flex-column">
+    <li class="px-4 py-2">
+        <small class="nav-text text-muted">Main</small>
+    </li>
+    <li>
+        <a class="nav-link {{$dashfacActive}}" href="{{ route('homefaculty') }}">
+            <i class="ti ti-layout-grid"></i><span class="nav-text">Dashboard</span>
+        </a>
+    </li>
+    <li>
+        <a class="nav-link {{$attendfacActive}}" href="{{ route('attendancefac') }}">
+            <i class="ti ti-file"></i><span class="nav-text">Attendance</span>
+        </a>
+    </li>
+    <li>
+        <a class="nav-link {{$schedfacActive}}" href="{{ route('show.services') }}">
+            <i class="ti ti-calendar"></i><span class="nav-text">Schedule</span>
+        </a>
+    </li>
+    <li>
+        <a class="nav-link" href="#">
+            <i class="ti ti-numbers"></i><span class="nav-text">Gradesheet</span>
+        </a>
+    </li>
+</ul>
