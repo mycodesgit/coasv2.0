@@ -50,7 +50,7 @@ CISS V.1.0 || Grading
                                                     <option value="1">First Semester</option>
                                                     <option value="2">Second Semester</option>
                                                     <option value="3">Summer</option>
-                                                </select>
+                                                </select> 
                                             </div>
 
                                             <div class="col-md-3">
