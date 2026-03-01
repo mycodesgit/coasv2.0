@@ -61,7 +61,7 @@ CISS V.1.0 || Grading
                                     </div>
                                 </form>
                                 <div class="col-md-12">
-                                    <div class="card" style="border-radius: 20px">
+                                    <div class="card">
                                         <div class="card-body">
                                             <button id="viewSchedule" class="btn btn-success btn-xs ml-1">
                                                 <i class="fas fa-eye"></i> View Faculty Loading/Schedule
