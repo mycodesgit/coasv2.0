@@ -262,7 +262,7 @@
                         <img src="{{ asset('uilibs/images/user.png') }}" alt="" class="avatar avatar-sm rounded-circle" /> 
                         @auth('faculty')
                             @if(Auth::guard('faculty')->user()->role == '943')
-                                {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
+                                {{ substr(Auth::guard('faculty')->user()->fname, 0, 1) }}. {{ Auth::guard('faculty')->user()->lname }}
                             @endif
                         @endauth 
                     </a>
@@ -286,7 +286,7 @@
                                     <i class="ti ti-id"></i> <span>ID No. </span>
                                 </a>
                                 <div style="border-bottom: 1px solid #dddddd;" class="mb-2"></div>
-                                <a href="{{ route('destory.logout') }}" class="text-danger">
+                                <a href="{{ route('logoutfac') }}" class="text-danger">
                                     <i class="ti ti-logout"></i><span> Signout</span>
                                 </a>
                             </div>
