@@ -1,10 +1,11 @@
 @php
-    $current_route=request()->route()->getName();
+    $curr_route = request()->route()->getName();
 
-    $studentdashActive = in_array($current_route, ['index.student']) ? 'active' : '';
-    $studentgradesActive = in_array($current_route, ['show.grades']) ? 'active' : '';
-    $studentaccntsActive = in_array($current_route, ['show.services', 'index.assessmentstudentfees']) ? 'active' : '';
-    $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
+    $dashSchActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
+    $attendSchActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
+    $facSchActive = in_array($curr_route, ['schedulefac', 'schedulefac_searchview']) ? 'active' : '';
+    $semesterSchActive = in_array($curr_route, ['semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass']) ? 'active' : '';
+    $gradeActive = in_array($curr_route, ['grades', 'gradesstud', 'gradesstud_search']) ? 'active' : '';
 @endphp
 
 @if (request()->routeIs('index.scheduleclass', 'index.evaluation', 'index.assessmentstudentfees'))
