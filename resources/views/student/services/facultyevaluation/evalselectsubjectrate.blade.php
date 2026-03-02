@@ -169,7 +169,7 @@
                                                 @endforeach
                                             @endforeach
 
-                                            <div class="col-md-4 mb-2">
+                                            <div class="col-md-12 mb-2">
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <label>Comments: <span class="text-danger">*</span></label>
