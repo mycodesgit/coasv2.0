@@ -3,6 +3,7 @@
 
     $dashfacActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
     $attendfacActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
+    $servicesfacActive = in_array($curr_route, ['index.services', 'schedulefac', 'schedulefac_searchview']) ? 'active' : '';
     $schedfacActive = in_array($curr_route, ['schedulefac', 'schedulefac_searchview']) ? 'active' : '';
     $semesterSchActive = in_array($curr_route, ['semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass']) ? 'active' : '';
     $gradeActive = in_array($curr_route, ['grades', 'gradesstud', 'gradesstud_search']) ? 'active' : '';
@@ -24,13 +25,13 @@
         </a>
     </li>
     <li>
-        <a class="nav-link {{$schedfacActive}}" href="{{ route('schedulefac') }}">
+        <a class="nav-link {{$servicesfacActive}}" href="{{ route('index.services') }}">
             <i class="ti ti-server"></i><span class="nav-text">Services</span>
         </a>
     </li>
     <li>
         <a class="nav-link" href="#">
-            <i class="ti ti-numbers"></i><span class="nav-text">Gradesheet</span>
+            <i class="ti ti-user"></i><span class="nav-text">Profile</span>
         </a>
     </li>
 </ul>

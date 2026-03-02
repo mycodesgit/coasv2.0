@@ -72,6 +72,7 @@ use App\Http\Controllers\CashieringORController;
 use App\Http\Controllers\ScholarshipController;
 
 use App\Http\Controllers\GradingFacultyController;
+use App\Http\Controllers\GradingFacultyServicesController;
 
 use App\Http\Controllers\KioskAdminController;
 
@@ -228,11 +229,15 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/current/sem/search/view/pdf/{id}', [GradingFacultyController::class, 'studsubjectsReadPDFfacattendance'])->name('studsubjectsReadPDFfacattendance');
         });
 
-        Route::prefix('fac/schedule')->group(function () {
-            Route::get('/show/current/sem', [GradingFacultyController::class, 'schedulefac'])->name('schedulefac');
-            Route::get('/show/current/sem/view/search', [GradingFacultyController::class, 'schedulefac_searchview'])->name('schedulefac_searchview');
-            Route::post('/show/current/sem/view/search/print', [GradingFacultyController::class, 'printMyTeachingSchedule'])->name('printMyTeachingSchedule');
-            Route::get('/show/current/sem/view/search/faculty/set/class/fetch', [GradingFacultyController::class, 'fetchMyTeachingSchedule'])->name('fetchMyTeachingSchedule');
+        Route::prefix('fac/services')->group(function () {
+            Route::get('/list', [GradingFacultyServicesController::class, 'index'])->name('index.services');
+
+             Route::prefix('schedule')->group(function () {
+                Route::get('/show/current/sem', [GradingFacultyServicesController::class, 'schedulefac'])->name('schedulefac');
+                Route::get('/show/current/sem/view/search', [GradingFacultyServicesController::class, 'schedulefac_searchview'])->name('schedulefac_searchview');
+                Route::post('/show/current/sem/view/search/print', [GradingFacultyServicesController::class, 'printMyTeachingSchedule'])->name('printMyTeachingSchedule');
+                Route::get('/show/current/sem/view/search/faculty/set/class/fetch', [GradingFacultyServicesController::class, 'fetchMyTeachingSchedule'])->name('fetchMyTeachingSchedule');
+            });
         });
 
         Route::prefix('studGrade')->group(function () {

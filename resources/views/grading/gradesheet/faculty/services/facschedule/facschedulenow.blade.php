@@ -18,7 +18,12 @@ CISS V.1.0 || Grading
     <div class="row">
         <div class="col-12">
             <div class="mb-6">
-                <h1 class="fs-5 mb-4 d-none d-md-block">Schedule</h1>
+                <h1 class="fs-5 mb-4 d-none d-md-block">
+                    <a href="{{ route('index.services') }}">
+                        <i class="ti ti-arrow-left"></i> Services 
+                    </a>
+                    <span class="text-muted">/ Schedule</span>
+                </h1>
 
                 <div class="row">
                     <div class="col-md-12">
