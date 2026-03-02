@@ -64,16 +64,16 @@ CISS V.1.0 || Grading
                                     <div class="table-responsive">
                                         <div class="card">
                                             <div class="card-body">
-                                                <button id="viewSchedule" class="btn btn-success btn-xs ml-1">
+                                                <button id="viewSchedule" class="btn btn-outline-success btn-sm ml-1">
                                                     <i class="fas fa-eye"></i> View Faculty Loading/Schedule
                                                 </button>
                                                 {{-- <button id="viewFacultyLoad" class="btn btn-secondary btn-xs ml-1">
                                                     <i class="fas fa-bars-progress"></i> Faculty Loading
                                                 </button> --}}
-                                                <button type="button" id="refreshSchedule" class="btn btn-danger btn-xs ml-1">
+                                                <button type="button" id="refreshSchedule" class="btn btn-outline-warning btn-sm ml-1">
                                                     <i class="fas fa-sync"></i> Refresh
                                                 </button>  
-                                                <div id="schedule-grid" class="mt-4"></div>
+                                                <div id="schedule-grid" class="mt-4 text-sm"></div>
                                             </div>
                                         </div>
                                     </div>

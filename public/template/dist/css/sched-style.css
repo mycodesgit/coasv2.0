@@ -4,12 +4,12 @@ input[readonly] {
 .toast-top-right {
     margin-top: 50px;
 }
-body {
+/* body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
+} */
 
 .highlight {
     background-color: #b2b9bf;

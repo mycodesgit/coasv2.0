@@ -496,7 +496,7 @@
                                                         <label>Preferred Campus <i style="color: red">*</i></label>
                                                         <select class="form-control form-control-sm" name="campus" id="campus">
                                                             <option disabled selected>Select</option>
-                                                            <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} disabled @endif>Main</option>
+                                                            {{-- <option value="MC" @if (old('type') == 'MC') {{ 'selected' }} disabled @endif>Main</option> --}}
                                                             <option value="VC" @if (old('type') == 'VC') {{ 'selected' }} disabled @endif>Victorias</option>
                                                             {{-- <option value="SCC" @if (old('type') == 'SCC') {{ 'selected' }} disabled @endif>San Carlos</option> --}}
                                                             {{-- <option value="MP" @if (old('type') == 'MP') {{ 'selected' }} disabled @endif>Moises Padilla</option> --}}

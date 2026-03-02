@@ -58,9 +58,9 @@
                     </div>
                     <div class="">
                         {{-- <button class="btn btn-lg btn-success w-100 fs-6">Login</button> --}}
-                        {{-- <a href="{{ route('google.login') }}" class="btn btn-lg btn-light w-100 fs-8"><img src="{{ asset('template/img/googlelogo.png') }}" style="width:25px" class="me-2">
+                        <a href="{{ route('google.login') }}" class="btn btn-lg btn-light w-100 fs-8"><img src="{{ asset('template/img/googlelogo.png') }}" style="width:25px" class="me-2">
                             <small>Sign In with Google</small>
-                        </a> --}}
+                        </a>
                         {{-- <form action="{{ route('fac_login') }}" method="post">
                             @csrf
                             <div class="input-group mb-3">
@@ -79,14 +79,14 @@
                                 <button class="btn btn-lg btn-success w-100 fs-6">Login</button>
                             </div>
                         </form> --}}
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                             <div class="alert alert-warning d-flex align-items-center" role="alert">
                                 <i class="ti ti-alert-triangle fs-3 me-3"></i>
                                 <div>
                                     Faculty Portal is currently unavailable. Please check back later.
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div> 
