@@ -64,7 +64,7 @@ CISS V.1.0 || Faculty Services
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted"><span class="text-success">All Semester</span>, <span class="text-dark">A.Y.</span></div>
-                                                    <div><a href="#" class="link-defalt text-decoration-underline">View Submission</a></div>
+                                                    <div><a href="{{ route('semesterfac') }}" class="link-defalt text-decoration-underline">View Submission</a></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -84,7 +84,7 @@ CISS V.1.0 || Faculty Services
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted"><span class="text-success">2025-2026</span>, <span class="text-dark">2nd Sem</span></div>
-                                                    <div><a href="{{ route('index.evaluation') }}" class="link-defalt text-decoration-underline">Start Evaluation</a></div>
+                                                    <div><a href="#" class="link-defalt text-decoration-underline">Start Evaluation</a></div>
                                                 </div>
                                             </div>
                                         </div>

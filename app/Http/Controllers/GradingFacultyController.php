@@ -52,15 +52,6 @@ class GradingFacultyController extends Controller
         }
     }
 
-    public function semesterfac()
-    {
-        $progen = ConfigureCurrent::where('schlyear', '>=', '2024-2025')
-                    ->orderBy('schlyear', 'desc')
-                    ->orderBy('semester', 'desc')
-                    ->get();
-        return view('grading.gradesheet.faculty.semester', compact('progen'));
-    }
-
     public function virtualfaculty_class(Request $request)
     {
         $semester = $request->query('semester');

@@ -238,18 +238,17 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
                 Route::post('/show/current/sem/view/search/print', [GradingFacultyServicesController::class, 'printMyTeachingSchedule'])->name('printMyTeachingSchedule');
                 Route::get('/show/current/sem/view/search/faculty/set/class/fetch', [GradingFacultyServicesController::class, 'fetchMyTeachingSchedule'])->name('fetchMyTeachingSchedule');
             });
-        });
 
-        Route::prefix('studGrade')->group(function () {
-            Route::get('/list/semester', [GradingFacultyController::class, 'semesterfac'])->name('semesterfac');
-            Route::get('/list/virtualroom', [GradingFacultyController::class, 'virtualfaculty_class'])->name('virtualfaculty_class');
-            Route::get('/list/virtualsubjectroom/{id}', [GradingFacultyController::class, 'virtual_facultysubjectclass'])->name('virtual_facultysubjectclass');
-            Route::post('/list/view/studgrde/save', [GradingFacultyController::class, 'save_grades'])->name('save_grades');
-            Route::post('/list/view/studgrdeComp/save', [GradingFacultyController::class, 'save_gradesComp'])->name('save_gradesComp');
-            Route::post('/list/view/studgrde/submit/{subjID}', [GradingFacultyController::class, 'updateStatus_gradessubmit'])->name('updateStatus_gradessubmit');
-            Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingFacultyController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
+            Route::prefix('online')->group(function () {
+                Route::get('/grading/submission/semester', [GradingFacultyServicesController::class, 'semesterfac'])->name('semesterfac');
+                Route::get('/grading/submission/virtualroom', [GradingFacultyServicesController::class, 'virtualfaculty_class'])->name('virtualfaculty_class');
+                Route::get('/grading/submission/virtualsubjectroom/{id}', [GradingFacultyServicesController::class, 'virtual_facultysubjectclass'])->name('virtual_facultysubjectclass');
+                Route::post('/list/view/studgrde/save', [GradingFacultyController::class, 'save_grades'])->name('save_grades');
+                Route::post('/list/view/studgrdeComp/save', [GradingFacultyController::class, 'save_gradesComp'])->name('save_gradesComp');
+                Route::post('/list/view/studgrde/submit/{subjID}', [GradingFacultyController::class, 'updateStatus_gradessubmit'])->name('updateStatus_gradessubmit');
+                Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingFacultyController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
+            });
         });
-
     });
 });
 

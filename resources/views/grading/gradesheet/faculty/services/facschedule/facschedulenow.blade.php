@@ -30,7 +30,7 @@ CISS V.1.0 || Grading
                         <div class="card">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
-                                    <i class="ti ti-file"></i> View Schedule
+                                    <i class="ti ti-calendar"></i> Search Schedule
                                 </h6>
                             </div>
                             <div class="card-body">

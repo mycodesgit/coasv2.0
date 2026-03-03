@@ -5,9 +5,7 @@
                 <h6 class="modal-title">
                     <i class="fas fa-info-circle"></i> Confirmation
                 </h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
             <div class="modal-body">
@@ -16,9 +14,9 @@
             
             <div class="modal-footer justify-content-between">
                 <div>
-                    <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+                    <button type="submit" class="btn btn-success" id="submitBtn">Submit</button>
                 </div>
-                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-outline-danger float-right" data-bs-dismiss="modal">No</button>
             </div>
         </div>
     </div>

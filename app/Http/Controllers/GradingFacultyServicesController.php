@@ -184,4 +184,88 @@ class GradingFacultyServicesController extends Controller
 
         return $pdf->stream('schedule.pdf');
     }
+
+    public function semesterfac()
+    {
+        $progen = ConfigureCurrent::where('schlyear', '>=', '2024-2025')
+                    ->orderBy('schlyear', 'desc')
+                    ->orderBy('semester', 'desc')
+                    ->get();
+        return view('grading.gradesheet.faculty.services.onlinegradsub.semester', compact('progen'));
+    }
+
+    public function virtualfaculty_class(Request $request)
+    {
+        $semester = $request->query('semester');
+        $schlyear = $request->query('schlyear');
+        $facID = Auth::guard('faculty')->user()->id;
+
+        $facsubprogen = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
+                    ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
+                    ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                    ->select(
+                        'studgrades.*',
+                        'studgrades.id as stugdeID',
+                        'coasv2_db_schedule.subjects.sub_name',
+                        'coasv2_db_schedule.sub_offered.subSec',
+                        'coasv2_db_schedule.sub_offered.schlyear',
+                        'coasv2_db_schedule.sub_offered.semester',
+                        'coasv2_db_schedule.sub_offered.campus',
+                        'coasv2_db_schedule.scheduleclass.faculty_id',
+                        'coasv2_db_schedule.scheduleclass.subject_id',
+                        'coasv2_db_schedule.faculty.fname',
+                        'coasv2_db_schedule.faculty.lname',
+                    )
+            ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+            ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+            ->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
+            ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
+            ->groupBy('studgrades.subjID')
+            ->get();
+
+        return view('grading.gradesheet.faculty.services.onlinegradsub.virtualroom', compact('facsubprogen', 'semester', 'schlyear'));
+    }
+
+    public function virtual_facultysubjectclass(Request $request, $id)
+    {
+        $semester = $request->query('semester');
+        $schlyear = $request->query('schlyear');
+        $faculty = Auth::guard('faculty')->user();
+        $campus = $faculty->campus;
+        $facID = $faculty->id;
+
+        $sub = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                ->join('coasv2_db_enrollment.studgrades', 'scheduleclass.subject_id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+                ->join('coasv2_db_enrollment.students', 'coasv2_db_enrollment.studgrades.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->where('sub_offered.schlyear', $schlyear)
+                ->where('sub_offered.semester', $semester)
+                ->where('scheduleclass.faculty_id', $facID)
+                ->where('coasv2_db_enrollment.studgrades.subjID', $id)
+                ->select('scheduleclass.*', 'sub_offered.*', 'subjects.*', 'coasv2_db_enrollment.studgrades.*', 'coasv2_db_enrollment.studgrades.status as gstat', 'coasv2_db_enrollment.students.*', 'coasv2_db_enrollment.studgrades.id as sgid' )
+                ->orderBy('coasv2_db_enrollment.students.lname', 'ASC')
+                ->groupBy('studgrades.studID')
+                ->get();
+
+        $substudcount = $sub->count();
+
+        $grdpercentage = array_merge(range(44, 78), [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]);
+
+        $grdCode = GradeCode::whereIn('id', $grdpercentage)
+                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
+                ->get();
+
+        $grdpercentageComp = range(44, 91);
+
+        $grdCodeComp = GradeCode::whereIn('id', $grdpercentageComp)
+                ->orderByRaw('CASE WHEN id BETWEEN 44 AND 91 THEN id END DESC, id DESC')
+                ->get();
+
+        $grade = Grade::where('subjID', $id)
+                        ->where('status', '!=', '')
+                        ->count();
+
+        return view('grading.gradesheet.faculty.services.onlinegradsub.virtualsubroom', compact('sub', 'substudcount', 'grdCode', 'grdCodeComp', 'grade'));
+    }
 }
