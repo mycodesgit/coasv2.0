@@ -357,11 +357,24 @@
     <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('uilibs/plugins/select2/js/select2.full.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ asset('uilibs/plugins/chart.js/Chart.min.js') }}"></script>
     <!-- Validation JS -->
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
+    @if(request()->routeIs('homefaculty'))
+        <script>
+            var semesteractive = {!! json_encode($semesteractive) !!};
+            var schlyearActive = {!! json_encode($schlyearactiveYear) !!};
+            var progyerlevCounts = {!! json_encode($countstudsubfac) !!};
+            var undercolors = {!! json_encode($underproglevsecname) !!};
+        </script>
+        <script src="{{ asset('js/chart/enbarchartperyearlevfaculty.js') }}?v={{ time() }}"></script>
+        @include('script.faculty.dashSerialize')
+    @endif
+    
     <script>
         $(function () {
             $('.select2').select2();

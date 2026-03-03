@@ -72,6 +72,32 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="chart-responsive pt-1">
+                                    <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="countstuddash" class="table table-striped styled-table" style="font-size: 10pt; width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>No. of Stud</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
