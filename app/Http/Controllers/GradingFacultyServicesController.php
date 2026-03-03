@@ -268,4 +268,9 @@ class GradingFacultyServicesController extends Controller
 
         return view('grading.gradesheet.faculty.services.onlinegradsub.virtualsubroom', compact('sub', 'substudcount', 'grdCode', 'grdCodeComp', 'grade'));
     }
+
+    public function supfaceval()
+    {
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval');
+    }
 }

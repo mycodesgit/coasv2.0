@@ -248,6 +248,10 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
                 Route::post('/list/view/studgrde/submit/{subjID}', [GradingFacultyController::class, 'updateStatus_gradessubmit'])->name('updateStatus_gradessubmit');
                 Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingFacultyController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
             });
+            
+            Route::prefix('evalresult')->group(function () {
+                Route::get('/list', [GradingFacultyServicesController::class, 'supfaceval'])->name('supfaceval');
+            });
         });
     });
 });
