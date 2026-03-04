@@ -3,7 +3,7 @@
 
     $dashfacActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
     $attendfacActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
-    $servicesfacActive = in_array($curr_route, ['index.services', 'schedulefac', 'schedulefac_searchview', 'semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass', 'supfaceval']) ? 'active' : '';
+    $servicesfacActive = in_array($curr_route, ['index.services', 'schedulefac', 'schedulefac_searchview', 'semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass', 'supfaceval', 'supfacevalrate']) ? 'active' : '';
 @endphp
 
 <ul class="nav flex-column">

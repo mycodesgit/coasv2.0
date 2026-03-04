@@ -458,6 +458,10 @@
     @if(request()->routeIs('schedulefac_searchview'))
         @include('grading.gradesheet.faculty.facultyschedscript')
     @endif
+
+    @if (request()->routeIs('supfacevalrate'))
+        @include('script.studnts.evaluation.ratecardnextbutton')
+    @endif
 </body>
 
 </html>

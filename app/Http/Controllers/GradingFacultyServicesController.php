@@ -41,6 +41,15 @@ use App\Models\ScheduleDB\SetClassSchedule;
 use App\Models\SettingDB\ConfigureCurrent;
 use App\Models\SettingDB\SigPresVice;
 
+use App\Models\EvaluationDB\QCEratingscale;
+use App\Models\EvaluationDB\QCEinstruction;
+use App\Models\EvaluationDB\QCEcategory;
+use App\Models\EvaluationDB\QCEquestion;
+use App\Models\EvaluationDB\QCEsubquestion;
+use App\Models\EvaluationDB\QCEsemester;
+use App\Models\EvaluationDB\QCEfevalrate;
+use App\Models\EvaluationDB\QCEsetting;
+
 class GradingFacultyServicesController extends Controller
 {
     public function index()
@@ -271,6 +280,102 @@ class GradingFacultyServicesController extends Controller
 
     public function supfaceval()
     {
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval');
+        $currsem = QCEsemester::where('qcesemstat', 2)->get();
+        $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
+
+        $facdivisionchair = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
+                    ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
+                    ->where('fac_designation.designation', '=', 'Division Chair')
+                    ->select('faculty.id', 'faculty.fname', 'faculty.mname', 'faculty.lname', 'faculty.rank', 'faculty.campus', 'faculty.id as facID', 'fac_designation.designation')
+                    ->get();
+
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'facdivisionchair'));
+    }
+
+    public function supfacevalrate(Request $request)
+    {
+        $subjsIDselected = $request->query('id');
+        $qcefacID = $request->query('qcefacID');
+
+        $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 1)->get();
+        $inst = QCEinstruction::where('instructcat', 1)->get();
+        $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
+        $currsem = QCEsemester::where('qcesemstat', 2)
+            ->get([
+                'qceschlyear',
+                'qcesemester',
+                'qceratingfrom',
+                'qceratingto',
+                'id'
+            ]);
+
+        $question = QCEquestion::join('qcecategory', 'qcequestion.catName_id', '=', 'qcecategory.id')
+                ->select('qcecategory.catName', 'qcequestion.id', 'qcequestion.questiontext')
+                ->where('qcecategory.catstatus', 2)
+                ->where('qcequestion.questcat', 2)
+                ->orderBy('qcecategory.catName') 
+                ->orderBy('qcequestion.id') 
+                ->get()
+                ->groupBy('catName');
+        
+        $facdetail = Faculty::where('id', $qcefacID)->first();
+
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslistevalrate', compact('inst', 'ratingscale',  'currsem', 'question', 'facdetail'));
+    }
+
+    public function deanfacevalrateformCreate(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'question_rate' => 'required|array',
+            ]);
+            
+            try {
+                $existingSurvey = QCEfevalrate::where('campus', $request->input('campus'))
+                        ->where('semester', $request->input('semester'))
+                        ->where('schlyear', $request->input('schlyear'))
+                        ->where('qcefacname', $request->input('qcefacname'))
+                        ->where('studidno', $request->input('studidno'))
+                        ->where('evaluatorname', $request->input('evaluatorname'))
+                        ->first();
+
+                if ($existingSurvey) {
+                    return redirect()->route('formRead')->with('error', 'You already submitted a survey for this subject and faculty');
+                }
+
+                $latestRateCount = QCEfevalrate::where('campus', $request->input('campus'))
+                    ->where('semester', $request->input('semester'))
+                    ->where('schlyear', $request->input('schlyear'))
+                    ->where('qcefacname', $request->input('qcefacname'))
+                    // ->where('subjidrate', $request->input('subjidrate'))
+                    ->max('ratecount');
+
+                // Increment the latest count or start from 1 if no previous record exists
+                $newRateCount = $latestRateCount ? $latestRateCount + 1 : 1;
+
+                QCEfevalrate::create([
+                    'ratecount' => $newRateCount,
+                    'campus' => $request->input('campus'),
+                    'qceschlyearsemID' => $request->input('qceschlyearsemID'),
+                    'schlyear' => $request->input('schlyear'),
+                    'semester' => $request->input('semester'),
+                    'ratingfromto' => $request->input('ratingfromto'),
+                    'qcefacID' => $request->input('qcefacID'),
+                    'qcefacname' => $request->input('qcefacname'),
+                    'qceevaluator' => $request->input('qceevaluator'),
+                    'question' => json_encode($request->input('question')),
+                    'question_rate' => json_encode($request->input('question_rate')),
+                    'qcecomments' => $request->input('qcecomments'),
+                    'evaluatorname' => $request->input('evaluatorname'),
+                    'evaluatorID' => $request->input('evaluatorID'),
+                    'studidno' => $request->input('studidno'),
+                    'prog' => $request->input('prog'),
+                ]);
+
+                return redirect()->route('supfaceval')->with('success', 'Survey Submitted Successfully');
+            } catch (\Exception $e) {
+                return back()->with('error', 'Failed to Submit Survey');
+            }
+        }
     }
 }

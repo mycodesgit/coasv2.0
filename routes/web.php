@@ -251,6 +251,8 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
             
             Route::prefix('evalresult')->group(function () {
                 Route::get('/list', [GradingFacultyServicesController::class, 'supfaceval'])->name('supfaceval');
+                Route::get('/list/rate/faculty', [GradingFacultyServicesController::class, 'supfacevalrate'])->name('supfacevalrate');
+                Route::post('/list/rate/dean/rate/fac/submit', [GradingFacultyServicesController::class,'deanfacevalrateformCreate'])->name('deanfacevalrateformCreate');
             });
         });
     });
