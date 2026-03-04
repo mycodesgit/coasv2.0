@@ -74,7 +74,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-designate" data-id="' + row.fcdid + '" data-facid="' + row.fac_id + '" data-designation="' + row.designation + '" data-college="' + row.facdept + '" data-dunit="' + row.dunit + '">' +
+                            '<a href="#" class="dropdown-item btn-designate" data-id="' + row.fcdid + '" data-facid="' + row.fac_id + '" data-designation="' + row.designation + '" data-college="' + row.facCollege + '" data-dunit="' + row.dunit + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item designate-delete">' +

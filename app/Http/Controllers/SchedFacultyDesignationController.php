@@ -67,7 +67,7 @@ class SchedFacultyDesignationController extends Controller
         $campus = $request->query('campus');
 
         $data = FacDesignation::join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
-                        ->leftJoin('college', 'fac_designation.facdept', '=', 'college.college_abbr')
+                        ->leftJoin('college', 'fac_designation.facCollege', '=', 'college.college_abbr')
                         ->where('fac_designation.schlyear', $schlyear)
                         ->where('fac_designation.semester', $semester)
                         ->where('fac_designation.campus', $campus)
@@ -99,7 +99,7 @@ class SchedFacultyDesignationController extends Controller
                     'schlyear' => $request->input('schlyear'),
                     'semester' => $request->input('semester'),
                     'campus' => $request->input('campus'),
-                    'facdept' => $request->input('facdept'),
+                    'facCollege' => $request->input('facCollege'),
                     'fac_id' => $request->input('fac_id'),
                     'designation' => $request->input('designation'),
                     'rankcomma' => $request->input('rankcomma'),
@@ -132,7 +132,7 @@ class SchedFacultyDesignationController extends Controller
 
             $fund = FacDesignation::findOrFail($request->input('id'));
             $fund->update([
-                'facdept' => $request->input('facdept'),
+                'facCollege' => $request->input('facCollege'),
                 'fac_id' => $request->input('fac_id'),
                 'designation' => $request->input('designation'),
                 'dunit' => $request->input('dunit'),

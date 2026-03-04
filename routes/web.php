@@ -700,6 +700,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/flist/search/add', [SchedFacultyListController::class, 'facultyCreate'])->name('facultyCreate');
             Route::post('/flist/search/update', [SchedFacultyListController::class, 'facultyUpdate'])->name('facultyUpdate');
             Route::get('/flist/search/delete{id}', [SchedFacultyListController::class, 'facultyDelete'])->name('facultyDelete');
+            
+            Route::get('/get-departments/{college}', [SchedFacultyListController::class, 'getDepartments'])->name('getDepartments');
         });
 
         Route::prefix('program')->group(function () {

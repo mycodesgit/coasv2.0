@@ -112,8 +112,8 @@ CISS V.1.0 || Faculty Designation
                             </div>
 
                             <div class="mt-2 col-md-12">
-                                <label><span class="badge badge-secondary">Dept</span></label>
-                                <select class="form-control form-control-sm" name="facdept">
+                                <label><span class="badge badge-secondary">College</span></label>
+                                <select class="form-control form-control-sm" name="facCollege">
                                     <option disabled selected>Select</option>
                                     <option value="ADM">ADM</option>
                                     <option value="CAF">CAF</option>
@@ -122,7 +122,7 @@ CISS V.1.0 || Faculty Designation
                                     <option value="CCS">CCS</option>
                                     <option value="CJE">CJE</option>
                                     <option value="COE">COE</option>
-                                    <option value="COTED">COTED</option>
+                                    <option value="CTE">COTED</option>
                                 </select>
                             </div>
 
@@ -144,6 +144,8 @@ CISS V.1.0 || Faculty Designation
                                 <label><span class="badge badge-secondary">Designation</span></label>
                                 <select class="form-control form-control-sm" name="designation">
                                     <option value="Dean">Dean</option>
+                                    <option value="Division Chair">Division Chair</option>
+                                    <option value="Program Head">Program Head</option>
                                     <option value="Registrar">Registrar</option>
                                     <option value="Assessment">Assessment</option>
                                     <option value="CampusAdmin">Campus Admin</option>

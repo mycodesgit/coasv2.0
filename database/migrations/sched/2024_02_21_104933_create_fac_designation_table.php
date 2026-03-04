@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('schlyear')->nullable();
             $table->integer('semester')->nullable();
             $table->string('campus')->nullable();
-            $table->string('facdept')->nullable();
+            $table->string('facCollege')->nullable();
             $table->integer('fac_id')->nullable();
             $table->string('rankcomma')->nullable();
             $table->string('designation')->nullable();

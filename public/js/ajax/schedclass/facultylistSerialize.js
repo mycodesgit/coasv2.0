@@ -21,7 +21,8 @@ $(document).ready(function() {
                     $('input[name="fname"]').val('');
                     $('input[name="mname"]').val('');
                     $('input[name="ext"]').val('');
-                    $('select[name="dept"]').val('');
+                    $('select[name="faccollege"]').val('');
+                    $('select[name="facdept"]').val('');
                     $('select[name="adrID"]').val('');
                     $('input[name="email"]').val('');
                 } else {
@@ -56,6 +57,7 @@ $(document).ready(function() {
             },
             {data: 'adrDesc'},
             {data: 'college_abbr'},
+            {data: 'deptCod'},
             {data: 'rank'},
             {data: 'fcamp'},
             {
@@ -65,7 +67,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '" data-deptname="' + row.dept + '" data-email="' + row.email + '" data-rank="' + row.rank + '">' +
+                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '" data-faccollege="' + row.faccollege + '" data-facdept="' + row.facdept + '" data-email="' + row.email + '" data-rank="' + row.rank + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item faclty-delete">' +
@@ -96,7 +98,8 @@ $(document).on('click', '.btn-facultyedit', function() {
     var mName = $(this).data('fmname');
     var exName = $(this).data('fxname');
     var salName = $(this).data('adrname');
-    var deptName = $(this).data('deptname');
+    var collegeName = $(this).data('faccollege');
+    var deptName = $(this).data('facdept');
     var email = $(this).data('email');
     var rank = $(this).data('rank');
 
@@ -106,7 +109,8 @@ $(document).on('click', '.btn-facultyedit', function() {
     $('#editMiddlename').val(mName);
     $('#editExtname').val(exName);
     $('#editSalutation').val(salName);
-    $('#college_room').val(deptName);
+    $('#editcollege').val(collegeName);
+    $('#editdept').val(deptName);
     $('#editEmail').val(email);
     $('#eeditacadrank').val(rank);
 
@@ -177,5 +181,65 @@ $(document).on('click', '.faclty-delete', function(e) {
             });
         }
     })
+});
+
+$(document).ready(function(){
+    $('#college').on('change', function(){
+        var collegeCode = $(this).val();
+        if(collegeCode) {
+            var url = getdepartmentRoute.replace(':college', collegeCode);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+
+                    $('#department').empty();
+                    $('#department').append('<option disabled selected> ---Select---</option>');
+
+                    $.each(data, function(key, value){
+                        $('#department').append(
+                            '<option value="'+ value.deptCod +'">'+ value.deptName +'</option>'
+                        );
+                    });
+                }
+            });
+        } else {
+            $('#department').empty();
+        }
+    });
+});
+
+$(document).ready(function(){
+    function loadDepartments(collegeCode) {
+        if(collegeCode) {
+            var url = getdepartmentRoute.replace(':college', collegeCode);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+
+                    $('#editdept').empty();
+                    $('#editdept').append('<option disabled selected> ---Select---</option>');
+
+                    $.each(data, function(key, value){
+                        $('#editdept').append(
+                            '<option value="'+ value.deptCod +'">'+ value.deptName +'</option>'
+                        );
+                    });
+                }
+            });
+
+        } else {
+            $('#editdept').empty();
+        }
+    }
+    // When value changes
+    $('#editcollege').on('change', function(){
+        loadDepartments($(this).val());
+    });
+    // When user clicks the dropdown again
+    $('#editcollege').on('focus', function(){
+        loadDepartments($(this).val());
+    });
 });
 

@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('faculty', function (Blueprint $table) {
             $table->id();
             $table->string('campus');
-            $table->string('dept');
+            $table->string('faccollege');
+            $table->string('facdept')->nullable();
             $table->string('fname');
             $table->string('mname');
             $table->string('lname');

@@ -57,12 +57,21 @@ CISS V.1.0 || List if Faculty
                             <div class="form-group">
                                 <div class="form-row">
                                     <div class="mt-2 col-md-12">
-                                        <label><span class="badge badge-secondary">Belongs to</span></label>
-                                        <select class="form-control form-control-sm" name="dept">
+                                        <label><span class="badge badge-secondary">College</span></label>
+                                        <select class="form-control form-control-sm" name="faccollege" id="college">
                                             <option disabled selected> ---Select---</option>
                                             @foreach($collegelist as $datacollegelist)
-                                                <option value="{{ $datacollegelist->college_abbr }}">{{ $datacollegelist->college_name }}</option>
+                                                <option value="{{ $datacollegelist->college_abbr }}">
+                                                    {{ $datacollegelist->college_name }}
+                                                </option>
                                             @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-2 col-md-12">
+                                        <label><span class="badge badge-secondary">Department</span></label>
+                                        <select class="form-control form-control-sm" name="facdept" id="department">
+                                            <option disabled selected> ---Select---</option>
                                         </select>
                                     </div>
 
@@ -118,8 +127,9 @@ CISS V.1.0 || List if Faculty
                             <th>Name</th>
                             <th>Salutation</th>
                             <th>College</th>
-                            <th>Campus</th>
+                            <th>Dept</th>
                             <th>Rank</th>
+                            <th>Campus</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -145,11 +155,20 @@ CISS V.1.0 || List if Faculty
                 <div class="modal-body">
                     <input type="hidden" name="id" id="editFacultyId">
                     <div class="form-group">
-                        <label for="editdept">College</label>
-                        <select id="college_room" class="form-control form-control-sm" id="editdept" name="dept">
-                            <option disabled selected> ---Select---</option>
+                        <label for="editcollege">College</label>
+                        <select class="form-control form-control-sm" id="editcollege" name="faccollege">
+                            <option disabled selected> --Select--  </option>
                             @foreach($collegelist as $datacollegelist)
                                 <option value="{{ $datacollegelist->college_abbr }}">{{ $datacollegelist->college_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editdept">Department</label>
+                        <select class="form-control form-control-sm" id="editdept" name="facdept">
+                            <option disabled selected> --Select-- </option>
+                            @foreach($depts as $datadepts)
+                                <option value="{{ $datadepts->deptCod }}">{{ $datadepts->deptName }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -224,6 +243,7 @@ CISS V.1.0 || List if Faculty
     var facultyUpdateRoute = "{{ route('facultyUpdate', ['id' => ':id']) }}";
     var facultyDeleteRoute = "{{ route('facultyDelete', ['id' => ':id']) }}";
     var roomidEncryptRoute = "{{ route('idcrypt') }}";
+    var getdepartmentRoute = "{{ route('getDepartments', ':college') }}";
 </script>
 
 @endsection

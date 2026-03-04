@@ -15,7 +15,7 @@ class FacDesignation extends Model
         'schlyear', 
         'semester', 
         'campus',
-        'facdept',
+        'facCollege',
         'fac_id',
         'facname',
         'designation',
