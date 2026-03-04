@@ -282,14 +282,19 @@ class GradingFacultyServicesController extends Controller
     {
         $currsem = QCEsemester::where('qcesemstat', 2)->get();
         $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
+        $setevalmode = QCEsetting::first();
 
         $facdivisionchair = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('fac_designation.designation', '=', 'Division Chair')
                     ->select('faculty.id', 'faculty.fname', 'faculty.mname', 'faculty.lname', 'faculty.rank', 'faculty.campus', 'faculty.id as facID', 'fac_designation.designation')
                     ->get();
-
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'facdivisionchair'));
+        
+        $disabledsubj = QCEfevalrate::where('qceformevalrate.evaluatorID', Auth::guard('faculty')->user()->id)
+                        ->whereIn('qceformevalrate.statprint', [1,2])
+                        ->pluck('qcefacID');
+                        
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'facdivisionchair', 'setevalmode', 'disabledsubj'));
     }
 
     public function supfacevalrate(Request $request)

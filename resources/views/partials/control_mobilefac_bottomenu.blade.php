@@ -42,8 +42,17 @@
             </div>
         </div>
     </a>
-@elseif (request()->routeIs('show.evaluation.rate'))
-    <a href="{{ route('index.evaluation') }}">
+@elseif (request()->routeIs('supfaceval'))
+    <a href="{{ route('index.services') }}">
+        <div class="bottom-nav">
+            <div class="nav-item" data-label="Dashboard">
+                <i class="fas fa-arrow-left icon"></i>
+                <span>Go Back</span>
+            </div>
+        </div>
+    </a>
+@elseif (request()->routeIs('supfacevalrate'))
+    <a href="{{ route('supfaceval') }}">
         <div class="bottom-nav">
             <div class="nav-item" data-label="Dashboard">
                 <i class="fas fa-arrow-left icon"></i>

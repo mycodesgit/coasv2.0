@@ -34,87 +34,79 @@ CISS V.1.0 || Faculty Services
                                 </h6>
                             </div>
                             <div class="card-body">
-                                {{-- <form method="GET" action="" id="enrollStud">
-                                    @csrf
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <label>School Year: <span class="text-danger">*</span></label>
-                                                <select class="form-control form-control-sm" name="schlyear" id="schlyeardean">
-                                                    @foreach($currsem as $datacurrsem)
-                                                        <option value="{{ $datacurrsem->qceschlyear }}">{{ $datacurrsem->qceschlyear }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label>Semester: <span class="text-danger">*</span></label>
-                                                <select class="form-control form-control-sm" name="semester" id="semesterdean">
-                                                    @foreach ($currsem as $datacurrsem)
-                                                        <option value="{{ $datacurrsem->qcesemester }}">
-                                                            @if($datacurrsem->qcesemester == 1)
-                                                                1st Semester
-                                                            @elseif($datacurrsem->qcesemester == 2)
-                                                                2nd Semester
-                                                            @elseif($datacurrsem->qcesemester == 3)
-                                                                Summer
-                                                            @else
-                                                                {{ $datacurrsem->qcesemester }}
-                                                            @endif
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <label>Faculty: <span class="text-danger">*</label>
-                                                <select class="form-control form-control-sm select2bs4" name="faclty" id="faclty">
-                                                    <option disabled selected> --Select--- </option>
-                                                    @foreach ($facdivisionchair as $itemfacdivisionchair)
-                                                        <option value="{{ $itemfacdivisionchair->id }}">{{ $itemfacdivisionchair->lname }}, {{ $itemfacdivisionchair->fname }} {{ substr($itemfacdivisionchair->mname, 0, 1) }}.</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label>&nbsp;</label>
-                                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form> --}}
                                 <div class="row g-3">
-                                    @foreach($facdivisionchair as $datafacdivisionchair)
-                                        <div class="col-lg-3 col-12">
-                                            <a href="{{ route('supfacevalrate', ['id' => $datafacdivisionchair->subjID, 'qcefacID'  => $datafacdivisionchair->facID, 'qcefacname'  => $datafacdivisionchair->fname . ' ' . $datafacdivisionchair->lname]) }}">
-                                                <div class="card card-hover h-100">
-                                                    <div class="card-body p-4">
-                                                        <div class="d-flex justify-content-between pb-5 mb-3">
-                                                            <div>
-                                                                <h3 class="fw-bold h5">{{ $datafacdivisionchair->lname }}, {{ collect(explode(' ', $datafacdivisionchair->fname))->map(fn($name) => strtoupper(substr($name, 0, 1)))->implode('') }} {{ substr($datafacdivisionchair->mname, 0, 1) }}.</h3>
-                                                                <span>{{ $datafacdivisionchair->rank }}</span><br>
-                                                                <span style="font-size: 9pt;">
-                                                                    <span class="text-success">{{ $sy->schlyear }}</span>, {{ $sy->semester == 1 ? '1st Sem' : ($sy->semester == 2 ? '2nd Sem' : ($sy->semester == 3 ? 'Summer' : $sy->semester)) }}
-                                                                </span>
-                                                            </div>
-                                                            <div>
-                                                                <i class="ti ti-user fs-1 text-success"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center small">
-                                                            <div class="text-muted">
-                                                                <span class="text-dark">
-                                                                    {{ $datafacdivisionchair->designation }}
-                                                                </span>
-                                                            </div>
-                                                            <div><span class="badge bg-info textbold"><i class="ti ti-x"></i> Not Done</span></div>
-                                                        </div>
-                                                    </div>
+                                    @if($setevalmode->statuseval === 'Off')
+                                        <div class="col-12">
+                                            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                                <i class="ti ti-alert-triangle fs-3 me-3"></i>
+                                                <div>
+                                                    Faculty Evaluation is currently unavailable. Please check back later.
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
-                                    @endforeach
+                                    @else
+                                        @foreach($facdivisionchair as $datafacdivisionchair)
+                                            @if($disabledsubj->contains($datafacdivisionchair->facID))
+                                                <div class="col-lg-3 col-12">
+                                                    <a href="#" disabled>
+                                                        <div class="card h-100" >
+                                                            <div class="card-body p-4" style="background-color: rgba(230, 230, 230, 0.644)">
+                                                                <div class="d-flex justify-content-between pb-5 mb-3">
+                                                                    <div>
+                                                                        <h3 class="fw-bold h5">{{ $datafacdivisionchair->lname }}, {{ collect(explode(' ', $datafacdivisionchair->fname))->map(fn($name) => strtoupper(substr($name, 0, 1)))->implode('') }} {{ substr($datafacdivisionchair->mname, 0, 1) }}.</h3>
+                                                                        <span>{{ $datafacdivisionchair->rank }}</span><br>
+                                                                        <span style="font-size: 9pt;">
+                                                                            <span class="text-dark">{{ $sy->schlyear }}</span>, {{ $sy->semester == 1 ? '1st Sem' : ($sy->semester == 2 ? '2nd Sem' : ($sy->semester == 3 ? 'Summer' : $sy->semester)) }}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <i class="ti ti-user fs-1 text-success"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between align-items-center small">
+                                                                    <div class="text-muted">
+                                                                        <span class="text-dark">
+                                                                            {{ $datafacdivisionchair->designation }}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div><span class="badge bg-success textbold"><i class="ti ti-check"></i> Done Evaluate</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div class="col-lg-3 col-12">
+                                                    <a href="{{ route('supfacevalrate', ['id' => $datafacdivisionchair->subjID, 'qcefacID'  => $datafacdivisionchair->facID, 'qcefacname'  => $datafacdivisionchair->fname . ' ' . $datafacdivisionchair->lname]) }}">
+                                                        <div class="card card-hover h-100">
+                                                            <div class="card-body p-4">
+                                                                <div class="d-flex justify-content-between pb-5 mb-3">
+                                                                    <div>
+                                                                        <h3 class="fw-bold h5">{{ $datafacdivisionchair->lname }}, {{ collect(explode(' ', $datafacdivisionchair->fname))->map(fn($name) => strtoupper(substr($name, 0, 1)))->implode('') }} {{ substr($datafacdivisionchair->mname, 0, 1) }}.</h3>
+                                                                        <span>{{ $datafacdivisionchair->rank }}</span><br>
+                                                                        <span style="font-size: 9pt;">
+                                                                            <span class="text-dark">{{ $sy->schlyear }}</span>, {{ $sy->semester == 1 ? '1st Sem' : ($sy->semester == 2 ? '2nd Sem' : ($sy->semester == 3 ? 'Summer' : $sy->semester)) }}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <i class="ti ti-user fs-1 text-success"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between align-items-center small">
+                                                                    <div class="text-muted">
+                                                                        <span class="text-dark">
+                                                                            {{ $datafacdivisionchair->designation }}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div><span class="badge bg-info textbold"><i class="ti ti-x"></i> Not Done</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
