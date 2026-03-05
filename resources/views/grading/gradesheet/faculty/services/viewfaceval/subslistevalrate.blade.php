@@ -55,7 +55,11 @@ CISS V.1.0 || Faculty Services
                     <a href="{{ route('index.services') }}">
                         <i class="ti ti-arrow-left"></i> Services 
                     </a>
-                    <span class="text-muted">/ Faculty Evaluation</span>
+                    <span class="text-muted">/</span>
+                    <a href="{{ route('supfaceval') }}">
+                        Faculties
+                    </a>
+                    <span class="text-muted">/ Evaluation Now</span>
                 </h1>
 
                 <div class="row">
