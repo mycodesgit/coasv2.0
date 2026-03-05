@@ -328,6 +328,9 @@ class GradingFacultyServicesController extends Controller
         
         $disabledsubj = QCEfevalrate::where('qceformevalrate.evaluatorID', Auth::guard('faculty')->user()->id)
                         ->whereIn('qceformevalrate.statprint', [1,2])
+                        // ->where('qceformevalrate.schlyear', $currsem->first()->schlyear)
+                        // ->where('qceformevalrate.semester', $currsem->first()->semester)
+                        // ->where('qceformevalrate.qceevaluator', '=', 'Supervisor')
                         ->pluck('qcefacID');
                         
         return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'collegedean', 'collegeprogramhead', 'casdivisionchair', 'facdivisionchair', 'facollegedean', 'facollegeprogramhead', 'setevalmode', 'disabledsubj'));
