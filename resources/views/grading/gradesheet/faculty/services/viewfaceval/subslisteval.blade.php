@@ -194,7 +194,7 @@ CISS V.1.0 || Faculty Services
                                             </div>
                                         @else
                                             @foreach($facollegedean as $datafacollegedean)
-                                                @if($disabledsubj->contains($datafacollegedean->facID))
+                                                @if($disabledsubjdean->contains($datafacollegedean->facID))
                                                     <div class="col-lg-3 col-12">
                                                         <a href="#" disabled>
                                                             <div class="card h-100" >
