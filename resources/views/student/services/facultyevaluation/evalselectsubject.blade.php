@@ -39,14 +39,14 @@
                                             @if($disabledsubj->contains('subjidrate', $datafacsubprogen->subjID))
                                                 <div class="col-lg-3 col-12">
                                                     <a href="#" disabled>
-                                                        <div class="card h-100">
+                                                        <div class="card h-100" style="background-color: rgba(230, 230, 230, 0.644)">
                                                             <div class="card-body p-4">
                                                                 <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
                                                                     <div>
                                                                         <h3 class="fw-bold h4">{{ $datafacsubprogen->sub_name }}</h3>
                                                                         <span>{{ $datafacsubprogen->subSec }}</span><br>
                                                                         <span style="font-size: 9pt;">
-                                                                            <span class="text-success">{{ $datafacsubprogen->schlyear }}</span>, {{ $datafacsubprogen->semester == 1 ? '1st Sem' : ($datafacsubprogen->semester == 2 ? '2nd Sem' : ($datafacsubprogen->semester == 3 ? 'Summer' : $datafacsubprogen->semester)) }}
+                                                                            <span class="text-dark">{{ $datafacsubprogen->schlyear }}</span>, {{ $datafacsubprogen->semester == 1 ? '1st Sem' : ($datafacsubprogen->semester == 2 ? '2nd Sem' : ($datafacsubprogen->semester == 3 ? 'Summer' : $datafacsubprogen->semester)) }}
                                                                         </span>
                                                                     </div>
                                                                     <div>
