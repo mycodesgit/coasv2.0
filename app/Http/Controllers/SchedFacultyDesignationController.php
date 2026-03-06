@@ -88,7 +88,8 @@ class SchedFacultyDesignationController extends Controller
             $schlyear = $request->input('schlyear'); 
             $campus = $request->input('campus'); 
             $semester = $request->input('semester'); 
-            $existingFacDeg = FacDesignation::where('fac_id', $fac_id)->where('schlyear', $schlyear)->where('semester', $semester)->where('campus', $campus)->first();
+            $designation = $request->input('designation'); 
+            $existingFacDeg = FacDesignation::where('fac_id', $fac_id)->where('schlyear', $schlyear)->where('semester', $semester)->where('campus', $campus)->where('designation', $designation)->first();
 
             if ($existingFacDeg) {
                 return response()->json(['error' => true, 'message' => 'Already exists'], 404);
