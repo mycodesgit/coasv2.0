@@ -289,28 +289,53 @@ class GradingFacultyServicesController extends Controller
         $collegedean = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
                     ->where('facCollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('designation', '=', 'Dean')
+                    ->where('schlyear', $currsemnow->qceschlyear)
+                    ->where('semester', $currsemnow->qcesemester)
                     ->first();
         
         $collegeprogramhead = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
                     ->where('facCollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('designation', '=', 'Program Head')
+                    ->where('schlyear', $currsemnow->qceschlyear)
+                    ->where('semester', $currsemnow->qcesemester)
                     ->first();
 
         $casdivisionchair = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
                     ->where('facCollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('designation', '=', 'Division Chair')
+                    ->where('schlyear', $currsemnow->qceschlyear)
+                    ->where('semester', $currsemnow->qcesemester)
                     ->first();
 
         $facdivisionchair = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('fac_designation.designation', '=', 'Division Chair')
-                    ->select('faculty.id', 'faculty.fname', 'faculty.mname', 'faculty.lname', 'faculty.rank', 'faculty.campus', 'faculty.id as facID', 'fac_designation.designation')
+                    ->select(
+                            'faculty.id', 
+                            'faculty.fname', 
+                            'faculty.mname', 
+                            'faculty.lname', 
+                            'faculty.rank', 
+                            'faculty.campus', 
+                            'faculty.id as facID', 
+                            'fac_designation.designation'
+                        )
                     ->get();
 
         $facollegedean = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('fac_designation.designation', '=', 'Program Head')
-                    ->select('faculty.id', 'faculty.fname', 'faculty.mname', 'faculty.lname', 'faculty.rank', 'faculty.campus', 'faculty.id as facID', 'fac_designation.designation', 'fac_designation.facCollege')
+                    ->select(
+                        'faculty.id', 
+                        'faculty.fname', 
+                        'faculty.mname', 
+                        'faculty.lname', 
+                        'faculty.rank', 
+                        'faculty.campus', 
+                        'faculty.id as facID', 
+                        'fac_designation.designation', 
+                        'fac_designation.facCollege'
+                    )
                     ->get();
         
         $facollegeprogramhead = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
@@ -330,15 +355,15 @@ class GradingFacultyServicesController extends Controller
         
         $disabledsubj = QCEfevalrate::where('qceformevalrate.evaluatorID', Auth::guard('faculty')->user()->id)
                         ->whereIn('qceformevalrate.statprint', [1,2])
-                        // ->where('qceformevalrate.schlyear', $currsem->first()->schlyear)
-                        // ->where('qceformevalrate.semester', $currsem->first()->semester)
+                        ->where('qceformevalrate.schlyear', $currsemnow->qceschlyear)
+                        ->where('qceformevalrate.semester', $currsemnow->qcesemester)
                         ->where('qceformevalrate.qceevaluator', '=', 'Program Head')
                         ->pluck('qcefacID');
 
         $disabledsubjdean = QCEfevalrate::where('evaluatorID', Auth::guard('faculty')->user()->id)
                     ->whereIn('statprint', [1,2])
-                    // ->where('schlyear', $currsemnow->schlyear)
-                    // ->where('semester', $currsemnow->semester)
+                    ->where('schlyear', $currsemnow->qceschlyear)
+                    ->where('semester', $currsemnow->qcesemester)
                     ->where('qceevaluator', 'Dean')
                     ->pluck('qcefacID');
                         
@@ -353,6 +378,7 @@ class GradingFacultyServicesController extends Controller
         $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 1)->get();
         $inst = QCEinstruction::where('instructcat', 1)->get();
         $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
+        $currsemnow = QCEsemester::where('qcesemstat', 2)->first();
         $currsem = QCEsemester::where('qcesemstat', 2)
             ->get([
                 'qceschlyear',
@@ -373,7 +399,12 @@ class GradingFacultyServicesController extends Controller
         
         $facdetail = Faculty::where('id', $qcefacID)->first();
 
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslistevalrate', compact('inst', 'ratingscale',  'currsem', 'question', 'facdetail'));
+        $facDesignateRole = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
+                ->where('schlyear', $currsemnow->qceschlyear)
+                ->where('semester', $currsemnow->qcesemester)
+                ->first();
+    
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslistevalrate', compact('inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'facDesignateRole'));
     }
 
     public function deanfacevalrateformCreate(Request $request)
