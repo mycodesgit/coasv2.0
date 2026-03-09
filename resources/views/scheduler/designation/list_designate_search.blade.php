@@ -207,7 +207,7 @@ CISS V.1.0 || Faculty Designation
                     </div>
                     <div class="form-group">
                         <label for="editDesignationDept">Department</label>
-                        <select class="form-control form-control-sm" name="facdept" id="editDesignationDept">
+                        <select class="form-control form-control-sm" name="facCollege" id="editDesignationDept">
                             <option disabled selected>Select</option>
                             <option value="ADM">ADM</option>
                             <option value="CAF">CAF</option>
@@ -216,7 +216,7 @@ CISS V.1.0 || Faculty Designation
                             <option value="CCS">CCS</option>
                             <option value="CJE">CJE</option>
                             <option value="COE">COE</option>
-                            <option value="COTED">COTED</option>
+                            <option value="CTE">COTED</option>
                         </select>
                     </div>
                     <div class="form-group">
