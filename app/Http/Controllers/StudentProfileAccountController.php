@@ -66,6 +66,18 @@ class StudentProfileAccountController extends Controller
         $studentowner = Auth::guard($guard)->user()->studid;
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
-        return view('student.services.profile.viewprof', compact('guard', 'studentowner', 'studauth'));
+        $studproghistory = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                ->where('program_en_history.studentID', $studauth->stud_id)
+                ->select(
+                    'program_en_history.studentID', 
+                    'program_en_history.schlyear', 
+                    'program_en_history.semester',
+                    'program_en_history.studYear',
+                    'program_en_history.studSec',
+                    'coasv2_db_schedule.programs.progAcronym',
+                )
+                ->get();
+
+        return view('student.services.profile.viewprof', compact('guard', 'studentowner', 'studauth', 'studproghistory'));
     }
 }

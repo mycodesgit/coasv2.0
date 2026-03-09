@@ -5,6 +5,7 @@
     $studentgradesActive = in_array($current_route, ['show.grades']) ? 'active' : '';
     $studentaccntsActive = in_array($current_route, ['show.services', 'index.assessmentstudentfees']) ? 'active' : '';
     $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
+    $profileviewActive = in_array($current_route, ['index.studprofile']) ? 'active' : '';
 @endphp
 
 @if (request()->routeIs('index.scheduleclass', 'index.evaluation', 'index.assessmentstudentfees'))
@@ -57,8 +58,8 @@
             </div>
         </a>
 
-        <a href="#">
-            <div class="nav-item" data-label="Grade Sheet">
+        <a href="{{ route('index.studprofile') }}">
+            <div class="nav-item {{ $profileviewActive }}" data-label="Grade Sheet">
                 <i class="fas fa-user icon"></i>
                 <span>Profile</span>
             </div>
