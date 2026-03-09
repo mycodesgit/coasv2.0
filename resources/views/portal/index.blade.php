@@ -67,7 +67,7 @@
                         <div>
                             <a href="#" class="btn btn-success btn-lg w-100 fs-6 text-bold mb-2 disabled">Apply for Admission</a>
                             <a href="{{ route('admission_track') }}" class="btn btn-success btn-lg w-100 fs-6 text-bold mb-2">Track your Admission</a>
-                            <a href="{{ route('repup') }}" class="btn btn-success btn-lg w-100 fs-6 text-bold mb-2">Re-upload Documents</a>
+                            <a href="#" class="btn btn-success btn-lg w-100 fs-6 text-bold mb-2 disabled">Re-upload Documents</a>
                             <a href="{{ route('main') }}" class="btn btn-outline-warning btn-lg w-100 fs-6 text-bold mb-2 text-dark">Back</a>
                         </div>
                     </div>
