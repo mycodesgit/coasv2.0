@@ -33,7 +33,7 @@
                                             <div class="row">
                                                 <div class="mb-3 col-md-3">
                                                     <label for="fnameID" class="form-label">Student ID No.</label>
-                                                    <input type="text" name="fname" class="form-control" value="{{ $studauth->stud_id }}" id="fnameID" readonly>
+                                                    <input type="text" name="stud_id" class="form-control" value="{{ $studauth->stud_id }}" id="fnameID" readonly>
                                                 </div>
                                                 <div class="mb-3 col-md-3">
                                                     <label for="fnameID" class="form-label">First Name</label>
@@ -41,11 +41,11 @@
                                                 </div>
                                                 <div class="mb-3 col-md-3">
                                                     <label for="mnameID" class="form-label">Middle Name</label>
-                                                    <input type="text" name="fname" class="form-control" value="{{ $studauth->mname }}" id="mnameID" readonly>
+                                                    <input type="text" name="mname" class="form-control" value="{{ $studauth->mname }}" id="mnameID" readonly>
                                                 </div>
                                                 <div class="mb-3 col-md-3">
                                                     <label for="lnameID" class="form-label">Last Name</label>
-                                                    <input type="text" name="fname" class="form-control" value="{{ $studauth->lname }}" id="lnameID" readonly>
+                                                    <input type="text" name="lname" class="form-control" value="{{ $studauth->lname }}" id="lnameID" readonly>
                                                 </div>
                                             </div>
                                         </form>
