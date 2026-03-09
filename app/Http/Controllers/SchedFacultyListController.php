@@ -53,7 +53,6 @@ class SchedFacultyListController extends Controller
             $request->validate([
                 'lname' => 'required',
                 'fname' => 'required',
-                'mname' => 'required',
                 'facdept' => 'required',
                 'adrID' => 'required',
             ]);
@@ -98,7 +97,6 @@ class SchedFacultyListController extends Controller
             'id' => 'required',
             'lname' => 'required',
             'fname' => 'required',
-            'mname' => 'required',
             'adrID' => 'required',
         ]);
 
