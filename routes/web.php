@@ -92,6 +92,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentClassSchedController;
 use App\Http\Controllers\StudentFacultyEvaluationController;
 use App\Http\Controllers\StudentFeeAssessAccntController;
+use App\Http\Controllers\StudentProfileAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -194,6 +195,8 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::post('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'create'])->name('create.evaluation.rate');
 
         Route::get('/section/student/services/stud/assessment/view', [StudentFeeAssessAccntController::class, 'index'])->name('index.assessmentstudentfees');
+
+        Route::get('/section/student/profile/stud/account/view', [StudentProfileAccountController::class, 'index'])->name('index.studprofile');
         
         Route::get('/section/pre/enrollment/sem/view', [StudentController::class, 'preenrolment'])->name('pre.index');
         Route::get('/section/pre/enrollment/sem/fetch/list/status', [StudentController::class, 'preenrolmentfetch'])->name('preenrolmentfetch');

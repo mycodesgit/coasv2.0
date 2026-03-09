@@ -5,6 +5,7 @@
     $studentgradesActive = in_array($current_route, ['show.grades']) ? 'active' : '';
     $studentaccntsActive = in_array($current_route, ['show.services', 'index.scheduleclass', 'show.scheduleclass', 'index.evaluation', 'show.evaluation.rate', 'index.assessmentstudentfees']) ? 'active' : '';
     $preenrolviewActive = in_array($current_route, ['pre.index', 'pre.show']) ? 'active' : '';
+    $profileviewActive = in_array($current_route, ['index.studprofile']) ? 'active' : '';
 @endphp
 
 <ul class="nav flex-column">
@@ -27,7 +28,7 @@
         </a>
     </li>
     <li>
-        <a class="nav-link" href="#">
+        <a class="nav-link {{ $profileviewActive }}" href="{{ route('index.studprofile') }}">
             <i class="ti ti-user"></i><span class="nav-text">Profile</span>
         </a>
     </li>

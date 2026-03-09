@@ -171,7 +171,7 @@ CISS V.1.0 || Faculty Designation
                         <tr>
                             <th>Faculty</th>
                             <th>Designation</th>
-                            <th>Department</th>
+                            <th>College</th>
                             <th width="60">Action</th>
                         </tr>
                     </thead>
@@ -223,7 +223,10 @@ CISS V.1.0 || Faculty Designation
                         <label for="editDesignationDesignation">Designation</label>
                         <select class="form-control form-control-sm" id="editDesignationDesignation" name="designation">
                             <option value="Dean">Dean</option>
+                            <option value="Division Chair">Division Chair</option>
+                            <option value="Program Head">Program Head</option>
                             <option value="Registrar">Registrar</option>
+                            <option value="Assessment">Assessment</option>
                             <option value="CampusAdmin">Campus Admin</option>
                         </select>
                     </div>
