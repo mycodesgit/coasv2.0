@@ -50,9 +50,10 @@ $(document).ready(function() {
         paging: true,
         "columns": [
             {
-                data: null, // This column doesn't map to a single field in your data source
+                data: null,
                 render: function(data, type, row) {
-                    return `${row.lname}, ${row.fname} ${row.mname}`;
+                    const mname = row.mname ? row.mname : '';
+                    return `${row.lname}, ${row.fname} ${mname}`;
                 }
             },
             {data: 'adrDesc'},
