@@ -1,22 +1,21 @@
 @php
     $curr_route = request()->route()->getName();
 
-    $dashfacActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
-    $attendfacActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
-    $servicesfacActive = in_array($curr_route, ['index.services', 'schedulefac', 'schedulefac_searchview', 'semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass', 'supfaceval', 'supfacevalrate']) ? 'active' : '';
+    $dashyearbookActive = in_array($curr_route, ['yearbook-index']) ? 'active' : '';
+    $studlistyearbookActive = in_array($curr_route, ['showStudent']) ? 'active' : '';
 @endphp
 
 <ul class="nav flex-column">
     
     <li class="px-4 py-2"><small class="nav-text"></small></li>
     <li>
-        <a class="nav-link active" href="#">
+        <a class="nav-link {{ $dashyearbookActive }}" href="{{ route('yearbook-index') }}">
             <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
         </a>
     </li>
 
     <li>
-        <a class="nav-link" href="#">
+        <a class="nav-link {{ $studlistyearbookActive }}" href="{{ route('showStudent') }}">
             <i class="ti ti-users"></i><span class="nav-text">Students</span>
         </a>
     </li>

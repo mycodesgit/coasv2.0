@@ -86,6 +86,15 @@ class YearbookController extends Controller
 
     public function showStudent()
     {
-        return view('');
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('yearbook.studs.liststud', compact('sy'));
     }
 }

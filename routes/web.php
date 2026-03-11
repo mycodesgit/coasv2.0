@@ -923,6 +923,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
     Route::prefix('studsbind/yearbook')->group(function () {
         Route::get('/', [YearbookController::class, 'index'])->name('yearbook-index');
+
+        Route::prefix('stud/list')->group(function () {
+            Route::get('/search/current/sem', [YearbookController::class, 'showStudent'])->name('showStudent');
+        });
     });
     // Route::prefix('estudgrdmod/grades/faculty')->group(function () {
         

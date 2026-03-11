@@ -180,7 +180,7 @@
     </nav>
 
     <!-- SIDEBAR -->
-    <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden" style="z-index: -99;">
+    <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden" style="z-index: 99;">
         <div class="logo-area border-0">
             <div class="d-inline-flex">
                 <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
