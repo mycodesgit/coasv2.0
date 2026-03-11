@@ -44,7 +44,7 @@
         }
         .sidebar .nav-link.active {
             color: #000000 !important;
-            background-color: #65ac86 !important;
+            background-color: #177541 !important;
         }
         /* When sidebar is collapsed, remove active background */
         .sidebar.collapsed .nav-link.active,
