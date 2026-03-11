@@ -448,6 +448,7 @@ CISS V.1.0 || User's List
                                         'assessment-url' => 'Assessment',
                                         'cashiering-url' => 'Cashiering',
                                         'scholarship-url' => 'Scholarship',
+                                        'yearbook-url' => 'Yearbook',
                                         'grading-url' => 'Grading',
                                         'kiosk-url' => 'Kiosk',
                                         'queue-url' => 'Qeueuing',

@@ -71,6 +71,8 @@ use App\Http\Controllers\CashieringORController;
 
 use App\Http\Controllers\ScholarshipController;
 
+use App\Http\Controllers\YearbookController;
+
 use App\Http\Controllers\GradingFacultyController;
 use App\Http\Controllers\GradingFacultyServicesController;
 
@@ -919,6 +921,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         });
     });
 
+    Route::prefix('studsbind/yearbook')->group(function () {
+        Route::get('/', [YearbookController::class, 'index'])->name('yearbook-index');
+    });
     // Route::prefix('estudgrdmod/grades/faculty')->group(function () {
         
     //     Route::get('/', [GradingFacultyController::class, 'index'])->name('grading-index');

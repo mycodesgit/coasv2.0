@@ -26,6 +26,10 @@ $('#scholarship-url').click(function() {
     window.location.href = scholarshipRoute;
 });
 
+$('#yearbook-url').click(function() {
+    window.location.href = yearbookRoute;
+});
+
 $('#grading-url').click(function() {
     window.location.href = gradingRoute;
 });
