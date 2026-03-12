@@ -90,6 +90,7 @@ CISS V.1.0 || User's List
                                                 <option value="18" @if (old('role') == 18 || $user->role == '18') {{ 'selected' }} @endif>Cashier Staff</option>
                                                 <option value="19" @if (old('type') == 19 || $user->role == '19') {{ 'selected' }} @endif>Encoder</option>
                                                 <option value="20" @if (old('type') == 20 || $user->role == '20') {{ 'selected' }} @endif>Dean of Instruction</option>
+                                                <option value="21" @if (old('type') == 21 || $user->role == '21') {{ 'selected' }} @endif>YearBook</option>
                                             </select>
                                         </div>
 
@@ -131,6 +132,7 @@ CISS V.1.0 || User's List
                                                 <option value="Graduate School Registar" @if (old('dept') == 'Graduate School Registar' || $user->dept == 'Graduate School Registar') {{ 'selected' }} @endif>Graduate School Registar</option>
                                                 <option value="MIS Office" @if (old('dept') == 'MIS Office' || $user->dept == 'MIS Office') {{ 'selected' }} @endif>MIS Office</option>
                                                 <option value="OSSA" @if (old('dept') == 'OSSA' || $user->dept == 'OSSA') {{ 'selected' }} @endif>OSSA</option>
+                                                <option value="YERBOK" @if (old('dept') == 'YERBOK' || $user->dept == 'YERBOK') {{ 'selected' }} @endif>YearBook</option>
                                             </select>
                                         </div>
                                     </div>
