@@ -97,6 +97,7 @@
                                     <option value="Graduate School Registar" @if (old('dept') == 'Graduate School Registar') {{ 'selected' }} @endif>Graduate School Registar</option>
                                     <option value="MIS Office" @if (old('dept') == 'MIS Office') {{ 'selected' }} @endif>MIS Office</option>
                                     <option value="OSSA" @if (old('dept') == 'OSSA') {{ 'selected' }} @endif>OSSA</option>
+                                    <option value="YERBOK" @if (old('dept') == 'YERBOK') {{ 'selected' }} @endif>YearBook</option>
                                 </select>
                             </div>
 
@@ -125,6 +126,7 @@
                                     <option value="18" @if (old('type') == 18) {{ 'selected' }} @endif>Cashier Staff</option>
                                     <option value="19" @if (old('type') == 19) {{ 'selected' }} @endif>Encoder</option>
                                     <option value="20" @if (old('type') == 20) {{ 'selected' }} @endif>Dean of Instruction</option>
+                                    <option value="21" @if (old('type') == 21) {{ 'selected' }} @endif>YearBook</option>
                                 </select>
                             </div>
                         </div>

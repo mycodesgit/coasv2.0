@@ -101,6 +101,8 @@ $(document).ready(function() {
                         roleBadge = '<span class="badge badge-secondary">Encoder</span>';
                     } else if (data.role == 20) {
                         roleBadge = '<span class="badge badge-secondary">Dean of Instruction</span>';
+                    } else if (data.role == 21) {
+                        roleBadge = '<span class="badge badge-secondary">YearBook</span>';
                     } else {
                         roleBadge = '<span class="badge badge-light">Unknown Role</span>';
                     }
