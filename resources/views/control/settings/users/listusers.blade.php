@@ -431,6 +431,7 @@ CISS V.1.0 || User's List
                                     <option value="18" @if (old('type') == 18) {{ 'selected' }} @endif>Cashier Staff</option>
                                     <option value="19" @if (old('type') == 19) {{ 'selected' }} @endif>Encoder</option>
                                     <option value="20" @if (old('type') == 20) {{ 'selected' }} @endif>Dean of Instruction</option>
+                                    <option value="21" @if (old('type') == 21) {{ 'selected' }} @endif>YearBook</option>
                                 </select>
                             </div>
                         </div>
