@@ -247,7 +247,11 @@
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
+    @if(request()->routeIs('showStudent', 'showStudentResult'))
+        <script src="{{ asset('js/validation/yerbok/studentValidation.js') }}"></script>
+    @endif
     @if(request()->routeIs('showStudentResult'))
+        <script src="{{ asset('js/validation/yerbok/studentValidation.js') }}"></script>
         @include('script.yerbok.studentjs')
     @endif
 </body>
