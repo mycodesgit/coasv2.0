@@ -100,6 +100,19 @@
         .textbold{
             font-weight: bold;
         }
+        ::-webkit-scrollbar {
+            width: 3px !important;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1 !important;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888 !important;
+            border-radius: 3px !important;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555 !important;
+        }
     </style>
 </head>
 
