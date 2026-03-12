@@ -926,6 +926,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('stud/list')->group(function () {
             Route::get('/search/current/sem', [YearbookController::class, 'showStudent'])->name('showStudent');
+            Route::get('/search/current/sem/showresult', [YearbookController::class, 'showStudentResult'])->name('showStudentResult');
         });
     });
     // Route::prefix('estudgrdmod/grades/faculty')->group(function () {

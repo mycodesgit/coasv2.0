@@ -81,6 +81,35 @@ CISS V.1.0 || YearBook
                                         </div>
                                     </div>
                                 </form>
+                                <div class="col-md-12 mt-4">
+                                    <div class="table-responsive">
+                                        <table id="studenrolltable" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>StudID</th>
+                                                    <th>Name</th>
+                                                    <th>Program</th>
+                                                    <th>Acronym</th>
+                                                    <th>YearLv</th>
+                                                    <th>Section</th>
+                                                    <th>Schlyear</th>
+                                                    <th>Semester</th>
+                                                    <th>Bday</th>
+                                                    <th>Address</th>
+                                                    <th>Brgy</th>
+                                                    <th>City</th>
+                                                    <th>Province</th>
+                                                    <th>Region</th>
+                                                    <th>Zip</th>
+                                                    <th>Last School Attended</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -88,4 +117,8 @@ CISS V.1.0 || YearBook
             </div>
         </div>
     </div>
+
+    <script>
+        var studEnrolledpersemRoute = "{{ route('getsearchstudenrollRead') }}";
+    </script>
 @endsection

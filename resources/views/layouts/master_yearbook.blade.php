@@ -210,7 +210,6 @@
                 </div>
             </div>
         </div>
-        @include('partials.control_mobile_bottomenu')
     </main>
 
     <!-- Bootstrap JS -->
@@ -248,6 +247,9 @@
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
+    @if(request()->routeIs('showStudentResult'))
+        @include('script.yerbok.studentjs')
+    @endif
 </body>
 
 </html>

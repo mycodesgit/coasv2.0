@@ -84,7 +84,7 @@ class YearbookController extends Controller
         return view('yearbook.index', compact('enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
     }
 
-    public function showStudent()
+    public function showStudent(Request $request)
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
@@ -96,5 +96,23 @@ class YearbookController extends Controller
             ->get();
 
         return view('yearbook.studs.liststud', compact('sy'));
+    }
+
+    public function showStudentResult(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = $request->query('campus'); 
+
+        return view('yearbook.studs.liststudsearch', compact('sy'));
     }
 }

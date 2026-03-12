@@ -2,7 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $dashyearbookActive = in_array($curr_route, ['yearbook-index']) ? 'active' : '';
-    $studlistyearbookActive = in_array($curr_route, ['showStudent']) ? 'active' : '';
+    $studlistyearbookActive = in_array($curr_route, ['showStudent', 'showStudentResult']) ? 'active' : '';
 @endphp
 
 <ul class="nav flex-column">
