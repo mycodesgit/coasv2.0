@@ -130,7 +130,7 @@
         </button> --}}
 
         <div id="s" class="text-light">
-            CISS v1.0
+            CISS v.1.0
         </div>
 
         <div class="d-md-none">
