@@ -51,7 +51,7 @@
                         <a class="nav-link d-none d-md-block" data-widget="control-sidebar" data-slide="true"
                             href="#" role="button" style="color: #fff">
                             @auth('web')
-                                @if (in_array(Auth::guard('web')->user()->role, range(0, 20)))
+                                @if (in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                     Logged as: {{ Auth::guard('web')->user()->fname }}
                                     {{ Auth::guard('web')->user()->lname }} -
                                     @if (Auth::guard('web')->user()->campus == 'MC')

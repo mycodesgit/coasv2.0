@@ -150,7 +150,7 @@
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
                         <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
-                            @if(in_array(Auth::guard('web')->user()->role, range(0, 20)))
+                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                 Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
                                 @if (Auth::guard('web')->user()->campus == 'MC') Main 
                                     @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
@@ -171,7 +171,7 @@
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
                         <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
-                            @if(in_array(Auth::guard('web')->user()->role, range(0, 20)))
+                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                 @if (Auth::guard('web')->user()->campus == 'MC') Main 
                                     @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
                                     @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
