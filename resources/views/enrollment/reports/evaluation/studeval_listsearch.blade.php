@@ -231,7 +231,7 @@ CISS V.1.0 || Student Record
                                                         <td>{{ $datastudsubowner->subjFgrade }}</td>
                                                         <td><b>{{ displayGrade($datastudsubowner->subjComp, $isOldSystem) }}</b></td>
                                                         <td>{{ $datastudsubowner->creditEarned }}</td>
-                                                        <td>{{ number_format($product,2) }}</td>
+                                                        <td>@if(is_numeric($gradenumerical)) {{ number_format($product,2) }} @endif</td>
                                                     </tr>
                                                 @endforeach
                                                 {{-- LAST SEMESTER TOTAL --}}
