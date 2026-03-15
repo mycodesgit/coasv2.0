@@ -209,8 +209,10 @@ CISS V.1.0 || Student Record
                                                         @endphp
                                                     @endif
                                                     @php
-                                                        $sumProduct += $product;
-                                                        $totalCredits += $credit;
+                                                        if(is_numeric($gradenumerical) && is_numeric($credit)){
+                                                            $sumProduct += $product;
+                                                            $totalCredits += $credit;
+                                                        }
                                                     @endphp
                                                     <tr class="{{ $currentColor }}">
                                                         <td>{{ $datastudsubowner->studID }}</td>
