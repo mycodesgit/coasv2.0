@@ -453,8 +453,9 @@ CISS V.1.0 || User's List
                                         'grading-url' => 'Grading',
                                         'kiosk-url' => 'Kiosk',
                                         'queue-url' => 'Qeueuing',
-                                        'request-url' => 'Request',
                                         'nstp-url' => 'Nstp',
+                                        'ossa-url' => 'Ossa',
+                                        'request-url' => 'Request',
                                         'setting-url' => 'Settings',
                                     ];
                                 @endphp

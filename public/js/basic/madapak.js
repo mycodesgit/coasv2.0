@@ -42,12 +42,16 @@ $('#queue-url').click(function() {
     window.location.href = queueRoute;
 });
 
-$('#request-url').click(function() {
-    window.location.href = requestRoute;
-});
-
 $('#nstp-url').click(function() {
     window.location.href = nstpRoute;
+});
+
+$('#ossa-url').click(function() {
+    window.location.href = ossaRoute;
+});
+
+$('#request-url').click(function() {
+    window.location.href = requestRoute;
 });
 
 $('#setting-url').click(function() {

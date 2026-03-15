@@ -92,6 +92,7 @@ CISS V.1.0 || Student Record
                                                     <th>N Grade</th>
                                                     <th>SubjComp</th>
                                                     <th>Credit</th>
+                                                    <th>Summation</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -158,18 +159,45 @@ CISS V.1.0 || Student Record
                                                         }
                                                     }
                                                 @endphp
+
                                                 @php
                                                     $currentYear = '';
                                                     $currentSemester = '';
                                                     $currentColor = '';
                                                     $colorClasses = ['bg-light', 'bg-secondary'];
                                                     $colorIndex = 0;
+                                                    $sumProduct = 0;
+                                                    $totalCredits = 0;
                                                 @endphp
-                                                @foreach($studsub as $datastudsubowner)
+
+                                                @foreach($studsub as $index => $datastudsubowner)
                                                     @php
                                                         $entryYear = (int)substr(request('stud_id'), 0, 4);
                                                         $isOldSystem = $entryYear <= 2021;
+                                                        $grade = displayGrade($datastudsubowner->subjFgrade, $isOldSystem);
+
+                                                        $gradenumerical = $datastudsubowner->subjFgrade;
+                                                        $credit = $datastudsubowner->creditEarned;
+
+                                                        $product = 0;
+                                                        if(is_numeric($gradenumerical) && is_numeric($credit)){
+                                                            $product = $gradenumerical * $credit;
+                                                        }
                                                     @endphp
+
+
+                                                    @if($currentYear != '' && ($currentYear != $datastudsubowner->schlyear || $currentSemester != $datastudsubowner->semester))
+                                                        <tr class="table-warning">
+                                                            <td colspan="9"><b>Semester Total</b></td>
+                                                            <td><b>{{ $totalCredits }}</b></td>
+                                                            <td><b>{{ number_format($sumProduct / $totalCredits, 2) }}</b></td>
+                                                        </tr>
+                                                        @php
+                                                            $sumProduct = 0;
+                                                            $totalCredits = 0;
+                                                        @endphp
+                                                    @endif
+
                                                     @if($currentYear != $datastudsubowner->schlyear || $currentSemester != $datastudsubowner->semester)
                                                         @php
                                                             $currentYear = $datastudsubowner->schlyear;
@@ -178,6 +206,10 @@ CISS V.1.0 || Student Record
                                                             $colorIndex++;
                                                         @endphp
                                                     @endif
+                                                    @php
+                                                        $sumProduct += $product;
+                                                        $totalCredits += $credit;
+                                                    @endphp
                                                     <tr class="{{ $currentColor }}">
                                                         <td>{{ $datastudsubowner->studID }}</td>
                                                         <td>{{ $datastudsubowner->schlyear }}</td>
@@ -197,8 +229,18 @@ CISS V.1.0 || Student Record
                                                         <td>{{ $datastudsubowner->subjFgrade }}</td>
                                                         <td><b>{{ displayGrade($datastudsubowner->subjComp, $isOldSystem) }}</b></td>
                                                         <td>{{ $datastudsubowner->creditEarned }}</td>
+                                                        <td>{{ number_format($product,2) }}</td>
                                                     </tr>
                                                 @endforeach
+                                                {{-- LAST SEMESTER TOTAL --}}
+                                                @if($totalCredits > 0)
+                                                    <tr class="table-warning">
+                                                    <td colspan="9"><b>Semester Total</b></td>
+                                                    <td><b>{{ $totalCredits }}</b></td>
+                                                    <td><b>{{ number_format($sumProduct / $totalCredits,2) }}</b></td>
+                                                </tr>
+
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>

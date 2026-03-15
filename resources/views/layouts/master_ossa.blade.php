@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
-    
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
@@ -30,6 +29,106 @@
     <!-- fullCalendar -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
+
+    <style>
+        /* ID Card */
+        .id-card{
+            width:100%;
+            max-width:520px;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow:0 6px 20px rgba(0,0,0,0.2);
+            background:linear-gradient(135deg,#d8f3dc,#f1f5d6);
+            margin:auto;
+        }
+
+        /* Header */
+        .id-header{
+            background:#0f766e;
+            color:white;
+            padding:14px 20px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+        }
+
+        .id-header h4{
+            margin:0;
+            font-weight:700;
+            letter-spacing:1px;
+        }
+
+        .id-header small{
+            display:block;
+            font-size:12px;
+            opacity:.9;
+        }
+
+        /* Content */
+        .id-body{
+            padding:20px;
+            display:flex;
+            gap:20px;
+            align-items:center;
+        }
+
+        /* Photo */
+        .student-photo{
+            width:90px;
+            height:110px;
+            border:2px solid #2c7a7b;
+            border-radius:6px;
+            overflow:hidden;
+        }
+
+        .student-photo img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        /* Info */
+        .student-info{
+            flex:1;
+        }
+
+        .student-info h5{
+            font-weight:700;
+            color:#0f766e;
+            margin-bottom:10px;
+        }
+
+        .info-row{
+            display:flex;
+            font-size:15px;
+            margin-bottom:5px;
+        }
+
+        .info-label{
+            width:110px;
+            font-weight:600;
+            color:#333;
+        }
+
+        .barcode{
+            margin-top:10px;
+            height:40px;
+            background:repeating-linear-gradient(
+                90deg,
+                #000,
+                #000 2px,
+                transparent 2px,
+                transparent 4px
+            );
+        }
+
+        /* Footer */
+        .id-footer{
+            background:#0f766e;
+            height:40px;
+            /* border-top-left-radius:20px;
+            border-top-right-radius:20px; */
+        }
     </style>
 </head>
 
@@ -117,7 +216,7 @@
                 <span class="logo-text ms-2" style="font-weight: bold">Faculty Portal</span>
             </div>
         </div>
-        @include('partials.control_yearbook_sidebar')
+        @include('partials.control_ossa_sidebar')
 
     </aside>
 

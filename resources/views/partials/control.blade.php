@@ -47,7 +47,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
 
             <a id="cashiering-url" class="menu-item {{ in_array('cashiering-url', $buttons) ? '' : 'disabled' }}">
                 <i class="fas fa-calculator"></i>
-                <span>Cashiering</span>
+                <span>Cashier</span>
             </a>
 
             <a id="scholarship-url" class="menu-item {{ in_array('scholarship-url', $buttons) ? '' : 'disabled' }}">
@@ -72,7 +72,17 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
 
             <a id="nstp-url" class="menu-item {{ in_array('nstp-url', $buttons) ? '' : 'disabled' }}">
                 <i class="fas fa-person-rifle"></i>
-                <span>NSTP</span>
+                <span>Nstp</span>
+            </a>
+
+            <a id="ossa-url" class="menu-item {{ in_array('ossa-url', $buttons) ? '' : 'disabled' }}">
+                <i class="fas fa-user-gear"></i>
+                <span>Ossa</span>
+            </a>
+
+            <a id="request-url" class="menu-item {{ in_array('request-url', $buttons) ? '' : 'disabled' }}">
+                <i class="fas fa-file"></i>
+                <span>Request</span>
             </a>
 
             <a id="setting-url" class="menu-item {{ in_array('setting-url', $buttons) ? '' : 'disabled' }}">
@@ -244,8 +254,9 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
     var yearbookRoute = "{{ route('yearbook-index') }}";
     var kioskRoute = "{{ route('adminkioskRead') }}";
     var queueRoute = "{{ route('queue-index') }}";
-    var requestRoute = "{{ route('request-index') }}";
     var nstpRoute = "{{ route('nstp-index') }}";
+    var ossaRoute = "{{ route('ossa-index') }}";
+    var requestRoute = "{{ route('request-index') }}";
     var settingRoute = "{{ route('settings-index') }}";
     var logoutRoute = "{{ route('logout') }}";
 </script>

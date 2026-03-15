@@ -12,207 +12,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
 
     <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
 
     <style>
-        .bottom-nav {
-            display: none;
-        }
-
-        @media (max-width: 991px) {
-            .bottom-nav {
-                position: fixed;
-                bottom: 10px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(37, 37, 37, 0);
-                backdrop-filter: blur(3px);
-                width: 90%;
-                max-width: 400px;
-                padding: 10px 0;
-                border-radius: 20px;
-                display: flex;
-                justify-content: space-around;
-                box-shadow: 0 6px 16px rgba(128, 128, 128, 0.404);
-                z-index: 999;
-            }
-
-            .bottom-nav a {
-                text-decoration: none !important;
-                color: inherit;
-                /* keep text/icon color the same */
-            }
-
-            .bottom-nav a:visited,
-            .bottom-nav a:active,
-            .bottom-nav a:focus {
-                text-decoration: none !important;
-            }
-
-            .nav-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                font-size: 7pt;
-                color: #377858;
-                cursor: pointer;
-                transition: 0.2s;
-                padding: 5px;
-            }
-
-            .nav-item .icon {
-                font-size: 18px;
-                margin-bottom: 1px;
-                margin-top: 3px;
-            }
-        }
-
-        @media (max-width: 991px) {
-            .main-sidebar.sidebar-style-2 {
-                display: none !important;
-            }
-
-            .togglebar {
-                display: none !important;
-            }
-        }
-        .btn:not(:disabled):not(.disabled) {
-            cursor: pointer;
-        }
-        .btn-app {
-            border-radius: 3px !important;
-            background-color: #f8f9fa !important;
-            border: 1px solid #ddd !important;
-            color: #1a5f3d !important;
-            font-size: 12px !important;
-            height: 60px !important;
-            margin: 0 0 10px 10px !important;
-            min-width: 80px !important;
-            padding: 15px 5px !important;
-            position: relative !important;
-            text-align: center !important;
-            font-family: "Poppins", sans-serif !important;
-        }
-        .btn-app:hover{
-            background-color: #1f794c !important;
-            border: 1px solid #ddd !important;
-            color: #ffffff !important;
-        }
-        .btn-app>.fa, .btn-app>.fab, .btn-app>.fad, .btn-app>.fal, .btn-app>.far, .btn-app>.fas, .btn-app>.ion, .btn-app>.svg-inline--fa {
-            display: block;
-            font-size: 20px;
-        }
-        .center-top {
-            position: fixed !important;
-            top: 10px !important;
-            left: 50% !important;
-            transform: translateX(-50%);
-        }
-
-        .services-menu{
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
-            transform: translateX(-50%) scale(.8);
-            
-            background: rgba(37, 37, 37, 0);
-            backdrop-filter: blur(3px);
-            color: #377858;
-
-            display:flex;
-            gap:25px;
-            padding:12px 25px;
-            border-radius:20px;
-
-            box-shadow:0 10px 25px rgba(0,0,0,0.3);
-
-            opacity:0;
-            pointer-events:none;
-            transition:0.25s;
-
-            z-index:998;
-        }
-
-        .services-menu.active{
-            opacity:1;
-            transform:translateX(-50%) scale(1);
-            pointer-events:auto;
-        }
-
-        .service-item{
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            font-size:11px;
-            cursor:pointer;
-        }
-
-        .service-item i{
-            font-size:18px;
-            margin-bottom:4px;
-        }
-        ::-webkit-scrollbar {
-            width: 3px !important;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1 !important;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #888 !important;
-            border-radius: 3px !important;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555 !important;
-        }
-
-        .menu-container{
-            margin-top:56px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .menu-grid{
-            display:flex;
-            flex-wrap:wrap;
-            gap:15px;
-            justify-content:center;
-        }
-
-        .menu-item{
-            width:88px;
-            height:58px;
-            background:#f5f6f7;
-            border:1px solid #ddd;
-            border-radius:8px;
-            text-decoration:none;
-            color:#2c3e50;
-
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-
-            transition:all 0.2s ease;
-        }
-
-        .menu-item i{
-            font-size:20px;
-            color:#04401f;
-            margin-top: 5px;
-        }
-
-        .menu-item span{
-            font-size:12px;
-            margin-top:3px;
-        }
-
-        .menu-item:hover{
-            background:#eaf4ee;
-            border-color:#04401f;
-            transform:translateY(-2px);
-        }
+        
     </style>
 </head>
 
@@ -220,7 +27,7 @@
     <div id="overlay" class="overlay"></div>
     <!-- TOPBAR -->
     <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important;">
-        <div id="toggleBtn" class="text-light">
+        <div id="toggleBtn" class="text-light" style="padding-left: 25px">
             CISS v.1.0
         </div>
         <div>
@@ -262,16 +69,40 @@
                                 <img src="{{ asset('uilibs/images/user.png') }}" alt=""
                                     class="avatar avatar-md rounded-circle" />
                                 <div>
-                                    <h4 class="mb-0 small">Admin Level</h4>
-                                    <p class="mb-0 small">@cpsu.edu.ph</p>
+                                    <h4 class="mb-0 small">{{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}</h4>
+                                    <p class="mb-0 small text-success">
+                                        @if (Auth::guard('web')->user()->role == 0) Administrator 
+                                            @elseif(Auth::guard('web')->user()->role == 1) Guidance Officer 
+                                            @elseif(Auth::guard('web')->user()->role == 2) Guidance Staff 
+                                            @elseif(Auth::guard('web')->user()->role == 3) Registrar 
+                                            @elseif(Auth::guard('web')->user()->role == 4) Registrar Staff 
+                                            @elseif(Auth::guard('web')->user()->role == 5) College Dean 
+                                            @elseif(Auth::guard('web')->user()->role == 6) Program Head 
+                                            @elseif(Auth::guard('web')->user()->role == 7) College Staff 
+                                            @elseif(Auth::guard('web')->user()->role == 8) Scholarship Head
+                                            @elseif(Auth::guard('web')->user()->role == 9) Scholarship Staff
+                                            @elseif(Auth::guard('web')->user()->role == 10) Assessment Head
+                                            @elseif(Auth::guard('web')->user()->role == 11) Assessment Staff
+                                            @elseif(Auth::guard('web')->user()->role == 12) MIS Staff
+                                            @elseif(Auth::guard('web')->user()->role == 13) MIS Director
+                                            @elseif(Auth::guard('web')->user()->role == 14) MIS Officer
+                                            @elseif(Auth::guard('web')->user()->role == 15) Graduate School Staff
+                                            @elseif(Auth::guard('web')->user()->role == 16) OSSA Staff
+                                            @elseif(Auth::guard('web')->user()->role == 17) Cashier
+                                            @elseif(Auth::guard('web')->user()->role == 18) Cashier Staff
+                                            @elseif(Auth::guard('web')->user()->role == 19) Encoder
+                                            @elseif(Auth::guard('web')->user()->role == 20) Dean of Instruction
+                                            @elseif(Auth::guard('web')->user()->role == 21) YearBook Staff
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                             <div class="p-3 d-flex flex-column gap-1 small lh-lg">
                                 <a href="#!" class="">
-                                    <span> Activity</span>
+                                    <i class="ti ti-activity"></i> <span> Activity</span>
                                 </a>
-                                <a href="#!" class="">
-                                    <span> Sign Out</span>
+                                <a href="#" id="logout-url" class="text-danger">
+                                    <i class="ti ti-logout"></i> <span> Sign Out</span>
                                 </a>
                             </div>
 
@@ -286,7 +117,7 @@
     @include('partials.control')
 
     <!-- MAIN CONTENT -->
-    <main id="content" class="py-9">
+    <main id="content" class="py-5">
         <div class="container-fluid">
             <div class="row">
                 <div class="" style="z-index: 9999">
@@ -379,7 +210,9 @@
     <script src="{{ asset('js/basic/madapak.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- ChartJs -->
     <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
+
     <script>
         var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!};
         var semesteractive = {!! json_encode($semesteractive) !!};

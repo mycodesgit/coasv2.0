@@ -80,9 +80,11 @@ use App\Http\Controllers\KioskAdminController;
 
 use App\Http\Controllers\QueueingSettingController;
 
-use App\Http\Controllers\DocumentRequestController;
-
 use App\Http\Controllers\NstpController;
+
+use App\Http\Controllers\OssaIDsystemController;
+
+use App\Http\Controllers\DocumentRequestController;
 
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SettingAddressController;
@@ -995,22 +997,6 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::post('/reset-queue', [QueueingSettingController::class, 'resetQueue'])->name('queue.reset');
     });
 
-    Route::prefix('kioskstud')->group(function () {
-        Route::get('/admin/kiosk/user/view', [KioskAdminController::class, 'adminkioskRead'])->name('adminkioskRead');
-        Route::get('/student/{id}', [KioskAdminController::class, 'getStudentById'])->name('getStudentById');
-        Route::get('/admin/kiosk/user/view/ajax', [KioskAdminController::class, 'getadminkioskRead'])->name('getadminkioskRead');
-        Route::post('/admin/kiosk/user/view/add', [KioskAdminController::class, 'adminkioskCreate'])->name('adminkioskCreate');
-        Route::post('/admin/kiosk/user/view/update', [KioskAdminController::class, 'adminkioskUpdate'])->name('adminkioskUpdate');
-        Route::get('/admin/kiosk/user/view/delete{id}', [KioskAdminController::class, 'adminkioskDelete'])->name('adminkioskDelete');
-    });
-
-    Route::prefix('config/documents/settings')->group(function () {
-        Route::get('/', [DocumentRequestController::class, 'docsRead'])->name('request-index');
-        Route::get('/fetch/docs/list/ajax', [DocumentRequestController::class, 'getdocsRead'])->name('getdocsRead');
-        Route::post('/fetch/docs/list/add', [DocumentRequestController::class, 'docsCreate'])->name('docsCreate');
-        Route::post('/fetch/docs/list/update', [DocumentRequestController::class, 'docsUpdate'])->name('docsUpdate');
-    });
-
     Route::prefix('gen/ntsp/view')->group(function () {
         Route::get('/', [NstpController::class, 'index'])->name('nstp-index');
 
@@ -1037,6 +1023,22 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::post('/grade/alllist/view/studgrde/save', [NstpController::class, 'nstpsave_grades'])->name('nstpsave_grades');
         Route::post('/grade/alllist/view/studgrdeComp/save', [NstpController::class, 'nstpsave_gradesComp'])->name('nstpsave_gradesComp');
         Route::post('/grade/alllistlist/view/studgrde/submit/{subjID}', [NstpController::class, 'nstpupdateStatus_gradessubmit'])->name('nstpupdateStatus_gradessubmit');
+    });
+
+    Route::prefix('ossa/office')->group(function () {
+        Route::get('/', [OssaIDsystemController::class, 'index'])->name('ossa-index');
+
+        Route::prefix('rfid')->group(function () {
+            Route::get('/admin/registration/student/idcard', [OssaIDsystemController::class, 'store'])->name('rfid.store');
+            Route::get('/admin/registration/student/idcard/get/{id}', [OssaIDsystemController::class, 'getossaStudentById'])->name('getossaStudentById');
+        });
+    });
+
+    Route::prefix('config/documents/settings')->group(function () {
+        Route::get('/', [DocumentRequestController::class, 'docsRead'])->name('request-index');
+        Route::get('/fetch/docs/list/ajax', [DocumentRequestController::class, 'getdocsRead'])->name('getdocsRead');
+        Route::post('/fetch/docs/list/add', [DocumentRequestController::class, 'docsCreate'])->name('docsCreate');
+        Route::post('/fetch/docs/list/update', [DocumentRequestController::class, 'docsUpdate'])->name('docsUpdate');
     });
 
     Route::prefix('adempset/settings')->group(function () {
@@ -1095,9 +1097,6 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/sign/all/presvice/add', [SettingSignatoryController::class, 'presViceSigCreate'])->name('presViceSigCreate');
         });
     });
-
-    
-
 });
 
 
