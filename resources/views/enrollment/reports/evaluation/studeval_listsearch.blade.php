@@ -182,6 +182,8 @@ CISS V.1.0 || Student Record
                                                         $product = 0;
                                                         if(is_numeric($gradenumerical) && is_numeric($credit)){
                                                             $product = $gradenumerical * $credit;
+                                                            $sumProduct += $product;
+                                                            $totalCredits += $credit;
                                                         }
                                                     @endphp
 
