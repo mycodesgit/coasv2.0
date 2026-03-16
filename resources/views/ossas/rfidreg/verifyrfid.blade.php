@@ -80,7 +80,7 @@
                                                 </div>
                                                 <div class="id-body">
                                                     <div class="student-photo">
-                                                        <img id="photo" src="{{ asset('uilibs/images/user.png') }}">
+                                                        <img id="photo" src="{{ asset('uilibs/images/student.png') }}">
                                                     </div>
                                                     <div class="student-info">
                                                         <h5>STUDENT ID CARD</h5>
@@ -90,7 +90,7 @@
                                                         </div>
                                                         <div class="info-row">
                                                             <div class="info-label">Student ID</div>
-                                                            <div>: <span id="studentCardNo">2018-000-</span></div>
+                                                            <div>: <span id="studentCardNo"></span></div>
                                                         </div>
                                                         <div class="info-row">
                                                             <div class="info-label">Course</div>

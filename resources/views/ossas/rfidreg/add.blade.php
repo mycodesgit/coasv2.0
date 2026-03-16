@@ -83,7 +83,7 @@
                                                 </div>
                                                 <div class="id-body">
                                                     <div class="student-photo">
-                                                        <img id="photo" src="{{ asset('uilibs/images/user.png') }}">
+                                                        <img id="photo" src="{{ asset('uilibs/images/student.png') }}">
                                                     </div>
                                                     <div class="student-info">
                                                         <h5>STUDENT ID CARD</h5>
