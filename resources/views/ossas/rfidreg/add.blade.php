@@ -35,33 +35,40 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-7">
-                                        <div class="row g-5">
-                                            <div class="col-lg-6">
-                                                <label for="stdntID" class="form-label"> Student ID No.:</label>
-                                                <input type="text" name="studid" id="stdntID" class="form-control" oninput="formatInput(this); this.value = this.value.toUpperCase(); fetchStudentName(this.value);" autofocus>
-
+                                        <form id="adRFIDstud">
+                                            @csrf
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label for="stdntID" class="form-label"> Student ID No.:</label>
+                                                    <input type="text" name="stdntid" id="stdntID" class="form-control form-control-sm"
+                                                        oninput="formatInput(this); this.value = this.value.toUpperCase(); fetchStudentName(this.value);">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="studentName" class="form-label"> Name:</label>
+                                                    <input type="text" id="studentName" class="form-control form-control-sm" readonly>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="studentCourse" class="form-label"> Course Year&Section:</label>
+                                                    <input type="text" id="studentCourse" class="form-control form-control-sm" readonly>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="studentCivilStatus" class="form-label"> Civil Status</label>
+                                                    <input type="text" id="studentCivilStatus" class="form-control form-control-sm" readonly>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="studentAddress" class="form-label"> Address:</label>
+                                                    <textarea rows="3" id="studentAddress" class="form-control form-control-sm"></textarea>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="studentUniqueRFID" class="form-label"> RFID:</label>
+                                                    <input type="text" id="studentUniqueRFID" name="stdntrfid" class="form-control form-control-sm" readonly>
+                                                    <input type="text" id="rfidScanner" style="opacity:0; position:absolute;">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <button type="submit" class="btn btn-success">Save changes</button>
+                                                </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <label for="studentName" class="form-label"> Name:</label>
-                                                <input type="text" id="studentName" class="form-control" readonly>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label for="studentCourse" class="form-label"> Course Year&Section:</label>
-                                                <input type="text" id="studentCourse" class="form-control" readonly>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label for="studentCivilStatus" class="form-label"> Civil Status</label>
-                                                <input type="text" id="studentCivilStatus" class="form-control" readonly>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <label for="studentAddress" class="form-label"> Address:</label>
-                                                <textarea rows="3" id="studentAddress" class="form-control"></textarea>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <label for="studentUniqueRFID" class="form-label"> RFID:</label>
-                                                <input type="text" id="studentUniqueRFID" class="form-control" readonly>
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="table-responsive">
@@ -175,6 +182,9 @@
                         document.getElementById('studentCardCourse').textContent = data.progAcronym;
                         document.getElementById('studentCardGender').textContent = data.gender;
 
+                        // ⭐ Focus RFID scanner after student is loaded
+                        document.getElementById('rfidScanner').focus();
+
                     }
 
                 })
@@ -185,5 +195,8 @@
             }
 
         }
+    </script>
+    <script>
+        var rfidstudentCreateRoute = "{{ route('rfid.create') }}";
     </script>
 @endsection

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Rules\UniqueStudentID;
 use Illuminate\Support\Facades\Log;
@@ -30,6 +31,7 @@ use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
 use App\Models\EnrollmentDB\StudHisLog;
 use App\Models\EnrollmentDB\StudSubLog;
+use App\Models\EnrollmentDB\StudentRFID;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -132,6 +134,60 @@ class OssaIDsystemController extends Controller
             return response()->json($student);
         } else {
             return response()->json(['error' => 'Student not found'], 404);
+        }
+    }
+
+    public function create(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+
+            $request->validate([
+                'stdntid' => 'required',
+                'stdntrfid' => 'required',
+            ]);
+
+            $studidName = $request->input('stdntid'); 
+            $studidRFID = $request->input('stdntrfid'); 
+            $encryptedRFID = hash('sha256', $studidRFID); // hash for storage
+
+            // 1️⃣ Prevent assigning multiple RFIDs to the same Student ID
+            $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
+            if ($existingStudentID) {
+                return response()->json([
+                    'error' => true, 
+                    'message' => 'This Student ID already has an RFID assigned.'
+                ], 409);
+            }
+
+            // 2️⃣ Prevent using the same RFID for a different Student ID
+            $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
+            if ($existingRFID) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'This RFID is already assigned to another Student ID.'
+                ], 409);
+            }
+
+            // ✅ Save if both checks pass
+            try {
+                StudentRFID::create([
+                    'stdntid' => $studidName,
+                    'stdntrfid' => $encryptedRFID,
+                    'campus' => Auth::guard('web')->user()->campus,
+                    'postedBy' => Auth::guard('web')->user()->id
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Stored successfully'
+                ], 200);
+
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Failed to store'
+                ], 500);
+            }
         }
     }
 }
