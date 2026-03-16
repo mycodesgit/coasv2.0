@@ -160,7 +160,7 @@ class OssaIDsystemController extends Controller
             }
 
             // 2️⃣ Prevent using the same RFID for a different Student ID
-            $existingRFID = StudentRFID::where('stdntrfid', $studidRFID)->first();
+            $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
             if ($existingRFID) {
                 return response()->json([
                     'error' => true,
@@ -172,7 +172,7 @@ class OssaIDsystemController extends Controller
             try {
                 StudentRFID::create([
                     'stdntid' => $studidName,
-                    'stdntrfid' => $studidRFID,
+                    'stdntrfid' => $encryptedRFID,
                     'campus' => Auth::guard('web')->user()->campus,
                     'postedBy' => Auth::guard('web')->user()->id
                 ]);
@@ -205,11 +205,11 @@ class OssaIDsystemController extends Controller
         //     'payload' => $request->all(),
         // ]);
 
-        $stdntrfid = trim($request->input('stdntrfid', ''));
+        $plainRfid = trim($request->input('stdntrfid', ''));
 
         //Log::info('Extracted RFID value', ['stdntrfid' => $stdntrfid]);
 
-        if (empty($stdntrfid)) {
+        if (empty($plainRfid)) {
             //Log::warning('No RFID provided in request');
             return response()->json([
                 'success' => false,
@@ -217,11 +217,13 @@ class OssaIDsystemController extends Controller
             ], 400);
         }
 
+        $hashedRfid = hash('sha256', $plainRfid);
+
         try {
             // Step 1: Find RFID record
             //Log::info('Querying StudentRFID table', ['column' => 'stdntrfid', 'value' => $stdntrfid]);
 
-            $rfid = StudentRFID::where('stdntrfid', $stdntrfid)->first();
+            $rfid = StudentRFID::where('stdntrfid', $hashedRfid)->first();
 
             // Log::info('RFID query result', [
             //     'found' => $rfid !== null,
