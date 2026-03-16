@@ -160,7 +160,7 @@ class OssaIDsystemController extends Controller
             }
 
             // 2️⃣ Prevent using the same RFID for a different Student ID
-            $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
+            $existingRFID = StudentRFID::where('stdntrfid', $studidRFID)->first();
             if ($existingRFID) {
                 return response()->json([
                     'error' => true,
@@ -172,7 +172,7 @@ class OssaIDsystemController extends Controller
             try {
                 StudentRFID::create([
                     'stdntid' => $studidName,
-                    'stdntrfid' => $encryptedRFID,
+                    'stdntrfid' => $studidRFID,
                     'campus' => Auth::guard('web')->user()->campus,
                     'postedBy' => Auth::guard('web')->user()->id
                 ]);
@@ -188,6 +188,135 @@ class OssaIDsystemController extends Controller
                     'message' => 'Failed to store'
                 ], 500);
             }
+        }
+    }
+
+    public function verifyStudentIDrfid()
+    {
+        return view('ossas.rfidreg.verifyrfid');
+    }
+
+    public function verifyByRFID(Request $request)
+    {
+        // Log the incoming request right at the beginning
+        // Log::info('verifyRFID endpoint called', [
+        //     'ip' => $request->ip(),
+        //     'user_agent' => $request->userAgent(),
+        //     'payload' => $request->all(),
+        // ]);
+
+        $stdntrfid = trim($request->input('stdntrfid', ''));
+
+        //Log::info('Extracted RFID value', ['stdntrfid' => $stdntrfid]);
+
+        if (empty($stdntrfid)) {
+            //Log::warning('No RFID provided in request');
+            return response()->json([
+                'success' => false,
+                'message' => 'RFID is required'
+            ], 400);
+        }
+
+        try {
+            // Step 1: Find RFID record
+            //Log::info('Querying StudentRFID table', ['column' => 'stdntrfid', 'value' => $stdntrfid]);
+
+            $rfid = StudentRFID::where('stdntrfid', $stdntrfid)->first();
+
+            // Log::info('RFID query result', [
+            //     'found' => $rfid !== null,
+            //     'rfid_data' => $rfid ? $rfid->toArray() : null
+            // ]);
+
+            if (!$rfid) {
+                //Log::info('RFID not found in database');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'RFID card not registered'
+                ], 404);
+            }
+
+            // Step 2: Get the linked student ID
+            $studentId = $rfid->stdntid;
+            //Log::info('Found linked student ID', ['stdntid' => $studentId]);
+
+            if (empty($studentId)) {
+                //Log::warning('RFID record has no associated student ID', ['rfid' => $rfid->toArray()]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No student linked to this RFID'
+                ], 400);
+            }
+
+            // Step 3: Find the student
+            //Log::info('Querying Student table', ['stud_id' => $studentId]);
+
+            $student = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
+                    ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                    ->where('students.stud_id', $studentId)
+                    ->select([
+                        'students.stud_id as studntid',
+                        'students.fname',
+                        'students.mname',
+                        'students.lname',
+                        DB::raw("TRIM(CONCAT(fname, ' ', COALESCE(mname, ''), ' ', lname)) as fullname"),
+                        'coasv2_db_schedule.programs.progAcronym as progcourse',
+                        'students.gender',
+                        'students.civil_status',
+                        'students.address',
+                ])
+                ->first();
+
+            // Log::info('Student query result', [
+            //     'found' => $student !== null,
+            //     'student_data' => $student ? $student->toArray() : null
+            // ]);
+
+            if (!$student) {
+                //Log::info('Student record not found for ID', ['stud_id' => $studentId]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Student record not found'
+                ], 404);
+            }
+
+            // Success
+            //Log::info('Student data successfully retrieved');
+
+            return response()->json([
+                'success' => true,
+                'student' => $student
+            ]);
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Catch database-related errors specifically
+            // Log::error('Database error in verifyRFID', [
+            //     'message' => $e->getMessage(),
+            //     'sql'     => $e->getSql() ?? 'N/A',
+            //     'bindings'=> $e->getBindings() ?? [],
+            //     'file'    => $e->getFile(),
+            //     'line'    => $e->getLine(),
+            // ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Database error occurred',
+                'error'   => $e->getMessage() // only in development!
+            ], 500);
+
+        } catch (\Exception $e) {
+            // Catch any other unexpected error
+            // Log::error('Unexpected error in verifyRFID', [
+            //     'message' => $e->getMessage(),
+            //     'file'    => $e->getFile(),
+            //     'line'    => $e->getLine(),
+            //     'trace'   => $e->getTraceAsString(),
+            // ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Server error while processing request'
+            ], 500);
         }
     }
 }

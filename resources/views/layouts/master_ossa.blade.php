@@ -279,6 +279,9 @@
     @if(request()->routeIs('rfid.store'))
         @include('script.ossas.rfidstudjs')
     @endif
+    @if(request()->routeIs('verifyStudentIDrfid'))
+        @include('script.ossas.verifyrfidjs')
+    @endif
 </body>
 
 </html>

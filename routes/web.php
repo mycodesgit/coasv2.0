@@ -1032,6 +1032,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/admin/registration/student/idcard', [OssaIDsystemController::class, 'store'])->name('rfid.store');
             Route::get('/admin/registration/student/idcard/get/{id}', [OssaIDsystemController::class, 'getossaStudentById'])->name('getossaStudentById');
             Route::post('/admin/registration/student/idcard/add', [OssaIDsystemController::class, 'create'])->name('rfid.create');
+            Route::get('/admin/registration/student/idcard/verify', [OssaIDsystemController::class, 'verifyStudentIDrfid'])->name('verifyStudentIDrfid');
+            Route::post('/admin/registration/student/idcard/verifiedstudent', [OssaIDsystemController::class, 'verifyByRFID'])->name('verifyStudentByRFID');
         });
     });
 

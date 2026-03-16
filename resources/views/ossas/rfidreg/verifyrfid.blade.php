@@ -1,7 +1,7 @@
 @extends('layouts.master_ossa')
 
 @section('title')
-    CISS V.1.0 || Ossa Student RFID Registration
+    CISS V.1.0 || Ossa Student RFID Verification
 @endsection
 
 @yield('sidemenu')
@@ -20,7 +20,7 @@
                                 </a>
                             </li>
                             <li class="breadcrumb-item mt-1">Ossa</li>
-                            <li class="breadcrumb-item active mt-1">Student RFID Registration</li>
+                            <li class="breadcrumb-item active mt-1">Student RFID Verification</li>
                         </ol>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                         <div class="card">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
-                                    <i class="ti ti-grid-scan"></i> Student RFID Registration
+                                    <i class="ti ti-line-scan"></i> Student RFID Verification
                                 </h6>
                             </div>
                             <div class="card-body">
@@ -63,9 +63,6 @@
                                                     <label for="studentUniqueRFID" class="form-label"> RFID:</label>
                                                     <input type="text" id="studentUniqueRFID" name="stdntrfid" class="form-control form-control-sm" readonly>
                                                     <input type="text" id="rfidScanner" style="opacity:0; position:absolute;">
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <button type="submit" class="btn btn-success">Save changes</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -119,83 +116,9 @@
             </div>
         </div>
     </div>
-
     <script>
-        function formatInput(input) {
-            let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-
-            if (cleaned.length > 0) {
-                let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
-                input.value = formatted;
-            } else {
-                input.value = '';
-            }
-        }
-
-        function handleDelete(event) {
-            if (event.key === 'Backspace') {
-                let input = event.target;
-                let value = input.value;
-                input.value = value.substring(0, value.length - 1);
-                formatInput(input);
-            }
-        }
-
-        function fetchStudentName(studid) {
-            if (studid) {
-
-                const url = `{{ route('getossaStudentById', ['id' => ':id']) }}`.replace(':id', studid);
-
-                fetch(url)
-                .then(response => response.json())
-                .then(data => {
-
-                    if (data.error) {
-
-                        document.getElementById('studentName').value = 'Student not found';
-                        document.getElementById('studentCourse').value = 'Data not found';
-                        document.getElementById('studentCivilStatus').value = 'Data not found';
-                        document.getElementById('studentAddress').value = 'Data not found';
-
-                        document.getElementById('studentCardName').textContent = 'Data not found';
-                        document.getElementById('studentCardNo').textContent = '';
-                        document.getElementById('studentCardCourse').textContent = '';
-                        document.getElementById('studentCardGender').textContent = '';
-
-                    } else {
-
-                        const fullName = `${data.lname}, ${data.fname} ${data.mname}`.toUpperCase();
-                        const civilStatus = `${data.civil_status}`.toUpperCase();
-                        const progAcronym = `${data.progAcronym}`.toUpperCase();
-                        const address = `${data.address}`.toUpperCase();
-
-                        // INPUT FIELD
-                        document.getElementById('studentName').value = fullName;
-                        document.getElementById('studentCourse').value = progAcronym;
-                        document.getElementById('studentCivilStatus').value = civilStatus;
-                        document.getElementById('studentAddress').value = address;
-
-                        // ID CARD PREVIEW
-                        document.getElementById('studentCardName').textContent = fullName;
-                        document.getElementById('studentCardNo').textContent = data.stud_id;
-                        document.getElementById('studentCardCourse').textContent = data.progAcronym;
-                        document.getElementById('studentCardGender').textContent = data.gender;
-
-                        // ⭐ Focus RFID scanner after student is loaded
-                        document.getElementById('rfidScanner').focus();
-
-                    }
-
-                })
-                // .catch(error => {
-                //     console.error('Error fetching student:', error);
-                // });
-
-            }
-
-        }
-    </script>
-    <script>
-        var rfidstudentCreateRoute = "{{ route('rfid.create') }}";
-    </script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('rfidScanner').focus();
+});
+</script>
 @endsection
