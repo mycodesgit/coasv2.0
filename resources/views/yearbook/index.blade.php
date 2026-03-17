@@ -15,7 +15,7 @@ CISS V.1.0 || YearBook
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('home') }}" class="btn btn-success btn-sm">
+                                <a href="{{ route('home') }}" class="btn btn-success btn-sm text-light">
                                     <i class="fas fa-home"></i>
                                 </a>
                             </li>
@@ -26,53 +26,61 @@ CISS V.1.0 || YearBook
                 </div>
                 <div class="row g-3 mb-3 mt-3">
                     <div class="col-lg-3 col-12">
-                        <div class="card p-4 bg-success bg-opacity-10 border border-success border-opacity-25 rounded-2">
-                            <div class="d-flex gap-3 ">
-                                <div class="icon-shape icon-md bg-success text-white rounded-2">
-                                    <i class="ti ti-circle-dashed-number-1 fs-4"></i>
-                                </div>
-                                <div>
-                                    <h2 class="mb-3 fs-6">1st Stud Enrolled this Sem</h2>
-                                    <h3 class="fw-bold mb-0">{{ $enrlstudcountfirst }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-12">
-                        <div class="card p-4 bg-success bg-opacity-10 border border-success border-opacity-25 rounded-2">
-                            <div class="d-flex gap-3 ">
-                                <div class="icon-shape icon-md bg-success text-white rounded-2">
-                                    <i class="ti ti-circle-dashed-number-2 fs-4"></i>
-                                </div>
-                                <div>
-                                    <h2 class="mb-3 fs-6">2nd Stud Enrolled this Sem</h2>
-                                    <h3 class="fw-bold mb-0">{{ $enrlstudcountsecond }}</h3>
+                        <div class="card mb-3">
+                            <div class="card-body p-6">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <div>
+                                        <h3 class="fw-bold h1">{{ $enrlstudcountfirst }}</h3>
+                                        <span>1st Stud Enrolled this Sem</span>
+                                    </div>
+                                    <div>
+                                        <i class="ti ti-users fs-1 text-success"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
-                        <div class="card p-4 bg-success bg-opacity-10 border border-success border-opacity-25 rounded-2">
-                            <div class="d-flex gap-3 ">
-                                <div class="icon-shape icon-md bg-success text-white rounded-2">
-                                    <i class="ti ti-circle-dashed-number-3 fs-4"></i>
-                                </div>
-                                <div>
-                                    <h2 class="mb-3 fs-6">3rd Stud Enrolled this Sem</h2>
-                                    <h3 class="fw-bold mb-0">{{ $enrlstudcountthird }}</h3>
+                        <div class="card mb-3">
+                            <div class="card-body p-6">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <div>
+                                        <h3 class="fw-bold h1">{{ $enrlstudcountsecond }}</h3>
+                                        <span>2nd Stud Enrolled this Sem</span>
+                                    </div>
+                                    <div>
+                                        <i class="ti ti-users fs-1 text-success"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
-                        <div class="card p-4 bg-success bg-opacity-10 border border-success border-opacity-25 rounded-2">
-                            <div class="d-flex gap-3 ">
-                                <div class="icon-shape icon-md bg-success text-white rounded-2">
-                                    <i class="ti ti-circle-dashed-number-4 fs-4"></i>
+                        <div class="card mb-3">
+                            <div class="card-body p-6">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <div>
+                                        <h3 class="fw-bold h1">{{ $enrlstudcountthird }}</h3>
+                                        <span>3rd Stud Enrolled this Sem</span>
+                                    </div>
+                                    <div>
+                                        <i class="ti ti-users fs-1 text-success"></i>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h2 class="mb-3 fs-6">4th Stud Enrolled this Sem</h2>
-                                    <h3 class="fw-bold mb-0">{{ $enrlstudcountfourth }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="card mb-3">
+                            <div class="card-body p-6">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <div>
+                                        <h3 class="fw-bold h1">{{ $enrlstudcountfourth }}</h3>
+                                        <span>4th Stud Enrolled this Sem</span>
+                                    </div>
+                                    <div>
+                                        <i class="ti ti-users fs-1 text-success"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
