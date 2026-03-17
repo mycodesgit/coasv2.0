@@ -20,7 +20,9 @@ $(function () {
         datasets: [{
             label: 'No. of Students Enrolled in ' + previousSemesterLabel + ' (' + previousSchlyearYear + ')',
             data: firstSemesterCollegeCounts,
-            backgroundColor: firstSemesterCollegeColors
+            backgroundColor: firstSemesterCollegeColors,
+            borderRadius: 8,
+    borderSkipped: 'bottom'
         }]
     };
 

@@ -36,122 +36,218 @@
 
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('enrollment-index') }}" class="list-group-item {{ $dashEnActive }}">Dashboard</a>
-    </ul>
-    {{-- @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
-        <a href="" class="list-group-item text-center">Sorry for the inconvenience, we are currently undergoing maintenance.</a>
-    @else --}}
-    <ul class="list-group mt-1">
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 15]))
-            <a href="{{ route('studentCreate') }}" class="list-group-item {{ $studAddActive }}">Add Student</a>
-        @endif
+<ul class="nav flex-column">
+    
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
+    <li>
+        <a class="nav-link {{ $dashEnActive }}" href="{{ route('enrollment-index') }}">
+            <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
+        </a>
+    </li>
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 11, 12, 13, 14, 15]) && Auth::guard('web')->user()->lname != 'Movillion')
-            <a href="{{ route('searchStud') }}" class="list-group-item {{ $searchStudActive }}">Enroll Student</a>  
-            {{-- <a href="{{ route('crosstudsearch') }}" class="list-group-item {{ $crossStudActive }}">Cross Enroll</a>   --}}
-            <a href="{{ route('editsearchStud') }}" class="list-group-item {{ $editEnrollStudActive }}">Edit Enrollment</a>
-        @endif
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 15]))
+        <li>
+            <a class="nav-link {{ $studAddActive }}" href="{{ route('studentCreate') }}">
+                <i class="ti ti-user-plus"></i><span class="nav-text">Add Student</span>
+            </a>
+        </li>
+    @endif
 
-        @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Gargoles')
-            <a href="{{ route('dupapprslSearch') }}" class="list-group-item {{ $editDupAppEnrollStudActive }}">Edit Dup. Appraisal</a>
-            {{-- <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Subject Section</a>
-            <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Shift Program</a> --}}
-        @endif
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 11, 12, 13, 14, 15]) && Auth::guard('web')->user()->lname != 'Movillion')
+        <li>
+            <a class="nav-link {{ $searchStudActive }}" href="{{ route('searchStud') }}">
+                <i class="ti ti-device-laptop"></i><span class="nav-text">Enroll Student</span>
+            </a>
+        </li>
 
-        @if(Auth::guard('web')->user()->campus == 'MC')
-            @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 5, 6, 15]))
-                <a href="{{ route('loadstudsub') }}" class="list-group-item {{ $searchStudEvalActive }}">Evaluate Student</a>
-            @endif
-        @endif
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-edit"></i><span class="nav-text">Edit Enrollment</span>
+            </a>
+        </li>
+    @endif
 
-        <a href="{{ route('studentEnHistory') }}" class="list-group-item {{ $stuEnrollmentHisActive }}">Enrollment History</a>
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
-            <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
-        @endif
+    @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Gargoles')
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-receipt"></i><span class="nav-text">Edit Dup. Fees</span>
+            </a>
+        </li>
+    @endif
 
-        @if(Auth::guard('web')->user()->role == '19' && Auth::guard('web')->user()->campus == 'MC')
-            <a href="{{ route('studgrade_search') }}" class="list-group-item {{ $gradeStudActive }}">Grade Sheet</a>
+    @if(Auth::guard('web')->user()->campus == 'MC')
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 5, 6, 15]))
+            <li>
+                <a class="nav-link" href="#">
+                    <i class="ti ti-scoreboard"></i><span class="nav-text">Evaluated Student</span>
+                </a>
+            </li>
         @endif
+    @endif
 
-        @if(Auth::guard('web')->user()->role == '3' && Auth::guard('web')->user()->campus == 'MC')
-            <a href="{{ route('studgradecorrection_search') }}" class="list-group-item {{ $gradeStudcorrectActive }}">Correction of Grades</a>
-        @endif
+    <li>
+        <a class="nav-link" href="#">
+            <i class="ti ti-history"></i><span class="nav-text">Enrollment History</span>
+        </a>
+    </li>
 
-        @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo' || Auth::guard('web')->user()->fname == 'Regielyn')
-            <a href="{{ route('list_trans') }}" class="list-group-item {{ $studtransAllActive }}">Transfered Student</a>
-        @endif
+    @if(Auth::guard('web')->user()->role == '19' && Auth::guard('web')->user()->campus == 'MC')
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-file-spreadsheet"></i><span class="nav-text">Gradesheet</span>
+            </a>
+        </li>
+    @endif
+    
+    @if(Auth::guard('web')->user()->role == '3' && Auth::guard('web')->user()->campus == 'MC')
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-file-spreadsheet"></i><span class="nav-text">Correction of Grades</span>
+            </a>
+        </li>
+    @endif
+    
+    @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo' || Auth::guard('web')->user()->fname == 'Regielyn')
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-transfer"></i><span class="nav-text">Transfered Student</span>
+            </a>
+        </li>
+    @endif
+    
+    @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie' || Auth::guard('web')->user()->lname == 'RAMADA' || Auth::guard('web')->user()->lname == 'Arquero' || Auth::guard('web')->user()->lname == 'Doronila')
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-book"></i><span class="nav-text">Subjects</span>
+            </a>
+        </li>
+    @endif
+    
+    @if(Auth::guard('web')->user()->role != 19)
+    <li class="nav-text-space"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
+    @endif
 
-        @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie' || Auth::guard('web')->user()->lname == 'RAMADA' || Auth::guard('web')->user()->lname == 'Arquero' || Auth::guard('web')->user()->lname == 'Doronila')
-            <a href="{{ route('subjectsRead') }}" class="list-group-item {{ $subjectAllActive }}">Subjects</a>
-        @endif
-    </ul>
-    {{-- @endif --}}
-</div>
+    @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 13, 14]) || Auth::guard('web')->user()->lname == 'Gargoles')
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-user"></i><span class="nav-text">Student Information</span>
+            </a>
+        </li>
+    @endif
 
-@if(Auth::guard('web')->user()->role != 19)
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Reports</h5>
-</div>
-@endif
+    @if(in_array(Auth::guard('web')->user()->role, [0, 15]) || Auth::guard('web')->user()->lname == 'Gargoles')
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-user"></i><span class="nav-text">Student Info</span>
+            </a>
+        </li>
+    @endif
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        {{-- @if(Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [3, 4]))
-            <a href="" class="list-group-item text-center">Sorry for the inconvenience, we are currently undergoing maintenance.</a>
-        @else --}}
-        @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 13, 14]) || Auth::guard('web')->user()->lname == 'Gargoles')
-            <a href="{{ Auth::guard('web')->user()->role == 0 ? route('studInfo') : route('studInfo_search') }}" class="list-group-item {{ $studinfoActive }}">Students Information</a>
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 15]) || Auth::guard('web')->user()->lname == 'Gargoles')
-            <a href="{{ route('studInfograduated') }}" class="list-group-item {{ $studinfogradActive }}">Student Info</a>
-        @endif
+    @if(Auth::guard('web')->user()->role != 19)
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-printer"></i><span class="nav-text">Print Student RF</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-file-type-pdf"></i><span class="nav-text">Student Per Degree</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-file-type-pdf"></i><span class="nav-text">Attendance Per Degree</span>
+            </a>
+        </li>
+    @endif
 
-        @if(Auth::guard('web')->user()->role != 19)
-        <a href="{{ route('rfstudprint') }}" class="list-group-item {{ $studRFActive }}">Print Student RF</a>
-        <a href="{{ route('studCurr') }}" class="list-group-item {{ $studcurrActive }}">Student Per Degree</a>
-        <a href="{{ route('studAttendanceCurr') }}" class="list-group-item {{ $studAttendcurrActive }}">Attendance Per Degree</a>
-        @endif
+    @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 20]))
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-file-type-pdf"></i><span class="nav-text">Class Attendance</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-numbers"></i><span class="nav-text">View Student Grades</span>
+            </a>
+        </li>
+    @endif
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 20]))
-        <a href="{{ route('studsubjectsRead') }}" class="list-group-item {{ $studsubjActive }}">Class Attendance</a>
-        <a href="{{ route('studviewgradeRead') }}" class="list-group-item {{ $studviewgrdeActive }}">View Student Grades</a>
-        @endif
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 20]) || Auth::guard('web')->user()->lname == 'Gargoles')
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-file-type-pdf"></i><span class="nav-text">Students Report Card</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-file-excel"></i><span class="nav-text">EL and PL</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-military-rank"></i><span class="nav-text">Ranking</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-checklist"></i><span class="nav-text">Number of Enrollees</span>
+            </a>
+        </li>
+    @endif
+    
+    @if(in_array(Auth::guard('web')->user()->role, [0]))
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-brand-miniprogram"></i><span class="nav-text">Cwts/Lts/Rotc</span>
+            </a>
+        </li>
+    @endif
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 20]) || Auth::guard('web')->user()->lname == 'Gargoles')
-        <a href="{{ route('reportCard_list') }}" class="list-group-item {{ $reportcardActive }}">Students Report Card</a>
-        <a href="{{ route('elpl_list') }}" class="list-group-item {{ $elplActive }}">EL and PL</a>
-        <a href="{{ route('ranking_list') }}" class="list-group-item {{ $rankActive }}">Ranking</a>
-        <a href="{{ route('studnoenrollee') }}" class="list-group-item {{ $numenrolledActive }}">Number of Enrollees</a>
-        @endif
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15, 19, 20]))
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-book-2"></i><span class="nav-text">Student Record</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-address-book"></i><span class="nav-text">Gradesheet Logbook</span>
+            </a>
+        </li>
+    @endif
 
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
-        <a href="{{ route('studnoNSTPenrollee') }}" class="list-group-item {{ $numnstpenrolledActive }}">Cwts/Lts/Rotc</a>
-        @endif
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3]))
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-registered"></i><span class="nav-text">Students Enrolled</span>
+            </a>
+        </li>
+    @endif
+    
+    @if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->lname == 'Arlos')
+    <li class="nav-text-space"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Logs</small></li>
+    @endif
 
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15, 19, 20]))
-        <a href="{{ route('studevalRead') }}" class="list-group-item {{ $studevalActive }}">Student Record</a>
-        <a href="{{ route('logbookindex') }}" class="list-group-item {{ $facgdeshtlgbokActive }}">Gradesheet Logbook</a>
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3]))
-        <a href="{{ route('studenrollRead') }}" class="list-group-item {{ $studenpersemActive }}">Students Enrolled</a>
-        @endif
-        {{-- @endif --}}
-    </ul>
-</div>
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3]))
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-logs"></i><span class="nav-text">Updated Enroll. Logs</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-building-store"></i><span class="nav-text">Encoded Grades. Logs</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-git-branch-deleted"></i><span class="nav-text">Deleted Enroll. Logs</span>
+            </a>
+        </li>
+    @endif
 
-@if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->lname == 'Arlos')
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Logs</h5>
-</div>
-@endif
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
-        <a href="{{ route('updateEnrlmntlogsRead') }}" class="list-group-item {{ $updenrlmntlogsActive }}">Updated Enroll. Logs</a>
-        <a href="{{ route('searchEncode_grade') }}" class="list-group-item {{ $encodeGradelogsActive }}">Encoded Grades. Logs</a>
-        <a href="{{ route('delenrlmntlogsRead') }}" class="list-group-item {{ $delenrlmntlogsActive }}">Deleted Enroll. Logs</a>
-        @endif
-    </ul>
-</div>
+</ul>

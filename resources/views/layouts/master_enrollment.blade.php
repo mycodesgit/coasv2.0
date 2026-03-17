@@ -1,493 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8" />
+    <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <title>@yield('title')</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+
+    <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/chatstyle.css') }}">
-    <!-- Logo  -->
-    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
-
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Select2 -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <!-- DataTables  -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-
-    <style>
-        #sidebar {
-            transition: transform 0.3s ease;
-        }
-        @media (max-width: 991.98px) {
-            #sidebar {
-                position: fixed;
-                top: 52px;
-                left: 0;
-                height: 95%;
-                width: 250px;
-                max-width: 80vw;
-                background: rgba(255, 255, 255, 0.15);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                z-index: 999;
-                transform: translateX(-100%);
-                display: block !important;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            #sidebar.active {
-                transform: translateX(0);
-            }
-            #sidebarOverlay {
-                display: none;
-                position: fixed;
-                top: 0; left: 0; right: 0; bottom: 0;
-                background: rgba(0,0,0,0.3);
-                z-index: 1039;
-            }
-            #sidebarOverlay.active {
-                display: block;
-            }
-        }
-        input[readonly] {
-            background-color: #fff !important;
-        }
-        .toast-top-right {
-            margin-top: 50px;
-        }
-        .sticky-column {
-          position: sticky;
-          top: 50px;
-          height: 5vh;
-        }
-        .scrolling-column {
-          overflow-y: auto;
-        }
-        .my-custom-show-animation {
-            animation: myShowAnimation 0.2s ease forwards;
-        }
-        @keyframes myShowAnimation {
-            from {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        .bg-light {
-            background-color: #f8f9fa !important;
-        }
-
-        .bg-secondary {
-            background-color: #e9ecef !important;
-            color: #252525 !important;
-        }
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            color: #495057;
-            /*background-color: #c9c2c2;*/
-            border-color: #32ac71 #32ac71 #ffffff;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     
 </head>
 
-<body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
+<body>
+    <div id="overlay" class="overlay"></div>
+    <!-- TOPBAR -->
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9999">
 
-    <div class="wrapper">
-        <nav class="main-header navbar navbar-expand-md navbar-dark" style="background-color: #04401f">
-            <div class="container-fluid">
-                <div href="" class="" style="color: #fff;font-family: Courier;">
-                    CISS V.1.0
-                </div>
+        <div id="s" class="text-light">
+            CISS v.1.0 
+        </div>
 
-                <div class="" style="z-index: 999">
-                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:80px;" class="center-top">
-                </div>
-
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link d-none d-md-block" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
-                            @auth('web')
-                                @if(in_array(Auth::guard('web')->user()->role, range(0, 20)))
-                                    Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
-                                    @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                        @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                        @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                        @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                        @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                        @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                        @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                        @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                        @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                        @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
-                                    @endif
-                                @endif
-                            @endauth
-
-                            @auth('faculty')
-                                @if(Auth::guard('faculty')->user()->role == '943')
-                                    Logged as: {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
-                                @endif
-                            @endauth
-                        </a>
-                        <button id="sidebarToggle" class="btn btn-primary d-lg-none mb-2" style="position: fixed; top: 7px; right: 60px; z-index: 99;">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </li>
-                </ul>
+        <div class="d-md-none">
+            <div class="d-flex align-items-center gap-3">
             </div>
-        </nav>
+        </div>
 
-        <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid" style="padding-top: 20px"></div>
+        <div>
+            <!-- Navbar nav -->
+            <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
+                <!-- MOBILE -->
+                <button id="mobileBtn" class="btn btn-outline-light btn-icon btn-sm d-lg-none me-2">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Dropdown -->
+                <li class="ms-3 dropdown d-none d-md-block">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
+                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
+                        @auth('web')
+                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
+                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @endif
+                            @endif
+                        @endauth
+                    </a>
+                </li>
+                <li class="ms-3 dropdown d-md-none">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
+                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
+                        @auth('web')
+                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @endif
+                            @endif
+                        @endauth
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden" style="height: 95vh">
+        <div class="logo-area border-0">
+            <div class="d-inline-flex">
+                <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
+                <span class="logo-text ms-2" style="font-weight: bold">CISS</span>
             </div>
-            <div class="content">
-                <div class="container-fluid1">
-                    <div class="row" style="padding-top: 0px;">
-                        <div id="sidebar" class="col-lg-2 sidebar-custom d-none d-lg-block">
-                            <div class="card">
-                                <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-                                    @section('sideheader')
-                                    @show
-                                </div>
-                                @section('sidemenu')
-                                    @include('partials.control_en_sidebar')
-                                @show
-                            </div>
-                        </div>
-                        <div class="col-lg-10">
-                            @section('workspace')
-                                <div class="card">
-                                    <div class="card-body">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-home"></i>
-                                                </a>
-                                            </li>
-                                            <li class="breadcrumb-item active mt-1">Enrollment</li>
-                                        </ol>
-                                        <div class="workspace-top" style="text-align: center;">
-                                            <div class="row">
-                                                @if(Auth::guard('web')->check() && in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 16, 17, 18, 19, 20]))
-                                                    @if(request()->routeIs('enrollment-index'))
-                                                        <div class="col-lg-3 col-6">
-                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !important">
-                                                                <div class="text-left">
-                                                                    <div class="inner">
-                                                                        <h3>{{ $enrlstudcountfirst }}</h3>
-                                                                        <p>1st Stud Enrolled this Sem</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-right">
-                                                                    <div class="icon">
-                                                                        <i class="fa fa-users"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3 col-6">
-                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important">
-                                                                <div class="text-left">
-                                                                    <div class="inner">
-                                                                        <h3>{{ $enrlstudcountsecond }}</h3>
-                                                                        <p>2nd Stud Enrolled this Sem</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-right">
-                                                                    <div class="icon">
-                                                                        <i class="fa fa-users"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3 col-6">
-                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #9dcda8 !important">
-                                                                <div class="text-left">
-                                                                    <div class="inner">
-                                                                        <h3>{{ $enrlstudcountthird }}</h3>
-                                                                        <p>3rd Stud Enrolled this Sem</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-right">
-                                                                    <div class="icon">
-                                                                        <i class="fa fa-users"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3 col-6">
-                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #008b51 !important">
-                                                                <div class="text-left">
-                                                                    <div class="inner">
-                                                                        <h3>{{ $enrlstudcountfourth }}</h3>
-                                                                        <p>4th Stud Enrolled this Sem</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-right">
-                                                                    <div class="icon">
-                                                                        <i class="fa fa-users"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    
-                                                        <div class="col-md-6">
-                                                            <div class="card">
-                                                                <div class="card-body">
-                                                                    <div class="chart-responsive pt-1">
-                                                                        <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="card">
-                                                                <div class="card-body">
-                                                                    <div class="chart-responsive pt-1">
-                                                                        <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+        </div>
+        @include('partials.control_en_sidebar')
 
-                                                        <div class="col-md-6">
-                                                            <div class="card">
-                                                                <div class="card-body">
-                                                                    <div class="chart-responsive pt-1">
-                                                                        <canvas id="prevSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="card">
-                                                                <div class="card-body">
-                                                                    <div class="chart-responsive pt-1">
-                                                                        <canvas id="currSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+    </aside>
 
-                                                        <div class="col-md-12">
-                                                            <div class="card">
-                                                                <div class="card-body">
-                                                                    <div class="chart-responsive pt-1">
-                                                                        <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+    <!-- MAINmainCONTENT -->
+    <main id="content" class="content py-10">
+        <div class="container-fluid">
+            <div class="row">
+                <div style="z-index: 9999">
+                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
+                </div>
+            </div>
+            @section('workspace')
+            @show
 
-                                                        <div class="col-md-12">
-                                                            <div class="card">
-                                                                <div class="card-header">
-                                                                    <h3 class="card-title">Enrollment for this current Semester in All Campuses</h3>
-                                                                    <div class="card-tools">
-                                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                                        <i class="fas fa-minus"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="card-body">
-                                                                    <div class="position-relative mb-4">
-                                                                        <canvas id="enrlmntpercamp-chart"
-                                                                                data-main="{!! $MainEnrollmentCount !!}"
-                                                                                data-victorias="{!! $VcEnrollmentCount !!}" 
-                                                                                data-sancarlos="{!! $SccEnrollmentCount !!}"  
-                                                                                data-hinigaran="{!! $HcEnrollmentCount !!}"  
-                                                                                data-moises="{!! $MpEnrollmentCount !!}"  
-                                                                                data-ilog="{!! $IcEnrollmentCount !!}"  
-                                                                                data-candoni="{!! $CaEnrollmentCount !!}"  
-                                                                                data-cauayan="{!! $CcEnrollmentCount !!}"  
-                                                                                data-siplay="{!! $ScEnrollmentCount !!}"  
-                                                                                data-hinobaan="{!! $HinCEnrollmentCount !!}"  
-                                                                                height="200">
-                                                                        </canvas>
-                                                                    </div>
-                                                                    <div class="d-flex flex-row justify-content-end">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-6">
-                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #00bc8c !importantcursor:pointer" data-toggle="modal" data-target="#regularModal">
-                                                                <div class="text-left">
-                                                                    <div class="inner">
-                                                                        <h3>{{ $enrlstudRegularcount }}</h3>
-                                                                        <p>Regular Students Enrolled this Sem</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-right">
-                                                                    <div class="icon">
-                                                                        <i class="fa fa-users"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-6">
-                                                            <div class="small-box bg-info d-flex align-items-center justify-content-between pl-3 pr-3 pb-3 pt-3 card-curve" style="background-color: #89c9b6 !important; cursor:pointer" data-toggle="modal" data-target="#irregularModal">
-                                                                <div class="text-left">
-                                                                    <div class="inner">
-                                                                        <h3>{{ $enrlstudIrregularcount }}</h3>
-                                                                        <p>Irregular Students Enrolled this Sem</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-right">
-                                                                    <div class="icon">
-                                                                        <i class="fa fa-users"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Modal -->
-                                                        @if(Auth::guard('web')->user()->campus != 'MC')
-                                                        <div class="modal fade" id="regularModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                                            <div class="modal-dialog modal-xl" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Regular Students List</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span>&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <iframe id="regularPdfFrame" src="{{ route('regular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe>
-                                                                        <div id="loadingText" class="text-center" style="display:none;">
-                                                                            <p>Loading PDF, please wait...</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @endif
-                                                        <div class="modal fade" id="irregularModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                                            <div class="modal-dialog modal-xl" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Irregular Students List</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span>&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        {{-- <iframe src="{{ route('irregular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe> --}}
-                                                                        <iframe id="irregularPdfFrame" src="" width="100%" height="600px" frameborder="0"></iframe>
-                                                                        <div id="loadingText" class="text-center" style="display:none;">
-                                                                            <p>Loading PDF, please wait...</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                @endif
-
-                                                @if(Auth::guard('web')->user()->role == 15)
-                                                    <div class="col-md-6">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="chart-responsive pt-1">
-                                                                    <canvas id="prevSemestergradBarChart" style="height:330px; min-height:330px"></canvas>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="chart-responsive pt-1">
-                                                                    <canvas id="currSemestergradBarChart" style="height:330px; min-height:330px"></canvas>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="chart-responsive pt-1">
-                                                                    <canvas id="currSemestergradprogBarChart" style="height:330px; min-height:330px"></canvas>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                                        </div>
-                                    </div>
-                                </div>
-                            @show
-                        </div>
-                    </div>
+            <div class="row d-none d-md-block">
+                <div class="col-12">
+                    <footer class="text-center py-2 mt-6 text-secondary fixed-bottom bg-white" style="z-index: 99">
+                        <p class="mb-0">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</p>
+                    </footer>
                 </div>
             </div>
         </div>
-        <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
-            <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
-        </footer>
-    </div>
+    </main>
 
+    <!-- Bootstrap JS -->
+
+    <script type="text/javascript" src="{{ asset('uilibs/js/main.js') }}"></script>
     <!-- jQuery -->
-    <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- App -->
-    <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
 
     <!-- DataTables  & Plugins -->
-    <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script> 
-    <script src="{{ asset('template/plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
-    <!-- Toastr -->
-    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.js') }}"></script>
     <!-- SweetAlert2 -->
-    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-    <!-- Moment -->
-    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
-    
+    <script src="{{ asset('uilibs/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('uilibs/plugins/select2/js/select2.full.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ asset('uilibs/plugins/chart.js/Chart.min.js') }}"></script>
+    <!-- Validation JS -->
+    <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/subjects.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('js/basic/contextmenucoas.js') }}?v={{ time() }}"></script>
+
+    <script src="{{ asset('js/validation/enroll/addStudValidation.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/validation/enroll/gradesheetValidation.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/validation/enroll/subjectValidation.js') }}?v={{ time() }}"></script>
 
     @if(Auth::guard('web')->check() && in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 16, 17, 18, 19, 20]))
         <!-- Basic -->
@@ -666,222 +356,6 @@
     @if(request()->routeIs('search_studenrollRead'))
         <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}?v={{ time() }}"></script>
     @endif
-
-    @if(request()->routeIs('searchStud', 'editsearchStud'))
-        <script>
-            $(document).ready(function () {
-                var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
-                $('#nextButton').on('click', function () {
-                    const counterId = $(this).data('counter-id');
-
-                    $.post("{{ route('queue.next') }}", { 
-                        counter_id: counterId, 
-                        _token: "{{ csrf_token() }}" 
-                    }, function (response) {
-                        if (response.success) {
-                            // Update the queue number on the input field
-                            $('#queueNumber').val(response.queue_number);
-                            sound.play();
-                            console.log("play");
-                        } else {
-                            alert(response.message);
-                        }
-                    }).fail(function () {
-                        toastr.error('Error fetching the next queue.');
-                    });
-                });
-
-                $('#callButton').on('click', function () {
-                    const counterId = $(this).data('counter-id');
-
-                    $.post("{{ route('queue.call') }}", { 
-                        counter_id: counterId, 
-                        _token: "{{ csrf_token() }}" 
-                    }, function (response) {
-                        console.log(response); 
-                        if (response.success) {
-                            // Update the queue number on the input field
-                            $('#queueNumber').val(response.queue_number);
-                            sound.play();
-                            console.log("Sound played for call.");
-                        } else {
-                            toastr.error(response.message);
-                        }
-                    }).fail(function () {
-                        toastr.error('Error calling the queue.');
-                    });
-                });
-            });
-        </script>
-    @endif
-
-
-    <!-- jquery-validation -->
-    <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-    <script src="{{ asset('js/ajax/settngs/dark-mode.js') }}"></script>
-
-    <script src="{{ asset('js/validation/enroll/addStudValidation.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('js/validation/enroll/gradesheetValidation.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('js/validation/enroll/subjectValidation.js') }}?v={{ time() }}"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#searchDropdown').select2({
-                placeholder: '-- Search and Select --',
-                allowClear: true,
-                minimumInputLength: 6
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        setTimeout(function () {
-            $("#alert").delay(2500).fadeOut(5000);
-        }, 0); 
-    </script>
-
-    <script type="text/javascript">
-        function updateGrade(id, grade){
-            //alert(id);
-             $.ajax({
-                url: '{{ route('registrarsave_grades') }}',
-                method: 'POST',
-                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
-                success: function (data) {
-                    console.log(data.gradeCount);
-                    if(data.gradeCount > 0){
-                        $('#submitgradeid').prop('disabled', false);
-                    }else{
-                        $('#submitgradeid').prop('disabled', true);
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-        function updateGradeComp(id, grade){
-            //alert(id);
-             $.ajax({
-                url: '{{ route('registrarsave_gradesComp') }}',
-                method: 'POST',
-                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
-                success: function (data) {
-                    console.log(data.gradeCount);
-                    if(data.gradeCount > 0){
-                        $('#submitgradeid').prop('disabled', false);
-                    }else{
-                        $('#submitgradeid').prop('disabled', true);
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-    </script>
-
-    <script>
-        @if(Session::has('success'))
-            toastr.options = {
-                "closeButton":true,
-                "progressBar":true,
-                'positionClass': 'toast-top-right'
-            }
-            toastr.success("{{ session('success') }}")
-        @endif
-        @if(session('error'))
-            Swal.fire({
-                icon: 'warning',
-                // title: 'Waring',
-                html: '{!! session('error') !!}',
-                showClass: {
-                    popup: 'my-custom-show-animation'
-                },
-                hideClass: {
-                    popup: ''
-                }
-            });
-        @endif
-    </script>
-    
-    @if(request()->routeIs('editsearchStudRead'))
-        <script>
-            document.getElementById('deleteButton').addEventListener('click', function() {
-                var programEnHistoryId = document.querySelector('input[name="id"][value="{{ $programEnHistory->id }}"]').value;
-                var studentAppraisalIds = document.querySelector('input[name="id"][value="{{ $primIDsString }}"]').value;
-                var stuGradesIds = document.querySelector('input[name="id"][value="{{ $studsubenrollIdsprimID }}"]').value;
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to recover the Enrollment",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '{{ route('deleteAllRecords') }}',
-                            type: 'DELETE',
-                            data: {
-                                programEnHistoryId: programEnHistoryId,
-                                studentAppraisalIds: studentAppraisalIds,
-                                stuGradesIds: stuGradesIds,
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    Swal.fire(
-                                        'Deleted!',
-                                        response.message,
-                                        'success'
-                                    ).then(() => {
-                                        window.location.href = response.redirect_url;
-                                    });
-                                } else {
-                                    Swal.fire(
-                                        'Failed!',
-                                        'Deletion failed.',
-                                        'error'
-                                    );
-                                }
-                            },
-                            error: function() {
-                                Swal.fire(
-                                    'Error!',
-                                    'An error occurred while processing your request.',
-                                    'error'
-                                );
-                            }
-                        });
-                    }
-                });
-            });
-        </script>
-    @endif
-    <script>
-        $(function() {
-            function closeSidebar() {
-                $('#sidebar').removeClass('active');
-                $('#sidebarOverlay').removeClass('active');
-            }
-            $('#sidebarToggle').on('click', function() {
-                $('#sidebar').toggleClass('active');
-                $('#sidebarOverlay').toggleClass('active');
-            });
-            $('#sidebarOverlay').on('click', closeSidebar);
-            // Optional: Hide sidebar on resize to lg and up
-            $(window).on('resize', function() {
-                if (window.innerWidth >= 992) {
-                    closeSidebar();
-                }
-            });
-        });
-    </script>
 </body>
+
 </html>
-   

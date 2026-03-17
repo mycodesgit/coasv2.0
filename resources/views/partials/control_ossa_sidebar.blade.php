@@ -8,7 +8,7 @@
 
 <ul class="nav flex-column">
     
-    <li class="px-4 py-2"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
     <li>
         <a class="nav-link {{ $dashossaActive }}" href="{{ route('ossa-index') }}">
             <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
@@ -30,6 +30,14 @@
     <li>
         <a class="nav-link" href="#">
             <i class="ti ti-users"></i><span class="nav-text">Students Enrolled</span>
+        </a>
+    </li>
+
+    <li class="nav-text-space"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
+    <li>
+        <a class="nav-link" href="#">
+            <i class="ti ti-file"></i><span class="nav-text">Event Attendance</span>
         </a>
     </li>
 </ul>
