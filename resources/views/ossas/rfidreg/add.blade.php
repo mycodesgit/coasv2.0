@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('home') }}" class="btn btn-success btn-sm">
+                                <a href="{{ route('home') }}" class="btn btn-success btn-sm text-light">
                                     <i class="fas fa-home"></i>
                                 </a>
                             </li>

@@ -36,7 +36,7 @@
 <body>
     <div id="overlay" class="overlay"></div>
     <!-- TOPBAR -->
-    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important;">
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9999">
         {{-- <button id="toggleBtn" class="d-none d-lg-inline-flex btn btn-light btn-icon btn-sm ">
             <i class="fas fa-bars"></i>
         </button> --}}
@@ -62,6 +62,10 @@
         <div>
             <!-- Navbar nav -->
             <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
+                <!-- MOBILE -->
+                <button id="mobileBtn" class="btn btn-outline-light btn-icon btn-sm d-lg-none me-2">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <!-- Dropdown -->
                 <li class="ms-3 dropdown d-none d-md-block">
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
@@ -110,7 +114,7 @@
     </nav>
 
     <!-- SIDEBAR -->
-    <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden" style="z-index: 99;">
+    <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden">
         <div class="logo-area border-0">
             <div class="d-inline-flex">
                 <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
