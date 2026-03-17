@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('home') }}" class="btn btn-success btn-sm">
+                                <a href="{{ route('home') }}" class="btn btn-success btn-sm text-light">
                                     <i class="fas fa-home"></i>
                                 </a>
                             </li>
@@ -67,15 +67,16 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-5 d-none d-md-block">
                                         <div class="table-responsive">
                                             <div class="id-card">
                                                 <div class="id-header">
                                                     <div>
-                                                        <h5>
-                                                            <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="34">
-                                                            CENTRAL PHILIPPINES STATE UNIVERSITY
-                                                        </h5>
+                                                        <h6>
+                                                            <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="34" style="margin-top: 10px">
+                                                            <span>CENTRAL PHILIPPINES STATE UNIVERSITY</span>
+                                                        </h6>
+                                                        <small style="padding-left: 40px; margin-top: -15px">Kabankalan City, Negros Occidental, 6111</small>
                                                     </div>
                                                 </div>
                                                 <div class="id-body">

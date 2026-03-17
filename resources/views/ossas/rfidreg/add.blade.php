@@ -75,10 +75,11 @@
                                             <div class="id-card">
                                                 <div class="id-header">
                                                     <div>
-                                                        <h5>
-                                                            <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="34">
-                                                            CENTRAL PHILIPPINES STATE UNIVERSITY
-                                                        </h5>
+                                                        <h6>
+                                                            <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="34" style="margin-top: 10px">
+                                                            <span>CENTRAL PHILIPPINES STATE UNIVERSITY</span>
+                                                        </h6>
+                                                        <small style="padding-left: 40px; margin-top: -15px">Kabankalan City, Negros Occidental, 6111</small>
                                                     </div>
                                                 </div>
                                                 <div class="id-body">
@@ -93,7 +94,7 @@
                                                         </div>
                                                         <div class="info-row">
                                                             <div class="info-label">Student ID</div>
-                                                            <div>: <span id="studentCardNo">2018-000-</span></div>
+                                                            <div>: <span id="studentCardNo"></span></div>
                                                         </div>
                                                         <div class="info-row">
                                                             <div class="info-label">Course</div>

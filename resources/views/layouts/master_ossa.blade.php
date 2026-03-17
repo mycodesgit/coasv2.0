@@ -46,13 +46,16 @@
         .id-header{
             background:#0f766e;
             color:white;
-            padding:14px 20px;
+            padding-left:14px;
+            padding-right:14px;
+            padding-bottom:14px;
+            padding-top:2px;
             display:flex;
             align-items:center;
             justify-content:space-between;
         }
 
-        .id-header h4{
+        .id-header h6{
             margin:0;
             font-weight:700;
             letter-spacing:1px;
@@ -213,7 +216,7 @@
         <div class="logo-area border-0">
             <div class="d-inline-flex">
                 <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
-                <span class="logo-text ms-2" style="font-weight: bold">Faculty Portal</span>
+                <span class="logo-text ms-2" style="font-weight: bold">CISS</span>
             </div>
         </div>
         @include('partials.control_ossa_sidebar')
