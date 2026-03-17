@@ -70,7 +70,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-5 d-none d-md-block">
                                         <div class="table-responsive">
                                             <div class="id-card">
                                                 <div class="id-header">

@@ -139,14 +139,14 @@
 
         </div>
         <div class="bottom-nav">
-            <a href="">
+            <a href="{{ route('home') }}">
                 <div class="nav-item" data-label="Dashboard">
                     <i class="fas fa-th icon"></i>
                     <span>Dashboard</span>
                 </div>
             </a>
 
-            <a href="">
+            <a href="{{ route('enrollment-index') }}">
                 <div class="nav-item" data-label="Attendance">
                     <i class="fas fa-graduation-cap icon"></i>
                     <span>Enrollment</span>
@@ -160,13 +160,13 @@
                 </div>
             </a>
 
-            <a href="#">
+            <a href="{{ route('settings-index') }}">
                 <div class="nav-item" data-label="Grade Sheet">
                     <i class="fas fa-cog icon"></i>
                     <span>Settings</span>
                 </div>
             </a>
-            <a href="#">
+            <a href="{{ route('logout') }}">
                 <div class="nav-item" data-label="Grade Sheet">
                     <i class="fas fa-sign-out icon"></i>
                     <span>Signout</span>
@@ -174,30 +174,40 @@
             </a>
         </div>
         <div class="services-menu" id="servicesMenu">
-            <div class="service-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Schedule</span>
-            </div>
+            <a href="{{ route('admission-index') }}">
+                <div class="service-item">
+                    <i class="fas fa-id-card"></i>
+                    <span>Admission</span>
+                </div>
+            </a>
 
-            <div class="service-item">
-                <i class="fas fa-receipt"></i>
-                <span>Assess</span>
-            </div>
+            <a href="{{ route('scheduler-index') }}">
+                <div class="service-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Schedule</span>
+                </div>
+            </a>
 
-            <div class="service-item">
-                <i class="fas fa-calculator"></i>
-                <span>Cashier</span>
-            </div>
+            <a href="{{ route('assessment-index') }}">
+                <div class="service-item">
+                    <i class="fas fa-receipt"></i>
+                    <span>Assess</span>
+                </div>
+            </a>
 
-            <div class="service-item">
-                <i class="fas fa-laptop"></i>
-                <span>Kiosk</span>
-            </div>
+            <a href="{{ route('cashiering-index') }}">
+                <div class="service-item">
+                    <i class="fas fa-calculator"></i>
+                    <span>Cashier</span>
+                </div>
+            </a>
 
-            <div class="service-item">
-                <i class="fas fa-book-open"></i>
-                <span>Queue</span>
-            </div>
+            <a href="{{ route('adminkioskRead') }}">
+                <div class="service-item">
+                    <i class="fas fa-laptop"></i>
+                    <span>Kiosk</span>
+                </div>
+            </a>
         </div>
     </main>
 

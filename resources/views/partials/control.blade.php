@@ -17,7 +17,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
 @endphp
 
 <div class="menu-container bg-white border-bottom">
-    <div class="container-fluid py-3">
+    <div class="container-fluid py-3 d-none d-md-block">
         <div class="menu-grid">
 
             <a id="home-url" class="menu-item">
