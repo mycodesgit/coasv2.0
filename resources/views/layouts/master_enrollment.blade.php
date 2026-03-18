@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>@yield('title')</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <title>@yield('title')</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="shortcut icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
 
@@ -30,6 +30,29 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     
+    <style>
+        .sticky-column {
+          position: sticky;
+          top: 50px;
+          height: 5vh;
+        }
+        .scrolling-column {
+          overflow-y: auto;
+        }
+        .my-custom-show-animation {
+            animation: myShowAnimation 0.2s ease forwards;
+        }
+        @keyframes myShowAnimation {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -272,6 +295,40 @@
         @endif
     @endif
 
+    <script>
+        @if(Session::has('success'))
+            toastr.options = {
+                "closeButton":true,
+                "progressBar":true,
+                'positionClass': 'toast-top-right'
+            }
+            toastr.success("{{ session('success') }}")
+        @endif
+        @if(session('error'))
+            Swal.fire({
+                icon: 'warning',
+                // title: 'Waring',
+                html: '{!! session('error') !!}',
+                showClass: {
+                    popup: 'my-custom-show-animation'
+                },
+                hideClass: {
+                    popup: ''
+                }
+            });
+        @endif
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchDropdown').select2({
+                placeholder: '-- Search and Select --',
+                allowClear: true,
+                minimumInputLength: 6
+            });
+        });
+    </script>
+
     <!-- Ajax -->
     @if(request()->routeIs('subjectsRead'))
         <script src="{{ asset('js/ajax/enrolment/subjectSerialize.js') }}?v={{ time() }}"></script>
@@ -355,6 +412,63 @@
     @endif
     @if(request()->routeIs('search_studenrollRead'))
         <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}?v={{ time() }}"></script>
+    @endif
+
+    @if(request()->routeIs('editsearchStudRead'))
+        <script>
+            document.getElementById('deleteButton').addEventListener('click', function() {
+                var programEnHistoryId = document.querySelector('input[name="id"][value="{{ $programEnHistory->id }}"]').value;
+                var studentAppraisalIds = document.querySelector('input[name="id"][value="{{ $primIDsString }}"]').value;
+                var stuGradesIds = document.querySelector('input[name="id"][value="{{ $studsubenrollIdsprimID }}"]').value;
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to recover the Enrollment",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('deleteAllRecords') }}',
+                            type: 'DELETE',
+                            data: {
+                                programEnHistoryId: programEnHistoryId,
+                                studentAppraisalIds: studentAppraisalIds,
+                                stuGradesIds: stuGradesIds,
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        response.message,
+                                        'success'
+                                    ).then(() => {
+                                        window.location.href = response.redirect_url;
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Failed!',
+                                        'Deletion failed.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred while processing your request.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
     @endif
 </body>
 

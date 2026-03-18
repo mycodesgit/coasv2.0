@@ -1,180 +1,206 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-CISS V.1.0 || Edit Duplicate Appraisal
-@endsection
-
-@section('sideheader')
-<h4>Enrollment</h4>
+CISS V.1.0 || Enrollment
 @endsection
 
 @yield('sidemenu')
 
 @section('workspace')
-<div class="card">
-    <div class="card-body">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-home"></i>
-                </a>
-            </li>
-            <li class="breadcrumb-item mt-1">Enrollment</li>
-            <li class="breadcrumb-item active mt-1">Edit Duplicate Appraisal</li>
-        </ol>
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-6">
+                {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
+                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                    <div class="card-body">
+                        <ol class="breadcrumb" style="margin-bottom: -3px;">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('home') }}" class="btn btn-success btn-sm text-light">
+                                    <i class="fas fa-home"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item mt-1">Enrollment</li>
+                            <li class="breadcrumb-item active mt-1">Edit Duplicate Appraisal</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3 mt-3">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                                    <h4>Edit Duplicate Appraisal</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9"> 
+                                        <form method="GET" action="{{ route('dupapprslSearch_listresult') }}" id="enrollStud">
+                                            @csrf   
 
-        <p>
-            @if(Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success')}}</div>
-            @elseif (Session::has('fail'))
-                <div class="alert alert-danger">{{Session::get('fail')}}</div>
-            @endif
-        </p>
+                                            <div class="form-group mt-2" style="padding: 10px">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label>Campus</label>
+                                                        <select class="form-control form-control-sm" name="campus">
+                                                            <option value="{{Auth::user()->campus}}">
+                                                                @if (Auth::user()->campus == 'MC') Main 
+                                                                    @elseif(Auth::user()->campus == 'VC') Victorias 
+                                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos 
+                                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran 
+                                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla 
+                                                                    @elseif(Auth::user()->campus == 'IC') Ilog 
+                                                                    @elseif(Auth::user()->campus == 'CA') Candoni 
+                                                                    @elseif(Auth::user()->campus == 'CC') Cauayan 
+                                                                    @elseif(Auth::user()->campus == 'SC') Sipalay  
+                                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan 
+                                                                    @elseif(Auth::user()->campus == 'VE') Valladolid 
+                                                                @endif
+                                                            </option>
+                                                            @if(Auth::user()->role == 0)
+                                                                <option value="MC">Main</option>
+                                                                <option value="VC">Victorias</option>
+                                                                <option value="SCC">San Carlos</option>
+                                                                <option value="HC">Hinigaran</option>
+                                                                <option value="MP">Moises Padilla</option>
+                                                                <option value="IC">Ilog</option>
+                                                                <option value="CA">Candoni</option>
+                                                                <option value="CC">Cauayan</option>
+                                                                <option value="SC">Sipalay</option>
+                                                                <option value="HinC">Hinobaan</option>
+                                                                <option value="VE">Valladolid</option>
+                                                            @else
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Student ID Number</label>
+                                                        <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                                    </div>
 
-        <div>
-            <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Edit Duplicate Appraisal</h4>
-            </div> 
-        </div>
-            <div class="row">
-                <div class="col-md-9">
-                    <form method="GET" action="{{ route('dupapprslSearch_listresult') }}" id="enrollStud">
-                        @csrf   
+                                                    <div class="col-md-2">
+                                                        <label>School Year</label>
+                                                        <select class="form-control form-control-sm" name="schlyear">
+                                                            @foreach($sy as $datasy)
+                                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
 
-                        <div class="form-group mt-2" style="padding: 10px">
-                            <div class="form-row">
-                                <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Campus</span></label>
-                                    <select class="form-control form-control-sm" name="campus">
-                                        <option value="{{Auth::user()->campus}}">
-                                            @if (Auth::user()->campus == 'MC') Main 
-                                                @elseif(Auth::user()->campus == 'VC') Victorias 
-                                                @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                                @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                                @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                                @elseif(Auth::user()->campus == 'IC') Ilog 
-                                                @elseif(Auth::user()->campus == 'CA') Candoni 
-                                                @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                                @elseif(Auth::user()->campus == 'SC') Sipalay  
-                                                @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                                @elseif(Auth::user()->campus == 'VE') Valladolid 
+                                                    <div class="col-md-3">
+                                                        <label>Semester</label>
+                                                        <select class="form-control form-control-sm" name="semester">
+                                                            <option disabled selected>Select</option>
+                                                            <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
+                                                            <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
+                                                            <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label>&nbsp;</label>
+                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+                                        @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
+                                            @if($queueMode->statusqueue === 'Off')
+
+                                            @else
+                                                <div class="mt-5 table-responsive">
+                                                    <h5>List of Pre-Enrolled Students</h5>
+                                                    <table id="queueTable" class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Student ID No.</th>
+                                                                <th>Fullname</th>
+                                                                <th>Course Yr&Section</th>
+                                                                <th>Campus</th>
+                                                                <th width="10%">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <hr>
+
                                             @endif
-                                        </option>
-                                        @if(Auth::user()->role == 0)
-                                            <option value="MC">Main</option>
-                                            <option value="VC">Victorias</option>
-                                            <option value="SCC">San Carlos</option>
-                                            <option value="HC">Hinigaran</option>
-                                            <option value="MP">Moises Padilla</option>
-                                            <option value="IC">Ilog</option>
-                                            <option value="CA">Candoni</option>
-                                            <option value="CC">Cauayan</option>
-                                            <option value="SC">Sipalay</option>
-                                            <option value="HinC">Hinobaan</option>
-                                            <option value="VE">Valladolid</option>
-                                        @else
                                         @endif
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label><span class="badge badge-secondary">Student ID Number</span></label>
-                                    <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">School Year</span></label>
-                                    <select class="form-control form-control-sm" name="schlyear">
-                                        @foreach($sy as $datasy)
-                                            <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label><span class="badge badge-secondary">Semester</span></label>
-                                    <select class="form-control form-control-sm" name="semester">
-                                        <option disabled selected>Select</option>
-                                        <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
-                                        <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
-                                        <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <label>&nbsp;</label>
-                                    <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
-                        @if($queueMode->statusqueue === 'Off')
-
-                        @else
-                            <table id="holdTable" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Queue Numbers</th>
-                                        <th>Category</th>
-                                        <th>Status</th>
-                                        <th>Campus</th>
-                                        <th width="10%">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
-                        @endif
-                    </div>
-
-                    @if($queueMode->statusqueue === 'Off')
-                    @else
-                    <div class="col-md-3">
-                        <div class="form-group mt-2" style="padding: 10px">
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                    <div class="card" style="background-color: #dfdfdf">
-                                        <div class="card-body">
-                                            <center><label>Current No.</label></center>
-                                            <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
-                                            <button id="nextButton" class="btn btn-primary btn-block mt-3" data-counter-id="1">Next</button> 
-                                            <button id="callButton" class="btn btn-danger btn-block mt-2">Call</button>  
-                                        </div>
                                     </div>
+                                    @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
+                                        @if($queueMode->statusqueue === 'Off')
+                                        @else
+                                            <div class="col-md-3">
+                                                <div class="form-group mt-2" style="padding: 10px">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="card" style="background-color: #e9ecef">
+                                                                <div class="card-body">
+                                                                    <center><label>Current No.</label></center>
+                                                                    <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
+                                                                    <button id="nextButton" class="btn btn-success mt-3" data-counter-id="1">Next</button> 
+                                                                    <button id="callButton" class="btn btn-outline-danger mt-3">Call</button>  
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group" style="padding: 10px">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="card" style="background-color: #e9ecef">
+                                                                <div class="card-body">
+                                                                    <center><label>Select Transactions:</label></center>
+                                                                    <form action="{{ route('counterUserUpdate') }}" method="POST" id="transacCategory">
+                                                                        @csrf
+                                                                        <input type="hidden" name="id" value="{{ $queueUser->id ?? '' }}" hidden>
+                                                                        <select name="category" class="form-control" id="transacCategory">
+                                                                            <option value="Enrollment" {{ (isset($queueUser) && $queueUser->category == 'Enrollment') ? 'selected' : '' }}>Enrollment</option>
+                                                                            <option value="Processing" {{ (isset($queueUser) && $queueUser->category == 'Processing') ? 'selected' : '' }}>Evaluation</option>
+                                                                            <option value="Pre-register" {{ (isset($queueUser) && $queueUser->category == 'Pre-register') ? 'selected' : '' }}>Pre-register</option>
+                                                                        </select>
+                                                                        <button type="submit" class="btn btn-outline-success btn-block mt-3">Save</button> 
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @endif
-                @endif
+                </div>
             </div>
         </div>
-        
     </div>
-</div>
 
-<script>
-    function formatInput(input) {
-        let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-        
-        if (cleaned.length > 0) {
-            let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
-            input.value = formatted;
-        } else {
-            input.value = '';
+    <script>
+        function formatInput(input) {
+            let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
+            
+            if (cleaned.length > 0) {
+                let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
+                input.value = formatted;
+            } else {
+                input.value = '';
+            }
         }
-    }
 
-    function handleDelete(event) {
-        if (event.key === 'Backspace') {
-            let input = event.target;
-            let value = input.value;
-            input.value = value.substring(0, value.length - 1);
-            formatInput(input);
+        function handleDelete(event) {
+            if (event.key === 'Backspace') {
+                let input = event.target;
+                let value = input.value;
+                input.value = value.substring(0, value.length - 1);
+                formatInput(input);
+            }
         }
-    }
-</script>
-
-
+    </script>
 @endsection

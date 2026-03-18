@@ -34,7 +34,7 @@ CISS V.1.0 || Enrollment
                                 <div class="row">
                                     <div class="col-md-9"> 
                                         <form method="GET" action="{{ route('searchStudEnroll') }}" id="enrollStud" class="mb-4">
-                                            @csrf   
+                                            @csrf 
 
                                             <div class="form-group mt-2" style="padding: 10px">
                                                 <div class="row">
@@ -46,11 +46,11 @@ CISS V.1.0 || Enrollment
                                                     <div class="col-md-3">
                                                         <label>School Year</label>
                                                         <select class="form-control form-control-sm" name="schlyear">
-                                                            {{-- @foreach($sy as $datasy)
+                                                            @foreach($sy as $datasy)
                                                                 <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                            @endforeach --}}
-                                                            <option value="2025-2026">2025-2026</option>
-                                                            <option value="2022-2023">2022-2023</option>
+                                                            @endforeach
+                                                            {{-- <option value="2025-2026">2025-2026</option>
+                                                            <option value="2022-2023">2022-2023</option> --}}
                                                         </select>
                                                     </div>
 
@@ -111,7 +111,7 @@ CISS V.1.0 || Enrollment
                                                                     <center><label>Current No.</label></center>
                                                                     <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
                                                                     <button id="nextButton" class="btn btn-success mt-3" data-counter-id="1">Next</button> 
-                                                                    <button id="callButton" class="btn btn-outline-warning mt-3">Call</button>  
+                                                                    <button id="callButton" class="btn btn-outline-danger mt-3">Call</button>  
                                                                 </div>
                                                             </div>
                                                         </div>

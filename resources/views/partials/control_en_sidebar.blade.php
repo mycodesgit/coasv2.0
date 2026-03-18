@@ -61,7 +61,7 @@
         </li>
 
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $editEnrollStudActive }}" href="{{ route('editsearchStud') }}">
                 <i class="ti ti-edit"></i><span class="nav-text">Edit Enrollment</span>
             </a>
         </li>
@@ -69,7 +69,7 @@
 
     @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Gargoles')
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $editDupAppEnrollStudActive }}" href="{{ route('dupapprslSearch') }}">
                 <i class="ti ti-receipt"></i><span class="nav-text">Edit Dup. Fees</span>
             </a>
         </li>

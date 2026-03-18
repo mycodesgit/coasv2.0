@@ -484,7 +484,7 @@ class EnrollmentController extends Controller
         $queueMode = QueueMode::first();
         $queueUser = QueueCounter::where('useridlog', Auth::guard('web')->user()->id)->first();
 
-        return view('enrollment.studenroll.index', compact('sy', 'queueMode', 'queueUser'));
+        return view('enrollment.studenroll.enroll', compact('sy', 'queueMode', 'queueUser'));
     }
 
     public function checkEnrollment(Request $request)
@@ -569,7 +569,7 @@ class EnrollmentController extends Controller
         $shiftrans = StudentShifTrans::all();
         $program = EnPrograms::all();
 
-        $stud_id = $request->stud_id;
+        $stud_id = $request->query('stud_id');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
