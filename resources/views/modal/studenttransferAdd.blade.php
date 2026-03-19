@@ -1,13 +1,11 @@
-<div class="modal fade" id="modal-studenttrans">
+<div class="modal fade mt-6" id="modal-studenttrans">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-plus"></i> Transfer Student
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
             <form class="form-horizontal" action="{{ route('studtransferCreate') }}" method="post" id="adStudTransfer">  
@@ -15,45 +13,45 @@
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="form-row">
+                        <div class="row mb-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">Student ID No.:</span></label>
-                                <input type="text" name="stud_id" class="form-control" oninput="formatInput(this); this.value = this.value.toUpperCase(); fetchStudentName(this.value);" autofocus>
+                                <label>Student ID No.:</label>
+                                <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase(); fetchStudentName(this.value);" autofocus>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="form-row">
+                        <div class="row mb-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">Name:</span></label>
-                                <input type="text" id="studentName" class="form-control" readonly>
+                                <label>Name:</label>
+                                <input type="text" id="studentName" class="form-control form-control-sm" readonly>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="form-row">
+                        <div class="row mb-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">Primary ID:</span></label>
-                                <input type="text" id="primaryId" name="studbaseprim_id" class="form-control" readonly>
+                                <label>Primary ID:</label>
+                                <input type="text" id="primaryId" name="studbaseprim_id" class="form-control form-control-sm" readonly>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="form-row">
+                        <div class="row mb-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">From Campus:</span></label>
-                                <input type="text" id="fromCampus" name="fromcampus" oninput="this.value = this.value.toUpperCase()"  class="form-control" readonly="">
+                                <label>From Campus:</label>
+                                <input type="text" id="fromCampus" name="fromcampus" oninput="this.value = this.value.toUpperCase()"  class="form-control form-control-sm" readonly="">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="form-row">
+                        <div class="row mb-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">To Campus:</span></label>
+                                <label>To Campus:</label>
                                 <select class="form-control form-control-sm" name="tocampus">
                                     @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo' || Auth::guard('web')->user()->fname == 'Regielyn')
                                         <option value="MC">Main</option>

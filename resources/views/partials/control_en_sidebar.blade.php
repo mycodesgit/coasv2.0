@@ -117,7 +117,7 @@
     
     @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo' || Auth::guard('web')->user()->fname == 'Regielyn')
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studtransAllActive }}" href="{{ route('list_trans') }}">
                 <i class="ti ti-transfer"></i><span class="nav-text">Transfered Student</span>
             </a>
         </li>
