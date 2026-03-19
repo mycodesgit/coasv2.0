@@ -78,7 +78,7 @@
     @if(Auth::guard('web')->user()->campus == 'MC')
         @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 5, 6, 15]))
             <li>
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ $searchStudEvalActive }}" href="{{ route('loadstudsub') }}">
                     <i class="ti ti-scoreboard"></i><span class="nav-text">Evaluated Student</span>
                 </a>
             </li>
