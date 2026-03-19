@@ -194,7 +194,7 @@ CISS V.1.0 || Enrollment
 
                     <!-- Modal -->
                     @if(Auth::guard('web')->user()->campus != 'MC')
-                    <div class="modal fade" id="regularModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+                    <div class="modal fade mt-6" id="regularModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -211,7 +211,7 @@ CISS V.1.0 || Enrollment
                         </div>
                     </div>
                     @endif
-                    <div class="modal fade" id="irregularModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+                    <div class="modal fade mt-6" id="irregularModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
