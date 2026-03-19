@@ -36,7 +36,7 @@ CISS V.1.0 || Enrollment
                                         <form method="GET" action="{{ route('rfstudprintsearch') }}" id="enrollStud">
                                             @csrf   
 
-                                            <div class="form-group mt-2" style="padding: 10px">
+                                            <div class="form-group mt-2">
                                                 <div class="row g-3">
                                                     <div class="col-md-3">
                                                         <label>Student ID Number:</label>

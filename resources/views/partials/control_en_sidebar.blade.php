@@ -159,7 +159,7 @@
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studcurrActive }}" href="{{ route('studCurr') }}">
                 <i class="ti ti-file-type-pdf"></i><span class="nav-text">Student Per Degree</span>
             </a>
         </li>
