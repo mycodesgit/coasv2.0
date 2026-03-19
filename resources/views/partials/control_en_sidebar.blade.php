@@ -154,7 +154,7 @@
 
     @if(Auth::guard('web')->user()->role != 19)
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studRFActive }}" href="{{ route('rfstudprint') }}">
                 <i class="ti ti-printer"></i><span class="nav-text">Print Student RF</span>
             </a>
         </li>
