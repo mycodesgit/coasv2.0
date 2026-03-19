@@ -512,6 +512,19 @@
             });
         </script>
     @endif
+
+    <script>
+        const sidebar = document.getElementById("sidebar");
+        const activeItem = sidebar.querySelector(".active");
+
+        if (activeItem) {
+            const offset = activeItem.offsetTop - sidebar.clientHeight / 2;
+            sidebar.scrollTo({
+                top: offset,
+                behavior: "smooth"
+            });
+        }
+    </script>
 </body>
 
 </html>

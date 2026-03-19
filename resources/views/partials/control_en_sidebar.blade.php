@@ -236,23 +236,23 @@
     @endif
     
     @if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->lname == 'Arlos')
-    <li class="nav-text-space"><small class="nav-text"></small></li>
-    <li class="px-4 py-2"><small class="nav-text text-muted">Logs</small></li>
+        <li class="nav-text-space"><small class="nav-text"></small></li>
+        <li class="px-4 py-2"><small class="nav-text text-muted">Logs</small></li>
     @endif
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 3]))
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $updenrlmntlogsActive }}" href="{{ route('updateEnrlmntlogsRead') }}">
                 <i class="ti ti-logs"></i><span class="nav-text">Updated Enroll. Logs</span>
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $encodeGradelogsActive }}" href="{{ route('searchEncode_grade') }}">
                 <i class="ti ti-building-store"></i><span class="nav-text">Encoded Grades. Logs</span>
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $delenrlmntlogsActive }}" href="{{ route('delenrlmntlogsRead') }}">
                 <i class="ti ti-git-branch-deleted"></i><span class="nav-text">Deleted Enroll. Logs</span>
             </a>
         </li>
