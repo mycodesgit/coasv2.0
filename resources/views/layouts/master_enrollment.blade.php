@@ -321,12 +321,25 @@
     </script>
 
     <script>
-        $(document).ready(function () {
-            $('#searchDropdown').select2({
-                placeholder: '-- Search and Select --',
-                allowClear: true,
-                minimumInputLength: 6
+        // $(document).ready(function () {
+        //     $('#subjectSelect').select2bs4({
+        //         placeholder: '-- Search and Select --',
+        //         allowClear: true,
+        //         minimumInputLength: 6,
+        //         dropdownParent: $('#modal-addSub')
+        //     });
+        // });
+        $(function () {
+            $('.select2').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#modal-addSub')
             });
+
+            $('.select2bs4').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#modal-addSub')
+                //height: '150'
+            })
         });
     </script>
 
