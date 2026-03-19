@@ -75,12 +75,11 @@ CISS V.1.0 || Enrollment
 
                                                     <div class="col-md-3">
                                                         <label>&nbsp;</label>
-                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
-                                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
                                     </div>
                                 </div>
                             </div>

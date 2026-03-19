@@ -164,7 +164,7 @@
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studAttendcurrActive }}" href="{{ route('studAttendanceCurr') }}">
                 <i class="ti ti-file-type-pdf"></i><span class="nav-text">Attendance Per Degree</span>
             </a>
         </li>
@@ -172,12 +172,12 @@
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 20]))
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studsubjActive }}" href="{{ route('studsubjectsRead') }}">
                 <i class="ti ti-file-type-pdf"></i><span class="nav-text">Class Attendance</span>
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studviewgrdeActive }}" href="{{ route('studviewgradeRead') }}">
                 <i class="ti ti-numbers"></i><span class="nav-text">View Student Grades</span>
             </a>
         </li>
@@ -185,7 +185,7 @@
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 20]) || Auth::guard('web')->user()->lname == 'Gargoles')
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $reportcardActive }}" href="{{ route('reportCard_list') }}">
                 <i class="ti ti-file-type-pdf"></i><span class="nav-text">Students Report Card</span>
             </a>
         </li>

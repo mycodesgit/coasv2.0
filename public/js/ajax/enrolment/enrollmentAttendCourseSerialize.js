@@ -46,7 +46,7 @@ $(document).ready(function() {
             {data: 'id',
                 render: function(data, type, row) {
                     if (type === 'display') {
-                        var link = '<a href="#" class="btn btn-primary btn-xs btn-viewstudent" data-program="' + row.progCod + '" data-year="' + row.studYear + '" data-section="' + row.studSec + '" data-schlyear="' + row.schlyear + '" data-semester="' + row.semester + '">' +
+                        var link = '<a href="#" class="btn btn-success btn-sm btn-viewstudent text-light" data-program="' + row.progCod + '" data-year="' + row.studYear + '" data-section="' + row.studSec + '" data-schlyear="' + row.schlyear + '" data-semester="' + row.semester + '">' +
                             '<i class="fas fa-eye"></i>' +
                             '</a>';
                         return link;
@@ -167,13 +167,13 @@ $(document).ready(function() {
                         var semesterText;
                         switch(enroll.semester) {
                             case 1:
-                                semesterText = '<span class="badge badge-info">1st Sem</span>';
+                                semesterText = '<span class="badge bg-info">1st Sem</span>';
                                 break;
                             case 2:
-                                semesterText = '<span class="badge badge-info">2nd Sem</span>';
+                                semesterText = '<span class="badge bg-info">2nd Sem</span>';
                                 break;
                             case 3:
-                                semesterText = '<span class="badge badge-secondary">Summer</span>';
+                                semesterText = '<span class="badge bg-secondary">Summer</span>';
                                 break;
                             default:
                                 semesterText = 'Unknown Semester';

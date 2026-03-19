@@ -75,7 +75,7 @@ CISS V.1.0 || Enrollment
 
                                                     <div class="col-md-3">
                                                         <label>&nbsp;</label>
-                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,7 +136,7 @@ CISS V.1.0 || Enrollment
                             <button class="nav-link active" id="pills-list-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-list" type="button" role="tab"
                                 aria-controls="pills-list" aria-selected="true">
-                                Student Record
+                                Student List
                             </button>
                         </li>
                         &nbsp;
@@ -144,7 +144,7 @@ CISS V.1.0 || Enrollment
                             <button class="nav-link" id="pills-view-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-view" type="button" role="tab"
                                 aria-controls="pills-view" aria-selected="false" tabindex="-1">
-                                Load Student Subjects
+                                PDF View
                             </button>
                         </li>
                     </ul>

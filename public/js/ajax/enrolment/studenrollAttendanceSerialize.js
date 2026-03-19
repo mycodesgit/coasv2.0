@@ -53,7 +53,7 @@ $(document).ready(function() {
                         // Log the final route for debugging
                         //console.log("Generated route: ", routeWithParams);
 
-                        var editLink = '<a href="' + routeWithParams + '" class="btn btn-primary btn-sm btn-studview" target="_blank">' +
+                        var editLink = '<a href="' + routeWithParams + '" class="btn btn-success btn-sm btn-studview text-light" target="_blank">' +
                             '<i class="fas fa-eye"></i>' +
                             '</a>';
                         return editLink;
