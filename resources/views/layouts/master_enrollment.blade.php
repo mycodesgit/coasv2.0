@@ -326,21 +326,8 @@
         //         placeholder: '-- Search and Select --',
         //         allowClear: true,
         //         minimumInputLength: 6,
-        //         dropdownParent: $('#modal-addSub')
         //     });
         // });
-        $(function () {
-            $('.select2').select2({
-                theme: 'bootstrap4',
-                dropdownParent: $('#modal-addSub')
-            });
-
-            $('.select2bs4').select2({
-                theme: 'bootstrap4',
-                dropdownParent: $('#modal-addSub')
-                //height: '150'
-            })
-        });
     </script>
 
     <!-- Ajax -->

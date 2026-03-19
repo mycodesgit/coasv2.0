@@ -63,7 +63,7 @@ CISS V.1.0 || Enrollment
                                                 <div class="form-group" style="padding-left: 10px; padding-right: 10px">
                                                     <div class="row">
                                                         <div class="col-md-2 g-3">
-                                                            <label>Admission Type</label>
+                                                            <label>Admission Type: <span class="text-danger">*</span></label>
                                                             <select class="form-control form-control-sm" name="type" id="">
                                                                 <option value="">Select</option>
                                                                 <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>New</option>
@@ -72,19 +72,19 @@ CISS V.1.0 || Enrollment
                                                             </select>
                                                         </div>
                                                         <div class="col-md-2 g-3">
-                                                            <label>Firstname</label>
+                                                            <label>Firstname: <span class="text-danger">*</span></label>
                                                             <input type="text" name="fname" class="form-control form-control-sm" id="viewdatastudFname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
-                                                            <label>Middlename</label>
+                                                            <label>Middlename: </label>
                                                             <input type="text" name="mname" class="form-control form-control-sm" id="viewdatastudMname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
-                                                            <label>Lastname</label>
+                                                            <label>Lastname: <span class="text-danger">*</span></label>
                                                             <input type="text" name="lname" class="form-control form-control-sm" id="viewdatastudLname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
-                                                            <label>Ext. name</label>
+                                                            <label>Ext. name:</label>
                                                             <select class="form-control form-control-sm" name="ext" id="viewdatastudExt">
                                                                 <option disabled selected> --Select-- </option>
                                                                 <option value="">N/A</option>
@@ -95,7 +95,7 @@ CISS V.1.0 || Enrollment
                                                             </select>
                                                         </div>
                                                         <div class="col-md-2 g-3">
-                                                            <label>Gender</label>
+                                                            <label>Gender: <span class="text-danger">*</span></label>
                                                             <select class="form-control form-control-sm" name="gender" id="viewdatastudGender">
                                                                 <option disabled selected>Select</option>
                                                                 @foreach($genderStatuses as $gdrstatus)
@@ -111,7 +111,7 @@ CISS V.1.0 || Enrollment
                                                 <div class="form-group" style="padding-left: 10px; padding-right: 10px">
                                                     <div class="row">
                                                         <div class="col-md-2 g-3">
-                                                            <label>Civil Status</label>
+                                                            <label>Civil Status: <span class="text-danger">*</span></label>
                                                             <select class="form-control form-control-sm" name="civil_status" id="viewdatastudcivilstat">
                                                                 <option disabled selected>Select</option>
                                                                 @foreach($civilStatuses as $status)
@@ -123,19 +123,19 @@ CISS V.1.0 || Enrollment
                                                         </div>
                                                         
                                                         <div class="col-md-2 g-3">
-                                                            <label>Birthday</label>
+                                                            <label>Birthday: <span class="text-danger">*</span></label>
                                                             <input type="date" name="bday" class="form-control form-control-sm" id="bday" onchange="calculateAge()">
                                                         </div>
                                                         <div class="col-md-4 g-3">
-                                                            <label>Birth Place</label>
+                                                            <label>Birth Place:</label>
                                                             <input type="text" name="pbirth" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" id="viewdatastudBdayp">
                                                         </div>
                                                         <div class="col-md-2 g-3">
-                                                            <label>Email Address</label>
+                                                            <label>Email Address: <span class="text-danger">*</span></label>
                                                             <input type="text" name="email" class="form-control form-control-sm" id="viewdatastudEmail">
                                                         </div>
                                                         <div class="col-md-2 g-3">
-                                                            <label>Mobile</label>
+                                                            <label>Mobile:</label>
                                                             <input type="text" name="contact" class="form-control form-control-sm" id="viewdatastudMobile">
                                                         </div>
                                                     </div>
@@ -144,7 +144,7 @@ CISS V.1.0 || Enrollment
                                                 <div class="form-group" style="padding-left: 10px; padding-right: 10px">
                                                     <div class="row">
                                                         <div class="col-md-4 g-3">
-                                                            <label>Region</label>
+                                                            <label>Region: <span class="text-danger">*</span></label>
                                                             <select id="region" class="form-control form-control-sm select2bs4">
                                                                 <option value="">Select Region</option>
                                                                 @foreach($regions as $region)
@@ -154,14 +154,14 @@ CISS V.1.0 || Enrollment
                                                             <input type="hidden" id="region_name" name="region">
                                                         </div>
                                                         <div class="col-md-4 g-3">
-                                                            <label>Province</label>
+                                                            <label>Province: <span class="text-danger">*</span></label>
                                                             <select id="province" class="form-control form-control-sm select2bs4">
                                                                 <option value="">Select Province</option>
                                                             </select>
                                                             <input type="hidden" id="province_name" name="province">
                                                         </div>
                                                         <div class="col-md-4 g-3">
-                                                            <label>City/Municipality</label>
+                                                            <label>City/Municipality: <span class="text-danger">*</span></label>
                                                             <select id="city" class="form-control form-control-sm select2bs4">
                                                                 <option value="">Select City</option>
                                                             </select>

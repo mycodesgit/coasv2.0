@@ -474,5 +474,17 @@ CISS V.1.0 || Enrollment
                 });
             });
         });
+
+        $(function () {
+            $('.select2').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#modal-addSub')
+            });
+
+            $('.select2bs4').select2({
+                theme: 'bootstrap4',
+                //height: '150'
+            })
+        });
     </script>
 @endsection
