@@ -52,13 +52,14 @@
                 opacity: 1;
             }
         }
+        
     </style>
 </head>
 
 <body>
     <div id="overlay" class="overlay"></div>
     <!-- TOPBAR -->
-    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9999">
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9995">
 
         <div id="s" class="text-light">
             CISS v.1.0 
@@ -414,6 +415,47 @@
         <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
+    <script type="text/javascript">
+        function updateGrade(id, grade){
+            //alert(id);
+             $.ajax({
+                url: '{{ route('registrarsave_grades') }}',
+                method: 'POST',
+                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
+                success: function (data) {
+                    console.log(data.gradeCount);
+                    if(data.gradeCount > 0){
+                        $('#submitgradeid').prop('disabled', false);
+                    }else{
+                        $('#submitgradeid').prop('disabled', true);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function updateGradeComp(id, grade){
+            //alert(id);
+             $.ajax({
+                url: '{{ route('registrarsave_gradesComp') }}',
+                method: 'POST',
+                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
+                success: function (data) {
+                    console.log(data.gradeCount);
+                    if(data.gradeCount > 0){
+                        $('#submitgradeid').prop('disabled', false);
+                    }else{
+                        $('#submitgradeid').prop('disabled', true);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+    
     @if(request()->routeIs('editsearchStudRead'))
         <script>
             document.getElementById('deleteButton').addEventListener('click', function() {

@@ -25,7 +25,7 @@ $(document).ready(function() {
             data: 'id',
                 render: function(data, type, row) {
                     if (type === 'display') {
-                        var editLink = '<a href="#" class="btn btn-primary btn-sm btn-studhisview"  data-id="' + row.stud_id + '" data-fname="' + row.fname + '" data-lname="' + row.lname + '">' +
+                        var editLink = '<a href="#" class="btn btn-success btn-sm btn-studhisview text-light"  data-id="' + row.stud_id + '" data-fname="' + row.fname + '" data-lname="' + row.lname + '">' +
                             '<i class="fas fa-eye"></i>' +
                             '</a>';
                         return editLink;
@@ -69,13 +69,13 @@ $(document).ready(function() {
                         var semesterText;
                         switch(history.semester) {
                             case 1:
-                                semesterText = '<span class="badge badge-info">1st Sem</span>';
+                                semesterText = '<span class="badge bg-info">1st Sem</span>';
                                 break;
                             case 2:
-                                semesterText = '<span class="badge badge-info">2nd Sem</span>';
+                                semesterText = '<span class="badge bg-info">2nd Sem</span>';
                                 break;
                             case 3:
-                                semesterText = '<span class="badge badge-secondary">Summer</span>';
+                                semesterText = '<span class="badge bg-secondary">Summer</span>';
                                 break;
                             default:
                                 semesterText = 'Unknown Semester';

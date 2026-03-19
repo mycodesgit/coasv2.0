@@ -86,11 +86,19 @@
     @endif
 
     <li>
-        <a class="nav-link" href="#">
+        <a class="nav-link {{ $stuEnrollmentHisActive }}" href="{{ route('studentEnHistory') }}">
             <i class="ti ti-history"></i><span class="nav-text">Enrollment History</span>
         </a>
     </li>
 
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15]))
+        <li>
+            <a class="nav-link {{ $gradeStudActive }}" href="{{ route('studgrade_search') }}">
+                <i class="ti ti-file-spreadsheet"></i><span class="nav-text">Gradesheet</span>
+            </a>
+        </li>
+    @endif
+    
     @if(Auth::guard('web')->user()->role == '19' && Auth::guard('web')->user()->campus == 'MC')
         <li>
             <a class="nav-link" href="#">
