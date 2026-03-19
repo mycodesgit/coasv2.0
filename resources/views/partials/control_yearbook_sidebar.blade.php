@@ -7,7 +7,7 @@
 
 <ul class="nav flex-column">
     
-    <li class="px-4 py-2"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
     <li>
         <a class="nav-link {{ $dashyearbookActive }}" href="{{ route('yearbook-index') }}">
             <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>

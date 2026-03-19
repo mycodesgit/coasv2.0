@@ -146,7 +146,7 @@
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 15]) || Auth::guard('web')->user()->lname == 'Gargoles')
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studinfogradActive }}" href="{{ route('studInfograduated') }}">
                 <i class="ti ti-user"></i><span class="nav-text">Student Info</span>
             </a>
         </li>

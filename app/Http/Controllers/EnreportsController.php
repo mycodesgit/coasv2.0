@@ -92,7 +92,7 @@ class EnreportsController extends Controller
         $admissionid = Student::orderBy('admission_id', 'desc')->first();
         $program = Programs::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
         $docs = ApplicantDocs::where('admission_id', '=', $student->admission_id)->get();
-        return view('enrollment.reports.studentinfo.studInfo_view')
+        return view('enrollment.reports.studentinfo.studInfo_views')
         ->with('student', $student)
         ->with('program', $program)
         ->with('docs', $docs)
