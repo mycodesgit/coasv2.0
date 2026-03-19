@@ -190,17 +190,17 @@
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $elplActive }}" href="{{ route('elpl_list') }}">
                 <i class="ti ti-file-excel"></i><span class="nav-text">EL and PL</span>
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $rankActive }}" href="{{ route('ranking_list') }}">
                 <i class="ti ti-military-rank"></i><span class="nav-text">Ranking</span>
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $numenrolledActive }}" href="{{ route('studnoenrollee') }}">
                 <i class="ti ti-checklist"></i><span class="nav-text">Number of Enrollees</span>
             </a>
         </li>
@@ -208,7 +208,7 @@
     
     @if(in_array(Auth::guard('web')->user()->role, [0]))
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $numnstpenrolledActive }}" href="{{ route('studnoNSTPenrollee') }}">
                 <i class="ti ti-brand-miniprogram"></i><span class="nav-text">Cwts/Lts/Rotc</span>
             </a>
         </li>
@@ -216,12 +216,12 @@
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15, 19, 20]))
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studevalActive }}" href="{{ route('studevalRead') }}">
                 <i class="ti ti-book-2"></i><span class="nav-text">Student Record</span>
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $facgdeshtlgbokActive }}" href="{{ route('logbookindex') }}">
                 <i class="ti ti-address-book"></i><span class="nav-text">Gradesheet Logbook</span>
             </a>
         </li>
@@ -229,7 +229,7 @@
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 3]))
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studenpersemActive }}" href="{{ route('studenrollRead') }}">
                 <i class="ti ti-registered"></i><span class="nav-text">Students Enrolled</span>
             </a>
         </li>

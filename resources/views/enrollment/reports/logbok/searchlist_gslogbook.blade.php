@@ -1,134 +1,141 @@
 @extends('layouts.master_enrollment')
 
 @section('title')
-CISS V.1.0 || Gradesheet Logbook
-@endsection
-
-@section('sideheader')
-<h4>Enrollment</h4>
+CISS V.1.0 || Enrollment
 @endsection
 
 @yield('sidemenu')
 
 @section('workspace')
-<div class="card">
-    <div class="card-body">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-home"></i>
-                </a>
-            </li>
-            <li class="breadcrumb-item mt-1">Enrollment</li>
-            <li class="breadcrumb-item active mt-1">Reports</li>
-            <li class="breadcrumb-item active mt-1">Gradesheet Logbook</li>
-        </ol>
-
-        <p>
-            @if(Session::has('success'))
-                <div class="alert alert-success">{{ Session::get('success')}}</div>
-            @elseif (Session::has('fail'))
-                <div class="alert alert-danger">{{Session::get('fail')}}</div>
-            @endif
-        </p>
-
-        <div>
-            <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                <h4>Gradesheet Logbook</h4>
-            </div> 
-        </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <form method="GET" action="{{ route('logbook_search') }}" enctype="multipart/form-data" id="enrollStud">
-                        @csrf   
-
-                        <div class="form-group mt-2" style="padding: 10px; border-bottom: 1px solid #04401f;">
-                            <div class="form-row">
-                                <div class="col-md-3">
-                                    <label><span class="badge badge-secondary">School Year</span></label>
-                                    <select class="form-control form-control-sm" name="schlyear">
-                                        @foreach($sy as $datasy)
-                                            <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label><span class="badge badge-secondary">Semester</span></label>
-                                    <select class="form-control form-control-sm" name="semester">
-                                        <option disabled selected>Select</option>
-                                        <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
-                                        <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
-                                        <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label><span class="badge badge-secondary">Colleges</span></label>
-                                    <select class="form-control form-control-sm" name="collegeabbr">
-                                        <option disabled selected>Select</option>
-                                        @foreach ($colleges as $item)
-                                            <option value="{{ $item->college_abbr }}">{{ $item->college_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label>&nbsp;</label>
-                                    <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-6">
+                {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
+                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                    <div class="card-body">
+                        <ol class="breadcrumb" style="margin-bottom: -3px;">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('home') }}" class="btn btn-success btn-sm text-light">
+                                    <i class="fas fa-home"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item mt-1">Enrollment</li>
+                            <li class="breadcrumb-item active mt-1">Gradesheet Logbook</li>
+                        </ol>
+                    </div>
                 </div>
-
-                <div class="col-md-12">
-                    <div class="card-outline-tabs">
-                        <div class="card-header p-0 border-bottom-0">
-                            <ul class="nav nav-tabs" id="custom-tabs-five-tab" role="tablist">
-                                <li class="nav-item ml-1">
-                                    <a class="nav-link active text-dark text-bold" id="custom-tabs-one-tab" data-toggle="pill" href="#custom-tabs-one" role="tab" aria-controls="custom-tabs-one" aria-selected="true">Gradesheet Logbook Table</a>
-                                </li>
-                                <li class="nav-item ml-1">
-                                    <a class="nav-link text-dark text-bold" id="custom-tabs-two-tab" data-toggle="pill" href="#custom-tabs-two" role="tab" aria-controls="custom-tabs-two" aria-selected="false">Gradesheet Logbook PDF</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <div class="tab-content" id="custom-tabs-four-tabContent">
-                                <div class="tab-pane fade show active" id="custom-tabs-one" role="tabpanel" aria-labelledby="custom-tabs-one-tab">
-                                    <table id="gdesheetloglist" class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Schlyear</th>
-                                                <th>Semester</th>
-                                                <th>Faculty</th>
-                                                <th>Subject</th>
-                                                <th>Subject Title</th>
-                                                <th>Curr/Yr/Sec</th>
-                                                <th>College</th>
-                                                <th>Date Submitted</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
+                <div class="row g-3 mb-3 mt-3">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                                    <h4>Gradesheet Logbook</h4>
                                 </div>
-                                <div class="tab-pane fade" id="custom-tabs-two" role="tabpanel" aria-labelledby="custom-tabs-two-tab">                            
-                                    <iframe src="{{ route('logbookpdfprint', ['schlyear' => request('schlyear'), 'semester' => request('semester')]) }}" width="100%" height="500"></iframe>
+                                <div class="row">
+                                    <div class="col-md-12"> 
+                                        <form method="GET" action="{{ route('logbook_search') }}" id="enrollStud">
+                                            @csrf   
+
+                                            <div class="form-group mt-2">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>School Year:</label>
+                                                        <select class="form-control form-control-sm" name="schlyear" id="schlyear1">
+                                                            @foreach($sy as $datasy)
+                                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label>Semester:</label>
+                                                        <select class="form-control form-control-sm" name="semester" id="semester">
+                                                            <option disabled selected>Select</option>
+                                                            <option value="1">First Semester</option>
+                                                            <option value="2">Second Semester</option>
+                                                            <option value="3">Summer</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label>Colleges:</label>
+                                                        <select class="form-control form-control-sm" name="collegeabbr">
+                                                            <option disabled selected>Select</option>
+                                                            @foreach ($colleges as $item)
+                                                                <option value="{{ $item->college_abbr }}">{{ $item->college_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label>&nbsp;</label>
+                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
+
+                                        <ul class="nav nav-pills mb-3 bg-light p-2 rounded-2 d-inline-flex mt-3" id="pills-tab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="pills-one-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#pills-one" type="button" role="tab"
+                                                    aria-controls="pills-one" aria-selected="true">
+                                                    Gradesheet Logbook Table
+                                                </button>
+                                            </li>
+                                            &nbsp;
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="pills-two-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#pills-two" type="button" role="tab"
+                                                    aria-controls="pills-two" aria-selected="false" tabindex="-1">
+                                                    Gradesheet Logbook PDF
+                                                </button>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content mt-3" id="pills-tabContent">
+                                            <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab" tabindex="0">
+                                                <div class="bg-light p-2 rounded-2">
+                                                    <div class="table-responsive p-2">
+                                                        <table id="gdesheetloglist" class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Schlyear</th>
+                                                                    <th>Semester</th>
+                                                                    <th>Faculty</th>
+                                                                    <th>Subject</th>
+                                                                    <th>Subject Title</th>
+                                                                    <th>Curr/Yr/Sec</th>
+                                                                    <th>College</th>
+                                                                    <th>Date Submitted</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab" tabindex="0">
+                                                <div class="bg-light p-2 rounded-2">
+                                                    <iframe src="{{ route('logbookpdfprint', ['schlyear' => request('schlyear'), 'semester' => request('semester')]) }}" width="100%" height="500"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
-</div>
 
-<script>
-    var gradesheetlogbookReadRoute = "{{ route('getlogbook_search') }}";
-</script>
-
+    <script>
+        var gradesheetlogbookReadRoute = "{{ route('getlogbook_search') }}";
+    </script>
 @endsection
