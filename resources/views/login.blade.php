@@ -92,7 +92,6 @@
     <script src="{{ asset('particles/app.js') }}"></script> --}}
     <!-- Context -->
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
-    
 
     <script>
         $(document).ready(function() {
