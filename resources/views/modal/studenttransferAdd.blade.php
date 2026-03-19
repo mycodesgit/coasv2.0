@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label>Student ID No.:</label>
+                                <label>Student ID No.: <span class="text-danger">*</span></label>
                                 <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase(); fetchStudentName(this.value);" autofocus>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                 </div>
             
                 <div class="modal-footer justify-content-between">
-                    <button type="submit" class="btn btn-primary">Transfer Student Now</button>
+                    <button type="submit" class="btn btn-success">Transfer Student Now</button>
                 </div>
             </form>
         </div>

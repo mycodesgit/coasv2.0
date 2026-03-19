@@ -34,7 +34,7 @@ CISS V.1.0 || Enrollment
                                 <div class="row">
                                     <div class="col-md-12 mt-3">
                                         <div class="table-responsive p-2">
-                                            <button type="button" class="btn btn-success btn-sm mb-4" data-toggle="modal" data-target="#modal-subjects">
+                                            <button type="button" class="btn btn-success btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#modal-subjects">
                                                 <i class="fas fa-plus"></i> Add New
                                             </button>
 

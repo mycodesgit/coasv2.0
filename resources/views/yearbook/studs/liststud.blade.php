@@ -27,17 +27,15 @@ CISS V.1.0 || YearBook
                 <div class="row g-3 mb-3 mt-3">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header pt-3">
-                                <h6 class="card-title">
-                                    <i class="ti ti-users"></i> Students
-                                </h6>
-                            </div>
                             <div class="card-body">
+                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                                    <h4>Students</h4>
+                                </div>
                                 <form method="GET" action="{{ route('showStudentResult') }}" id="enrollStud">
                                     @csrf   
 
-                                    <div class="form-group">
-                                        <div class="row">
+                                    <div class="form-group mt-2">
+                                        <div class="row g-3">
                                             <div class="col-md-3">
                                                 <label>School Year: <span class="text-danger">*</span></label>
                                                 <select class="form-control form-control-sm" name="schlyear" id="schlyear1">

@@ -37,9 +37,9 @@ CISS V.1.0 || Enrollment
                                             @csrf   
 
                                             <div class="form-group mt-2">
-                                                <div class="row">
+                                                <div class="row g-3">
                                                     <div class="col-md-3">
-                                                        <label>Student ID Number:</label>
+                                                        <label>Student ID Number: <span class="text-danger">*</span></label>
                                                         <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
                                                     </div>
 

@@ -39,7 +39,7 @@ CISS V.1.0 || Enrollment
                                             <div class="form-group mt-2">
                                                 <div class="row g-3">
                                                     <div class="col-md-3">
-                                                        <label>School Year:</label>
+                                                        <label>School Year: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="schlyear">
                                                             @foreach($sy as $datasy)
                                                                 <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
@@ -48,7 +48,7 @@ CISS V.1.0 || Enrollment
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label>Semester:</label>
+                                                        <label>Semester: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="semester">
                                                             <option disabled selected>Select</option>
                                                             <option value="1">First Semester</option>

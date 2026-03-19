@@ -40,7 +40,7 @@ CISS V.1.0 || Enrollment
                                                 <div class="form-group mt-3 mt-2">
                                                     <div class="row g-3">
                                                         <div class="col-md-2">
-                                                            <label>Campus:</label>
+                                                            <label>Campus: <span class="text-danger">*</span></label>
                                                             <select class="form-control form-control-sm" name="campus" id="campus">
                                                                 <option value="{{Auth::user()->campus}}">
                                                                     @if (Auth::user()->campus == 'MC') Main 
