@@ -33,7 +33,7 @@ CISS V.1.0 || Enrollment
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="table-responsive mt-3">
+                                        <div class="table-responsive mt-3 p-2">
                                             <button type="button" class="btn btn-success btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#modal-studenttrans">
                                                 <i class="fas fa-plus"></i> Add New
                                             </button>

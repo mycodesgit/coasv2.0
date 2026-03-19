@@ -125,7 +125,7 @@
     
     @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie' || Auth::guard('web')->user()->lname == 'RAMADA' || Auth::guard('web')->user()->lname == 'Arquero' || Auth::guard('web')->user()->lname == 'Doronila')
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $subjectAllActive }}" href="{{ route('subjectsRead') }}">
                 <i class="ti ti-book"></i><span class="nav-text">Subjects</span>
             </a>
         </li>
@@ -138,7 +138,7 @@
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 13, 14]) || Auth::guard('web')->user()->lname == 'Gargoles')
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $studinfoActive }}" href="{{ Auth::guard('web')->user()->role == 0 ? route('studInfo') : route('studInfo_search') }}">
                 <i class="ti ti-user"></i><span class="nav-text">Student Information</span>
             </a>
         </li>

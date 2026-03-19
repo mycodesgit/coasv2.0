@@ -33,10 +33,10 @@ CISS V.1.0 || Enrollment
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12"> 
-                                        <form method="GET" action="{{ route('loadstudsub_searchview') }}" id="enrollStud" class="mb-4">
+                                        <form method="GET" action="{{ route('loadstudsub_searchview') }}" id="enrollStud" class="mb-3">
                                             @csrf 
 
-                                            <div class="form-group mt-2" style="padding: 10px">
+                                            <div class="form-group mt-2">
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <label>Student ID Number</label>

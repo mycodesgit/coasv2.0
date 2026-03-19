@@ -33,18 +33,18 @@ CISS V.1.0 || Enrollment
                                 </div>
                                 <div class="row">
                                     <div class="col-md-9"> 
-                                        <form method="GET" action="{{ route('searchStudEnroll') }}" id="enrollStud" class="mb-4">
+                                        <form method="GET" action="{{ route('searchStudEnroll') }}" id="enrollStud" class="mb-3">
                                             @csrf 
 
-                                            <div class="form-group mt-2" style="padding: 10px">
+                                            <div class="form-group mt-2">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label>Student ID Number</label>
+                                                        <label>Student ID Number:</label>
                                                         <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label>School Year</label>
+                                                        <label>School Year:</label>
                                                         <select class="form-control form-control-sm" name="schlyear">
                                                             @foreach($sy as $datasy)
                                                                 <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
@@ -55,7 +55,7 @@ CISS V.1.0 || Enrollment
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label>Semester</label>
+                                                        <label>Semester:</label>
                                                         <select class="form-control form-control-sm" name="semester">
                                                             <option disabled selected>Select</option>
                                                             <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
