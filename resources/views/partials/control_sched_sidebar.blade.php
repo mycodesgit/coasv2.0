@@ -20,59 +20,97 @@
 
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('scheduler-index') }}" class="list-group-item {{ $dashSchedActive }}">Dashboard</a>
-    </ul>
-    <ul class="list-group mt-1">
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
-            <a href="{{ route('collegeRead') }}" class="list-group-item {{ $collegeActive }}">College</a>
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0]))
-            <a href="{{ route('programsRead') }}" class="list-group-item {{ $classProgActive }}">Programs</a>
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14]))
-            <a href="{{ route('roomsRead') }}" class="list-group-item {{ $roomActive }}">Rooms</a>
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 12, 14, 15]))
-            <a href="{{ route('courseEnroll_list') }}" class="list-group-item {{ $classEnrollActive }}">Classes Enrolled</a>  
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14]))
-            <a href="{{ route('faculty_design') }}" class="list-group-item {{ $facDesigActive }}">Designation</a>
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 12, 14, 15]))
-            <a href="{{ route('subjectsOffered') }}" class="list-group-item {{ $suboffActive }}">Subject Offered</a>
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7, 12, 14]))
-            <a href="{{ route('faculty_list') }}" class="list-group-item {{ $facultyActive }}">Faculty</a>
-        @endif
-        @if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->fname == 'Rosalie')
-            <a href="{{ route('curRead') }}" class="list-group-item {{ $curriActive }}">Curriculumn</a>
-        @endif
-    </ul>
-</div>
+<ul class="nav flex-column">
+    
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
+    <li>
+        <a class="nav-link {{ $dashSchedActive }}" href="{{ route('scheduler-index') }}">
+            <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
+        </a>
+    </li>
 
+    @if(in_array(Auth::guard('web')->user()->role, [0]))
+        <li>
+            <a class="nav-link {{ $collegeActive }}" href="{{ route('collegeRead') }}">
+                <i class="ti ti-building"></i><span class="nav-text">Colleges</span>
+            </a>
+        </li>
+    @endif
 
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Scheduler</h5>
-</div>
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('classSchedRead') }}" class="list-group-item {{ $classSchedActive }}">Class Schedule</a>
-        <a href="{{ route('facultySchedRead') }}" class="list-group-item {{ $facultySchedActive }}">Faculty Schedule</a>
-        <a href="{{ route('roomSchedRead') }}" class="list-group-item {{ $roomSchedActive }}">Room Schedule</a>
-    </ul>
-</div>
+    @if(in_array(Auth::guard('web')->user()->role, [0]))
+        <li>
+            <a class="nav-link {{ $classProgActive }}" href="{{ route('programsRead') }}">
+                <i class="ti ti-book"></i><span class="nav-text">Programs</span>
+            </a>
+        </li>
+    @endif
+    
+    @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14]))
+        <li>
+            <a class="nav-link {{ $roomActive }}" href="{{ route('roomsRead') }}">
+                <i class="ti ti-route-square"></i><span class="nav-text">Class Rooms</span>
+            </a>
+        </li>
+    @endif
 
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 12, 14, 15]))
+        <li>
+            <a class="nav-link {{ $classEnrollActive }}" href="{{ route('courseEnroll_list') }}">
+                <i class="ti ti-bookmark-plus"></i><span class="nav-text">Classes Enrolled</span>
+            </a>
+        </li>
+    @endif
 
-@if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Gargoles')
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Reports</h5>
-</div>
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('facultyloadRead') }}" class="list-group-item {{ $facultyloadActive }}">Faculty Load</a>
-        <a href="{{ route('reportsuboffer') }}" class="list-group-item {{ $subjectloadActive }}">Subject Load</a>
-    </ul>
-</div>
-@endif
+    @if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->fname == 'Rosalie')
+        <li>
+            <a class="nav-link {{ $curriActive }}" href="{{ route('curRead') }}">
+                <i class="ti ti-notes"></i><span class="nav-text">Curriculum Programs</span>
+            </a>
+        </li>
+    @endif
+
+    @if(in_array(Auth::guard('web')->user()->role, [0, 12, 14]))
+        <li>
+            <a class="nav-link {{ $facDesigActive }}" href="{{ route('faculty_design') }}">
+                <i class="ti ti-assembly"></i><span class="nav-text">Faculty Designation</span>
+            </a>
+        </li>
+    @endif
+    
+    @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7, 12, 14]))
+        <li>
+            <a class="nav-link {{ $facultyActive }}" href="{{ route('faculty_list') }}">
+                <i class="ti ti-users"></i><span class="nav-text">Faculty List</span>
+            </a>
+        </li>
+    @endif
+
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 12, 14, 15]))
+        <li>
+            <a class="nav-link {{ $suboffActive }}" href="{{ route('subjectsOffered') }}">
+                <i class="ti ti-book"></i><span class="nav-text">Subject Offered</span>
+            </a>
+        </li>
+    @endif
+    
+    <li class="nav-text-space"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Scheduler</small></li>
+
+    <li>
+        <a class="nav-link {{ $classSchedActive }}" href="{{ route('classSchedRead') }}">
+            <i class="ti ti-calendar-check"></i><span class="nav-text">Class Schedule</span>
+        </a>
+    </li>
+
+    <li>
+        <a class="nav-link {{ $facultySchedActive }}" href="{{ route('facultySchedRead') }}">
+            <i class="ti ti-calendar-star"></i><span class="nav-text">Faculty Schedule</span>
+        </a>
+    </li>
+
+    <li>
+        <a class="nav-link {{ $roomSchedActive }}" href="{{ route('roomSchedRead') }}">
+            <i class="ti ti-calendar-stats"></i><span class="nav-text">Room Schedule</span>
+        </a>
+    </li>
+</ul>

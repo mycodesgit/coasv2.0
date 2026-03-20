@@ -22,7 +22,7 @@ $(document).ready(function() {
             data: 'id',
                 render: function(data, type, row) {
                     if (type === 'display') {
-                        var editLink = '<a href="#" class="btn btn-primary btn-sm btn-editcol" data-id="' + row.id + '" data-colabbr="' + row.college_abbr + '" data-colname="' + row.college_name + '" data-colcamp="' + row.campus + '">' +
+                        var editLink = '<a href="#" class="btn btn-success btn-sm btn-editcol text-light" data-id="' + row.id + '" data-colabbr="' + row.college_abbr + '" data-colname="' + row.college_name + '" data-colcamp="' + row.campus + '">' +
                             '<i class="fas fa-eye"></i>' +
                             '</a>';
                         return editLink;

@@ -18,7 +18,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-programedit" data-id="' + row.id + '" data-college="' + row.progCollege + '" data-department="' + row.progDep + '" data-programcod="' + row.progCod + '" data-programaccnt="' + row.progAccount + '" data-programname="' + row.progName + '" data-programacro="' + row.progAcronym + '" data-programlv="' + row.progLev + '" data-campus="' + row.campus + '">' +
                             '<i class="fas fa-pen"></i> Edit' +

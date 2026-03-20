@@ -55,12 +55,17 @@ class SchedClassEnrollController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
-        $data = $data->get();
 
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
 
-        return view('scheduler.classenroll.list_classenroll_search', compact('program', 'data', 'totalSearchResults'));
+        return view('scheduler.classenroll.list_classenroll_search', compact('program', 'sy'));
     }
 
     public function getclassEnRead(Request $request) 

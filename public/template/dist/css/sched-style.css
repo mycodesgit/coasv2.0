@@ -11,10 +11,6 @@ input[readonly] {
     user-select: none;
 } */
 
-.highlight {
-    background-color: #b2b9bf;
-}
-
 /* Allow text selection within the schedule grid */
 #schedule-grid {
     -webkit-user-select: text;

@@ -89,9 +89,17 @@ $(function () {
 
     }).buttons().container().appendTo('#hebilling_wrapper .col-md-6:eq(0)');
 
-    $('.select2').select2();
+    // $('.select2').select2({
+    //     dropdownParent: $('#editCollegeModal'),
+    //     dropdownParent: $('#modal-addSub')
+    // });
 
-    //Initialize Select2 Elements
+    $('.select2').each(function () {
+        $(this).select2({
+            dropdownParent: $(this).closest('.modal'),
+        });
+    });
+
     $('.select2bs4').select2({
         theme: 'bootstrap4',
         height: '100',

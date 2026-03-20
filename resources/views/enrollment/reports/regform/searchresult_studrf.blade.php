@@ -70,7 +70,7 @@ CISS V.1.0 || Enrollment
                                             </div>
                                         </form>
                                         
-                                        <div class="page-header mb-3" style="border-bottom: 1px solid #04401f;"></div>
+                                        <div class="page-header mb-3 mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
                                         <iframe src="{{ route('listsearchpdf_studregformRead', ['stud_id' => request('stud_id'), 'schlyear' => request('schlyear'), 'semester' => request('semester')]) }}" width="100%" height="500"></iframe>
                                     </div>
