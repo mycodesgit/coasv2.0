@@ -39,7 +39,7 @@ CISS V.1.0 || Assessment
                                                     <small>
                                                         <i>Year-<b>{{ request('schlyear') }}</b>,
                                                             Semester-<b>{{ request('semester') }}</b>,
-                                                            Campus-<b>{{ request('campus') }}</b>,
+                                                            Campus-<b>{{ Auth::guard('web')->user()->campus }}</b>,
                                                             Course-<b>
                                                             @php
                                                                 $progCode = request('prog_Code');

@@ -53,10 +53,10 @@ class StudFeeAssessmentController extends Controller
             })
             ->whereColumn('student_fee.prog_Code', '=', 'coasv2_db_schedule.programs.progCod');
     
+        $usercampus = Auth::guard('web')->user()->campus;
 
-
-        if ($request->campus) {
-            $data->where('student_fee.campus', $request->campus);
+        if ($usercampus) {
+            $data->where('student_fee.campus', $usercampus);
         }
         if ($request->prog_Code) {
             $data->where('student_fee.prog_Code', $request->prog_Code);
@@ -81,7 +81,7 @@ class StudFeeAssessmentController extends Controller
 
     public function getstudFeeRead(Request $request) 
     {
-        $campus = $request->query('campus');
+        $campus = Auth::guard('web')->user()->campus;
         $progCode = $request->query('prog_Code');
         $yrlevel = $request->query('yrlevel');
         $schlyear = $request->query('schlyear');
