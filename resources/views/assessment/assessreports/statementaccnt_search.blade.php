@@ -132,7 +132,7 @@ CISS V.1.0 || Assessment
                                                     <div class="col-md-6 mt-3">
                                                         <div class="card">
                                                             <div class="card-body">
-                                                                <table id="" class="table table-hover table-striped table-bordered">
+                                                                <table id="" class="table table-hover table-striped">
                                                                     <thead>
                                                                         <tr>
                                                                             <center class="mt-3">
@@ -168,6 +168,26 @@ CISS V.1.0 || Assessment
                                                                     </tbody>
                                                                 </table>
                                                             </div>
+                                                        </div>
+                                                    </div>
+
+                                                    @php
+                                                        $totalBalance = $totalAmount - $totalAmountPaid;
+                                                    @endphp
+
+                                                    <div class="col-md-4 mt-3">
+                                                        <div class="card">
+                                                            <div class="card-body"><h4><strong>Total Amount: </strong>{{ number_format($totalAmount, 2) }}</h4></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mt-3">
+                                                        <div class="card">
+                                                            <div class="card-body"><h4><strong>Total Amount Paid: </strong>{{ number_format($totalAmountPaid, 2) }}</h4></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mt-3">
+                                                        <div class="card">
+                                                            <div class="card-body"><h4><strong>Balance: </strong>{{ number_format($totalBalance, 2) }}</h4></div>
                                                         </div>
                                                     </div>
                                                 </div>
