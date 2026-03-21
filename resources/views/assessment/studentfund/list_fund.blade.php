@@ -1,7 +1,7 @@
 @extends('layouts.master_assessment')
 
 @section('title')
-CISS V.1.0 || Class Scheduler
+CISS V.1.0 || Assessment
 @endsection
 
 @yield('sidemenu')
