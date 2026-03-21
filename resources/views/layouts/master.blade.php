@@ -219,9 +219,9 @@
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <script src="{{ asset('js/basic/madapak.js') }}"></script>
     <!-- Toastr -->
-    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
     <!-- ChartJs -->
-    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/chart.js/Chart.min.js') }}"></script>
 
     <script>
         var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!};

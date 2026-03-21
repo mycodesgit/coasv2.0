@@ -17,30 +17,63 @@
 
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('assessment-index') }}" class="list-group-item {{ $dashAssessActive }}">Dashboard</a>
-    </ul>
-    <ul class="list-group mt-1">
-        <a href="{{ route('fundsRead') }}" class="list-group-item {{ $fundActive }}">Funds</a> 
-        <a href="{{ route('accountCOARead') }}" class="list-group-item {{ $coaActive }}">COA Accounts</a> 
-        <a href="{{ route('accountAppraisalRead') }}" class="list-group-item {{ $accntAppraisalActive }}">Accounts</a> 
-        <a href="{{ route('searchStudfee') }}" class="list-group-item {{ $studFeeActive }}">Student Fee</a>
-        @if(Auth::guard('web')->user()->role == 0)
-            <a href="{{ route('searchStudfeeTemplate') }}" class="list-group-item {{ $studFeeTemplateActive }}">Student Fee Template</a>  
-        @endif
-    </ul>
-</div>
+<ul class="nav flex-column">
+    
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
+    <li>
+        <a class="nav-link {{ $dashAssessActive }}" href="{{ route('assessment-index') }}">
+            <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
+        </a>
+    </li>
 
+    <li>
+        <a class="nav-link {{ $fundActive }}" href="{{ route('fundsRead') }}">
+            <i class="ti ti-credit-card-refund"></i><span class="nav-text">Funds</span>
+        </a>
+    </li>
 
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Reports <span class="nav-header text-dark text-left" style="font-size: 12pt">of Statement of</span></h5>
-</div>
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('stateaccntpersem') }}" class="list-group-item {{ $studStateAccntActive }}">Accounts Per Semester</a>
-        <a href="{{ route('stateaccntperstudent') }}" class="list-group-item {{ $studStateAccntStudActive }}">Accounts Per Student</a>
-        {{-- <a href="{{ route('stateaccntpersum') }}" class="list-group-item {{ $studStateAccntSumActive }}">Accounts Summary</a> --}}
-        <a href="{{ route('hebillingRead') }}" class="list-group-item {{ $hebillingActive }}">HE Billing Details</a>
-    </ul>
-</div>
+    <li>
+        <a class="nav-link {{ $coaActive }}" href="{{ route('accountCOARead') }}">
+            <i class="ti ti-bookmark"></i><span class="nav-text">COA Accounts</span>
+        </a>
+    </li>
+
+    <li>
+        <a class="nav-link {{ $accntAppraisalActive }}" href="{{ route('accountAppraisalRead') }}">
+            <i class="ti ti-address-book"></i><span class="nav-text">Accounts</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $studFeeActive }}" href="{{ route('searchStudfee') }}">
+            <i class="ti ti-receipt"></i><span class="nav-text">Student Fee</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $studFeeTemplateActive }}" href="{{ route('searchStudfeeTemplate') }}">
+            <i class="ti ti-receipt-pound"></i><span class="nav-text">Student Fee Template</span>
+        </a>
+    </li>
+    
+    <li class="nav-text-space"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
+
+    <li>
+        <a class="nav-link {{ $studStateAccntActive }}" href="{{ route('stateaccntpersem') }}">
+            <i class="ti ti-user-cog"></i><span class="nav-text">Accounts Per Semester</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $studStateAccntStudActive }}" href="{{ route('stateaccntperstudent') }}">
+            <i class="ti ti-user-bolt"></i><span class="nav-text">Accounts Per Student</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $hebillingActive }}" href="{{ route('hebillingRead') }}">
+            <i class="ti ti-book"></i><span class="nav-text">HE Billing Details</span>
+        </a>
+    </li>
+</ul>

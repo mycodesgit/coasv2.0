@@ -100,7 +100,40 @@ class StudFundAssessmentController extends Controller
         //         ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'coasv2_db_schedule.class_enroll.classSection')
         //         ->get();
 
-        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive'));
+        $enrlstudcountfirst = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.studYear', '=', '1')
+                            ->where('program_en_history.campus', '=', $userCampus)
+                            ->whereIn('program_en_history.status',  [2, 3])
+                            ->count();
+
+
+        $enrlstudcountsecond = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.studYear', '=', '2')
+                            ->where('program_en_history.campus', '=', $userCampus)
+                            ->whereIn('program_en_history.status',  [2, 3])
+                            ->count();
+
+        $enrlstudcountthird = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.studYear', '=', '3')
+                            ->where('program_en_history.campus', '=', $userCampus)
+                            ->whereIn('program_en_history.status',  [2, 3])
+                            ->count();
+
+        $enrlstudcountfourth = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
+                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
+                            ->where('program_en_history.studYear', '=', '4')
+                            ->where('program_en_history.campus', '=', $userCampus)
+                            ->whereIn('program_en_history.status',  [2, 3])
+                            ->count();
+
+        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
     }
 
     public function encodedAppRead()

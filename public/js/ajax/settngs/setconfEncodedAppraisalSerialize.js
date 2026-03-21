@@ -36,7 +36,7 @@ $(document).ready(function() {
             {
                 data: null, // 'null' indicates no specific field from the data source
                 render: function() {
-                    return '<span class="badge badge-success">Encoded</span>';
+                    return '<span class="badge bg-success">Encoded</span>';
                 }
             }
         ],
