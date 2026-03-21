@@ -26,23 +26,25 @@
         </a>
     </li>
 
-    <li>
-        <a class="nav-link {{ $fundActive }}" href="{{ route('fundsRead') }}">
-            <i class="ti ti-credit-card-refund"></i><span class="nav-text">Funds</span>
-        </a>
-    </li>
+    @if(Auth::guard('web')->user()->role == 0)
+        <li>
+            <a class="nav-link {{ $fundActive }}" href="{{ route('fundsRead') }}">
+                <i class="ti ti-credit-card-refund"></i><span class="nav-text">Funds</span>
+            </a>
+        </li>
 
-    <li>
-        <a class="nav-link {{ $coaActive }}" href="{{ route('accountCOARead') }}">
-            <i class="ti ti-bookmark"></i><span class="nav-text">COA Accounts</span>
-        </a>
-    </li>
+        <li>
+            <a class="nav-link {{ $coaActive }}" href="{{ route('accountCOARead') }}">
+                <i class="ti ti-bookmark"></i><span class="nav-text">COA Accounts</span>
+            </a>
+        </li>
 
-    <li>
-        <a class="nav-link {{ $accntAppraisalActive }}" href="{{ route('accountAppraisalRead') }}">
-            <i class="ti ti-address-book"></i><span class="nav-text">Accounts</span>
-        </a>
-    </li>
+        <li>
+            <a class="nav-link {{ $accntAppraisalActive }}" href="{{ route('accountAppraisalRead') }}">
+                <i class="ti ti-address-book"></i><span class="nav-text">Accounts</span>
+            </a>
+        </li>
+    @endif
     
     <li>
         <a class="nav-link {{ $studFeeActive }}" href="{{ route('searchStudfee') }}">
@@ -50,11 +52,13 @@
         </a>
     </li>
     
-    <li>
-        <a class="nav-link {{ $studFeeTemplateActive }}" href="{{ route('searchStudfeeTemplate') }}">
-            <i class="ti ti-receipt-pound"></i><span class="nav-text">Student Fee Template</span>
-        </a>
-    </li>
+    @if(Auth::guard('web')->user()->role == 0)
+        <li>
+            <a class="nav-link {{ $studFeeTemplateActive }}" href="{{ route('searchStudfeeTemplate') }}">
+                <i class="ti ti-receipt-pound"></i><span class="nav-text">Student Fee Template</span>
+            </a>
+        </li>
+    @endif
     
     <li class="nav-text-space"><small class="nav-text"></small></li>
     <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
