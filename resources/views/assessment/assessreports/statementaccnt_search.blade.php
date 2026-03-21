@@ -35,56 +35,54 @@ CISS V.1.0 || Assessment
                                     <div class="col-md-12">
                                         <div class="row mt-3 p-2">
                                             <div class="col-md-12">
-                                                <div class="col-md-12">
-                                                    <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesem">
-                                                        @csrf
+                                                <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesem">
+                                                    @csrf
 
-                                                        <div class="">
-                                                            <div class="form-group">
-                                                                <div class="row g-3">
-                                                                    <div class="col-md-2">
-                                                                        <label>Student ID Number: <span class="text-danger">*</span></label>
-                                                                        <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
-                                                                    </div>
+                                                    <div class="">
+                                                        <div class="form-group">
+                                                            <div class="row g-3">
+                                                                <div class="col-md-2">
+                                                                    <label>Student ID Number: <span class="text-danger">*</span></label>
+                                                                    <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                                                </div>
 
-                                                                    <div class="col-md-2">
-                                                                        <label>Academic Year: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control form-control-sm" name="schlyear">
-                                                                            @foreach($sy as $datasy)
-                                                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
+                                                                <div class="col-md-2">
+                                                                    <label>Academic Year: <span class="text-danger">*</span></label>
+                                                                    <select class="form-control form-control-sm" name="schlyear">
+                                                                        @foreach($sy as $datasy)
+                                                                            <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
 
-                                                                    <div class="col-md-2">
-                                                                        <label>Semester: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control  form-control-sm" name="semester">
-                                                                            <option disabled selected>---Select---</option>
-                                                                            <option value="1">First Semester</option>
-                                                                            <option value="2">Second Semester</option>
-                                                                            <option value="3">Summer</option>
-                                                                        </select>
-                                                                    </div>
+                                                                <div class="col-md-2">
+                                                                    <label>Semester: <span class="text-danger">*</span></label>
+                                                                    <select class="form-control  form-control-sm" name="semester">
+                                                                        <option disabled selected>---Select---</option>
+                                                                        <option value="1">First Semester</option>
+                                                                        <option value="2">Second Semester</option>
+                                                                        <option value="3">Summer</option>
+                                                                    </select>
+                                                                </div>
 
-                                                                    <div class="col-md-2">
-                                                                        <label>Category: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control  form-control-sm" name="category">
-                                                                            <option disabled selected>---Select---</option>
-                                                                            <option value="1">Undergraduate</option>
-                                                                            <option value="2">Graduate School</option>
-                                                                            {{-- <option value="3">All</option> --}}
-                                                                        </select>
-                                                                    </div>
+                                                                <div class="col-md-2">
+                                                                    <label>Category: <span class="text-danger">*</span></label>
+                                                                    <select class="form-control  form-control-sm" name="category">
+                                                                        <option disabled selected>---Select---</option>
+                                                                        <option value="1">Undergraduate</option>
+                                                                        <option value="2">Graduate School</option>
+                                                                        {{-- <option value="3">All</option> --}}
+                                                                    </select>
+                                                                </div>
 
-                                                                    <div class="col-md-2">
-                                                                        <label>&nbsp;</label>
-                                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
-                                                                    </div>
+                                                                <div class="col-md-2">
+                                                                    <label>&nbsp;</label>
+                                                                    <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                </form>
 
                                                 <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
