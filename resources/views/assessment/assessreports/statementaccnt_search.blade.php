@@ -85,7 +85,7 @@ CISS V.1.0 || Assessment
                                                 </form>
                                             </div>
 
-                                            <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+                                            <div class="col-md-12"><div class="page-header" style="border-bottom: 1px solid #04401f;"></div></div>
 
                                             <div class="col-md-6">
                                                 <div class="card">
