@@ -35,138 +35,140 @@ CISS V.1.0 || Assessment
                                     <div class="col-md-12">
                                         <div class="row mt-3 p-2">
                                             <div class="col-md-12">
-                                                <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesem">
-                                                    @csrf
+                                                <div class="col-md-12">
+                                                    <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesem">
+                                                        @csrf
 
-                                                    <div class="">
-                                                        <div class="form-group">
-                                                            <div class="row g-3">
-                                                                <div class="col-md-2">
-                                                                    <label>Student ID Number: <span class="text-danger">*</span></label>
-                                                                    <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
-                                                                </div>
+                                                        <div class="">
+                                                            <div class="form-group">
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-2">
+                                                                        <label>Student ID Number: <span class="text-danger">*</span></label>
+                                                                        <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                                                    </div>
 
-                                                                <div class="col-md-2">
-                                                                    <label>Academic Year: <span class="text-danger">*</span></label>
-                                                                    <select class="form-control form-control-sm" name="schlyear">
-                                                                        @foreach($sy as $datasy)
-                                                                            <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
+                                                                    <div class="col-md-2">
+                                                                        <label>Academic Year: <span class="text-danger">*</span></label>
+                                                                        <select class="form-control form-control-sm" name="schlyear">
+                                                                            @foreach($sy as $datasy)
+                                                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
 
-                                                                <div class="col-md-2">
-                                                                    <label>Semester: <span class="text-danger">*</span></label>
-                                                                    <select class="form-control  form-control-sm" name="semester">
-                                                                        <option disabled selected>---Select---</option>
-                                                                        <option value="1">First Semester</option>
-                                                                        <option value="2">Second Semester</option>
-                                                                        <option value="3">Summer</option>
-                                                                    </select>
-                                                                </div>
+                                                                    <div class="col-md-2">
+                                                                        <label>Semester: <span class="text-danger">*</span></label>
+                                                                        <select class="form-control  form-control-sm" name="semester">
+                                                                            <option disabled selected>---Select---</option>
+                                                                            <option value="1">First Semester</option>
+                                                                            <option value="2">Second Semester</option>
+                                                                            <option value="3">Summer</option>
+                                                                        </select>
+                                                                    </div>
 
-                                                                <div class="col-md-2">
-                                                                    <label>Category: <span class="text-danger">*</span></label>
-                                                                    <select class="form-control  form-control-sm" name="category">
-                                                                        <option disabled selected>---Select---</option>
-                                                                        <option value="1">Undergraduate</option>
-                                                                        <option value="2">Graduate School</option>
-                                                                        {{-- <option value="3">All</option> --}}
-                                                                    </select>
-                                                                </div>
+                                                                    <div class="col-md-2">
+                                                                        <label>Category: <span class="text-danger">*</span></label>
+                                                                        <select class="form-control  form-control-sm" name="category">
+                                                                            <option disabled selected>---Select---</option>
+                                                                            <option value="1">Undergraduate</option>
+                                                                            <option value="2">Graduate School</option>
+                                                                            {{-- <option value="3">All</option> --}}
+                                                                        </select>
+                                                                    </div>
 
-                                                                <div class="col-md-2">
-                                                                    <label>&nbsp;</label>
-                                                                    <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
+                                                                    <div class="col-md-2">
+                                                                        <label>&nbsp;</label>
+                                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                                    </form>
+                                                </div>
 
-                                            <div class="col-md-12"><div class="page-header" style="border-bottom: 1px solid #04401f;"></div></div>
+                                                <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
-                                            <div class="col-md-6">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <table id="" class="table table-hover table-striped">
-                                                            <thead>
-                                                                <tr>
-                                                                    <center class="mt-3">
-                                                                        <h4>Appraisal</h4>
-                                                                    </center>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Code</th>
-                                                                    <th>Fund</th>
-                                                                    <th>Amount</th>
-                                                                    <th>Year</th>
-                                                                    <th>Semester</th>
-                                                                    <th>Date</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @php
-                                                                    $totalAmount = 0;
-                                                                @endphp
-                                                                @foreach($studfees as $datastudfeesview)
-                                                                    @php
-                                                                        $totalAmount += $datastudfeesview->amount;
-                                                                    @endphp
+                                                <div class="col-md-6 mt-3">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <table id="" class="table table-hover table-striped">
+                                                                <thead>
                                                                     <tr>
-                                                                        <td>{{ $datastudfeesview->fundID }}</td>
-                                                                        <td>{{ $datastudfeesview->account }}</td>
-                                                                        <td>{{ $datastudfeesview->amount  }}</td>
-                                                                        <td>{{ $datastudfeesview->schlyear }}</td>
-                                                                        <td>{{ $datastudfeesview->semester }}</td>
-                                                                        <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
+                                                                        <center class="mt-3">
+                                                                            <h4>Appraisal</h4>
+                                                                        </center>
                                                                     </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
+                                                                    <tr>
+                                                                        <th>Code</th>
+                                                                        <th>Fund</th>
+                                                                        <th>Amount</th>
+                                                                        <th>Year</th>
+                                                                        <th>Semester</th>
+                                                                        <th>Date</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @php
+                                                                        $totalAmount = 0;
+                                                                    @endphp
+                                                                    @foreach($studfees as $datastudfeesview)
+                                                                        @php
+                                                                            $totalAmount += $datastudfeesview->amount;
+                                                                        @endphp
+                                                                        <tr>
+                                                                            <td>{{ $datastudfeesview->fundID }}</td>
+                                                                            <td>{{ $datastudfeesview->account }}</td>
+                                                                            <td>{{ $datastudfeesview->amount  }}</td>
+                                                                            <td>{{ $datastudfeesview->schlyear }}</td>
+                                                                            <td>{{ $datastudfeesview->semester }}</td>
+                                                                            <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-6">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <table id="" class="table table-hover table-striped table-bordered">
-                                                            <thead>
-                                                                <tr>
-                                                                    <center class="mt-3">
-                                                                        <h4>Payment</h4>
-                                                                    </center>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>OR</th>
-                                                                    <th>Code</th>
-                                                                    <th>Fund</th>
-                                                                    <th>Amount</th>
-                                                                    <th>Date</th>
-                                                                    <th width="20%">Comments</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @php
-                                                                    $totalAmountPaid = 0;
-                                                                @endphp
-                                                                @foreach($studpayment as $datastudpaymentview)
-                                                                    @php
-                                                                        $totalAmountPaid += $datastudpaymentview->amountpaid;
-                                                                    @endphp
+                                                <div class="col-md-6 mt-3">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <table id="" class="table table-hover table-striped table-bordered">
+                                                                <thead>
                                                                     <tr>
-                                                                        <td>{{ $datastudpaymentview->orno }}</td>
-                                                                        <td>{{ $datastudpaymentview->fund }}</td>
-                                                                        <td>{{ $datastudpaymentview->account }}</td>
-                                                                        <td>{{ number_format($datastudpaymentview->amountpaid, 2)  }}</td>
-                                                                        <td>{{ Carbon\Carbon::parse($datastudpaymentview->datepaid)->format('M j, Y') }}</td>
-                                                                        <td>{{ $datastudpaymentview->comments }}</td>
+                                                                        <center class="mt-3">
+                                                                            <h4>Payment</h4>
+                                                                        </center>
                                                                     </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
+                                                                    <tr>
+                                                                        <th>OR</th>
+                                                                        <th>Code</th>
+                                                                        <th>Fund</th>
+                                                                        <th>Amount</th>
+                                                                        <th>Date</th>
+                                                                        <th width="20%">Comments</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @php
+                                                                        $totalAmountPaid = 0;
+                                                                    @endphp
+                                                                    @foreach($studpayment as $datastudpaymentview)
+                                                                        @php
+                                                                            $totalAmountPaid += $datastudpaymentview->amountpaid;
+                                                                        @endphp
+                                                                        <tr>
+                                                                            <td>{{ $datastudpaymentview->orno }}</td>
+                                                                            <td>{{ $datastudpaymentview->fund }}</td>
+                                                                            <td>{{ $datastudpaymentview->account }}</td>
+                                                                            <td>{{ number_format($datastudpaymentview->amountpaid, 2)  }}</td>
+                                                                            <td>{{ Carbon\Carbon::parse($datastudpaymentview->datepaid)->format('M j, Y') }}</td>
+                                                                            <td>{{ $datastudpaymentview->comments }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
