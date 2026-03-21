@@ -203,7 +203,7 @@ CISS V.1.0 || Assessment
         </div>
     </div>
 
-    <div class="modal fade mt-6" id="editStudFeeModal" role="dialog" aria-labelledby="editStudFeeModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade mt-6" id="editStudFeeModal" role="dialog" aria-labelledby="editStudFeeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -238,7 +238,7 @@ CISS V.1.0 || Assessment
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <script>
         function formatInput(input) {
