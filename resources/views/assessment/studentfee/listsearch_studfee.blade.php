@@ -140,7 +140,7 @@ CISS V.1.0 || Class Scheduler
                         </div>
                         <div class="form-group mt-3">
                             <label for="editstudfeeaccountName">Account Name</label>
-                            <select class="form-control form-control-sm select2bs4" id="editstudfeeaccountName" name="accountName">
+                            <select class="form-control form-control-sm select2" id="editstudfeeaccountName" name="accountName">
                                 <option disabled selected> ---Select---</option>
                                 @foreach($studAccntap as $studapp)
                                     <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
