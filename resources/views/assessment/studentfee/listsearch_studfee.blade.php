@@ -138,7 +138,7 @@ CISS V.1.0 || Class Scheduler
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="editstudfeeaccountName">Account Name</label>
                             <select class="form-control form-control-sm select2bs4" id="editstudfeeaccountName" name="accountName">
                                 <option disabled selected> ---Select---</option>
@@ -147,7 +147,7 @@ CISS V.1.0 || Class Scheduler
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="editstudfeeamountFee">Amount</label>
                             <input type="number" class="form-control" id="editstudfeeamountFee" name="amountFee">
                         </div>
