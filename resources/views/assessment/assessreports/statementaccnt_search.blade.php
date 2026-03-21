@@ -88,86 +88,88 @@ CISS V.1.0 || Assessment
 
                                                 <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <table id="" class="table table-hover table-striped">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <center class="mt-3">
-                                                                            <h4>Appraisal</h4>
-                                                                        </center>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>Code</th>
-                                                                        <th>Fund</th>
-                                                                        <th>Amount</th>
-                                                                        <th>Year</th>
-                                                                        <th>Semester</th>
-                                                                        <th>Date</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @php
-                                                                        $totalAmount = 0;
-                                                                    @endphp
-                                                                    @foreach($studfees as $datastudfeesview)
-                                                                        @php
-                                                                            $totalAmount += $datastudfeesview->amount;
-                                                                        @endphp
+                                                <div class="row">
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <table id="" class="table table-hover table-striped">
+                                                                    <thead>
                                                                         <tr>
-                                                                            <td>{{ $datastudfeesview->fundID }}</td>
-                                                                            <td>{{ $datastudfeesview->account }}</td>
-                                                                            <td>{{ $datastudfeesview->amount  }}</td>
-                                                                            <td>{{ $datastudfeesview->schlyear }}</td>
-                                                                            <td>{{ $datastudfeesview->semester }}</td>
-                                                                            <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
+                                                                            <center class="mt-3">
+                                                                                <h4>Appraisal</h4>
+                                                                            </center>
                                                                         </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
+                                                                        <tr>
+                                                                            <th>Code</th>
+                                                                            <th>Fund</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Year</th>
+                                                                            <th>Semester</th>
+                                                                            <th>Date</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @php
+                                                                            $totalAmount = 0;
+                                                                        @endphp
+                                                                        @foreach($studfees as $datastudfeesview)
+                                                                            @php
+                                                                                $totalAmount += $datastudfeesview->amount;
+                                                                            @endphp
+                                                                            <tr>
+                                                                                <td>{{ $datastudfeesview->fundID }}</td>
+                                                                                <td>{{ $datastudfeesview->account }}</td>
+                                                                                <td>{{ $datastudfeesview->amount  }}</td>
+                                                                                <td>{{ $datastudfeesview->schlyear }}</td>
+                                                                                <td>{{ $datastudfeesview->semester }}</td>
+                                                                                <td>{{ Carbon\Carbon::parse($datastudfeesview->dateAssess)->format('M j, Y') }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <table id="" class="table table-hover table-striped table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <center class="mt-3">
-                                                                            <h4>Payment</h4>
-                                                                        </center>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>OR</th>
-                                                                        <th>Code</th>
-                                                                        <th>Fund</th>
-                                                                        <th>Amount</th>
-                                                                        <th>Date</th>
-                                                                        <th width="20%">Comments</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @php
-                                                                        $totalAmountPaid = 0;
-                                                                    @endphp
-                                                                    @foreach($studpayment as $datastudpaymentview)
-                                                                        @php
-                                                                            $totalAmountPaid += $datastudpaymentview->amountpaid;
-                                                                        @endphp
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <table id="" class="table table-hover table-striped table-bordered">
+                                                                    <thead>
                                                                         <tr>
-                                                                            <td>{{ $datastudpaymentview->orno }}</td>
-                                                                            <td>{{ $datastudpaymentview->fund }}</td>
-                                                                            <td>{{ $datastudpaymentview->account }}</td>
-                                                                            <td>{{ number_format($datastudpaymentview->amountpaid, 2)  }}</td>
-                                                                            <td>{{ Carbon\Carbon::parse($datastudpaymentview->datepaid)->format('M j, Y') }}</td>
-                                                                            <td>{{ $datastudpaymentview->comments }}</td>
+                                                                            <center class="mt-3">
+                                                                                <h4>Payment</h4>
+                                                                            </center>
                                                                         </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
+                                                                        <tr>
+                                                                            <th>OR</th>
+                                                                            <th>Code</th>
+                                                                            <th>Fund</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Date</th>
+                                                                            <th width="20%">Comments</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @php
+                                                                            $totalAmountPaid = 0;
+                                                                        @endphp
+                                                                        @foreach($studpayment as $datastudpaymentview)
+                                                                            @php
+                                                                                $totalAmountPaid += $datastudpaymentview->amountpaid;
+                                                                            @endphp
+                                                                            <tr>
+                                                                                <td>{{ $datastudpaymentview->orno }}</td>
+                                                                                <td>{{ $datastudpaymentview->fund }}</td>
+                                                                                <td>{{ $datastudpaymentview->account }}</td>
+                                                                                <td>{{ number_format($datastudpaymentview->amountpaid, 2)  }}</td>
+                                                                                <td>{{ Carbon\Carbon::parse($datastudpaymentview->datepaid)->format('M j, Y') }}</td>
+                                                                                <td>{{ $datastudpaymentview->comments }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
