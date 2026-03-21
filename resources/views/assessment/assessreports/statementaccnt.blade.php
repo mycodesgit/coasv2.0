@@ -33,7 +33,7 @@ CISS V.1.0 || Assessment
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="row mt-3 p-2">
+                                        <div class="row mt-3">
                                             <div class="col-md-12">
                                                 <form method="GET" action="{{ route('stateaccntpersem_search') }}" id="studstatesem">
                                                     @csrf
