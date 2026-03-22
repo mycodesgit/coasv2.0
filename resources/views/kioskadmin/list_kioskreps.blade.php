@@ -80,7 +80,7 @@ CISS V.1.0 || Kiosk Admin
                                         <thead>
                                             <tr>
                                                 <th>Month</th>
-                                                <th>Number of  Students</th>
+                                                <th>Number of Students You Cater</th>
                                             </tr>
                                         </thead>
                                         <tbody>
