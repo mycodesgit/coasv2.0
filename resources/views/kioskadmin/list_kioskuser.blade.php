@@ -33,6 +33,11 @@ CISS V.1.0 || Kiosk Admin
                                 </div>
                                 <div class="row">
                                     <div class="table-responsive p-3 mt-3">
+                                        <button type="button" class="btn btn-success btn-sm mb-4 text-light" data-bs-toggle="modal" data-bs-target="#modal-kioskuser">
+                                            <i class="fas fa-user-plus"></i> Add New
+                                        </button>
+
+                                        @include('modal.kioskuserAdd')
                                         <table id="kioskuser" class="table table-striped">
                                             <thead>
                                                 <tr>
@@ -79,7 +84,7 @@ CISS V.1.0 || Kiosk Admin
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" id="editgeneratePassword" class="btn btn-success">
+                        <button type="button" id="editgeneratePassword" class="btn btn-outline-warning">
                             <i class="fas fa-key"></i> Generate Pass
                         </button>
                         <button type="submit" class="btn btn-success">Save changes</button>
