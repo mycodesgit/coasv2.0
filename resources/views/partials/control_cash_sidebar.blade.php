@@ -15,7 +15,7 @@
 
     <li>
         <a class="nav-link {{ $dashCashActive }}" href="{{ route('cashiering-index') }}">
-            <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
+            <i class="ti ti-box"></i><span class="nav-text">Dashboard</span>
         </a>
     </li>
     

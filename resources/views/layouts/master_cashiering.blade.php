@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- fullCalendar -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
@@ -190,6 +192,8 @@
     <script src="{{ asset('uilibs/plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- ChartJS -->
     <script src="{{ asset('uilibs/plugins/chart.js/Chart.min.js') }}"></script>
+    <!-- date-range-picker -->
+    <script src="{{ asset('uilibs/plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Validation JS -->
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
@@ -202,32 +206,22 @@
 
     <script src="{{ asset('js/validation/cash/perDayValidation.js') }}"></script>
 
-    <!-- Ajax -->
-    @if(request()->routeIs('assessment-index'))
-        <script src="{{ asset('js/chart/enbarchart.js') }}?v={{ time() }}"></script>
-        <script src="{{ asset('js/ajax/settngs/setconfEncodedAppraisalSerialize.js') }}?v={{ time() }}"></script>
-        <script> 
-            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
-            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
-            var semesteractive = {!! json_encode($semesteractive) !!};
-            var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
-            var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
-            var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
-            var setconfencodedRoute = "{{ route('encodedAppRead') }}";
-        </script>
-    @endif
+    <script>
+        $(function () {
+            //Date range picker
+            $('#reservation').daterangepicker({
+                opens: 'right',
+                autoApply: false,
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+        })
+    </script>
 
     <!-- Ajax -->
     @if(request()->routeIs('cashiering-index'))
-        <script> 
-            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
-            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
-            var semesteractive = {!! json_encode($semesteractive) !!};
-            var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
-            var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
-            var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
-        </script>
-        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+    
     @endif
     
     @if(request()->routeIs('listsearch_orRead', 'listsearchedit_orRead'))

@@ -25,7 +25,66 @@ CISS V.1.0 || Cashiering
                     </div>
                 </div>
                 <div class="row g-3 mb-3 mt-3">
-                    
+                    <div class="col-lg-3 col-12">
+                        <div class="card mb-3">
+                            <div class="card-body p-6">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <div>
+                                        <h3 class="fw-bold h1">₱{{ number_format($todayCollect, 2) }}</h3>
+                                        <span>Collections for Today</span>
+                                    </div>
+                                    <div>
+                                        <i class="ti ti-coins fs-1 text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="card mb-3">
+                            <div class="card-body p-6">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <div>
+                                        <h3 class="fw-bold h1">₱{{ number_format($monthCollect, 2) }}</h3>
+                                        <span>Collections for Month</span>
+                                    </div>
+                                    <div>
+                                        <i class="ti ti-calendar-check fs-1 text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="card mb-3">
+                            <div class="card-body p-6">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <div>
+                                        <h3 class="fw-bold h1">{{ $todayClients }}</h3>
+                                        <span>No. of Clients Catered Today</span>
+                                    </div>
+                                    <div>
+                                        <i class="ti ti-users fs-1 text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="card mb-3">
+                            <div class="card-body p-6">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <div>
+                                        <h3 class="fw-bold h1">{{ $monthClients }}</h3>
+                                        <span>No. of Clients Catered this Month</span>
+                                    </div>
+                                    <div>
+                                        <i class="ti ti-users fs-1 text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
