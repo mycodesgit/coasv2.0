@@ -9,24 +9,41 @@
 
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('cashiering-index') }}" class="list-group-item {{ $dashCashActive }}">Dashboard</a>
-    </ul>
-    <ul class="list-group mt-1">
-        <a href="{{ route('list_orRead') }}" class="list-group-item {{ $orActive }}">Official Receipt</a>  
-        <a href="{{ route('listedit_orRead') }}" class="list-group-item {{ $orEditActive }}">Edit Official Receipt</a>  
-        {{-- <a href="{{ route('listall_orRead') }}" class="list-group-item {{ $orallActive }}">Official Receipt List</a>   --}}
-    </ul>
-</div>
+<ul class="nav flex-column">
+    
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
 
+    <li>
+        <a class="nav-link {{ $dashCashActive }}" href="{{ route('cashiering-index') }}">
+            <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $orActive }}" href="{{ route('list_orRead') }}">
+            <i class="ti ti-receipt"></i><span class="nav-text">Official Receipt</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $orEditActive }}" href="{{ route('listedit_orRead') }}">
+            <i class="ti ti-receipt-pound"></i><span class="nav-text">Edit Official Receipt</span>
+        </a>
+    </li>
+    
+    <li class="nav-text-space"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
 
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Reports</h5>
-</div>
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('listorperdayRead') }}" class="list-group-item {{ $orperdayActive }}">OR Per Date</a>
-        <a href="{{ route('listorpermonthRead') }}" class="list-group-item {{ $orpermonthActive }}">OR Per Month</a>  
-    </ul>
-</div>
+    <li>
+        <a class="nav-link {{ $orperdayActive }}" href="{{ route('listorperdayRead') }}">
+            <i class="ti ti-calendar-check"></i><span class="nav-text">OR Per Date</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $orpermonthActive }}" href="{{ route('listorpermonthRead') }}">
+            <i class="ti ti-calendar-month"></i><span class="nav-text">OR Per Month</span>
+        </a>
+    </li>
+
+</ul>

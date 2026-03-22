@@ -90,7 +90,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-studor" data-id="' + row.id + '" data-fundcode="' + row.fund + '" data-fundstudname="' + row.account + '" data-fundstudamount="' + row.amountpaid + '">' +
                             '<i class="fas fa-pen"></i> Edit' +

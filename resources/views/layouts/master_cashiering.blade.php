@@ -7,68 +7,30 @@
     
     <title>@yield('title')</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
+    <link rel="shortcut icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+
+    <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
-    <!-- Logo  -->
-    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
-
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Select2 -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <!-- DataTables  -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-
-    <!-- daterange picker -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/daterangepicker/daterangepicker.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
+    
     <style>
-        #sidebar {
-            transition: transform 0.3s ease;
-        }
-        @media (max-width: 991.98px) {
-            #sidebar {
-                position: fixed;
-                top: 52px;
-                left: 0;
-                height: 95%;
-                width: 250px;
-                max-width: 80vw;
-                background: rgba(255, 255, 255, 0.15);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                z-index: 999;
-                transform: translateX(-100%);
-                display: block !important;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            #sidebar.active {
-                transform: translateX(0);
-            }
-            #sidebarOverlay {
-                display: none;
-                position: fixed;
-                top: 0; left: 0; right: 0; bottom: 0;
-                background: rgba(0,0,0,0.3);
-                z-index: 1039;
-            }
-            #sidebarOverlay.active {
-                display: block;
-            }
-        }
         .sticky-column {
           position: sticky;
           top: 50px;
@@ -90,175 +52,172 @@
                 opacity: 1;
             }
         }
-        .toast-top-right {
-            margin-top: 50px;
+        .btn-block {
+            display: block;
+            width: 100%;
         }
     </style>
 </head>
 
-<body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
+<body>
+    <div id="overlay" class="overlay"></div>
+    <!-- TOPBAR -->
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9995">
 
-    <div class="wrapper">
-        <nav class="main-header navbar navbar-expand-md navbar-dark" style="background-color: #04401f">
-            <div class="container-fluid">
-                <div href="" class="" style="color: #fff;font-family: Courier;">
-                    CISS V.1.0
-                </div>
+        <div id="s" class="text-light">
+            CISS v.1.0 
+        </div>
 
-                <div class="" style="z-index: 999">
-                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:80px;" class="center-top">
-                </div>
-
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link d-none d-md-block" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
-                            @auth('web')
-                                @if(in_array(Auth::guard('web')->user()->role, range(0, 19)))
-                                    Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
-                                    @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                        @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                        @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                        @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                        @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                        @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                        @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                        @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                        @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                        @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
-                                    @endif
-                                @endif
-                            @endauth
-
-                            @auth('faculty')
-                                @if(Auth::guard('faculty')->user()->role == '943')
-                                    Logged as: {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
-                                @endif
-                            @endauth
-                        </a>
-                        <button id="sidebarToggle" class="btn btn-primary d-lg-none mb-2" style="position: fixed; top: 7px; right: 60px; z-index: 99;">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </li>
-                </ul>
+        <div class="d-md-none">
+            <div class="d-flex align-items-center gap-3">
             </div>
-        </nav>
+        </div>
 
-        <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid" style="padding-top: 20px"></div>
+        <div>
+            <!-- Navbar nav -->
+            <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
+                <!-- MOBILE -->
+                <button id="mobileBtn" class="btn btn-outline-light btn-icon btn-sm d-lg-none me-2">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Dropdown -->
+                <li class="ms-3 dropdown d-none d-md-block">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
+                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
+                        @auth('web')
+                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
+                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @endif
+                            @endif
+                        @endauth
+                    </a>
+                </li>
+                <li class="ms-3 dropdown d-md-none">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
+                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
+                        @auth('web')
+                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @endif
+                            @endif
+                        @endauth
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden" style="height: 95vh">
+        <div class="logo-area border-0">
+            <div class="d-inline-flex">
+                <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
+                <span class="logo-text ms-2" style="font-weight: bold">CISS</span>
             </div>
-            <div class="content">
-                <div class="container-fluid1">
-                    <div class="row" style="padding-top: 0px;">
-                        <div id="sidebar" class="col-lg-2 sidebar-custom d-none d-lg-block">
-                            <div class="card">
-                                <div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-                                    @section('sideheader')
-                                    @show
-                                </div>
-                                @section('sidemenu')
-                                    @include('partials.control_cash_sidebar')
-                                @show
-                            </div>
-                        </div>
-                        <div class="col-lg-10">
-                            @section('workspace')
-                                <div class="card">
-                                    <div class="card-body">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('home') }}" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-home"></i>
-                                                </a>
-                                            </li>
-                                            <li class="breadcrumb-item active mt-1">Cashier</li>
-                                        </ol>
-                                        <div class="workspace-top" style="text-align: center;">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <div class="chart-responsive pt-1">
-                                                                <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <div class="chart-responsive pt-1">
-                                                                <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                                        </div>
-                                    </div>
-                                </div>
-                            @show
-                        </div>
-                    </div>
+        </div>
+        @include('partials.control_cash_sidebar')
+
+    </aside>
+
+    <!-- MAINmainCONTENT -->
+    <main id="content" class="content py-10">
+        <div class="container-fluid">
+            <div class="row">
+                <div style="z-index: 9999">
+                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
+                </div>
+            </div>
+            @section('workspace')
+            @show
+
+            <div class="row d-none d-md-block">
+                <div class="col-12">
+                    <footer class="text-center py-2 mt-6 text-secondary fixed-bottom bg-white" style="z-index: 99">
+                        <p class="mb-0">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</p>
+                    </footer>
                 </div>
             </div>
         </div>
-        <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
-            <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
-        </footer>
-    </div>
-    @include('portal.modal-terms')
+    </main>
+
+    <!-- Bootstrap JS -->
+
+    <script type="text/javascript" src="{{ asset('uilibs/js/main.js') }}"></script>
     <!-- jQuery -->
-    <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- App -->
-    <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
 
     <!-- DataTables  & Plugins -->
-    <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script> 
-    <script src="{{ asset('template/plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
-    <!-- Toastr -->
-    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.js') }}"></script>
     <!-- SweetAlert2 -->
-    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('uilibs/plugins/select2/js/select2.full.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ asset('uilibs/plugins/chart.js/Chart.min.js') }}"></script>
+    <!-- Validation JS -->
+    <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+
     <!-- Basic -->
-    <script src="{{ asset('js/basic/tablescript.js') }}"></script>
-    <script src="{{ asset('js/basic/yearscript.js') }}"></script>
-    <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
-    <!-- Moment -->
-    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
-    <!-- date-range-picker -->
-    <script src="{{ asset('template/plugins/daterangepicker/daterangepicker.js') }}"></script>
-
-    <!-- jquery-validation -->
-    <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-    <script src="{{ asset('js/ajax/settngs/dark-mode.js') }}"></script>
-
-    <script src="{{ asset('js/validation/scholars/scholarValidation.js') }}"></script>
-    <script src="{{ asset('js/validation/scholars/studscholarValidation.js') }}"></script>
-    <script src="{{ asset('js/validation/enroll/enrollValidation.js') }}"></script>
+    <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
 
     <script src="{{ asset('js/validation/cash/perDayValidation.js') }}"></script>
 
-    <!-- Basic -->
+    <!-- Ajax -->
+    @if(request()->routeIs('assessment-index'))
+        <script src="{{ asset('js/chart/enbarchart.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/ajax/settngs/setconfEncodedAppraisalSerialize.js') }}?v={{ time() }}"></script>
+        <script> 
+            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
+            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
+            var semesteractive = {!! json_encode($semesteractive) !!};
+            var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
+            var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
+            var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+            var setconfencodedRoute = "{{ route('encodedAppRead') }}";
+        </script>
+    @endif
+
+    <!-- Ajax -->
     @if(request()->routeIs('cashiering-index'))
         <script> 
             var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
@@ -344,71 +303,6 @@
     @if(request()->routeIs('listsearch_orpermonthRead'))
         <script src="{{ asset('js/ajax/cash/orMonthSerialize.js') }}"></script>
     @endif
-
-    <script>
-        $(document).ready(function () {
-            $('#searchDropdown').select2({
-                placeholder: '-- Search and Select --',
-                allowClear: true,
-                minimumInputLength: 6
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        setTimeout(function () {
-            $("#alert").delay(2500).fadeOut(5000);
-        }, 0); 
-    </script>
-
-    <script>
-        @if(session('error'))
-            Swal.fire({
-                icon: 'warning',
-                // title: 'Waring',
-                html: '{!! session('error') !!}',
-                showClass: {
-                    popup: 'my-custom-show-animation'
-                },
-                hideClass: {
-                    popup: ''
-                }
-            });
-        @endif
-    </script>
-
-    <script>
-        $(function () {
-            //Date range picker
-            $('#reservation').daterangepicker({
-                opens: 'right',
-                autoApply: false,
-                locale: {
-                    format: 'YYYY-MM-DD'
-                }
-            });
-        })
-    </script>
-
-    <script>
-        $(function() {
-            function closeSidebar() {
-                $('#sidebar').removeClass('active');
-                $('#sidebarOverlay').removeClass('active');
-            }
-            $('#sidebarToggle').on('click', function() {
-                $('#sidebar').toggleClass('active');
-                $('#sidebarOverlay').toggleClass('active');
-            });
-            $('#sidebarOverlay').on('click', closeSidebar);
-            // Optional: Hide sidebar on resize to lg and up
-            $(window).on('resize', function() {
-                if (window.innerWidth >= 992) {
-                    closeSidebar();
-                }
-            });
-        });
-    </script>
 </body>
+
 </html>
-   
