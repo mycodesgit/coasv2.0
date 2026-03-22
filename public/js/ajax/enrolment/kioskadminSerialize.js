@@ -64,7 +64,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-kioskuseredit" data-id="' + row.studkiosid + '" data-studid="' + row.studid + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
