@@ -200,7 +200,7 @@
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
 
-    <script src="{{ asset('js/validation/assess/fundAssess.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/validation/enroll/gradesheetValidation.js') }}?v={{ time() }}"></script>
 
     <!-- Ajax -->
     @if(request()->routeIs('assessment-index'))
