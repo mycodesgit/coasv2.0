@@ -50,7 +50,7 @@
         </li>
 
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $enrollconfActive }}" href="{{ route('setEnrollConf') }}">
                 <i class="ti ti-device-laptop"></i><span class="nav-text">Enrollment Status</span>
             </a>
         </li>

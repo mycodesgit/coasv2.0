@@ -21,6 +21,7 @@ use App\Models\SettingDB\ButtonAccess;
 use App\Models\SettingDB\ButtonMenu;
 use App\Models\SettingDB\GradePass;
 use App\Models\SettingDB\QueueMode;
+use App\Models\SettingDB\EnrollmentMode;
 
 
 class SettingController extends Controller
@@ -516,7 +517,29 @@ class SettingController extends Controller
 
     public function setEnrollConf() 
     {
-        return view('control.settings.admin.settingsEnrollment');
+        $campus = Auth::guard('web')->user()->campus;
+        $enrollMode = EnrollmentMode::where('campus', $campus)->first();
+
+        return view('control.settings.admin.settingsEnrollment', compact('enrollMode'));
+    }
+
+    public function toggleEnrollment(Request $request)
+    {
+        $request->validate([
+            'statusenroll' => 'required|boolean',
+        ]);
+
+        $enrollMode = EnrollmentMode::firstOrCreate([], ['statusenroll' => 'Off']);
+
+        $enrollMode->statusenroll = $request->statusenroll ? 'On' : 'Off';
+        $enrollMode->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => $enrollMode->statusenroll === 'On' 
+                ? ' Start / Open now.' 
+                : ' has been Stop / Close now.',
+        ]);
     }
 
     public function serverMaintenance()
