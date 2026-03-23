@@ -45,29 +45,13 @@ $(document).ready(function() {
         "columns": [
             {data: 'queue_number'},
             {data: 'catname'},
-            {data: 'status'},
-            {data: 'campus'},
             {
-                data: 'id',
-                render: function(data, type, row) {
-                    if (type === 'display') {
-                        var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
-                            '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-fundedit" data-id="' + row.id + '" data-fundname="' + row.fund_name + '">' +
-                            '<i class="fas fa-pen"></i> Edit' +
-                            '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item fund-delete">' +
-                            '<i class="fas fa-trash"></i> Delete' +
-                            '</button>' +
-                            '</div>' +
-                            '</div>';
-                        return dropdown;
-                    } else {
-                        return data;
-                    }
-                },
+                data: 'status', render: function(data, type, row) {
+                    var badgeClass = data === 'serving' ? 'bg-success' : 'bg-warning';
+                    return '<span class="badge ' + badgeClass + '">' + data + '</span>';
+                }
             },
+            {data: 'campus'},
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 

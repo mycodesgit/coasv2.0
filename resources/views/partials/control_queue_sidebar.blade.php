@@ -7,10 +7,24 @@
 
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('queue-index') }}" class="list-group-item {{ $countersActive }}">Counters</a>
-        <a href="{{ route('numberRead') }}" class="list-group-item {{ $numbersActive }}">Numbers</a>
-        <a href="{{ route('queueonoff') }}" class="list-group-item {{ $queueActive }}">Setting</a>
-    </ul>
-</div>
+<ul class="nav flex-column">
+    
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
+    <li>
+        <a class="nav-link {{ $countersActive }}" href="{{ route('queue-index') }}">
+            <i class="ti ti-window"></i><span class="nav-text">Counters</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $numbersActive }}" href="{{ route('numberRead') }}">
+            <i class="ti ti-numbers"></i><span class="nav-text">Numbers</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $queueActive }}" href="{{ route('queueonoff') }}">
+            <i class="ti ti-settings"></i><span class="nav-text">Settings</span>
+        </a>
+    </li>
+</ul>
