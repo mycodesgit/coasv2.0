@@ -202,6 +202,7 @@
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
 
+    <script src="{{ asset('js/validation/settings/usersValidation.js') }}"></script>
 
     <!-- Ajax -->
     @if(request()->routeIs('usersRead'))

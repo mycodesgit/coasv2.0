@@ -4,30 +4,25 @@ $(function () {
             fname: {
                 required: true
             },
-            mname: {
-                required: true
-            },
             lname: {
                 required: true
             },
-            username: {
+            email: {
                 required: true,
-                minlength: 5
+                email: true,
+                pattern: /^[a-zA-Z0-9._%+-]+@cpsu\.edu\.ph$/
             },
             password: {
                 required: true,
                 minlength: 5
             },
-            office_id: {
+            campus: {
                 required: true
             },
-            gender: {
+            dept: {
                 required: true
             },
             role: {
-                required: true
-            },
-            campus_id: {
                 required: true
             },
         },
@@ -35,31 +30,26 @@ $(function () {
             fname: {
                 required: "Please enter a First Name"
             },
-            mname: {
-                required: "Please enter a Middle Name"
-            },
             lname: {
                 required: "Please enter a Last Name"
             },
-            username: {
-                required: "Please enter a username",
-                minlength: "Your username must be at least 5 characters long"
+            email: {
+                required: "Please use institutional email",
+                email: "Please enter a valid email address",
+                pattern: "Only Email (@cpsu.edu.ph) is allowed"
             },
             password: {
                 required: "Please provide a password",
                 minlength: "Your password must be at least 5 characters long"
             },
-            office_id: {
-                required: "Please select an Office"
+            campus: {
+                required: "Please select a Campus"
             },
-            gender: {
-                required: "Please select a Gender"
+            dept: {
+                required: "Please select a Department"
             },
             role: {
                 required: "Please select a User Type"
-            },
-            campus_id: {
-                required: "Please select a Campus"
             },
         },
         errorElement: 'span',
