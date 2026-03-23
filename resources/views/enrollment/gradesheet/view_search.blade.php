@@ -20,6 +20,15 @@ CISS V.1.0 || Enrollment
                                 </a>
                             </li>
                             <li class="breadcrumb-item mt-1">Enrollment</li>
+                            <li class="breadcrumb-item mt-1">
+                                <a href="{{ url()->previous() }}"> 
+                                    @if($genstud && $genstud->isNotEmpty())
+                                        <strong>{{ $genstud->first()->sub_name }} {{ $genstud->first()->subSec }}</strong>
+                                    @else
+                                        <strong>No subjects or no students</strong>
+                                    @endif
+                                </a>
+                            </li>
                             <li class="breadcrumb-item active mt-1">Gradesheet</li>
                         </ol>
                     </div>
@@ -67,7 +76,7 @@ CISS V.1.0 || Enrollment
 
                                         <div class="page-header mt-3 mb-3" style="border-bottom: 1px solid #04401f;"></div>
 
-                                        <div class="row">
+                                        <div class="row mt-3">
                                             <div class="col-md-10"></div>
                                             <div class="col-md-2">
                                                 <div style="text-align: right">
@@ -75,7 +84,7 @@ CISS V.1.0 || Enrollment
                                                         <form method="POST" action="{{ route('registrarupdateStatus_gradessubmit', ['subjID' => $genstud->first()->subjID]) }}" id="confirmationForm">
                                                             @csrf
                                                             <input type="hidden" name="subjID[]" value="{{ $genstud->first()->subjID }}">
-                                                            <button type="button" class="btn btn-success btn-sm btn-block" id="submitgradeid" data-bs-toggle="modal" data-bs-target="#submitgrades" @if($gradereg == 0) disabled @endif>Submit Grades</button>
+                                                            <button type="button" class="btn btn-success btn-sm btn-block text-light" id="submitgradeid" data-bs-toggle="modal" data-bs-target="#submitgrades" @if($gradereg == 0) disabled @endif>Submit Grades</button>
                                                         </form>
                                                     @else
                                                         <strong>No Students in this subject</strong>

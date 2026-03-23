@@ -36,8 +36,8 @@
     </li>
     
     <li>
-        <a class="nav-link {{ $rotclistActive }}" href="{{ route('rotc_nstp') }}">
-            <i class="ti ti-user-bolt"></i><span class="nav-text">ROTC Students</span>
+        <a class="nav-link {{ $gradenstpActive }}" href="{{ route('gradenstp') }}">
+            <i class="ti ti-numbers"></i><span class="nav-text">Grade Sheet</span>
         </a>
     </li>
 </ul>
