@@ -415,6 +415,54 @@
         <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
+    @if(request()->routeIs('searchStud', 'editsearchStud'))
+        <script>
+            $(document).ready(function () {
+                var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+                $('#nextButton').on('click', function () {
+                    const counterId = $(this).data('counter-id');
+
+                    $.post("{{ route('queue.next') }}", { 
+                        counter_id: counterId, 
+                        _token: "{{ csrf_token() }}" 
+                    }, function (response) {
+                        if (response.success) {
+                            // Update the queue number on the input field
+                            $('#queueNumber').val(response.queue_number);
+                            sound.play();
+                            console.log("play");
+                        } else {
+                            alert(response.message);
+                        }
+                    }).fail(function () {
+                        toastr.error('Error fetching the next queue.');
+                    });
+                });
+
+                $('#callButton').on('click', function () {
+                    const counterId = $(this).data('counter-id');
+
+                    $.post("{{ route('queue.call') }}", { 
+                        counter_id: counterId, 
+                        _token: "{{ csrf_token() }}" 
+                    }, function (response) {
+                        console.log(response); 
+                        if (response.success) {
+                            // Update the queue number on the input field
+                            $('#queueNumber').val(response.queue_number);
+                            sound.play();
+                            console.log("Sound played for call.");
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    }).fail(function () {
+                        toastr.error('Error calling the queue.');
+                    });
+                });
+            });
+        </script>
+    @endif
+
     <script type="text/javascript">
         function updateGrade(id, grade){
             //alert(id);

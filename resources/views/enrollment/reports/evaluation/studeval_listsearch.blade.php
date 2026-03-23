@@ -240,11 +240,10 @@ CISS V.1.0 || Enrollment
                                                                 {{-- LAST SEMESTER TOTAL --}}
                                                                 @if($totalCredits > 0)
                                                                     <tr class="table-warning">
-                                                                    <td colspan="9"><b>Semester Total</b></td>
-                                                                    <td><b>{{ $totalCredits }}</b></td>
-                                                                    <td><b>{{ number_format($sumProduct / $totalCredits,2) }}</b></td>
-                                                                </tr>
-
+                                                                        <td colspan="9"><b>Semester Total</b></td>
+                                                                        <td><b>{{ $totalCredits }}</b></td>
+                                                                        <td><b>{{ number_format($sumProduct / $totalCredits,2) }}</b></td>
+                                                                    </tr>
                                                                 @endif
                                                             </tbody>
                                                         </table>
@@ -281,6 +280,6 @@ CISS V.1.0 || Enrollment
                 input.value = value.substring(0, value.length - 1);
                 formatInput(input);
             }
-        } 
+        }
     </script>
 @endsection
