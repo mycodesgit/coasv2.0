@@ -1075,7 +1075,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/conf/add',[SettingController::class,'setconfCreate'])->name('setconfCreate');
             Route::post('/conf/update',[SettingController::class,'setconfUpdate'])->name('setconfUpdate');
 
-            Route::get('/confGradeAuthSet', [SettingController::class, 'setgradepassconfigure'])->name('setgradepassconfigure');
+            Route::get('/confGradeAuthSet', [SettingController::class, 'setgradeAllpassconfigure'])->name('setgradeAllpassconfigure');
+            Route::get('/confcampGradepassAuthSet', [SettingController::class, 'setgradeCampuspassconfigure'])->name('setgradeCampuspassconfigure');
             Route::post('/confGradeAuthSet/add',[SettingController::class,'setgradepassconfCreate'])->name('setgradepassconfCreate');
             Route::post('/confGradeAuthSet/update/{id}', [SettingController::class, 'updateGradepass'])->name('updateGradepass');
 

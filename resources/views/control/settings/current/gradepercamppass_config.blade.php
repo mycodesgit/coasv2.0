@@ -53,7 +53,7 @@ CISS V.1.0 || Settings
                                                 </thead>
                                                 <tbody>
                                                     @php $no = 1; @endphp
-                                                    @foreach($gradeallpasttngs as $data)
+                                                    @foreach($gradepasttngs as $data)
                                                         <tr>
                                                             <td>{{ $no++ }}</td>
                                                             <td>{{ $data->gradeauthpass }}</td>

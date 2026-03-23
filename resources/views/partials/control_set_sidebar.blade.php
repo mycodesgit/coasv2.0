@@ -6,7 +6,7 @@
     $facultyActive = in_array($curr_route, ['facultiesRead']) ? 'active' : '';
     $curconfActive = in_array($curr_route, ['setconfigure']) ? 'active' : '';
     $enrollconfActive = in_array($curr_route, ['setEnrollConf']) ? 'active' : '';
-    $gradeconfActive = in_array($curr_route, ['setgradepassconfigure']) ? 'active' : '';
+    $gradeconfActive = in_array($curr_route, ['setgradeAllpassconfigure']) ? 'active' : '';
     $usersAccntActive = in_array($curr_route, ['accountRead']) ? 'active' : '';
     $serverActive = in_array($curr_route, ['serverMaintenance']) ? 'active' : '';
 
@@ -38,7 +38,7 @@
         </li>
 
         <li>
-            <a class="nav-link {{ $gradeconfActive }}" href="{{ route('setgradepassconfigure') }}">
+            <a class="nav-link {{ $gradeconfActive }}" href="{{ route('setgradeAllpassconfigure') }}">
                 <i class="ti ti-lock-password"></i><span class="nav-text">Grades Password</span>
             </a>
         </li>

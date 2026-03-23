@@ -415,11 +415,20 @@ class SettingController extends Controller
         }
     }
 
-    public function setgradepassconfigure() 
+    public function setgradeAllpassconfigure() 
+    {
+        $campus = Auth::guard('web')->user()->campus;
+        $gradeallpasttngs = GradePass::get();
+
+        return view('control.settings.current.gradepass_config', compact('gradeallpasttngs'));
+    }
+
+    public function setgradeCampuspassconfigure() 
     {
         $campus = Auth::guard('web')->user()->campus;
         $gradepasttngs = GradePass::where('campus', $campus)->get();
-        return view('control.settings.current.gradepass_config', compact('gradepasttngs'));
+        
+        return view('control.settings.current.gradepercamppass_config', compact('gradepasttngs'));
     }
 
     public function setconfUpdate(Request $request) 

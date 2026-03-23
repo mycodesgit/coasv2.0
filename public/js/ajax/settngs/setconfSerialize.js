@@ -65,13 +65,13 @@ $(document).ready(function() {
                 render: function (data, type, row) {
                     var statusBadge = '';
                     if (data.set_status == 1) {
-                        statusBadge = '<span class="badge badge-danger">Inactive</span>';
+                        statusBadge = '<span class="badge bg-danger">Inactive</span>';
                     } else if (data.set_status == 2) {
-                        statusBadge = '<span class="badge badge-success">Active</span>';
+                        statusBadge = '<span class="badge bg-success">Active</span>';
                     } else if (data.set_status == 3) {
-                        statusBadge = '<span class="badge badge-info">Upcoming</span>';
+                        statusBadge = '<span class="badge bg-info">Upcoming</span>';
                     } else if (data.set_status == 4) {
-                        statusBadge = '<span class="badge badge-warning">Previous</span>';
+                        statusBadge = '<span class="badge bg-warning">Previous</span>';
                     } else {
                         statusBadge = data.set_status;
                     }
@@ -83,7 +83,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-setconfedit" data-id="' + row.id + '" data-schlyear="' + row.schlyear + '" data-semester="' + row.semester + '" data-setstatus="' + row.set_status + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
