@@ -95,7 +95,7 @@ CISS V.1.0 || Settings
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
-                                            <h3 class="fw-bold h1">Off</h3>
+                                            <h3 class="fw-bold h1">{{ $admissionStatus->statusadmission }}</h3>
                                             <span>Admission Status</span>
                                         </div>
                                         <div>
@@ -111,7 +111,7 @@ CISS V.1.0 || Settings
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
-                                            <h3 class="fw-bold h1">On</h3>
+                                            <h3 class="fw-bold h1">{{ $enrolledStatus->statusenroll }}</h3>
                                             <span>Enrollment Status</span>
                                         </div>
                                         <div>

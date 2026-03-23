@@ -3,10 +3,14 @@
 
     $dashActive = in_array($curr_route, ['settings-index']) ? 'active' : '';
     $usersActive = in_array($curr_route, ['usersRead', 'edit_user']) ? 'active' : '';
-    $facultyActive = in_array($curr_route, ['facultiesRead']) ? 'active' : '';
     $curconfActive = in_array($curr_route, ['setconfigure']) ? 'active' : '';
-    $enrollconfActive = in_array($curr_route, ['setEnrollConf']) ? 'active' : '';
     $gradeconfActive = in_array($curr_route, ['setgradeAllpassconfigure']) ? 'active' : '';
+    $admissionconfActive = in_array($curr_route, ['setAdmissionConf']) ? 'active' : '';
+    $enrollconfActive = in_array($curr_route, ['setEnrollConf']) ? 'active' : '';
+    $queueconfActive = in_array($curr_route, ['setQueueConf']) ? 'active' : '';
+
+
+    $facultyActive = in_array($curr_route, ['facultiesRead']) ? 'active' : '';
     $usersAccntActive = in_array($curr_route, ['accountRead']) ? 'active' : '';
     $serverActive = in_array($curr_route, ['serverMaintenance']) ? 'active' : '';
 
@@ -44,7 +48,7 @@
         </li>
 
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $admissionconfActive }}" href="{{ route('setAdmissionConf') }}">
                 <i class="ti ti-calendar-check"></i><span class="nav-text">Admission Status</span>
             </a>
         </li>
@@ -56,7 +60,7 @@
         </li>
 
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $queueconfActive }}" href="{{ route('setQueueConf') }}">
                 <i class="ti ti-line"></i><span class="nav-text">Queueing Status</span>
             </a>
         </li>

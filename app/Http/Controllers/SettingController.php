@@ -20,8 +20,9 @@ use App\Models\SettingDB\ConfigureCurrent;
 use App\Models\SettingDB\ButtonAccess;
 use App\Models\SettingDB\ButtonMenu;
 use App\Models\SettingDB\GradePass;
-use App\Models\SettingDB\QueueMode;
+use App\Models\SettingDB\AdmissionMode;
 use App\Models\SettingDB\EnrollmentMode;
+use App\Models\SettingDB\QueueMode;
 
 
 class SettingController extends Controller
@@ -37,13 +38,17 @@ class SettingController extends Controller
 
     public function index()
     {
+        $campus = Auth::guard('web')->user()->campus;
+
         $userCounts = User::count();
         $userActiveCounts = User::where('statuser', 1)->count();
         $userUnActiveCounts = User::where('statuser', 2)->count();
         $userAddedTodayCounts = User::where('created_at', now())->count();
+        $admissionStatus = AdmissionMode::first();
+        $enrolledStatus = EnrollmentMode::where('campus', $campus)->first();
         $queueStatus = QueueMode::first();
 
-        return view('control.settings.index', compact('userCounts', 'userActiveCounts', 'userUnActiveCounts', 'userAddedTodayCounts', 'queueStatus'));
+        return view('control.settings.index', compact('userCounts', 'userActiveCounts', 'userUnActiveCounts', 'userAddedTodayCounts', 'admissionStatus', 'enrolledStatus', 'queueStatus'));
     }
 
     public function usersRead() 
@@ -539,6 +544,39 @@ class SettingController extends Controller
             'message' => $enrollMode->statusenroll === 'On' 
                 ? ' Start / Open now.' 
                 : ' has been Stop / Close now.',
+        ]);
+    }
+
+    public function setQueueConf()
+    {
+        $setqueuemode = QueueMode::first();
+
+        return view('control.settings.admin.settingQueueing', compact('setqueuemode'));
+    }
+
+    public function setAdmissionConf()
+    {
+        $setadmissionmode = AdmissionMode::first();
+
+        return view('control.settings.admin.settingAdmission', compact('setadmissionmode'));
+    }
+
+    public function toggleAdmission(Request $request)
+    {
+        $request->validate([
+            'statusadmission' => 'required|boolean',
+        ]);
+
+        $admissionMode = AdmissionMode::firstOrCreate([], ['statusadmission' => 'Off']);
+
+        $admissionMode->statusadmission = $request->statusadmission ? 'On' : 'Off';
+        $admissionMode->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => $admissionMode->statusadmission === 'On' 
+                ? ' Start / Open now.' 
+                : ' Stop / Close now.',
         ]);
     }
 

@@ -1080,8 +1080,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/confGradeAuthSet/add',[SettingController::class,'setgradepassconfCreate'])->name('setgradepassconfCreate');
             Route::post('/confGradeAuthSet/update/{id}', [SettingController::class, 'updateGradepass'])->name('updateGradepass');
 
+            Route::get('/confAdimssionSet', [SettingController::class, 'setAdmissionConf'])->name('setAdmissionConf');
+            Route::post('/toggle-admission', [SettingController::class, 'toggleAdmission'])->name('toggle.admission');
             Route::get('/confEnrollmntSet', [SettingController::class, 'setEnrollConf'])->name('setEnrollConf');
             Route::post('/toggle-enrollment', [SettingController::class, 'toggleEnrollment'])->name('toggle.enrollment');
+            Route::get('/confQueueingSet', [SettingController::class, 'setQueueConf'])->name('setQueueConf');
 
             Route::get('/setting/server/zeus', [SettingController::class, 'serverMaintenance'])->name('serverMaintenance');
             Route::post('/setting/server/zeus/admin/maintenance', [SettingController::class, 'toggleMaintenance'])->name('toggleMaintenance');
