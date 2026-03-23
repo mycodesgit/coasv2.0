@@ -281,6 +281,6 @@ CISS V.1.0 || Enrollment
                 input.value = value.substring(0, value.length - 1);
                 formatInput(input);
             }
-        }
+        } 
     </script>
 @endsection

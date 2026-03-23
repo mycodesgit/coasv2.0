@@ -417,9 +417,9 @@
 						@endif
 					</td>
     				<td class="signatories-rf-sign">
-						@if(Auth::guard('web')->user()->campus == 'MC')
+						{{-- @if(Auth::guard('web')->user()->campus == 'MC')
 							<img src="{{ asset('template/img/empsign/assessment.png') }}" alt="signature" style="position: absolute; margin-top: -40px; right: 50px; width: 100px; z-index: 5;">
-						@endif
+						@endif --}}
 					</td>
     			</tr>
     		</tbody>
