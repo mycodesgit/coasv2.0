@@ -1,41 +1,39 @@
-<div class="modal fade" id="modal-allsch">
+<div class="modal fade mt-6" id="modal-allsch">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-plus"></i> Add Scholarship
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
             <div class="modal-body">
                <form class="form-horizontal" action="{{ route('allscholarCreate') }}" method="post" id="addScholar">  
                     @csrf
 
-                    <div class="form-group">
-                        <div class="form-row">
+                    <div class="form-group mt-3">
+                        <div class="row g-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">Scholarship Name:</span></label>
+                                <label>Scholarship Name: <span class="text-danger">*</span></label>
                                 <input type="text" name="scholar_name" oninput="this.value = this.value.toUpperCase()" placeholder="Enter Scholarship Name" class="form-control form-control-sm">
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
+                    <div class="form-group mt-3">
+                        <div class="row g-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">Scholarship Sponsor:</span></label>
+                                <label>Scholarship Sponsor: <span class="text-danger">*</span></label>
                                 <input type="text" name="scholar_sponsor" oninput="this.value = this.value.toUpperCase()" placeholder="Enter Scholarship Sponsor" class="form-control form-control-sm">
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
+                    <div class="form-group mt-3">
+                        <div class="row g-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">CHED Scholarship Category:</span></label>
+                                <label>CHED Scholarship Category: <span class="text-danger">*</span></label>
                                 <select class="form-control form-control-sm" name="chedcategory">
                                     <option disabled selected>--Select--</option>
                                     @foreach($ched as $datached)
@@ -46,10 +44,10 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
+                    <div class="form-group mt-3">
+                        <div class="row g-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">CPSU Scholarship Category:</span></label>
+                                <label>CPSU Scholarship Category: <span class="text-danger">*</span></label>
                                 <select class="form-control form-control-sm" name="unicategory">
                                     <option disabled selected>--Select--</option>
                                     @foreach($uni as $datauni)
@@ -60,10 +58,10 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
+                    <div class="form-group mt-3">
+                        <div class="row g-3">
                             <div class="col-md-12">
-                                <label><span class="badge badge-secondary">Funding Source:</span></label>
+                                <label>Funding Source: <span class="text-danger">*</span></label>
                                 <select class="form-control form-control-sm" name="fund_source">
                                     <option disabled selected>--Select--</option>
                                     @foreach($fs as $datafs)
@@ -74,13 +72,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
+                    <div class="form-group mt-3">
+                        <div class="row g-3">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                     Close
                                 </button>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     <i class="fas fa-save"></i> Save
                                 </button>
                             </div>

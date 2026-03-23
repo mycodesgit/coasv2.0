@@ -16,28 +16,69 @@
 
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('scholarship-index') }}" class="list-group-item {{ $dashSchActive }}">Dashboard</a>
-    </ul>
-    <ul class="list-group mt-1"> 
-        <a href="{{ route('chedscholarlist') }}" class="list-group-item {{ $chedScholarActive }}">CHED Scholarship</a>
-        <a href="{{ route('unischolarlist') }}" class="list-group-item {{ $uniScholarActive }}">CPSU Scholarship</a>
-        <a href="{{ route('allscholarlist') }}" class="list-group-item {{ $allScholarActive }}">Scholarship</a>
-        <a href="{{ route('chedstudscholarRead') }}" class="list-group-item {{ $listStudScholarActive }}">Students</a>
-    </ul>
-</div>
+<ul class="nav flex-column">
+    
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
+    <li>
+        <a class="nav-link {{ $dashSchActive }}" href="{{ route('scholarship-index') }}">
+            <i class="ti ti-box"></i><span class="nav-text">Dashboard</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $chedScholarActive }}" href="{{ route('chedscholarlist') }}">
+            <i class="ti ti-app-window"></i><span class="nav-text">CHED Scholarship</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $uniScholarActive }}" href="{{ route('unischolarlist') }}">
+            <i class="ti ti-building"></i><span class="nav-text">CPSU Scholarship</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $allScholarActive }}" href="{{ route('allscholarlist') }}">
+            <i class="ti ti-school"></i><span class="nav-text">Scholarship</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $listStudScholarActive }}" href="{{ route('chedstudscholarRead') }}">
+            <i class="ti ti-users"></i><span class="nav-text">Students</span>
+        </a>
+    </li>
+    
+    <li class="nav-text-space"><small class="nav-text"></small></li>
+    <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
 
-
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Reports</h5>
-</div>
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('studenscholarreportRead') }}" class="list-group-item {{ $enreportSchActive }}">Students Scholar Reports</a>
-        <a href="{{ route('studEnHistory') }}" class="list-group-item {{ $enhistoryActive }}">Enrollment History</a>
-        <a href="{{ route('countstudnoenrollee') }}" class="list-group-item {{ $countnumEnrollActive }}">Number of Enrollees</a>
-        <a href="{{ route('studregformRead') }}" class="list-group-item {{ $regformActive }}">Registration Form</a>
-        <a href="{{ route('scholarstudgradeview') }}" class="list-group-item {{ $gradscholarviewActive }}">View Grades</a>
-    </ul>
-</div>
+    <li>
+        <a class="nav-link {{ $enreportSchActive }}" href="{{ route('studenscholarreportRead') }}">
+            <i class="ti ti-file"></i><span class="nav-text">Scholar Reports</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $enhistoryActive }}" href="{{ route('studEnHistory') }}">
+            <i class="ti ti-history"></i><span class="nav-text">Enrollment History</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $countnumEnrollActive }}" href="{{ route('countstudnoenrollee') }}">
+            <i class="ti ti-checklist"></i><span class="nav-text">Number of Enrollees</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $regformActive }}" href="{{ route('studregformRead') }}">
+            <i class="ti ti-file-type-pdf"></i><span class="nav-text">Registration Form</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $gradscholarviewActive }}" href="{{ route('scholarstudgradeview') }}">
+            <i class="ti ti-numbers"></i><span class="nav-text">View Grades</span>
+        </a>
+    </li>
+</ul>

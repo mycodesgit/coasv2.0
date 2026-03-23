@@ -40,7 +40,7 @@ $(document).ready(function() {
             data: 'id',
                 render: function(data, type, row) {
                     if (type === 'display') {
-                        var editLink = '<a href="#" class="btn btn-primary btn-sm btn-studSchEn" data-id="' + row.id + '" data-studentid="' + row.studentID + '" data-studentname="' + row.lname + ', ' + row.fname +'" data-sch="' + row.schid + '">' +
+                        var editLink = '<a href="#" class="btn btn-success btn-sm btn-studSchEn text-light" data-id="' + row.id + '" data-studentid="' + row.studentID + '" data-studentname="' + row.lname + ', ' + row.fname +'" data-sch="' + row.schid + '">' +
                             '<i class="fas fa-eye"></i>' +
                             '</a>';
                         return editLink;
