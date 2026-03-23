@@ -36,19 +36,22 @@ class CashieringORController extends Controller
 {
     public function index()
     {
-        $todayCollect = StudPayment::whereDate('created_at', now())->sum('amountpaid');
+        $todayCollect = StudPayment::whereDate('created_at', now())->where('campus', Auth::guard('web')->user()->campus)->sum('amountpaid');
 
         $monthCollect = StudPayment::whereMonth('created_at', now()->month)
                         ->whereYear('created_at', now()->year)
+                        ->where('campus', Auth::guard('web')->user()->campus)
                         ->sum('amountpaid');
 
         $todayClients = StudPayment::whereDate('created_at', now())
                         ->distinct('studID')
+                        ->where('campus', Auth::guard('web')->user()->campus)
                         ->count('studID');
 
         $monthClients = StudPayment::whereMonth('created_at', now()->month)
                         ->whereYear('created_at', now()->year)
                         ->distinct('studID')
+                        ->where('campus', Auth::guard('web')->user()->campus)
                         ->count('studID');
 
         return view('cashier.index', compact('todayCollect', 'monthCollect', 'todayClients', 'monthClients'));
