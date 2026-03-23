@@ -8,15 +8,36 @@
     $gradenstpActive = in_array($curr_route, ['gradenstp', 'gradenstp_searchlist', 'gradenstpview']) ? 'active' : '';
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('nstp-index') }}" class="list-group-item {{ $dashnstplistActive }}">Dashboard</a>
-    </ul>
+<ul class="nav flex-column">
+    
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
+    <li>
+        <a class="nav-link {{ $dashnstplistActive }}" href="{{ route('nstp-index') }}">
+            <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $cwtslistActive }}" href="{{ route('cwts_nstp') }}">
+            <i class="ti ti-users"></i><span class="nav-text">CWTS Students</span>
+        </a>
+    </li>
 
-    <ul class="list-group mt-1">
-        <a href="{{ route('cwts_nstp') }}" class="list-group-item {{ $cwtslistActive }}">CWTS Students</a>
-        <a href="{{ route('lts_nstp') }}" class="list-group-item {{ $ltslistActive }}">LTS Students</a>
-        <a href="{{ route('rotc_nstp') }}" class="list-group-item {{ $rotclistActive }}">ROTC Students</a>
-        <a href="{{ route('gradenstp') }}" class="list-group-item {{ $gradenstpActive }}">Gradesheet</a>
-    </ul>
-</div>
+    <li>
+        <a class="nav-link {{ $ltslistActive }}" href="{{ route('lts_nstp') }}">
+            <i class="ti ti-user-cog"></i><span class="nav-text">LTS Students</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $rotclistActive }}" href="{{ route('rotc_nstp') }}">
+            <i class="ti ti-user-bolt"></i><span class="nav-text">ROTC Students</span>
+        </a>
+    </li>
+    
+    <li>
+        <a class="nav-link {{ $rotclistActive }}" href="{{ route('rotc_nstp') }}">
+            <i class="ti ti-user-bolt"></i><span class="nav-text">ROTC Students</span>
+        </a>
+    </li>
+</ul>

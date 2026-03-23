@@ -193,7 +193,7 @@ CISS V.1.0 || Enrollment
                                                                         <tr class="table-warning">
                                                                             <td colspan="9"><b>Semester Total</b></td>
                                                                             <td><b>{{ $totalCredits }}</b></td>
-                                                                            <td><b>{{ number_format($sumProduct / $totalCredits, 2) }}</b></td>
+                                                                            <td><b>{{ number_format($sumProduct / $totalCredits, 2) : '0.00' }}</b></td>
                                                                         </tr>
                                                                         @php
                                                                             $sumProduct = 0;
