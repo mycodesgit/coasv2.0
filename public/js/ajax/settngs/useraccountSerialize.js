@@ -60,51 +60,51 @@ $(document).ready(function() {
                     let roleBadge = '';
 
                     if (data.role == 0) {
-                        roleBadge = '<span class="badge badge-secondary">Administrator</span>';
+                        roleBadge = '<span class="badge bg-secondary">Administrator</span>';
                     } else if (data.role == 1) {
-                        roleBadge = '<span class="badge badge-primary">Guidance Officer</span>';
+                        roleBadge = '<span class="badge bg-primary">Guidance Officer</span>';
                     } else if (data.role == 2) {
-                        roleBadge = '<span class="badge badge-success">Guidance Staff</span>';
+                        roleBadge = '<span class="badge bg-success">Guidance Staff</span>';
                     } else if (data.role == 3) {
-                        roleBadge = '<span class="badge badge-danger">Registrar</span>';
+                        roleBadge = '<span class="badge bg-danger">Registrar</span>';
                     } else if (data.role == 4) {
-                        roleBadge = '<span class="badge badge-warning">Registrar Staff</span>';
+                        roleBadge = '<span class="badge bg-warning">Registrar Staff</span>';
                     } else if (data.role == 5) {
-                        roleBadge = '<span class="badge badge-info">College Dean</span>';
+                        roleBadge = '<span class="badge bg-info">College Dean</span>';
                     } else if (data.role == 6) {
-                        roleBadge = '<span class="badge badge-info">Program Head</span>';
+                        roleBadge = '<span class="badge bg-info">Program Head</span>';
                     } else if (data.role == 7) {
-                        roleBadge = '<span class="badge badge-info">College Staff</span>';
+                        roleBadge = '<span class="badge bg-info">College Staff</span>';
                     } else if (data.role == 8) {
-                        roleBadge = '<span class="badge badge-warning">Scholarship Head</span>';
+                        roleBadge = '<span class="badge bg-warning">Scholarship Head</span>';
                     } else if (data.role == 9) {
-                        roleBadge = '<span class="badge badge-warning">Scholarship Staff</span>';
+                        roleBadge = '<span class="badge bg-warning">Scholarship Staff</span>';
                     } else if (data.role == 10) {
-                        roleBadge = '<span class="badge badge-warning">Assessment Head</span>';
+                        roleBadge = '<span class="badge bg-warning">Assessment Head</span>';
                     } else if (data.role == 11) {
-                        roleBadge = '<span class="badge badge-warning">Assessment Staff</span>';
+                        roleBadge = '<span class="badge bg-warning">Assessment Staff</span>';
                     } else if (data.role == 12) {
-                        roleBadge = '<span class="badge badge-secondary">MIS Staff</span>';
+                        roleBadge = '<span class="badge bg-secondary">MIS Staff</span>';
                     } else if (data.role == 13) {
-                        roleBadge = '<span class="badge badge-secondary">MIS Director</span>';
+                        roleBadge = '<span class="badge bg-secondary">MIS Director</span>';
                     } else if (data.role == 14) {
-                        roleBadge = '<span class="badge badge-secondary">MIS Officer</span>';
+                        roleBadge = '<span class="badge bg-secondary">MIS Officer</span>';
                     } else if (data.role == 15) {
-                        roleBadge = '<span class="badge badge-warning">Grad School Staff</span>';
+                        roleBadge = '<span class="badge bg-warning">Grad School Staff</span>';
                     } else if (data.role == 16) {
                         roleBadge = '<span class="badge" style="background-color: #e83e8c; color: #fff">OSSA Staff</span>';
                     } else if (data.role == 17) {
-                        roleBadge = '<span class="badge badge-info">Cashier</span>';
+                        roleBadge = '<span class="badge bg-info">Cashier</span>';
                     } else if (data.role == 18) {
-                        roleBadge = '<span class="badge badge-info">Cashier Staff</span>';
+                        roleBadge = '<span class="badge bg-info">Cashier Staff</span>';
                     } else if (data.role == 19) {
-                        roleBadge = '<span class="badge badge-secondary">Encoder</span>';
+                        roleBadge = '<span class="badge bg-secondary">Encoder</span>';
                     } else if (data.role == 20) {
-                        roleBadge = '<span class="badge badge-secondary">Dean of Instruction</span>';
+                        roleBadge = '<span class="badge bg-secondary">Dean of Instruction</span>';
                     } else if (data.role == 21) {
-                        roleBadge = '<span class="badge badge-secondary">YearBook</span>';
+                        roleBadge = '<span class="badge bg-secondary">YearBook</span>';
                     } else {
-                        roleBadge = '<span class="badge badge-light">Unknown Role</span>';
+                        roleBadge = '<span class="badge bg-light">Unknown Role</span>';
                     }
                     return roleBadge;
                 }
@@ -116,9 +116,9 @@ $(document).ready(function() {
                     let statususer = '';
 
                     if (data.statuser == 1) {
-                        statususer = '<span class="badge badge-success">Enabled</span>';
+                        statususer = '<span class="badge bg-success">Enabled</span>';
                     } else {
-                        statususer = '<span class="badge badge-danger">Disabled</span>';
+                        statususer = '<span class="badge bg-danger">Disabled</span>';
                     } 
                     return statususer;
                 }
@@ -128,7 +128,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-useredit" data-id="' + row.id + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-email="' + row.email + '" data-campus="' + row.campus + '" data-dept="' + row.dept + '" data-role="' + row.role + '">' +
                             '<i class="fas fa-pen"></i> Edit Info' +

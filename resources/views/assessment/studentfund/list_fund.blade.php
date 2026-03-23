@@ -1,7 +1,7 @@
 @extends('layouts.master_assessment')
 
 @section('title')
-CISS V.1.0 || Assessment
+    CISS V.1.0 || Assessment
 @endsection
 
 @yield('sidemenu')
@@ -37,22 +37,28 @@ CISS V.1.0 || Assessment
                                             <div class="col-md-3">
                                                 <div class="card">
                                                     <div class="card-body">
-                                                        <form method="post" action="{{ route('fundCreate') }}" id="adFund">
+                                                        <form method="post" action="{{ route('fundCreate') }}"
+                                                            id="adFund">
                                                             @csrf
-                                                            <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                                                            <div class="page-header mt-1"
+                                                                style="border-bottom: 1px solid #04401f;">
                                                                 <h5>Add Funds</h5>
                                                             </div>
 
                                                             <div class="form-group">
                                                                 <div class="row">
                                                                     <div class="mt-2 col-md-12">
-                                                                        <label>Fund Name: <span class="text-danger">*</span></label>
-                                                                        <input type="number" name="fund_name" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                                                        <label>Fund Name: <span
+                                                                                class="text-danger">*</span></label>
+                                                                        <input type="number" name="fund_name"
+                                                                            class="form-control form-control-sm"
+                                                                            oninput="this.value = this.value.toUpperCase()">
                                                                     </div>
 
                                                                     <div class="col-md-12">
                                                                         <label>&nbsp;</label>
-                                                                        <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-success btn-sm btn-block">Save</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -70,7 +76,7 @@ CISS V.1.0 || Assessment
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -85,7 +91,8 @@ CISS V.1.0 || Assessment
         </div>
     </div>
 
-    <div class="modal fade mt-6" id="editFundModal" tabindex="-1" role="dialog" aria-labelledby="editFundModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade mt-6" id="editFundModal" tabindex="-1" role="dialog" aria-labelledby="editFundModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -102,6 +109,29 @@ CISS V.1.0 || Assessment
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> --}}
+
+    <div class="modal fade" id="editFundModal" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="editFundModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFundModalLabel">Edit Fund Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editFundForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="editFundName">Fund Name: <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editFundName" name="fund_name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-success">Save changes</button>
                     </div>
                 </form>

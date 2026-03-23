@@ -1,42 +1,37 @@
-<div class="modal fade" id="modal-user">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modal-user" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modal-userLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="fas fa-plus"></i> Add User
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="modal-userLabel">Add New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            
             <div class="modal-body">
                 <form class="form-horizontal" action="{{ route('userCreate') }}" method="post" id="addUser">  
                     @csrf
 
                     <div class="form-group">
-                        <div class="form-row">
+                        <div class="row g-3">
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">First Name:</span></label>
+                                <label>First Name: <span class="text-danger">*</span></label>
                                 <input type="text" name="fname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter First Name" class="form-control form-control-sm">
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Middle Name:</span></label>
+                                <label>Middle Name: </label>
                                 <input type="text" name="mname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter Middle Name" class="form-control form-control-sm">
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Last Name:</span></label>
+                                <label>Last Name: <span class="text-danger">*</span></label>
                                 <input type="text" name="lname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter Last Name" class="form-control form-control-sm">
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
+                    <div class="form-group mt-3">
+                        <div class="row g-3">
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Ext.:</span></label>
+                                <label>Ext.: </label>
                                 <select class="form-control form-control-sm" name="ext">
                                     <option value="">N/A</option>
                                     <option value="Jr." @if (old('ext') == "Jr.") {{ 'selected' }} @endif>Jr.</option>
@@ -47,21 +42,21 @@
                             </div>
                             
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Email</span></label>
+                                <label>Email <span class="text-danger">*</span></label>
                                 <input type="text" name="email" placeholder="Enter Email" class="form-control form-control-sm">
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-secondary">Password:</span></label>
+                                <label>Password: <span class="text-danger">*</span></label>
                                 <input type="password" name="password" placeholder="Enter Password" class="form-control form-control-sm">
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group"> 
-                        <div class="form-row">
+                    <div class="form-group mt-3"> 
+                        <div class="row g-3">
                             <div class="col-md-4">
-                                <label><span class="badge badge-danger">Campus</span></label>
+                                <label>Campus: <span class="text-danger">*</span></label>
                                 <select class="form-control form-control-sm" name="campus" required="">
                                     <option disabled selected>Select</option>
                                     <option value="MC" @if (old('campus') == 'MC') {{ 'selected' }} @endif>Main</option>
@@ -79,7 +74,7 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-warning">Department</span></label>
+                                <label>Department: <span class="text-danger">*</span></label>
                                 <select class="form-control form-control-sm" name="dept">
                                     <option disabled selected>Select</option>
                                     <option value="CAS" @if (old('dept') == 'CAS') {{ 'selected' }} @endif>College of Arts and Sciences</option>
@@ -102,7 +97,7 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label><span class="badge badge-success">User Level</span></label>
+                                <label>User Level: <span class="text-danger">*</span></label>
                                 <select class="form-control form-control-sm" name="role" >
                                     <option disabled selected>Level</option>
                                     <option value="0" @if (old('type') == 0) {{ 'selected' }} @endif>Administrator</option>
@@ -132,24 +127,19 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
+                    <div class="form-group mt-5">
+                        <div class="row g-3">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                     Close
                                 </button>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     <i class="fas fa-save"></i> Save
                                 </button>
                             </div>
                         </div>
                     </div>   
                 </form>
-            </div>
-            
-            <div class="modal-footer justify-content-between">
-                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
     </div>

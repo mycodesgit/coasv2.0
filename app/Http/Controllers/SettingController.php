@@ -20,6 +20,7 @@ use App\Models\SettingDB\ConfigureCurrent;
 use App\Models\SettingDB\ButtonAccess;
 use App\Models\SettingDB\ButtonMenu;
 use App\Models\SettingDB\GradePass;
+use App\Models\SettingDB\QueueMode;
 
 
 class SettingController extends Controller
@@ -35,7 +36,13 @@ class SettingController extends Controller
 
     public function index()
     {
-        return view('control.settings.index');
+        $userCounts = User::count();
+        $userActiveCounts = User::where('statuser', 1)->count();
+        $userUnActiveCounts = User::where('statuser', 2)->count();
+        $userAddedTodayCounts = User::where('created_at', now())->count();
+        $queueStatus = QueueMode::first();
+
+        return view('control.settings.index', compact('userCounts', 'userActiveCounts', 'userUnActiveCounts', 'userAddedTodayCounts', 'queueStatus'));
     }
 
     public function usersRead() 
