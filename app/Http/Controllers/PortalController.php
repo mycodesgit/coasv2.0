@@ -477,9 +477,37 @@ class PortalController extends Controller
         else
         {
 
-            $data = Applicant::where('lname', $request->lname)
-                ->where('fname', $request->fname)
-                ->where('p_status', '!=', 7)
+            $data = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                ->join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                ->where('ad_applicant_admission.lname', $request->lname)
+                ->where('ad_applicant_admission.fname', $request->fname)
+                ->where('ad_applicant_admission.p_status', '!=', 7)
+                ->select(
+                    'ad_applicant_admission.admission_id', 
+                    'ad_applicant_admission.p_status', 
+                    'ad_applicant_admission.fname', 
+                    'ad_applicant_admission.mname', 
+                    'ad_applicant_admission.lname', 
+                    'ad_applicant_admission.campus', 
+                    'ad_applicant_admission.bday', 
+                    'ad_applicant_admission.email', 
+                    'ad_applicant_admission.contact', 
+                    'ad_applicant_admission.address', 
+                    'ad_applicant_admission.d_admission', 
+                    'ad_applicant_admission.time', 
+                    'ad_applicant_admission.venue', 
+                    'ad_applicant_admission.created_at',
+                    'ad_applicant_admission.updated_at',
+                    'ad_examinee_result.raw_score',
+                    'ad_examinee_result.percentile',
+                    'ad_examinee_result.rawscoredate',
+                    'ad_examinee_result.updated_at as examresultdate',
+                    'ad_applicant_dept_rating.rating',
+                    'ad_applicant_dept_rating.remarks',
+                    'ad_applicant_dept_rating.course',
+                    'ad_applicant_dept_rating.deptcol',
+                    'ad_applicant_dept_rating.updated_at as deptratingdate',
+                )
                 ->get();
 
             if ($data->isNotEmpty()) {

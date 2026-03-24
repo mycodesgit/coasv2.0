@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('raw_score')->length(5)->nullable();
             $table->string('percentile')->length(50)->nullable();
             $table->enum('qualifier', ['1', '2'])->nullable();
+            $table->dateTime('rawscoredate')->nullable();
             $table->timestamps();
         });
     }

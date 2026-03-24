@@ -125,7 +125,7 @@ CISS V.1.0 || Track Admission
                                                 <i class="fas fa-times fa-2x"></i>
                                             </div>
                                             <div class="tracking-date">&nbsp;<span>&nbsp;</span></div>
-                                            <div class="tracking-content">Examination Results<span>Results is out! Your score: , Stanine: , Remarks: </span></div>
+                                            <div class="tracking-content">Examination Results<span>Results is out! Stanine: , Remarks: </span></div>
                                         </div>
                                         <div class="tracking-item">
                                             <div class="tracking-icon status-intransit">

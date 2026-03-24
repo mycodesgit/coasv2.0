@@ -18,6 +18,14 @@ class ExamineeResult extends Model
         'raw_score', 
         'percentile', 
         'qualifier',
+        'rawscoredate',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $casts = [
+        'rawscoredate' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function user()

@@ -21,5 +21,11 @@ class DeptRating extends Model
         'course',
         'deptcol',
         'reason',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $casts = [
+        'updated_at' => 'datetime',
     ];
 }
