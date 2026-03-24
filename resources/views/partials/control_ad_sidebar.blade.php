@@ -28,54 +28,12 @@
     $billingreportActive = in_array($curr_route, ['adbillingRead', 'adbillingRead_search']) ? 'active' : '';    
 @endphp
 
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        <a href="{{ route('admission-index') }}" class="list-group-item {{ $dashAdActive }}">Dashboard</a>
-    </ul>
-    <ul class="list-group mt-1">
-        @if(in_array(Auth::user()->role, [0, 1, 2]))
-            {{-- <a href="{{ route('applicant-add') }}" class="list-group-item {{ $appAddActive }}">Add Applicants</a> --}}
-            <a href="{{ route('applicant-list') }}" class="list-group-item {{ $appListActive }}">List of Applicants</a>  
-            <a href="{{ route('examinee-list') }}" class="list-group-item {{ $examineeListActive }}">List of Examinees</a>
-            <a href="{{ route('result-list') }}" class="list-group-item {{ $resultListActive }}">Examination Results</a>
-        @endif
-        <a href="{{ route('examinee-confirm') }}" class="list-group-item {{ $confirmAppListActive }}">Confirmed Applicants</a>
-        @if(in_array(Auth::user()->role, [5, 6, 7, 14]))  
-            <a href="{{ route('applicant-accepted') }}" class="list-group-item {{ $acceptedAppListActive }}">Accepted Applicants</a>
-        @endif
-        @if(in_array(Auth::user()->role, [0, 1, 2]))
-            <a href="{{ route('applicant-acceptedall') }}" class="list-group-item {{ $acceptedAppListAllActive }}">Accepted Applicants</a>
-        @endif
-        {{-- <a href="{{ route('applicant-enrolled') }}" class="list-group-item {{ $enrolledAppListActive }}">Enrolled Applicants</a> --}}
-        @if(in_array(Auth::user()->role, [0, 1, 2]))
-            <a href="{{ route('slots') }}" class="list-group-item {{ $slotActive }}">Availability/Slots</a>
-            <a href="{{ route('configure_admission') }}" class="list-group-item {{ $confActive }}">Configure Admission</a>
-            <a href="{{ route('alllistappRead') }}" class="list-group-item {{ $changecampActive }}">Change Campus</a>
-            <a href="{{ route('transferstud') }}" class="list-group-item {{ $transferActive }}">Transferee Students</a>
-        @endif
-    </ul>
-</div>
-
-
-<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
-    <h5>Reports</h5>
-</div>
-<div class="ml-2 mr-2 mt-3 mb-3">
-    <ul class="list-group">
-        @if(!in_array(Auth::user()->role, [5, 6, 7]))
-        <a href="{{ route('applicant_printing') }}" class="list-group-item {{ $appsreportActive }}">Applicants</a>
-        <a href="{{ route('applicantperschool_printing') }}" class="list-group-item {{ $appschoolreportActive }}">Applicants per School</a>
-        <a href="{{ route('schedules_printing') }}" class="list-group-item {{ $schedreportActive }}">Admission Schedules</a>
-        <a href="{{ route('nosched_printing') }}" class="list-group-item {{ $noschedreportActive}}">Applicants No Sched</a>
-        <a href="{{ route('examination_printing') }}" class="list-group-item {{ $examreportActive }}">Examination Results</a>
-        <a href="{{ route('qualified_printing') }}" class="list-group-item {{ $qualreportActive }}">Qualified Applicants</a>
-        @endif
-        <a href="{{ route('accepted_printing') }}" class="list-group-item {{ $acceptedreportActive }}">Accepted Applicants</a> 
-        @if(in_array(Auth::user()->id, [1, 36]))  
-            <a href="{{ route('indexcoursepref') }}" class="list-group-item {{ $courseprefreportActive }}">Course Preferences</a>
-        @endif
-        @if(!in_array(Auth::user()->role, [5, 6, 7]))
-        <a href="{{ route('adbillingRead') }}" class="list-group-item {{ $billingreportActive }}">Billing</a>
-        @endif
-    </ul>
-</div>
+<ul class="nav flex-column">
+    
+    <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
+    <li>
+        <a class="nav-link {{ $dashAdActive }}" href="{{ route('admission-index') }}">
+            <i class="ti ti-home"></i><span class="nav-text">Dashboard</span>
+        </a>
+    </li>
+</ul>

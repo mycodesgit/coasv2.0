@@ -1,0 +1,81 @@
+@php
+    $curr_route = request()->route()->getName();
+
+    $dashAdActive = in_array($curr_route, ['admission-index']) ? 'active' : '';
+    $appAddActive = in_array($curr_route, ['applicant-add']) ? 'active' : '';
+    $appListActive = in_array($curr_route, ['applicant-list', 'srchappList', 'applicant_edit']) ? 'active' : '';
+    $examineeListActive = in_array($curr_route, ['examinee-list', 'srchexamineeList', 'examinee_edit']) ? 'active' : '';
+    $resultListActive = in_array($curr_route, ['result-list', 'resultlist_search', 'assignresult', 'confirmResult']) ? 'active' : '';
+    $confirmAppListActive = in_array($curr_route, ['examinee-confirm', 'srchconfirmList', 'accept', 'deptInterview', 'pre_enrolment_print']) ? 'active' : '';
+    $acceptedAppListActive = in_array($curr_route, ['applicant-accepted', 'srchacceptedList', 'accepted_push_enroll_applicant']) ? 'active' : '';
+    $acceptedAppListAllActive = in_array($curr_route, ['applicant-acceptedall', 'srchacceptedListAll']) ? 'active' : '';
+    $enrolledAppListActive = in_array($curr_route, ['applicant-enrolled', 'srchacceptedEnrolledList']) ? 'active' : '';
+    $slotActive = in_array($curr_route, ['slots', 'slots_search']) ? 'active' : '';
+    $confActive = in_array($curr_route, ['configure_admission', 'edit_program', 'edit_strand', 'edit_date', 'edit_time', 'edit_venue']) ? 'active' : '';
+    $changecampActive = in_array($curr_route, ['alllistappRead', 'alllistappRead_search']) ? 'active' : '';
+    $transferActive = in_array($curr_route, ['transferstud']) ? 'active' : '';
+
+    $appsreportActive = in_array($curr_route, ['applicant_printing', 'applicant_reports']) ? 'active' : '';
+    $appschoolreportActive = in_array($curr_route, ['applicantperschool_printing', 'applicantperschool_reports']) ? 'active' : '';
+    $schedreportActive = in_array($curr_route, ['schedules_printing', 'schedules_reports']) ? 'active' : '';
+    $noschedreportActive = in_array($curr_route, ['nosched_printing', 'nosched_reports']) ? 'active' : '';   
+    $examreportActive = in_array($curr_route, ['examination_printing', 'examination_reports']) ? 'active' : '';  
+    $qualreportActive = in_array($curr_route, ['qualified_printing', 'qualified_reports']) ? 'active' : ''; 
+    $acceptedreportActive = in_array($curr_route, ['accepted_printing', 'accepted_reports']) ? 'active' : ''; 
+
+    $courseprefreportActive = in_array($curr_route, ['indexcoursepref', 'indexcoursepref_search']) ? 'active' : '';   
+
+    $billingreportActive = in_array($curr_route, ['adbillingRead', 'adbillingRead_search']) ? 'active' : '';    
+@endphp
+
+<div class="ml-2 mr-2 mt-3 mb-3">
+    <ul class="list-group">
+        <a href="{{ route('admission-index') }}" class="list-group-item {{ $dashAdActive }}">Dashboard</a>
+    </ul>
+    <ul class="list-group mt-1">
+        @if(in_array(Auth::user()->role, [0, 1, 2]))
+            {{-- <a href="{{ route('applicant-add') }}" class="list-group-item {{ $appAddActive }}">Add Applicants</a> --}}
+            <a href="{{ route('applicant-list') }}" class="list-group-item {{ $appListActive }}">List of Applicants</a>  
+            <a href="{{ route('examinee-list') }}" class="list-group-item {{ $examineeListActive }}">List of Examinees</a>
+            <a href="{{ route('result-list') }}" class="list-group-item {{ $resultListActive }}">Examination Results</a>
+        @endif
+        <a href="{{ route('examinee-confirm') }}" class="list-group-item {{ $confirmAppListActive }}">Confirmed Applicants</a>
+        @if(in_array(Auth::user()->role, [5, 6, 7, 14]))  
+            <a href="{{ route('applicant-accepted') }}" class="list-group-item {{ $acceptedAppListActive }}">Accepted Applicants</a>
+        @endif
+        @if(in_array(Auth::user()->role, [0, 1, 2]))
+            <a href="{{ route('applicant-acceptedall') }}" class="list-group-item {{ $acceptedAppListAllActive }}">Accepted Applicants</a>
+        @endif
+        {{-- <a href="{{ route('applicant-enrolled') }}" class="list-group-item {{ $enrolledAppListActive }}">Enrolled Applicants</a> --}}
+        @if(in_array(Auth::user()->role, [0, 1, 2]))
+            <a href="{{ route('slots') }}" class="list-group-item {{ $slotActive }}">Availability/Slots</a>
+            <a href="{{ route('configure_admission') }}" class="list-group-item {{ $confActive }}">Configure Admission</a>
+            <a href="{{ route('alllistappRead') }}" class="list-group-item {{ $changecampActive }}">Change Campus</a>
+            <a href="{{ route('transferstud') }}" class="list-group-item {{ $transferActive }}">Transferee Students</a>
+        @endif
+    </ul>
+</div>
+
+
+<div class="page-header ml-2 mr-2 mt-3" style="border-bottom: 1px solid #04401f;">
+    <h5>Reports</h5>
+</div>
+<div class="ml-2 mr-2 mt-3 mb-3">
+    <ul class="list-group">
+        @if(!in_array(Auth::user()->role, [5, 6, 7]))
+        <a href="{{ route('applicant_printing') }}" class="list-group-item {{ $appsreportActive }}">Applicants</a>
+        <a href="{{ route('applicantperschool_printing') }}" class="list-group-item {{ $appschoolreportActive }}">Applicants per School</a>
+        <a href="{{ route('schedules_printing') }}" class="list-group-item {{ $schedreportActive }}">Admission Schedules</a>
+        <a href="{{ route('nosched_printing') }}" class="list-group-item {{ $noschedreportActive}}">Applicants No Sched</a>
+        <a href="{{ route('examination_printing') }}" class="list-group-item {{ $examreportActive }}">Examination Results</a>
+        <a href="{{ route('qualified_printing') }}" class="list-group-item {{ $qualreportActive }}">Qualified Applicants</a>
+        @endif
+        <a href="{{ route('accepted_printing') }}" class="list-group-item {{ $acceptedreportActive }}">Accepted Applicants</a> 
+        @if(in_array(Auth::user()->id, [1, 36]))  
+            <a href="{{ route('indexcoursepref') }}" class="list-group-item {{ $courseprefreportActive }}">Course Preferences</a>
+        @endif
+        @if(!in_array(Auth::user()->role, [5, 6, 7]))
+        <a href="{{ route('adbillingRead') }}" class="list-group-item {{ $billingreportActive }}">Billing</a>
+        @endif
+    </ul>
+</div>
