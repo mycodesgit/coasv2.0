@@ -244,7 +244,7 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
 
 <script>
     var homeRoute = "{{ route('home') }}";
-    var admissionRoute = "{{ route('admission-index') }}";
+    var admissionRoute = "#";
     var enrollmentRoute = "{{ route('enrollment-index') }}";
     var schedulerRoute = "{{ route('scheduler-index') }}";
     var assessmentRoute = "{{ route('assessment-index') }}";
