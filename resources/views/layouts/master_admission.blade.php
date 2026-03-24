@@ -200,8 +200,71 @@
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
 
+    <script src="{{ asset('js/validation/applicant/applicantValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/configureAd/progCon.js') }}"></script>
+    <script src="{{ asset('js/validation/configureAd/strandCon.js') }}"></script>
+    <script src="{{ asset('js/validation/configureAd/dateCon.js') }}"></script>
+    <script src="{{ asset('js/validation/configureAd/timeCon.js') }}"></script>
+    <script src="{{ asset('js/validation/configureAd/venueCon.js') }}"></script>
+    <script src="{{ asset('js/validation/report/applicantValidation.js') }}"></script>
+    <script src="{{ asset('js/validation/report/schedValidation.js') }}"></script>
 
     <!-- Ajax -->
+    @php $curr_route = request()->route()->getName(); @endphp
+        @if($curr_route == 'admission-index')
+        <!-- ChartJS -->
+        <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
+        <script src="{{ asset('js/chart/dashall.js') }}"></script>
+    @endif
+    @if(request()->routeIs('srchappList'))
+        <script src="{{ asset('js/ajax/admssion/applicant/applicantSerialize.js') }}"></script>
+        {{-- @include('script.admssn.applicant.applicantSerialize') --}}
+    @endif
+    @if(request()->routeIs('applicant_edit'))
+        <script src="{{ asset('js/ajax/admssion/applicant/appAssignSchedSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('srchexamineeList'))
+        <script src="{{ asset('js/ajax/admssion/examineeajax/examineeSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('examinee_edit'))
+        <script src="{{ asset('js/ajax/admssion/examineeajax/examAssignRateSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('resultlist_search'))
+        <script src="{{ asset('js/ajax/admssion/examresult/exresultSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('srchconfirmList'))
+        <script src="{{ asset('js/ajax/admssion/examresult/exconfirmSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('srchacceptedList'))
+        <script src="{{ asset('js/ajax/admssion/examresult/acceptedSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('srchacceptedListAll'))
+        <script src="{{ asset('js/ajax/admssion/examresult/allacceptedSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('alllistappRead_search'))
+        <script src="{{ asset('js/ajax/admssion/applicant/applicantChangeCamSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('alllistappRead_search'))
+        <script src="{{ asset('js/ajax/admssion/applicant/applicantChangeCamSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('transferstud'))
+        <script src="{{ asset('js/ajax/enrolment/transferSerialize.js') }}?v={{ time() }}"></script>
+    @endif
+    @if(request()->routeIs('indexcoursepref_search'))
+        <script src="{{ asset('js/ajax/admssion/examresult/allcourseprefSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('configure_admission'))
+        <script src="{{ asset('js/ajax/admssion/configureAdSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('applicant_reports'))
+        @include('script.admssn.rprt.applicantgenSerialize')
+    @endif
+    @if(request()->routeIs('schedules_reports'))
+        @include('script.admssn.rprt.applicantschedSerialize')
+    @endif
+    @if(request()->routeIs('nosched_reports'))
+        @include('script.admssn.rprt.applicantnoschedSerialize')
+    @endif
 </body>
 
 </html>

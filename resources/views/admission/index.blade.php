@@ -25,22 +25,51 @@ CISS V.1.0 || Admission
                     </div>
                 </div>
                 <div class="row g-3 mb-3 mt-3">
-                    <div class="col-lg-12">
-                        <div class="card mb-3">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">Sorry, this feature is still under development</h3>
-                                        <span>Please check back soon!</span>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">No. of Applicants in every campus in this year {{ $currentYear }}</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <div class="position-relative mb-4">
+                                        <canvas id="sales-chart"
+                                                data-main="{!! $MainRegCount !!}"
+                                                data-main-sched="{!! $MainSchedCount !!}"
+                                                data-ilog="{!! $IlogRegCount !!}"
+                                                data-ilog-sched="{!! $IlogSchedCount !!}" 
+                                                data-cauayan="{!! $CauayanRegCount !!}"
+                                                data-cauayan-sched="{!! $CauayanSchedCount !!}" 
+                                                data-candoni="{!! $CandoniRegCount !!}"
+                                                data-candoni-sched="{!! $CandoniSchedCount !!}" 
+                                                data-siplay="{!! $SipalayRegCount !!}"
+                                                data-siplay-sched="{!! $SipalaySchedCount !!}" 
+                                                data-hinobaan="{!! $HinobaanRegCount !!}"
+                                                data-hinobaan-sched="{!! $HinobaanSchedCount !!}" 
+                                                data-hinigaran="{!! $HinigaranRegCount !!}"
+                                                data-hinigaran-sched="{!! $HinigaranSchedCount !!}" 
+                                                data-moises="{!! $MoisesRegCount !!}"
+                                                data-moises-sched="{!! $MoisesSchedCount !!}" 
+                                                data-sancarlos="{!! $SancarlosRegCount !!}"
+                                                data-sancarlos-sched="{!! $SancarlosSchedCount !!}" 
+                                                data-victorias="{!! $VictoriasRegCount !!}"
+                                                data-victorias-sched="{!! $VictoriasSchedCount !!}" 
+                                                height="350">
+                                        </canvas>
                                     </div>
-                                    <div>
-                                        <i class="ti ti-server fs-1 text-success"></i>
+                                    <div class="d-flex flex-row justify-content-end">
+                                        <span class="mr-5">
+                                            <i class="fas fa-square" style="color: #90ee90"></i> Registered Applicant: No schedule yet
+                                        </span>
+                                        &nbsp;&nbsp;
+                                        <span class="mr-2">
+                                            <i class="fas fa-square" style="color: #00a65a"></i> Registered Applicant: Scheduled
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>

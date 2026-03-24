@@ -77,13 +77,13 @@ $(document).ready(function() {
             data: 'status',
                 render: function(data, type, row) {
                     if (data == 1) {
-                        return '<span class="badge badge-success">No Need to Reupload</span>';
+                        return '<span class="badge bg-success">No Need to Reupload</span>';
                     } else if (data == 2) {
-                        return '<span class="badge badge-warning">Reupload</span>';
+                        return '<span class="badge bg-warning">Reupload</span>';
                     } else if (data == 3) {
-                        return '<span class="badge badge-secondary">Done Reupload</span>';
+                        return '<span class="badge bg-secondary">Done Reupload</span>';
                     } else {
-                        return '<span class="badge badge-secondary">Unknown</span>';
+                        return '<span class="badge bg-secondary">Unknown</span>';
                     }
                 }
             },
@@ -93,7 +93,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display' && isCampus === requestedCampus) {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
