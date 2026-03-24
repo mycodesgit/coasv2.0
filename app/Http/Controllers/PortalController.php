@@ -473,7 +473,7 @@ class PortalController extends Controller
         ]);
 
         if($validator->fails()){
-            return Redirect::route('admission_track')->withErrors($validator)->withInput()->with('fail', 'Please check the inputs! Lastname and Firstname is required');}
+            return Redirect::route('admission_track')->withErrors($validator)->withInput()->with('error', 'Please check the inputs! Lastname and Firstname is required');}
         else
         {
 
@@ -486,9 +486,8 @@ class PortalController extends Controller
                 $request->session()->put('recent_search', $data);
                 return view('portal.track_status', ['data' => $data]);
             } else {
-                return back()->withInput()->with('fail', 'No matching records found!');
+                return back()->withInput()->with('error', 'No matching records found!');
             }
-        
         }
     }
 
