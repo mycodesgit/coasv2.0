@@ -51,7 +51,7 @@
         </li>
 
         <li>
-            <a class="nav-link {{ $appAddActive }}" href="#">
+            <a class="nav-link {{ $resultListActive }}" href="{{ route('result-list') }}">
                 <i class="ti ti-user-up"></i><span class="nav-text">Examination Results</span>
             </a>
         </li>
@@ -65,7 +65,7 @@
     
     @if(in_array(Auth::user()->role, [5, 6, 7, 14]))  
         <li>
-            <a class="nav-link {{ $acceptedAppListActive }}" href="{{ route('applicant-accepted') }}">
+            <a class="nav-link {{ $acceptedAppListActive }}" href="#">
                 <i class="ti ti-user-code"></i><span class="nav-text">Accepted Applicants</span>
             </a>
         </li>
@@ -73,7 +73,7 @@
 
     @if(in_array(Auth::user()->role, [0, 1, 2]))
         <li>
-            <a class="nav-link {{ $acceptedAppListAllActive }}" href="{{ route('applicant-acceptedall') }}">
+            <a class="nav-link {{ $acceptedAppListAllActive }}" href="#">
                 <i class="ti ti-user-code"></i><span class="nav-text">Accepted Applicants</span>
             </a>
         </li>
@@ -83,25 +83,25 @@
     <li class="px-4 py-2"><small class="nav-text text-muted">Configuration</small></li>
     @if(in_array(Auth::user()->role, [0, 1, 2]))
         <li>
-            <a class="nav-link {{ $acceptedAppListAllActive }}" href="{{ route('applicant-acceptedall') }}">
+            <a class="nav-link {{ $acceptedAppListAllActive }}" href="#">
                 <i class="ti ti-id-badge"></i><span class="nav-text">Availability Slots</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $confActive }}" href="{{ route('configure_admission') }}">
+            <a class="nav-link {{ $confActive }}" href="#">
                 <i class="ti ti-settings"></i><span class="nav-text">Manage Admission</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $changecampActive }}" href="{{ route('alllistappRead') }}">
+            <a class="nav-link {{ $changecampActive }}" href="#">
                 <i class="ti ti-brand-google-maps"></i><span class="nav-text">Change Campus</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $transferActive }}" href="{{ route('transferstud') }}">
+            <a class="nav-link {{ $transferActive }}" href="#">
                 <i class="ti ti-transfer"></i><span class="nav-text">Transfer Students</span>
             </a>
         </li>
@@ -111,51 +111,51 @@
     <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
     @if(!in_array(Auth::user()->role, [5, 6, 7]))
         <li>
-            <a class="nav-link {{ $confActive }}" href="{{ route('configure_admission') }}">
+            <a class="nav-link {{ $confActive }}" href="#">
                 <i class="ti ti-file-star"></i><span class="nav-text">Applicants</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $appschoolreportActive }}" href="{{ route('applicantperschool_printing') }}">
+            <a class="nav-link {{ $appschoolreportActive }}" href="#">
                 <i class="ti ti-file-barcode"></i><span class="nav-text">Applicants per School</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $schedreportActive }}" href="{{ route('schedules_printing') }}">
+            <a class="nav-link {{ $schedreportActive }}" href="#">
                 <i class="ti ti-file-analytics"></i><span class="nav-text">Admission Schedules</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $noschedreportActive }}" href="{{ route('nosched_printing') }}">
+            <a class="nav-link {{ $noschedreportActive }}" href="#">
                 <i class="ti ti-file-delta"></i><span class="nav-text">Applicants No Sched</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $examreportActive }}" href="{{ route('examination_printing') }}">
+            <a class="nav-link {{ $examreportActive }}" href="#">
                 <i class="ti ti-file-description"></i><span class="nav-text">Examination Results</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $qualreportActive }}" href="{{ route('qualified_printing') }}">
+            <a class="nav-link {{ $qualreportActive }}" href="#">
                 <i class="ti ti-file-check"></i><span class="nav-text">Qualified Applicants</span>
             </a>
         </li>
     @endif
 
     <li>
-        <a class="nav-link {{ $acceptedreportActive }}" href="{{ route('accepted_printing') }}">
+        <a class="nav-link {{ $acceptedreportActive }}" href="#">
             <i class="ti ti-file-code"></i><span class="nav-text">Accepted Applicants</span>
         </a>
     </li>
     
     @if(in_array(Auth::user()->id, [1, 36]))  
         <li>
-            <a class="nav-link {{ $courseprefreportActive }}" href="{{ route('indexcoursepref') }}">
+            <a class="nav-link {{ $courseprefreportActive }}" href="#">
                 <i class="ti ti-file-code"></i><span class="nav-text">Course Preferences</span>
             </a>
         </li>
@@ -163,7 +163,7 @@
     
     @if(!in_array(Auth::user()->role, [5, 6, 7]))  
         <li>
-            <a class="nav-link {{ $billingreportActive }}" href="{{ route('adbillingRead') }}">
+            <a class="nav-link {{ $billingreportActive }}" href="#">
                 <i class="ti ti-file-code"></i><span class="nav-text">Billing</span>
             </a>
         </li>

@@ -26,9 +26,8 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-    <!-- fullCalendar -->
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     
     <style>
         .sticky-column {
@@ -181,7 +180,6 @@
     <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <!-- fullCalendar 2.2.5 -->
     <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="{{ asset('uilibs/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- Toastr -->

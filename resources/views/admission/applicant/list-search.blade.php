@@ -134,54 +134,53 @@ CISS V.1.0 || Admission
         </div>
     </div>
 
-    <div class="modal fade" id="viewdataresultexamModal" role="dialog" aria-labelledby="viewdataresultexamModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+    <div class="modal fade mt-6" id="viewdataresultexamModal" role="dialog" aria-labelledby="viewdataresultexamModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewdataresultexamModalLabel">View Applicant Data</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editAppDataPersonalinfoForm">
                     <div class="modal-body">
-                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
-                            <h4>Applicant Information</h4>
-                        </div>
                         <input type="hidden" name="id" id="viewdataresultexamId">
+
+                        <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
+                            <h4>Student Information <span style="font-size: 12pt;color:#ff0000;">(Input for New Applicant only)</span></h4>
+                        </div>
                         <div class="form-group mt-3">
-                            <div class="form-row">
+                            <div class="row g-3">
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Admission ID</span></label>
+                                    <label>Admission ID: <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm" name="admission_id" id="viewdataresultexamAdID" readonly>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Admission Type</span></label>
+                                    <label>Admission Type: <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm" name="type" id="viewdataresultexamType" readonly>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Preffered Campus</span></label>
+                                    <label>Preffered Campus: <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm" name="campus" id="viewdataresultexamCampus" readonly>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Firstname</span></label>
+                                    <label>Firstname: <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm" name="fname" id="viewdataresultexamFname" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Middlename</span></label>
+                                    <label>Middlename: <span class="text-danger">*</span></label>
                                     <input type="text" name="mname" class="form-control form-control-sm" id="viewdataresultexamMname" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Lastname</span></label>
+                                    <label>Lastname: <span class="text-danger">*</span></label>
                                     <input type="text" name="lname" class="form-control form-control-sm" id="viewdataresultexamLname" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="form-row">
+                        <div class="form-group mt-3">
+                            <div class="row g-3">
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Ext.</span></label>
+                                    <label>Ext.: <span class="text-danger">*</span></label>
                                     <select class="form-control form-control-sm" name="ext" id="viewdataresultexamExt">
                                         <option>N/A</option>
                                         <option value="Jr." @if (old('ext') == "Jr.") {{ 'selected' }} @endif>Jr.</option>
@@ -191,7 +190,7 @@ CISS V.1.0 || Admission
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Gender</span></label>
+                                    <label>Gender: <span class="text-danger">*</span></label>
                                     <select class="form-control form-control-sm" name="gender" id="viewdataresultexamGender">
                                         <option value="">Select</option>
                                         <option value="Male" @if (old('gender') == "Male") {{ 'selected' }} @endif>Male</option>
@@ -199,11 +198,11 @@ CISS V.1.0 || Admission
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Birthday</span></label>
+                                    <label>Birthday: <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm" name="" id="viewdataresultexamBday" readonly>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Civil Status</span></label>
+                                    <label>Civil Status: <span class="text-danger">*</span></label>
                                     <select class="form-control form-control-sm" name="civil_status" id="viewdataresultexamcvilstat">
                                         <option disabled selected>Select</option>
                                         <option value="Single" @if (old('civil_status') == "Single") {{ 'selected' }} @endif>Single</option>
@@ -214,82 +213,82 @@ CISS V.1.0 || Admission
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Mobile</span></label>
+                                    <label>Mobile: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamMobile" readonly>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><span class="badge badge-secondary">Email Address</span></label>
+                                    <label>Email Address: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamEmail" readonly>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="form-row">
+                        <div class="form-group mt-3">
+                            <div class="row g-3">
                                 <div class="col-md-12">
-                                    <label><span class="badge badge-secondary">Address</span></label>
+                                    <label>Address: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamAddress" readonly>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>For New Student <span style="font-size: 12pt;color:#ff0000;">(Input for New Applicant only)</span></h4>
                         </div>
 
-                        <div class="form-group">
-                            <div class="form-row">
+                        <div class="form-group mt-3">
+                            <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label><span class="badge badge-secondary">Last School Attended</span></label>
+                                    <label>Last School Attended: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamLSA" readonly>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label><span class="badge badge-secondary">Strand</span></label>
+                                    <label>Strand: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamStrand" readonly>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>For Transferee <span style="font-size: 12pt;color:#ff0000;">(Input for Transferees only)</span></h4>
                         </div>
 
-                        <div class="form-group">
-                            <div class="form-row">
+                        <div class="form-group mt-3">
+                            <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label><span class="badge badge-secondary">College/University last attended</span></label>
+                                    <label>College/University last attended: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCUla" readonly>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label><span class="badge badge-secondary">Course</span></label>
+                                    <label>Course: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCUlac" readonly>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
                             <h4>Course Preference</h4>
                         </div>
 
-                        <div class="form-group">
-                            <div class="form-row">
+                        <div class="form-group mt-3">
+                            <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label><span class="badge badge-secondary">Course Preference 1</span></label>
+                                    <label>Course Preference 1: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCP1" readonly>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label><span class="badge badge-secondary">Course Preference 1</span></label>
+                                    <label>Course Preference 1: <span class="text-danger">*</span></label>
                                     <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamCP2" readonly>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -297,19 +296,17 @@ CISS V.1.0 || Admission
     </div>
 
     <div class="modal fade" id="editReUploadModal" role="dialog" aria-labelledby="editReUploadModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editReUploadModalLabel">Re-Uploaded Photo/Document</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editReUploadAccessForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="editReUploadId">
                         <div class="form-group"> 
-                            <div class="form-row">
+                            <div class="row g-3">
                                 <div class="col-md-8">
                                     <label for="reuploadaccess">Check certain documents needed to re-upload by the applicant.</label>
                                     @php
@@ -332,8 +329,8 @@ CISS V.1.0 || Admission
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -341,13 +338,11 @@ CISS V.1.0 || Admission
     </div>
 
     <div class="modal fade" id="editUploadPhotoModal" role="dialog" aria-labelledby="editUploadPhotoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editUploadPhotoModalLabel">Uploaded Photo/Document</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form>
                     <div class="modal-body">
@@ -359,7 +354,7 @@ CISS V.1.0 || Admission
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -367,13 +362,11 @@ CISS V.1.0 || Admission
     </div>
 
     <div class="modal fade" id="editUploadReportCardModal" role="dialog" aria-labelledby="editUploadReportCardModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editUploadReportCardModalLabel">Uploaded Report Card / TOR</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form>
                     <div class="modal-body">
@@ -385,7 +378,7 @@ CISS V.1.0 || Admission
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -393,13 +386,11 @@ CISS V.1.0 || Admission
     </div>
 
     <div class="modal fade" id="editUploadPhotoProofModal" role="dialog" aria-labelledby="editUploadPhotoProofModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editUploadPhotoProofModalLabel">Uploaded Photo/Document</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form>
                     <div class="modal-body">
@@ -422,7 +413,7 @@ CISS V.1.0 || Admission
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -430,13 +421,11 @@ CISS V.1.0 || Admission
     </div>
 
     <div class="modal fade" id="editAssignSchedModal" role="dialog" aria-labelledby="editAssignSchedModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-center" id="editAssignSchedModalLabel">Assign Schedule for Admission Test</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editAssignSchedForm">
                     <div class="modal-body">
@@ -477,7 +466,7 @@ CISS V.1.0 || Admission
                         </div>
 
                         <div class="form-group" id="formdatesched" onchange="updateDateTime()">
-                            <label><span class="badge badge-secondary">Date of Admission Test</span></label>
+                            <label>Date of Admission Test: <span class="text-danger">*</span></label>
                             <select class="form-control form-control-sm" name="dateID" id="editAssignDateIDs" onchange="updateDateTime()">
                                 <option disabled selected> ---Select--- </option>
                                 @foreach ($time1 as $dateItem)
@@ -498,7 +487,7 @@ CISS V.1.0 || Admission
                         <input type="hidden" id="selectedDateTimeID" name="dateID" class="form-control form-control-md" placeholder="Selected DateTimeID">
 
                         <div class="form-group">
-                            <label><span class="badge badge-secondary">Venue</span></label>
+                            <label>Venue: <span class="text-danger">*</span></label>
                             <select class="form-control form-control-sm" name="venue" style="text-transform: uppercase;">
                                 <option disabled selected> ---Select--- </option>
                                 @foreach ($venue1 as $venueItem)
@@ -510,9 +499,9 @@ CISS V.1.0 || Admission
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" id="changeTimeSchedButton" class="btn btn-info">Change Time Sched</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-success">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -520,24 +509,26 @@ CISS V.1.0 || Admission
     </div>
 
     <div class="modal fade" id="pushtoexamModal" role="dialog" aria-labelledby="pushtoexamModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="pushtoexamModalLabel">Are you sure you want to Push the Applicant to Examinee List?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="pushtoexamModalLabel">Are you sure?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="pushtoexamForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="pushtoexamId">
                         <input type="hidden" name="email" id="pushtoexamEmail">
                         <div class="form-group">
-                            <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Examinee</button></center>
+                            <center>
+                                <h3>Push the Applicant to Examinee List</h3>
+                                <br>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>  Yes!, Push to Examinee</button>
+                            </center>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
