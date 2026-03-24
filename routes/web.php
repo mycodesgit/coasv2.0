@@ -127,7 +127,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
         Route::post('/send-thank-you-email', [PortalController::class, 'sendThankYouEmail'])->name('sendThankYouEmail');
         //Route::get('/apply/submit/successfully', function () { return view('portal.applysubmit');});
         Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
-        Route::get('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
+        Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
 
         Route::get('/portal/provinces/{region_id}', [PortalController::class, 'getPortalProvinces'])->name('getPortalProvinces');
         Route::get('/portal/cities/{province_id}', [PortalController::class, 'getPortalCities'])->name('getPortalCities');

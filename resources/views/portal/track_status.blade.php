@@ -33,7 +33,7 @@ CISS V.1.0 || Track Admission
                                 @elseif (Session::has('error'))
                                     <div class="alert alert-danger">{{Session::get('error')}}</div>
                                 @endif
-                                <form method="GET" action="{{ route('admission_track_status') }}">
+                                <form method="POST" action="{{ route('admission_track_status') }}">
                                     @csrf
                                     <div class="row g-3">
                                         <div class="col-md-4">
@@ -259,7 +259,7 @@ CISS V.1.0 || Track Admission
                                                     @if (!empty($data->first()->percentile))
                                                         <i class="text-success">{{ $data->first()->course }}</i>
                                                     @else
-                                                        <i class="text-danger">Waiting for confirmation on Pre-enrolment</i>
+                                                        <i class="text-danger">Waiting</i>
                                                     @endif
                                                 </span>
                                             </div>
