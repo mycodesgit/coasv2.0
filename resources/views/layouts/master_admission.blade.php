@@ -146,9 +146,10 @@
                     <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
                 </div>
             </div>
+            
             @section('workspace')
             @show
-
+            @include('modal.developmentNotice')
             <div class="row d-none d-md-block">
                 <div class="col-12">
                     <footer class="text-center py-2 mt-6 text-secondary fixed-bottom bg-white" style="z-index: 99">
@@ -263,6 +264,21 @@
     @if(request()->routeIs('nosched_reports'))
         @include('script.admssn.rprt.applicantnoschedSerialize')
     @endif
+
+    <script>
+        $(document).ready(function () {
+            @auth
+                @if(auth()->user()->role != 0)
+                    $('#developmentModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+
+                    $('#developmentModal').modal('show');
+                @endif
+            @endauth
+        });
+    </script>
 </body>
 
 </html>
