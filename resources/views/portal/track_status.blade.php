@@ -200,12 +200,15 @@ CISS V.1.0 || Track Admission
                                             <div class="tracking-content">
                                                 Examination Results
                                                 <span>
-                                                    Stanine:
-                                                    @if ($stanine !== null)
-                                                        <i class="text-success">{{ $stanine }}</i>
-                                                    @else
-                                                        <i class="text-danger">Waiting</i>
-                                                    @endif,
+                                                    @if ($data->first()->campus !=  'MC')
+                                                        Stanine:
+                                                        @if ($stanine !== null)
+                                                            <i class="text-success">{{ $stanine }}</i>
+                                                        @else
+                                                            <i class="text-danger">Waiting</i>
+                                                        @endif
+                                                        ,
+                                                    @endif
 
                                                     Remarks:
                                                     @if (!empty($data->first()->percentile))

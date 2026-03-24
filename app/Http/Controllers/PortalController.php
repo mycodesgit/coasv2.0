@@ -485,6 +485,7 @@ class PortalController extends Controller
                 ->select(
                     'ad_applicant_admission.admission_id', 
                     'ad_applicant_admission.p_status', 
+                    'ad_applicant_admission.campus', 
                     'ad_applicant_admission.fname', 
                     'ad_applicant_admission.mname', 
                     'ad_applicant_admission.lname', 
