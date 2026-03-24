@@ -30,7 +30,7 @@ CISS V.1.0 || Admission
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
-                                        <h3 class="fw-bold h1">Sorry guys, We're working on this feature.</h3>
+                                        <h3 class="fw-bold h1">Sorry, this feature is still under development</h3>
                                         <span>Please check back soon!</span>
                                     </div>
                                     <div>
