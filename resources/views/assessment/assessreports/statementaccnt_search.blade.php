@@ -87,6 +87,14 @@ CISS V.1.0 || Assessment
                                                 <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
                                                 <div class="row">
+                                                    <div class="col-md-12 mt-3">
+                                                        <div class="card bg-light">
+                                                            <div class="card-body">
+                                                                <span style="font-weight: bold">STUDENT ID NO.:</span> {{ $studfees->first()->studID }} ,&nbsp;&nbsp;
+                                                                <span style="font-weight: bold">NAME:</span> {{ $studfees->first()->fname }} {{ substr($studfees->first()->mname, 0,2) }} {{ $studfees->first()->lname }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-6 mt-3">
                                                         <div class="card">
                                                             <div class="card-body">
