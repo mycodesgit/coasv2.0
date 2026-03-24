@@ -26,12 +26,15 @@ use App\Models\SettingDB\Region;
 use App\Models\SettingDB\Province;
 use App\Models\SettingDB\City;
 use App\Models\SettingDB\Barangay;
+use App\Models\SettingDB\AdmissionMode;
 
 class PortalController extends Controller
 {
     public function index()
     {
-        return view('portal.index');
+        $admissionmode = AdmissionMode::first();
+
+        return view('portal.index', compact('admissionmode'));
     }
 
     public function admission_apply()
@@ -43,7 +46,9 @@ class PortalController extends Controller
 
         //$todayRegistrations = Applicant::whereDate('created_at', today())->count();
         $regions = Region::all();
-        return view('portal.apply', compact('admissionid','program', 'strand', 'time', 'regions'));
+        $admissionmode = AdmissionMode::first();
+
+        return view('portal.apply', compact('admissionid','program', 'strand', 'time', 'regions', 'admissionmode'));
         //->with('todayRegistrations', $todayRegistrations);
     }
 
