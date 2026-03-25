@@ -556,38 +556,40 @@ class StudStateAccntAssessmentController extends Controller
 {
     $category = $request->query('category');
 
-    $query = StudentAppraisal::join(
+    $query = StudentAppraisal::leftJoin(
+            \DB::raw('(SELECT studID, SUM(amountpaid) as amountpaid FROM studpayment GROUP BY studID) as sp'),
+            'student_appraisal.studID',
+            '=',
+            'sp.studID'
+        )
+        ->leftJoin(
             'coasv2_db_enrollment.students',
             'student_appraisal.studID',
             '=',
             'coasv2_db_enrollment.students.stud_id'
         )
-
-        ->leftJoin(
-            \DB::raw('(SELECT studID, SUM(amountpaid) as total_paid FROM studpayment GROUP BY studID) as sp'),
-            'student_appraisal.studID',
-            '=',
-            'sp.studID'
-        )
-
         ->select(
+            'student_appraisal.studID',
             'coasv2_db_enrollment.students.stud_id',
             'coasv2_db_enrollment.students.fname',
             'coasv2_db_enrollment.students.mname',
             'coasv2_db_enrollment.students.lname',
             'coasv2_db_enrollment.students.ext',
 
+            // ✅ correct total (no duplication now)
             \DB::raw('SUM(student_appraisal.amount) as totalamount'),
-            \DB::raw('COALESCE(sp.total_paid, 0) as amountpaid')
-        )
 
+            // ✅ already summed, so no SUM again
+            \DB::raw('COALESCE(sp.amountpaid, 0) as amountpaid')
+        )
         ->groupBy(
-            'coasv2_db_enrollment.students.stud_id',
-            'coasv2_db_enrollment.students.fname',
-            'coasv2_db_enrollment.students.mname',
-            'coasv2_db_enrollment.students.lname',
+            'student_appraisal.studID', 
+            'coasv2_db_enrollment.students.stud_id', 
+            'coasv2_db_enrollment.students.fname', 
+            'coasv2_db_enrollment.students.mname', 
+            'coasv2_db_enrollment.students.lname', 
             'coasv2_db_enrollment.students.ext',
-            'sp.total_paid'
+            'sp.amountpaid'
         );
 
     if ($category == '2') {
