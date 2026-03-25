@@ -553,35 +553,50 @@ class StudStateAccntAssessmentController extends Controller
     }
 
     public function getstateaccntpersum_search(Request $request)
-    {
-        $category = $request->query('category');
+{
+    $category = $request->query('category');
 
-        $query = StudentAppraisal::join('studpayment', 'student_appraisal.studID', '=', 'studpayment.studID')
-            ->leftJoin('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
-            ->select(
-                'student_appraisal.studID',
-                'coasv2_db_enrollment.students.fname',
-                'coasv2_db_enrollment.students.mname',
-                'coasv2_db_enrollment.students.lname',
-                'coasv2_db_enrollment.students.ext',
-                \DB::raw('SUM(student_appraisal.amount) as totalamount'),
-                //\DB::raw('SUM(studpayment.amountpaid) as amountpaid')
-            )
-            ->groupBy(
-                'student_appraisal.studID',  
-                'coasv2_db_enrollment.students.fname', 
-                'coasv2_db_enrollment.students.mname', 
-                'coasv2_db_enrollment.students.lname', 
-                'coasv2_db_enrollment.students.ext'
-            );
+    $query = StudentAppraisal::join(
+            'coasv2_db_enrollment.students',
+            'student_appraisal.studID',
+            '=',
+            'coasv2_db_enrollment.students.stud_id'
+        )
 
-        if ($category == '2') {
-            $query->where('student_appraisal.studID', 'LIKE', '%-G');
-        }
+        ->leftJoin(
+            \DB::raw('(SELECT studID, SUM(amountpaid) as total_paid FROM studpayment GROUP BY studID) as sp'),
+            'student_appraisal.studID',
+            '=',
+            'sp.studID'
+        )
 
-        $data = $query->get();
+        ->select(
+            'coasv2_db_enrollment.students.stud_id',
+            'coasv2_db_enrollment.students.fname',
+            'coasv2_db_enrollment.students.mname',
+            'coasv2_db_enrollment.students.lname',
+            'coasv2_db_enrollment.students.ext',
 
-        return response()->json(['data' => $data]);
+            \DB::raw('SUM(student_appraisal.amount) as totalamount'),
+            \DB::raw('COALESCE(sp.total_paid, 0) as amountpaid')
+        )
+
+        ->groupBy(
+            'coasv2_db_enrollment.students.stud_id',
+            'coasv2_db_enrollment.students.fname',
+            'coasv2_db_enrollment.students.mname',
+            'coasv2_db_enrollment.students.lname',
+            'coasv2_db_enrollment.students.ext',
+            'sp.total_paid'
+        );
+
+    if ($category == '2') {
+        $query->where('student_appraisal.studID', 'LIKE', '%-G');
     }
+
+    $data = $query->get();
+
+    return response()->json(['data' => $data]);
+}
 }
 
