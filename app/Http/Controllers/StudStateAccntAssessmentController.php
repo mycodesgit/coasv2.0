@@ -560,7 +560,6 @@ class StudStateAccntAssessmentController extends Controller
             ->leftJoin('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
             ->select(
                 'student_appraisal.studID',
-                'coasv2_db_enrollment.students.stud_id',
                 'coasv2_db_enrollment.students.fname',
                 'coasv2_db_enrollment.students.mname',
                 'coasv2_db_enrollment.students.lname',
