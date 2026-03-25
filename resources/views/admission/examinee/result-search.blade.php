@@ -308,6 +308,7 @@ CISS V.1.0 || Admission
                 <form id="updateTstResult">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="updateresultexamId">
+                        <input type="hidden" name="rawscoredate" value="{{ \Carbon\Carbon::now() }}">
                         <div class="form-group">
                             <div class="col-md-12">
                                 <label>Raw Score: <span class="text-danger">*</span></label>
