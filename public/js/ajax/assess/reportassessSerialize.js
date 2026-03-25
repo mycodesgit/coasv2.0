@@ -32,39 +32,23 @@ $(document).ready(function() {
             },
             {
                 data: 'totalamount',
-                render: function(data) {
-                    var value = parseFloat(data || 0); // ✅ SAFE
-                    return value.toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
+                render: function(data, type, row) {
+                    return parseFloat(data).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 }
             },
-
             {
                 data: 'amountpaid',
-                render: function(data) {
-                    var value = parseFloat(data || 0); // ✅ SAFE
-                    return value.toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
+                render: function(data, type, row) {
+                    return parseFloat(data).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 }
             },
-
             {
                 data: null,
                 render: function(data, type, row) {
-
-                    // ✅ THIS IS WHAT I MEANT
-                    var totalamount = parseFloat(row.totalamount || 0);
-                    var amountpaid = parseFloat(row.amountpaid || 0);
+                    var totalamount = parseFloat(row.totalamount);
+                    var amountpaid = parseFloat(row.amountpaid);
                     var balance = totalamount - amountpaid;
-
-                    return '<strong>' + balance.toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }) + '</strong>';
+                    return '<strong>' + balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</strong>';
                 }
             }
         ],
