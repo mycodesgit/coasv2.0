@@ -12,8 +12,6 @@ $(document).ready(function() {
             "url": studundergradReadRoute,
             "type": "GET",
             "data": { 
-                "schlyear": schlyear,
-                "semester": semester,
                 "category": category,
             }
         },
