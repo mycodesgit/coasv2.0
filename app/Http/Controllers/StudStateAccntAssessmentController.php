@@ -571,13 +571,13 @@ class StudStateAccntAssessmentController extends Controller
                             'coasv2_db_assessment.studpayment.amountpaid',
                             DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) as totalamount')
                         )
-                        ->where('program_en_history.schlyear', $schlyear)
-                        ->where('program_en_history.semester', $semester)
-                        ->where('coasv2_db_assessment.student_appraisal.schlyear', $schlyear)
-                        ->where('coasv2_db_assessment.student_appraisal.semester', $semester)
+                        // ->where('program_en_history.schlyear', $schlyear)
+                        // ->where('program_en_history.semester', $semester)
+                        // ->where('coasv2_db_assessment.student_appraisal.schlyear', $schlyear)
+                        // ->where('coasv2_db_assessment.student_appraisal.semester', $semester)
                         //->where('coasv2_db_assessment.student_appraisal.campus', $campus)
-                        ->where('coasv2_db_assessment.studpayment.schlyear', $schlyear)
-                        ->where('coasv2_db_assessment.studpayment.semester', $semester)
+                        // ->where('coasv2_db_assessment.studpayment.schlyear', $schlyear)
+                        // ->where('coasv2_db_assessment.studpayment.semester', $semester)
                         //->where('coasv2_db_assessment.studpayment.campus', $campus)
                         ->groupBy('program_en_history.studentID');
 

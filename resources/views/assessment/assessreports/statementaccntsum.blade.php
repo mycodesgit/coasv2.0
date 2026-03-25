@@ -51,16 +51,6 @@ CISS V.1.0 || Assessment
                                                                 </div>
 
                                                                 <div class="col-md-2">
-                                                                    <label>Semester: <span class="text-danger">*</span></label>
-                                                                    <select class="form-control  form-control-sm" name="semester">
-                                                                        <option disabled selected>---Select---</option>
-                                                                        <option value="1">First Semester</option>
-                                                                        <option value="2">Second Semester</option>
-                                                                        <option value="3">Summer</option>
-                                                                    </select>
-                                                                </div>
-
-                                                                <div class="col-md-2">
                                                                     <label>Category: <span class="text-danger">*</span></label>
                                                                     <select class="form-control  form-control-sm" name="category">
                                                                         <option disabled selected>---Select---</option>
