@@ -20,7 +20,7 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
-            {data: 'stud_id'},
+            {data: 'studID'},
             { 
                 data: null,
                 render: function(data, type, row) {
