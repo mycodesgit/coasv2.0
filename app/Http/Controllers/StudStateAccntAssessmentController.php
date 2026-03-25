@@ -569,7 +569,9 @@ class StudStateAccntAssessmentController extends Controller
                             'program_en_history.schlyear',
                             'program_en_history.semester',
                             'coasv2_db_assessment.studpayment.amountpaid',
-                            DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) as totalamount')
+                            DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) as totalamount'),
+        DB::raw('COALESCE(SUM(coasv2_db_assessment.studpayment.amountpaid), 0) as totalpaid'),
+        DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) - COALESCE(SUM(coasv2_db_assessment.studpayment.amountpaid), 0) as balance')
                         )
                         ->where('program_en_history.schlyear', $schlyear)
                         ->where('program_en_history.semester', $semester)

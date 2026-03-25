@@ -49,14 +49,11 @@ $(document).ready(function() {
                 }
             },
             {
-                data: null,
-                render: function(data, type, row) {
-                    var totalamount = parseFloat(row.totalamount);
-                    var amountpaid = parseFloat(row.amountpaid);
-                    var balance = totalamount - amountpaid;
-                    return '<strong>' + balance.toFixed(2) + '</strong>';
-                }
-            }
+    data: 'balance',
+    render: function(data, type, row) {
+        return parseFloat(data).toFixed(2);
+    }
+}
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
