@@ -557,7 +557,7 @@ class StudStateAccntAssessmentController extends Controller
         $category = $request->query('category');
 
         $query = StudentAppraisal::join('studpayment', 'student_appraisal.studID', '=', 'studpayment.studID')
-            ->join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+            ->leftJoin('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
             ->select(
                 'student_appraisal.studID',
                 'coasv2_db_enrollment.students.stud_id',
@@ -569,8 +569,7 @@ class StudStateAccntAssessmentController extends Controller
                 \DB::raw('SUM(studpayment.amountpaid) as amountpaid')
             )
             ->groupBy(
-                'student_appraisal.studID', 
-                'coasv2_db_enrollment.students.stud_id', 
+                'student_appraisal.studID',  
                 'coasv2_db_enrollment.students.fname', 
                 'coasv2_db_enrollment.students.mname', 
                 'coasv2_db_enrollment.students.lname', 
