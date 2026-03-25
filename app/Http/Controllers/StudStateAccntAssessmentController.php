@@ -570,6 +570,11 @@ class StudStateAccntAssessmentController extends Controller
             )
             ->groupBy(
                 'student_appraisal.studID', 
+                'coasv2_db_enrollment.students.stud_id', 
+                'coasv2_db_enrollment.students.fname', 
+                'coasv2_db_enrollment.students.mname', 
+                'coasv2_db_enrollment.students.lname', 
+                'coasv2_db_enrollment.students.ext'
             );
 
         if ($category == '2') {
