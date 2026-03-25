@@ -39,7 +39,7 @@ $(document).ready(function() {
             {
                 data: 'totalamount',
                 render: function(data, type, row) {
-                    return parseFloat(data).toFixed(2);
+                    return parseFloat(data).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 }
             },
             {
