@@ -45,15 +45,18 @@ $(document).ready(function() {
             {
                 data: 'amountpaid',
                 render: function(data, type, row) {
-                    return parseFloat(data).toFixed(2);
+                    return parseFloat(data).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 }
             },
             {
-    data: 'balance',
-    render: function(data, type, row) {
-        return parseFloat(data).toFixed(2);
-    }
-}
+                data: null,
+                render: function(data, type, row) {
+                    var totalamount = parseFloat(row.totalamount);
+                    var amountpaid = parseFloat(row.amountpaid);
+                    var balance = totalamount - amountpaid;
+                    return '<strong>' + balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</strong>';
+                }
+            }
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
