@@ -593,7 +593,7 @@ class StudStateAccntAssessmentController extends Controller
                         // }
 
                         if ($category == '2') {
-                            $query->where('program_en_history.studentID', 'LIKE', '%-G');
+                            //$query->where('program_en_history.studentID', 'LIKE', '%-G');
                             $query->where('coasv2_db_assessment.student_appraisal.studID', 'LIKE', '%-G');
                         }
 
