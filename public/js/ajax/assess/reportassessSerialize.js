@@ -45,8 +45,8 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function(data, type, row) {
-                    var totalamount = parseFloat(row.totalamount);
-                    var amountpaid = parseFloat(row.amountpaid);
+                    var totalamount = parseFloat(row.totalamount || 0);
+                    var amountpaid = parseFloat(row.amountpaid || 0);
                     var balance = totalamount - amountpaid;
                     return '<strong>' + balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</strong>';
                 }
