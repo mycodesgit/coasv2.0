@@ -43,6 +43,7 @@
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif
         }
 
         /* Header */
@@ -142,6 +143,59 @@
         img {
             max-width: 100%;
         }
+
+
+        .id-body-back {
+            padding: 16px 18px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Top text */
+        .emergency-text {
+            font-size: 7px;
+            font-style: italic;
+            margin-bottom: 2px;
+        }
+
+        /* Grid layout */
+        .back-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .back-col {
+            flex: 1;
+        }
+
+        .back-col label {
+            font-weight: 300;
+            font-size: 5pt;
+        }
+
+        /* Lines */
+        .line {
+            border-bottom: 1px solid linear-gradient(135deg,#d8f3dc,#f1f5d6);
+            height: 1px;
+            margin-bottom: 10px;
+        }
+
+        /* Green divider */
+        .green-line {
+            height: 2px;
+            background: #2f855a;
+            margin: 1px 0;
+        }
+
+        /* Bottom note */
+        .note-text {
+            margin-top: 5px;
+            text-align: center;
+            line-height: 1.2;
+            font-size: 5pt;
+        }
+
+
         .btn-block {
             display: block;
             width: 100%;

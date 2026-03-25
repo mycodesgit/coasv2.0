@@ -115,7 +115,7 @@
                                                                     <div class="info-label">Gender</div>
                                                                     <div>: <span id="studentCardGender"></span></div>
                                                                 </div>
-                                                                <div class=""><i class="ti ti-signature fa-2x"></i></div>
+                                                                <div class=""></div>
                                                             </div>
                                                         </div>
         
@@ -135,14 +135,48 @@
                                             <div class="card-body">
                                                 <div class="table-responsive">
                                                     <div class="id-backcard">
-                                                        <div class="id-header">
-                                                            
+                                                        <div class="id-body-back">
+                                                            <p class="emergency-text">
+                                                                In case of emergency, please contact:
+                                                            </p>
+
+                                                            <div class="back-grid">
+                                                                <div class="back-col">
+                                                                    <label>Person:</label>
+                                                                    <div class="line"></div>
+
+                                                                    <label>Number:</label>
+                                                                    <div class="line"></div>
+
+                                                                    <label>Address:</label>
+                                                                    <div class="line"></div>
+                                                                </div>
+
+                                                                <div class="back-col">
+                                                                    <label>Birthday:</label>
+                                                                    <div class="line"></div>
+
+                                                                    <label>Blood Type:</label>
+                                                                    <div class="line"></div>
+
+                                                                    <label>Contact Number:</label>
+                                                                    <div class="line"></div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="green-line"></div>
+
+                                                            <p class="note-text">
+                                                                The bearer is a bonafide of the Central Philippines State University Kabankalan City, Negros Occidental. 
+                                                                This card is non-transferable and available only on the semester period.
+                                                                <br>
+                                                                Report loss to the <b>OFFICE OF STUDENT SERVICES AND AFFAIRS.</b>
+                                                            </p>
+                                                            <center>
+                                                                <div style="border-bottom: 1px solid #000000; width: 90px"></div>
+                                                                <span style="font-size: 6pt; font-family: 'Poppins', sans-serif">ALADINO C. MORACA, PhD</span>
+                                                            </center>
                                                         </div>
-                                                        <div class="id-body">
-                                                            
-                                                        </div>
-        
-                                                        <div class="id-footer"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,7 +300,8 @@
 
     <script>
         function printFrontIDonly() {
-            const idCard = document.querySelector('.id-frontcard').cloneNode(true);
+            const front = document.querySelector('.id-frontcard').cloneNode(true);
+            const back = document.querySelector('.id-backcard').cloneNode(true);
 
             const printWindow = window.open('', '', 'width=400,height=300');
 
@@ -283,10 +318,19 @@
                         body {
                             margin: 0;
                             padding: 0;
+                        }
+
+                        .page {
+                            width: 85.6mm;
+                            height: 54mm;
+                            page-break-after: always;
                             display: flex;
                             justify-content: center;
                             align-items: center;
-                            background: #f0f0f0;
+                        }
+
+                        .page:last-child {
+                            page-break-after: auto;
                         }
 
                         /* Scale ID card to fit page exactly */
@@ -301,6 +345,7 @@
                             display: flex;
                             flex-direction: column;
                             box-sizing: border-box;
+                            font-family: 'Poppins', sans-serif;
                         }
 
                         /* Header */
@@ -400,10 +445,73 @@
                         img {
                             max-width: 100%;
                         }
+                        .id-body-back {
+                            padding: 16px 18px;
+                            font-family: Arial, sans-serif;
+                        }
+
+                        /* Top text */
+                        .emergency-text {
+                            font-size: 7px;
+                            font-style: italic;
+                            margin-bottom: 2px;
+                        }
+
+                        /* Grid layout */
+                        .back-grid {
+                            display: flex;
+                            justify-content: space-between;
+                            gap: 12px;
+                        }
+
+                        .back-col {
+                            flex: 1;
+                        }
+
+                        .back-col label {
+                            font-weight: 300;
+                            font-size: 5pt;
+                        }
+
+                        /* Lines */
+                        .line {
+                            border-bottom: 1px solid linear-gradient(135deg,#d8f3dc,#f1f5d6);
+                            height: 1px;
+                            margin-bottom: 10px;
+                        }
+
+                        /* Green divider */
+                        .green-line {
+                            height: 2px;
+                            background: #2f855a;
+                            margin: 1px 0;
+                        }
+
+                        /* Bottom note */
+                        .note-text {
+                            margin-top: 5px;
+                            text-align: center;
+                            line-height: 1.2;
+                            font-size: 5pt;
+                        }
+
+
+                        .btn-block {
+                            display: block;
+                            width: 100%;
+                        }
                     </style>
                 </head>
                 <body>
-                    ${idCard.outerHTML}
+                    <!-- PAGE 1 = FRONT -->
+            <div class="page">
+                ${front.outerHTML}
+            </div>
+
+            <!-- PAGE 2 = BACK -->
+            <div class="page">
+                ${back.outerHTML}
+            </div>
                 </body>
                 </html>
             `);
