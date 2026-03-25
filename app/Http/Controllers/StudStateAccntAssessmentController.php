@@ -560,7 +560,7 @@ class StudStateAccntAssessmentController extends Controller
         $assessment = \DB::table('student_appraisal')
             ->select(
                 'studID',
-                \DB::raw('SUM(totalamount) as totalamount')
+                \DB::raw('SUM(amount) as totalamount')
             )
             ->groupBy('studID');
 
