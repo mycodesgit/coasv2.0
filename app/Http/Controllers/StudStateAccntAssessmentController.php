@@ -565,7 +565,7 @@ class StudStateAccntAssessmentController extends Controller
                 'coasv2_db_enrollment.students.lname',
                 'coasv2_db_enrollment.students.ext',
                 \DB::raw('SUM(student_appraisal.amount) as totalamount'),
-                \DB::raw('SUM(studpayment.amountpaid) as amountpaid')
+                //\DB::raw('SUM(studpayment.amountpaid) as amountpaid')
             )
             ->groupBy(
                 'student_appraisal.studID',  
