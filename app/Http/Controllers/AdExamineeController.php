@@ -112,6 +112,7 @@ class AdExamineeController extends Controller
                 'raw_score' => $request->input('raw_score'),
                 'percentile' => $request->input('percentile'),
                 'qualifier' => $request->input('qualifier'),
+                'rawscoredate' => $request->input('rawscoredate'),
             ]);
             return response()->json(['success' => true, 'message' => 'Examinee Result has been saved'], 200);
         } catch (\Exception $e) {

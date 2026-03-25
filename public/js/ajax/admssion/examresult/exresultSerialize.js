@@ -98,7 +98,7 @@ $(document).ready(function() {
                                 '<i class="fas fa-file-lines"></i> Update Test Result' +
                                 '</a>';
 
-                                if (row.percentile == 'Qualified' || row.qualifier == 2) {
+                                if (row.percentile == 'Qualified' || row.percentile == 'Passed' || row.qualifier == 2) {
                                     dropdown += '<a href="#" class="dropdown-item btn-pushtocnfrm" data-id="' + row.adid + '">' +
                                         '<i class="fas fa-check"></i> Push Examinee' +
                                         '</a>';
@@ -273,7 +273,8 @@ $(document).on('click', '.btn-updateresultexam', function() {
         $('#qualifier').prop('checked', false);
     }
 
-    if (uprawScore >= 17) {
+    //if (uprawScore >= 17) {
+    if (uppercentile === 'Failed') {
         $('#secondQualifiersGroup').show();
     } else {
         $('#secondQualifiersGroup').hide();
@@ -391,56 +392,108 @@ $('#pushtocnfrmForm').submit(function(event) {
 //     });
 // });
 
+// document.addEventListener('DOMContentLoaded', function() {
+//     const rawScoreInput = document.querySelector('input[name="raw_score"]');
+//     const remarksInput = document.querySelector('input[name="percentile"]');
+    
+//     rawScoreInput.addEventListener('input', function() {
+//         const rawScoreValue = parseInt(this.value);
+//         const userCampus = isCampus;
+        
+//         let passingScore = 17; 
+        
+//         switch (userCampus) {
+//             case 'MC': 
+//                 passingScore = 45;
+//                 break;
+//             case 'VC': 
+//                 passingScore = 44;
+//                 break;
+//             case 'SCC': 
+//                 passingScore = 41;
+//                 break;
+//             case 'HC': 
+//                 passingScore = 42;
+//                 break;
+//             case 'MP': 
+//                 passingScore = 38;
+//                 break; 
+//             case 'IC': 
+//                 passingScore = 33;
+//                 break; 
+//             case 'CA': 
+//                 passingScore = 36;
+//                 break;   
+//             case 'CC': 
+//                 passingScore = 40;
+//                 break; 
+//             case 'SC': 
+//                 passingScore = 34;
+//                 break;      
+//             case 'HinC': 
+//                 passingScore = 36;
+//                 break;
+//             default:
+//                 passingScore = 45; 
+//         }
+        
+//         if (rawScoreValue < passingScore) {
+//             remarksInput.value = 'Failed';
+//         } else {
+//             remarksInput.value = 'Qualified';
+//         }
+//     });
+// });
+
 document.addEventListener('DOMContentLoaded', function() {
     const rawScoreInput = document.querySelector('input[name="raw_score"]');
+    const statnineInput = document.querySelector('input[name="stanine"]');
     const remarksInput = document.querySelector('input[name="percentile"]');
     
     rawScoreInput.addEventListener('input', function() {
         const rawScoreValue = parseInt(this.value);
         const userCampus = isCampus;
-        
-        let passingScore = 17; 
-        
-        // Adjust passing score based on campus
-        switch (userCampus) {
-            case 'MC': 
-                passingScore = 45;
-                break;
-            case 'VC': 
-                passingScore = 44;
-                break;
-            case 'SCC': 
-                passingScore = 41;
-                break;
-            case 'HC': 
-                passingScore = 42;
-                break;
-            case 'MP': 
-                passingScore = 38;
-                break; 
-            case 'IC': 
-                passingScore = 33;
-                break; 
-            case 'CA': 
-                passingScore = 36;
-                break;   
-            case 'CC': 
-                passingScore = 40;
-                break; 
-            case 'SC': 
-                passingScore = 34;
-                break;      
-            case 'HinC': 
-                passingScore = 36;
-                break;
-            default:
-                passingScore = 45; 
-        }
-        
-        if (rawScoreValue < passingScore) {
-            remarksInput.value = 'Failed';
+
+        let remarks = '';
+        let stanine = '';
+
+        if (userCampus === 'MC') {
+            remarks = rawScoreValue < 45 ? 'Failed' : 'Qualified';
         } else {
-            remarksInput.value = 'Qualified';
+            if (rawScoreValue >= 1 && rawScoreValue <= 12) {
+                stanine = 1;
+                remarks = 'Failed';
+            } else if (rawScoreValue <= 18) {
+                stanine = 2;
+                remarks = 'Failed';
+            } else if (rawScoreValue <= 23) {
+                stanine = 3;
+                remarks = 'Passed';
+            } else if (rawScoreValue <= 29) {
+                stanine = 4;
+                remarks = 'Passed';
+            } else if (rawScoreValue <= 36) {
+                stanine = 5;
+                remarks = 'Passed';
+            } else if (rawScoreValue <= 43) {
+                stanine = 6;
+                remarks = 'Passed';
+            } else if (rawScoreValue <= 49) {
+                stanine = 7;
+                remarks = 'Passed';
+            } else if (rawScoreValue <= 56) {
+                stanine = 8;
+                remarks = 'Passed';
+            } else if (rawScoreValue <= 72) {
+                stanine = 9;
+                remarks = 'Passed';
+            } else {
+                stanine = '';
+                remarks = '';
+            }
         }
+
+        statnineInput.value = stanine;
+        remarksInput.value = remarks;
     });
 });

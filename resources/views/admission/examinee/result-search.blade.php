@@ -316,6 +316,12 @@ CISS V.1.0 || Admission
                         </div>
                         <div class="form-group mt-3">
                             <div class="col-md-12">
+                                <label>Stanine: <span class="text-danger">*</span></label>
+                                <input type="number" name="stanine" class="form-control form-control-sm" id="updateresultexamStanine" min="0" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <div class="col-md-12">
                                 <label>Remarks: <span class="text-danger">*</span></label>
                                 <input type="text" name="percentile" class="form-control form-control-sm" id="updateresultexamPercent" readonly>
                             </div>
@@ -345,14 +351,18 @@ CISS V.1.0 || Admission
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="pushtocnfrmModalLabel">Are you sure you want to Push the Examinee to Confirm List?</h5>
+                    <h5 class="modal-title" id="pushtocnfrmModalLabel">Are you sure?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="pushtocnfrmForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="pushtocnfrmId">
                         <div class="form-group">
-                            <center><button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Confirm</button></center>
+                            <center>
+                                <h3>Push the Examinee to Confirm List</h3>
+                                <br>``
+                                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>  Yes!, Push to Confirm</button>
+                            </center>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -375,13 +385,33 @@ CISS V.1.0 || Admission
     </script>
 
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('input[name="raw_score"]').addEventListener('input', function () {
                 var remarksValue = parseFloat(this.value);
                 var secondQualifiersGroup = document.getElementById('secondQualifiersGroup');
                 
                 if (!isNaN(remarksValue) && remarksValue >= 17) {
+                    secondQualifiersGroup.style.display = 'block';
+                } else {
+                    secondQualifiersGroup.style.display = 'none';
+                }
+            });
+        });
+
+        function refreshPage() {
+            location.reload();
+        }
+    </script> --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const percentileInput = document.querySelector('input[name="percentile"]');
+            const secondQualifiersGroup = document.getElementById('secondQualifiersGroup');
+
+            percentileInput.addEventListener('input', function () {
+                const value = this.value.trim().toLowerCase();
+
+                if (value === 'failed') {
                     secondQualifiersGroup.style.display = 'block';
                 } else {
                     secondQualifiersGroup.style.display = 'none';

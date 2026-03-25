@@ -114,6 +114,7 @@ CISS V.1.0 || Admission
                                                                 <th>Exam Sched</th>
                                                                 <th>Campus</th>
                                                                 <th>Strand</th>
+                                                                <th>RawScore</th>
                                                                 <th id="actionColumnHeader" style="display: none;">Action</th>
                                                             </tr>
                                                         </thead>
@@ -386,12 +387,21 @@ CISS V.1.0 || Admission
                 <form id="admissionAssignResult">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="assignresultexamId">
+                        <input type="hidden" name="rawscoredate" value="{{ \Carbon\Carbon::now() }}">
                         <div class="form-group">
                             <div class="col-md-12">
                                 <label>Raw Score: <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control form-control-sm" name="raw_score" id="assignresultexamRawScore" min="0">
                             </div>
                         </div>
+                        @if(Auth::guard('web')->user()->campus != 'MC')
+                            <div class="form-group mt-3">
+                                <div class="col-md-12">
+                                    <label>Statnine: <span class="text-danger">*</span></label>
+                                    <input type="text" name="stanine" class="form-control form-control-sm" id="assignresultexamStanine" readonly>
+                                </div>
+                            </div>
+                        @endif
                         <div class="form-group mt-3">
                             <div class="col-md-12">
                                 <label>Remarks: <span class="text-danger">*</span></label>

@@ -140,24 +140,24 @@ CISS V.1.0 || Track Admission
                                                     <i class="fas fa-times fa-2x"></i>
                                                 </div>
                                             @endif
-                                            <div class="tracking-date"><span>{{ $data->first()->updated_at->format('F d, Y') }}</span><span>{{ $data->first()->updated_at->format('h:i A') }}</span></div>
+                                            <div class="tracking-date"><span>&nbsp;</span><span>&nbsp;</span></div>
                                             <div class="tracking-content">
                                                 Examination Schedule
                                                 <span>
                                                     Date:
                                                     @if (!empty($data->first()->d_admission))
-                                                        <i class="text-success">{{ \Carbon\Carbon::parse($data->first()->d_admission)->format('F d, Y') }}</i>
+                                                        <i class="text-success">{{ \Carbon\Carbon::parse($data->first()->d_admission)->format('M. d, Y') }}</i>
                                                     @else
                                                         <i class="text-danger">Waiting</i>
                                                     @endif,
-
+                                                    <br>
                                                     Time:
                                                     @if (!empty($data->first()->time))
                                                         <i class="text-success">{{ \Carbon\Carbon::parse($data->first()->t_admission)->format('h:i A') }}</i>
                                                     @else
                                                         <i class="text-danger">Waiting</i>
                                                     @endif,
-
+                                                    <br>
                                                     Venue:
                                                     @if (!empty($data->first()->venue))
                                                         <i class="text-success">{{ $data->first()->venue }}</i>
@@ -196,7 +196,7 @@ CISS V.1.0 || Track Admission
                                                     <i class="fas fa-times fa-2x"></i>
                                                 </div>
                                             @endif
-                                            <div class="tracking-date"><span>{{ \Carbon\Carbon::parse($data->first()->rawscoredate)->format('F d, Y') }}</span><span>{{ \Carbon\Carbon::parse($data->first()->rawscoredate)->format('h:i A') }}</span></div>
+                                            <div class="tracking-date"><span>&nbsp;</span><span>&nbsp;</span></div>
                                             <div class="tracking-content">
                                                 Examination Results
                                                 <span>
@@ -230,7 +230,7 @@ CISS V.1.0 || Track Admission
                                                     <i class="fas fa-times fa-2x"></i>
                                                 </div>
                                             @endif
-                                            <div class="tracking-date"><span>{{ \Carbon\Carbon::parse($data->first()->examresultdate)->format('F d, Y') }}</span><span>{{ \Carbon\Carbon::parse($data->first()->examresultdate)->format('h:i A') }}</span></div>
+                                            <div class="tracking-date"><span>&nbsp;</span><span>&nbsp;</span></div>
                                             <div class="tracking-content">
                                                 Confirmation
                                                 <span>
@@ -254,7 +254,7 @@ CISS V.1.0 || Track Admission
                                                     <i class="fas fa-times fa-2x"></i>
                                                 </div>
                                             @endif
-                                            <div class="tracking-date"><span>{{ \Carbon\Carbon::parse($data->first()->deptratingdate)->format('F d, Y') }}</span><span>{{ \Carbon\Carbon::parse($data->first()->deptratingdate)->format('h:i A') }}</span></div>
+                                            <div class="tracking-date"><span>&nbsp;</span><span>&nbsp;</span></div>
                                             <div class="tracking-content">
                                                 Acceptance
                                                 <span>
