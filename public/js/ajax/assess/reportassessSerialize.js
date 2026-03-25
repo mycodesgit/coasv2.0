@@ -5,8 +5,6 @@ toastr.options = {
 };
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
-    var schlyear = urlParams.get('schlyear') || ''; 
-    var semester = urlParams.get('semester') || ''; 
     var category = urlParams.get('category') || ''; 
 
     var dataTable = $('#reportAssessUndergrad').DataTable({
@@ -24,7 +22,7 @@ $(document).ready(function() {
         searching: true,
         paging: true,
         "columns": [
-            {data: 'studentID'},
+            {data: 'studID'},
             { 
                 data: null,
                 render: function(data, type, row) {

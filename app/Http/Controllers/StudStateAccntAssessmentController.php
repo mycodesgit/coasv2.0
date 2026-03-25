@@ -554,51 +554,32 @@ class StudStateAccntAssessmentController extends Controller
 
     public function getstateaccntpersum_search(Request $request)
     {
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
         $category = $request->query('category');
-        $campus = Auth::guard('web')->user()->campus;
 
-        $query = StudEnrolmentHistory::join('students', 'program_en_history.studentID', 'students.stud_id')
-                        ->join('coasv2_db_assessment.student_appraisal', 'program_en_history.studentID', 'coasv2_db_assessment.student_appraisal.studID')
-                        ->rightJoin('coasv2_db_assessment.studpayment', 'program_en_history.studentID', '=', 'coasv2_db_assessment.studpayment.studID')
-                        ->select(
-                            'program_en_history.studentID',
-                            'students.lname',
-                            'students.fname',
-                            'program_en_history.schlyear',
-                            'program_en_history.semester',
-                            'coasv2_db_assessment.studpayment.amountpaid',
-                            'coasv2_db_assessment.student_appraisal.*',
-                            DB::raw('SUM(coasv2_db_assessment.student_appraisal.amount) as totalamount')
-                        )
-                        // ->where('program_en_history.schlyear', $schlyear)
-                        // ->where('program_en_history.semester', $semester)
-                        // ->where('coasv2_db_assessment.student_appraisal.schlyear', $schlyear)
-                        // ->where('coasv2_db_assessment.student_appraisal.semester', $semester)
-                        //->where('coasv2_db_assessment.student_appraisal.campus', $campus)
-                        // ->where('coasv2_db_assessment.studpayment.schlyear', $schlyear)
-                        // ->where('coasv2_db_assessment.studpayment.semester', $semester)
-                        //->where('coasv2_db_assessment.studpayment.campus', $campus)
-                        ->groupBy('coasv2_db_assessment.student_appraisal.studID');
+        $query = StudentAppraisal::join('studpayment', 'student_appraisal.studID', '=', 'studpayment.studID')
+            ->join('coasv2_db_enrollment.students', 'student_appraisal.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+            ->select(
+                'student_appraisal.studID',
+                'coasv2_db_enrollment.students.fname',
+                'coasv2_db_enrollment.students.mname',
+                'coasv2_db_enrollment.students.lname',
+                'coasv2_db_enrollment.students.ext',
+                \DB::raw('SUM(student_appraisal.totalamount) as totalamount'),
+                \DB::raw('SUM(studpayment.amountpaid) as amountpaid')
+            )
+            ->groupBy(
+                'student_appraisal.studID', 
+                'coasv2_db_enrollment.students.fname', 
+                'coasv2_db_enrollment.students.mname', 
+                'coasv2_db_enrollment.students.lname', 
+                'coasv2_db_enrollment.students.ext'
+            );
 
-                        // if ($category == '1') {
-                        //     $query->where('program_en_history.studentID', 'NOT LIKE', '%-G');
-                        //     $query->where('coasv2_db_assessment.student_appraisal.studID', 'NOT LIKE', '%-G');
-                        // } elseif ($category == '2') {
-                        //     $query->where('program_en_history.studentID', 'LIKE', '%-G');
-                        //     $query->where('coasv2_db_assessment.student_appraisal.studID', 'LIKE', '%-G');
-                        // } elseif ($category == '3') {
-                        //     $query->where('program_en_history.studentID', '!=', '');
-                        //     $query->where('coasv2_db_assessment.student_appraisal.studID', '!=', '');
-                        // }
+        if ($category == '2') {
+            $query->where('student_appraisal.studID', 'LIKE', '%-G');
+        }
 
-                        if ($category == '2') {
-                            //$query->where('program_en_history.studentID', 'LIKE', '%-G');
-                            $query->where('coasv2_db_assessment.student_appraisal.studID', 'LIKE', '%-G');
-                        }
-
-                        $data = $query->get();
+        $data = $query->get();
 
         return response()->json(['data' => $data]);
     }
