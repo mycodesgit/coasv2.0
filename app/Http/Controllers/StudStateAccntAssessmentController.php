@@ -573,13 +573,12 @@ class StudStateAccntAssessmentController extends Controller
                         )
                         ->where('program_en_history.schlyear', $schlyear)
                         ->where('program_en_history.semester', $semester)
-                        ->where('program_en_history.campus', $campus)
                         ->where('coasv2_db_assessment.student_appraisal.schlyear', $schlyear)
                         ->where('coasv2_db_assessment.student_appraisal.semester', $semester)
-                        ->where('coasv2_db_assessment.student_appraisal.campus', $campus)
+                        //->where('coasv2_db_assessment.student_appraisal.campus', $campus)
                         ->where('coasv2_db_assessment.studpayment.schlyear', $schlyear)
                         ->where('coasv2_db_assessment.studpayment.semester', $semester)
-                        ->where('coasv2_db_assessment.studpayment.campus', $campus)
+                        //->where('coasv2_db_assessment.studpayment.campus', $campus)
                         ->groupBy('program_en_history.studentID');
 
                         // if ($category == '1') {

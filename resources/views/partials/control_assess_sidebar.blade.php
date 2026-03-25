@@ -76,6 +76,12 @@
     </li>
     
     <li>
+        <a class="nav-link {{ $studStateAccntSumActive }}" href="{{ route('stateaccntpersum') }}">
+            <i class="ti ti-checklist"></i><span class="nav-text">Accounts Summary</span>
+        </a>
+    </li>
+    
+    <li>
         <a class="nav-link {{ $hebillingActive }}" href="{{ route('hebillingRead') }}">
             <i class="ti ti-book"></i><span class="nav-text">HE Billing Details</span>
         </a>

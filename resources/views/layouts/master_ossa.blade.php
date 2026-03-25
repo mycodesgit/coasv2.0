@@ -31,92 +31,100 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
 
     <style>
-        /* ID Card */
-        .id-card{
-            width:100%;
-            max-width:520px;
-            border-radius:14px;
-            overflow:hidden;
-            box-shadow:0 6px 20px rgba(0,0,0,0.2);
-            background:linear-gradient(135deg,#d8f3dc,#f1f5d6);
-            margin:auto;
+        /* Scale ID card to fit page exactly */
+        .id-frontcard, .id-backcard {
+            width: 85.6mm;
+            height: 54mm;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg,#d8f3dc,#f1f5d6);
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
         }
 
         /* Header */
-        .id-header{
-            background:#0f766e;
-            color:white;
-            padding-left:14px;
-            padding-right:14px;
-            padding-bottom:14px;
-            padding-top:2px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
+        .id-header {
+            background: #0f766e;
+            color: white;
+            padding: 2px 10px 10px 10px;
         }
 
-        .id-header h6{
-            margin:0;
-            font-weight:700;
-            letter-spacing:1px;
+        .id-header h6 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
         }
 
-        .id-header small{
-            display:block;
-            font-size:12px;
-            opacity:.9;
+        .id-header small {
+            font-size: 8px;
+            opacity: .9;
+            margin-top: -10px;
+            padding-left: 34px;
         }
 
-        /* Content */
-        .id-body{
-            padding:20px;
-            display:flex;
-            gap:20px;
-            align-items:center;
+        /* Body */
+        .id-body {
+            padding: 6px 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex: 1;
         }
 
-        /* Photo */
-        .student-photo{
-            width:90px;
-            height:110px;
-            border:2px solid #2c7a7b;
-            border-radius:6px;
-            overflow:hidden;
+        .student-photo {
+            margin-top: -15px;
+            width: 75px;
+            height: 90px;
+            border: 2px solid #2c7a7b;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .student-photo img{
-            width:100%;
-            height:100%;
-            object-fit:cover;
+        .pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        /* Info */
-        .student-info{
-            flex:1;
+        .student-info {
+            margin-top: -17px !important;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .student-info h5{
-            font-weight:700;
-            color:#0f766e;
-            margin-bottom:10px;
+        .student-info h5 {
+            font-weight: 700;
+            color: #0f766e;
+            margin-bottom: 4px;
+            font-size: 12px;
         }
 
-        .info-row{
-            display:flex;
-            font-size:15px;
-            margin-bottom:5px;
+        .info-row {
+            display: flex;
+            font-size: 9px;
+            margin-bottom: 2px;
         }
 
-        .info-label{
-            width:110px;
-            font-weight:600;
-            color:#333;
+        .info-label {
+            width: 60px;
+            font-weight: 600;
+            color: #333;
         }
 
-        .barcode{
-            margin-top:10px;
-            height:40px;
-            background:repeating-linear-gradient(
+        .barcode {
+            margin-top: 4px;
+            height: 25px;
+            background: repeating-linear-gradient(
                 90deg,
                 #000,
                 #000 2px,
@@ -126,11 +134,17 @@
         }
 
         /* Footer */
-        .id-footer{
-            background:#0f766e;
-            height:40px;
-            /* border-top-left-radius:20px;
-            border-top-right-radius:20px; */
+        .id-footer {
+            background: #0f766e;
+            height: 18px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+        .btn-block {
+            display: block;
+            width: 100%;
         }
     </style>
 </head>
