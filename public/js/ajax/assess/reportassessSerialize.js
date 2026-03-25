@@ -34,8 +34,6 @@ $(document).ready(function() {
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
-            {data: 'schlyear'},
-            {data: 'semester'},
             {
                 data: 'totalamount',
                 render: function(data, type, row) {
