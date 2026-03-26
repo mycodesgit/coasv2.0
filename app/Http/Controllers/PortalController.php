@@ -482,6 +482,7 @@ class PortalController extends Controller
                 ->where('ad_applicant_admission.lname', $request->lname)
                 ->where('ad_applicant_admission.fname', $request->fname)
                 ->where('ad_applicant_admission.p_status', '!=', 7)
+                ->where('ad_applicant_admission.year', '=', '2026')
                 ->select(
                     'ad_applicant_admission.admission_id', 
                     'ad_applicant_admission.p_status', 
