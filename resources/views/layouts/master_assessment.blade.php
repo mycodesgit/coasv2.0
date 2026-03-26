@@ -217,7 +217,6 @@
         </script>
     @endif
 
-    <!-- Ajax -->
     @if(request()->routeIs('fundsRead'))
         <script src="{{ asset('js/ajax/assess/fundSerialize.js') }}?v={{ time() }}"></script>
     @endif
@@ -291,6 +290,30 @@
     @if(request()->routeIs('stateaccntpersem_search'))
         <script src="{{ asset('js/ajax/assess/apprsalUpdateSerialize.js') }}?v={{ time() }}"></script>
     @endif
+
+    <script>
+        @if(Session::has('success'))
+            toastr.options = {
+                "closeButton":true,
+                "progressBar":true,
+                'positionClass': 'toast-top-right'
+            }
+            toastr.success("{{ session('success') }}")
+        @endif
+        @if(session('error'))
+            Swal.fire({
+                icon: 'warning',
+                // title: 'Waring',
+                html: '{!! session('error') !!}',
+                showClass: {
+                    popup: 'my-custom-show-animation'
+                },
+                hideClass: {
+                    popup: ''
+                }
+            });
+        @endif
+    </script>
 </body>
 
 </html>
