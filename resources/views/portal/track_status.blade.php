@@ -187,7 +187,7 @@ CISS V.1.0 || Track Admission
                                             }
                                         @endphp
                                         <div class="tracking-item">
-                                            @if ( $stanine !== null)
+                                            @if ( $stanine != null)
                                                 <div class="tracking-icon status-delivered">
                                                     <i class="ti ti-check fa-1x"></i>
                                                 </div>
