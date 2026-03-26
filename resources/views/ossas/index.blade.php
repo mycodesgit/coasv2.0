@@ -85,6 +85,26 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="chart-responsive pt-1">
+                                    <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="chart-responsive pt-1">
+                                    <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

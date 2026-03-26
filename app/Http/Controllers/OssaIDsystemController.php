@@ -75,6 +75,53 @@ class OssaIDsystemController extends Controller
         $semesteractive = $activeConfig->semester;
         $prevsemesteractive = $previousConfig->semester;
 
+        $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
+
+        if (!$previousSchlyearYear) {
+            return back()->with('error', 'No previous school year found.');
+        }
+
+        // Query for the previous school year's first semester
+        $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+                $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+            })
+            ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
+            ->where(function ($query) use ($userCampus) {
+                $campuses = explode(', ', $userCampus);
+                foreach ($campuses as $campus) {
+                    $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
+                }
+            })
+            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $prevsemesteractive)
+            ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
+            ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
+            ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
+            ->orderBy('college_name', 'ASC')
+            ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+            ->groupBy('college.id')
+            ->get();
+
+
+        // Query for the current active school year's second semester
+        $collegesSecondSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+                $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+            })
+            ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
+            ->where(function ($query) use ($userCampus) {
+                $campuses = explode(', ', $userCampus);
+                foreach ($campuses as $campus) {
+                    $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
+                }
+            })
+            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
+            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
+            ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
+            ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
+            ->orderBy('college_name', 'ASC')
+            ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+            ->groupBy('college.id')
+            ->get();
+
         $enrlstudcountfirst = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                             ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                             ->where('program_en_history.semester', 'LIKE', $semesteractive)
@@ -108,7 +155,7 @@ class OssaIDsystemController extends Controller
                             ->whereIn('program_en_history.status',  [2, 3])
                             ->count();
 
-        return view('ossas.index', compact('enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
+        return view('ossas.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'semesteractive', 'prevsemesteractive', 'schlyearactiveYear', 'previousSchlyearYear',  'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
     }
 
     public function store()

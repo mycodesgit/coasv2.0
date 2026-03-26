@@ -351,6 +351,18 @@
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
+    @if(request()->routeIs('ossa-index'))
+        <script> 
+            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
+            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
+            var semesteractive = {!! json_encode($semesteractive) !!};
+            var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
+            var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
+            var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+        </script>
+        <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
+    @endif
+
     @if(request()->routeIs('rfid.store'))
         @include('script.ossas.rfidstudjs')
     @endif

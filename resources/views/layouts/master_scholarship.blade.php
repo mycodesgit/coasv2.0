@@ -220,8 +220,8 @@
             var undercolors = {!! json_encode($underprogramAcronyms) !!};
         </script>
         <script src="{{ asset('js/chart/enbarchart.js') }}"></script>
-        <script src="{{ asset('js/chart/enbarchartperyearlevscholar.js') }}"></script>
-        <script src="{{ asset('js/chart/enbarchartperyearlevscholarship.js') }}"></script>
+        {{-- <script src="{{ asset('js/chart/enbarchartperyearlevscholar.js') }}"></script>
+        <script src="{{ asset('js/chart/enbarchartperyearlevscholarship.js') }}"></script> --}}
     @endif
     
     @if(request()->routeIs('chedscholarlist'))
