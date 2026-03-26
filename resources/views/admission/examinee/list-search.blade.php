@@ -394,14 +394,14 @@ CISS V.1.0 || Admission
                                 <input type="number" class="form-control form-control-sm" name="raw_score" id="assignresultexamRawScore" min="0">
                             </div>
                         </div>
-                        @if(Auth::guard('web')->user()->campus != 'MC')
-                            <div class="form-group mt-3">
-                                <div class="col-md-12">
-                                    <label>Statnine: <span class="text-danger">*</span></label>
-                                    <input type="text" name="stanine" class="form-control form-control-sm" id="assignresultexamStanine" readonly>
-                                </div>
+                        
+                        <div class="form-group mt-3">
+                            <div class="col-md-12">
+                                <label>Statnine: <span class="text-danger">*</span></label>
+                                <input type="text" name="stanine" class="form-control form-control-sm" id="assignresultexamStanine" readonly>
                             </div>
-                        @endif
+                        </div>
+                        
                         <div class="form-group mt-3">
                             <div class="col-md-12">
                                 <label>Remarks: <span class="text-danger">*</span></label>

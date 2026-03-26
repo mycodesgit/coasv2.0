@@ -710,9 +710,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let remarks = '';
         let stanine = '';
 
-        if (userCampus === 'MC') {
-            remarks = rawScoreValue < 45 ? 'Failed' : 'Qualified';
-        } else {
+        // if (userCampus === 'MC') {
+        //     remarks = rawScoreValue < 45 ? 'Failed' : 'Qualified';
+        // } else {
             if (rawScoreValue >= 1 && rawScoreValue <= 12) {
                 stanine = 1;
                 remarks = 'Failed';
@@ -744,7 +744,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 stanine = '';
                 remarks = '';
             }
-        }
+        //}
 
         statnineInput.value = stanine;
         remarksInput.value = remarks;
