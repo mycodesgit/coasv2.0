@@ -292,6 +292,7 @@ class AdPrntController extends Controller
         $selectedCampus = $request->query('campus');
 
         $data = Applicant::whereNull('venue')
+                ->whereNull('d_admission')
                 ->where('p_status', '!=', 7)
                 ->where('campus', $selectedCampus)
                 ->where('year', $selectedYear)
@@ -307,6 +308,7 @@ class AdPrntController extends Controller
             $selectedCampus = $request->query('campus');
 
             $data = Applicant::whereNull('venue')
+                    ->whereNull('d_admission')
                     ->where('p_status', '!=', 7)
                     ->where('campus', $selectedCampus)
                     ->where('year', $selectedYear)
