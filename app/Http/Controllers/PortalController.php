@@ -516,7 +516,7 @@ class PortalController extends Controller
                 $request->session()->put('recent_search', $data);
                 return view('portal.track_status', ['data' => $data]);
             } else {
-                return back()->withInput()->with('error', 'We couldn’t find any records matching your criteria.!');
+                return back()->withInput()->with('error', 'We couldn’t find any records matching your criteria.');
             }
         }
     }
