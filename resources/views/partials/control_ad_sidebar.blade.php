@@ -111,7 +111,7 @@
     <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
     @if(!in_array(Auth::user()->role, [5, 6, 7]))
         <li>
-            <a class="nav-link {{ $confActive }}" href="#">
+            <a class="nav-link {{ $appsreportActive }}" href="{{ route('applicant_printing') }}">
                 <i class="ti ti-file-star"></i><span class="nav-text">Applicants</span>
             </a>
         </li>

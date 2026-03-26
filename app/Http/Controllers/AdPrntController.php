@@ -90,42 +90,40 @@ class AdPrntController extends Controller
 
         $repdates = AdmissionDate::groupBy('date')->pluck('date');
         $time = Time::whereYear('date', $currentYear)->get();
-        return view('admission.reports.applicants', compact('repdates', 'time', 'curryear'));
+        $strand = Strands::orderBy('id', 'asc')->get();
+
+        return view('admission.reports.applicants', compact('repdates', 'time', 'curryear', 'strand'));
     }
 
     public function applicant_reports(Request $request)
     {
-        $strand = Strands::orderBy('id', 'asc')->get();
-
-        $data = Applicant::where('p_status', '!=', 7);
-
-        if ($request->year) {
-            $data = $data->where('year', $request->year);
-        }
-
-        if ($request->campus) {
-            $data = $data->where('campus', $request->campus);
-        }
-
-        if ($request->strand && $request->strand !== 'All') {
-            $data = $data->where('strand', $request->strand);
-        }
-
-        $data = $data->get();
+        $selectedYear = $request->query('year');
+        $selectedCampus = $request->query('campus');
+        $selectedStrand = $request->query('strand');
 
         $curryear = Year::orderBy('adyear', 'DESC')->get();
-        $currentYear = Year::where('status', 'On')->value('adyear');
+        $strand = Strands::orderBy('id', 'asc')->get();
 
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
+        $data = Applicant::where('p_status', '!=', 7)
+                        ->where('year', $selectedYear)
+                        ->where('campus', $selectedCampus)
+                        ->where('strand', $selectedStrand)
+                        ->get();
 
-        return view('admission.reports.applicantsgen', ['data' => $data, 'totalSearchResults' => $totalSearchResults])
-            ->with('strand', $strand)->with('curryear', $curryear);
+        return view('admission.reports.applicantsgen', compact('selectedYear', 'curryear', 'strand', 'data'));
     }
 
     public function getapplicantreportsRead(Request $request) 
     {
-        $data = Applicant::where('p_status', '!=', 7)->get();
+        $selectedYear = $request->query('year');
+        $selectedCampus = $request->query('campus');
+        $selectedStrand = $request->query('strand');
+
+        $data = Applicant::where('p_status', '!=', 7)
+                        ->where('year', $selectedYear)
+                        ->where('campus', $selectedCampus)
+                        ->where('strand', $selectedStrand)
+                        ->get();
 
         return response()->json(['data' => $data]);
     }
