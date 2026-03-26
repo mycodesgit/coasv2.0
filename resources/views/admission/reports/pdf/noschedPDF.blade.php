@@ -5,12 +5,15 @@
 	<title></title>
 
     <style>
-
+        body{
+            font-family: 'Poppins', sans-serif !important;
+        }
         #table {
             margin-top: 30px;
             font-family: Arial;
             border-collapse: collapse;
             width: 100%;
+            font-family: 'Poppins', sans-serif
         }
 
         #table td {

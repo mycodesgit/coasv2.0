@@ -275,39 +275,27 @@ class AdPrntController extends Controller
     public function nosched_printing()
     {
         $curryear = Year::orderBy('adyear', 'DESC')->get();
-        $currentYear = Year::where('status', 'On')->value('adyear');
-        $repdates = AdmissionDate::groupBy('date')->pluck('date');
-        $time = Time::whereYear('date', $currentYear)->get();
-        return view('admission.reports.nosched', compact('repdates', 'time', 'curryear'));
+
+        return view('admission.reports.nosched', compact('curryear'));
     }
 
     public function nosched_reports(Request $request)
     {
         $curryear = Year::orderBy('adyear', 'DESC')->get();
-        $data = Applicant::whereNull('venue')->where('p_status', '!=', 7)->where('campus', '=', Auth::user()->campus);
-
-        if ($request->year) {
-            $data = $data->where('year', $request->year);
-        }
-
-        if ($request->campus) {
-            $data = $data->where('campus', $request->campus);
-        }
-
-        $data = $data->get();
-
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
         
-        return view('admission.reports.noschedgen', compact('totalSearchResults', 'data', 'curryear'));
+        return view('admission.reports.noschedgen', compact('curryear'));
     }
 
     public function getnoschedulesreportsRead(Request $request) 
     {
+        $selectedYear = $request->query('year');
         $selectedCampus = $request->query('campus');
 
-        //$data = Applicant::whereNull('dateID')->whereNull('d_admission')->whereNull('venue')->where('campus', '=', Auth::user()->campus)->get();
-        $data = Applicant::whereNull('venue')->where('p_status', '!=', 7)->where('campus', '=', Auth::user()->campus)->get();
+        $data = Applicant::whereNull('venue')
+                ->where('p_status', '!=', 7)
+                ->where('campus', $selectedCampus)
+                ->where('year', $selectedYear)
+                ->get();
 
         return response()->json(['data' => $data]);
     }
@@ -315,13 +303,16 @@ class AdPrntController extends Controller
     public function noschedPDF_reports(Request $request)
     {
         try {
+            $selectedYear = $request->query('year');
             $selectedCampus = $request->query('campus');
 
-            $data = Applicant::whereNull('venue')->where('p_status', '!=', 7)->where('campus', '=', Auth::user()->campus)->get();
+            $data = Applicant::whereNull('venue')
+                    ->where('p_status', '!=', 7)
+                    ->where('campus', $selectedCampus)
+                    ->where('year', $selectedYear)
+                    ->get();
 
-            $totalSearchResults = count($data);
-
-            $pdf = PDF::loadView('admission.reports.pdf.noschedPDF', ['data' => $data, 'totalSearchResults' => $totalSearchResults])->setPaper('Legal', 'landscape');
+            $pdf = PDF::loadView('admission.reports.pdf.noschedPDF', ['data' => $data])->setPaper('Legal', 'landscape');
             return $pdf->stream();
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal Server Error'], 500);
