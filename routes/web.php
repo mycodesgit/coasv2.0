@@ -417,7 +417,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
         Route::prefix('reports')->group(function () {    
             Route::get('/applicant', [AdPrntController::class, 'applicant_printing'])->name('applicant_printing');
-            Route::post('/applicantReports', [AdPrntController::class, 'applicant_reports'])->name('applicant_reports');
+            Route::get('/applicantReports', [AdPrntController::class, 'applicant_reports'])->name('applicant_reports');
             Route::get('/applicantReports/ajax', [AdPrntController::class, 'getapplicantreportsRead'])->name('getapplicantreportsRead');
             Route::get('/applicantsReports/PDF', [AdPrntController::class, 'applicantPDF_reportss'])->name('applicantPDF_reports');
             

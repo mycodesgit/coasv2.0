@@ -33,7 +33,7 @@ CISS V.1.0 || Admission
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form method="POST" action="{{ route('applicant_reports') }}" id="adAppAd">
+                                        <form method="GET" action="{{ route('applicant_reports') }}" id="adAppAd">
                                             @csrf
 
                                             <div class="form-group mt-3">
@@ -94,6 +94,35 @@ CISS V.1.0 || Admission
                                                     <div class="col-md-2">
                                                         <label>&nbsp;</label>
                                                         <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
+
+                                        <form method="GET" action="{{ route('applicantPDF_reports') }}" id="" target="_blank">
+                                            {{ csrf_field() }}
+
+                                            <div class="">
+                                                <div class="form-group">
+                                                    <div class="form-row">
+                                                        <div class="col-md-2">
+                                                            <label>&nbsp;</label>
+                                                            <button type="submit" class="form-control form-control-sm btn btn-secondary btn-sm">Generate PDF</button>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <input type="hidden" name="year" value="{{ request('year') }}" class="form-control form-control-sm">
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <input type="hidden" name="campus" value="{{ request('campus') }}" class="form-control form-control-sm">
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <input type="hidden" name="strand" value="{{ request('strand') }}" class="form-control form-control-sm">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
