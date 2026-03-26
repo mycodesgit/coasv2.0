@@ -131,7 +131,7 @@ CISS V.1.0 || Track Admission
                                         </div>
 
                                         <div class="tracking-item">
-                                            @if ( !empty($data->first()->d_admission) && !empty($data->first()->time) && !empty($data->first()->venue))
+                                            @if ( !empty($data->first()->d_admission) && !empty($data->first()->adtime) && !empty($data->first()->venue))
                                                 <div class="tracking-icon status-delivered">
                                                     <i class="ti ti-check fa-1x"></i>
                                                 </div>
