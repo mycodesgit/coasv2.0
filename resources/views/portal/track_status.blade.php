@@ -234,13 +234,17 @@ CISS V.1.0 || Track Admission
                                                 <span>
                                                     Remarks:
                                                     @if ($data->first()->p_status == 4 || $data->first()->p_status == 5 || $data->first()->p_status == 6 || $data->first()->p_status == 7) 
-                                                        @if (!empty($data->first()->percentile))
-                                                            <i class="text-success">{{ $data->first()->percentile }}</i>
+                                                        @if (!empty($data->first()->remarks))
+                                                            @if ($data->first()->remarks == 1)
+                                                                <i class="text-success">Passed</i>
+                                                            @else
+                                                                <i class="text-danger">Failed</i>
+                                                            @endif
                                                         @else
-                                                            <i class="text-danger">Waiting for Screening</i>
+                                                            <i class="text-danger">Waiting</i>
                                                         @endif
                                                     @else
-                                                        <i class="text-danger">Waiting for Screening</i>
+                                                        <i class="text-danger">Waiting</i>
                                                     @endif
                                                 </span>
                                             </div>
@@ -263,6 +267,30 @@ CISS V.1.0 || Track Admission
                                                     Accepted for the program: 
                                                     @if (!empty($data->first()->remarks))
                                                         <i class="text-success">{{ $data->first()->course }}</i>
+                                                    @else
+                                                        <i class="text-danger">Waiting</i>
+                                                    @endif
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="tracking-item">
+                                            @if ($data->first()->p_status == 7) 
+                                                <div class="tracking-icon status-delivered">
+                                                    <i class="ti ti-check fa-1x"></i>
+                                                </div>
+                                            @else
+                                                <div class="tracking-icon status-intransit">
+                                                    <i class="fas fa-times fa-2x"></i>
+                                                </div>
+                                            @endif
+                                            <div class="tracking-date"><span>&nbsp;</span><span>&nbsp;</span></div>
+                                            <div class="tracking-content">
+                                                Enrollment
+                                                <span>
+                                                    Status:  
+                                                    @if (!empty($data->first()->p_status == 7))
+                                                        <i class="text-success">Proceed to Registrar for Enrollment</i>
                                                     @else
                                                         <i class="text-danger">Waiting</i>
                                                     @endif
