@@ -495,7 +495,7 @@ class PortalController extends Controller
                     'ad_applicant_admission.contact', 
                     'ad_applicant_admission.address', 
                     'ad_applicant_admission.d_admission', 
-                    'ad_applicant_admission.time', 
+                    'ad_applicant_admission.time as adtime', 
                     'ad_applicant_admission.venue', 
                     'ad_applicant_admission.created_at',
                     'ad_applicant_admission.updated_at',

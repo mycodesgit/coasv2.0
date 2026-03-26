@@ -152,7 +152,7 @@ CISS V.1.0 || Track Admission
                                                     @endif,
                                                     <br>
                                                     Time:
-                                                    @if (!empty($data->first()->time))
+                                                    @if (!empty($data->first()->adtime))
                                                         <i class="text-success">{{ \Carbon\Carbon::parse($data->first()->t_admission)->format('h:i A') }}</i>
                                                     @else
                                                         <i class="text-danger">Waiting</i>
