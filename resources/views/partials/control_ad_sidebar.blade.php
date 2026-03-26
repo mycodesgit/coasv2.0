@@ -117,7 +117,7 @@
         </li>
         
         <li>
-            <a class="nav-link {{ $appschoolreportActive }}" href="#">
+            <a class="nav-link {{ $appschoolreportActive }}" href="{{ route('applicantperschool_printing') }}">
                 <i class="ti ti-file-barcode"></i><span class="nav-text">Applicants per School</span>
             </a>
         </li>
@@ -129,7 +129,7 @@
         </li>
         
         <li>
-            <a class="nav-link {{ $noschedreportActive }}" href="#">
+            <a class="nav-link {{ $noschedreportActive }}" href="{{ route('nosched_printing') }}">
                 <i class="ti ti-file-delta"></i><span class="nav-text">Applicants No Sched</span>
             </a>
         </li>

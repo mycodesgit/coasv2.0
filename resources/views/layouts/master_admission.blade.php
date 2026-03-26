@@ -258,6 +258,9 @@
     @if(request()->routeIs('applicant_reports'))
         @include('script.admssn.rprt.applicantgenSerialize')
     @endif
+    @if(request()->routeIs('applicantperschool_reports'))
+        @include('script.admssn.rprt.applicantgenSchoolSerialize')
+    @endif
     @if(request()->routeIs('schedules_reports'))
         @include('script.admssn.rprt.applicantschedSerialize')
     @endif

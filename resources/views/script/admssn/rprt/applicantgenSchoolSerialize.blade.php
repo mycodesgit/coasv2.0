@@ -4,19 +4,22 @@
         var year = urlParams.get('year') || ''; 
         var campus = urlParams.get('campus') || ''; 
 
-        var dataTable = $('#appsnoschedlistTable').DataTable({
+        var dataTable = $('#appschoolreplistTable').DataTable({
             "ajax": {
-                "url": allApplicantnoschedRoute,
+                "url": allApplicantRoute,
                 "type": "GET",
                 "data": { 
                     "year": year,
-                    "campus": campus,
+                    "campus": campus
                 }
             },
             responsive: true,
             lengthChange: true,
             searching: true,
             paging: true,
+            buttons: [
+                'excel'
+            ],
             "columns": [
                 { 
                     data: null,
@@ -52,17 +55,18 @@
                 {data: 'strand'},
                 {data: 'email'},
                 {data: 'contact'},
+                {data: 'campus'},
                 { 
                     data: null,
                     render: function(data, type, row) {
-                        return '<span class="badge bg-warning">No Schedule</span>';
+                        return data.lstsch_attended ? data.lstsch_attended : data.suc_lst_attended;
                     }
                 },
-                {data: 'campus'},
             ],
             "createdRow": function (row, data, index) {
                 $(row).attr('id', 'tr-' + data.id); 
-            }
-        });
+            },
+            dom: 'Bfrtip'
+        }).buttons().container().appendTo('#appsreplistTable_wrapper .col-md-6:eq(0)');
     });
 </script>

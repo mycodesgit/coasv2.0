@@ -163,9 +163,7 @@ class AdPrntController extends Controller
         $curryear = Year::orderBy('adyear', 'DESC')->get();
         $currentYear = Year::where('status', 'On')->value('adyear');
 
-        $repdates = AdmissionDate::groupBy('date')->pluck('date');
-        $time = Time::whereYear('date', $currentYear)->get();
-        return view('admission.reports.applicantschool', compact('repdates', 'time', 'curryear'));
+        return view('admission.reports.applicantschool', compact('curryear'));
     }
 
     public function applicantperschool_reports(Request $request)
