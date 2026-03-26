@@ -126,7 +126,7 @@ CISS V.1.0 || Track Admission
                                             <div class="tracking-icon status-delivered">
                                                 <i class="ti ti-check fa-1x"></i>
                                             </div>
-                                            <div class="tracking-date"><span>{{ $data->first()->created_at->format('F d, Y') }}</span><span>{{ $data->first()->created_at->format('h:i A') }}</span></div>
+                                            <div class="tracking-date"><span>{{ $data->first()->created_at->format('M. d, Y') }}</span><span>{{ $data->first()->created_at->format('h:i A') }}</span></div>
                                             <div class="tracking-content">Application<span>Submitted/Recorded Applicant Information</span></div>
                                         </div>
 
@@ -201,7 +201,7 @@ CISS V.1.0 || Track Admission
                                                 Examination Results
                                                 <span>
                                                     Stanine:
-                                                    @if ($stanine !== null)
+                                                    @if ($stanine != null)
                                                         <i class="text-success">{{ $stanine }}</i>
                                                     @else
                                                         <i class="text-danger">Waiting</i>
