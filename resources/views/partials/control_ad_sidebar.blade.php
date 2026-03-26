@@ -123,7 +123,7 @@
         </li>
         
         <li>
-            <a class="nav-link {{ $schedreportActive }}" href="#">
+            <a class="nav-link {{ $schedreportActive }}" href="{{ route('schedules_printing') }}">
                 <i class="ti ti-file-analytics"></i><span class="nav-text">Admission Schedules</span>
             </a>
         </li>

@@ -1,7 +1,7 @@
 @extends('layouts.master_nstp')
 
 @section('title')
-CISS V.1.0 || Assessment
+CISS V.1.0 || NSTP
 @endsection
 
 @yield('sidemenu')

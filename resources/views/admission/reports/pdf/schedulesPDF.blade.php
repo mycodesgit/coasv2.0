@@ -5,18 +5,21 @@
 	<title></title>
 
     <style>
-
+        body{
+            font-family: 'Poppins', sans-serif !important;
+        }
         #table {
             margin-top: 30px;
             font-family: Arial;
             border-collapse: collapse;
             width: 100%;
+            font-family: 'Poppins', sans-serif
         }
 
         #table td {
             border: 1px solid #000;
             padding: 8px;
-            font-size: 10pt;
+            font-size: 9pt;
         } 
         #table th {
             border: 1px solid #000;
