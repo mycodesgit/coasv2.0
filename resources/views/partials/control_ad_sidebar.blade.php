@@ -58,14 +58,14 @@
     @endif
     
     <li>
-        <a class="nav-link {{ $appAddActive }}" href="#">
+        <a class="nav-link {{ $confirmAppListActive }}" href="{{ route('examinee-confirm') }}">
             <i class="ti ti-user-check"></i><span class="nav-text">Confirmed Applicants</span>
         </a>
     </li>
     
     @if(in_array(Auth::user()->role, [5, 6, 7, 14]))  
         <li>
-            <a class="nav-link {{ $acceptedAppListActive }}" href="#">
+            <a class="nav-link {{ $acceptedAppListActive }}" href="{{ route('applicant-accepted') }}">
                 <i class="ti ti-user-code"></i><span class="nav-text">Accepted Applicants</span>
             </a>
         </li>
@@ -73,7 +73,7 @@
 
     @if(in_array(Auth::user()->role, [0, 1, 2]))
         <li>
-            <a class="nav-link {{ $acceptedAppListAllActive }}" href="#">
+            <a class="nav-link {{ $acceptedAppListAllActive }}" href="{{ route('applicant-acceptedall') }}">
                 <i class="ti ti-user-code"></i><span class="nav-text">Accepted Applicants</span>
             </a>
         </li>
@@ -83,7 +83,7 @@
     <li class="px-4 py-2"><small class="nav-text text-muted">Configuration</small></li>
     @if(in_array(Auth::user()->role, [0, 1, 2]))
         <li>
-            <a class="nav-link {{ $acceptedAppListAllActive }}" href="#">
+            <a class="nav-link" href="#">
                 <i class="ti ti-id-badge"></i><span class="nav-text">Availability Slots</span>
             </a>
         </li>

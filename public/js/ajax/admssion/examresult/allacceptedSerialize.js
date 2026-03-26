@@ -66,9 +66,9 @@ $(document).ready(function() {
                 data: 'p_status',
                 render: function(data) {
                     if (data == 6) {
-                        return '<td><small><span class="badge badge-primary" style="font-size: 7pt">Pushed to Enrolment</span></small></td>';
+                        return '<td><small><span class="badge bg-success" style="font-size: 7pt">Pushed to Enrolment</span></small></td>';
                     } else {
-                        return '<td><small><span class="badge badge-warning" style="font-size: 7pt">Not Push  to Enrolment</span></small></td>';
+                        return '<td><small><span class="badge bg-warning" style="font-size: 7pt">Not Push  to Enrolment</span></small></td>';
                     }
                 }
             },

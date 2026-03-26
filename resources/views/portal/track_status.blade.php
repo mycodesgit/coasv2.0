@@ -230,24 +230,24 @@ CISS V.1.0 || Track Admission
                                             @endif
                                             <div class="tracking-date"><span>&nbsp;</span><span>&nbsp;</span></div>
                                             <div class="tracking-content">
-                                                Confirmation
+                                                Screening
                                                 <span>
                                                     Remarks:
                                                     @if ($data->first()->p_status == 4 || $data->first()->p_status == 5 || $data->first()->p_status == 6 || $data->first()->p_status == 7) 
                                                         @if (!empty($data->first()->percentile))
-                                                            <i class="text-success">{{ $data->first()->percentile }} <i class="text-dark">( Proceed to Pre-Enrollment )</i></i>
+                                                            <i class="text-success">{{ $data->first()->percentile }}</i>
                                                         @else
-                                                            <i class="text-danger">Waiting for confirmation on Pre-enrolment</i>
+                                                            <i class="text-danger">Waiting for Screening</i>
                                                         @endif
                                                     @else
-                                                        <i class="text-danger">Waiting for confirmation on Pre-enrolment</i>
+                                                        <i class="text-danger">Waiting for Screening</i>
                                                     @endif
                                                 </span>
                                             </div>
                                         </div>
                                         
                                         <div class="tracking-item">
-                                            @if ($data->first()->p_status == 6 || $data->first()->p_status == 7) 
+                                            @if ($data->first()->p_status == 5 || $data->first()->p_status == 6 || $data->first()->p_status == 7) 
                                                 <div class="tracking-icon status-delivered">
                                                     <i class="ti ti-check fa-1x"></i>
                                                 </div>
@@ -261,7 +261,7 @@ CISS V.1.0 || Track Admission
                                                 Acceptance
                                                 <span>
                                                     Accepted for the program: 
-                                                    @if (!empty($data->first()->percentile))
+                                                    @if (!empty($data->first()->remarks))
                                                         <i class="text-success">{{ $data->first()->course }}</i>
                                                     @else
                                                         <i class="text-danger">Waiting</i>

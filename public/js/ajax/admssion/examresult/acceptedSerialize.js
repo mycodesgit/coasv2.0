@@ -66,9 +66,9 @@ $(document).ready(function() {
                 data: 'p_status',
                 render: function(data) {
                     if (data == 6) {
-                        return '<td><small><span class="badge badge-primary" style="font-size: 7pt">Pushed to Enrolment</span></small></td>';
+                        return '<td><small><span class="badge bg-primary" style="font-size: 7pt">Pushed to Enrolment</span></small></td>';
                     } else {
-                        return '<td><small><span class="badge badge-warning" style="font-size: 7pt">Not Push  to Enrolment</span></small></td>';
+                        return '<td><small><span class="badge bg-warning" style="font-size: 7pt">Not Push  to Enrolment</span></small></td>';
                     }
                 }
             },
@@ -80,7 +80,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display' && isCampus === requestedCampus) {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {

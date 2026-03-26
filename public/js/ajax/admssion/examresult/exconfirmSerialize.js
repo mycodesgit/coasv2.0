@@ -41,7 +41,9 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    // Only display ext if it's not null, not 'N/A', and not empty
+                    var ext = (data.ext && data.ext !== 'N/A') ? ' ' + data.ext : '';
+                    var lastNameWithExt = data.lname + ext;
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
@@ -64,9 +66,9 @@ $(document).ready(function() {
                 data: 'remarks',
                 render: function(data) {
                     if (data == 1) {
-                        return '<td><small><span class="badge badge-success" style="font-size: 7pt">Interview Completed</span></small></td>';
+                        return '<td><small><span class="badge bg-success" style="font-size: 7pt">Interview Completed</span></small></td>';
                     } else {
-                        return '<td><small><span class="badge badge-danger" style="font-size: 7pt">Interview Pending</span></small></td>';
+                        return '<td><small><span class="badge bg-danger" style="font-size: 7pt">Interview Pending</span></small></td>';
                     }
                 }
             },
@@ -91,7 +93,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display' && isCampus === requestedCampus) {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
