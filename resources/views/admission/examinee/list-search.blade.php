@@ -397,7 +397,7 @@ CISS V.1.0 || Admission
                         
                         <div class="form-group mt-3">
                             <div class="col-md-12">
-                                <label>Statnine: <span class="text-danger">*</span></label>
+                                <label>Stanine: <span class="text-danger">*</span></label>
                                 <input type="text" name="stanine" class="form-control form-control-sm" id="assignresultexamStanine" readonly>
                             </div>
                         </div>
