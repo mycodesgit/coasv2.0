@@ -200,15 +200,13 @@ CISS V.1.0 || Track Admission
                                             <div class="tracking-content">
                                                 Examination Results
                                                 <span>
-                                                    @if ($data->first()->campus !=  'MC')
-                                                        Stanine:
-                                                        @if ($stanine !== null)
-                                                            <i class="text-success">{{ $stanine }}</i>
-                                                        @else
-                                                            <i class="text-danger">Waiting</i>
-                                                        @endif
-                                                        ,
+                                                    Stanine:
+                                                    @if ($stanine !== null)
+                                                        <i class="text-success">{{ $stanine }}</i>
+                                                    @else
+                                                        <i class="text-danger">Waiting</i>
                                                     @endif
+                                                    ,
 
                                                     Remarks:
                                                     @if (!empty($data->first()->percentile))
@@ -235,8 +233,12 @@ CISS V.1.0 || Track Admission
                                                 Confirmation
                                                 <span>
                                                     Remarks:
-                                                    @if (!empty($data->first()->percentile))
-                                                        <i class="text-success">{{ $data->first()->percentile }} <i class="text-dark">( Proceed to Pre-Enrollment )</i></i>
+                                                    @if ($data->first()->p_status == 4 || $data->first()->p_status == 5 || $data->first()->p_status == 6 || $data->first()->p_status == 7) 
+                                                        @if (!empty($data->first()->percentile))
+                                                            <i class="text-success">{{ $data->first()->percentile }} <i class="text-dark">( Proceed to Pre-Enrollment )</i></i>
+                                                        @else
+                                                            <i class="text-danger">Waiting for confirmation on Pre-enrolment</i>
+                                                        @endif
                                                     @else
                                                         <i class="text-danger">Waiting for confirmation on Pre-enrolment</i>
                                                     @endif
