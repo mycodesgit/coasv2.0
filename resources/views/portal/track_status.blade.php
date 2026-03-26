@@ -131,7 +131,7 @@ CISS V.1.0 || Track Admission
                                         </div>
 
                                         <div class="tracking-item">
-                                            @if ( !empty($data->first()->d_admission) && !empty($data->first()->adtime) && !empty($data->first()->venue))
+                                            @if ( !empty($data->first()->d_admission) && !empty(\Carbon\Carbon::parse($data->first()->adtime)->format('h:i A') && !empty($data->first()->venue))
                                                 <div class="tracking-icon status-delivered">
                                                     <i class="ti ti-check fa-1x"></i>
                                                 </div>
@@ -153,7 +153,7 @@ CISS V.1.0 || Track Admission
                                                     <br>
                                                     Time:
                                                     @if (!empty($data->first()->adtime))
-                                                        <i class="text-success">{{ \Carbon\Carbon::parse($data->first()->t_admission)->format('h:i A') }}</i>
+                                                        <i class="text-success">{{ \Carbon\Carbon::parse($data->first()->adtime)->format('h:i A') }}</i>
                                                     @else
                                                         <i class="text-danger">Waiting</i>
                                                     @endif,
