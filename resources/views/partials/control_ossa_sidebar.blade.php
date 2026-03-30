@@ -33,6 +33,12 @@
         </a>
     </li>
 
+    <li>
+        <a class="nav-link" href="#">
+            <i class="ti ti-file"></i><span class="nav-text">Student Good Moral</span>
+        </a>
+    </li>
+
     <li class="nav-text-space"><small class="nav-text"></small></li>
     <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
     <li>
