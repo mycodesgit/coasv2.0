@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 use PDF;
 use Storage;
@@ -66,16 +67,20 @@ class ControlController extends Controller
         $previousYear = Carbon::now()->year;
         $userCampus = Auth::guard('web')->user()->campus;
 
-        // Fetch the active configuration with set_status = 2
-        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        $activeConfig = Cache::remember("active_config", 300, function () {
+            return ConfigureCurrent::where('set_status', 2)->first();
+        });
+
         if (!$activeConfig) {
             return back()->with('error', 'No active school year found.');
         }
         $activeConfigId = $activeConfig->id;
         
-        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
-            ->orderBy('id', 'desc') // Get the most recent one
-            ->first();
+        $previousConfig = Cache::remember("previous_config_{$activeConfigId}", 300, function () use ($activeConfigId) {
+            return ConfigureCurrent::where('id', '<', $activeConfigId)
+                ->orderBy('id', 'desc')
+                ->first();
+        });
 
         $schlyearactiveYear = $activeConfig->schlyear;
         $schlyearactive = $activeConfig->schlyear;
@@ -84,28 +89,13 @@ class ControlController extends Controller
 
         $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
 
+        $cacheKeyPrefix = "dashboardcontrol_{$userCampus}_{$schlyearactive}_{$semesteractive}_";
+
         if (!$previousSchlyearYear) {
             return back()->with('error', 'No previous school year found.');
         }
-
-        // $collegesCurrentSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
-        //         $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
-        //     })
-        //     ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
-        //     ->where(function ($query) use ($userCampus) {
-        //         $campuses = explode(', ', $userCampus);
-        //         foreach ($campuses as $campus) {
-        //             $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
-        //         }
-        //     })
-        //     ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
-        //     ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
-        //     ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
-        //     ->orderBy('college_name', 'ASC')
-        //     ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
-        //     ->groupBy('college.id')
-        //     ->get();
-        $collegesCurrentSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+        $collegesCurrentSemester = Cache::remember($cacheKeyPrefix . 'currentcolleges', 1000, function () use ($userCampus, $schlyearactive, $semesteractive) {
+                return College::join('coasv2_db_enrollment.program_en_history', function ($join) {
                 $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
             })
             ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
@@ -116,7 +106,7 @@ class ControlController extends Controller
                 }
             })
             ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
-            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
+            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactive)
             ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
             ->orderBy('college_name', 'ASC')
             ->select(
@@ -130,7 +120,8 @@ class ControlController extends Controller
             )
             ->groupBy('college.id', 'coasv2_db_enrollment.program_en_history.studYear')
             ->get()
-            ->groupBy('college_abbr'); // Group by college for easier JS parsing
+            ->groupBy('college_abbr');
+        });
 
 
         return view('control.home', compact('guard', 'collegesCurrentSemester', 'previousSchlyearYear', 'semesteractive', 'schlyearactiveYear'));
