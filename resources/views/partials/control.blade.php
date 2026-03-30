@@ -1,21 +1,3 @@
-@php
-// $user = Auth::guard('web')->user() ?: Auth::guard('faculty')->user();
-// $buttons = [];
-
-// if ($user) {
-//     if ($user instanceof \App\Models\AdmissionDB\User) {
-//         $buttonAccess = $user->buttonAccess;
-//     } elseif ($user instanceof \App\Models\ScheduleDB\Faculty) {
-//         $buttonAccess = $user->buttonAccess;
-//     }
-    
-//     $buttons = isset($buttonAccess) ? $buttonAccess->buttons : [];
-// }
-$user = Auth::user();
-$buttonAccess = $user->buttonAccess;
-$buttons = $buttonAccess ? $buttonAccess->buttons : [];
-@endphp
-
 <div class="menu-container bg-white border-bottom">
     <div class="container-fluid py-3 d-none d-md-block">
         <div class="menu-grid">
@@ -242,22 +224,5 @@ $buttons = $buttonAccess ? $buttonAccess->buttons : [];
 </div> --}}
 
 
-<script>
-    var homeRoute = "{{ route('home') }}";
-    var admissionRoute = "{{ route('admission-index') }}";
-    var enrollmentRoute = "{{ route('enrollment-index') }}";
-    var schedulerRoute = "{{ route('scheduler-index') }}";
-    var assessmentRoute = "{{ route('assessment-index') }}";
-    var cashierRoute = "{{ route('cashiering-index') }}";
-    var scholarshipRoute = "{{ route('scholarship-index') }}";
-    var gradingRoute = "{{ route('grading-index') }}";
-    var yearbookRoute = "{{ route('yearbook-index') }}";
-    var kioskRoute = "{{ route('kioskReport') }}";
-    var queueRoute = "{{ route('queue-index') }}";
-    var nstpRoute = "{{ route('nstp-index') }}";
-    var ossaRoute = "{{ route('ossa-index') }}";
-    var requestRoute = "{{ route('request-index') }}";
-    var settingRoute = "{{ route('settings-index') }}";
-    var logoutRoute = "{{ route('logout') }}";
-</script>
+
 

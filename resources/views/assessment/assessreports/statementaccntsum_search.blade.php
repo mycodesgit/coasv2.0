@@ -83,6 +83,7 @@ CISS V.1.0 || Assessment
 
                                                 <div class="mt-3 row">
                                                     <div class="col-md-12">
+                                                        <p>Wait Every 30 Seconds to Load/Refresh Data</p>
                                                         <div class="table-responsive p-2">
                                                             <table id="reportAssessUndergrad" class="table table-hover">
                                                                 <thead>

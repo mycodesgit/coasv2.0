@@ -19,7 +19,11 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
 
     <style>
-        
+        a.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -31,7 +35,7 @@
             CISS v.1.0
         </div>
         <div>
-            <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
+            <ul class="list-unstyled d-flex align-items-center mb-0 gap-1 d-none d-md-flex">
                 <li class="ms-3 dropdown">
                     <a href="#" role="button" class="text-light" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
@@ -110,9 +114,45 @@
                     </div>
                 </li>
             </ul>
+            <ul class="list-unstyled d-flex align-items-center mb-0 gap-1 d-md-none">
+                <li class="ms-3 dropdown">
+                    <a href="#" role="button" class="text-light">
+                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
+                        @auth('web')
+                            @if (in_array(Auth::guard('web')->user()->role, range(0, 21)))
+                                @if (Auth::guard('web')->user()->campus == 'MC')
+                                    Main
+                                @elseif (Auth::guard('web')->user()->campus == 'VC')
+                                    Victorias
+                                @elseif (Auth::guard('web')->user()->campus == 'SCC')
+                                    San Carlos
+                                @elseif (Auth::guard('web')->user()->campus == 'HC')
+                                    Hinigaran
+                                @elseif (Auth::guard('web')->user()->campus == 'MP')
+                                    Moises Padilla
+                                @elseif (Auth::guard('web')->user()->campus == 'IC')
+                                    Ilog
+                                @elseif (Auth::guard('web')->user()->campus == 'CA')
+                                    Candoni
+                                @elseif (Auth::guard('web')->user()->campus == 'CC')
+                                    Cauayan
+                                @elseif (Auth::guard('web')->user()->campus == 'SC')
+                                    Sipalay
+                                @elseif (Auth::guard('web')->user()->campus == 'HinC')
+                                    Hinobaan
+                                @endif
+                            @endif
+                        @endauth
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
-
+    @php
+        $user = Auth::user();
+        $buttonAccess = $user->buttonAccess;
+        $buttons = $buttonAccess ? $buttonAccess->buttons : [];
+    @endphp
     <!-- DASHBOARD MENU -->
     @include('partials.control')
 
@@ -139,70 +179,70 @@
 
         </div>
         <div class="bottom-nav">
-            <a href="{{ route('home') }}">
+            <a id="bottomhome-url">
                 <div class="nav-item" data-label="Dashboard">
                     <i class="fas fa-th icon"></i>
                     <span>Dashboard</span>
                 </div>
             </a>
 
-            <a href="{{ route('enrollment-index') }}">
-                <div class="nav-item" data-label="Attendance">
+            <a id="bottomenrollment-url" class="{{ in_array('enrollment-url', $buttons) ? '' : 'disabled' }}">
+                <div class="nav-item" data-label="Enrollment">
                     <i class="fas fa-graduation-cap icon"></i>
                     <span>Enrollment</span>
                 </div>
             </a>
 
             <a href="#">
-                <div class="nav-item" id="servicesBtn" data-label="Schedule">
+                <div class="nav-item" id="servicesBtn" data-label="Others">
                     <i class="fas fa-server icon"></i>
                     <span>Others</span>
                 </div>
             </a>
 
-            <a href="{{ route('settings-index') }}">
-                <div class="nav-item" data-label="Grade Sheet">
+            <a id="bottomsetting-url" class="{{ in_array('setting-url', $buttons) ? '' : 'disabled' }}">
+                <div class="nav-item">
                     <i class="fas fa-cog icon"></i>
                     <span>Settings</span>
                 </div>
             </a>
-            <a href="{{ route('logout') }}">
-                <div class="nav-item" data-label="Grade Sheet">
+            <a href="#" id="bottomlogout-url">
+                <div class="nav-item" data-label="Sign Out">
                     <i class="fas fa-sign-out icon"></i>
-                    <span>Signout</span>
+                    <span>Sign Out</span>
                 </div>
             </a>
         </div>
         <div class="services-menu" id="servicesMenu">
-            <a href="{{ route('admission-index') }}">
+            <a id="bottomadmission-url" class="{{ in_array('admission-url', $buttons) ? '' : 'disabled' }}">
                 <div class="service-item">
                     <i class="fas fa-id-card"></i>
                     <span>Admission</span>
                 </div>
             </a>
 
-            <a href="{{ route('scheduler-index') }}">
+            <a id="bottomscheduler-url" class="{{ in_array('scheduler-url', $buttons) ? '' : 'disabled' }}">
                 <div class="service-item">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Schedule</span>
                 </div>
             </a>
 
-            <a href="{{ route('assessment-index') }}">
+            <a id="bottomassessment-url" class="{{ in_array('assessment-url', $buttons) ? '' : 'disabled' }}">
                 <div class="service-item">
                     <i class="fas fa-receipt"></i>
                     <span>Assess</span>
                 </div>
             </a>
 
-            <a href="{{ route('cashiering-index') }}">
+            <a id="bottomcashiering-url" class="{{ in_array('cashiering-url', $buttons) ? '' : 'disabled' }}">
                 <div class="service-item">
                     <i class="fas fa-calculator"></i>
                     <span>Cashier</span>
                 </div>
             </a>
 
-            <a href="{{ route('adminkioskRead') }}">
+            <a id="bottomkiosk-url" class="{{ in_array('kiosk-url', $buttons) ? '' : 'disabled' }}">
                 <div class="service-item">
                     <i class="fas fa-laptop"></i>
                     <span>Kiosk</span>
@@ -251,6 +291,24 @@
         });
     </script>
 
+    <script>
+        var homeRoute = "{{ route('home') }}";
+        var admissionRoute = "{{ route('admission-index') }}";
+        var enrollmentRoute = "{{ route('enrollment-index') }}";
+        var schedulerRoute = "{{ route('scheduler-index') }}";
+        var assessmentRoute = "{{ route('assessment-index') }}";
+        var cashierRoute = "{{ route('cashiering-index') }}";
+        var scholarshipRoute = "{{ route('scholarship-index') }}";
+        var gradingRoute = "{{ route('grading-index') }}";
+        var yearbookRoute = "{{ route('yearbook-index') }}";
+        var kioskRoute = "{{ route('kioskReport') }}";
+        var queueRoute = "{{ route('queue-index') }}";
+        var nstpRoute = "{{ route('nstp-index') }}";
+        var ossaRoute = "{{ route('ossa-index') }}";
+        var requestRoute = "{{ route('request-index') }}";
+        var settingRoute = "{{ route('settings-index') }}";
+        var logoutRoute = "{{ route('logout') }}";
+    </script>
 </body>
 
 </html>

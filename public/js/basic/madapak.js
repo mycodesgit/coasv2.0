@@ -61,3 +61,35 @@ $('#setting-url').click(function() {
 $('#logout-url').click(function() {
     window.location.href = logoutRoute;
 });
+
+
+
+
+
+$('#bottomhome-url').click(function() {
+    window.location.href = homeRoute;
+});
+$('#bottomenrollment-url').click(function() {
+    window.location.href = enrollmentRoute;
+});
+$('#bottomsetting-url').click(function() {
+    window.location.href = settingRoute;
+});
+$('#bottomlogout-url').click(function() {
+    window.location.href = logoutRoute;
+});
+$('#bottomadmission-url').click(function() {
+    window.location.href = admissionRoute;
+});
+$('#bottomscheduler-url').click(function() {
+    window.location.href = schedulerRoute;
+});
+$('#bottomassessment-url').click(function() {
+    window.location.href = assessmentRoute;
+});
+$('#bottomcashiering-url').click(function() {
+    window.location.href = cashierRoute;
+});
+$('#bottomkiosk-url').click(function() {
+    window.location.href = kioskRoute;
+});
