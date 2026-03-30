@@ -77,6 +77,6 @@ $(document).ready(function() {
     // Load first batch immediately
     loadNextBatch();
 
-    // Load next batch every 3 minutes
-    setInterval(loadNextBatch, 3 * 60 * 1000);
+    // Load next batch every 30 seconds
+    setInterval(loadNextBatch,  30 * 1000);
 });
