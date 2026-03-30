@@ -76,13 +76,13 @@ CISS V.1.0 || Assessment
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    {{-- @foreach($sumstudfees as $datasumstudfees)
+                                                                    {{-- @foreach($data as $datasumstudfees)
                                                                         <tr>
-                                                                            <td>{{ $datasumstudfees->studentID }}</td>
+                                                                            <td>{{ $datasumstudfees->studID }}</td>
                                                                             <td>{{ $datasumstudfees->lname }}, {{ $datasumstudfees->fname }}</td>
-                                                                            <td>{{ $datasumstudfees->schlyear }}</td>
-                                                                            <td>{{ $datasumstudfees->semester }}</td>
-                                                                            <td>{{ $datasumstudfees->totalamount  }}</td>
+                                                                            <td>{{ $datasumstudfees->totalamount }}</td>
+                                                                            <td>{{ $datasumstudfees->amountpaid }}</td>
+                                                                            <td>{{ $datasumstudfees->balance }}</td>
                                                                         </tr>
                                                                     @endforeach --}}
                                                                 </tbody>

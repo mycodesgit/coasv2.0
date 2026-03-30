@@ -549,56 +549,114 @@ class StudStateAccntAssessmentController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('assessment.assessreports.statementaccntsum_search', compact('sy'));
+        $category = $request->query('category');
+
+        $appraisalSubquery = DB::table('coasv2_db_assessment.student_appraisal')
+            ->select(
+                'studID',
+                'semester',
+                'schlyear',
+                DB::raw('SUM(amount) as totalamount')
+            )
+            ->groupBy('studID', 'semester', 'schlyear');
+
+        $paymentSubquery = DB::table('coasv2_db_assessment.studpayment')
+            ->select(
+                'studID',
+                'semester',
+                'schlyear',
+                DB::raw('SUM(amountpaid) as amountpaid')
+            )
+            ->groupBy('studID', 'semester', 'schlyear');
+
+        // Main query with joins
+        $baseQuery = DB::table('coasv2_db_enrollment.students as s')
+            ->leftJoinSub($appraisalSubquery, 'a', function($join) {
+                $join->on('s.stud_id', '=', 'a.studID');
+            })
+            ->leftJoinSub($paymentSubquery, 'p', function($join) {
+                $join->on('s.stud_id', '=', 'p.studID')
+                    ->on('a.semester', '=', 'p.semester')
+                    ->on('a.schlyear', '=', 'p.schlyear');
+            })
+            ->select(
+                's.stud_id as studID',
+                's.lname',
+                's.fname',
+                's.mname',
+                's.ext',
+                DB::raw('COALESCE(a.totalamount, 0) as totalamount'),
+                DB::raw('COALESCE(p.amountpaid, 0) as amountpaid'),
+                DB::raw('(COALESCE(a.totalamount, 0) - COALESCE(p.amountpaid, 0)) as balance')
+            );
+
+        if ($category == '2') {
+            $baseQuery->where('s.stud_id', 'LIKE', '%-G');
+        }
+
+        // Wrap the base query as a subquery to filter by balance
+        $data = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))
+            ->mergeBindings($baseQuery)
+            ->where('balance', '>', 0)
+            ->get();
+
+        return view('assessment.assessreports.statementaccntsum_search', compact('sy', 'data'));
     }
 
     public function getstateaccntpersum_search(Request $request)
-{
-    $category = $request->query('category');
+    {
+        $category = $request->query('category');
 
-    $query = StudentAppraisal::leftJoin(
-            \DB::raw('(SELECT studID, SUM(amountpaid) as amountpaid FROM studpayment GROUP BY studID) as sp'),
-            'student_appraisal.studID',
-            '=',
-            'sp.studID'
-        )
-        ->leftJoin(
-            'coasv2_db_enrollment.students',
-            'student_appraisal.studID',
-            '=',
-            'coasv2_db_enrollment.students.stud_id'
-        )
-        ->select(
-            'student_appraisal.studID',
-            'coasv2_db_enrollment.students.stud_id',
-            'coasv2_db_enrollment.students.fname',
-            'coasv2_db_enrollment.students.mname',
-            'coasv2_db_enrollment.students.lname',
-            'coasv2_db_enrollment.students.ext',
+        $appraisalSubquery = DB::table('coasv2_db_assessment.student_appraisal')
+            ->select(
+                'studID',
+                'semester',
+                'schlyear',
+                DB::raw('SUM(amount) as totalamount')
+            )
+            ->groupBy('studID', 'semester', 'schlyear');
 
-            // ✅ correct total (no duplication now)
-            \DB::raw('SUM(student_appraisal.amount) as totalamount'),
+        $paymentSubquery = DB::table('coasv2_db_assessment.studpayment')
+            ->select(
+                'studID',
+                'semester',
+                'schlyear',
+                DB::raw('SUM(amountpaid) as amountpaid')
+            )
+            ->groupBy('studID', 'semester', 'schlyear');
 
-            // ✅ already summed, so no SUM again
-            \DB::raw('COALESCE(sp.amountpaid, 0) as amountpaid')
-        )
-        ->groupBy(
-            'student_appraisal.studID', 
-            'coasv2_db_enrollment.students.stud_id', 
-            'coasv2_db_enrollment.students.fname', 
-            'coasv2_db_enrollment.students.mname', 
-            'coasv2_db_enrollment.students.lname', 
-            'coasv2_db_enrollment.students.ext',
-            'sp.amountpaid'
-        );
+        // Main query with joins
+        $baseQuery = DB::table('coasv2_db_enrollment.students as s')
+            ->leftJoinSub($appraisalSubquery, 'a', function($join) {
+                $join->on('s.stud_id', '=', 'a.studID');
+            })
+            ->leftJoinSub($paymentSubquery, 'p', function($join) {
+                $join->on('s.stud_id', '=', 'p.studID')
+                    ->on('a.semester', '=', 'p.semester')
+                    ->on('a.schlyear', '=', 'p.schlyear');
+            })
+            ->select(
+                's.stud_id as studID',
+                's.lname',
+                's.fname',
+                's.mname',
+                's.ext',
+                DB::raw('COALESCE(a.totalamount, 0) as totalamount'),
+                DB::raw('COALESCE(p.amountpaid, 0) as amountpaid'),
+                DB::raw('(COALESCE(a.totalamount, 0) - COALESCE(p.amountpaid, 0)) as balance')
+            );
 
-    if ($category == '2') {
-        $query->where('student_appraisal.studID', 'LIKE', '%-G');
+        if ($category == '2') {
+            $baseQuery->where('s.stud_id', 'LIKE', '%-G');
+        }
+
+        // Wrap the base query as a subquery to filter by balance
+        $data = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))
+            ->mergeBindings($baseQuery)
+            ->where('balance', '>', 0)
+            ->get();
+
+        return response()->json(['data' => $data]);
     }
-
-    $data = $query->get();
-
-    return response()->json(['data' => $data]);
-}
 }
 
