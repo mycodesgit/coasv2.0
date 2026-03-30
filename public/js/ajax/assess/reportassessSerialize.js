@@ -5,19 +5,20 @@ toastr.options = {
 };
 
 $(document).ready(function() {
-    // Get query parameters from URL
     var urlParams = new URLSearchParams(window.location.search);
     var category = urlParams.get('category') || '';
     var semester = urlParams.get('semester') || '';
     var schlyear = urlParams.get('schlyear') || '';
     var lastId = 0; // track last loaded student
 
-    // Initialize DataTable without ajax reload (we handle Ajax manually)
     var dataTable = $('#reportAssessUndergrad').DataTable({
         responsive: true,
         lengthChange: true,
         searching: true,
         paging: true,
+        buttons: [
+                'excel', 'pdf'
+            ],
         columns: [
             {data: 'studID'},
             { 
@@ -49,10 +50,10 @@ $(document).ready(function() {
                     return '<strong>' + (total - paid).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</strong>';
                 }
             },
-        ]
+        ],
+        dom: 'Bfrtip'
     });
 
-    // Function to load next batch and append
     function loadNextBatch() {
         $.ajax({
             url: studundergradReadRoute,
@@ -64,17 +65,16 @@ $(document).ready(function() {
                 last_id: lastId
             },
             success: function(response) {
-                if(response.length === 0) return; // no more rows
+                if(response.length === 0) return; 
 
                 response.forEach(function(student) {
-                    dataTable.row.add(student).draw(false); // append row
-                    lastId = student.studID; // update lastId for next batch
+                    dataTable.row.add(student).draw(false); 
+                    lastId = student.studID; 
                 });
             }
         });
     }
 
-    // Load first batch immediately
     loadNextBatch();
 
     // Load next batch every 30 seconds
