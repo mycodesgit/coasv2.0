@@ -200,22 +200,26 @@ CISS V.1.0 || Track Admission
                                             <div class="tracking-content">
                                                 Examination Results
                                                 @if (\Carbon\Carbon::now()->format('m-d') >= '04-01')
-                                                <span>
-                                                    Stanine:
-                                                    @if ($stanine != null)
-                                                        <i class="text-success">{{ $stanine }}</i>
-                                                    @else
-                                                        <i class="text-danger">Waiting</i>
-                                                    @endif
-                                                    ,
+                                                    <span>
+                                                        Stanine:
+                                                        @if ($stanine != null)
+                                                            <i class="text-success">{{ $stanine }}</i>
+                                                        @else
+                                                            <i class="text-danger">Waiting</i>
+                                                        @endif
+                                                        ,
 
-                                                    Remarks:
-                                                    @if (!empty($data->first()->percentile))
-                                                        <i class="text-success">{{ $data->first()->percentile }}</i>
-                                                    @else
-                                                        <i class="text-danger">Waiting</i>
-                                                    @endif
-                                                </span>
+                                                        Remarks:
+                                                        @if (!empty($data->first()->percentile))
+                                                            <i class="text-success">{{ $data->first()->percentile }}</i>
+                                                        @else
+                                                            <i class="text-danger">Waiting</i>
+                                                        @endif
+                                                    </span>
+                                                @else
+                                                    <span>
+                                                        <i class="text-warning">The result will be posted on April 1, 2026</i>
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
