@@ -49,12 +49,6 @@ $(document).ready(function() {
                     return '<strong>' + (total - paid).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</strong>';
                 }
             },
-            {
-                data: 'semester'
-            },
-            {
-                data: 'schlyear'
-            }
         ]
     });
 
