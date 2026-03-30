@@ -604,6 +604,8 @@ class StudStateAccntAssessmentController extends Controller
     public function getstateaccntpersum_search(Request $request)
     {
         $category = $request->query('category');
+        $semester = $request->query('semester'); 
+        $schlyear = $request->query('schlyear');
         $batchSize = 10;
         $lastId = $request->input('last_id', 0);
 
@@ -647,6 +649,12 @@ class StudStateAccntAssessmentController extends Controller
 
         if ($category == '2') {
             $baseQuery->where('s.stud_id', 'LIKE', '%-G');
+        }
+        if ($semester) {
+            $baseQuery->where('a.semester', $semester);
+        }
+        if ($schlyear) {
+            $baseQuery->where('a.schlyear', $schlyear);
         }
 
         $students = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))

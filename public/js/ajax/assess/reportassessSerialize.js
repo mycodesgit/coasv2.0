@@ -6,6 +6,8 @@ toastr.options = {
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var category = urlParams.get('category') || ''; 
+    var schlyear = urlParams.get('schlyear') || '';
+    var semester = urlParams.get('semester') || '';
     var lastId = 0;
 
     var dataTable = $('#reportAssessUndergrad').DataTable({
@@ -14,7 +16,9 @@ $(document).ready(function() {
             "type": "GET",
             data: function(d) {
                 d.category = category;
-                d.last_id = lastId; // send lastId to backend
+                d.schlyear = schlyear;
+                d.semester = semester;
+                d.last_id = lastId; 
             },
             dataSrc: function(json) {
                 if(json.length > 0) {
