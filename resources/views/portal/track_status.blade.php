@@ -199,6 +199,7 @@ CISS V.1.0 || Track Admission
                                             <div class="tracking-date"><span>&nbsp;</span><span>&nbsp;</span></div>
                                             <div class="tracking-content">
                                                 Examination Results
+                                                @if (\Carbon\Carbon::now()->format('m-d') >= '04-01')
                                                 <span>
                                                     Stanine:
                                                     @if ($stanine != null)
@@ -215,6 +216,7 @@ CISS V.1.0 || Track Admission
                                                         <i class="text-danger">Waiting</i>
                                                     @endif
                                                 </span>
+                                                @endif
                                             </div>
                                         </div>
 

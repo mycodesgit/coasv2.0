@@ -623,7 +623,6 @@ class StudStateAccntAssessmentController extends Controller
             )
             ->groupBy('studID', 'semester', 'schlyear');
 
-        // Main query with joins
         $baseQuery = DB::table('coasv2_db_enrollment.students as s')
             ->leftJoinSub($appraisalSubquery, 'a', function($join) {
                 $join->on('s.stud_id', '=', 'a.studID');
@@ -648,7 +647,6 @@ class StudStateAccntAssessmentController extends Controller
             $baseQuery->where('s.stud_id', 'LIKE', '%-G');
         }
 
-        // Wrap the base query as a subquery to filter by balance
         $data = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))
             ->mergeBindings($baseQuery)
             ->where('balance', '>', 0)
