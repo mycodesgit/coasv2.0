@@ -31,6 +31,9 @@ $(document).ready(function() {
         lengthChange: true,
         searching: true,
         paging: true,
+        buttons: [
+                'excel', 'pdf'
+            ],
         "columns": [
             {data: 'studID'},
             { 
@@ -68,7 +71,8 @@ $(document).ready(function() {
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
-        }
+        },
+        dom: 'Bfrtip'
     });
     setInterval(function() {
         dataTable.ajax.reload(null, false); // reload only new data
