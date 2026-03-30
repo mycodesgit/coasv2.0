@@ -604,6 +604,8 @@ class StudStateAccntAssessmentController extends Controller
     public function getstateaccntpersum_search(Request $request)
     {
         $category = $request->query('category');
+        $batchSize = 10;
+        $lastId = $request->input('last_id', 0);
 
         $appraisalSubquery = DB::table('coasv2_db_assessment.student_appraisal')
             ->select(
@@ -650,6 +652,9 @@ class StudStateAccntAssessmentController extends Controller
         $data = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))
             ->mergeBindings($baseQuery)
             ->where('balance', '>', 0)
+            ->where('studID', '>', $lastId)  
+            ->orderBy('studID')
+            ->limit($batchSize)
             ->get();
 
         return response()->json(['data' => $data]);
