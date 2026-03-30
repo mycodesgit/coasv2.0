@@ -6,13 +6,21 @@ toastr.options = {
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var category = urlParams.get('category') || ''; 
+    var lastId = 0;
 
     var dataTable = $('#reportAssessUndergrad').DataTable({
         "ajax": {
             "url": studundergradReadRoute,
             "type": "GET",
-            "data": { 
-                "category": category,
+            data: function(d) {
+                d.category = category;
+                d.last_id = lastId; // send lastId to backend
+            },
+            dataSrc: function(json) {
+                if(json.length > 0) {
+                    lastId = json[json.length - 1].studID; // update for next batch
+                }
+                return json;
             }
         },
         responsive: true,
@@ -58,33 +66,9 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    function loadNextBatch() {
-        var urlParams = new URLSearchParams(window.location.search);
-        var category = urlParams.get('category') || '';
-
-        $.ajax({
-            url: studundergradReadRoute,
-            type: 'GET',
-            data: { 
-                category: category,
-                last_id: lastId
-            },
-            success: function(response) {
-                if (response.length === 0) return; // no more rows
-
-                response.forEach(function(student) {
-                    dataTable.row.add(student).draw(false);
-                    lastId = student.studID; // update lastId
-                });
-            }
-        });
-    }
-
-    // Load first batch immediately
-    loadNextBatch();
-
-    // Load next batch every 3 minutes
-    setInterval(loadNextBatch, 3 * 60 * 1000);
+    setInterval(function() {
+        dataTable.ajax.reload(null, false); // reload only new data
+    }, 3 * 60 * 1000);
 });
 
 

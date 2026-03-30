@@ -649,7 +649,7 @@ class StudStateAccntAssessmentController extends Controller
             $baseQuery->where('s.stud_id', 'LIKE', '%-G');
         }
 
-        $data = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))
+        $students = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))
             ->mergeBindings($baseQuery)
             ->where('balance', '>', 0)
             ->where('studID', '>', $lastId)  
@@ -657,7 +657,7 @@ class StudStateAccntAssessmentController extends Controller
             ->limit($batchSize)
             ->get();
 
-        return response()->json(['data' => $data]);
+        return response()->json($students);
     }
 }
 
