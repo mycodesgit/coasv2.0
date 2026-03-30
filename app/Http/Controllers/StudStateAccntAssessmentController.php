@@ -549,58 +549,56 @@ class StudStateAccntAssessmentController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        $category = $request->query('category');
+        // $category = $request->query('category');
 
-        $appraisalSubquery = DB::table('coasv2_db_assessment.student_appraisal')
-            ->select(
-                'studID',
-                'semester',
-                'schlyear',
-                DB::raw('SUM(amount) as totalamount')
-            )
-            ->groupBy('studID', 'semester', 'schlyear');
+        // $appraisalSubquery = DB::table('coasv2_db_assessment.student_appraisal')
+        //     ->select(
+        //         'studID',
+        //         'semester',
+        //         'schlyear',
+        //         DB::raw('SUM(amount) as totalamount')
+        //     )
+        //     ->groupBy('studID', 'semester', 'schlyear');
 
-        $paymentSubquery = DB::table('coasv2_db_assessment.studpayment')
-            ->select(
-                'studID',
-                'semester',
-                'schlyear',
-                DB::raw('SUM(amountpaid) as amountpaid')
-            )
-            ->groupBy('studID', 'semester', 'schlyear');
+        // $paymentSubquery = DB::table('coasv2_db_assessment.studpayment')
+        //     ->select(
+        //         'studID',
+        //         'semester',
+        //         'schlyear',
+        //         DB::raw('SUM(amountpaid) as amountpaid')
+        //     )
+        //     ->groupBy('studID', 'semester', 'schlyear');
 
-        // Main query with joins
-        $baseQuery = DB::table('coasv2_db_enrollment.students as s')
-            ->leftJoinSub($appraisalSubquery, 'a', function($join) {
-                $join->on('s.stud_id', '=', 'a.studID');
-            })
-            ->leftJoinSub($paymentSubquery, 'p', function($join) {
-                $join->on('s.stud_id', '=', 'p.studID')
-                    ->on('a.semester', '=', 'p.semester')
-                    ->on('a.schlyear', '=', 'p.schlyear');
-            })
-            ->select(
-                's.stud_id as studID',
-                's.lname',
-                's.fname',
-                's.mname',
-                's.ext',
-                DB::raw('COALESCE(a.totalamount, 0) as totalamount'),
-                DB::raw('COALESCE(p.amountpaid, 0) as amountpaid'),
-                DB::raw('(COALESCE(a.totalamount, 0) - COALESCE(p.amountpaid, 0)) as balance')
-            );
+        // $baseQuery = DB::table('coasv2_db_enrollment.students as s')
+        //     ->leftJoinSub($appraisalSubquery, 'a', function($join) {
+        //         $join->on('s.stud_id', '=', 'a.studID');
+        //     })
+        //     ->leftJoinSub($paymentSubquery, 'p', function($join) {
+        //         $join->on('s.stud_id', '=', 'p.studID')
+        //             ->on('a.semester', '=', 'p.semester')
+        //             ->on('a.schlyear', '=', 'p.schlyear');
+        //     })
+        //     ->select(
+        //         's.stud_id as studID',
+        //         's.lname',
+        //         's.fname',
+        //         's.mname',
+        //         's.ext',
+        //         DB::raw('COALESCE(a.totalamount, 0) as totalamount'),
+        //         DB::raw('COALESCE(p.amountpaid, 0) as amountpaid'),
+        //         DB::raw('(COALESCE(a.totalamount, 0) - COALESCE(p.amountpaid, 0)) as balance')
+        //     );
 
-        if ($category == '2') {
-            $baseQuery->where('s.stud_id', 'LIKE', '%-G');
-        }
+        // if ($category == '2') {
+        //     $baseQuery->where('s.stud_id', 'LIKE', '%-G');
+        // }
 
-        // Wrap the base query as a subquery to filter by balance
-        $data = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))
-            ->mergeBindings($baseQuery)
-            ->where('balance', '>', 0)
-            ->get();
+        // $data = DB::table(DB::raw("({$baseQuery->toSql()}) as sub"))
+        //     ->mergeBindings($baseQuery)
+        //     ->where('balance', '>', 0)
+        //     ->get();
 
-        return view('assessment.assessreports.statementaccntsum_search', compact('sy', 'data'));
+        return view('assessment.assessreports.statementaccntsum_search', compact('sy'));
     }
 
     public function getstateaccntpersum_search(Request $request)
