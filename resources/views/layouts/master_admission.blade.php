@@ -240,8 +240,8 @@
     @if(request()->routeIs('srchacceptedListAll'))
         <script src="{{ asset('js/ajax/admssion/examresult/allacceptedSerialize.js') }}"></script>
     @endif
-    @if(request()->routeIs('alllistappRead_search'))
-        <script src="{{ asset('js/ajax/admssion/applicant/applicantChangeCamSerialize.js') }}"></script>
+    @if(request()->routeIs('slots_search'))
+        @include('script.admssn.applicant.examdateslotjs')
     @endif
     @if(request()->routeIs('alllistappRead_search'))
         <script src="{{ asset('js/ajax/admssion/applicant/applicantChangeCamSerialize.js') }}"></script>
@@ -282,36 +282,6 @@
             @endauth
         });
     </script>
-    @if(request()->routeIs('slots_search'))
-    <script>
-        function loadSlots() {
-            let date = $('#year').val();
-            let campus = $('#campus').val();
-
-            $.ajax({
-                url: "{{ route('slots.ajax') }}",
-                type: "GET",
-                data: {
-                    date: date,
-                    campus: campus
-                },
-                success: function(response) {
-                    $('#slot-container').html(response);
-                }
-            });
-        }
-
-        $(document).ready(function() {
-            loadSlots();
-        });
-
-        $('#year, #campus').on('change', function() {
-            loadSlots();
-        });
-
-        setInterval(loadSlots, 60000);
-    </script>
-    @endif
 </body>
 
 </html>

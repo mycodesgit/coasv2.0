@@ -89,8 +89,8 @@
         </li>
         
         <li>
-            <a class="nav-link {{ $confActive }}" href="#">
-                <i class="ti ti-settings"></i><span class="nav-text">Manage Admission</span>
+            <a class="nav-link {{ $confActive }}" href="{{ route('configure_admission') }}">
+                <i class="ti ti-settings"></i><span class="nav-text">Configure Admission</span>
             </a>
         </li>
         

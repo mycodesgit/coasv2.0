@@ -54,7 +54,7 @@ $(document).ready(function() {
 
                     if (allowedCampuses.includes(row.campus) && row.campus === userCampus) {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-confprogedit" data-id="' + row.id + '" data-code="' + row.code + '" data-program="' + row.program + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
@@ -216,7 +216,7 @@ $(document).ready(function() {
 
                     if (allowedCampuses.includes(row.campus) && row.campus === userCampus) {
                         var dropdown = '<div class="d-inline-block text-center w-100">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-confstrandedit" data-id="' + row.id + '" data-code="' + row.code + '" data-strand="' + row.strand + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
@@ -413,7 +413,7 @@ $(document).ready(function() {
 
                     if (allowedCampuses.includes(row.campus) && row.campus === userCampus) {
                         var dropdown = '<div class="d-inline-block text-center w-100">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-confdateedit" data-id="' + row.id + '" data-date="' + row.date + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
@@ -592,7 +592,7 @@ $(document).ready(function() {
 
                     if (allowedCampuses.includes(row.campus) && row.campus === userCampus) {
                         var dropdown = '<div class="d-inline-block text-center w-100">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-confdatetimeedit" data-id="' + row.id + '" data-date="' + row.date + '" data-time="' + row.time + '" data-slot="' + row.slots + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
@@ -752,7 +752,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block text-center w-100">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-venueedit" data-id="' + row.id + '" data-venue="' + row.venue + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
@@ -902,7 +902,7 @@ $(document).ready(function() {
                 data: 'status',
                 render: function (data, type, row) {
                     if (type === 'display') {
-                        var badgeClass = data === 'On' ? 'badge-success' : 'badge-danger';
+                        var badgeClass = data === 'On' ? 'bg-success' : 'bg-danger';
                         return '<span class="badge ' + badgeClass + '">' + data + '</span>';
                     } else {
                         return data;
@@ -914,7 +914,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block text-center w-100">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-yearedit" data-id="' + row.id + '" data-year="' + row.adyear + '" data-status="' + row.status + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
