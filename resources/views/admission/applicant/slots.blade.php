@@ -40,7 +40,7 @@ CISS V.1.0 || Admission
                                                 <div class="row g-3">
                                                     <div class="col-md-2">
                                                         <label>Year: <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm" id="year" name="year">
+                                                        <select class="form-control form-control-sm" id="year" name="date">
                                                             @foreach($curryear as $datacurryear)
                                                                 <option>{{ $datacurryear->adyear }}</option>
                                                             @endforeach

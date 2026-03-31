@@ -301,6 +301,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             
             Route::get('/slots', [AdAdmissionController::class, 'slots'])->name('slots'); 
             Route::get('/slots/search', [AdAdmissionController::class, 'slots_search'])->name('slots_search');
+            Route::get('/slots/searchajax', [AdAdmissionController::class, 'slots_ajax'])->name('slots.ajax');
 
             Route::get('/{id}/print', [AdPrntController::class, 'applicant_print'])->name('applicant_print');
             Route::get('/{id}/permit', [AdPrntController::class, 'applicant_permit'])->name('applicant_permit');

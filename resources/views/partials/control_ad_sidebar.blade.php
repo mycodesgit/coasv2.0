@@ -83,7 +83,7 @@
     <li class="px-4 py-2"><small class="nav-text text-muted">Configuration</small></li>
     @if(in_array(Auth::user()->role, [0, 1, 2]))
         <li>
-            <a class="nav-link {{ $slotActive }}" href="{{ route('slots') }}">
+            <a class="nav-link {{ $slotActive }}" href="{{ route('slots_search') }}">
                 <i class="ti ti-id-badge"></i><span class="nav-text">Availability Slots</span>
             </a>
         </li>

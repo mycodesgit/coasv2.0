@@ -454,24 +454,44 @@ class AdAdmissionController extends Controller
 
     public function slots_search(Request $request)
     {
-        $admissionid = Applicant::orderBy('admission_id', 'desc')->first();
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
 
         $selectedYear = $request->input('date');
+        $selectedCampus = $request->input('campus');
 
-        $curryear = Year::orderBy('adyear', 'DESC')->get();
-        $currentYear = Year::where('status', 'On')->value('adyear');
+        return view('admission.applicant.slot_search', compact('curryear'));
+    }
 
-        $dateAd = DB::table('ad_time')
-                ->select('date', 'campus', DB::raw('count(*) as total'))
-                ->whereYear('date', $selectedYear)
-                ->where('campus', $request->input('campus'))
-                ->groupBy('date', 'campus')
-                ->get();
-        $totalSearchResults = count($dateAd);
+    public function slots_ajax(Request $request)
+    {
+        $selectedCampus = $request->input('campus');
+        $selectedYear = $request->input('date');
 
-        
+        // 1. Get all slots for the year
+        $slots = Time::whereYear('date', $selectedYear)
+            ->where('campus', $selectedCampus)
+            ->orderBy('date')
+            ->orderBy('time')
+            ->select('date', 'time', 'campus as timecampus', 'slots')
+            ->get();
 
-        return view('admission.applicant.slot_search', compact('dateAd', 'admissionid', 'totalSearchResults', 'curryear'));
+        // 2. Get bookings grouped
+        $bookings = Applicant::selectRaw('DATE(d_admission) as date, time, COUNT(*) as total')
+            ->whereYear('d_admission', $selectedYear)
+            ->where('campus', $selectedCampus)
+            ->where('p_status', '!=', 7)
+            ->groupBy('date', 'time')
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->date . '_' . $item->time;
+            });
+
+        // 3. Group slots by date
+        $groupedSlots = $slots->groupBy(function ($slot) {
+            return \Carbon\Carbon::parse($slot->date)->format('Y-m-d');
+        });
+
+        return view('admission.applicant.partials.slotstable', compact('groupedSlots', 'bookings'))->render();
     }
 
     public function configure_admission()
