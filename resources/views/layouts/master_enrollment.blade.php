@@ -295,6 +295,24 @@
             <script src="{{ asset('js/chart/gradenbarchart.js') }}?v={{ time() }}"></script>
         @endif
     @endif
+    @if(Auth::guard('web')->user()->role == 15)
+        <!-- Basic -->
+        @if(request()->routeIs('enrollment-index'))
+            <script>
+                // Convert PHP data to JavaScript variables
+                var semesteractive = {!! json_encode($semesteractive) !!};
+                var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
+                var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
+                var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!}; // Previous school year
+                var prevgradenrolmentCounts = {!! json_encode($prevgradenrolmentCounts) !!};
+                var currgradenrolmentCounts = {!! json_encode($currgradenrolmentCounts) !!};
+                var currgradProgenrolmentCounts = {!! json_encode($currgradprogramenrolmentCounts) !!};
+                var programAcronyms = {!! json_encode($programAcronyms) !!};
+                var colors = {!! json_encode($programAcronyms) !!};
+            </script>
+            <script src="{{ asset('js/chart/gradenbarchart.js') }}?v={{ time() }}"></script>
+        @endif
+    @endif
 
     <script>
         @if(Session::has('success'))

@@ -25,172 +25,203 @@ CISS V.1.0 || Enrollment
                     </div>
                 </div>
                 <div class="row g-3 mb-3 mt-3">
-                    <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudcountfirst }}</h3>
-                                        <span>1st Stud Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudcountsecond }}</h3>
-                                        <span>2nd Stud Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
+                    @if(Auth::guard('web')->check() && in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20]))
+                        <div class="col-lg-3 col-12">
+                            <div class="card mb-3">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudcountfirst }}</h3>
+                                            <span>1st Stud Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudcountthird }}</h3>
-                                        <span>3rd Stud Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudcountfourth }}</h3>
-                                        <span>4th Stud Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
+                        <div class="col-lg-3 col-12">
+                            <div class="card mb-3">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudcountsecond }}</h3>
+                                            <span>2nd Stud Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-lg-3 col-12">
+                            <div class="card mb-3">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudcountthird }}</h3>
+                                            <span>3rd Stud Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-12">
+                            <div class="card mb-3">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudcountfourth }}</h3>
+                                            <span>4th Stud Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="chart-responsive pt-1">
-                                    <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="chart-responsive pt-1">
-                                    <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="chart-responsive pt-1">
-                                    <canvas id="prevSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="chart-responsive pt-1">
-                                    <canvas id="currSemesterBarChart" style="height:330px; min-height:330px"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="chart-responsive pt-1">
-                                    <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header pt-3">
-                                <h6 class="card-title">Enrollment for this current Semester in All Campuses</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="position-relative mb-4">
-                                    <canvas id="enrlmntpercamp-chart"
-                                            data-main="{!! $MainEnrollmentCount !!}"
-                                            data-victorias="{!! $VcEnrollmentCount !!}" 
-                                            data-sancarlos="{!! $SccEnrollmentCount !!}"  
-                                            data-hinigaran="{!! $HcEnrollmentCount !!}"  
-                                            data-moises="{!! $MpEnrollmentCount !!}"  
-                                            data-ilog="{!! $IcEnrollmentCount !!}"  
-                                            data-candoni="{!! $CaEnrollmentCount !!}"  
-                                            data-cauayan="{!! $CcEnrollmentCount !!}"  
-                                            data-siplay="{!! $ScEnrollmentCount !!}"  
-                                            data-hinobaan="{!! $HinCEnrollmentCount !!}"  
-                                            height="200">
-                                    </canvas>
-                                </div>
-                                <div class="d-flex flex-row justify-content-end">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-6">
-                        <div class="card mb-3" data-bs-toggle="modal" data-bs-target="#regularModal">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudRegularcount }}</h3>
-                                        <span>Regular Students Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="chart-responsive pt-1">
+                                        <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-6">
-                        <div class="card mb-3" data-bs-toggle="modal" data-bs-target="#irregularModal">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudIrregularcount }}</h3>
-                                        <span>Irregular Students Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="chart-responsive pt-1">
+                                        <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="chart-responsive pt-1">
+                                        <canvas id="prevSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="chart-responsive pt-1">
+                                        <canvas id="currSemesterBarChart" style="height:330px; min-height:330px"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="chart-responsive pt-1">
+                                        <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header pt-3">
+                                    <h6 class="card-title">Enrollment for this current Semester in All Campuses</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="position-relative mb-4">
+                                        <canvas id="enrlmntpercamp-chart"
+                                                data-main="{!! $MainEnrollmentCount !!}"
+                                                data-victorias="{!! $VcEnrollmentCount !!}" 
+                                                data-sancarlos="{!! $SccEnrollmentCount !!}"  
+                                                data-hinigaran="{!! $HcEnrollmentCount !!}"  
+                                                data-moises="{!! $MpEnrollmentCount !!}"  
+                                                data-ilog="{!! $IcEnrollmentCount !!}"  
+                                                data-candoni="{!! $CaEnrollmentCount !!}"  
+                                                data-cauayan="{!! $CcEnrollmentCount !!}"  
+                                                data-siplay="{!! $ScEnrollmentCount !!}"  
+                                                data-hinobaan="{!! $HinCEnrollmentCount !!}"  
+                                                height="200">
+                                        </canvas>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-end">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-6">
+                            <div class="card mb-3" data-bs-toggle="modal" data-bs-target="#regularModal">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudRegularcount }}</h3>
+                                            <span>Regular Students Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-6">
+                            <div class="card mb-3" data-bs-toggle="modal" data-bs-target="#irregularModal">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudIrregularcount }}</h3>
+                                            <span>Irregular Students Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if(Auth::guard('web')->user()->role == 15)
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="chart-responsive pt-1">
+                                        <canvas id="prevSemestergradBarChart" style="height:330px; min-height:330px"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="chart-responsive pt-1">
+                                        <canvas id="currSemestergradBarChart" style="height:330px; min-height:330px"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="chart-responsive pt-1">
+                                        <canvas id="currSemestergradprogBarChart" style="height:330px; min-height:330px"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
 
                     <!-- Modal -->
                     @if(Auth::guard('web')->user()->campus != 'MC')
@@ -211,6 +242,7 @@ CISS V.1.0 || Enrollment
                         </div>
                     </div>
                     @endif
+                    @if(Auth::guard('web')->check() && in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 16, 17, 18, 19, 20]))
                     <div class="modal fade mt-6" id="irregularModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
@@ -228,6 +260,7 @@ CISS V.1.0 || Enrollment
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
