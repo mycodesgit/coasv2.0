@@ -95,7 +95,7 @@
         </li>
         
         <li>
-            <a class="nav-link {{ $changecampActive }}" href="#">
+            <a class="nav-link {{ $changecampActive }}" href="{{ route('alllistappRead') }}">
                 <i class="ti ti-brand-google-maps"></i><span class="nav-text">Change Campus</span>
             </a>
         </li>

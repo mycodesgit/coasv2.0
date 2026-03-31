@@ -35,7 +35,8 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    var ext = (data.ext && data.ext !== 'N/A') ? ' ' + data.ext : '';
+                    var lastNameWithExt = data.lname + ext;
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
@@ -70,7 +71,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-changecamp" data-id="' + row.adid + '" data-name="' + row.fname + ' ' + row.mname + ' ' + row.lname + '" data-admissionid="' + row.admission_id + '" data-strand="' + row.strand + '" data-campus="' + row.campus + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
