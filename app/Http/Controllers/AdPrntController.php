@@ -330,6 +330,7 @@ class AdPrntController extends Controller
 
     public function examination_reports(Request $request)
     {  
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
         $strand = Strands::orderBy('id', 'asc')->get();
 
         $data = Applicant::where('p_status', '=', 3);
@@ -351,37 +352,54 @@ class AdPrntController extends Controller
         $request->session()->put('recent_search', $data);
         $totalSearchResults = count($data);
 
-        return view('admission.reports.examinationgen', ['data' => $data, 'totalSearchResults' => $totalSearchResults])
-            ->with('strand', $strand);
+        return view('admission.reports.examinationgen', compact('strand', 'curryear', 'data', 'totalSearchResults'));
+    }
+
+    public function getexaminationreportsRead(Request $request) 
+    {
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+        $strand = $request->query('strand');
+
+        $query = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_examinee_result.*')
+                        ->where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
+                        ->where('p_status', '=', 3);
+        
+        if ($strand) {
+            $query->where('ad_applicant_admission.strand', $strand);
+        }
+
+        $data = $query->get();
+        
+        return response()->json(['data' => $data]);
     }
 
     public function examinationPDF_reports(Request $request)
     {
         try {
-            $selectedYear = $request->query('year', []);
-            $selectedCampus = $request->query('campus', []);
-            $selectedStrand = $request->query('strand', []);
+            $year = $request->query('year');
+            $campus = $request->query('campus');
+            $strand = $request->query('strand');
 
-            $selectedYear = is_array($selectedYear) ? $selectedYear : [$selectedYear];
-            $selectedCampus = is_array($selectedCampus) ? $selectedCampus : [$selectedCampus];
-            $selectedStrand = is_array($selectedStrand) ? $selectedStrand : [$selectedStrand];
+            $query = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                            ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_examinee_result.*')
+                            ->where('ad_applicant_admission.year', $year)
+                            ->where('ad_applicant_admission.campus', $campus)
+                            ->where('p_status', '=', 3);
 
-            $query = Applicant::select('ad_applicant_admission.*')
-                            ->whereIn('ad_applicant_admission.year', $selectedYear)
-                            ->whereIn('ad_applicant_admission.campus', $selectedCampus);
-
-            if ($selectedStrand && $selectedStrand[0] !== 'All') {
-                $query->whereIn('ad_applicant_admission.strand', $selectedStrand);
+            if ($strand && $strand !== 'All') {
+                $query->where('ad_applicant_admission.strand', $strand);
             }
 
-            $data = $query->where('p_status', '=', 3)->get();
+            $data = $query->get();
 
             $totalSearchResults = count($data);
 
-            $pdf = PDF::loadView('admission.reports.pdf.examinationPDF', ['data' => $data, 'totalSearchResults' => $totalSearchResults])->setPaper('Legal', 'landscape');
+            $pdf = PDF::loadView('admission.reports.pdf.examinationPDF', ['data' => $data, 'totalSearchResults' => $totalSearchResults])->setPaper('Legal', 'portrait');
             return $pdf->stream();
         } catch (\Exception $e) {
-            \Log::error('Error in applicantPDF_reports: ' . $e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -400,22 +418,29 @@ class AdPrntController extends Controller
 
     public function qualified_reports(Request $request)
     {
-        $min = strtotime($request->input('min_date'));
-        $new_min = date('Y-m-d H:i:s', $min); 
+        $currentYear = Year::where('status', 'On')->value('adyear');
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
+        $time = Time::whereYear('date', $currentYear)->get();
+        
+        return view('admission.reports.qualifiedgen', compact('curryear', 'time'));
+    }
 
-        $max = strtotime($request->input('max_date'));
-        $new_max = date('Y-m-d H:i:s', $max); 
-        $strand = Strands::orderBy('id', 'asc')->get();
+    public function getqualifiedreportsRead(Request $request) 
+    {
+        $year = $request->query('year');
+        $campus = $request->query('campus');
+        $date = $request->query('date');
 
-        $data = Applicant::where('p_status', '=', 3)->get();
-        if ($request->year){$data = $data->where('year',$request->year);}
-        if ($request->campus){$data = $data->where('campus',$request->campus);}
-        if ($request->strand){$data = $data->where('strand',$request->strand);}
-        if ($request->min_date){$data = $data->whereBetween('updated_at', [$new_min , $new_max]);}
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
-        return view('admission.reports.qualifiedgen', ['data' => $data,'totalSearchResults' => $totalSearchResults])
-        ->with('strand', $strand);
+        $query = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_examinee_result.*')
+                        ->where('ad_applicant_admission.year', $year)
+                        ->where('ad_applicant_admission.campus', $campus)
+                        ->where('ad_applicant_admission.dateID', $date)
+                        ->where('p_status', '=', 4);
+
+        $data = $query->get();
+        
+        return response()->json(['data' => $data]);
     }
 
     public function accepted_printing()

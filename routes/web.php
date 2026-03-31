@@ -438,10 +438,12 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/examination', [AdPrntController::class, 'examination_printing'])->name('examination_printing');
             Route::get('/examinationReports', [AdPrntController::class, 'examination_reports'])->name('examination_reports');
+            Route::get('/examinationReports/ajax', [AdPrntController::class, 'getexaminationreportsRead'])->name('getexaminationreportsRead');
             Route::get('/examinationReports/PDF', [AdPrntController::class, 'examinationPDF_reports'])->name('examinationPDF_reports');
             
             Route::get('/qualified', [AdPrntController::class, 'qualified_printing'])->name('qualified_printing');
             Route::get('/qualifiedReports', [AdPrntController::class, 'qualified_reports'])->name('qualified_reports');
+            Route::get('/qualifiedReports/ajax', [AdPrntController::class, 'getqualifiedreportsRead'])->name('getqualifiedreportsRead');
 
             Route::get('/accepted', [AdPrntController::class, 'accepted_printing'])->name('accepted_printing');
             Route::get('/acceptedReports', [AdPrntController::class, 'accepted_reports'])->name('accepted_reports');

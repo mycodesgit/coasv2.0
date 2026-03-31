@@ -62,27 +62,6 @@
                         }
                     }
                 },
-                {
-                    data: 'id',
-                    render: function(data, type, row) {
-                        if (type === 'display') {
-                            var dropdown = '<div class="d-inline-block">' +
-                                '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
-                                '<div class="dropdown-menu">' +
-                                '<a href="#" class="dropdown-item btn-studtransedit" data-id="' + row.id + '" data-studid="' + row.transcardidno + '" data-fromcamp="' + row.fromcampus + '">' +
-                                '<i class="fas fa-pen"></i> Edit' +
-                                '</a>' +
-                                '<button type="button" value="' + data + '" class="dropdown-item kioskuser-delete">' +
-                                '<i class="fas fa-trash"></i> Delete' +
-                                '</button>' +
-                                '</div>' +
-                                '</div>';
-                            return dropdown;
-                        } else {
-                            return data;
-                        }
-                    },
-                },
             ],
             "createdRow": function (row, data, index) {
                 $(row).attr('id', 'tr-' + data.studkiosid); 

@@ -5,12 +5,15 @@
 	<title></title>
 
     <style>
-
+        body {
+            font-family: 'Poppins', sans-serif
+        }
         #table {
             margin-top: 30px;
             font-family: Arial;
             border-collapse: collapse;
             width: 100%;
+            font-family: 'Poppins', sans-serif
         }
 
         #table td {
@@ -51,7 +54,7 @@
     </header>
 
     <div class="titletext">
-        <p>List of Applicants in {{ request('year') }}</p>    
+        <p>Examination Result - {{ request('year') }}</p>    
     </div>
 
 	<table id="table" class="table table-hover">
@@ -61,9 +64,7 @@
                 <th>App ID</th>
                 <th>Name</th>
                 <th>Type</th>
-                <th>Contact</th>
-                <th>Date & Time</th>
-                <th>Venue</th>
+                <th>Remarks</th>
                 <th>Campus</th>
             </tr>
         </thead>
@@ -85,9 +86,7 @@
                             @elseif($applicant->type == 3) Transferee 
                         @endif
                     </td>
-                    <td>{{ $applicant->contact }}</td>
-                    <td>{{ Carbon\Carbon::parse($applicant->date . ' ' . $applicant->time)->format('F j, Y g:i A') }}</td>
-                    <td>{{ $applicant->venue }}</td>
+                    <td>{{ $applicant->percentile }}</td>
                     <td>{{ $applicant->campus }}</td>
                 </tr>
                 @else

@@ -247,7 +247,7 @@
         <script src="{{ asset('js/ajax/admssion/applicant/applicantChangeCamSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('transferstud'))
-        <script src="{{ asset('js/ajax/enrolment/transferSerialize.js') }}?v={{ time() }}"></script>
+        @include('script.admssn.applicant.transferSerialize')
     @endif
     @if(request()->routeIs('indexcoursepref_search'))
         <script src="{{ asset('js/ajax/admssion/examresult/allcourseprefSerialize.js') }}"></script>
@@ -266,6 +266,12 @@
     @endif
     @if(request()->routeIs('nosched_reports'))
         @include('script.admssn.rprt.applicantnoschedSerialize')
+    @endif
+    @if(request()->routeIs('examination_reports'))
+        @include('script.admssn.rprt.examinationgenResultSerialize')
+    @endif
+    @if(request()->routeIs('qualified_reports'))
+        @include('script.admssn.rprt.qualifiedResultSerialize')
     @endif
 
     <script>

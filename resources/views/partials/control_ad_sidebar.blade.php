@@ -101,7 +101,7 @@
         </li>
         
         <li>
-            <a class="nav-link {{ $transferActive }}" href="#">
+            <a class="nav-link {{ $transferActive }}" href="{{ route('transferstud') }}">
                 <i class="ti ti-transfer"></i><span class="nav-text">Transfer Students</span>
             </a>
         </li>
@@ -135,13 +135,13 @@
         </li>
         
         <li>
-            <a class="nav-link {{ $examreportActive }}" href="#">
+            <a class="nav-link {{ $examreportActive }}" href="{{ route('examination_printing') }}">
                 <i class="ti ti-file-description"></i><span class="nav-text">Examination Results</span>
             </a>
         </li>
         
         <li>
-            <a class="nav-link {{ $qualreportActive }}" href="#">
+            <a class="nav-link {{ $qualreportActive }}" href="{{ route('qualified_printing') }}">
                 <i class="ti ti-file-check"></i><span class="nav-text">Qualified Applicants</span>
             </a>
         </li>

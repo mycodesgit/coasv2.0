@@ -361,7 +361,7 @@ CISS V.1.0 || Admission
                         <div class="form-group">
                             <center>
                                 <h3>Push the Examinee to Confirm List</h3>
-                                <br>``
+                                <br>
                                 <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>  Yes!, Push to Confirm</button>
                             </center>
                         </div>
