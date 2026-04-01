@@ -27,7 +27,7 @@ CISS V.1.0 || Enrollment
                 <div class="row g-3 mb-3 mt-3">
                     @if(Auth::guard('web')->check() && in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20]))
                         <div class="col-lg-3 col-12">
-                            <div class="card mb-3">
+                            <div class="card">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -42,7 +42,7 @@ CISS V.1.0 || Enrollment
                             </div>
                         </div>
                         <div class="col-lg-3 col-12">
-                            <div class="card mb-3">
+                            <div class="card">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -57,7 +57,7 @@ CISS V.1.0 || Enrollment
                             </div>
                         </div>
                         <div class="col-lg-3 col-12">
-                            <div class="card mb-3">
+                            <div class="card">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -72,12 +72,73 @@ CISS V.1.0 || Enrollment
                             </div>
                         </div>
                         <div class="col-lg-3 col-12">
-                            <div class="card mb-3">
+                            <div class="card">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountfourth }}</h3>
                                             <span>4th Stud Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-12">
+                            <div class="card">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudcountTransferee }}</h3>
+                                            <span>Transferee Stud Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-12">
+                            <div class="card">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudcountShiftee }}</h3>
+                                            <span>Shiftee Stud Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-12">
+                            <div class="card">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudcountContinuing }}</h3>
+                                            <span>Continuing Stud Enrolled this Sem</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-users fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-12">
+                            <div class="card">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $enrlstudcountReturning }}</h3>
+                                            <span>Returnee Stud Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>

@@ -203,6 +203,46 @@ class EnrollmentController extends Controller
                                 ->count();
             });
 
+            $enrlstudcountTransferee = Cache::remember($cacheKeyPrefix . 'transferee_counts', 1000, function () use ($userCampus, $schlyearactive, $semesteractive) {
+                            return StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                                ->where('program_en_history.schlyear', '=', $schlyearactive)
+                                ->where('program_en_history.semester', '=', $semesteractive)
+                                ->where('program_en_history.transferee', '=', '1')
+                                ->where('program_en_history.campus', '=', $userCampus)
+                                ->whereIn('program_en_history.status', [2, 3])
+                                ->count();
+            });
+
+            $enrlstudcountShiftee = Cache::remember($cacheKeyPrefix . 'shiftee_counts', 1000, function () use ($userCampus, $schlyearactive, $semesteractive) {
+                            return StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                                ->where('program_en_history.schlyear', '=', $schlyearactive)
+                                ->where('program_en_history.semester', '=', $semesteractive)
+                                ->where('program_en_history.transferee', '=', '2')
+                                ->where('program_en_history.campus', '=', $userCampus)
+                                ->whereIn('program_en_history.status', [2, 3])
+                                ->count();
+            });
+
+            $enrlstudcountContinuing = Cache::remember($cacheKeyPrefix . 'continuing_counts', 1000, function () use ($userCampus, $schlyearactive, $semesteractive) {
+                            return StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                                ->where('program_en_history.schlyear', '=', $schlyearactive)
+                                ->where('program_en_history.semester', '=', $semesteractive)
+                                ->where('program_en_history.studType', '=', '2')
+                                ->where('program_en_history.campus', '=', $userCampus)
+                                ->whereIn('program_en_history.status', [2, 3])
+                                ->count();
+            });
+            
+            $enrlstudcountReturning = Cache::remember($cacheKeyPrefix . 'returning_counts', 1000, function () use ($userCampus, $schlyearactive, $semesteractive) {
+                            return StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                                ->where('program_en_history.schlyear', '=', $schlyearactive)
+                                ->where('program_en_history.semester', '=', $semesteractive)
+                                ->where('program_en_history.studType', '=', '3')
+                                ->where('program_en_history.campus', '=', $userCampus)
+                                ->whereIn('program_en_history.status', [2, 3])
+                                ->count();
+            });
+
             $MainEnrollmentCount = Cache::remember($cacheKeyPrefix . 'MainEnrollment_counts', 1000, function () use ($schlyearactive, $semesteractive) {
                             return StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
@@ -339,7 +379,7 @@ class EnrollmentController extends Controller
                                 ->count();
             });
 
-            return view('enrollment.dash', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'MainEnrollmentCount', 'VcEnrollmentCount', 'SccEnrollmentCount', 'HcEnrollmentCount', 'MpEnrollmentCount', 'IcEnrollmentCount', 'CaEnrollmentCount', 'CcEnrollmentCount', 'ScEnrollmentCount', 'HinCEnrollmentCount', 'schlyearactive', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',  'prevenrolmentCounts', 'currenrolmentCounts', 'currunderprogramenrolmentCounts', 'underprogramAcronyms', 'enrlstudRegularcount', 'enrlstudIrregularcount'));
+            return view('enrollment.dash', compact('grdCode', 'collegesFirstSemester', 'collegesSecondSemester', 'currentYear', 'previousYear', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'enrlstudcountTransferee', 'enrlstudcountShiftee', 'enrlstudcountContinuing', 'enrlstudcountReturning', 'MainEnrollmentCount', 'VcEnrollmentCount', 'SccEnrollmentCount', 'HcEnrollmentCount', 'MpEnrollmentCount', 'IcEnrollmentCount', 'CaEnrollmentCount', 'CcEnrollmentCount', 'ScEnrollmentCount', 'HinCEnrollmentCount', 'schlyearactive', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',  'prevenrolmentCounts', 'currenrolmentCounts', 'currunderprogramenrolmentCounts', 'underprogramAcronyms', 'enrlstudRegularcount', 'enrlstudIrregularcount'));
         } else {
 
             $cacheKeyPrefix = "grad_{$userCampus}_{$schlyearactive}_{$semesteractive}_";
