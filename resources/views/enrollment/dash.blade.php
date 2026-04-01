@@ -32,7 +32,7 @@ CISS V.1.0 || Enrollment
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountfirst }}</h3>
-                                            <span>1st Stud Enrolled this Sem</span>
+                                            <span>1st Stud. Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>
@@ -47,7 +47,7 @@ CISS V.1.0 || Enrollment
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountsecond }}</h3>
-                                            <span>2nd Stud Enrolled this Sem</span>
+                                            <span>2nd Stud. Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>
@@ -62,7 +62,7 @@ CISS V.1.0 || Enrollment
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountthird }}</h3>
-                                            <span>3rd Stud Enrolled this Sem</span>
+                                            <span>3rd Stud. Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>
@@ -77,7 +77,7 @@ CISS V.1.0 || Enrollment
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountfourth }}</h3>
-                                            <span>4th Stud Enrolled this Sem</span>
+                                            <span>4th Stud. Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>
@@ -93,7 +93,7 @@ CISS V.1.0 || Enrollment
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountTransferee }}</h3>
-                                            <span>Transferee Stud Enrolled this Sem</span>
+                                            <span>Transferee Stud. Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>
@@ -108,7 +108,7 @@ CISS V.1.0 || Enrollment
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountShiftee }}</h3>
-                                            <span>Shiftee Stud Enrolled this Sem</span>
+                                            <span>Shiftee Stud. Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>
@@ -123,7 +123,7 @@ CISS V.1.0 || Enrollment
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountContinuing }}</h3>
-                                            <span>Continuing Stud Enrolled this Sem</span>
+                                            <span>Continuing Stud. Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>
@@ -138,7 +138,7 @@ CISS V.1.0 || Enrollment
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountReturning }}</h3>
-                                            <span>Returnee Stud Enrolled this Sem</span>
+                                            <span>Returnee Stud. Enrolled this Sem</span>
                                         </div>
                                         <div>
                                             <i class="ti ti-users fs-1 text-success"></i>
