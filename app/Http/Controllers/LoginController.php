@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+use App\Models\EnrollmentDB\Student;
+use App\Models\SettingDB\Campus;
+
 class LoginController extends Controller
 {
     public function login()
@@ -38,28 +41,17 @@ class LoginController extends Controller
     public function emp_login(Request $request)
     {
         $request->validate([
-            // 'email' => 'required|email',
-            // 'password' => 'required|min:5|max:20',
-            'email' => 'required_without:studid|email',
-            'studid' => 'required_without:email',
+            'email' => 'required|email',
+            'password' => 'required|min:5|max:20',
         ]);
 
-        // Attempt login for both 'web' and 'faculty' guards
         $validatedUser = auth()->guard('web')->attempt([
             'email' => $request->email,
             'password' => $request->password,
         ]);
 
-        $validatedStudent = auth()->guard('kioskstudent')->attempt([
-            'studid' => $request->studid,
-            'password' => $request->password,
-        ]);
-
         if ($validatedUser) {
             return redirect()->route('home')->with('success', 'You have successfully logged in.');
-        } 
-        elseif($validatedStudent) {
-            return redirect()->route('kioskhome')->with('success', 'You have successfully logged in.');
         } 
         else {
             return redirect()->back()->with('error', 'Invalid Credentials');
@@ -73,24 +65,55 @@ class LoginController extends Controller
             'password' => 'required|min:5|max:20',
         ]);
 
-        $student = \App\Models\EnrollmentDB\Student::where('stud_id', $request->studid)->first();
+        $student = Student::where('stud_id', $request->studid)->first();
+        
+        if (!$student) {
+            return redirect()->back()->with('error', 'Invalid Credentials');
+        }
 
-        if ($student && $student->campus === 'MC') {
-            $validatedStudent = auth()->guard('kioskstudent')->attempt([
-                'studid' => $request->studid,
-                'password' => $request->password,
-            ]);
+        $campus = Campus::where('code', $student->campus)->where('login_enabled', 1)->first();
 
-            if($validatedStudent) {
-                return redirect()->route('index.student')->with('success', 'You have successfully logged in.');
-            } 
-            else {
-                return redirect()->back()->with('error', 'Invalid Credentials');
-            }
-        } else {
-            return redirect()->back()->with('error', 'Access restricted to Main campus students only.');
+        if (!$campus || !$campus->login_enabled) {
+            return redirect()->back()->with('error', 'Login is currently disabled for your campus.');
+        }
+        $validatedStudent = auth()->guard('kioskstudent')->attempt([
+            'studid' => $request->studid,
+            'password' => $request->password,
+        ]);
+
+        if($validatedStudent) {
+            return redirect()->route('index.student')->with('success', 'You have successfully logged in.');
+        } 
+        else {
+            return redirect()->back()->with('error', 'Invalid Credentials');
         }
     }
+
+    // public function stud_login(Request $request)
+    // {
+    //     $request->validate([
+    //         'studid' => 'required',
+    //         'password' => 'required|min:5|max:20',
+    //     ]);
+
+    //     $student = \App\Models\EnrollmentDB\Student::where('stud_id', $request->studid)->first();
+        
+    //     if ($student && $student->campus === 'MC') {
+    //         $validatedStudent = auth()->guard('kioskstudent')->attempt([
+    //             'studid' => $request->studid,
+    //             'password' => $request->password,
+    //         ]);
+
+    //         if($validatedStudent) {
+    //             return redirect()->route('index.student')->with('success', 'You have successfully logged in.');
+    //         } 
+    //         else {
+    //             return redirect()->back()->with('error', 'Invalid Credentials');
+    //         }
+    //     } else {
+    //         return redirect()->back()->with('error', 'Access restricted to Main campus students only.');
+    //     }
+    // }
 
     public function extensionstud_login(Request $request)
     {

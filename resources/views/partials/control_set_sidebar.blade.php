@@ -8,7 +8,7 @@
     $admissionconfActive = in_array($curr_route, ['setAdmissionConf']) ? 'active' : '';
     $enrollconfActive = in_array($curr_route, ['setEnrollConf']) ? 'active' : '';
     $queueconfActive = in_array($curr_route, ['setQueueConf']) ? 'active' : '';
-
+    $campusesconfActive = in_array($curr_route, ['setCampusesConf']) ? 'active' : '';
 
     $facultyActive = in_array($curr_route, ['facultiesRead']) ? 'active' : '';
     $usersAccntActive = in_array($curr_route, ['accountRead']) ? 'active' : '';
@@ -62,6 +62,12 @@
         <li>
             <a class="nav-link {{ $queueconfActive }}" href="{{ route('setQueueConf') }}">
                 <i class="ti ti-line"></i><span class="nav-text">Queueing Status</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="nav-link {{ $campusesconfActive }}" href="{{ route('setCampusesConf') }}">
+                <i class="ti ti-building"></i><span class="nav-text">Campuses Status</span>
             </a>
         </li>
         

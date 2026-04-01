@@ -94,7 +94,5 @@ CISS V.1.0 || Settings
             })
             .catch(error => console.error('Error:', error));
         });
-
-        
     </script>
 @endsection

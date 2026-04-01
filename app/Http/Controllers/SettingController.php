@@ -23,6 +23,7 @@ use App\Models\SettingDB\GradePass;
 use App\Models\SettingDB\AdmissionMode;
 use App\Models\SettingDB\EnrollmentMode;
 use App\Models\SettingDB\QueueMode;
+use App\Models\SettingDB\Campus;
 
 
 class SettingController extends Controller
@@ -578,6 +579,38 @@ class SettingController extends Controller
                 ? ' Start / Open now.' 
                 : ' Stop / Close now.',
         ]);
+    }
+
+    public function setCampusesConf()
+    {
+        $campuses = Campus::all();
+
+        return view('control.settings.admin.settingCampuses', compact('campuses'));
+    }
+
+    public function toggleCampuses(Request $request)
+    {
+        try {
+            $request->validate([
+                'id' => 'required',
+                'login_enabled' => 'required|boolean',
+            ]);
+
+            $campus = Campus::findOrFail($request->id);
+
+            $campus->login_enabled = $request->login_enabled;
+            $campus->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => $campus->login_enabled ? 'Student login enabled.' : 'Student login disabled.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function serverMaintenance()

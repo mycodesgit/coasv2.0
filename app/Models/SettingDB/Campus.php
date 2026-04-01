@@ -5,15 +5,17 @@ namespace App\Models\SettingDB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ButtonMenu extends Model
+class Campus extends Model
 {
     use HasFactory;
-    
+
     protected $connection = 'settings';
-    protected $table = 'button_menus';
+    protected $table = 'campus';
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'menu_name', 
+        'code',
+        'name',
+        'login_enabled',
     ];
 }
