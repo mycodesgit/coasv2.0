@@ -37,7 +37,7 @@ CISS V.1.0 || Settings
                                             <i class="ti ti-plus"></i> Add New
                                         </button>
                                         @include('modal.settingsconf')
-                                        <table id="setconftable" class="table table-hover">
+                                        <table id="setconftable" class="table table-hover" style="width: 100%">
                                             <thead>
                                                 <tr>
                                                     <td>ID</td>
