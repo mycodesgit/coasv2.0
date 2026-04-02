@@ -33,6 +33,10 @@ CISS V.1.0 || Settings
                                 </div>
                                 <div class="row">
                                     <div class="table-responsive p-3 mt-3">
+                                        <button type="button" class="btn btn-success btn-sm mb-4 text-light" data-bs-toggle="modal" data-bs-target="#modal-setconf">
+                                            <i class="ti ti-plus"></i> Add New
+                                        </button>
+                                        @include('modal.settingsconf')
                                         <table id="setconftable" class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -64,7 +68,7 @@ CISS V.1.0 || Settings
                     <h5 class="modal-title" id="editSetConfModalLabel">Edit A.Y. Year & Semester</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form id="edituserPassForm">
+                <form id="editSetConfForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="editSetConfId">
 

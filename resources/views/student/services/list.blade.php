@@ -54,7 +54,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted"><span class="text-success">Upcoming</span>, <span class="text-dark">1st Sem</span></div>
-                                                    <div><a href="#" class="link-defalt text-decoration-underline">Pre-Enrol Now</a></div>
+                                                    <div><a href="{{ route('pre.index') }}" class="link-defalt text-decoration-underline">Pre-Enrol Now</a></div>
                                                 </div>
                                             </div>
                                         </div>
