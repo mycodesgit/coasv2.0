@@ -59,15 +59,19 @@ CISS V.1.0 || Cashiering
                                                     
                                                     <div class="col-md-12">
                                                         <label>Student ID Number: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ request('stud_id') }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                                        @if(request('stud_id'))
+                                                            <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ request('stud_id') }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                                        @else
+                                                            <input type="text" name="stud_id" class="form-control form-control-sm" value="No" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                                        @endif
                                                     </div>
                                                     
                                                     <div class="col-md-12">
                                                         <label>Fullname: <span class="text-danger">*</span></label>
                                                         @if(request('r3') === 'on')
-                                                            <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->lname }}, {{ $orstud->first()->fname }} {{ $orstud->first()->mname }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                                            <input type="text" class="form-control form-control-sm" value="{{ $orstud->first()->lname }}, {{ $orstud->first()->fname }} {{ $orstud->first()->mname }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
                                                         @else
-                                                            <input type="text" name="stud_id" class="form-control form-control-sm" value="" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                                            <input type="text" name="myname" id="myname" class="form-control form-control-sm" value="" oninput="this.value = this.value.toUpperCase()" autofocus>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -95,7 +99,7 @@ CISS V.1.0 || Cashiering
                                                 <div class="form-group">
                                                     <div class="form-row">
                                                         <div class="mt-2 col-md-12">
-                                                            <label><span class="badge badge-secondary">Fund</span></label>
+                                                            <label>Fund: <span class="text-danger">*</span></label>
                                                             <select id="fund" class="form-control form-control-sm" name="fund">
                                                                 <option disabled selected> ---Select---</option>
                                                                 @foreach($studfund as $fund)
@@ -104,17 +108,25 @@ CISS V.1.0 || Cashiering
                                                             </select>
                                                         </div>
 
-                                                        <div class="mt-2 col-md-12">
-                                                            <label><span class="badge badge-secondary">Account</span></label>
-                                                            <select class="form-control form-control-sm select2bs4" data-placeholder="--Select--" name="account">
+                                                        <div class="mt-3 col-md-12">
+                                                            <label>Account: <span class="text-danger">*</span></label>
+                                                            <select class="form-control form-control-sm select2bs4" data-placeholder="--Select--" name="account" id="account_select">
                                                                 @foreach($studAccntap as $studapp)
                                                                     <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
                                                                 @endforeach
+                                                                <option value="custom">Enter Text</option>
                                                             </select>
                                                         </div>
 
                                                         <div class="mt-2 col-md-12">
-                                                            <label><span class="badge badge-secondary">Amount</span></label>
+                                                            <input type="text" id="account_custom"
+                                                                class="form-control form-control-sm mt-2"
+                                                                placeholder="Enter account name"
+                                                                style="display:none; text-transform: uppercase;">
+                                                        </div>
+
+                                                        <div class="mt-3 col-md-12">
+                                                            <label>Amount: <span class="text-danger">*</span></label>
                                                             <input type="number" name="amountpaid" class="form-control form-control-sm" step="0.01" min="0" inputmode="decimal" pattern="^\d+(\.\d{1,2})?$">
                                                         </div>
 
@@ -158,6 +170,10 @@ CISS V.1.0 || Cashiering
                                         <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                                         <input type="hidden" name="semester" value="{{ request('semester') }}">
                                         <input type="hidden" name="orno" value="{{ request('orno') }}">
+                                        <input type="hidden" name="r3" value="{{ request('r3') }}">
+                                        @if(request('r3') === 'off')
+                                            <input type="text" name="mynames" id="myname_display" value="">
+                                        @endif
                                         <button type="submit" class="btn btn-warning">
                                             <i class="fas fa-print"></i> Print OR
                                         </button>
@@ -279,4 +295,6 @@ CISS V.1.0 || Cashiering
         var studorUpdateRoute = "{{ route('orUpdate', ['id' => ':id']) }}";
         var studorDeleteRoute = "{{ route('orDelete', ['id' => ':id']) }}";
     </script>
+
+    
 @endsection

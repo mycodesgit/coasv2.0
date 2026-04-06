@@ -226,8 +226,43 @@
     
     @endif
     
+    @if(request()->routeIs('list_orRead'))
+        <script>
+            $(document).ready(function() {
+                $('input[name="r3"]').on('change', function() {
+                    if ($(this).val() === 'off') {
+                        $('input[name="stud_id"]').val('No').prop('readonly', true);
+                    } else {
+                        $('input[name="stud_id"]').val('').prop('readonly', false);
+                    }
+                });
+            });
+        </script>
+    @endif
     @if(request()->routeIs('listsearch_orRead', 'listsearchedit_orRead'))
         <script src="{{ asset('js/ajax/cash/orSerialize.js') }}"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('#account_select').on('change', function () {
+                    if ($(this).val() === 'custom') {
+                        $('#account_custom').show().prop('required', true);
+                    } else {
+                        $('#account_custom').hide().prop('required', false).val('');
+                    }
+                });
+                $('#account_custom').on('input', function () {
+                    $(this).val($(this).val().toUpperCase());
+                });
+            });
+            
+            $(document).ready(function() {
+                $('#myname').on('input', function() {
+                    let value = $(this).val();
+                    $('#myname_display').val(value);
+                });
+            });
+        </script>
     @endif
     @if(request()->routeIs('listall_orRead'))
         <script src="{{ asset('js/ajax/cash/orallSerialize.js') }}"></script>

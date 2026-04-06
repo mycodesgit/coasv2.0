@@ -106,7 +106,7 @@
 					<th style="font-weight: bold; font-family: 'monospace';"><span style="color: #fff !important; margin-left: -40px;">Fund</span>@if($studor->first()->account == 'YEARBOOK FEE')TF @else IGF @endif<br><br></th>
 				</tr>
 				<tr>
-					<th colspan="3" style="font-weight: bold; margin-left: ; font-family: 'monospace';"><span style="color: #fff !important;">Payor</span><span style="margin-left: 60px;">{{ $studor->first()->fname }} {{ $studor->first()->lname }}</span><br><br></th>
+					<th colspan="3" style="font-weight: bold; margin-left: ; font-family: 'monospace';"><span style="color: #fff !important;">Payor</span><span style="margin-left: 60px;">@if(request('r3') === 'off') {{ request('mynames') }} @else{{ $studor->first()->fname }} {{ $studor->first()->lname }}@endif</span><br><br></th>
 				</tr>
 				<tr>
 					<th style="font-size: 1pt; font-family: sans-serif; text-align: center; font-weight: thin; color: #fff !important;">NATURE OF<br> COLLECTION</th>

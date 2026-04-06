@@ -59,12 +59,12 @@ CISS V.1.0 || Cashiering
                                                     
                                                     <div class="col-md-12">
                                                         <label>Student ID Number: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->studID }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->studID ?? '' }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
                                                     </div>
                                                     
                                                     <div class="col-md-12">
                                                         <label>Fullname: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->lname }}, {{ $orstud->first()->fname }} {{ $orstud->first()->mname }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->lname ?? '' }}, {{ $orstud->first()->fname ?? '' }} {{ $orstud->first()->mname ?? '' }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@ CISS V.1.0 || Cashiering
                                         <div class="col-md-4">
                                             <form action="{{ route('orprintedit') }}" method="get" target="_blank">
                                                 @csrf
-                                                <input type="hidden" name="stud_id" value="{{ $orstud->first()->studID }}">
+                                                <input type="hidden" name="stud_id" value="{{ $orstud->first()->studID ?? '' }}">
                                                 <input type="hidden" name="schlyear" value="{{ $dataprimidORdataget->schlyear }}">
                                                 <input type="hidden" name="semester" value="{{ $dataprimidORdataget->semester }}">
                                                 <input type="hidden" name="orno" value="{{ request('orno') }}">

@@ -73,7 +73,7 @@ class CashieringORController extends Controller
 
     public function listsearch_orRead(Request $request)
     {
-        $stud_id = $request->stud_id;
+        $stud_id = $request->query('stud_id');
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
@@ -127,7 +127,6 @@ class CashieringORController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'orno' => 'required',
-                'studID' => 'required',
                 'semester' => 'required',
                 'schlyear' => 'required',
                 'campus' => 'required',
@@ -284,7 +283,7 @@ class CashieringORController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $studor = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+        $studor = StudPayment::leftJoin('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                     ->where('studpayment.studID', $stud_id)
                     ->where('studpayment.orno', $orno)
                     ->where('studpayment.schlyear',  $schlyear)

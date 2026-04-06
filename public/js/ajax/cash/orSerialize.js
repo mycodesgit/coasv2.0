@@ -6,6 +6,24 @@ toastr.options = {
 $(document).ready(function() {
     $('#adOR').submit(function(event) {
         event.preventDefault();
+
+         if ($('#account_select').val() === 'custom') {
+            let customVal = $('#account_custom').val();
+
+            if (!customVal) {
+                toastr.error('Please enter account name');
+                return;
+            }
+
+            $('#account_select').append(
+                $('<option>', {
+                    value: customVal,
+                    text: customVal,
+                    selected: true
+                })
+            );
+        }
+
         var formData = $(this).serialize();
 
         $.ajax({
