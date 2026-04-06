@@ -62,7 +62,7 @@ CISS V.1.0 || Assessment
 
                                                                     <div class="mt-2 col-md-12">
                                                                         <label>COA Account: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control form-control-sm" name="coa_id">
+                                                                        <select class="form-control form-control-sm select2bs4" name="coa_id">
                                                                             <option disabled selected> ---Select--- </option>
                                                                             @foreach($accntsCOA as $accntcoa)
                                                                                 <option value="{{ $accntcoa->accountcoa_code}}">{{ $accntcoa->accountcoa_code}} - {{ $accntcoa->accountcoa_name}}</option>
