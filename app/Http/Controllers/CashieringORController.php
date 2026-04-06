@@ -78,7 +78,7 @@ class CashieringORController extends Controller
         $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
         $orno = $request->query('orno');
-        $option = $request->r3;
+        $option = $request->query('r3');
 
         $existingStudFeeOR = StudPayment::where('orno', $orno)
                             ->first();
@@ -87,7 +87,7 @@ class CashieringORController extends Controller
             return redirect()->back()->with('error', 'OR Number <strong>' . $orno . '</strong> already exist.');
         }
 
-        if ($option === 'with_id') {
+        if ($option === 'on') {
             $existingStudFeeORIDno = Student::where('stud_id', $stud_id)->first();
 
             if (!$existingStudFeeORIDno) {

@@ -103,7 +103,7 @@
 						- {{ $studor->first()->schlyear }}
 						<br><br>
 					</th>
-					<th style="font-weight: bold; font-family: 'monospace';"><span style="color: #fff !important; margin-left: -40px;">Fund</span>IGF<br><br></th>
+					<th style="font-weight: bold; font-family: 'monospace';"><span style="color: #fff !important; margin-left: -40px;">Fund</span>@if($studor->first()->account === 'YEARBOOK')TF @else IGF @endif<br><br></th>
 				</tr>
 				<tr>
 					<th colspan="3" style="font-weight: bold; margin-left: ; font-family: 'monospace';"><span style="color: #fff !important;">Payor</span><span style="margin-left: 60px;">{{ $studor->first()->fname }} {{ $studor->first()->lname }}</span><br><br></th>

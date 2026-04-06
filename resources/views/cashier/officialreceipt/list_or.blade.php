@@ -76,14 +76,14 @@ CISS V.1.0 || Cashiering
                                                         <div class="col-md-12">
                                                             <div class="form-group clearfix">
                                                                 <div class="icheck-success d-inline">
-                                                                    <input type="radio" name="r3" checked="checked" id="radioSuccess1">
+                                                                    <input type="radio" name="r3" value="on" checked="checked" id="radioSuccess1">
                                                                     <label for="radioSuccess1">
                                                                         With Student ID
                                                                     </label>
                                                                 </div>
                                                                 &nbsp;&nbsp;
                                                                 <div class="icheck-success d-inline">
-                                                                    <input type="radio" name="r3" id="radioSuccess2">
+                                                                    <input type="radio" name="r3" value="off" id="radioSuccess2">
                                                                     <label for="radioSuccess2">
                                                                         Without Student ID
                                                                     </label>
