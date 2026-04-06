@@ -235,7 +235,7 @@ CISS V.1.0 || Cashiering
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="editorstudfeeaccount">Account Name</label>
                             <select class="form-control form-control-sm select2" id="editorstudfeeaccount" name="account">
                                 <option disabled selected> ---Select---</option>
@@ -244,7 +244,7 @@ CISS V.1.0 || Cashiering
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="editstudfeeamountFee">Amount</label>
                             <input type="number" class="form-control" id="editorstudfeeamountFee" name="amountpaid">
                         </div>
