@@ -50,7 +50,7 @@ CISS V.1.0 || Assessment
                                                                         <select class="form-control form-control-sm" name="fund_id">
                                                                             <option disabled selected> ---Select--- </option>
                                                                             @foreach($funds as $fund)
-                                                                                <option value="{{ $fund->id}}">{{ $fund->fund_name}} </option>
+                                                                                <option value="{{ $fund->fund_name}}">{{ $fund->fund_name}} </option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -65,7 +65,7 @@ CISS V.1.0 || Assessment
                                                                         <select class="form-control form-control-sm" name="coa_id">
                                                                             <option disabled selected> ---Select--- </option>
                                                                             @foreach($accntsCOA as $accntcoa)
-                                                                                <option value="{{ $accntcoa->id}}">{{ $accntcoa->accountcoa_code}} - {{ $accntcoa->accountcoa_name}}</option>
+                                                                                <option value="{{ $accntcoa->accountcoa_code}}">{{ $accntcoa->accountcoa_code}} - {{ $accntcoa->accountcoa_name}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>

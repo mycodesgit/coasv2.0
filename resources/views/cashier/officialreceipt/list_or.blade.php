@@ -72,6 +72,24 @@ CISS V.1.0 || Cashiering
                                                             <label>Student ID Number: <span class="text-danger">*</span></label>
                                                             <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()">
                                                         </div>
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="form-group clearfix">
+                                                                <div class="icheck-success d-inline">
+                                                                    <input type="radio" name="r3" checked="checked" id="radioSuccess1">
+                                                                    <label for="radioSuccess1">
+                                                                        With Student ID
+                                                                    </label>
+                                                                </div>
+                                                                &nbsp;&nbsp;
+                                                                <div class="icheck-success d-inline">
+                                                                    <input type="radio" name="r3" id="radioSuccess2">
+                                                                    <label for="radioSuccess2">
+                                                                        Without Student ID
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                         <div class="col-md-12">
                                                             <label>&nbsp;</label>

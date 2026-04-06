@@ -64,7 +64,11 @@ CISS V.1.0 || Cashiering
                                                     
                                                     <div class="col-md-12">
                                                         <label>Fullname: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->lname }}, {{ $orstud->first()->fname }} {{ $orstud->first()->mname }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                                        @if(request('r3') === 'on')
+                                                            <input type="text" name="stud_id" class="form-control form-control-sm" value="" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                                        @else
+                                                            <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $orstud->first()->lname }}, {{ $orstud->first()->fname }} {{ $orstud->first()->mname }}" oninput="formatInput(this); this.value = this.value.toUpperCase()" readonly>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

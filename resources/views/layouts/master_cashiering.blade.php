@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- fullCalendar -->
