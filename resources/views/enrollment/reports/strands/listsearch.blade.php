@@ -92,6 +92,9 @@ CISS V.1.0 || Enrollment
                                                             <tr>
                                                                 <th>StudID</th>
                                                                 <th>Strand</th>
+                                                                <th>Bday</th>
+                                                                <th>Age</th>
+                                                                <th>Status</th>
                                                                 <th>Name</th>
                                                                 <th>Program</th>
                                                                 <th>Acronym</th>

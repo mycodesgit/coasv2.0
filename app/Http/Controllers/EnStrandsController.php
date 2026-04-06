@@ -86,7 +86,8 @@ class EnStrandsController extends Controller
                     'coasv2_db_schedule.programs.progName', 
                     'students.lstsch_attended', 
                     'students.suc_lst_attended',
-                    'coasv2_db_admission.ad_applicant_admission.strand'
+                    'coasv2_db_admission.ad_applicant_admission.strand',
+                    'coasv2_db_admission.ad_applicant_admission.type',
                 )
                 // ->where('program_en_history.campus', '=', $campus)
                 ->where(function ($q) use ($campusArray) {

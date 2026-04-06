@@ -4,6 +4,17 @@ $(document).ready(function() {
     var semester = urlParams.get('semester') || '';
     var campus = urlParams.get('campus') || ''; 
 
+    function calculateAge(birthDate) {
+        var today = new Date();
+        var birth = new Date(birthDate);
+        var age = today.getFullYear() - birth.getFullYear();
+        var monthDiff = today.getMonth() - birth.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
     var dataTable = $('#studstrandsTable').DataTable({
         "ajax": {
             "url": studStrandpersemRoute,
@@ -27,13 +38,35 @@ $(document).ready(function() {
             {data: 'studentID'},
             {data: 'strand'},
             {
+                data: 'bday',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    var date = new Date(data);
+                    var options = { year: 'numeric', month: 'short', day: '2-digit' };
+                    return date.toLocaleDateString('en-US', options);
+                }
+            },
+            {
                 data: null,
                 render: function(data, type, row) {
-                    var firstname = data.fname.toUpperCase(); // Convert first name to uppercase
-                    var middleInitial = data.mname ? data.mname.substr(0, 1).toUpperCase() + '.' : ''; // Get middle initial and add period
-                    var lastName = data.lname.toUpperCase(); // Convert last name to uppercase
-                    var extension = data.ext && data.ext !== 'N/A' ? data.ext : ''; // Check if extension is not null and not 'N/A'
-                    return lastName + ', ' + firstname + ' ' + middleInitial + (extension ? ' ' + extension : ''); // Return formatted string
+                    return calculateAge(data.bday);
+                }
+            },
+            {
+                data: 'type',
+                render: function(data, type, row) {
+                    const typeMap = {1: 'Freshmen', 2: 'Returnee', 3: 'Transferee'};
+                    return typeMap[data] || data;
+                }
+            },
+            {
+                data: null,
+                render: function(data, type, row) {
+                    var firstname = data.fname.toUpperCase();
+                    var middleInitial = data.mname ? data.mname.substr(0, 1).toUpperCase() + '.' : '';
+                    var lastName = data.lname.toUpperCase();
+                    var extension = data.ext && data.ext !== 'N/A' ? data.ext : '';
+                    return lastName + ', ' + firstname + ' ' + middleInitial + (extension ? ' ' + extension : '');
                 }
             },
             {data: 'progName'},
@@ -51,7 +84,6 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function(data, type, row) {
-                    // Display lstsch_attended, if empty display suc_lst_attended
                     return data.lstsch_attended && data.lstsch_attended.trim() !== ''
                         ? data.lstsch_attended
                         : (data.suc_lst_attended || '');
