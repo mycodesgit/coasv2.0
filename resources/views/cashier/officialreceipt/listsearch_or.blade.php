@@ -172,7 +172,7 @@ CISS V.1.0 || Cashiering
                                         <input type="hidden" name="orno" value="{{ request('orno') }}">
                                         <input type="hidden" name="r3" value="{{ request('r3') }}">
                                         @if(request('r3') === 'off')
-                                            <input type="text" name="mynames" id="myname_display" value="">
+                                            <input type="hidden" name="mynames" id="myname_display" value="">
                                         @endif
                                         <button type="submit" class="btn btn-warning">
                                             <i class="fas fa-print"></i> Print OR
