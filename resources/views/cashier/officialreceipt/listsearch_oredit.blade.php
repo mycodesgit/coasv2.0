@@ -237,7 +237,7 @@ CISS V.1.0 || Cashiering
                         </div>
                         <div class="form-group">
                             <label for="editorstudfeeaccount">Account Name</label>
-                            <select class="form-control form-control-sm select2bs4" id="editorstudfeeaccount" name="account">
+                            <select class="form-control form-control-sm select2" id="editorstudfeeaccount" name="account">
                                 <option disabled selected> ---Select---</option>
                                 @foreach($studAccntap as $studapp)
                                     <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
