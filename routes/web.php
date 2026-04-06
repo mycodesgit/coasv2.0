@@ -45,6 +45,7 @@ use App\Http\Controllers\EnStudELPLController;
 use App\Http\Controllers\EnStudNoEnrolleeController;
 use App\Http\Controllers\DeletedLogEnrollmentController;
 use App\Http\Controllers\EnStudEnrolledController;
+use App\Http\Controllers\EnStrandsController;
 use App\Http\Controllers\EnStudEncodeGradesLogController;
 use App\Http\Controllers\ChatMessageController;
 
@@ -637,6 +638,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/stud/enrolled/list/all/per/sem', [EnStudEnrolledController::class, 'studenrollRead'])->name('studenrollRead');
             Route::get('/stud/enrolled/list/all/per/sem/search', [EnStudEnrolledController::class, 'search_studenrollRead'])->name('search_studenrollRead');
             Route::get('/stud/enrolled/list/all/per/sem/search/ajax', [EnStudEnrolledController::class, 'getsearchstudenrollRead'])->name('getsearchstudenrollRead');
+
+            Route::get('/stud/strands/list/all/per/sem', [EnStrandsController::class, 'index'])->name('strands.index');
+            Route::get('/stud/strands/list/all/per/sem/search', [EnStrandsController::class, 'show'])->name('strands.show');
+            Route::get('/stud/strands/list/all/per/sem/search/ajax', [EnStrandsController::class, 'getsearchstudstrandsRead'])->name('strands.getsearch');
 
             Route::get('/updated/enrollment/logs', [DeletedLogEnrollmentController::class, 'updateEnrlmntlogsRead'])->name('updateEnrlmntlogsRead');
             Route::get('/updated/enrollment/logs/search', [DeletedLogEnrollmentController::class, 'search_uptadeEnrlmntlogsRead'])->name('search_uptadeEnrlmntlogsRead');

@@ -432,6 +432,9 @@
     @if(request()->routeIs('search_studenrollRead'))
         <script src="{{ asset('js/ajax/enrolment/studenrollSerialize.js') }}?v={{ time() }}"></script>
     @endif
+    @if(request()->routeIs('strands.show'))
+        <script src="{{ asset('js/ajax/enrolment/studstrandsSerialize.js') }}?v={{ time() }}"></script>
+    @endif
 
     @if(request()->routeIs('searchStud', 'editsearchStud'))
         <script>

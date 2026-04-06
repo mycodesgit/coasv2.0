@@ -30,6 +30,7 @@
     $studevalActive = in_array($curr_route, ['studevalRead', 'studevalReadgradschool_listsearch', 'studevalRead_listsearch']) ? 'active' : '';
     $facgdeshtlgbokActive = in_array($curr_route, ['logbookindex', 'logbook_search']) ? 'active' : '';
     $studenpersemActive = in_array($curr_route, ['studenrollRead', 'search_studenrollRead']) ? 'active' : '';
+    $studstrandsActive = in_array($curr_route, ['strands.index', 'strands.show']) ? 'active' : '';
     $updenrlmntlogsActive = in_array($curr_route, ['updateEnrlmntlogsRead', 'search_uptadeEnrlmntlogsRead']) ? 'active' : '';
     $encodeGradelogsActive = in_array($curr_route, ['searchEncode_grade', 'searchEncode_gradeRead']) ? 'active' : '';
     $delenrlmntlogsActive = in_array($curr_route, ['delenrlmntlogsRead', 'search_delenrlmntlogsRead']) ? 'active' : '';
@@ -231,6 +232,11 @@
         <li>
             <a class="nav-link {{ $studenpersemActive }}" href="{{ route('studenrollRead') }}">
                 <i class="ti ti-registered"></i><span class="nav-text">Students Enrolled</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link {{ $studstrandsActive }}" href="{{ route('strands.index') }}">
+                <i class="ti ti-category"></i><span class="nav-text">Students Strands</span>
             </a>
         </li>
     @endif
