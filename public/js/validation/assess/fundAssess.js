@@ -65,9 +65,6 @@ $(function () {
             account_name: {
                 required: true,
             },
-            coa_id: {
-                required: true,
-            },
         },
         messages: {
             fund_id: {
@@ -75,9 +72,6 @@ $(function () {
             },
             account_name: {
                 required: "Please Enter Account",
-            },
-            coa_id: {
-                required: "Select COA Account",
             },
         },
         errorElement: 'span',

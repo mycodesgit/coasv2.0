@@ -343,7 +343,6 @@ class StudFundAssessmentController extends Controller
             $request->validate([
                 'fund_id' => 'required',
                 'account_name' => 'required',
-                'coa_id' => 'required',
             ]);
 
             $fundidName = $request->input('fund_id'); 
@@ -376,7 +375,6 @@ class StudFundAssessmentController extends Controller
             'id' => 'required',
             'fund_id' => 'required',
             'account_name' => 'required',
-            'coa_id' => 'required',
         ]);
 
         try {
