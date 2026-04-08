@@ -26,7 +26,7 @@ CISS V.1.0 || Assessment
                 </div>
                 <div class="row g-3 mb-3 mt-3">
                     <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -41,7 +41,7 @@ CISS V.1.0 || Assessment
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -56,7 +56,7 @@ CISS V.1.0 || Assessment
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -71,7 +71,7 @@ CISS V.1.0 || Assessment
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -87,7 +87,7 @@ CISS V.1.0 || Assessment
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-body">
                                 <div class="chart-responsive pt-1">
                                     <canvas id="firstSemesterBarChart" style="height:330px; min-height:330px"></canvas>
@@ -97,7 +97,7 @@ CISS V.1.0 || Assessment
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-body">
                                 <div class="chart-responsive pt-1">
                                     <canvas id="secondSemesterBarChart" style="height:330px; min-height:330px"></canvas>
@@ -107,7 +107,7 @@ CISS V.1.0 || Assessment
                     </div>
 
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">List of Degrees with Encoded Appraisals</h6>
                             </div>
