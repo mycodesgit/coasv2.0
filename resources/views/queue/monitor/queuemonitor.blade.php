@@ -21,6 +21,10 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     
     <style>
+        #queueMonitor thead {
+            background-color: #93cda0 !important;
+            color: white;
+        }
         #tblegend td {
             border: 1px solid #e9ecef;
             padding: 5px;
@@ -78,7 +82,7 @@
     </nav>
 
     <!-- MAINmainCONTENT -->
-    <main id="content" class="py-10">
+    <main id="content" class="py-8">
         <div class="container-fluid">
             <div class="row">
                 <div style="z-index: 9999">
@@ -87,32 +91,38 @@
             </div>
             <div class="row">
                 <div class="col-lg-5">
-                    <table id="queueMonitor" class="table table-hover">
-                        <thead style="font-weight: bold; font-size: 50px; text-align: center;">
-                            <tr>
-                                <th width="10%">Window</th>
-                                <th>Number</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-weight: bold; font-size: 45px; text-align: center;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="queueMonitor" class="table table-striped" style="width: 100%;">
+                                    <thead style="font-weight: bold; font-size: 40px; text-align: center;">
+                                        <tr>
+                                            <th width="10%">Window</th>
+                                            <th>Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-weight: bold; font-size: 40px; text-align: center;">
 
-                        </tbody>
-                    </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-7">
-                    <center style="background-color: #93cda0; border-radius: 25px; margin-top: -50px;">
-                        <span id="number-displaycurr" style="font-weight: bold; font-size: 190px;">
+                    <center style="background-color: #93cda0; border-radius: 20px; margin-top: -50px;">
+                        <span id="number-displaycurr" style="font-weight: bold; font-size: 130px;">
                             <p id="queue-numbercurr" style="margin-top: 100px;"></p>
                             <p id="window-numbercurr" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
                         </span>
                     </center>
-                    <center style="background-color: #ffe28c; border-radius: 25px; margin-top: -50px;">
-                        <span id="number-displaycall" style="font-weight: bold; font-size: 190px;">
+                    <center style="background-color: #ffe28c; border-radius: 20px; margin-top: -50px;">
+                        <span id="number-displaycall" style="font-weight: bold; font-size: 130px;">
                             <p id="queue-number" style="margin-top: 100px; animation: blink 2s infinite;"></p>
                             <p id="window-number" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
                         </span>
                     </center>
-                    <div class="mt-3 text-center">
+                    <div class="mt-5 text-center">
                         <div class="clock" id="time">--:--:-- --</div>
                         <div class="date" id="date">Loading date...</div>
                     </div>
