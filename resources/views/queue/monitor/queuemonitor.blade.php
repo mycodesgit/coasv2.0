@@ -15,13 +15,6 @@
     <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
-    <!-- Toastr -->
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <!-- DataTables  -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
@@ -82,58 +75,6 @@
             <div class="d-flex align-items-center gap-3">
             </div>
         </div>
-
-        <div>
-            <!-- Navbar nav -->
-            <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
-                <!-- MOBILE -->
-                <button id="mobileBtn" class="btn btn-outline-light btn-icon btn-sm d-lg-none me-2">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <!-- Dropdown -->
-                <li class="ms-3 dropdown d-none d-md-block">
-                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
-                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
-                        @auth('web')
-                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
-                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
-                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
-                                @endif
-                            @endif
-                        @endauth
-                    </a>
-                </li>
-                <li class="ms-3 dropdown d-md-none">
-                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
-                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
-                        @auth('web')
-                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
-                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
-                                @endif
-                            @endif
-                        @endauth
-                    </a>
-                </li>
-            </ul>
-        </div>
     </nav>
 
     <!-- MAINmainCONTENT -->
@@ -154,12 +95,7 @@
                             </tr>
                         </thead>
                         <tbody style="font-weight: bold; font-size: 45px; text-align: center;">
-                            {{-- @foreach($countersArray as $datacounter)
-                                <tr>
-                                    <td>{{ $datacounter['window'] }}</td>
-                                    <td>{{ $datacounter['number'] ?? '' }}</td>
-                                </tr>
-                            @endforeach --}}
+
                         </tbody>
                     </table>
                 </div>
@@ -176,14 +112,12 @@
                             <p id="window-number" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
                         </span>
                     </center>
-                    {{-- <iframe width="100%" height="560" src="https://images.app.goo.gl/8mjuVP4YWazjrqny8" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
-                    {{-- <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560"> --}}
-                </div>
-                <div class="col-md-6 mt-3" style="margin-top: -50px">
-                    <div class="mt-2 text-center">
+                    <div class="mt-3 text-center">
                         <div class="clock" id="time">--:--:-- --</div>
                         <div class="date" id="date">Loading date...</div>
                     </div>
+                    {{-- <iframe width="100%" height="560" src="https://images.app.goo.gl/8mjuVP4YWazjrqny8" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
+                    {{-- <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560"> --}}
                 </div>
             </div>
 
