@@ -7,26 +7,26 @@
     
     <title>@yield('title')</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
+    <link rel="shortcut icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+
+    <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/coas-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/dist/css/admission-style.css') }}">
-    <!-- Logo  -->
-    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
-
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Select2 -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <!-- DataTables  -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    
     <style>
         #tblegend td {
             border: 1px solid #e9ecef;
@@ -69,129 +69,169 @@
     </style>
 </head>
 
-<body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
+<body>
+    <div id="overlay" class="overlay"></div>
+    <!-- TOPBAR -->
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9995">
 
-    <div class="wrapper">
-        <nav class="main-header navbar navbar-expand-md navbar-light" style="background-color: #04401f">
-            <div class="container-fluid">
-                <div href="" class="" style="color: #fff;font-family: Courier;">
-                    CISS V.1.0
-                </div>
+        <div id="s" class="text-light">
+            CISS v.1.0 
+        </div>
 
-                <div class="" style="z-index: 999">
-                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:80px;" class="center-top">
-                </div>
-
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
-                            @auth('web')
-                                @if(in_array(Auth::guard('web')->user()->isAdmin, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))
-                                    Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}
-                                @endif
-                            @endauth
-
-                            @auth('faculty')
-                                @if(Auth::guard('faculty')->user()->isAdmin == '943')
-                                    Logged as: {{ Auth::guard('faculty')->user()->fname }} {{ Auth::guard('faculty')->user()->lname }}
-                                @endif
-                            @endauth
-                        </a>
-                    </li>
-                </ul>
+        <div class="d-md-none">
+            <div class="d-flex align-items-center gap-3">
             </div>
-        </nav>
+        </div>
 
-        <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid" style="padding-top: 20px"></div>
+        <div>
+            <!-- Navbar nav -->
+            <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
+                <!-- MOBILE -->
+                <button id="mobileBtn" class="btn btn-outline-light btn-icon btn-sm d-lg-none me-2">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Dropdown -->
+                <li class="ms-3 dropdown d-none d-md-block">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
+                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
+                        @auth('web')
+                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
+                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @endif
+                            @endif
+                        @endauth
+                    </a>
+                </li>
+                <li class="ms-3 dropdown d-md-none">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
+                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
+                        @auth('web')
+                            @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @endif
+                            @endif
+                        @endauth
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAINmainCONTENT -->
+    <main id="content" class="py-10">
+        <div class="container-fluid">
+            <div class="row">
+                <div style="z-index: 9999">
+                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
+                </div>
             </div>
-            <div class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <table id="queueMonitor" class="table table-hover">
-                                <thead style="font-weight: bold; font-size: 50px; text-align: center;">
-                                    <tr>
-                                        <th width="10%">Window</th>
-                                        <th>Number</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="font-weight: bold; font-size: 45px; text-align: center;">
-                                    {{-- @foreach($countersArray as $datacounter)
-                                        <tr>
-                                            <td>{{ $datacounter['window'] }}</td>
-                                            <td>{{ $datacounter['number'] ?? '' }}</td>
-                                        </tr>
-                                    @endforeach --}}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-lg-7">
-                            <center style="background-color: #93cda0; border-radius: 25px; margin-top: -50px;">
-                                <span id="number-displaycurr" style="font-weight: bold; font-size: 190px;">
-                                    <p id="queue-numbercurr" style="margin-top: 100px;"></p>
-                                    <p id="window-numbercurr" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
-                                </span>
-                            </center>
-                            <center style="background-color: #ffe28c; border-radius: 25px; margin-top: -50px;">
-                                <span id="number-displaycall" style="font-weight: bold; font-size: 190px;">
-                                    <p id="queue-number" style="margin-top: 100px; animation: blink 2s infinite;"></p>
-                                    <p id="window-number" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
-                                </span>
-                            </center>
-                            {{-- <iframe width="100%" height="560" src="https://images.app.goo.gl/8mjuVP4YWazjrqny8" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
-                            {{-- <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560"> --}}
-                        </div>
-                        <div class="col-md-6" style="margin-top: -50px">
-                            <div class="mt-2 text-center">
-                                <div class="clock" id="time">--:--:-- --</div>
-                                <div class="date" id="date">Loading date...</div>
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <table id="queueMonitor" class="table table-hover">
+                        <thead style="font-weight: bold; font-size: 50px; text-align: center;">
+                            <tr>
+                                <th width="10%">Window</th>
+                                <th>Number</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-weight: bold; font-size: 45px; text-align: center;">
+                            {{-- @foreach($countersArray as $datacounter)
+                                <tr>
+                                    <td>{{ $datacounter['window'] }}</td>
+                                    <td>{{ $datacounter['number'] ?? '' }}</td>
+                                </tr>
+                            @endforeach --}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-7">
+                    <center style="background-color: #93cda0; border-radius: 25px; margin-top: -50px;">
+                        <span id="number-displaycurr" style="font-weight: bold; font-size: 190px;">
+                            <p id="queue-numbercurr" style="margin-top: 100px;"></p>
+                            <p id="window-numbercurr" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
+                        </span>
+                    </center>
+                    <center style="background-color: #ffe28c; border-radius: 25px; margin-top: -50px;">
+                        <span id="number-displaycall" style="font-weight: bold; font-size: 190px;">
+                            <p id="queue-number" style="margin-top: 100px; animation: blink 2s infinite;"></p>
+                            <p id="window-number" style="font-weight: bold; font-size: 40px; margin-top: -50px;" class="text-danger">Current Window</p>
+                        </span>
+                    </center>
+                    {{-- <iframe width="100%" height="560" src="https://images.app.goo.gl/8mjuVP4YWazjrqny8" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
+                    {{-- <img src="{{ asset('template/img/queueimg.jpg') }}" width="100%" height="560"> --}}
+                </div>
+                <div class="col-md-6 mt-3" style="margin-top: -50px">
+                    <div class="mt-2 text-center">
+                        <div class="clock" id="time">--:--:-- --</div>
+                        <div class="date" id="date">Loading date...</div>
                     </div>
                 </div>
             </div>
-        </div>
-        <footer class="main-footer text-sm text-center" style="background-color: #04401f;">
-            <div class="float-right d-none d-sm-inline "></div>
-            <i class="text-light">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</i>
-        </footer>
-    </div>
 
+            <div class="row d-none d-md-block">
+                <div class="col-12">
+                    <footer class="text-center py-2 mt-6 text-secondary fixed-bottom bg-white" style="z-index: 99">
+                        <p class="mb-0">CISS V.1.0: Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca Copyright © 2023 CPSU, All Rights Reserved</p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+
+    <script type="text/javascript" src="{{ asset('uilibs/js/main.js') }}"></script>
     <!-- jQuery -->
-    <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- App -->
-    <script src="{{ asset('template/dist/js/coas.min.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
 
     <!-- DataTables  & Plugins -->
-    <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script> 
-    <script src="{{ asset('template/plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-    <!-- Basic -->
-    <script src="{{ asset('js/basic/tablescript.js') }}"></script>
-    <script src="{{ asset('js/basic/yearscript.js') }}"></script>
-    <script src="{{ asset('js/basic/schoolyear.js') }}"></script>
-    <!-- Moment -->
-    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- Validation JS -->
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll('.card-animate');
 
-    <!-- jquery-validation -->
-    <script src="{{ asset('template/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('template/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 100); // stagger effect
+            });
+        });
+    </script>
 
+    <!-- Ajax -->
     @if(request()->routeIs('queue-monitor'))
         <div id="interactionModal" style="
             position: fixed; 
@@ -420,5 +460,5 @@
         updateTime(); // Initialize immediately
     </script>
 </body>
+
 </html>
-   
