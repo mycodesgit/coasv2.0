@@ -292,6 +292,18 @@
     </script>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll('.card-animate');
+
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 100); // stagger effect
+            });
+        });
+    </script>
+
+    <script>
         var homeRoute = "{{ route('home') }}";
         var admissionRoute = "{{ route('admission-index') }}";
         var enrollmentRoute = "{{ route('enrollment-index') }}";

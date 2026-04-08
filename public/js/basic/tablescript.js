@@ -105,3 +105,13 @@ $(function () {
         height: '100',
     })
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll('.card-animate');
+
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('show');
+        }, index * 90); // stagger effect
+    });
+});

@@ -249,3 +249,14 @@
         max-width: 1140px;
     }
 }
+
+.card-animate {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+    transition: all 0.3s ease;
+}
+
+.card-animate.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}

@@ -25,6 +25,8 @@ use App\Models\SettingDB\EnrollmentMode;
 use App\Models\SettingDB\QueueMode;
 use App\Models\SettingDB\Campus;
 
+use App\Models\EvaluationDB\QCEsetting;
+
 
 class SettingController extends Controller
 {
@@ -48,8 +50,9 @@ class SettingController extends Controller
         $admissionStatus = AdmissionMode::first();
         $enrolledStatus = EnrollmentMode::where('campus', $campus)->first();
         $queueStatus = QueueMode::first();
+        $faculevalStatus = QCEsetting::first();
 
-        return view('control.settings.index', compact('userCounts', 'userActiveCounts', 'userUnActiveCounts', 'userAddedTodayCounts', 'admissionStatus', 'enrolledStatus', 'queueStatus'));
+        return view('control.settings.index', compact('userCounts', 'userActiveCounts', 'userUnActiveCounts', 'userAddedTodayCounts', 'admissionStatus', 'enrolledStatus', 'queueStatus', 'faculevalStatus'));
     }
 
     public function usersRead() 
@@ -611,6 +614,32 @@ class SettingController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function setFaculEvalConf()
+    {
+        $setfaculevalmode = QCEsetting::first();
+
+        return view('control.settings.admin.settingFacultyEval', compact('setfaculevalmode'));
+    }
+
+    public function toggleFaculEval(Request $request)
+    {
+        $request->validate([
+            'statuseval' => 'required|boolean',
+        ]);
+
+        $faculevalMode = QCEsetting::firstOrCreate([], ['statuseval' => 'Off']);
+
+        $faculevalMode->statuseval = $request->statuseval ? 'On' : 'Off';
+        $faculevalMode->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => $faculevalMode->statuseval === 'On' 
+                ? ' Start / Open now.' 
+                : ' Stop / Close now.',
+        ]);
     }
 
     public function serverMaintenance()

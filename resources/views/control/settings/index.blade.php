@@ -27,7 +27,7 @@ CISS V.1.0 || Settings
                 <div class="row g-3 mb-3 mt-3">
                     @if(Auth::guard('web')->user()->role == '0')
                         <div class="col-lg-3 col-12">
-                            <div class="card">
+                            <div class="card card-animate">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -43,7 +43,7 @@ CISS V.1.0 || Settings
                         </div>
                         
                         <div class="col-lg-3 col-12">
-                            <div class="card">
+                            <div class="card card-animate">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -59,7 +59,7 @@ CISS V.1.0 || Settings
                         </div>
 
                         <div class="col-lg-3 col-12">
-                            <div class="card">
+                            <div class="card card-animate">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -75,7 +75,7 @@ CISS V.1.0 || Settings
                         </div>
                         
                         <div class="col-lg-3 col-12">
-                            <div class="card">
+                            <div class="card card-animate">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -91,7 +91,7 @@ CISS V.1.0 || Settings
                         </div>
 
                         <div class="col-lg-3 col-12">
-                            <div class="card">
+                            <div class="card card-animate">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -107,7 +107,7 @@ CISS V.1.0 || Settings
                         </div>
                         
                         <div class="col-lg-3 col-12">
-                            <div class="card">
+                            <div class="card card-animate">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -123,7 +123,7 @@ CISS V.1.0 || Settings
                         </div>
                         
                         <div class="col-lg-3 col-12">
-                            <div class="card">
+                            <div class="card card-animate">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -137,9 +137,25 @@ CISS V.1.0 || Settings
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-lg-3 col-12">
+                            <div class="card card-animate">
+                                <div class="card-body p-6">
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div>
+                                            <h3 class="fw-bold h1">{{ $faculevalStatus->statuseval }}</h3>
+                                            <span>Faculty Eval. Status</span>
+                                        </div>
+                                        <div>
+                                            <i class="ti ti-file-analytics fs-1 text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         
                         <div class="col-lg-3 col-12">
-                            <div class="card">
+                            <div class="card card-animate">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>

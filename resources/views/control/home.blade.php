@@ -11,7 +11,7 @@
 @section('sidemenu')
     <div class="row g-4 mb-5" style="padding-left: 20px; padding-right: 20px">
         <div class="col-lg-4 col-12">
-            <div class="card mb-3">
+            <div class="card card-animate mb-3">
                 <div class="card-body p-6">
                     <div class="d-flex justify-content-between pb-2">
                         <div>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-3">
+            <div class="card card-animate mb-3">
                 <div class="card-body p-6">
                     <div class="d-flex justify-content-between pb-2">
                         <div>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-3">
+            <div class="card card-animate mb-3">
                 <div class="card-body p-6">
                     <div class="d-flex justify-content-between pb-2">
                         <div>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="col-lg-8">
-            <div class="card">
+            <div class="card card-animate">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center px-4 py-3">
                     <h4 class="mb-0 h5">
                         Current Enrollment A.Y. 2025-2026, 2nd Semester -

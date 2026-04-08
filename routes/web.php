@@ -1093,6 +1093,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/confEnrollmntSet', [SettingController::class, 'setEnrollConf'])->name('setEnrollConf');
             Route::post('/toggle-enrollment', [SettingController::class, 'toggleEnrollment'])->name('toggle.enrollment');
             Route::get('/confQueueingSet', [SettingController::class, 'setQueueConf'])->name('setQueueConf');
+            Route::get('/confFacultyEvalSet', [SettingController::class, 'setFaculEvalConf'])->name('setFaculEvalConf');
+            Route::post('/toggle-faculty-eval', [SettingController::class, 'toggleFaculEval'])->name('toggle.faculty.eval');
             Route::get('/confCampusesSet', [SettingController::class, 'setCampusesConf'])->name('setCampusesConf');
             Route::post('/toggle-campuses', [SettingController::class, 'toggleCampuses'])->name('toggle.campuses');
 
