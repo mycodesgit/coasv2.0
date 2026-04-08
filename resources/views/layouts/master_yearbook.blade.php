@@ -180,6 +180,8 @@
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <!-- Basic -->
+    <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
 
     @if(request()->routeIs('showStudent', 'showStudentResult'))
         <script src="{{ asset('js/validation/yerbok/studentValidation.js') }}"></script>

@@ -350,6 +350,10 @@
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <!-- Basic -->
+    <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
 
     @if(request()->routeIs('ossa-index'))
         <script> 

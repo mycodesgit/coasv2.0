@@ -26,7 +26,7 @@ CISS V.1.0 || Kiosk Admin
                 </div>
                 <div class="row g-3 mb-3 mt-3">
                     <div class="col-md-9">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">Monthly Kiosk Report for this Year</h6>
                             </div>
@@ -40,7 +40,7 @@ CISS V.1.0 || Kiosk Admin
                     </div>
 
                     <div class="col-lg-3 col-12">
-                        <div class="card mb-3">
+                        <div class="card card-animate mb-2">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -53,7 +53,7 @@ CISS V.1.0 || Kiosk Admin
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -69,7 +69,7 @@ CISS V.1.0 || Kiosk Admin
                     </div>
 
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-body">
                                 <div class="table-responsive p-2">
                                     @php
