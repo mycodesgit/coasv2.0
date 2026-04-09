@@ -25,20 +25,46 @@ class SchedFacultyListController extends Controller
         $deptlist = Department::get();
         $depts = Department::join('faculty', 'faculty.facdept', '=', 'department.deptCod')->get();
         $adr = Addressee::all();
+
         return view('scheduler.faculty.list_faculty', compact('collegelist', 'deptlist', 'depts', 'adr'));
     }
 
     public function getfacultylistRead() 
     {
+        $campus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
+
         $data = Faculty::join('addressee', 'faculty.adrID', '=', 'addressee.id')
                 ->join('college', 'faculty.faccollege', '=', 'college.college_abbr')
                 ->leftJoin('department', 'faculty.facdept', '=', 'department.deptCod')
-                ->where('faculty.campus', '=', Auth::guard('web')->user()->campus)
-                ->select('faculty.*', 'faculty.id as fctyid', 'faculty.campus as fcamp', 'college.*', 'addressee.*', 'addressee.id as adrid', 'department.deptCod')
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('faculty.campus', 'LIKE', "%$campus%");
+                    }
+                })
+                ->select('faculty.*', 'faculty.id as fctyid', 'faculty.campus as fcamp', 'faculty.campactive', 'college.*', 'addressee.*', 'addressee.id as adrid', 'department.deptCod')
                 ->orderBy('faculty.lname')
                 ->get();
 
         return response()->json(['data' => $data]);
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+
+        $faculty = Faculty::where('lname', 'LIKE', "%$search%")
+                        ->orWhere('fname', 'LIKE', "%$search%")
+                        ->limit(10)
+                        ->get(['id','lname','fname']);
+
+        $results = $faculty->map(function($item){
+            return [
+                'id' => $item->id,
+                'text' => $item->lname . ', ' . $item->fname
+            ];
+        });
+        return response()->json($results);
     }
 
     public function getDepartments($college)
@@ -125,6 +151,24 @@ class SchedFacultyListController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => true, 'message' => 'Failed to Update Faculty'], 404);
         }
+    }
+
+    public function ajaxUpdateCampus(Request $request, $facultyId)
+    {
+        $request->validate([
+            'campus' => 'required|string|in:MC,VC,SCC,HC,MP,IC,CA,CC,SC,HinC',
+        ]);
+
+        $faculty = Faculty::findOrFail($facultyId);
+        $existing = $faculty->campus ? explode(',', $faculty->campus) : [];
+        if (!in_array($request->campus, $existing)) {
+            $existing[] = $request->campus;
+        }
+        $faculty->campus = implode(',', $existing);
+        $faculty->campactive = $request->input('campactive');
+        $faculty->save();
+
+        return response()->json(['message' => 'Campus updated successfully']);
     }
 
     public function facultyDelete($id) 

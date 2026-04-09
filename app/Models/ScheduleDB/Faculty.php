@@ -17,6 +17,7 @@ class Faculty extends Authenticatable
 
     protected $fillable = [
         'campus',
+        'campactive',
         'faccollege',
         'facdept', 
         'fname', 

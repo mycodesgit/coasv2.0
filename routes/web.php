@@ -719,6 +719,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/flist/search/delete{id}', [SchedFacultyListController::class, 'facultyDelete'])->name('facultyDelete');
             
             Route::get('/get-departments/{college}', [SchedFacultyListController::class, 'getDepartments'])->name('getDepartments');
+            Route::get('/faculty-search', [SchedFacultyListController::class, 'search'])->name('faculty.search');
+            Route::post('/faculty/{faculty}/update-campus', [SchedFacultyListController::class, 'ajaxUpdateCampus'])->name('faculty.updateCampus');
         });
 
         Route::prefix('program')->group(function () {

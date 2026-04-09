@@ -42,7 +42,14 @@ class SchedFacultyController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        $fdata = Faculty::where('campus', '=', Auth::user()->campus)
+        $campus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $fdata = Faculty::where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('faculty.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->orderBy('lname', 'asc')
                     ->get();
         return view('scheduler.schedule.faculty_sched', compact('sy', 'fdata'));

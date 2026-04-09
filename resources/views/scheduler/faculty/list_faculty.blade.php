@@ -37,76 +37,131 @@ CISS V.1.0 || Class Scheduler
                                             <div class="col-md-3">
                                                 <div class="card">
                                                     <div class="card-body">
-                                                        <form method="post" action="{{ route('facultyCreate') }}" id="adFac">
-                                                            @csrf
+                                                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
+                                                            <h5>Add</h5>
+                                                        </div>
 
-                                                            <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
-                                                                <h5>Add</h5>
-                                                            </div>
+                                                        <div class="mt-2 col-md-12">
+                                                            <label>Is Newly Hired? <span class="text-danger">*</span></label>
+                                                            <select class="form-control form-control-sm" id="isNew">
+                                                                <option disabled selected>-- Select --</option>
+                                                                <option value="yes">Newly Hired</option>
+                                                                <option value="no">Existing Faculty</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div id="newFacultyForm" style="display:none;">
+                                                            <form method="post" action="{{ route('facultyCreate') }}" id="adFac">
+                                                                @csrf
+                                                                <div class="form-group mt-3">
+                                                                    <div class="row g-3">
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>College: <span class="text-danger">*</span></label>
+                                                                            <select class="form-control form-control-sm" name="faccollege" id="college">
+                                                                                <option disabled selected> ---Select---</option>
+                                                                                @foreach($collegelist as $datacollegelist)
+                                                                                    <option value="{{ $datacollegelist->college_abbr }}">
+                                                                                        {{ $datacollegelist->college_name }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
 
-                                                            <div class="form-group mt-3">
-                                                                <div class="row g-3">
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>College: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control form-control-sm" name="faccollege" id="college">
-                                                                            <option disabled selected> ---Select---</option>
-                                                                            @foreach($collegelist as $datacollegelist)
-                                                                                <option value="{{ $datacollegelist->college_abbr }}">
-                                                                                    {{ $datacollegelist->college_name }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>Department: <span class="text-danger">*</span></label>
+                                                                            <select class="form-control form-control-sm" name="facdept" id="department">
+                                                                                <option disabled selected> ---Select---</option>
+                                                                            </select>
+                                                                        </div>
 
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Department: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control form-control-sm" name="facdept" id="department">
-                                                                            <option disabled selected> ---Select---</option>
-                                                                        </select>
-                                                                    </div>
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>Lastname: <span class="text-danger">*</span></label>
+                                                                            <input type="text" name="lname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
+                                                                        </div>
 
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Lastname: <span class="text-danger">*</span></label>
-                                                                        <input type="text" name="lname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
-                                                                    </div>
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>Firstname: <span class="text-danger">*</span></label>
+                                                                            <input type="text" name="fname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
+                                                                        </div>
 
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Firstname: <span class="text-danger">*</span></label>
-                                                                        <input type="text" name="fname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
-                                                                    </div>
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>Middle initial: </label>
+                                                                            <input type="text" name="mname" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
+                                                                        </div>
 
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Middle initial: </label>
-                                                                        <input type="text" name="mname" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
-                                                                    </div>
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>Ext: </label>
+                                                                            <input type="text" name="ext" class="form-control form-control-sm">
+                                                                        </div>
 
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Ext: </label>
-                                                                        <input type="text" name="ext" class="form-control form-control-sm">
-                                                                    </div>
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>Salutation: <span class="text-danger">*</span></label>
+                                                                            <select class="form-control form-control-sm" name="adrID">
+                                                                                <option disabled selected> --Select-- </option>
+                                                                                @foreach($adr as $dataadr)
+                                                                                    <option value="{{ $dataadr->id }}">{{ $dataadr->adrDesc }}</option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
 
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Salutation: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control form-control-sm" name="adrID">
-                                                                            <option disabled selected> --Select-- </option>
-                                                                            @foreach($adr as $dataadr)
-                                                                                <option value="{{ $dataadr->id }}">{{ $dataadr->adrDesc }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>Email: <span class="text-danger">*</span></label>
+                                                                            <input type="email" name="email" class="form-control form-control-sm">
+                                                                        </div>
 
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Email: <span class="text-danger">*</span></label>
-                                                                        <input type="email" name="email" class="form-control form-control-sm">
-                                                                    </div>
-
-                                                                    <div class="col-md-12">
-                                                                        <label>&nbsp;</label>
-                                                                        <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
+                                                                        <div class="col-md-12">
+                                                                            <label>&nbsp;</label>
+                                                                            <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </form>
+                                                            </form>
+                                                        </div>
+
+                                                        <div id="existingFaculty" style="display:none;" class="mt-3">
+                                                            <form id="updateCampusForm">
+                                                                @csrf
+
+                                                                <div class="row g-3">
+                                                                    <div class="mt-2 col-md-12">
+                                                                        <label>Select Faculty:</label>
+                                                                        <select class="form-control form-control-sm"
+                                                                                id="facultySelect"
+                                                                                name="faculty_id">
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mt-2 col-md-12">
+                                                                        <label>Transfer/Assign to Campus:</label>
+                                                                        <!-- Hidden input for actual value -->
+                                                                        <input type="hidden" name="campus" id="campusHidden" value="{{ Auth::guard('web')->user()->campus }}">
+                                                                        <input type="hidden" name="campactive" id="campactiveHidden" value="{{ Auth::guard('web')->user()->campus }}">
+                                                                        <!-- Visible input for display -->
+                                                                        @php
+                                                                            $campuses = [
+                                                                                'MC'   => 'Main',
+                                                                                'VC'   => 'Victorias',
+                                                                                'SCC'  => 'San Carlos',
+                                                                                'HC'   => 'Hinigaran',
+                                                                                'MP'   => 'Moise Padilla',
+                                                                                'IC'   => 'Ilog',
+                                                                                'CA'   => 'Candoni',
+                                                                                'CC'   => 'Cauayan',
+                                                                                'SC'   => 'Sipalay',
+                                                                                'HinC' => 'Hinobaan',
+                                                                            ];
+
+                                                                            $userCampus = Auth::guard('web')->user()->campus;
+                                                                            $campusName = $campuses[$userCampus] ?? '';
+                                                                        @endphp
+                                                                        <input type="text" id="campusInput" class="form-control form-control-sm" value="{{ $campusName }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <label>&nbsp;</label>
+                                                                        <button type="submit" id="saveCampusBtn" class="btn btn-success btn-sm btn-block">Save</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -121,6 +176,7 @@ CISS V.1.0 || Class Scheduler
                                                             <th>Dept</th>
                                                             <th>Rank</th>
                                                             <th>Campus</th>
+                                                            <th>Active Campus</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -240,5 +296,7 @@ CISS V.1.0 || Class Scheduler
         var facultyDeleteRoute = "{{ route('facultyDelete', ['id' => ':id']) }}";
         var roomidEncryptRoute = "{{ route('idcrypt') }}";
         var getdepartmentRoute = "{{ route('getDepartments', ':college') }}";
+        var searchFacultyRoute = "{{ route('faculty.search') }}";
+        var campusUpdateRoute = "{{ route('faculty.updateCampus', ['faculty' => ':id']) }}";
     </script>
 @endsection

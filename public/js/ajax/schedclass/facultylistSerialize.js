@@ -37,6 +37,20 @@ $(document).ready(function() {
         });
     });
 
+
+    const campusMap = {
+        'MC': 'Main',
+        'VC': 'Victorias',
+        'SCC': 'San Carlos',
+        'HC': 'Hinigaran',
+        'MP': 'Moise Padilla',
+        'IC': 'Ilog',
+        'CA': 'Candoni',
+        'CC': 'Cauayan',
+        'SC': 'Sipalay',
+        'HinC': 'Hinobaan'
+    };
+
     var dataTable = $('#facltyTable').DataTable({
         "ajax": {
             "url": facultyReadRoute,
@@ -60,7 +74,25 @@ $(document).ready(function() {
             {data: 'college_abbr'},
             {data: 'deptCod'},
             {data: 'rank'},
-            {data: 'fcamp'},
+            { 
+                data: 'fcamp', 
+                title: 'Campus',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    // Split comma-separated codes and map to names
+                    const codes = data.split(',');
+                    const names = codes.map(code => campusMap[code] || code);
+                    return names.join(', ');
+                }
+            },
+            {
+                data: 'campactive',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    // Directly map the code to name
+                    return campusMap[data.trim()] || data;
+                }
+            },
             {
                 data: 'fctyid',
                 render: function(data, type, row) {
@@ -244,3 +276,115 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function() {
+    $('#isNew').change(function() {
+        let value = $(this).val();
+
+        if (value === 'yes') {
+            $('#newFacultyForm').show();
+            $('#existingFaculty').hide();
+        } else if (value === 'no') {
+            $('#newFacultyForm').hide();
+            $('#existingFaculty').show();
+        }
+    });
+});
+
+$(document).ready(function() {
+    var $facultySelect = $('#facultySelect');
+
+    var $searchInput = $('<input type="text" class="form-control form-control-sm mb-2" placeholder="Type to search...">');
+    $facultySelect.before($searchInput);
+
+    var $label = $('<label>Result:</label>');
+    $facultySelect.before($label);
+
+    $searchInput.on('input', function() {
+        var searchTerm = $(this).val();
+        if (searchTerm.length < 2) { 
+            $facultySelect.find('option:not(:first)').remove();
+            return;
+        }
+        $.ajax({
+            url: searchFacultyRoute,
+            type: "GET",
+            dataType: "json",
+            data: { search: searchTerm },
+            success: function(data) {
+                $facultySelect.find('option:not(:first)').remove();
+                $.each(data, function(index, faculty) {
+                    $facultySelect.append(
+                        $('<option></option>')
+                            .attr('value', faculty.id)
+                            .text(faculty.text)
+                    );
+                });
+            },
+            error: function() {
+                console.error("Failed to load faculty list.");
+            }
+        });
+    });
+});
+
+const campusMap = {
+    'Main': 'MC',
+    'Victorias': 'VC',
+    'San Carlos': 'SCC',
+    'Hinigaran': 'HC',
+    'Moise Padilla': 'MP',
+    'Ilog': 'IC',
+    'Candoni': 'CA',
+    'Cauayan': 'CC',
+    'Sipalay': 'SC',
+    'Hinobaan': 'HinC'
+};
+
+const campusInput = document.getElementById('campusInput');
+const campusHidden = document.getElementById('campusHidden');
+const campactiveHidden = document.getElementById('campactiveHidden');
+const facultySelect = document.getElementById('facultySelect');
+const saveBtn = document.getElementById('saveCampusBtn');
+const token = document.querySelector('input[name="_token"]').value;
+
+campusInput.addEventListener('change', function() {
+    const code = campusMap[this.value] || '';
+    campusHidden.value = code;
+    campactiveHidden.value = code; 
+});
+
+saveBtn.addEventListener('click', function(e) {
+    e.preventDefault(); 
+
+    const facultyId = facultySelect.value;
+    const campusCode = campusHidden.value;
+    const activeCampus = campactiveHidden.value;
+
+    if (!facultyId || !campusCode) {
+        toastr.warning('Please select a faculty and campus.');
+        return;
+    }
+
+    const url = campusUpdateRoute.replace(':id', facultyId);
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token
+        },
+        body: JSON.stringify({ 
+            campus: campusCode,
+            campactive: activeCampus
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        toastr.success(data.message, 'Success');
+        $(document).trigger('facAdded'); 
+    })
+    .catch(err => {
+        toastr.error('Error updating campus.', 'Error');
+        console.error(err);
+    });
+});
