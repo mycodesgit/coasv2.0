@@ -67,7 +67,7 @@
                                     <input type="hidden" name="evaluatorname" value="{{ $studauth->fname }} {{ substr($studauth->mname, 0, 1) }} {{ $studauth->lname }}">
                                     <input type="hidden" name="evaluatorID" value="{{ $studauth->id }}">
                                     <input type="hidden" name="studidno" value="{{ $studauth->stud_id }}">
-                                    <input type="hidden" name="prog" value="{{ $facdetail->first()->dept ?? 'N/A' }}">
+                                    <input type="hidden" name="prog" value="{{ $facdetail->first()->faccollege ?? 'N/A' }}">
                                     <input type="hidden" name="subjidrate" value="{{ request('id') }}">
                                     <input type="hidden" name="qceevaluator" value="Student">
 
