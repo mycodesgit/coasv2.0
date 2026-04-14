@@ -71,6 +71,7 @@ class EnStrandsController extends Controller
                     'students.ext', 
                     'students.address', 
                     'students.bday', 
+                    'students.gender', 
                     'students.brgy', 
                     'students.city', 
                     'students.province', 
