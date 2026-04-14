@@ -52,6 +52,7 @@ $(document).ready(function() {
                     return calculateAge(data.bday);
                 }
             },
+            {data: 'gender'},
             {
                 data: 'type',
                 render: function(data, type, row) {

@@ -94,6 +94,7 @@ CISS V.1.0 || Enrollment
                                                                 <th>Strand</th>
                                                                 <th>Bday</th>
                                                                 <th>Age</th>
+                                                                <th>Sex</th>
                                                                 <th>Status</th>
                                                                 <th>Name</th>
                                                                 <th>Program</th>
