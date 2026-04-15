@@ -61,6 +61,102 @@ class GadStudentController extends Controller
             ->selectRaw('COUNT(*) as count')
             ->groupBy('students.gender')
             ->get();
+        
+        $sancarloscampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'SCC')
+            ->where('program_en_history.campus', '=', 'SCC')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
+        
+        $hinigarancampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'HC')
+            ->where('program_en_history.campus', '=', 'HC')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
+        
+        $moisepadillacampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'MP')
+            ->where('program_en_history.campus', '=', 'MP')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
+        
+        $ilogcampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'IC')
+            ->where('program_en_history.campus', '=', 'IC')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
+        
+        $candonicampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'CA')
+            ->where('program_en_history.campus', '=', 'CA')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
+
+        $cauayancampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'CC')
+            ->where('program_en_history.campus', '=', 'CC')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
+
+        $sipalaycampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'SC')
+            ->where('program_en_history.campus', '=', 'SC')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
+        
+        $hinobaancampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'HinC')
+            ->where('program_en_history.campus', '=', 'HinC')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
  
         $byCampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->where('program_en_history.semester', '=', 2)
@@ -76,6 +172,14 @@ class GadStudentController extends Controller
             'allcampus' => $allcampus,
             'maincampus' => $maincampus,
             'victoriascampus' => $victoriascampus,
+            'sancarloscampus' => $sancarloscampus,
+            'hinigarancampus' => $hinigarancampus,
+            'moisepadillacampus' => $moisepadillacampus,
+            'ilogcampus' => $ilogcampus,
+            'candonicampus' => $candonicampus,
+            'cauayancampus' => $cauayancampus,
+            'sipalaycampus' => $sipalaycampus,
+            'hinobaancampus' => $hinobaancampus,
             'bycampus' => $byCampus
         ]);
     }
