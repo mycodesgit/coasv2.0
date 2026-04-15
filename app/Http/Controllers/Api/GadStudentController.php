@@ -34,15 +34,16 @@ class GadStudentController extends Controller
                 ->where('program_en_history.schlyear', '2025-2026')
                 ->whereIn('students.p_status', [5, 6])
                 ->whereIn('students.gender', ['Male', 'Female'])
-                ->select('coasv2_db_settings.campus.name as campus', 'students.gender')
+                ->select('coasv2_db_settings.campus.name as campus', 'coasv2_db_settings.campus.code as campus_code', 'students.gender')
                 ->selectRaw('COUNT(*) as count')
-                ->groupBy('coasv2_db_settings.campus.name', 'students.gender')
+                ->groupBy('coasv2_db_settings.campus.name', 'coasv2_db_settings.campus.code', 'students.gender')
                 ->get();
 
             // 👉 Transform into table format
             $formatted = $data->groupBy('campus')->map(function ($items) {
                 return [
                     'campus' => $items->first()->campus,
+                    'campus_code' => $items->first()->campus_code,
                     'male' => optional($items->where('gender', 'Male')->first())->count ?? 0,
                     'female' => optional($items->where('gender', 'Female')->first())->count ?? 0,
                 ];
