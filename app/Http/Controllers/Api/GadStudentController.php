@@ -29,25 +29,32 @@ class GadStudentController extends Controller
     public function genderCount() 
     {
         $data = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-                ->join('coasv2_db_settings.campus', 'program_en_history.campus', '=', 'coasv2_db_settings.campus.code') // adjust if needed
-                ->where('program_en_history.semester', 2)
-                ->where('program_en_history.schlyear', '2025-2026')
-                ->whereIn('students.p_status', [5, 6])
-                ->whereIn('students.gender', ['Male', 'Female'])
-                ->select('coasv2_db_settings.campus.name as campus', 'coasv2_db_settings.campus.code as campus_code', 'students.gender')
-                ->selectRaw('COUNT(*) as count')
-                ->groupBy('coasv2_db_settings.campus.name', 'coasv2_db_settings.campus.code', 'students.gender')
-                ->get();
+            ->join('coasv2_db_settings.campus', 'program_en_history.campus', '=', 'coasv2_db_settings.campus.code')
+            ->where('program_en_history.semester', 2)
+            ->where('program_en_history.schlyear', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->select(
+                'coasv2_db_settings.campus.name as campus',
+                'coasv2_db_settings.campus.code as campus_code',
+                'students.gender'
+            )
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy(
+                'coasv2_db_settings.campus.name',
+                'coasv2_db_settings.campus.code',
+                'students.gender'
+            )
+            ->get();
 
-            // 👉 Transform into table format
-            $formatted = $data->groupBy('campus')->map(function ($items) {
-                return [
-                    'campus' => $items->first()->campus,
-                    'campus_code' => $items->first()->campus_code,
-                    'male' => optional($items->where('gender', 'Male')->first())->count ?? 0,
-                    'female' => optional($items->where('gender', 'Female')->first())->count ?? 0,
-                ];
-            })->values();
+        $formatted = $data->groupBy('campus_code')->map(function ($items) {
+            return [
+                'campus' => $items->first()->campus,
+                'campus_code' => $items->first()->campus_code,
+                'male' => optional($items->where('gender', 'Male')->first())->count ?? 0,
+                'female' => optional($items->where('gender', 'Female')->first())->count ?? 0,
+            ];
+        })->values();
 
         $allcampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->where('program_en_history.semester', '=', 2)
