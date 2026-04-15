@@ -44,6 +44,7 @@ class GadStudentController extends Controller
             ->whereIn('students.p_status', [5, 6])
             ->whereIn('students.gender', ['Male', 'Female'])
             ->where('students.campus', '=', 'MC')
+            ->where('program_en_history.campus', '=', 'MC')
             ->select('students.gender')
             ->selectRaw('COUNT(*) as count')
             ->groupBy('students.gender')
