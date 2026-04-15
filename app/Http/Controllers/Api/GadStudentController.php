@@ -49,6 +49,18 @@ class GadStudentController extends Controller
             ->selectRaw('COUNT(*) as count')
             ->groupBy('students.gender')
             ->get();
+        
+        $victoriascampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
+            ->where('program_en_history.semester', '=', 2)
+            ->where('program_en_history.schlyear', '=', '2025-2026')
+            ->whereIn('students.p_status', [5, 6])
+            ->whereIn('students.gender', ['Male', 'Female'])
+            ->where('students.campus', '=', 'VC')
+            ->where('program_en_history.campus', '=', 'VC')
+            ->select('students.gender')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('students.gender')
+            ->get();
  
         $byCampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->where('program_en_history.semester', '=', 2)
@@ -63,6 +75,7 @@ class GadStudentController extends Controller
         return response()->json([
             'allcampus' => $allcampus,
             'maincampus' => $maincampus,
+            'victoriascampus' => $victoriascampus,
             'bycampus' => $byCampus
         ]);
     }
