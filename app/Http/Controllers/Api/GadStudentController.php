@@ -29,14 +29,14 @@ class GadStudentController extends Controller
     public function genderCount() 
     {
         $alltablecampus = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
-                ->join('campuses', 'program_en_history.campus', '=', 'campuses.code') // adjust if needed
+                ->join('campus', 'program_en_history.campus', '=', 'campus.code') // adjust if needed
                 ->where('program_en_history.semester', 2)
                 ->where('program_en_history.schlyear', '2025-2026')
                 ->whereIn('students.p_status', [5, 6])
                 ->whereIn('students.gender', ['Male', 'Female'])
-                ->select('campuses.name as campus', 'students.gender')
+                ->select('campus.name as campus', 'students.gender')
                 ->selectRaw('COUNT(*) as count')
-                ->groupBy('campuses.name', 'students.gender')
+                ->groupBy('campus.name', 'students.gender')
                 ->get();
 
             // 👉 Transform into table format
