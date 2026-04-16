@@ -141,7 +141,12 @@ class EnstudgradeController extends Controller
                 ->where('so.schlyear', $schlyear)
                 ->where('so.semester', $semester)
                 ->where('so.campus', $campus)
-                ->where('studgrades.campus', $campus)
+                // ->where('studgrades.campus', $campus)
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('studgrades.campus', 'LIKE', "%$campus%");
+                    }
+                })
                 //->where('students.campus', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
