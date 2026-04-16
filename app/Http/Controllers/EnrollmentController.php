@@ -1059,7 +1059,12 @@ class EnrollmentController extends Controller
                 ->where('program_en_history.studentID', $stud_id)
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
-                ->where('program_en_history.campus', '=', $campus)
+                // ->where('program_en_history.campus', '=', $campus)
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                    }
+                })
                 ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
                 ->first(); 
         $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
@@ -1078,7 +1083,12 @@ class EnrollmentController extends Controller
         $studfees = StudentAppraisal::select('student_appraisal.*')
                     ->where('student_appraisal.schlyear',  $schlyear)
                     ->where('student_appraisal.semester',  $semester)
-                    ->where('student_appraisal.campus',  $campus)
+                    // ->where('student_appraisal.campus',  $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('student_appraisal.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('student_appraisal.studID', $stud_id)
                     ->orderBy('student_appraisal.account', 'ASC')
                     ->get();
