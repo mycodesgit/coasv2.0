@@ -142,18 +142,8 @@ class EnstudgradeController extends Controller
                 ->where('so.semester', $semester)
                 // ->where('so.campus', $campus)
                 ->whereIn('so.campus', $campusArray)
-                // ->where('studgrades.campus', $campus)
-                ->where(function ($q) use ($campusArray) {
-                    foreach ($campusArray as $campus) {
-                        $q->orWhere('studgrades.campus', 'LIKE', "%$campus%");
-                    }
-                })
-                //->where('students.campus', $campus)
-                ->where(function ($q) use ($campusArray) {
-                    foreach ($campusArray as $campus) {
-                        $q->orWhere('students.campus', 'LIKE', "%$campus%");
-                    }
-                })
+                ->whereIn('studgrades.campus', $campusArray)
+                ->whereIn('students.campus', $campusArray)
                 ->where('studgrades.subjID', $id)
                 ->orderBy('students.lname', 'ASC')
                 ->get();
