@@ -20,21 +20,22 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-    <!-- DataTables  -->
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-    <!-- fullCalendar -->
-    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     
     <style>
         .btn-block {
             display: block;
             width: 100%;
+        }
+        .card-animate {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.3s ease;
+        }
+
+        .card-animate.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
     </style>
 </head>
@@ -97,42 +98,27 @@
     <script type="text/javascript" src="{{ asset('uilibs/js/main.js') }}"></script>
     <!-- jQuery -->
     <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
-
-    <!-- DataTables  & Plugins -->
-    <script src="{{ asset('uilibs/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-    <!-- fullCalendar 2.2.5 -->
-    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="{{ asset('uilibs/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ asset('uilibs/plugins/select2/js/select2.full.min.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('uilibs/plugins/chart.js/Chart.min.js') }}"></script>
     <!-- Validation JS -->
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <!-- Basic -->
-    <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}?v={{ time() }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll('.card-animate');
 
-    <!-- Ajax -->
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 90); // stagger effect
+            });
+        });
+    </script>
 </body>
 
 </html>

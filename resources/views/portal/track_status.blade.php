@@ -26,7 +26,7 @@ CISS V.1.0 || Track Admission
                 </div>
                 <div class="row g-3 mb-3 mt-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-body p-4">
                                 @if(Session::has('success'))
                                     <div class="alert alert-success">{{ Session::get('success')}}</div>
@@ -57,7 +57,7 @@ CISS V.1.0 || Track Admission
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-body">
                                 <div>
                                     <h2 class="fs-4"><i class="ti ti-user"></i> Applicant Information</h2>
@@ -116,7 +116,7 @@ CISS V.1.0 || Track Admission
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-body">
                                 <div>
                                     <h2 class="fs-4"><i class="ti ti-checklist"></i> Admission Status</h2>
