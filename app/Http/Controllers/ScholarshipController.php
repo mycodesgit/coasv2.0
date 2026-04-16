@@ -760,7 +760,12 @@ class ScholarshipController extends Controller
                 ->where('program_en_history.studentID', $stud_id)
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
-                ->where('program_en_history.campus', '=', $campus)
+                // ->where('program_en_history.campus', '=', $campus)
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                    }
+                })
                 ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
                 ->first(); 
         $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
