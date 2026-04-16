@@ -130,6 +130,7 @@
     <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}?v={{ time() }}"></script>
 
     <!-- Ajax -->
 </body>
