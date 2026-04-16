@@ -140,7 +140,12 @@ class EnstudgradeController extends Controller
                 ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
                 ->where('so.schlyear', $schlyear)
                 ->where('so.semester', $semester)
-                ->where('so.campus', $campus)
+                // ->where('so.campus', $campus)
+                ->where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('so.campus', 'LIKE', "%$campus%");
+                    }
+                })
                 // ->where('studgrades.campus', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
