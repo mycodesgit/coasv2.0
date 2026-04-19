@@ -405,55 +405,57 @@
         });
     </script>
 
-    <script type="text/javascript">
-        function updateGrade(id, grade){
-             $.ajax({
-                url: '{{ route('save_grades') }}',
-                method: 'POST',
-                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
-                success: function (data) {
-                    console.log(data.gradeCount);
-                    if(data.gradeCount > 0){
-                        $('#submitgradeid').prop('disabled', false);
-                    }else{
-                        $('#submitgradeid').prop('disabled', true);
+    @if(request()->routeIs('virtual_facultysubjectclass'))
+        <script type="text/javascript">
+            function updateGrade(id, grade){
+                $.ajax({
+                    url: '{{ route('save_grades') }}',
+                    method: 'POST',
+                    data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
+                    success: function (data) {
+                        console.log(data.gradeCount);
+                        if(data.gradeCount > 0){
+                            $('#submitgradeid').prop('disabled', false);
+                        }else{
+                            $('#submitgradeid').prop('disabled', true);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
                     }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-    </script>
+                });
+            }
+        </script>
 
-    <script type="text/javascript">
-        function updateGradeComp(id, grade){
-             $.ajax({
-                url: '{{ route('save_gradesComp') }}',
-                method: 'POST',
-                data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
-                success: function (data) {
-                    console.log(data.gradeCount);
-                    if(data.gradeCount > 0){
-                        $('#submitgradeid').prop('disabled', false);
-                    }else{
-                        $('#submitgradeid').prop('disabled', true);
+        <script type="text/javascript">
+            function updateGradeComp(id, grade){
+                $.ajax({
+                    url: '{{ route('save_gradesComp') }}',
+                    method: 'POST',
+                    data: { id: id, grade: grade, _token: '{{ csrf_token() }}' },
+                    success: function (data) {
+                        console.log(data.gradeCount);
+                        if(data.gradeCount > 0){
+                            $('#submitgradeid').prop('disabled', false);
+                        }else{
+                            $('#submitgradeid').prop('disabled', true);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
                     }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-    </script>
+                });
+            }
+        </script>
 
-    <script>
-        $(document).ready(function () {
-            $('#submitBtn').click(function () {
-                $('#confirmationForm').submit();
+        <script>
+            $(document).ready(function () {
+                $('#submitBtn').click(function () {
+                    $('#confirmationForm').submit();
+                });
             });
-        });
-    </script>
+        </script>
+    @endif
 
     @if(request()->routeIs('schedulefac_searchview'))
         @include('grading.gradesheet.faculty.facultyschedscript')
