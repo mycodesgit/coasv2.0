@@ -24,6 +24,7 @@ use App\Models\EnrollmentDB\StudentStatus;
 use App\Models\EnrollmentDB\StudentType;
 use App\Models\EnrollmentDB\StudentShifTrans;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
+use App\Models\EnrollmentDB\GradesheetLogbook;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\Faculty;
@@ -189,13 +190,30 @@ class GradingFacultyController extends Controller
         $user = Auth::guard($guard)->user();
 
         Grade::where('subjID', $subjID)
-        ->where('status', 1)
-        ->update(['status' => 2, 'postedBy' => $user->id,]);
+            ->where('status', 1)
+            ->update(['status' => 2, 'postedBy' => $user->id,]);
 
         Grade::where('subjID', $subjID)
-        ->where('subjFgrade', 'INC')
-        ->where('compstat', 1)
-        ->update(['compstat' => 2]);
+            ->where('subjFgrade', 'INC')
+            ->where('compstat', 1)
+            ->update(['compstat' => 2]);
+
+        $semester = $request->input('semester');
+        $schlyear = $request->input('schlyear');
+
+        GradesheetLogbook::updateOrCreate(
+            [
+            'subjectid' => $subjID,
+            'semester' => $semester,
+            'schlyear' => $schlyear,
+            'campus' => Auth::guard($guard)->user()->campus,
+            'collegeabbr' => Auth::guard($guard)->user()->faccollege,
+            ],
+            [
+            'facultyid' => $user->id,
+            'timebeingsubmitted' => Carbon::now(),
+            ]
+        );
 
         return redirect()->back()->with('success', 'Status updated successfully.');
     }

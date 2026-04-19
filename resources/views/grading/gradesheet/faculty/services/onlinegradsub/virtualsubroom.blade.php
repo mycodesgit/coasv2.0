@@ -62,6 +62,8 @@ CISS V.1.0 || Grading
                                                             <form method="POST" action="{{ route('updateStatus_gradessubmit', ['subjID' => $sub->first()->subjID]) }}" id="confirmationForm">
                                                                 @csrf
                                                                 <input type="hidden" name="subjID[]" value="{{ $sub->first()->subjID }}">
+                                                                <input type="hidden" name="semester" value="{{ request('semester') }}">
+                                                                <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
                                                                 <button type="button" class="btn btn-success btn-sm btn-block" id="submitgradeid" data-bs-toggle="modal" data-bs-target="#submitgrades" @if($grade == 0) disabled @endif>Submit Grades</button>
                                                             </form>
                                                         </div>

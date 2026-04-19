@@ -120,9 +120,9 @@ CISS V.1.0 || Enrollment
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab" tabindex="0">
-                                                <div class="bg-light p-2 rounded-2">
+                                                {{-- <div class="bg-light p-2 rounded-2">
                                                     <iframe src="{{ route('logbookpdfprint', ['schlyear' => request('schlyear'), 'semester' => request('semester')]) }}" width="100%" height="500"></iframe>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>

@@ -18,13 +18,7 @@ use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
 use App\Models\EnrollmentDB\Grade;
 use App\Models\EnrollmentDB\GradeCode;
-use App\Models\EnrollmentDB\YearLevel;
-use App\Models\EnrollmentDB\MajorMinor;
-use App\Models\EnrollmentDB\StudentStatus;
-use App\Models\EnrollmentDB\StudentType;
-use App\Models\EnrollmentDB\StudentShifTrans;
-use App\Models\EnrollmentDB\StudEnrolmentHistory;
-use App\Models\EnrollmentDB\DeleteEnrollmentLogs;
+use App\Models\EnrollmentDB\GradesheetLogbook;
 
 use App\Models\ScheduleDB\ClassEnroll;
 use App\Models\ScheduleDB\College;
@@ -81,45 +75,26 @@ class EnGradesheetLogbookController extends Controller
         $collegeabbr = $request->query('collegeabbr');
         $campus      = Auth::guard('web')->user()->campus;
 
-        $data = SubjectOffered::query()
+        $data = GradesheetLogbook::leftJoin('coasv2_db_schedule.faculty', 'gradesheetlogbook.facultyid', '=', 'coasv2_db_schedule.faculty.id')
+                        ->leftJoin('coasv2_db_schedule.sub_offered', 'gradesheetlogbook.subjectid', '=', 'coasv2_db_schedule.sub_offered.id')
+                        ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                        ->select(
+                            'gradesheetlogbook.*',
+                            'coasv2_db_schedule.faculty.lname', 
+                            'coasv2_db_schedule.faculty.fname', 
+                            'coasv2_db_schedule.subjects.sub_name',
+                            'coasv2_db_schedule.subjects.sub_title',
+                            'coasv2_db_schedule.subjects.subjcollege',
+                            'coasv2_db_schedule.sub_offered.subSec'
+                        )
+                        ->where('gradesheetlogbook.schlyear', $schlyear)
+                        ->where('gradesheetlogbook.semester', $semester)
+                        ->where('gradesheetlogbook.campus', $campus)
+                        ->where('gradesheetlogbook.collegeabbr', $collegeabbr)
+                        ->orderBy('gradesheetlogbook.timebeingsubmitted', 'DESC')
+                        ->get();
 
-            // ✅ FILTER FIRST (reduces rows early)
-            ->where('sub_offered.schlyear', $schlyear)
-            ->where('sub_offered.semester', $semester)
-            ->where('sub_offered.campus', $campus)
-            ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
-
-            // joins (light tables only)
-            ->leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-            ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
-            ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-
-            ->where('faculty.dept', $collegeabbr)
-
-            // ✅ select only needed columns
-            ->select([
-                'sub_offered.id as soid',
-                'sub_offered.subCode',
-                'sub_offered.semester',
-                'sub_offered.schlyear',
-                'subjects.sub_name',
-                'faculty.lname',
-                'faculty.fname',
-                'faculty.dept',
-
-                DB::raw('(
-                    SELECT MAX(sg.updated_at)
-                    FROM coasv2_db_enrollment.studgrades sg
-                    WHERE sg.subjID = sub_offered.id
-                ) as lastupdated')
-            ])
-
-            ->orderBy('faculty.lname', 'ASC')
-
-            // ✅ VERY IMPORTANT (prevents timeout)
-            ->paginate(50);   // change size if needed
-
-        return response()->json($data);
+        return response()->json(['data' => $data]);
     }
 
     public function logbookpdfprint(Request $request)
@@ -132,7 +107,7 @@ class EnGradesheetLogbookController extends Controller
         $gslog = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                         ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
                         ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.dept')
+                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.faccollege')
                         ->where('sub_offered.schlyear', $schlyear)
                         ->where('sub_offered.semester', $semester)
                         ->where('sub_offered.campus', $campus)

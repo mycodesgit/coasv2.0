@@ -17,7 +17,7 @@ $(document).ready(function() {
                 "schlyear": schlyear,
                 "semester": semester,
                 "collegeabbr": collegeabbr,
-            }
+            },
         },
         responsive: true,
         lengthChange: true,
@@ -53,11 +53,11 @@ $(document).ready(function() {
             {data: 'sub_name'},
             {data: 'sub_title'},
             {data: 'subSec'},
-            {data: 'dept'},
-            { data: 'lastupdated',
+            {data: 'subjcollege'},
+            { data: 'timebeingsubmitted',
                 render: function (data, type, row) {
                     if (type === 'display') {
-                        return moment(data).format('MMMM D, YYYY');
+                        return moment(data).format('MMMM D, YYYY h:mm A');
                     } else {
                         return data;
                     }
