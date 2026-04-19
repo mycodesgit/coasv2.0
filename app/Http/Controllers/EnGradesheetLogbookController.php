@@ -99,22 +99,28 @@ class EnGradesheetLogbookController extends Controller
 
     public function logbookpdfprint(Request $request)
     {
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
-        //$collegeabbr = $request->query('collegeabbr');
-        $campus = Auth::guard('web')->user()->campus;
+        $schlyear    = $request->query('schlyear');
+        $semester    = $request->query('semester');
+        $collegeabbr = $request->query('collegeabbr');
+        $campus      = Auth::guard('web')->user()->campus;
 
-        $gslog = SubjectOffered::leftJoin('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->leftJoin('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
-                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                        ->select('sub_offered.*', 'subjects.*', 'sub_offered.id as soid', 'faculty.lname', 'faculty.fname', 'faculty.faccollege')
-                        ->where('sub_offered.schlyear', $schlyear)
-                        ->where('sub_offered.semester', $semester)
-                        ->where('sub_offered.campus', $campus)
-                        //->where('faculty.dept', $collegeabbr)
-                        ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
-                        ->orderBy('faculty.lname', 'ASC')
-                        ->groupBy('sub_offered.id')
+        $gslog = GradesheetLogbook::leftJoin('coasv2_db_schedule.faculty', 'gradesheetlogbook.facultyid', '=', 'coasv2_db_schedule.faculty.id')
+                        ->leftJoin('coasv2_db_schedule.sub_offered', 'gradesheetlogbook.subjectid', '=', 'coasv2_db_schedule.sub_offered.id')
+                        ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
+                        ->select(
+                            'gradesheetlogbook.*',
+                            'coasv2_db_schedule.faculty.lname', 
+                            'coasv2_db_schedule.faculty.fname', 
+                            'coasv2_db_schedule.subjects.sub_name',
+                            'coasv2_db_schedule.subjects.sub_title',
+                            'coasv2_db_schedule.subjects.subjcollege',
+                            'coasv2_db_schedule.sub_offered.subSec'
+                        )
+                        ->where('gradesheetlogbook.schlyear', $schlyear)
+                        ->where('gradesheetlogbook.semester', $semester)
+                        ->where('gradesheetlogbook.campus', $campus)
+                        ->where('gradesheetlogbook.collegeabbr', $collegeabbr)
+                        ->orderBy('gradesheetlogbook.timebeingsubmitted', 'DESC')
                         ->get();
         
         $data = [

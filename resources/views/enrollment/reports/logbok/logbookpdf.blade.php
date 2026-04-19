@@ -4,7 +4,7 @@
     <title>Student Subject Load</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -90,6 +90,8 @@
         <table id="table-inside" class="schedule-table">
             <thead>
                 <tr>
+                    <th>A.Y.</th>
+                    <th>Semester</th>
                     <th>Faculty</th>
                     <th>Subject</th>
                     <th>Subject Title</th>
@@ -102,12 +104,14 @@
             <tbody>
                 @foreach($gslog as $datalogbook)
                     <tr>
+                        <td>{{ $datalogbook->schlyear }}</td>
+                        <td>{{ $datalogbook->semester }}</td>
                         <td>{{ $datalogbook->lname }}, {{ $datalogbook->fname }}</td>
                         <td>{{ $datalogbook->sub_name }}</td>
                         <td>{{ $datalogbook->sub_title }}</td>
                         <td>{{ $datalogbook->subSec }}</td>
-                        <td>{{ $datalogbook->dept }}</td>
-                        <td>{{ $datalogbook->lastupdated }}</td>
+                        <td>{{ $datalogbook->collegeabbr }}</td>
+                        <td>{{ $datalogbook->timebeingsubmitted }}</td>
                         <td></td>
                     </tr>
                 @endforeach
