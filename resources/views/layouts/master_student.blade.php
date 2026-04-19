@@ -297,7 +297,7 @@
     <aside id="sidebar" class="sidebar">
         <div class="logo-area">
             <div class="d-inline-flex">
-                <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
+                <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" alt="logo" width="24">
                 <span class="logo-text ms-2" style="font-weight: bold">Student Kiosk</span>
             </div>
         </div>

@@ -41,17 +41,17 @@
             <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #04401f;">
                 {{-- <div id="particles-js"></div> --}}
                 <div class="featured-image mb-3">
-                    <center><img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-fluid" id="" style="width: 100px; padding-top: 0px;"></center>
+                    <center><img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" class="img-fluid" id="" style="width: 100px; padding-top: 0px;"></center>
                     <p class="text-white text-center" style="font-family: 'Courier New', Courier, monospace; font-weight: 600; font-size: 1.5em !important">CISS</p>
                 </div>
                 <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">CPSU Integrated System Solution</br></small>
-                {{-- <center><img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-fluid" id="cpsulogoleftsideImage" style="width: 80%; padding-top: 0px;"></center> --}}
+                {{-- <center><img src="{{ asset('uilibs/images/cpsulogov4.png') }}" class="img-fluid" id="cpsulogoleftsideImage" style="width: 80%; padding-top: 0px;"></center> --}}
             </div> 
         
             <div class="col-md-6 right-box">
                 <div class="row align-items-center">
                     <div class="header-text mb-4 text-center">
-                        <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
+                        <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
                         <h2>Hi, Cenphilian</h2>
                         <p>Sign in to start session</p>
 

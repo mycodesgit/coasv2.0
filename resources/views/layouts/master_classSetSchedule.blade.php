@@ -104,7 +104,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div style="z-index: 9999">
-                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
+                    <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" style="width:70px;" class="center-top">
                 </div>
             </div>
             @section('workspace')

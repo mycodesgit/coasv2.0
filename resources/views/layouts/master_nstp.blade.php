@@ -131,7 +131,7 @@
     <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden" style="height: 95vh">
         <div class="logo-area border-0">
             <div class="d-inline-flex">
-                <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
+                <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" alt="logo" width="24">
                 <span class="logo-text ms-2" style="font-weight: bold">CISS</span>
             </div>
         </div>
@@ -144,7 +144,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div style="z-index: 9999">
-                    <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:70px;" class="center-top">
+                    <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" style="width:70px;" class="center-top">
                 </div>
             </div>
             @section('workspace')
