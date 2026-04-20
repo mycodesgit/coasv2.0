@@ -107,10 +107,10 @@ class EnStudentPerSubjectController extends Controller
         $semester = $request->query('semester');   
         $campus = Auth::guard('web')->user()->campus;
 
-        // $studCountSubquery = DB::table('coasv2_db_enrollment.studgrades')
-        //     ->select('subjID', DB::raw('COUNT(subjID) as countstud'))
-        //     ->where('campus', $campus)
-        //     ->groupBy('subjID');
+        $studCountSubquery = DB::table('coasv2_db_enrollment.studgrades')
+            ->select('subjID', DB::raw('COUNT(subjID) as countstud'))
+            ->where('campus', $campus)
+            ->groupBy('subjID');
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
             ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
