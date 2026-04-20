@@ -6,50 +6,31 @@
 
 @section('workspace')
     <style>
-        /* Scale ID card to fit page exactly */
         .id-frontcard {
             width: 85.6mm;
             height: 54mm;
             border-radius: 14px;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            /* background: linear-gradient(135deg,#d8f3dc,#f1f5d6);
-            font-family: Arial, sans-serif; */
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            /* background-image: url("{{ asset('uilibs/images/studentidimage/IDfront.webp') }}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat; */
         }
-
         .id-backcard {
             width: 85.6mm;
             height: 54mm;
             border-radius: 14px;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            /* background: linear-gradient(135deg,#d8f3dc,#f1f5d6);
-            font-family: Arial, sans-serif; */
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            /* background-image: url("{{ asset('uilibs/images/studentidimage/IDfront.webp') }}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat; */
         }
-
-        /* Header */
         .id-header {
-            /* background: #0f766e;
-            color: white; */
             padding: 2px 10px 10px 10px;
         }
-
         .id-header h6 {
             margin: 0;
             font-weight: 700;
@@ -59,15 +40,12 @@
             gap: 5px;
             font-size: 10px;
         }
-
         .id-header small {
             font-size: 8px;
             opacity: .9;
             margin-top: -10px;
             padding-left: 34px;
         }
-
-        /* Body */
         .id-body {
             padding: 6px 10px;
             display: flex;
@@ -75,7 +53,6 @@
             align-items: center;
             flex: 1;
         }
-
         .student-photo {
             margin-top: -28px;
             margin-left: 1px;
@@ -87,31 +64,11 @@
             overflow: hidden;
             flex-shrink: 0;
         }
-
         .pic {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        .student-info {
-            margin-top: -17px !important;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .student-info h5 {
-            font-weight: 700;
-            color: #0f766e;
-            margin-bottom: 4px;
-            font-size: 12px;
-        }
-
-
-
-
         .student-name {
             margin-left: -5px;
             background-color: #0a6c3f;
@@ -119,7 +76,6 @@
             padding-top: 2px;
             padding-bottom: 3px;
             padding-right: 12px;
-            /* border-radius: 0px 4px 4px 0px; */
             position: absolute;
             top: 124px !important;
             left: 120px;
@@ -129,99 +85,56 @@
             z-index: 10;
             clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);
         }
-
         .student-id {
             position: absolute;
             top: 160px;
             left: 125px;
             font-size: 8pt;
         }
-
         .student-course {
             position: absolute;
             top: 185px;
             left: 125px;
             font-size: 8pt;
         }
-
-        /* .info-row {
-            display: flex;
-            font-size: 9px;
-            margin-bottom: 2px;
-        }
-
-        .info-label {
-            width: 60px;
-            font-weight: 600;
-            color: #333;
-        } */
-
-        .barcode {
-            margin-top: 4px;
-            height: 25px;
-            background: repeating-linear-gradient(
-                90deg,
-                #000,
-                #000 2px,
-                transparent 2px,
-                transparent 4px
-            );
-        }
-
-        /* Footer */
         .id-footer {
-            /* background: #0f766e; */
             height: 18px;
         }
-
         img {
             max-width: 100%;
         }
-
-
         .id-body-back {
             padding: 16px 18px;
             font-family: Arial, sans-serif;
         }
-
-        /* Top text */
         .emergency-text {
             font-size: 7px;
             font-style: italic;
             margin-bottom: 2px;
         }
-
         /* Grid layout */
         .back-grid {
             display: flex;
             justify-content: space-between;
             gap: 12px;
         }
-
         .back-col {
             flex: 1;
         }
-
         .back-col label {
             font-weight: 300;
             font-size: 5pt;
         }
-
-        /* Lines */
         .line {
             border-bottom: 1px solid linear-gradient(135deg,#d8f3dc,#f1f5d6);
             height: 1px;
             margin-bottom: 10px;
         }
-
-        /* Green divider */
         .green-line {
             height: 2px;
             background: #2f855a;
             margin: 1px 0;
         }
-
-        /* Bottom note */
         .note-text {
             margin-top: 5px;
             text-align: center;
@@ -400,7 +313,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 d-none d-md-block">
+                                    <div class="col-md-4 d-none d-md-block">
                                         <div class="card">
                                             <div class="card-header pt-3">
                                                 <h6 class="card-title">
@@ -436,7 +349,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="card">
                                             <div class="card-header pt-3">
                                                 <h6 class="card-title">
@@ -447,17 +360,17 @@
                                                 <div class="row">
                                                     <div class="mb-2">
                                                         <button onclick="printFrontIDonly()" class="btn btn-warning btn-sm btn-block">
-                                                            Print Front Student ID
+                                                            Print Student ID
                                                         </button>
                                                     </div>
-                                                    <div class="mb-2">
+                                                    {{-- <div class="mb-2">
                                                         <button onclick="printOnlyID()" class="btn btn-secondary btn-sm btn-block">
                                                             Print Back Student ID
                                                         </button>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="mb-2">
                                                         <button class="btn btn-success btn-sm btn-block" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#idPreviewModal">
-                                                            Preview Print Student ID
+                                                            Preview Student ID
                                                         </button>
                                                     </div>
                                                 </div>
@@ -761,7 +674,7 @@
             const front = document.querySelector('.id-frontcard').cloneNode(true);
             const back = document.querySelector('.id-backcard').cloneNode(true);
             
-            const frontBg = "{{ asset('uilibs/images/studentidimage/IDfront.webp') }}";
+            const frontBg = "{{ asset('uilibs/images/studentidimage/IDfrontoldphotoframe.webp') }}";
             const printWindow = window.open('', '', 'width=400,height=300');
 
             printWindow.document.write(`
