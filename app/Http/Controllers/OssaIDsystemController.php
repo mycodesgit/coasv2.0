@@ -182,6 +182,10 @@ class OssaIDsystemController extends Controller
                 'students.fname',
                 'students.mname',
                 'students.lname',
+                'students.ext',
+                'students.civil_status',
+                'students.address',
+                'students.gender',
                 'coasv2_db_schedule.programs.progName'
             ])
             ->first();

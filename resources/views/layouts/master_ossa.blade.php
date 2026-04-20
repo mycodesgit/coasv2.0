@@ -189,7 +189,7 @@
     <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
     @if(request()->routeIs('ossa-index'))
         <script> 
             var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 

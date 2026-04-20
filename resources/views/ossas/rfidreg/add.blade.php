@@ -77,10 +77,12 @@
         }
 
         .student-photo {
-            margin-top: -15px;
-            width: 75px;
-            height: 90px;
-            border: 2px solid #2c7a7b;
+            margin-top: -28px;
+            margin-left: 1px;
+            width: 86px;
+            height: 106px;
+            border: 1px solid #eff317;        
+            box-shadow: 0 0 0 2px #116e36;
             border-radius: 6px;
             overflow: hidden;
             flex-shrink: 0;
@@ -226,6 +228,14 @@
             line-height: 1.2;
             font-size: 5pt;
         }
+        #qrcode {
+            width: 50px;
+            height: 50px;
+            float: right;
+            margin-bottom: 8px !important;
+            margin-right: 8px !important;
+            border: 1px solid #ffffff;
+        }
     </style>
 
     <div class="row">
@@ -304,7 +314,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <div class="id-frontcard" style="background-image: url('{{ asset('uilibs/images/studentidimage/IDfront.webp') }}'); 
+                                                    <div class="id-frontcard" style="background-image: url('{{ asset('uilibs/images/studentidimage/IDfrontoldphotoframe.webp') }}'); 
                                                         background-size: cover;
                                                         background-position: center;
                                                         background-repeat: no-repeat;">
@@ -316,23 +326,24 @@
                                                             </div>
                                                         </div>
                                                         <div class="id-body">
-                                                            {{-- <div class="student-photo">
-                                                                <img id="photo" src="{{ asset('uilibs/images/student.png') }}" class="pic">
-                                                            </div> --}}
+                                                            <div class="student-photo">
+                                                                <img id="photo" class="pic">
+                                                            </div>
                                                             <div>
-                                                                <div class="student-name" id="studentCardName"></div>
+                                                                <div class="student-name" id="studentCardName">NAME</div>
                                                                 <div class="student-id" id="studentCardNo"></div>
                                                                 <div class="student-course" id="studentCardCourse"></div>
                                                             </div>
                                                         </div>
         
-                                                        <div class="id-footer"></div>
+                                                        <div class="">
+                                                            <div id="qrcode"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3 d-none d-md-block">
+                                        <br>
                                         <div class="card">
                                             <div class="card-header pt-3">
                                                 <h6 class="card-title">
@@ -389,6 +400,42 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-3 d-none d-md-block">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-photo"></i> Capture Image
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <div class="id-camera text-center">
+                                                        <!-- Camera OFF placeholder -->
+                                                        <div id="cameraPlaceholder" style="display:flex; justify-content:center; align-items:center; height:200px; background:#f1f1f1; border-radius:8px;">
+                                                            <i class="ti ti-camera" style="font-size:48px; color:#888;"></i>
+                                                        </div>
+
+                                                        <!-- Webcam preview -->
+                                                        <video id="webcam" autoplay playsinline width="100%" style="border-radius:8px; display:none;"></video>
+
+                                                        <div class="mt-2">
+                                                            <button type="button" class="btn btn-success text-light" onclick="startCamera()" id="btnStart">
+                                                                <i class="ti ti-camera me-1"></i>Turn On Camera
+                                                            </button>
+
+                                                            <button type="button" class="btn btn-danger text-light" onclick="stopCamera()" id="btnStop" style="display: none">
+                                                                <i class="ti ti-camera-off"></i> Turn Off Camera
+                                                            </button>
+
+                                                            <button type="button" class="btn btn-success text-light" onclick="capturePhoto()" id="btnCapture" style="display: none">
+                                                                <i class="ti ti-camera"></i> Capture
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="card">
                                             <div class="card-header pt-3">
@@ -409,7 +456,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="mb-2">
-                                                        <button class="btn btn-success btn-sm btn-block">
+                                                        <button class="btn btn-success btn-sm btn-block" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#idPreviewModal">
                                                             Preview Print Student ID
                                                         </button>
                                                     </div>
@@ -425,6 +472,101 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade mt-6" id="idPreviewModal" tabindex="-1" role="dialog" aria-labelledby="subjectsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subjectsModalLabel">Preview ID</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex justify-content-center" style="height: 720px">
+                    <div class="id-frontcard" style="
+                            transform: scale(1.5);
+                            transform-origin: top center;
+                            background-image: url('{{ asset('uilibs/images/studentidimage/IDfrontoldphotoframe.webp') }}'); 
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        ">
+
+                        <div class="id-header">
+                            <div style="height: 35px">
+                                <h6 style="margin-left: 100px; margin-top: 10px">
+                                    <img src="{{ asset('uilibs/images/studentidimage/headerlogo.webp') }}" width="90%">
+                                </h6>
+                            </div>
+                        </div>
+
+                        <div class="id-body">
+                            <div style="
+                                margin-top: -30px;
+                                margin-left: -1px;
+                                width: 88px;
+                                height: 106px;
+                                border: 1px solid #eff317;        
+                                box-shadow: 0 0 0 2px #116e36;
+                                border-radius: 6px;
+                                overflow: hidden;
+                                flex-shrink: 0;
+                                ">
+                                <img id="previewPhoto" class="pic">
+                            </div>
+
+                            <div>
+                                <div style="
+                                    margin-left: -5px;
+                                    background-color: #0a6c3f;
+                                    padding-left: 8px;
+                                    padding-top: 2px;
+                                    padding-bottom: 3px;
+                                    padding-right: 12px;
+                                    position: absolute;
+                                    top: 60px !important;
+                                    left: 104px;
+                                    font-size: 8pt;
+                                    font-weight: normal;
+                                    color: #ffffff;
+                                    z-index: 10;
+                                    clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);" id="previewName"></div>
+                                <div style="position: absolute;
+                                            top: 95px;
+                                            left: 110px;
+                                            font-size: 7pt;" 
+                                    id="previewId">
+                                </div>
+                                <div style="position: absolute;
+                                            top: 120px;
+                                            left: 110px;
+                                            font-size: 7pt;" 
+                                    id="previewCourse">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="width: 50px;
+                                        height: 50px;
+                                        float: right;
+                                        margin-bottom: 8px !important;
+                                        margin-right: 8px !important;
+                                        border: 1px solid #ffffff;" 
+                                id="previewQr">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var rfidstudentCreateRoute = "{{ route('rfid.create') }}";
+    </script>
 
     <script>
         function formatInput(input) {
@@ -446,7 +588,23 @@
                 formatInput(input);
             }
         }
+ 
 
+        function generateQR(value) {
+            const qrContainer = document.getElementById('qrcode');
+
+            qrContainer.innerHTML = '';
+
+            if (!value) return;
+
+            qr = new QRCode(qrContainer, {
+                text: value,
+                width: 80,
+                height: 80,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+        
         function fetchStudentName(studid) {
             if (studid) {
 
@@ -468,47 +626,136 @@
                         document.getElementById('studentCardCourse').textContent = '';
                         document.getElementById('studentCardGender').textContent = '';
 
+                        document.getElementById('qrcode').innerHTML = '';
+
                     } else {
 
-                        const fullName = `${data.lname}, ${data.fname}${data.mname ? ' ' + data.mname.charAt(0) + '.' : ''}${data.ext ? ' ' + data.ext : ''}`.toUpperCase();
+                        const fullName = `${data.lname}, ${data.fname}${data.mname ? ' ' + data.mname.charAt(0) + '.' : ''}${data.ext && data.ext.toLowerCase() !== 'n/a' ? ' ' + data.ext : ''}`.toUpperCase();
                         const civilStatus = `${data.civil_status}`.toUpperCase();
                         const progName = `${data.progName || ''}`
+                            .replace(/BACHELOR OF ARTS/i, 'BA')
                             .replace(/BACHELOR OF SCIENCE/i, 'BS')
                             .replace(/BACHELOR OF SECONDARY/i, 'BS')
                             .replace(/BACHELOR OF ELEMENTARY EDUCATION/i, 'BEED')
+                            .replace(/BACHELOR OF SCIENCE IN AGRICULTURAL AND BIOSYSTEMS ENGINEERING/i, 'BSABE')
                             .toUpperCase();
                         const address = `${data.address}`.toUpperCase();
 
-                        // INPUT FIELD
                         document.getElementById('studentName').value = fullName;
                         document.getElementById('studentCourse').value = progName;
                         document.getElementById('studentCivilStatus').value = civilStatus;
                         document.getElementById('studentAddress').value = address;
 
-                        // ID CARD PREVIEW
                         document.getElementById('studentCardName').textContent = fullName;
                         document.getElementById('studentCardNo').textContent = data.stud_id;
                         document.getElementById('studentCardCourse').textContent = progName;
-                        document.getElementById('studentCardGender').textContent = data.gender;
+                        // document.getElementById('studentCardGender').textContent = data.gender;
 
-                        // ⭐ Focus RFID scanner after student is loaded
+                        generateQR(data.stud_id);
+                        console.log("QR VALUE:", data.stud_id);
+
                         document.getElementById('rfidScanner').focus();
 
                     }
 
                 })
-                // .catch(error => {
-                //     console.error('Error fetching student:', error);
-                // });
-
+                .catch(error => {
+                    console.error('Error fetching student:', error);
+                });
             }
-
         }
     </script>
+
     <script>
-        var rfidstudentCreateRoute = "{{ route('rfid.create') }}";
+        let video = document.getElementById('webcam');
+        let canvas = document.createElement('canvas');
+        let stream = null;
+
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(s => {
+                stream = s;
+                video.srcObject = stream;
+
+                // UI toggle
+                video.style.display = 'block';
+                document.getElementById('cameraPlaceholder').style.display = 'none';
+
+                document.getElementById('btnStart').style.display = 'none';
+                document.getElementById('btnStop').style.display = 'inline-block';
+                document.getElementById('btnCapture').style.display = 'inline-block';
+            })
+            .catch(err => {
+                console.error("Camera error:", err);
+                alert("Unable to access camera");
+            });
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+
+            video.srcObject = null;
+            video.style.display = 'none';
+
+            document.getElementById('cameraPlaceholder').style.display = 'flex';
+
+            document.getElementById('btnStart').style.display = 'inline-block';
+            document.getElementById('btnStop').style.display = 'none';
+            document.getElementById('btnCapture').style.display = 'none';
+        }
+
+        function capturePhoto() {
+            const photo = document.getElementById('photo');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageData = canvas.toDataURL('image/png');
+            photo.src = imageData;
+        }
     </script>
 
+    <script>
+        const modal = document.getElementById('idPreviewModal');
+
+        modal.addEventListener('show.bs.modal', function () {
+
+            // Copy text
+            document.getElementById('previewName').textContent =
+                document.getElementById('studentCardName').textContent;
+
+            document.getElementById('previewId').textContent =
+                document.getElementById('studentCardNo').textContent;
+
+            document.getElementById('previewCourse').textContent =
+                document.getElementById('studentCardCourse').textContent;
+
+            // Copy image
+            document.getElementById('previewPhoto').src =
+                document.getElementById('photo').src;
+
+            // Generate QR again
+            const qrContainer = document.getElementById('previewQr');
+            qrContainer.innerHTML = '';
+
+            const idValue = document.getElementById('studentCardNo').textContent;
+
+            if (idValue) {
+                new QRCode(qrContainer, {
+                    text: idValue,
+                    width: 100,
+                    height: 100
+                });
+            }
+        });
+    </script>
+    
     <script>
         function printFrontIDonly() {
             const front = document.querySelector('.id-frontcard').cloneNode(true);
@@ -612,10 +859,12 @@
                         }
 
                         .student-photo {
-                            margin-top: -15px;
-                            width: 75px;
-                            height: 90px;
-                            border: 2px solid #2c7a7b;
+                            margin-top: -28px;
+                            margin-left: 1px;
+                            width: 85px;
+                            height: 106px;
+                            border: 1px solid #eff317;        
+                            box-shadow: 0 0 0 2px #116e36;
                             border-radius: 6px;
                             overflow: hidden;
                             flex-shrink: 0;
@@ -642,16 +891,44 @@
                             font-size: 12px;
                         }
 
-                        .info-row {
-                            display: flex;
-                            font-size: 9px;
-                            margin-bottom: 2px;
+                        .student-name {
+                            margin-left: -5px;
+                            background-color: #0a6c3f;
+                            padding-left: 8px;
+                            padding-top: 2px;
+                            padding-bottom: 3px;
+                            padding-right: 12px;
+                            position: absolute;
+                            top: 63px !important;
+                            left: 103px;
+                            font-size: 8pt;
+                            font-weight: normal;
+                            color: #ffffff;
+                            z-index: 10;
+                            clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);
                         }
 
-                        .info-label {
-                            width: 60px;
-                            font-weight: 600;
-                            color: #333;
+                        .student-id {
+                            position: absolute;
+                            top: 98px;
+                            left: 110px;
+                            font-size: 8pt;
+                        }
+
+                        .student-course {
+                            position: absolute;
+                            top: 120px;
+                            left: 110px;
+                            font-size: 8pt;
+                        }
+
+                        #qrcode {
+                            width: 50px;
+                            height: 50px;
+                            float: right;
+                            margin-bottom: 8px !important;
+                            margin-right: 8px !important;
+                            border: 1px solid #ffffff;
                         }
 
                         .barcode {
