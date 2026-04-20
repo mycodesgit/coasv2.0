@@ -173,7 +173,10 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row g-3">
+                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                                    <h4>Student RFID Registration</h4>
+                                </div>
+                                <div class="row mt-3 g-3">
                                     <div class="col-md-3">
                                         <div class="card">
                                             <div class="card-header pt-3">
