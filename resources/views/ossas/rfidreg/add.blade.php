@@ -596,7 +596,6 @@
                 stream = s;
                 video.srcObject = stream;
 
-                // UI toggle
                 video.style.display = 'block';
                 document.getElementById('cameraPlaceholder').style.display = 'none';
 
@@ -645,7 +644,6 @@
 
         modal.addEventListener('show.bs.modal', function () {
 
-            // Copy text
             document.getElementById('previewName').textContent =
                 document.getElementById('studentCardName').textContent;
 
@@ -655,11 +653,9 @@
             document.getElementById('previewCourse').textContent =
                 document.getElementById('studentCardCourse').textContent;
 
-            // Copy image
             document.getElementById('previewPhoto').src =
                 document.getElementById('photo').src;
 
-            // Generate QR again
             const qrContainer = document.getElementById('previewQr');
             qrContainer.innerHTML = '';
 
