@@ -4,9 +4,230 @@
     CISS V.1.0 || Ossa Student RFID Registration
 @endsection
 
-@yield('sidemenu')
-
 @section('workspace')
+    <style>
+        /* Scale ID card to fit page exactly */
+        .id-frontcard {
+            width: 85.6mm;
+            height: 54mm;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            /* background: linear-gradient(135deg,#d8f3dc,#f1f5d6);
+            font-family: Arial, sans-serif; */
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            /* background-image: url("{{ asset('uilibs/images/studentidimage/IDfront.webp') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat; */
+        }
+
+        .id-backcard {
+            width: 85.6mm;
+            height: 54mm;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            /* background: linear-gradient(135deg,#d8f3dc,#f1f5d6);
+            font-family: Arial, sans-serif; */
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            /* background-image: url("{{ asset('uilibs/images/studentidimage/IDfront.webp') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat; */
+        }
+
+        /* Header */
+        .id-header {
+            /* background: #0f766e;
+            color: white; */
+            padding: 2px 10px 10px 10px;
+        }
+
+        .id-header h6 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+        }
+
+        .id-header small {
+            font-size: 8px;
+            opacity: .9;
+            margin-top: -10px;
+            padding-left: 34px;
+        }
+
+        /* Body */
+        .id-body {
+            padding: 6px 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex: 1;
+        }
+
+        .student-photo {
+            margin-top: -15px;
+            width: 75px;
+            height: 90px;
+            border: 2px solid #2c7a7b;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .student-info {
+            margin-top: -17px !important;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .student-info h5 {
+            font-weight: 700;
+            color: #0f766e;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+
+
+
+        .student-name {
+            margin-left: -5px;
+            background-color: #0a6c3f;
+            padding-left: 8px;
+            padding-top: 2px;
+            padding-bottom: 3px;
+            padding-right: 12px;
+            /* border-radius: 0px 4px 4px 0px; */
+            position: absolute;
+            top: 124px !important;
+            left: 120px;
+            font-size: 8pt;
+            font-weight: normal;
+            color: #ffffff;
+            z-index: 10;
+            clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);
+        }
+
+        .student-id {
+            position: absolute;
+            top: 160px;
+            left: 125px;
+            font-size: 8pt;
+        }
+
+        .student-course {
+            position: absolute;
+            top: 185px;
+            left: 125px;
+            font-size: 8pt;
+        }
+
+        /* .info-row {
+            display: flex;
+            font-size: 9px;
+            margin-bottom: 2px;
+        }
+
+        .info-label {
+            width: 60px;
+            font-weight: 600;
+            color: #333;
+        } */
+
+        .barcode {
+            margin-top: 4px;
+            height: 25px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000,
+                #000 2px,
+                transparent 2px,
+                transparent 4px
+            );
+        }
+
+        /* Footer */
+        .id-footer {
+            /* background: #0f766e; */
+            height: 18px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+
+        .id-body-back {
+            padding: 16px 18px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Top text */
+        .emergency-text {
+            font-size: 7px;
+            font-style: italic;
+            margin-bottom: 2px;
+        }
+
+        /* Grid layout */
+        .back-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .back-col {
+            flex: 1;
+        }
+
+        .back-col label {
+            font-weight: 300;
+            font-size: 5pt;
+        }
+
+        /* Lines */
+        .line {
+            border-bottom: 1px solid linear-gradient(135deg,#d8f3dc,#f1f5d6);
+            height: 1px;
+            margin-bottom: 10px;
+        }
+
+        /* Green divider */
+        .green-line {
+            height: 2px;
+            background: #2f855a;
+            margin: 1px 0;
+        }
+
+        /* Bottom note */
+        .note-text {
+            margin-top: 5px;
+            text-align: center;
+            line-height: 1.2;
+            font-size: 5pt;
+        }
+    </style>
+
     <div class="row">
         <div class="col-12">
             <div class="mb-6">
@@ -83,39 +304,25 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <div class="id-frontcard">
+                                                    <div class="id-frontcard" style="background-image: url('{{ asset('uilibs/images/studentidimage/IDfront.webp') }}'); 
+                                                        background-size: cover;
+                                                        background-position: center;
+                                                        background-repeat: no-repeat;">
                                                         <div class="id-header">
                                                             <div style="height: 35px">
-                                                                <h6>
-                                                                    <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="34" style="margin-top: 4px">
-                                                                    <span style="font-size: 6pt">CENTRAL PHILIPPINES STATE UNIVERSITY</span>
+                                                                <h6 style="margin-left: 100px; margin-top: 10px">
+                                                                    <img src="{{ asset('uilibs/images/studentidimage/headerlogo.webp') }}" alt="logo" width="90%">
                                                                 </h6>
-                                                                <div style="padding-left: 40px; margin-top: -15px; font-size: 7pt">Kabankalan City, Negros Occidental, 6111</div>
                                                             </div>
                                                         </div>
                                                         <div class="id-body">
-                                                            <div class="student-photo">
+                                                            {{-- <div class="student-photo">
                                                                 <img id="photo" src="{{ asset('uilibs/images/student.png') }}" class="pic">
-                                                            </div>
-                                                            <div class="student-info" style="margin-top: -17px !important">
-                                                                <h5>STUDENT ID CARD</h5>
-                                                                <div class="info-row">
-                                                                    <div class="info-label">Name</div>
-                                                                    <div>: <span id="studentCardName"></span></div>
-                                                                </div>
-                                                                <div class="info-row">
-                                                                    <div class="info-label">Student ID</div>
-                                                                    <div>: <span id="studentCardNo"></span></div>
-                                                                </div>
-                                                                <div class="info-row">
-                                                                    <div class="info-label">Course</div>
-                                                                    <div>: <span id="studentCardCourse"></span></div>
-                                                                </div>
-                                                                <div class="info-row">
-                                                                    <div class="info-label">Gender</div>
-                                                                    <div>: <span id="studentCardGender"></span></div>
-                                                                </div>
-                                                                <div class=""></div>
+                                                            </div> --}}
+                                                            <div>
+                                                                <div class="student-name" id="studentCardName"></div>
+                                                                <div class="student-id" id="studentCardNo"></div>
+                                                                <div class="student-course" id="studentCardCourse"></div>
                                                             </div>
                                                         </div>
         
@@ -263,21 +470,25 @@
 
                     } else {
 
-                        const fullName = `${data.lname}, ${data.fname} ${data.mname}`.toUpperCase();
+                        const fullName = `${data.lname}, ${data.fname}${data.mname ? ' ' + data.mname.charAt(0) + '.' : ''}${data.ext ? ' ' + data.ext : ''}`.toUpperCase();
                         const civilStatus = `${data.civil_status}`.toUpperCase();
-                        const progAcronym = `${data.progAcronym}`.toUpperCase();
+                        const progName = `${data.progName || ''}`
+                            .replace(/BACHELOR OF SCIENCE/i, 'BS')
+                            .replace(/BACHELOR OF SECONDARY/i, 'BS')
+                            .replace(/BACHELOR OF ELEMENTARY EDUCATION/i, 'BEED')
+                            .toUpperCase();
                         const address = `${data.address}`.toUpperCase();
 
                         // INPUT FIELD
                         document.getElementById('studentName').value = fullName;
-                        document.getElementById('studentCourse').value = progAcronym;
+                        document.getElementById('studentCourse').value = progName;
                         document.getElementById('studentCivilStatus').value = civilStatus;
                         document.getElementById('studentAddress').value = address;
 
                         // ID CARD PREVIEW
                         document.getElementById('studentCardName').textContent = fullName;
                         document.getElementById('studentCardNo').textContent = data.stud_id;
-                        document.getElementById('studentCardCourse').textContent = data.progAcronym;
+                        document.getElementById('studentCardCourse').textContent = progName;
                         document.getElementById('studentCardGender').textContent = data.gender;
 
                         // ⭐ Focus RFID scanner after student is loaded
@@ -302,7 +513,8 @@
         function printFrontIDonly() {
             const front = document.querySelector('.id-frontcard').cloneNode(true);
             const back = document.querySelector('.id-backcard').cloneNode(true);
-
+            
+            const frontBg = "{{ asset('uilibs/images/studentidimage/IDfront.webp') }}";
             const printWindow = window.open('', '', 'width=400,height=300');
 
             printWindow.document.write(`
@@ -318,6 +530,8 @@
                         body {
                             margin: 0;
                             padding: 0;
+                            -webkit-print-color-adjust: exact;
+                            print-color-adjust: exact;
                         }
 
                         .page {
@@ -334,14 +548,30 @@
                         }
 
                         /* Scale ID card to fit page exactly */
-                        .id-frontcard, .id-backcard {
+                        .id-frontcard {
+                            -webkit-print-color-adjust: exact;
+                            print-color-adjust: exact;
                             width: 85.6mm;
                             height: 54mm;
                             border-radius: 14px;
                             overflow: hidden;
                             box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-                            background: linear-gradient(135deg,#d8f3dc,#f1f5d6);
-                            font-family: Arial, sans-serif;
+                            display: flex;
+                            flex-direction: column;
+                            box-sizing: border-box;
+                            font-family: 'Poppins', sans-serif;
+                            background-image: url("${frontBg}") !important;
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        }
+
+                        .id-backcard {
+                            width: 85.6mm;
+                            height: 54mm;
+                            border-radius: 14px;
+                            overflow: hidden;
+                            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
                             display: flex;
                             flex-direction: column;
                             box-sizing: border-box;
@@ -350,7 +580,7 @@
 
                         /* Header */
                         .id-header {
-                            background: #0f766e;
+                            /* background: #0f766e; */
                             color: white;
                             padding: 2px 10px 10px 10px;
                         }
@@ -438,7 +668,7 @@
 
                         /* Footer */
                         .id-footer {
-                            background: #0f766e;
+                            /* background: #0f766e; */
                             height: 18px;
                         }
 
@@ -521,7 +751,7 @@
             setTimeout(() => {
                 printWindow.print();
                 printWindow.close();
-            }, 500);
+            }, 1000);
         }
     </script>
 @endsection

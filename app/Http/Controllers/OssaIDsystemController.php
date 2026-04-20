@@ -170,13 +170,22 @@ class OssaIDsystemController extends Controller
         
         $student = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
             ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+            // ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.course', '=', 'coasv2_db_schedule.programs.progAcronym')
             ->where('students.stud_id', $id)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
                     $q->orWhereRaw("FIND_IN_SET(?, REPLACE(students.campus, ' ', ''))", [$campus]);
                 }
             })
+            ->select([
+                'students.stud_id',
+                'students.fname',
+                'students.mname',
+                'students.lname',
+                'coasv2_db_schedule.programs.progName'
+            ])
             ->first();
+
         if ($student) {
             return response()->json($student);
         } else {
