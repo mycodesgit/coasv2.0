@@ -106,6 +106,7 @@
         .id-body-back {
             padding: 16px 18px;
             font-family: Arial, sans-serif;
+            background-color: #ffffff;
         }
         .emergency-text {
             font-size: 7px;
@@ -172,7 +173,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row">
+                                <div class="row g-3">
                                     <div class="col-md-3">
                                         <div class="card">
                                             <div class="card-header pt-3">
@@ -225,7 +226,7 @@
                                                     <i class="ti ti-address-book"></i> Student ID Front Template
                                                 </h6>
                                             </div>
-                                            <div class="card-body">
+                                            <div class="card-body" style="background-color: #e3eee4">
                                                 <div class="table-responsive">
                                                     <div class="id-frontcard" style="background-image: url('{{ asset('uilibs/images/studentidimage/IDfrontoldphotoframe.webp') }}'); 
                                                         background-size: cover;
@@ -263,7 +264,7 @@
                                                     <i class="ti ti-address-book"></i> Student ID Back Template
                                                 </h6>
                                             </div>
-                                            <div class="card-body">
+                                            <div class="card-body" style="background-color: #e3eee4">
                                                 <div class="table-responsive">
                                                     <div class="id-backcard">
                                                         <div class="id-body-back">
@@ -353,14 +354,14 @@
                                         <div class="card">
                                             <div class="card-header pt-3">
                                                 <h6 class="card-title">
-                                                    <i class="ti ti-printer"></i> Print Student ID
+                                                    <i class="ti ti-printer"></i> Print Student ID Card
                                                 </h6>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="mb-2">
-                                                        <button onclick="printFrontIDonly()" class="btn btn-warning btn-sm btn-block">
-                                                            Print Student ID
+                                                        <button onclick="printFrontIDonly()" class="btn btn-warning btn-block">
+                                                            Print
                                                         </button>
                                                     </div>
                                                     {{-- <div class="mb-2">
@@ -369,8 +370,8 @@
                                                         </button>
                                                     </div> --}}
                                                     <div class="mb-2">
-                                                        <button class="btn btn-success btn-sm btn-block" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#idPreviewModal">
-                                                            Preview Student ID
+                                                        <button class="btn btn-success btn-block" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#idPreviewModal">
+                                                            Preview
                                                         </button>
                                                     </div>
                                                 </div>
