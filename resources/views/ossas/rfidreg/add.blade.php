@@ -212,7 +212,9 @@
                                                             <input type="text" id="rfidScanner" style="opacity:0; position:absolute;">
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <button type="submit" class="btn btn-success">Save changes</button>
+                                                            <button type="submit" class="btn btn-success text-light">
+                                                                <i class="fas fa-save"></i> Save changes
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -360,8 +362,8 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="mb-2">
-                                                        <button onclick="printFrontIDonly()" class="btn btn-warning btn-block">
-                                                            Print
+                                                        <button onclick="printFrontIDonly()" class="btn btn-outline-warning btn-block">
+                                                            <i class="fas fa-print"></i> Print
                                                         </button>
                                                     </div>
                                                     {{-- <div class="mb-2">
@@ -370,8 +372,8 @@
                                                         </button>
                                                     </div> --}}
                                                     <div class="mb-2">
-                                                        <button class="btn btn-success btn-block" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#idPreviewModal">
-                                                            Preview
+                                                        <button class="btn btn-success text-light btn-block" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#idPreviewModal">
+                                                            <i class="fas fa-eye"></i> Preview
                                                         </button>
                                                     </div>
                                                 </div>
