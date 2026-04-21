@@ -54,6 +54,12 @@
             align-items: center;
             flex: 1;
         }
+        .photo-wrapper {
+            margin-top: -20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .student-photo {
             margin-top: -28px;
             margin-left: 1px;
@@ -69,6 +75,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        .signature-icon {
+            font-size: 19px;
+            color: #116e36;
+            position: relative;
         }
         .student-name {
             margin-left: -5px;
@@ -211,9 +222,10 @@
         #qrcode {
             width: 50px;
             height: 50px;
+            position: absolute;
             float: right;
-            margin-bottom: 8px !important;
-            margin-right: 8px !important;
+            bottom: 30px !important;
+            right: 60px !important;
             border: 1px solid #ffffff;
         }
     </style>
@@ -311,8 +323,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="id-body">
-                                                            <div class="student-photo">
-                                                                <img id="photo" class="pic">
+                                                            <div class="photo-wrapper">
+                                                                <div class="student-photo">
+                                                                    <img id="photo" class="pic">
+                                                                </div>
+                                                                <div class="signature-icon">
+                                                                    <span id="studentCardSignature"><i class="ti ti-signature"></i></span>
+                                                                </div>
                                                             </div>
                                                             <div>
                                                                 <div class="student-name" id="studentCardName">NAME</div>
@@ -411,12 +428,10 @@
                                             <div class="card-body">
                                                 <div class="table-responsive">
                                                     <div class="id-camera text-center">
-                                                        <!-- Camera OFF placeholder -->
                                                         <div id="cameraPlaceholder" style="display:flex; justify-content:center; align-items:center; height:200px; background:#f1f1f1; border-radius:8px;">
                                                             <i class="ti ti-camera" style="font-size:48px; color:#888;"></i>
                                                         </div>
 
-                                                        <!-- Webcam preview -->
                                                         <video id="webcam" autoplay playsinline width="100%" style="border-radius:8px; display:none;"></video>
 
                                                         <div class="mt-2">
@@ -429,6 +444,33 @@
                                                             </button>
 
                                                             <button type="button" class="btn btn-success text-light" onclick="capturePhoto()" id="btnCapture" style="display: none">
+                                                                <i class="ti ti-camera"></i> Capture
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-photo"></i> eSignature Capture
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <div class="id-camera text-center">
+                                                        <div id="cameraPlaceholder" style="display:flex; justify-content:center; align-items:center; height:105px; background:#f1f1f1; border-radius:8px;">
+                                                            <i class="ti ti-signature" style="font-size:48px; color:#888;"></i>
+                                                        </div>
+
+                                                        <div class="mt-2">
+                                                            <button type="button" class="btn btn-outline-warning" onclick="startCamera()" id="btnResetSignature">
+                                                                <i class="ti ti-refresh me-1"></i>Reset Signature
+                                                            </button>
+
+                                                            <button type="button" class="btn btn-success text-light" onclick="capturePhoto()" id="btnCaptureSignature">
                                                                 <i class="ti ti-camera"></i> Capture
                                                             </button>
                                                         </div>
@@ -500,18 +542,26 @@
                         </div>
 
                         <div class="id-body">
-                            <div style="
-                                margin-top: -30px;
-                                margin-left: -1px;
-                                width: 88px;
-                                height: 106px;
-                                border: 1px solid #eff317;        
-                                box-shadow: 0 0 0 2px #116e36;
-                                border-radius: 6px;
-                                overflow: hidden;
-                                flex-shrink: 0;
-                                ">
-                                <img id="previewPhoto" class="pic">
+                            <div style="margin-top: -20px;
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;">
+                                <div style="
+                                    margin-top: -30px;
+                                    margin-left: -1px;
+                                    width: 88px;
+                                    height: 106px;
+                                    border: 1px solid #eff317;        
+                                    box-shadow: 0 0 0 2px #116e36;
+                                    border-radius: 6px;
+                                    overflow: hidden;
+                                    flex-shrink: 0;
+                                    ">
+                                    <img id="previewPhoto" class="pic">
+                                </div>
+                                <div class="signature-icon">
+                                    <span id="studentCardSignaturePreview"><i class="ti ti-signature"></i></span>
+                                </div>
                             </div>
 
                             <div>
@@ -549,8 +599,9 @@
                             <div style="width: 50px;
                                         height: 50px;
                                         float: right;
-                                        margin-bottom: 8px !important;
-                                        margin-right: 8px !important;
+                                        position: absolute;
+                                        bottom: 10px !important;
+                                        right: 15px !important;
                                         border: 1px solid #ffffff;" 
                                 id="previewQr">
                             </div>
@@ -700,6 +751,9 @@
                         document.getElementById('studentCardBirthdayPreview').textContent = '';
                         document.getElementById('studentCardContact').textContent = '';
                         document.getElementById('studentCardContactPreview').textContent = '';
+                        document.getElementById('studentCardSignature').textContent = '';
+                        document.getElementById('studentCardSignaturePreview').textContent = '';
+
 
                         document.getElementById('qrcode').innerHTML = '';
                         currentEncryptedId = '';
@@ -737,6 +791,8 @@
                         document.getElementById('studentCardBirthdayPreview').textContent = data.bday;
                         document.getElementById('studentCardContact').textContent = data.contact;
                         document.getElementById('studentCardContactPreview').textContent = data.contact;
+                        document.getElementById('studentCardSignature').textContent = data.gender;
+                        document.getElementById('studentCardSignaturePreview').textContent = data.gender;
 
 
                         // =====================
@@ -952,7 +1008,12 @@
                             align-items: center;
                             flex: 1;
                         }
-
+                        .photo-wrapper {
+                            margin-top: -35px !important;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                        }
                         .student-photo {
                             margin-top: -28px;
                             margin-left: 1px;
@@ -964,11 +1025,14 @@
                             overflow: hidden;
                             flex-shrink: 0;
                         }
-
                         .pic {
                             width: 100%;
                             height: 100%;
                             object-fit: cover;
+                        }
+                        .signature-icon {
+                            font-size: 19px;
+                            color: #116e36;
                         }
 
                         .student-info {
@@ -1015,15 +1079,6 @@
                             top: 120px;
                             left: 110px;
                             font-size: 8pt;
-                        }
-
-                        #qrcode {
-                            width: 50px;
-                            height: 50px;
-                            float: right;
-                            margin-bottom: 8px !important;
-                            margin-right: 8px !important;
-                            border: 1px solid #ffffff;
                         }
 
                         /* Footer */
@@ -1143,11 +1198,14 @@
                             font-family: 'Poppins', sans-serif;
                             margin-top: -1px;
                         }
-
-
-                        .btn-block {
-                            display: block;
-                            width: 100%;
+                        #qrcode {
+                            width: 50px;
+                            height: 50px;
+                            position: absolute;
+                            float: right;
+                            bottom: 10px !important;
+                            right: 10px !important;
+                            border: 1px solid #ffffff;
                         }
                     </style>
                 </head>
