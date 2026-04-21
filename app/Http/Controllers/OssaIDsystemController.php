@@ -163,6 +163,18 @@ class OssaIDsystemController extends Controller
         return view('ossas.rfidreg.add');
     }
 
+    private function encryptStudId($string)
+    {
+        $key = 'fA7xB93kL0pTzWmQ';
+        $cipher = 'AES-128-ECB';
+
+        return rtrim(strtr(
+            base64_encode(openssl_encrypt($string, $cipher, $key, 0)),
+            '+/',
+            '-_'
+        ), '=');
+    }
+
     public function getossaStudentById($id)
     {
         $campus = Auth::guard('web')->user()->campus;
@@ -186,11 +198,14 @@ class OssaIDsystemController extends Controller
                 'students.civil_status',
                 'students.address',
                 'students.gender',
+                'students.bday',
+                'students.contact',
                 'coasv2_db_schedule.programs.progName'
             ])
             ->first();
 
         if ($student) {
+            $student->encrypted_id = $this->encryptStudId($student->stud_id);
             return response()->json($student);
         } else {
             return response()->json(['error' => 'Student not found'], 404);

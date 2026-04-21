@@ -27,6 +27,7 @@
             flex-direction: column;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
         }
         .id-header {
             padding: 2px 10px 10px 10px;
@@ -109,29 +110,71 @@
             background-color: #ffffff;
         }
         .emergency-text {
+            margin-top: -5px;
             font-size: 7px;
             font-style: italic;
-            margin-bottom: 2px;
+            margin-bottom: 0px;
         }
-        /* Grid layout */
         .back-grid {
+            margin-top: -6px;
             display: flex;
             justify-content: space-between;
-            gap: 12px;
+            gap: 5px;
         }
-        .back-col {
+        .back-col:first-child {
+            flex: 3;
+            margin-top: -5px;
+        }
+        .back-col:last-child {
+            flex: 1; 
+            margin-top: -5px;
+        }
+        .back-grid-second {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .back-col-second:first-child {
+            flex: 2;
+            margin-top: -5px;
+        }
+
+        .back-col-second:nth-child(2) {
             flex: 1;
+            margin-top: -5px;
+        }
+
+        .back-col-second:last-child {
+            flex: 1; 
+            margin-top: -5px;
         }
         .back-col label {
             font-weight: 300;
             font-size: 5pt;
         }
+        .back-col-second label {
+            font-weight: 300;
+            font-size: 5pt;
+        }
+        .back-col-full{
+            margin-top: -5px !important;
+        }
+        .back-col-full label{
+            font-weight: 300;
+            font-size: 5pt;
+        }
+        .linedata {
+            padding-top: 2px !important;
+            font-size: 5pt !important;
+        }
         .line {
-            border-bottom: 1px solid linear-gradient(135deg,#d8f3dc,#f1f5d6);
+            border-bottom: 1px solid #000;
             height: 1px;
-            margin-bottom: 10px;
+            font-size: 7pt;
         }
         .green-line {
+            margin-top: 9px !important;
             height: 2px;
             background: #2f855a;
             margin: 1px 0;
@@ -139,8 +182,31 @@
         .note-text {
             margin-top: 5px;
             text-align: center;
-            line-height: 1.2;
+            line-height: 1.1;
             font-size: 5pt;
+        }
+        .signature-block {
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #000;
+            width: 100px;
+            margin: 0 auto 2px auto;
+        }
+
+        .signature-name {
+            font-size: 6pt;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .signature-title {
+            font-size: 5pt;
+            font-family: 'Poppins', sans-serif;
+            margin-top: -1px;
         }
         #qrcode {
             width: 50px;
@@ -280,28 +346,41 @@
                                                             <div class="back-grid">
                                                                 <div class="back-col">
                                                                     <label>Person:</label>
-                                                                    <div class="line"></div>
-
-                                                                    <label>Number:</label>
-                                                                    <div class="line"></div>
-
-                                                                    <label>Address:</label>
+                                                                    <div class="linedata">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
-
                                                                 <div class="back-col">
-                                                                    <label>Birthday:</label>
-                                                                    <div class="line"></div>
-
-                                                                    <label>Blood Type:</label>
-                                                                    <div class="line"></div>
-
-                                                                    <label>Contact Number:</label>
+                                                                    <label>Number:</label>
+                                                                    <div class="linedata">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="green-line"></div>
+                                                            <div class="back-grid-second">
+                                                                <div class="back-col-second">
+                                                                    <label>Birthday:</label>
+                                                                    <div class="linedata" id="studentCardBirthday">&nbsp;</div>
+                                                                    <div class="line"></div>
+                                                                </div>
+                                                                <div class="back-col-second">
+                                                                    <label>Blood Type:</label>
+                                                                    <div class="linedata">&nbsp;</div>
+                                                                    <div class="line"></div>
+                                                                </div>
+                                                                <div class="back-col-second">
+                                                                    <label>Contact No.:</label>
+                                                                    <div class="linedata" id="studentCardContact">&nbsp;</div>
+                                                                    <div class="line"></div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="back-col-full">
+                                                                <label>Address:</label>
+                                                                <div class="linedata" id="studentCardAddress">&nbsp;</div>
+                                                                <div class="line"></div>
+                                                            </div>
+
+                                                            {{-- <div class="green-line"></div> --}}
 
                                                             <p class="note-text">
                                                                 The bearer is a bonafide of the Central Philippines State University Kabankalan City, Negros Occidental. 
@@ -310,8 +389,11 @@
                                                                 Report loss to the <b>OFFICE OF STUDENT SERVICES AND AFFAIRS.</b>
                                                             </p>
                                                             <center>
-                                                                <div style="border-bottom: 1px solid #000000; width: 90px"></div>
-                                                                <span style="font-size: 6pt; font-family: 'Poppins', sans-serif">ALADINO C. MORACA, PhD</span>
+                                                                <div class="signature-block">
+                                                                    <div class="signature-line"></div>
+                                                                    <div class="signature-name">ALADINO C. MORACA, PhD</div>
+                                                                    <div class="signature-title">President</div>
+                                                                </div>
                                                             </center>
                                                         </div>
                                                     </div>
@@ -399,7 +481,7 @@
                     <h5 class="modal-title" id="subjectsModalLabel">Preview ID</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body d-flex justify-content-center" style="height: 720px">
+                <div class="modal-body d-flex flex-column align-items-center" style="height: 680px">
                     <div class="id-frontcard" style="
                             transform: scale(1.5);
                             transform-origin: top center;
@@ -473,7 +555,68 @@
                                 id="previewQr">
                             </div>
                         </div>
+                    </div>
+                    <br><br>
+                    <div class="id-backcard" style="transform: scale(1.5);
+                            transform-origin: middle center; margin-top: 130px;">
+                        <div class="id-body-back">
+                            <p class="emergency-text">
+                                In case of emergency, please contact:
+                            </p>
 
+                            <div class="back-grid">
+                                <div class="back-col">
+                                    <label>Person:</label>
+                                    <div class="linedata">&nbsp;</div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="back-col">
+                                    <label>Number:</label>
+                                    <div class="linedata">&nbsp;</div>
+                                    <div class="line"></div>
+                                </div>
+                            </div>
+
+                            <div class="back-grid-second">
+                                <div class="back-col-second">
+                                    <label>Birthday:</label>
+                                    <div class="linedata" id="studentCardBirthdayPreview">&nbsp;</div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="back-col-second">
+                                    <label>Blood Type:</label>
+                                    <div class="linedata">&nbsp;</div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="back-col-second">
+                                    <label>Contact No.:</label>
+                                    <div class="linedata" id="studentCardContactPreview"></div>
+                                    <div class="line"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="back-col-full">
+                                <label>Address:</label>
+                                <div class="linedata" id="studentCardAddressPreview">&nbsp;</div>
+                                <div class="line"></div>
+                            </div>
+
+                            {{-- <div class="green-line"></div> --}}
+
+                            <p class="note-text">
+                                The bearer is a bonafide of the Central Philippines State University Kabankalan City, Negros Occidental. 
+                                This card is non-transferable and available only on the semester period.
+                                <br>
+                                Report loss to the <b>OFFICE OF STUDENT SERVICES AND AFFAIRS.</b>
+                            </p>
+                            <center>
+                                <div class="signature-block">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-name">ALADINO C. MORACA, PhD</div>
+                                    <div class="signature-title">President</div>
+                                </div>
+                            </center>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -508,7 +651,11 @@
             }
         }
  
+        let currentEncryptedId = '';
 
+        // =====================
+        // QR GENERATOR (MAIN)
+        // =====================
         function generateQR(value) {
             const qrContainer = document.getElementById('qrcode');
 
@@ -516,20 +663,24 @@
 
             if (!value) return;
 
-            qr = new QRCode(qrContainer, {
+            new QRCode(qrContainer, {
                 text: value,
                 width: 80,
                 height: 80,
                 correctLevel: QRCode.CorrectLevel.H
             });
         }
-        
+
+
+        // =====================
+        // FETCH STUDENT
+        // =====================
         function fetchStudentName(studid) {
-            if (studid) {
+            if (!studid) return;
 
-                const url = `{{ route('getossaStudentById', ['id' => ':id']) }}`.replace(':id', studid);
+            const url = `{{ route('getossaStudentById', ['id' => ':id']) }}`.replace(':id', studid);
 
-                fetch(url)
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
 
@@ -543,14 +694,22 @@
                         document.getElementById('studentCardName').textContent = 'Data not found';
                         document.getElementById('studentCardNo').textContent = '';
                         document.getElementById('studentCardCourse').textContent = '';
-                        document.getElementById('studentCardGender').textContent = '';
+                        document.getElementById('studentCardAddress').textContent = '';
+                        document.getElementById('studentCardAddressPreview').textContent = '';
+                        document.getElementById('studentCardBirthday').textContent = '';
+                        document.getElementById('studentCardBirthdayPreview').textContent = '';
+                        document.getElementById('studentCardContact').textContent = '';
+                        document.getElementById('studentCardContactPreview').textContent = '';
 
                         document.getElementById('qrcode').innerHTML = '';
+                        currentEncryptedId = '';
 
                     } else {
 
                         const fullName = `${data.lname}, ${data.fname}${data.mname ? ' ' + data.mname.charAt(0) + '.' : ''}${data.ext && data.ext.toLowerCase() !== 'n/a' ? ' ' + data.ext : ''}`.toUpperCase();
+
                         const civilStatus = `${data.civil_status}`.toUpperCase();
+
                         const progName = `${data.progName || ''}`
                             .replace(/BACHELOR OF ARTS/i, 'BA')
                             .replace(/BACHELOR OF SCIENCE/i, 'BS')
@@ -558,8 +717,12 @@
                             .replace(/BACHELOR OF ELEMENTARY EDUCATION/i, 'BEED')
                             .replace(/BACHELOR OF SCIENCE IN AGRICULTURAL AND BIOSYSTEMS ENGINEERING/i, 'BSABE')
                             .toUpperCase();
+
                         const address = `${data.address}`.toUpperCase();
 
+                        // =====================
+                        // TEXT FIELDS
+                        // =====================
                         document.getElementById('studentName').value = fullName;
                         document.getElementById('studentCourse').value = progName;
                         document.getElementById('studentCivilStatus').value = civilStatus;
@@ -568,21 +731,70 @@
                         document.getElementById('studentCardName').textContent = fullName;
                         document.getElementById('studentCardNo').textContent = data.stud_id;
                         document.getElementById('studentCardCourse').textContent = progName;
-                        // document.getElementById('studentCardGender').textContent = data.gender;
+                        document.getElementById('studentCardAddress').textContent = address;
+                        document.getElementById('studentCardAddressPreview').textContent = address;
+                        document.getElementById('studentCardBirthday').textContent = data.bday;
+                        document.getElementById('studentCardBirthdayPreview').textContent = data.bday;
+                        document.getElementById('studentCardContact').textContent = data.contact;
+                        document.getElementById('studentCardContactPreview').textContent = data.contact;
 
-                        generateQR(data.stud_id);
-                        console.log("QR VALUE:", data.stud_id);
+
+                        // =====================
+                        // STORE ENCRYPTED ID (GLOBAL)
+                        // =====================
+                        currentEncryptedId = data.encrypted_id;
+
+                        // =====================
+                        // GENERATE MAIN QR (ENCRYPTED)
+                        // =====================
+                        generateQR(currentEncryptedId);
+
+                        console.log("QR VALUE:", currentEncryptedId);
 
                         document.getElementById('rfidScanner').focus();
-
                     }
 
                 })
                 .catch(error => {
                     console.error('Error fetching student:', error);
                 });
-            }
         }
+
+
+        // =====================
+        // PREVIEW MODAL
+        // =====================
+        const modal = document.getElementById('idPreviewModal');
+
+        modal.addEventListener('show.bs.modal', function () {
+
+            document.getElementById('previewName').textContent =
+                document.getElementById('studentCardName').textContent;
+
+            document.getElementById('previewId').textContent =
+                document.getElementById('studentCardNo').textContent;
+
+            document.getElementById('previewCourse').textContent =
+                document.getElementById('studentCardCourse').textContent;
+
+            document.getElementById('previewPhoto').src =
+                document.getElementById('photo').src;
+
+            // =====================
+            // PREVIEW QR (ENCRYPTED)
+            // =====================
+            const qrContainer = document.getElementById('previewQr');
+            qrContainer.innerHTML = '';
+
+            if (currentEncryptedId) {
+                new QRCode(qrContainer, {
+                    text: currentEncryptedId,
+                    width: 100,
+                    height: 100,
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+        });
     </script>
 
     <script>
@@ -637,38 +849,6 @@
             const imageData = canvas.toDataURL('image/png');
             photo.src = imageData;
         }
-    </script>
-
-    <script>
-        const modal = document.getElementById('idPreviewModal');
-
-        modal.addEventListener('show.bs.modal', function () {
-
-            document.getElementById('previewName').textContent =
-                document.getElementById('studentCardName').textContent;
-
-            document.getElementById('previewId').textContent =
-                document.getElementById('studentCardNo').textContent;
-
-            document.getElementById('previewCourse').textContent =
-                document.getElementById('studentCardCourse').textContent;
-
-            document.getElementById('previewPhoto').src =
-                document.getElementById('photo').src;
-
-            const qrContainer = document.getElementById('previewQr');
-            qrContainer.innerHTML = '';
-
-            const idValue = document.getElementById('studentCardNo').textContent;
-
-            if (idValue) {
-                new QRCode(qrContainer, {
-                    text: idValue,
-                    width: 100,
-                    height: 100
-                });
-            }
-        });
     </script>
     
     <script>
@@ -846,18 +1026,6 @@
                             border: 1px solid #ffffff;
                         }
 
-                        .barcode {
-                            margin-top: 4px;
-                            height: 25px;
-                            background: repeating-linear-gradient(
-                                90deg,
-                                #000,
-                                #000 2px,
-                                transparent 2px,
-                                transparent 4px
-                            );
-                        }
-
                         /* Footer */
                         .id-footer {
                             /* background: #0f766e; */
@@ -878,43 +1046,102 @@
                             font-style: italic;
                             margin-bottom: 2px;
                         }
-
-                        /* Grid layout */
                         .back-grid {
+                            margin-top: 6px;
                             display: flex;
                             justify-content: space-between;
-                            gap: 12px;
+                            gap: 5px;
+                        }
+                        .back-col:first-child {
+                            flex: 3;
+                            margin-top: -5px;
+                        }
+                        .back-col:last-child {
+                            flex: 1; 
+                            margin-top: -5px;
+                        }
+                        .back-grid-second {
+                            margin-top: 10px;
+                            display: flex;
+                            justify-content: space-between;
+                            gap: 5px;
+                        }
+                        .back-col-second:first-child {
+                            flex: 2;
+                            margin-top: -5px;
                         }
 
-                        .back-col {
+                        .back-col-second:nth-child(2) {
                             flex: 1;
+                            margin-top: -5px;
                         }
 
+                        .back-col-second:last-child {
+                            flex: 1; 
+                            margin-top: -5px;
+                        }
                         .back-col label {
+                            font-weight: 300;
+                            font-size: 5pt;
+                        }
+                        .back-col-second label {
+                            font-weight: 300;
+                            font-size: 5pt;
+                        }
+                        .back-col-full{
+                            margin-top: -5px !important;
+                        }
+                        .back-col-full label{
                             font-weight: 300;
                             font-size: 5pt;
                         }
 
                         /* Lines */
-                        .line {
-                            border-bottom: 1px solid linear-gradient(135deg,#d8f3dc,#f1f5d6);
-                            height: 1px;
-                            margin-bottom: 10px;
+                        .linedata {
+                            padding-top: 2px !important;
+                            font-size: 5pt !important;
                         }
-
-                        /* Green divider */
+                        .line {
+                            border-bottom: 1px solid #000;
+                            height: 1px;
+                            margin-bottom: 8px;
+                            font-size: 5pt !important;
+                        }
                         .green-line {
+                            margin-top: 9px !important;
                             height: 2px;
                             background: #2f855a;
                             margin: 1px 0;
                         }
-
-                        /* Bottom note */
                         .note-text {
                             margin-top: 5px;
                             text-align: center;
+                            line-height: 1.1;
+                            font-size: 4.5pt;
+                        }
+                        .signature-block {
+                            text-align: center;
+                            margin-top: 5px;
+                        }
+
+                        .signature-line {
+                            margin-top: 25px !important;
+                            border-bottom: 1px solid #000;
+                            width: 100px;
+                            margin: 0 auto 2px auto;
+                        }
+
+                        .signature-name {
+                            font-size: 6pt;
+                            font-family: 'Poppins', sans-serif;
+                            font-weight: 600;
                             line-height: 1.2;
+                        }
+
+                        .signature-title {
                             font-size: 5pt;
+                            font-family: 'Poppins', sans-serif;
+                            margin-top: -1px;
                         }
 
 
