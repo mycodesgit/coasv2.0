@@ -238,14 +238,14 @@ class OssaIDsystemController extends Controller
                 ], 409);
             }
 
-            try {
+            //try {
 
                 $imagePath = null;
 
                 if ($base64Image) {
 
                     $client = new \Google\Client();
-                    $client->setAuthConfig(storage_path('app/google-drive.json'));
+                    $client->setAuthConfig(storage_path('app/cissproduction-b981573d8826.json'));
                     $client->addScope(\Google\Service\Drive::DRIVE);
 
                     $driveService = new \Google\Service\Drive($client);
@@ -295,12 +295,12 @@ class OssaIDsystemController extends Controller
                     'message' => 'Stored successfully'
                 ], 200);
 
-            } catch (\Exception $e) {
+            //} catch (\Exception $e) {
                 return response()->json([
                     'error' => true,
                     'message' => 'Failed to store'
                 ], 500);
-            }
+            //}
         }
     }
 

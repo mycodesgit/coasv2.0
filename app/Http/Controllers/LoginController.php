@@ -66,15 +66,19 @@ class LoginController extends Controller
         ]);
 
         $student = Student::where('stud_id', $request->studid)->first();
-        
+
         if (!$student) {
             return redirect()->back()->with('error', 'Invalid Credentials');
         }
 
-        $campusCodes = is_array($student->campus) ? $student->campus : explode(',', $student->campus);
-        $campus = Campus::whereIn('code', $campusCodes)->where('login_enabled', 1)->first();
+        $campusCodes = array_map('trim', explode(',', $student->campus));
+        $latestCampusCode = end($campusCodes);
 
-        if (!$campus || !$campus->login_enabled) {
+        $campus = Campus::where('code', $latestCampusCode)
+            ->where('login_enabled', 1)
+            ->first();
+
+        if (!$campus) {
             return redirect()->back()->with('error', 'Login is currently disabled for your campus.');
         }
         $validatedStudent = auth()->guard('kioskstudent')->attempt([
