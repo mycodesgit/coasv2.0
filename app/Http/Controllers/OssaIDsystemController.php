@@ -13,10 +13,6 @@ use Illuminate\Support\Str;
 use App\Rules\UniqueStudentID;
 use Illuminate\Support\Facades\Log;
 
-use Google\Client;
-use Google\Service\Drive;
-use Google\Service\Drive\DriveFile;
-
 use PDF;
 use Storage;
 use Carbon\Carbon;
@@ -216,7 +212,7 @@ class OssaIDsystemController extends Controller
         }
     }
 
-    public function create(Request $request)
+    public function create(Request $request) 
     {
         if ($request->isMethod('post')) {
 
@@ -225,153 +221,65 @@ class OssaIDsystemController extends Controller
                 'stdntrfid' => 'required',
             ]);
 
-            $studidName = $request->input('stdntid');
+            $studidName = $request->input('stdntid'); 
             $studidRFID = $request->input('stdntrfid');
-            $base64Image = $request->input('studphoto');
+            $base64Image = $request->input('studphoto'); 
             $encryptedRFID = Hash::make($studidRFID);
 
             $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
             if ($existingStudentID) {
                 return response()->json([
-                    'error' => true,
+                    'error' => true, 
                     'message' => 'This Student ID already has an RFID assigned.'
                 ], 409);
             }
 
-            //try {
-
-                $imagePath = null;
-
-                if ($base64Image) {
-
-                    $client = new \Google\Client();
-                    $client->setAuthConfig(storage_path('app/cissproduction-b981573d8826.json'));
-                    $client->addScope(\Google\Service\Drive::DRIVE);
-
-                    $driveService = new \Google\Service\Drive($client);
-
-                    if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
-
-                        $image = substr($base64Image, strpos($base64Image, ',') + 1);
-                        $image = str_replace(' ', '+', $image);
-                        $imageType = strtolower($type[1]);
-
-                        $year = date('Y');
-
-                        $fileName = $studidName . '_' . time() . '.' . $imageType;
-
-                        $fileMetadata = new \Google\Service\Drive\DriveFile([
-                            'name' => $fileName,
-                            'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')]
-                        ]);
-
-                        $file = $driveService->files->create($fileMetadata, [
-                            'data' => base64_decode($image),
-                            'mimeType' => 'image/' . $imageType,
-                            'uploadType' => 'multipart'
-                        ]);
-
-                        $permission = new \Google\Service\Drive\Permission([
-                            'type' => 'anyone',
-                            'role' => 'reader'
-                        ]);
-
-                        $driveService->permissions->create($file->id, $permission);
-
-                        $imagePath = $file->id;
-                    }
-                }
-
-                StudentRFID::create([
-                    'stdntid' => $studidName,
-                    'stdntrfid' => $encryptedRFID,
-                    'studphoto' => $imagePath,
-                    'campus' => Auth::guard('web')->user()->campus,
-                    'postedBy' => Auth::guard('web')->user()->id
-                ]);
-
+            $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
+            if ($existingRFID) {
                 return response()->json([
-                    'success' => true,
-                    'message' => 'Stored successfully'
-                ], 200);
+                    'error' => true,
+                    'message' => 'This RFID is already assigned to another Student ID.'
+                ], 409);
+            }
 
-            //} catch (\Exception $e) {
+            try {
+                $imagePath = null;
+                if ($base64Image) {
+                    $image = str_replace('data:image/png;base64,', '', $base64Image);
+                    $image = str_replace(' ', '+', $image);
+
+                    $year = date('Y');
+                    $folderPath = public_path('uploads/students/' . $year);
+
+                    if (!File::exists($folderPath)) {
+                        File::makeDirectory($folderPath, 0755, true);
+                    }
+
+                    $imageName = $studidName . '_' . time() . '.png';
+                    File::put($folderPath . '/' . $imageName, base64_decode($image));
+                    $imagePath = 'uploads/students/' . $year . '/' . $imageName;
+                }
+                    StudentRFID::create([
+                        'stdntid' => $studidName,
+                        'stdntrfid' => $encryptedRFID,
+                        'studphoto' => $imagePath, 
+                        'campus' => Auth::guard('web')->user()->campus,
+                        'postedBy' => Auth::guard('web')->user()->id
+                    ]);
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Stored successfully'
+                    ], 200);
+
+            } catch (\Exception $e) {
                 return response()->json([
                     'error' => true,
                     'message' => 'Failed to store'
                 ], 500);
-            //}
+            }
         }
     }
-
-    // public function create(Request $request) 
-    // {
-    //     if ($request->isMethod('post')) {
-
-    //         $request->validate([
-    //             'stdntid' => 'required',
-    //             'stdntrfid' => 'required',
-    //         ]);
-
-    //         $studidName = $request->input('stdntid'); 
-    //         $studidRFID = $request->input('stdntrfid');
-    //         $base64Image = $request->input('studphoto'); 
-    //         $encryptedRFID = Hash::make($studidRFID);
-
-    //         $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
-    //         if ($existingStudentID) {
-    //             return response()->json([
-    //                 'error' => true, 
-    //                 'message' => 'This Student ID already has an RFID assigned.'
-    //             ], 409);
-    //         }
-
-    //         $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
-    //         if ($existingRFID) {
-    //             return response()->json([
-    //                 'error' => true,
-    //                 'message' => 'This RFID is already assigned to another Student ID.'
-    //             ], 409);
-    //         }
-
-    //         try {
-    //             $imagePath = null;
-    //             if ($base64Image) {
-    //                 $image = str_replace('data:image/png;base64,', '', $base64Image);
-    //                 $image = str_replace(' ', '+', $image);
-
-    //                 $year = date('Y');
-    //                 $folderPath = public_path('uploads/students/' . $year);
-
-    //                 if (!File::exists($folderPath)) {
-    //                     File::makeDirectory($folderPath, 0755, true);
-    //                 }
-
-    //                 $imageName = $studidName . '_' . time() . '.png';
-    //                 File::put($folderPath . '/' . $imageName, base64_decode($image));
-    //                 $imagePath = 'uploads/students/' . $year . '/' . $imageName;
-    //             }
-    //             StudentRFID::create([
-    //                 'stdntid' => $studidName,
-    //                 'stdntrfid' => $encryptedRFID,
-    //                 'studphoto' => $imagePath, 
-    //                 'campus' => Auth::guard('web')->user()->campus,
-    //                 'postedBy' => Auth::guard('web')->user()->id
-    //             ]);
-
-    //             return response()->json([
-    //                 'success' => true,
-    //                 'message' => 'Stored successfully'
-    //             ], 200);
-
-    //         } catch (\Exception $e) {
-    //             return response()->json([
-    //                 'error' => true,
-    //                 'message' => 'Failed to store'
-    //             ], 500);
-    //         }
-    //     }
-    // }
 
     public function verifyStudentIDrfid()
     {
