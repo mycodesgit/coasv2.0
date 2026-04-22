@@ -263,7 +263,7 @@
                                                 </h6>
                                             </div>
                                             <div class="card-body">
-                                                <form id="adRFIDstud">
+                                                <form id="adRFIDstud" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="row g-2">
                                                         <div class="col-md-12">
@@ -291,6 +291,10 @@
                                                             <label for="studentUniqueRFID" class="form-label"> RFID:</label>
                                                             <input type="text" id="studentUniqueRFID" name="stdntrfid" class="form-control form-control-sm" readonly>
                                                             <input type="text" id="rfidScanner" style="opacity:0; position:absolute;">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label for="studPhoto" class="form-label"> Image:</label>
+                                                            <input type="text" id="studPhoto" name="studphoto" class="form-control form-control-sm" readonly>
                                                         </div>
                                                         <div class="col-md-12">
                                                             <button type="submit" class="btn btn-success text-light">
@@ -904,6 +908,10 @@
 
             const imageData = canvas.toDataURL('image/png');
             photo.src = imageData;
+
+            const studId = document.getElementById('studentCardNo').textContent;
+            document.getElementById('studPhoto').value = imageData;
+            console.log("Captured image length:", imageData.length);
         }
     </script>
     

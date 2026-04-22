@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('stdntid');
             $table->string('stdntrfid');
+            $table->string('studphoto')->nullable();
             $table->string('campus');
             $table->string('postedBy');
             $table->timestamps();

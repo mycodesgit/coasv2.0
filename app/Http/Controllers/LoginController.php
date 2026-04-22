@@ -71,7 +71,8 @@ class LoginController extends Controller
             return redirect()->back()->with('error', 'Invalid Credentials');
         }
 
-        $campus = Campus::where('code', $student->campus)->where('login_enabled', 1)->first();
+        $campusCodes = is_array($student->campus) ? $student->campus : explode(',', $student->campus);
+        $campus = Campus::whereIn('code', $campusCodes)->where('login_enabled', 1)->first();
 
         if (!$campus || !$campus->login_enabled) {
             return redirect()->back()->with('error', 'Login is currently disabled for your campus.');

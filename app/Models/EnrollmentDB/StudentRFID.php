@@ -15,6 +15,7 @@ class StudentRFID extends Model
     protected $fillable = [
         'stdntid',
         'stdntrfid',
+        'studphoto',
         'campus',
         'postedBy',
     ];
