@@ -297,6 +297,10 @@
                                                             <input type="text" id="studPhoto" name="studphoto" class="form-control form-control-sm" readonly>
                                                         </div>
                                                         <div class="col-md-12">
+                                                            <label for="studSignature" class="form-label"> Image:</label>
+                                                            <input type="text" id="studSignature" name="studsignature" class="form-control form-control-sm" readonly>
+                                                        </div>
+                                                        <div class="col-md-12">
                                                             <button type="submit" class="btn btn-success text-light">
                                                                 <i class="fas fa-save"></i> Save changes
                                                             </button>
@@ -332,7 +336,8 @@
                                                                     <img id="photo" class="pic">
                                                                 </div>
                                                                 <div class="signature-icon">
-                                                                    <span id="studentCardSignature"><i class="ti ti-signature"></i></span>
+                                                                    {{-- <span id="studentCardSignature"><i class="ti ti-signature"></i></span> --}}
+                                                                    <img id="studentCardSignature" style="max-width:50px; display:block;" />
                                                                 </div>
                                                             </div>
                                                             <div>
@@ -464,18 +469,18 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <div class="id-camera text-center">
-                                                        <div id="cameraPlaceholder" style="display:flex; justify-content:center; align-items:center; height:105px; background:#f1f1f1; border-radius:8px;">
-                                                            <i class="ti ti-signature" style="font-size:48px; color:#888;"></i>
-                                                        </div>
+                                                    <div class="id-signature text-center">
+                                                        {{-- <div id="signaturePlaceholder" style="display:flex; justify-content:center; align-items:center; height:150px; background:#f1f1f1; border-radius:8px;"> --}}
+                                                            <canvas id="signatureCanvas" style="background:#f1f1f1; width:100%; height:150px; border-radius:8px;"></canvas>
+                                                        {{-- </div> --}}
 
                                                         <div class="mt-2">
-                                                            <button type="button" class="btn btn-outline-warning" onclick="startCamera()" id="btnResetSignature">
+                                                            <button type="button" class="btn btn-outline-warning" onclick="resetSignature()" id="btnResetSignature">
                                                                 <i class="ti ti-refresh me-1"></i>Reset Signature
                                                             </button>
 
-                                                            <button type="button" class="btn btn-success text-light" onclick="capturePhoto()" id="btnCaptureSignature">
-                                                                <i class="ti ti-camera"></i> Capture
+                                                            <button type="button" class="btn btn-success text-light" onclick="saveSignature()" id="btnCaptureSignature">
+                                                                <i class="ti ti-signature"></i> Capture
                                                             </button>
                                                         </div>
                                                     </div>
@@ -564,7 +569,8 @@
                                     <img id="previewPhoto" class="pic">
                                 </div>
                                 <div class="signature-icon">
-                                    <span id="studentCardSignaturePreview"><i class="ti ti-signature"></i></span>
+                                    {{-- <span id="studentCardSignaturePreview"><i class="ti ti-signature"></i></span> --}}
+                                    <img id="studentCardSignaturePreview" style="max-width:80px; display:block;" />
                                 </div>
                             </div>
 
@@ -914,6 +920,8 @@
             console.log("Captured image length:", imageData.length);
         }
     </script>
+
+    
     
     <script>
         function printFrontIDonly() {

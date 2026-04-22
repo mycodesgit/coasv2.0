@@ -190,6 +190,8 @@
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
+    
     @if(request()->routeIs('ossa-index'))
         <script> 
             var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
@@ -204,6 +206,50 @@
 
     @if(request()->routeIs('rfid.store'))
         @include('script.ossas.rfidstudjs')
+        <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+        <script>
+            const sigCanvas = document.getElementById("signatureCanvas");
+            const signaturePad = new SignaturePad(sigCanvas);
+
+            function saveSignature() {
+                if (signaturePad.isEmpty()) {
+                    alert("Please provide a signature first.");
+                    return;
+                }
+
+                let dataURL = signaturePad.toDataURL();
+
+                document.getElementById("studSignature").value = dataURL;
+
+                let preview = document.getElementById("studentCardSignature");
+                preview.src = dataURL;
+                preview.style.display = "block";
+                
+                let previewCard = document.getElementById("studentCardSignaturePreview");
+                previewCard.src = dataURL;
+                previewCard.style.display = "block";
+
+                let cardSig = document.getElementById("studentCardSignature");
+                cardSig.src = dataURL;
+                cardSig.style.display = "block";
+            }
+            function resetSignature() {
+                signaturePad.clear();
+                document.getElementById("studSignature").value = "";
+
+                let preview = document.getElementById("studentCardSignature");
+                if (preview) {
+                    preview.src = "";
+                    preview.style.display = "none";
+                }
+
+                let cardSig = document.getElementById("studentCardSignature");
+                if (cardSig) {
+                    cardSig.src = "";
+                    cardSig.style.display = "none";
+                }
+            }
+        </script>
     @endif
     @if(request()->routeIs('verifyStudentIDrfid'))
         @include('script.ossas.verifyrfidjs')
