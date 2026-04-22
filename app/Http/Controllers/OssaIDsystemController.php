@@ -249,7 +249,7 @@ class OssaIDsystemController extends Controller
                     $image = str_replace(' ', '+', $image);
 
                     $year = date('Y');
-                    $folderPath = storage_path('app/public/students/' . $year);
+                    $folderPath = storage_path('app/public/studentPhotos/' . $year);
 
                     if (!File::exists($folderPath)) {
                         File::makeDirectory($folderPath, 0755, true);
@@ -257,7 +257,7 @@ class OssaIDsystemController extends Controller
 
                     $imageName = $studidName . '_' . time() . '.png';
                     File::put($folderPath . '/' . $imageName, base64_decode($image));
-                    $imagePath = 'uploads/students/' . $year . '/' . $imageName;
+                    $imagePath = 'studentPhotos/' . $year . '/' . $imageName;
                 }
                     StudentRFID::create([
                         'stdntid' => $studidName,
