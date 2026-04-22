@@ -249,7 +249,7 @@ class OssaIDsystemController extends Controller
                     $image = str_replace(' ', '+', $image);
 
                     $year = date('Y');
-                    $folderPath = public_path('uploads/students/' . $year);
+                    $folderPath = storage_path('app/public/students/' . $year);
 
                     if (!File::exists($folderPath)) {
                         File::makeDirectory($folderPath, 0755, true);
