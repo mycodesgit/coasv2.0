@@ -92,19 +92,23 @@
             top: 124px !important;
             left: 120px;
             font-size: 8pt;
-            font-weight: normal;
+            font-weight: bold;
             color: #ffffff;
             z-index: 10;
             clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);
         }
         .student-id {
             position: absolute;
+            font-weight: bold;
+            font-family: "Poppins", sans-serif !important;
             top: 160px;
             left: 125px;
             font-size: 8pt;
         }
         .student-course {
             position: absolute;
+            font-weight: bold;
+            font-family: "Poppins", sans-serif !important;
             top: 185px;
             left: 125px;
             font-size: 8pt;
@@ -586,17 +590,22 @@
                                     top: 60px !important;
                                     left: 104px;
                                     font-size: 8pt;
-                                    font-weight: normal;
+                                    font-family: 'Poppins', sans-serif !important;
+                                    font-weight: bold;
                                     color: #ffffff;
                                     z-index: 10;
                                     clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);" id="previewName"></div>
                                 <div style="position: absolute;
+                                            font-family: 'Poppins', sans-serif !important;
+                                            font-weight: bold;
                                             top: 95px;
                                             left: 110px;
                                             font-size: 7pt;" 
                                     id="previewId">
                                 </div>
                                 <div style="position: absolute;
+                                            font-family: 'Poppins', sans-serif !important;
+                                            font-weight: bold;
                                             top: 120px;
                                             left: 110px;
                                             font-size: 7pt;" 
@@ -1077,7 +1086,7 @@
                             top: 63px !important;
                             left: 103px;
                             font-size: 8pt;
-                            font-weight: normal;
+                            font-weight: bold;
                             color: #ffffff;
                             z-index: 10;
                             clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);
@@ -1085,6 +1094,8 @@
 
                         .student-id {
                             position: absolute;
+                            font-weight: bold;
+                            font-family: "Poppins", sans-serif !important;
                             top: 98px;
                             left: 110px;
                             font-size: 8pt;
@@ -1092,6 +1103,8 @@
 
                         .student-course {
                             position: absolute;
+                            font-weight: bold;
+                            font-family: "Poppins", sans-serif !important;
                             top: 120px;
                             left: 110px;
                             font-size: 8pt;
