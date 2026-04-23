@@ -7,14 +7,13 @@ toastr.options = {
 
 $(document).ready(function() {
 
-    // RFID scanner listener
     const scanner = document.getElementById("rfidScanner");
     const display = document.getElementById("studentUniqueRFID");
     let lastScannedRFID = "";
 
     scanner.addEventListener("keypress", function(e) {
         if (e.key === "Enter") {
-            e.preventDefault(); // <-- prevents autosubmit
+            e.preventDefault(); 
 
             let currentRFID = scanner.value.trim();
 
@@ -24,21 +23,18 @@ $(document).ready(function() {
                 lastScannedRFID = currentRFID;
             }
 
-            scanner.value = ""; // clear for next scan
+            scanner.value = ""; 
         }
     });
 
-    // Form submission via AJAX
     $('#adRFIDstud').submit(function(event) {
         event.preventDefault();
 
-        // Prevent saving if no RFID scanned
         if(display.value.trim() === "") {
             toastr.error("Please scan the RFID card before saving.");
             return;
         }
 
-        // Serialize as string to preserve full Student ID format
         var formData = new FormData(this); 
 
         $.ajax({
@@ -52,7 +48,6 @@ $(document).ready(function() {
                     toastr.success(response.message);
                     console.log(response);
 
-                    // Reset form and prepare for next student
                     $('#adRFIDstud')[0].reset();
                     lastScannedRFID = "";
                     $('#stdntID').focus();

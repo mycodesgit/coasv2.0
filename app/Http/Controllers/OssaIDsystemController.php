@@ -224,6 +224,7 @@ class OssaIDsystemController extends Controller
             $studidName = $request->input('stdntid'); 
             $studidRFID = $request->input('stdntrfid');
             $base64Image = $request->input('studphoto'); 
+            $base64Signature = $request->input('studsignature');
             $encryptedRFID = Hash::make($studidRFID);
 
             $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
@@ -244,11 +245,13 @@ class OssaIDsystemController extends Controller
 
             try {
                 $imagePath = null;
+                $signaturePath = null;
+                $year = date('Y');
+
                 if ($base64Image) {
                     $image = str_replace('data:image/png;base64,', '', $base64Image);
                     $image = str_replace(' ', '+', $image);
 
-                    $year = date('Y');
                     $folderPath = storage_path('app/public/studentPhotos/' . $year);
 
                     if (!File::exists($folderPath)) {
@@ -259,18 +262,36 @@ class OssaIDsystemController extends Controller
                     File::put($folderPath . '/' . $imageName, base64_decode($image));
                     $imagePath = 'studentPhotos/' . $year . '/' . $imageName;
                 }
-                    StudentRFID::create([
-                        'stdntid' => $studidName,
-                        'stdntrfid' => $encryptedRFID,
-                        'studphoto' => $imagePath, 
-                        'campus' => Auth::guard('web')->user()->campus,
-                        'postedBy' => Auth::guard('web')->user()->id
-                    ]);
 
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'Stored successfully'
-                    ], 200);
+                if ($base64Signature) {
+                    $signature = str_replace('data:image/png;base64,', '', $base64Signature);
+                    $signature = str_replace(' ', '+', $signature);
+
+                    $folderPath = storage_path('app/public/studentSignatures/' . $year);
+
+                    if (!File::exists($folderPath)) {
+                        File::makeDirectory($folderPath, 0755, true);
+                    }
+
+                    $signatureName = $studidName . '_signature_' . time() . '.png';
+                    File::put($folderPath . '/' . $signatureName, base64_decode($signature));
+
+                    $signaturePath = 'studentSignatures/' . $year . '/' . $signatureName;
+                }
+
+                StudentRFID::create([
+                    'stdntid' => $studidName,
+                    'stdntrfid' => $encryptedRFID,
+                    'studphoto' => $imagePath, 
+                    'studsignature' => $signaturePath,
+                    'campus' => Auth::guard('web')->user()->campus,
+                    'postedBy' => Auth::guard('web')->user()->id
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Stored successfully'
+                ], 200);
 
             } catch (\Exception $e) {
                 return response()->json([
@@ -285,63 +306,36 @@ class OssaIDsystemController extends Controller
     {
         return view('ossas.rfidreg.verifyrfid');
     }
-
+    
     public function verifyByRFID(Request $request)
     {
-        // Log the incoming request right at the beginning
-        // Log::info('verifyRFID endpoint called', [
-        //     'ip' => $request->ip(),
-        //     'user_agent' => $request->userAgent(),
-        //     'payload' => $request->all(),
-        // ]);
-
         $plainRfid = trim($request->input('stdntrfid', ''));
 
-        //Log::info('Extracted RFID value', ['stdntrfid' => $stdntrfid]);
-
         if (empty($plainRfid)) {
-            //Log::warning('No RFID provided in request');
             return response()->json([
                 'success' => false,
                 'message' => 'RFID is required'
             ], 400);
         }
-
-        $hashedRfid = hash('sha256', $plainRfid);
-
-        try {
-            // Step 1: Find RFID record
-            //Log::info('Querying StudentRFID table', ['column' => 'stdntrfid', 'value' => $stdntrfid]);
-
-            $rfid = StudentRFID::where('stdntrfid', $hashedRfid)->first();
-
-            // Log::info('RFID query result', [
-            //     'found' => $rfid !== null,
-            //     'rfid_data' => $rfid ? $rfid->toArray() : null
-            // ]);
+        //try {
+            $rfid = StudentRFID::all()->first(function ($item) use ($plainRfid) {
+                return Hash::check($plainRfid, $item->stdntrfid);
+            });
 
             if (!$rfid) {
-                //Log::info('RFID not found in database');
                 return response()->json([
                     'success' => false,
                     'message' => 'RFID card not registered'
                 ], 404);
             }
-
-            // Step 2: Get the linked student ID
             $studentId = $rfid->stdntid;
-            //Log::info('Found linked student ID', ['stdntid' => $studentId]);
 
             if (empty($studentId)) {
-                //Log::warning('RFID record has no associated student ID', ['rfid' => $rfid->toArray()]);
                 return response()->json([
                     'success' => false,
                     'message' => 'No student linked to this RFID'
                 ], 400);
             }
-
-            // Step 3: Find the student
-            //Log::info('Querying Student table', ['stud_id' => $studentId]);
 
             $student = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
                     ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
@@ -359,56 +353,30 @@ class OssaIDsystemController extends Controller
                 ])
                 ->first();
 
-            // Log::info('Student query result', [
-            //     'found' => $student !== null,
-            //     'student_data' => $student ? $student->toArray() : null
-            // ]);
-
             if (!$student) {
-                //Log::info('Student record not found for ID', ['stud_id' => $studentId]);
                 return response()->json([
                     'success' => false,
                     'message' => 'Student record not found'
                 ], 404);
             }
 
-            // Success
-            //Log::info('Student data successfully retrieved');
-
             return response()->json([
                 'success' => true,
                 'student' => $student
             ]);
 
-        } catch (\Illuminate\Database\QueryException $e) {
-            // Catch database-related errors specifically
-            // Log::error('Database error in verifyRFID', [
-            //     'message' => $e->getMessage(),
-            //     'sql'     => $e->getSql() ?? 'N/A',
-            //     'bindings'=> $e->getBindings() ?? [],
-            //     'file'    => $e->getFile(),
-            //     'line'    => $e->getLine(),
-            // ]);
-
+        //} catch (\Illuminate\Database\QueryException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Database error occurred',
-                'error'   => $e->getMessage() // only in development!
+                'error'   => $e->getMessage() 
             ], 500);
 
-        } catch (\Exception $e) {
-            // Catch any other unexpected error
-            // Log::error('Unexpected error in verifyRFID', [
-            //     'message' => $e->getMessage(),
-            //     'file'    => $e->getFile(),
-            //     'line'    => $e->getLine(),
-            //     'trace'   => $e->getTraceAsString(),
-            // ]);
-
+        //} catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Server error while processing request'
             ], 500);
-        }
+        //}
     }
 }

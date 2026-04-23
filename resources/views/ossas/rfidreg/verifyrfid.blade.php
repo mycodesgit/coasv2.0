@@ -27,13 +27,11 @@
                 <div class="row g-3 mb-3 mt-3">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header pt-3">
-                                <h6 class="card-title">
-                                    <i class="ti ti-line-scan"></i> Student RFID Verification
-                                </h6>
-                            </div>
                             <div class="card-body">
-                                <div class="row">
+                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
+                                    <h4>Student RFID Registration</h4>
+                                </div>
+                                <div class="row mt-3">
                                     <div class="col-md-7">
                                         <form id="adRFIDstud">
                                             @csrf
@@ -68,46 +66,7 @@
                                         </form>
                                     </div>
                                     <div class="col-md-5 d-none d-md-block">
-                                        <div class="table-responsive">
-                                            <div class="id-card">
-                                                <div class="id-header">
-                                                    <div>
-                                                        <h6>
-                                                            <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="34" style="margin-top: 10px">
-                                                            <span>CENTRAL PHILIPPINES STATE UNIVERSITY</span>
-                                                        </h6>
-                                                        <small style="padding-left: 40px; margin-top: -15px">Kabankalan City, Negros Occidental, 6111</small>
-                                                    </div>
-                                                </div>
-                                                <div class="id-body">
-                                                    <div class="student-photo">
-                                                        <img id="photo" src="{{ asset('uilibs/images/student.png') }}">
-                                                    </div>
-                                                    <div class="student-info">
-                                                        <h5>STUDENT ID CARD</h5>
-                                                        <div class="info-row">
-                                                            <div class="info-label">Name</div>
-                                                            <div>: <span id="studentCardName"></span></div>
-                                                        </div>
-                                                        <div class="info-row">
-                                                            <div class="info-label">Student ID</div>
-                                                            <div>: <span id="studentCardNo"></span></div>
-                                                        </div>
-                                                        <div class="info-row">
-                                                            <div class="info-label">Course</div>
-                                                            <div>: <span id="studentCardCourse"></span></div>
-                                                        </div>
-                                                        <div class="info-row">
-                                                            <div class="info-label">Gender</div>
-                                                            <div>: <span id="studentCardGender"></span></div>
-                                                        </div>
-                                                        <div class="barcode"></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="id-footer"></div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -118,8 +77,8 @@
         </div>
     </div>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('rfidScanner').focus();
-});
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('rfidScanner').focus();
+        });
+    </script>
 @endsection

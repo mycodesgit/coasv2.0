@@ -297,12 +297,12 @@
                                                             <input type="text" id="rfidScanner" style="opacity:0; position:absolute;">
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <label for="studPhoto" class="form-label"> Image:</label>
-                                                            <input type="text" id="studPhoto" name="studphoto" class="form-control form-control-sm" readonly>
+                                                            {{-- <label for="studPhoto" class="form-label"> Image:</label> --}}
+                                                            <input type="hidden" id="studPhoto" name="studphoto" class="form-control form-control-sm" readonly>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <label for="studSignature" class="form-label"> Image:</label>
-                                                            <input type="text" id="studSignature" name="studsignature" class="form-control form-control-sm" readonly>
+                                                            {{-- <label for="studSignature" class="form-label"> Image:</label> --}}
+                                                            <input type="hidden" id="studSignature" name="studsignature" class="form-control form-control-sm" readonly>
                                                         </div>
                                                         <div class="col-md-12">
                                                             <button type="submit" class="btn btn-success text-light">
