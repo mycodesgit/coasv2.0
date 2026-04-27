@@ -110,7 +110,7 @@
                         <td>{{ $datalogbook->sub_name }}</td>
                         <td>{{ $datalogbook->sub_title }}</td>
                         <td>{{ $datalogbook->subSec }}</td>
-                        <td>{{ $datalogbook->collegeabbr }}</td>
+                        <td>{{ $datalogbook->faccollege }}</td>
                         <td>{{ $datalogbook->timebeingsubmitted }}</td>
                         <td></td>
                     </tr>
