@@ -77,8 +77,8 @@
         </li>
     @endif
     
-    {{-- @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7, 12, 14])) --}}
-    @if(in_array(Auth::guard('web')->user()->role, [0]))
+    @if(in_array(Auth::guard('web')->user()->role, [0, 5, 6, 7, 12, 14]))
+    {{-- @if(in_array(Auth::guard('web')->user()->role, [0])) --}}
         <li>
             <a class="nav-link {{ $facultyActive }}" href="{{ route('faculty_list') }}">
                 <i class="ti ti-users"></i><span class="nav-text">Faculty List</span>

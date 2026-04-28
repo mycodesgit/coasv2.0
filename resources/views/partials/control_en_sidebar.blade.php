@@ -191,6 +191,11 @@
             </a>
         </li>
         <li>
+            <a class="nav-link" href="#">
+                <i class="ti ti-calendar-due"></i><span class="nav-text">Extended Students</span>
+            </a>
+        </li>
+        <li>
             <a class="nav-link {{ $elplActive }}" href="{{ route('elpl_list') }}">
                 <i class="ti ti-file-excel"></i><span class="nav-text">EL and PL</span>
             </a>
