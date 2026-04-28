@@ -247,12 +247,9 @@
         </li>
     @endif
     
-    @if(in_array(Auth::guard('web')->user()->role, [0]) || Auth::guard('web')->user()->lname == 'Arlos')
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3]))
         <li class="nav-text-space"><small class="nav-text"></small></li>
         <li class="px-4 py-2"><small class="nav-text text-muted">Logs</small></li>
-    @endif
-
-    @if(in_array(Auth::guard('web')->user()->role, [0, 3]))
         <li>
             <a class="nav-link {{ $updenrlmntlogsActive }}" href="{{ route('updateEnrlmntlogsRead') }}">
                 <i class="ti ti-logs"></i><span class="nav-text">Updated Enroll. Logs</span>
