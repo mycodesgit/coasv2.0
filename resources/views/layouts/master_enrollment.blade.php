@@ -402,6 +402,9 @@
     @if(request()->routeIs('elpl_listsearch'))
         <script src="{{ asset('js/ajax/enrolment/elplSerialize.js') }}?v={{ time() }}"></script>
     @endif
+    @if(request()->routeIs('view.index'))
+        @include('script.enrllmnt.extendedSerialize')
+    @endif
     @if(request()->routeIs('studInfo_search'))
         <script src="{{ asset('js/ajax/enrolment/studentinfoSerialize.js') }}?v={{ time() }}"></script>
     @endif

@@ -42,6 +42,7 @@ use App\Http\Controllers\EnStudGrdeViewController;
 use App\Http\Controllers\EnStudReportCardController;
 use App\Http\Controllers\EnGradesheetLogbookController;
 use App\Http\Controllers\EnStudELPLController;
+use App\Http\Controllers\EnExtendedStudentController;
 use App\Http\Controllers\EnStudNoEnrolleeController;
 use App\Http\Controllers\DeletedLogEnrollmentController;
 use App\Http\Controllers\EnStudEnrolledController;
@@ -609,6 +610,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/stud/reportcard/search', [EnStudReportCardController::class, 'reportCard_listsearch'])->name('reportCard_listsearch');
             Route::get('/info/stud/reportcard/searchPDF', [EnStudReportCardController::class, 'reportCard_listsearchpdf'])->name('reportCard_listsearchpdf');
 
+            Route::get('/info/extended/enrollment/students', [EnExtendedStudentController::class, 'index'])->name('view.index');
+            Route::get('/info/extended/enrollment/students/fetch', [EnExtendedStudentController::class, 'show'])->name('view.show');
+
             Route::get('/info/enrollmentList', [EnStudELPLController::class, 'elpl_list'])->name('elpl_list');
             Route::get('/info/getcourse/ajax', [EnStudELPLController::class, 'getCourses'])->name('getCourses');
             Route::get('/info/enrollmentList/search', [EnStudELPLController::class, 'elpl_listsearch'])->name('elpl_listsearch');
@@ -616,6 +620,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/info/enrollmentList/ranking', [EnStudELPLController::class, 'ranking_list'])->name('ranking_list');
             Route::get('/info/enrollmentList/ranking/search', [EnStudELPLController::class, 'ranking_listsearch'])->name('ranking_listsearch');
+
 
             Route::get('/info/number/enrollees', [EnStudNoEnrolleeController::class, 'studnoenrollee'])->name('studnoenrollee');
             Route::post('/info/number/enrollees', [EnStudNoEnrolleeController::class, 'studnoenrollee_searchList'])->name('studnoenrollee_searchList');

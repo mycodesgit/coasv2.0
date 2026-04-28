@@ -23,6 +23,7 @@
     $studsubjActive = in_array($curr_route, ['studsubjectsRead', 'listsearch_studsubjectsRead', 'listsearchview_studsubjectsRead']) ? 'active' : '';
     $studviewgrdeActive = in_array($curr_route, ['studviewgradeRead', 'search_studviewgradeRead', 'searchgradschool_studviewgradeRead']) ? 'active' : '';
     $reportcardActive = in_array($curr_route, ['reportCard_list', 'reportCard_listsearch']) ? 'active' : '';
+    $extendedstudActive = in_array($curr_route, ['view.index']) ? 'active' : '';
     $elplActive = in_array($curr_route, ['elpl_list', 'elpl_listsearch']) ? 'active' : '';
     $rankActive = in_array($curr_route, ['ranking_list', 'ranking_listsearch']) ? 'active' : '';
     $numenrolledActive = in_array($curr_route, ['studnoenrollee', 'studnoenrollee_searchList']) ? 'active' : '';
@@ -191,7 +192,7 @@
             </a>
         </li>
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $extendedstudActive }}" href="{{ route('view.index') }}">
                 <i class="ti ti-calendar-due"></i><span class="nav-text">Extended Students</span>
             </a>
         </li>
