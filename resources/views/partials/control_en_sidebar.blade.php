@@ -13,6 +13,7 @@
     $gradeStudcorrectActive = in_array($curr_route, ['studgradecorrection_search', 'studgradecorrection_resultsearch', 'geneStudentcorrectiongrades']) ? 'active' : '';
     $studtransAllActive = in_array($curr_route, ['list_trans']) ? 'active' : '';
     $subjectAllActive = in_array($curr_route, ['subjectsRead']) ? 'active' : '';
+    $gradstudAllActive = in_array($curr_route, ['gradstud.index', 'gradstud.store']) ? 'active' : '';
 
 
     $studinfoActive = in_array($curr_route, ['studInfo', 'studInfo_search']) ? 'active' : '';
@@ -132,10 +133,18 @@
             </a>
         </li>
     @endif
+
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4]))
+        <li>
+            <a class="nav-link {{ $gradstudAllActive }}" href="{{ route('gradstud.index') }}">
+                <i class="ti ti-school"></i><span class="nav-text">Graduates</span>
+            </a>
+        </li>
+    @endif
     
     @if(Auth::guard('web')->user()->role != 19)
-    <li class="nav-text-space"><small class="nav-text"></small></li>
-    <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
+        <li class="nav-text-space"><small class="nav-text"></small></li>
+        <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
     @endif
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 13, 14]) || Auth::guard('web')->user()->lname == 'Gargoles')

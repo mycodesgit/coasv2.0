@@ -89,6 +89,28 @@ CISS V.1.0 || Faculty Services
                                             </div>
                                         </div>
                                     </div>
+
+                                    @if($authfacdesig->contains(Auth::guard('faculty')->user()->id))
+                                        <div class="col-lg-3 col-12">
+                                            <div class="card card-hover h-100">
+                                                <div class="card-body p-6">
+                                                    <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
+                                                        <div>
+                                                            <h3 class="fw-bold h4">Pre-enrollment</h3>
+                                                            <span>Evaluate your students for the upcoming semester.</span>
+                                                        </div>
+                                                        <div>
+                                                            <i class="ti ti-device-laptop fs-1 text-success"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center small">
+                                                        <div class="text-muted"><span class="text-success">2025-2026</span>, <span class="text-dark">2nd Sem</span></div>
+                                                        <div><a href="{{ route('supfaceval') }}" class="link-defalt text-decoration-underline">Start Evaluation</a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

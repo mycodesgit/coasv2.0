@@ -54,7 +54,26 @@ class GradingFacultyServicesController extends Controller
 {
     public function index()
     {
-        return view('grading.gradesheet.faculty.services.index');
+        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        if (!$activeConfig) {
+            return back()->with('error', 'No active school year found.');
+        }
+        $activeConfigId = $activeConfig->id;
+        
+        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
+            ->orderBy('id', 'desc') // Get the most recent one
+            ->first();
+
+        $schlyearactiveYear = $activeConfig->schlyear;
+        $schlyearactive = $activeConfig->schlyear;
+        $semesteractive = $activeConfig->semester;
+        
+        $authfacdesig = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
+                ->where('schlyear', $schlyearactive)
+                ->where('semester', $semesteractive)
+                ->pluck('fac_id');
+
+        return view('grading.gradesheet.faculty.services.index', compact('authfacdesig'));
     }
 
     public function schedulefac()

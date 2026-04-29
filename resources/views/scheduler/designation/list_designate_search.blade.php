@@ -189,27 +189,25 @@ CISS V.1.0 || Class Scheduler
     </div>
 
     <div class="modal fade mt-6" id="editDesignationModal" role="dialog" aria-labelledby="editDesignationModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDesignationModalLabel">Edit Designation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h6 class="modal-title" id="editDesignationModalLabel">Edit Designation</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editDesignationForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="editDesignationId">
                         <div class="form-group">
-                            <label for="editDesignationName">Name</label>
-                            <select class="form-control form-control-sm select2bs4" name="fac_id" id="editDesignationName">
+                            <label for="editDesignationName">Name: <span class="text-danger">*</span></label>
+                            <select class="form-control form-control-sm select2" name="fac_id" id="editDesignationName">
                                 @foreach($faclist as $itemfac)
                                     <option value="{{ $itemfac->id }}">{{ $itemfac->lname }}, {{ $itemfac->fname }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="editDesignationDept">Department</label>
+                        <div class="form-group mt-3">
+                            <label for="editDesignationDept">Department: <span class="text-danger">*</span></label>
                             <select class="form-control form-control-sm" name="facCollege" id="editDesignationDept">
                                 <option disabled selected>Select</option>
                                 <option value="ADM">ADM</option>
@@ -222,8 +220,8 @@ CISS V.1.0 || Class Scheduler
                                 <option value="CTE">COTED</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="editDesignationDesignation">Designation</label>
+                        <div class="form-group mt-3">
+                            <label for="editDesignationDesignation">Designation: <span class="text-danger">*</span></label>
                             <select class="form-control form-control-sm" id="editDesignationDesignation" name="designation">
                                 <option value="Dean">Dean</option>
                                 <option value="Division Chair">Division Chair</option>
@@ -233,13 +231,13 @@ CISS V.1.0 || Class Scheduler
                                 <option value="CampusAdmin">Campus Admin</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="editDesignationUnit">Unit</label>
+                        <div class="form-group mt-3">
+                            <label for="editDesignationUnit">Unit: <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="editDesignationUnit" name="dunit">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success">Save changes</button>
                     </div>
                 </form>

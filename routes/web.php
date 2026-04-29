@@ -11,7 +11,9 @@ use App\Http\Controllers\RequestDocumentsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LoginFacultyController;
 use App\Http\Controllers\GoogleFacAuthController;
+
 use App\Http\Controllers\ControlController;
+
 use App\Http\Controllers\ForAllEncryptIDController;
 use App\Http\Controllers\AdAdmissionController;
 use App\Http\Controllers\AdAdmissionAppController;
@@ -35,6 +37,7 @@ use App\Http\Controllers\EnrollmentQueueController;
 use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnTransferStudController;
 use App\Http\Controllers\EnSubjectsController;
+use App\Http\Controllers\EnGraduatesController;
 use App\Http\Controllers\EnreportsController;
 use App\Http\Controllers\EnStudentPerCurriculumController;
 use App\Http\Controllers\EnStudentPerSubjectController;
@@ -562,6 +565,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/ajaxsublist', [EnSubjectsController::class, 'getsubjectsRead'])->name('getsubjectsRead');
             Route::get('/ajaxsubcode', [EnSubjectsController::class, 'getNextSubjectNumber'])->name('getNextSubjectNumber');
             Route::post('/list/add', [EnSubjectsController::class, 'subjectsCreate'])->name('subjectsCreate');
+        });
+        
+        Route::prefix('graduatesstudent')->group(function () {
+            Route::get('/view', [EnGraduatesController::class, 'index'])->name('gradstud.index');
+            Route::get('/view/list', [EnGraduatesController::class, 'store'])->name('gradstud.store');
         });
 
         Route::prefix('report')->group(function () {
