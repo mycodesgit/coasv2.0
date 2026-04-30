@@ -165,9 +165,9 @@ CISS V.1.0 || Admission
     <script>
         var viewallAppAcceptedRoute = "{{ route('getsrchacceptedListappAll') }}";
         var appidEncryptRoute = "{{ route('idcrypt') }}";
-        var pushtoEnrollmentRoute = '{{ route('save_enroll_applicant',  ['id' => ':id']) }}';
+        var pushtoEnrollmentRoute = "{{ route('save_enroll_applicant',  ['id' => ':id']) }}";
 
-        var isCampus = '{{ Auth::guard('web')->user()->campus }}';
-        var requestedCampus = '{{ request('campus') }}'
+        var isCampus = "{{ Auth::guard('web')->user()->campus }}";
+        var requestedCampus = "{{ request('campus') }}";
     </script>
 @endsection

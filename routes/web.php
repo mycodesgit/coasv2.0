@@ -78,9 +78,6 @@ use App\Http\Controllers\ScholarshipController;
 
 use App\Http\Controllers\YearbookController;
 
-use App\Http\Controllers\GradingFacultyController;
-use App\Http\Controllers\GradingFacultyServicesController;
-
 use App\Http\Controllers\KioskAdminController;
 
 use App\Http\Controllers\QueueingSettingController;
@@ -96,6 +93,11 @@ use App\Http\Controllers\SettingAddressController;
 use App\Http\Controllers\SettingSignatoryController;
 
 use App\Http\Controllers\KioskDashController;
+
+use App\Http\Controllers\GradingFacultyController;
+use App\Http\Controllers\GradingFacultyServicesController;
+use App\Http\Controllers\GradingFacultyAdmissionConfirmController;
+use App\Http\Controllers\GradingFacultyAdmissionAcceptedController;
 
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentClassSchedController;
@@ -233,6 +235,7 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('estudgrdmod/grades/faculty')->group(function () {
         
         Route::get('/', [GradingFacultyController::class, 'index'])->name('grading-index');
+        Route::post('/faculty/applist/encrypt', [ForAllEncryptIDController::class, 'idFacCrypt'])->name('idFacCrypt');
 
         Route::prefix('stud/attendance')->group(function () {
             Route::get('/list/current/sem', [GradingFacultyController::class, 'attendancefac'])->name('attendancefac');
@@ -266,6 +269,21 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
                 Route::get('/list/rate/faculty', [GradingFacultyServicesController::class, 'supfacevalrate'])->name('supfacevalrate');
                 Route::post('/list/rate/dean/rate/fac/submit', [GradingFacultyServicesController::class,'deanfacevalrateformCreate'])->name('deanfacevalrateformCreate');
             });
+        });
+
+        Route::prefix('app/confirm')->group(function () {
+            Route::get('/list/search', [GradingFacultyAdmissionConfirmController::class, 'index'])->name('confirm.index');
+            Route::get('/list/search/view', [GradingFacultyAdmissionConfirmController::class, 'store'])->name('confirm.store');
+            Route::get('/list/search/view/result', [GradingFacultyAdmissionConfirmController::class, 'show'])->name('confirm.show');
+            Route::get('/getfacprograms', [GradingFacultyAdmissionConfirmController::class, 'getFacCampPrograms'])->name('getFacCampPrograms');
+            Route::post('/fac/rating/save', [GradingFacultyAdmissionConfirmController::class, 'savefacapplicantmod_rating'])->name('savefacapplicantmod_rating');
+            Route::post('/fac/saveapplicant', [GradingFacultyAdmissionConfirmController::class, 'examineefacpushAcceptajax'])->name('examineefacpushAcceptajax');
+        });
+        
+        Route::prefix('app/accepted')->group(function () {
+            Route::get('/list/search', [GradingFacultyAdmissionAcceptedController::class, 'index'])->name('accepted.index');
+            Route::get('/list/search/view', [GradingFacultyAdmissionAcceptedController::class, 'store'])->name('accepted.store');
+            Route::get('/list/search/view/results', [GradingFacultyAdmissionAcceptedController::class, 'show'])->name('accepted.show');
         });
     });
 });

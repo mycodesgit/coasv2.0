@@ -33,20 +33,17 @@
         .nav-link {
             font-size: 14px;
         }
-
         .nav-link:hover {
             background-color: #f8f9fa;
             border-radius: 6px;
         }
-
         .collapse .nav-link {
             color: #555;
         }
         .sidebar .nav-link.active {
-            color: #ffffff !important;
-            background-color: #177541 !important;
+            color: #000000 !important;
+            background-color: #65ac86 !important;
         }
-        /* When sidebar is collapsed, remove active background */
         .sidebar.collapsed .nav-link.active,
         .sidebar.collapsed .nav-link:hover {
             background-color: transparent !important;
@@ -85,7 +82,6 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
         .bottom-nav {
             display: none;
         }
@@ -106,18 +102,15 @@
                 box-shadow: 0 6px 16px rgba(128, 128, 128, 0.404);
                 z-index: 999;
             }
-
             .bottom-nav a {
                 text-decoration: none !important;
-                color: inherit; /* keep text/icon color the same */
+                color: inherit; 
             }
-
             .bottom-nav a:visited,
             .bottom-nav a:active,
             .bottom-nav a:focus {
                 text-decoration: none !important;
             }
-
             .nav-item {
                 display: flex;
                 flex-direction: column;
@@ -129,13 +122,11 @@
                 transition: 0.2s;
                 padding: 5px;
             }
-
             .nav-item .icon {
                 font-size: 18px;
                 margin-bottom: 1px;
                 margin-top: 3px;
             }
-
             .nav-item.active {
                 /* color: #377858; */
                 color: #ffffff;
@@ -158,58 +149,47 @@
         }
         .radio-group {
             display: flex;
-            gap: 20px; /* Space between radio options */
+            gap: 20px;
             margin-top: 15px;
         }
-
-        /* Style the radio buttons */
         .radio-group input[type="radio"] {
             width: 22px;
             height: 22px;
-            accent-color: black; /* Change selected radio button color */
+            accent-color: black;
             cursor: pointer;
-            vertical-align: middle; /* Ensure alignment with text */
+            vertical-align: middle; 
         }
-
-        /* Style the links and keep alignment */
         .radio-group a {
             display: flex;
             align-items: center;
-            gap: 2px; /* Space between radio and text */
+            gap: 2px; 
             font-size: 1em;
             font-weight: bold;
             cursor: pointer;
-            text-decoration: none; /* Remove underline from links */
+            text-decoration: none;
             color: black;
         }
-
-        /* Ensure text and radio button are aligned */
         .radio-group a span {
             display: inline-block;
             margin-left: 5px;
         }
-
-        /* Hide the default radio button */
         .radio-group input[type="radio"] {
             display: none;
         }
-
-        /* Style for the custom radio button */
         .radio-group label {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 35px; /* Size of the radio button */
+            width: 35px; 
             height: 35px;
             border-radius: 50%;
-            border: 2px solid #999; /* Default border */
+            border: 2px solid #999; 
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
             position: relative;
         }
-
         @media (max-width: 768px) {
             .radio-group label {
                 width: 28px;
@@ -219,15 +199,22 @@
                 border-bottom: 0 !important;
             }
         }
-
-        /* When radio is selected, change background color */
         .radio-group input[type="radio"]:checked + label {
-            background-color: #28a745; /* Blue background */
-            color: white; /* White text */
+            background-color: #28a745; 
+            color: white; 
             border-color: #28a745;
         }
         .textbold{
             font-weight: bold;
+        }
+        .card-animate {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.3s ease;
+        }
+        .card-animate.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
     </style>
 </head>
@@ -384,6 +371,17 @@
                 //height: '150'
             })
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll('.card-animate');
+
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 90); // stagger effect
+            });
+        });
+
         $(document).ready(function() {
             @if(session('error'))
                 toastr.error("{{ session('error') }}", "Error", {
@@ -463,6 +461,14 @@
 
     @if (request()->routeIs('supfacevalrate'))
         @include('script.studnts.evaluation.ratecardnextbutton')
+    @endif
+    
+    @if (request()->routeIs('confirm.store'))
+        <script src="{{ asset('js/ajax/admssion/examresult/exconfirmSerialize.js') }}"></script>
+    @endif
+
+    @if(request()->routeIs('accepted.store'))
+        <script src="{{ asset('js/ajax/admssion/examresult/acceptedSerialize.js') }}"></script>
     @endif
 </body>
 

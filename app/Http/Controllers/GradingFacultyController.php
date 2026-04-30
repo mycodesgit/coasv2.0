@@ -281,8 +281,11 @@ class GradingFacultyController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
+
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
             
-        return view('grading.gradesheet.faculty.attendance', compact('sy'));
+        return view('grading.gradesheet.faculty.attendance', compact('sy', 'authfacdesig'));
     }
 
     public function attendance_searchfac(Request $request)

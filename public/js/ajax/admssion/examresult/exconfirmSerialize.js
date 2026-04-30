@@ -295,6 +295,7 @@ $('#interviewResultForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
+                document.activeElement.blur();
                 $('#interviewresultexamModal').modal('hide');
                 $(document).trigger('interrslttable');
             } else {
@@ -344,6 +345,7 @@ $('#pushtocnfrmForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
+                document.activeElement.blur();
                 $('#pushtocnfrmModal').modal('hide');
                 $(document).trigger('interrslttable');
             } else {

@@ -34,7 +34,7 @@
 
                 <div class="row g-4 mb-5">
                     <div class="col-lg-4 col-12">
-                        <div class="card p-4 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 rounded-2 h-100">
+                        <div class="card card-animate p-4 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 rounded-2 h-100">
                             <div class="d-flex gap-3">
                                 <div class="icon-shape icon-md bg-success text-white rounded-2 p-2">
                                     <i class="ti ti-eye fs-4"></i>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-12">
-                        <div class="card p-4 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 rounded-2 h-100">
+                        <div class="card card-animate p-4 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 rounded-2 h-100">
                             <div class="d-flex gap-3">
                                 <div class="icon-shape icon-md bg-success text-white rounded-2 p-2">
                                     <i class="ti ti-eye fs-4"></i>
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-12">
-                        <div class="card p-4 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 rounded-2 h-100">
+                        <div class="card card-animate p-4 bg-secondary bg-opacity-10 border border-secondary border-opacity-25 rounded-2 h-100">
                             <div class="d-flex gap-3">
                                 <div class="icon-shape icon-md bg-success text-white rounded-2 p-2">
                                     <i class="ti ti-eye fs-4"></i>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-body">
                                 <div class="chart-responsive pt-1">
                                     <canvas id="currSemesterunderprogBarChart" style="height:330px; min-height:330px"></canvas>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-body">
                                 <table id="countstuddash" class="table table-striped styled-table" style="font-size: 10pt; width: 100%;">
                                     <thead>

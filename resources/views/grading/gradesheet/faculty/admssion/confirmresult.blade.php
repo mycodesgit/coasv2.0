@@ -1,131 +1,77 @@
-@extends('layouts.master_admission')
+@extends('layouts.master_faculty')
 
 @section('title')
-CISS V.1.0 || Admission
+CISS V.1.0 || Confirmed Applicant
 @endsection
-
-@yield('sidemenu')
 
 @section('workspace')
     <div class="row">
         <div class="col-12">
             <div class="mb-6">
-                {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
-                    <div class="card-body">
-                        <ol class="breadcrumb" style="margin-bottom: -3px;">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('home') }}" class="btn btn-success btn-sm text-light">
-                                    <i class="fas fa-home"></i>
-                                </a>
-                            </li>
-                            <li class="breadcrumb-item mt-1">Admission</li>
-                            <li class="breadcrumb-item active mt-1">Confirmed Applicants</li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="row g-3 mb-3 mt-3">
+                <h1 class="fs-5 mb-4 d-none d-md-block">Confirmed Applicants</h1>
+
+                <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-search"></i> Search Confirmed Applicants
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Confirmed Applicants</h4>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form method="GET" action="{{ route('srchconfirmList') }}">
-                                            @csrf
+                                <form method="GET" action="{{ route('confirm.store') }}">
+                                    @csrf
 
-                                            <div class="form-group mt-3">
-                                                <div class="row g-3">
-                                                    <div class="col-md-2">
-                                                        <label>Year: <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm" id="year" name="year">
-                                                            @foreach($curryear as $datacurryear)
-                                                                <option>{{ $datacurryear->adyear }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label>Campus: <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm" name="campus" id="campus">
-                                                            <option value="{{Auth::user()->campus}}">
-                                                                @if (Auth::user()->campus == 'MC') Main 
-                                                                    @elseif(Auth::user()->campus == 'VC') Victorias 
-                                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                                                    @elseif(Auth::user()->campus == 'IC') Ilog 
-                                                                    @elseif(Auth::user()->campus == 'CA') Candoni 
-                                                                    @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                                                    @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                                                    @elseif(Auth::user()->campus == 'VE') Valladolid 
-                                                                @endif
-                                                            </option>
-                                                            @if(Auth::user()->role == 0 || (Auth::user()->campus == 'MC' && Auth::user()->role == 1))
-                                                                <option value="MC">Main</option>
-                                                                <option value="VC">Victorias</option>
-                                                                <option value="SCC">San Carlos</option>
-                                                                <option value="HC">Hinigaran</option>
-                                                                <option value="MP">Moises Padilla</option>
-                                                                <option value="IC">Ilog</option>
-                                                                <option value="CA">Candoni</option>
-                                                                <option value="CC">Cauayan</option>
-                                                                <option value="SC">Sipalay</option>
-                                                                <option value="HinC">Hinobaan</option>
-                                                                <option value="VE">Valladolid</option>
-                                                            @else
-                                                            @endif
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-4">
-                                                        <label>Strand: <span class="text-danger">*</span></label>
-                                                        <select class="form-control  form-control-sm" name="strand">
-                                                            <option value=""> --Select-- </option>
-                                                            @foreach($strand as $datastrand)
-                                                                <option value="{{ $datastrand->code }}">{{ $datastrand->strand }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label>&nbsp;</label>
-                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
-                                                    </div>
-                                                </div>
+                                    <div class="form-group mt-1">
+                                        <div class="row g-3">
+                                            <div class="col-md-2">
+                                                <label>Year: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm" id="year" name="year">
+                                                    @foreach($curryear as $datacurryear)
+                                                        <option>{{ $datacurryear->adyear }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                        </form>
 
-                                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
+                                            <div class="col-md-4">
+                                                <label>Strand: <span class="text-danger">*</span></label>
+                                                <select class="form-control  form-control-sm" name="strand">
+                                                    <option value=""> --Select-- </option>
+                                                    @foreach($strand as $datastrand)
+                                                        <option value="{{ $datastrand->code }}">{{ $datastrand->strand }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="table-responsive mt-3 p-2">
-                                                    <table id="confrmlistTable" class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>App ID</th>
-                                                                <th>Name</th>
-                                                                <th>Type</th>
-                                                                <th>Contact No.</th>
-                                                                <th>Remarks</th>
-                                                                <th>Exam Sched</th>
-                                                                <th>Campus</th>
-                                                                <th>Strand</th>
-                                                                <th id="actionColumnHeader" style="display: none;">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                            <div class="col-md-2">
+                                                <label>&nbsp;</label>
+                                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
                                             </div>
                                         </div>
                                     </div>
+                                </form>
+
+                                <hr>
+
+                                <div class="table-responsive mt-3 p-2">
+                                    <table id="confrmlistTable" class="table table-hover" style="width: 100% !important">
+                                        <thead>
+                                            <tr>
+                                                <th>App ID</th>
+                                                <th>Name</th>
+                                                <th>Type</th>
+                                                <th>Contact No.</th>
+                                                <th>Remarks</th>
+                                                <th>Exam Sched</th>
+                                                <th>Campus</th>
+                                                <th>Strand</th>
+                                                <th id="actionColumnHeader" style="display: none;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -373,52 +319,48 @@ CISS V.1.0 || Admission
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        @if(Auth::guard('web')->user()->role != 1 && Auth::guard('web')->user()->role != 2)
-                            <button type="submit" class="btn btn-success">Save changes</button>
-                        @endif
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success text-light">Save changes</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    @if(Auth::guard('web')->user()->role != 1 && Auth::guard('web')->user()->role != 2)
-        <div class="modal fade" id="pushtoAcceptModal" role="dialog" aria-labelledby="pushtoAcceptModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="pushtoAcceptModalLabel">Are you sure?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="pushtoAcceptForm">
-                        <div class="modal-body">
-                            <input type="hidden" name="id" id="pushtoAcceptId">
-                            <div class="form-group">
-                                <center>
-                                    <h3>Push the Applicant to Accepted Applicant List</h3>
-                                    <br>
-                                    <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>  Yes!, Push to Accepted Applicants</button>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </form>
+    <div class="modal fade" id="pushtoAcceptModal" role="dialog" aria-labelledby="pushtoAcceptModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pushtoAcceptModalLabel">Are you sure?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form id="pushtoAcceptForm">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="pushtoAcceptId">
+                        <div class="form-group">
+                            <center>
+                                <h3>Push the Applicant to Accepted Applicant List</h3>
+                                <br>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>  Yes!, Push to Accepted Applicants</button>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
-    @endif
+    </div>
 
     <script>
-        var allAppConfirmRoute = "{{ route('getsrchconfirmList') }}";
-        var updateConfirmRoute = "{{ route('save_applicantmod_rating', ['id' => ':id']) }}";
-        var pushtoAcceptRoute = "{{ route('examinee_pushAcceptajax',  ['id' => ':id']) }}";
-        var appidEncryptRoute = "{{ route('idcrypt') }}";
-        var progCampRoute = "{{ route('getCampPrograms') }}";
+        var allAppConfirmRoute = "{{ route('confirm.show') }}";
+        var updateConfirmRoute = "{{ route('savefacapplicantmod_rating', ['id' => ':id']) }}";
+        var pushtoAcceptRoute = "{{ route('examineefacpushAcceptajax',  ['id' => ':id']) }}";
+        var appidEncryptRoute = "{{ route('idFacCrypt') }}";
+        var progCampRoute = "{{ route('getFacCampPrograms') }}";
 
-        var isCampus = "{{ Auth::guard('web')->user()->campus }}";
-        var requestedCampus = "{{ request('campus') }}";
+        var isCampus = "{{ Auth::guard('faculty')->user()->campus }}";
+        var requestedCampus = "{{ Auth::guard('faculty')->user()->campus }}";
     </script>
 @endsection

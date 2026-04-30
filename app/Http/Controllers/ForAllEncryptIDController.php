@@ -13,4 +13,11 @@ class ForAllEncryptIDController extends Controller
 
         return $enrcryptedID;
     }
+    
+    public function idFacCrypt(Request $request) 
+    {
+        $enrcryptedFacID = encrypt($request->data);
+
+        return $enrcryptedFacID;
+    }
 }

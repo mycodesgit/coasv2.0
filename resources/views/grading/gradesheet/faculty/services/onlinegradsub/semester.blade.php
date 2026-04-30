@@ -27,7 +27,7 @@ CISS V.1.0 || Grading
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
                                     <i class="ti ti-receipt"></i> Select Semester & A.Y. for Final Grade Submission 

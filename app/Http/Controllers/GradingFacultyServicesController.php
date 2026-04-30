@@ -54,24 +54,8 @@ class GradingFacultyServicesController extends Controller
 {
     public function index()
     {
-        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
-        if (!$activeConfig) {
-            return back()->with('error', 'No active school year found.');
-        }
-        $activeConfigId = $activeConfig->id;
-        
-        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
-            ->orderBy('id', 'desc') // Get the most recent one
-            ->first();
-
-        $schlyearactiveYear = $activeConfig->schlyear;
-        $schlyearactive = $activeConfig->schlyear;
-        $semesteractive = $activeConfig->semester;
-        
-        $authfacdesig = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
-                ->where('schlyear', $schlyearactive)
-                ->where('semester', $semesteractive)
-                ->pluck('fac_id');
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
 
         return view('grading.gradesheet.faculty.services.index', compact('authfacdesig'));
     }
@@ -86,8 +70,11 @@ class GradingFacultyServicesController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
+        
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
             
-        return view('grading.gradesheet.faculty.services.facschedule.facschedulenow', compact('sy'));
+        return view('grading.gradesheet.faculty.services.facschedule.facschedulenow', compact('sy' ,'authfacdesig'));
     }
 
     public function schedulefac_searchview(Request $request) 
@@ -103,8 +90,11 @@ class GradingFacultyServicesController extends Controller
 
         $days = Sday::whereIn('id', [1, 2, 3, 4, 5])->pluck('dayDesc')->toArray();
         $times = Stime::whereIn('id', range(1, 26))->pluck('timeDesc')->toArray();
+
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
             
-        return view('grading.gradesheet.faculty.services.facschedule.facschedulenowSearchPDF', compact('sy', 'days', 'times'));
+        return view('grading.gradesheet.faculty.services.facschedule.facschedulenowSearchPDF', compact('sy', 'days', 'times', 'authfacdesig'));
     }
 
     public function fetchMyTeachingSchedule(Request $request)
@@ -219,7 +209,11 @@ class GradingFacultyServicesController extends Controller
                     ->orderBy('schlyear', 'desc')
                     ->orderBy('semester', 'desc')
                     ->get();
-        return view('grading.gradesheet.faculty.services.onlinegradsub.semester', compact('progen'));
+
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
+
+        return view('grading.gradesheet.faculty.services.onlinegradsub.semester', compact('progen', 'authfacdesig'));
     }
 
     public function virtualfaculty_class(Request $request)
@@ -252,7 +246,10 @@ class GradingFacultyServicesController extends Controller
             ->groupBy('studgrades.subjID')
             ->get();
 
-        return view('grading.gradesheet.faculty.services.onlinegradsub.virtualroom', compact('facsubprogen', 'semester', 'schlyear'));
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
+
+        return view('grading.gradesheet.faculty.services.onlinegradsub.virtualroom', compact('facsubprogen', 'semester', 'schlyear', 'authfacdesig'));
     }
 
     public function virtual_facultysubjectclass(Request $request, $id)
@@ -293,8 +290,11 @@ class GradingFacultyServicesController extends Controller
         $grade = Grade::where('subjID', $id)
                         ->where('status', '!=', '')
                         ->count();
+        
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
 
-        return view('grading.gradesheet.faculty.services.onlinegradsub.virtualsubroom', compact('sub', 'substudcount', 'grdCode', 'grdCodeComp', 'grade'));
+        return view('grading.gradesheet.faculty.services.onlinegradsub.virtualsubroom', compact('sub', 'substudcount', 'grdCode', 'grdCodeComp', 'grade', 'authfacdesig'));
     }
 
     public function supfaceval()
@@ -384,8 +384,11 @@ class GradingFacultyServicesController extends Controller
                     ->where('semester', $currsemnow->qcesemester)
                     ->where('qceevaluator', 'Dean')
                     ->pluck('qcefacID');
+
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
                         
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'collegedean', 'collegeprogramhead', 'casdivisionchair', 'facdivisionchair', 'facollegedean', 'facollegeprogramhead', 'setevalmode', 'disabledsubj', 'disabledsubjdean'));
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'collegedean', 'collegeprogramhead', 'casdivisionchair', 'facdivisionchair', 'facollegedean', 'facollegeprogramhead', 'setevalmode', 'disabledsubj', 'disabledsubjdean', 'authfacdesig'));
     }
 
     public function supfacevalrate(Request $request)
@@ -421,8 +424,11 @@ class GradingFacultyServicesController extends Controller
                 ->where('schlyear', $currsemnow->qceschlyear)
                 ->where('semester', $currsemnow->qcesemester)
                 ->first();
+
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
     
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslistevalrate', compact('inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'facDesignateRole'));
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslistevalrate', compact('inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'facDesignateRole', 'authfacdesig'));
     }
 
     public function deanfacevalrateformCreate(Request $request)
