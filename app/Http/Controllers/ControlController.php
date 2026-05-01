@@ -159,8 +159,7 @@ class ControlController extends Controller
 
         $cacheKey = "faculty_home_subload_{$facultyId}_{$campus}_{$schlyearactive}_{$semesteractive}";
 
-        $subload = Cache::remember($cacheKey, 1000, function () use ($schlyearactive, $semesteractive, $facultyId, $campus) {
-            return SubjectOffered::join('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+        $subload = SubjectOffered::join('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
                                 ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                                 ->join('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
                                 ->where('sub_offered.schlyear', 'LIKE', $schlyearactive)
@@ -170,7 +169,6 @@ class ControlController extends Controller
                                 ->select('sub_offered.subSec', 'subjects.sub_name', 'coasv2_db_enrollment.studgrades.subjID', DB::raw('COUNT(*) as count'))
                                 ->groupBy('coasv2_db_enrollment.studgrades.subjID')
                                 ->get();
-                            });
 
         $countstudsubfac = [];
         $underproglevsecname = [];
