@@ -19,7 +19,6 @@ class FacDesignation extends Model
         'fac_id',
         'facname',
         'designation',
-        'rankcomma', 
         'dunit', 
     ];
 }

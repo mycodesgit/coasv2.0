@@ -41,7 +41,9 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     var firstname = data.fname;
                     var middleInitial = data.mname ? data.mname.substr(0, 1) + '.' : '';
-                    var lastNameWithExt = data.lname + (data.ext !== 'N/A' ? ' ' + data.ext : '');
+                    // Only display ext if it's not null, not 'N/A', and not empty
+                    var ext = (data.ext && data.ext !== 'N/A') ? ' ' + data.ext : '';
+                    var lastNameWithExt = data.lname + ext;
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
@@ -66,9 +68,9 @@ $(document).ready(function() {
                 data: 'p_status',
                 render: function(data) {
                     if (data == 6) {
-                        return '<td><small><span class="badge bg-primary" style="font-size: 7pt">Pushed to Enrolment</span></small></td>';
+                        return '<td><small><span class="badge bg-success">Pushed to Enrolment</span></small></td>';
                     } else {
-                        return '<td><small><span class="badge bg-warning" style="font-size: 7pt">Not Push  to Enrolment</span></small></td>';
+                        return '<td><small><span class="badge bg-warning">Not Push  to Enrolment</span></small></td>';
                     }
                 }
             },
@@ -177,6 +179,7 @@ $('#pushtoEnrollmentForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
+                document.activeElement.blur();
                 $('#pushtoEnrollmentModal').modal('hide');
                 $(document).trigger('pushtoenrolltable');
             } else {

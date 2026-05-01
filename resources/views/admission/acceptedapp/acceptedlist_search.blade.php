@@ -150,12 +150,12 @@ CISS V.1.0 || Admission
                             <center>
                                 <h3>Push the Accepted Applicant to the Registrar for Enrollment</h3>
                                 <br>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Registrar for Enrollment</button>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>  Yes!, Push to Registrar for Enrollment</button>
                             </center>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>

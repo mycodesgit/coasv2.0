@@ -95,12 +95,27 @@ CISS V.1.0 || Class Scheduler
                                                                         </div>
 
                                                                         <div class="mt-2 col-md-12">
-                                                                            <label>Salutation: <span class="text-danger">*</span></label>
-                                                                            <select class="form-control form-control-sm" name="adrID">
+                                                                            <label>Prefix:</label>
+                                                                            <select class="form-control form-control-sm" name="prefix">
                                                                                 <option disabled selected> --Select-- </option>
                                                                                 @foreach($adr as $dataadr)
                                                                                     <option value="{{ $dataadr->id }}">{{ $dataadr->adrDesc }}</option>
                                                                                 @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                        
+                                                                        <div class="mt-2 col-md-12">
+                                                                            <label>Suffix:</label>
+                                                                            <select class="form-control form-control-sm" name="suffix">
+                                                                                <option disabled selected> --Select-- </option>
+                                                                                <option value="">Select Suffix</option>
+                                                                                <option value="Ph.D.">Ph.D.</option>
+                                                                                <option value="Ed.D.">Ed.D.</option>
+                                                                                <option value="MIT">MIT</option>
+                                                                                <option value="MSIT">MSIT</option>
+                                                                                <option value="MA">MA</option>
+                                                                                <option value="MBA">MBA</option>
+                                                                                <option value="CPA">CPA</option>
                                                                             </select>
                                                                         </div>
 
@@ -241,12 +256,26 @@ CISS V.1.0 || Class Scheduler
                             <input type="number" class="form-control form-control-sm" id="editExtname" name="ext">
                         </div>
                         <div class="form-group mt-3">
-                            <label for="editExtname">Salutation: <span class="text-danger">*</span></label>
-                            <select class="form-control form-control-sm" id="editSalutation" name="adrID">
+                            <label for="editPrefix">Prefix:</label>
+                            <select class="form-control form-control-sm" id="editPrefix" name="prefix">
                                 <option disabled selected> --Select-- </option>
                                 @foreach($adr as $dataadr)
                                     <option value="{{ $dataadr->id }}">{{ $dataadr->adrDesc }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="editSuffix">Suffix:</label>
+                            <select class="form-control form-control-sm" id="editSuffix" name="suffix">
+                                <option disabled selected> --Select-- </option>
+                                <option value="">Select Suffix</option>
+                                <option value="Ph.D.">Ph.D.</option>
+                                <option value="Ed.D.">Ed.D.</option>
+                                <option value="MIT">MIT</option>
+                                <option value="MSIT">MSIT</option>
+                                <option value="MA">MA</option>
+                                <option value="MBA">MBA</option>
+                                <option value="CPA">CPA</option>
                             </select>
                         </div>
                         <div class="form-group mt-3">

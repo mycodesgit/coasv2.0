@@ -103,7 +103,6 @@ class SchedFacultyDesignationController extends Controller
                     'facCollege' => $request->input('facCollege'),
                     'fac_id' => $request->input('fac_id'),
                     'designation' => $request->input('designation'),
-                    'rankcomma' => $request->input('rankcomma'),
                     'dunit' => $request->input('dunit'),
                 ]);
 

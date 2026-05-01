@@ -27,7 +27,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('rank');
             $table->string('role');
-            $table->integer('adrID');
+            $table->integer('prefix');
+            $table->string('suffix');
             $table->string('verification_code')->nullable();
             $table->integer('status');
             $table->rememberToken();

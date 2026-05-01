@@ -284,6 +284,7 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/list/search', [GradingFacultyAdmissionAcceptedController::class, 'index'])->name('accepted.index');
             Route::get('/list/search/view', [GradingFacultyAdmissionAcceptedController::class, 'store'])->name('accepted.store');
             Route::get('/list/search/view/results', [GradingFacultyAdmissionAcceptedController::class, 'show'])->name('accepted.show');
+            Route::post('/list/pushapplicantenrollment', [GradingFacultyAdmissionAcceptedController::class, 'savefacenroll_applicant'])->name('savefacenroll_applicant');
         });
     });
 });

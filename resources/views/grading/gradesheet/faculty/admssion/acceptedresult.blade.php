@@ -96,12 +96,12 @@ CISS V.1.0 || Accepted Applicant
                             <center>
                                 <h3>Push the Accepted Applicant to the Registrar for Enrollment</h3>
                                 <br>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Registrar for Enrollment</button>
+                                <button type="submit" class="btn btn-success text-light"><i class="fas fa-check"></i>  Yes!, Push to Registrar for Enrollment</button>
                             </center>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -111,7 +111,7 @@ CISS V.1.0 || Accepted Applicant
     <script>
         var allAppAcceptedRoute = "{{ route('accepted.show') }}";
         var appidEncryptRoute = "{{ route('idFacCrypt') }}";
-        var pushtoEnrollmentRoute = "{{ route('save_enroll_applicant',  ['id' => ':id']) }}";
+        var pushtoEnrollmentRoute = "{{ route('savefacenroll_applicant',  ['id' => ':id']) }}";
 
         var isCampus = "{{ Auth::guard('faculty')->user()->campus }}";
         var requestedCampus = "{{ Auth::guard('faculty')->user()->campus }}";

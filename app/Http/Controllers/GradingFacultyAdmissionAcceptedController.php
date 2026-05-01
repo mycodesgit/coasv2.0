@@ -92,4 +92,110 @@ class GradingFacultyAdmissionAcceptedController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    public function savefacenroll_applicant(Request $request)
+    {
+        $decryptedId = Crypt::decryptString($request->input('id'));
+        $applicant = Applicant::findOrFail($decryptedId);
+
+        $existingApplicant = Student::where('stud_id', $applicant->admission_id)
+            ->orWhere(function ($query) use ($applicant) {
+                $query->where('fname', $applicant->fname)
+                    ->where('mname', $applicant->mname)
+                    ->where('lname', $applicant->lname)
+                    ->where('campus', Auth::guard('faculty')->user()->campus);
+            })
+            ->first();
+
+        if ($existingApplicant) {
+            return Redirect::back()
+                ->withInput()
+                ->with('fail', 'Error: Name or Student ID already exists!');
+        }
+
+        $enrollmentStudent = new Student();
+        $enrollmentStudent->stud_id = $this->generateAdmissionId($applicant->admission_id, $applicant->campus);
+        $enrollmentStudent->app_id = $applicant->id;
+        $enrollmentStudent->status = $applicant->status;
+        $enrollmentStudent->en_status = 2;
+        $enrollmentStudent->p_status = $applicant->p_status;
+        $enrollmentStudent->type = $applicant->type;
+        $enrollmentStudent->campus = $applicant->campus;
+        $enrollmentStudent->lname = $applicant->lname;
+        $enrollmentStudent->fname = $applicant->fname;
+        $enrollmentStudent->mname = $applicant->mname;
+        $enrollmentStudent->ext = $applicant->ext;
+        $enrollmentStudent->gender = $applicant->gender;
+        $enrollmentStudent->civil_status = $applicant->civil_status;
+        $enrollmentStudent->contact = $applicant->contact;
+        $enrollmentStudent->email = $applicant->email;
+        $enrollmentStudent->religion = $applicant->religion;
+        $enrollmentStudent->address = $applicant->address;
+        $enrollmentStudent->bday = $applicant->bday;
+        $enrollmentStudent->pbirth = $applicant->pbirth;
+        $enrollmentStudent->monthly_income = $applicant->monthly_income;
+        $enrollmentStudent->hnum = $applicant->hnum;
+        $enrollmentStudent->brgy = $applicant->brgy;
+        $enrollmentStudent->city = $applicant->city;
+        $enrollmentStudent->province = $applicant->province;
+        $enrollmentStudent->region = $applicant->region;
+        $enrollmentStudent->zcode = $applicant->zcode;
+        $enrollmentStudent->lstsch_attended = $applicant->lstsch_attended;
+        $enrollmentStudent->suc_lst_attended = $applicant->suc_lst_attended;
+        $enrollmentStudent->stud_pic = $applicant->stud_pic;
+        $enrollmentStudent->created_at = Carbon::now();
+
+        $enrollmentStudent->save();
+
+        $applicant->en_status = 2;
+        $applicant->p_status = 6;
+        $applicant->updated_at = Carbon::now();
+        $applicant->update();
+
+        return response()->json(['success' => true, 'message' => 'Applicant can now proceed to enrollment'], 200);
+    }
+
+    protected function generateAdmissionId($baseId, $campus)
+    {
+        $campusLetter = $this->getCampusLetter($campus);
+        $year = substr($baseId, 0, 4);
+
+        // Find the highest existing incremental number for this year and campus
+        $latestStudent = Student::where('stud_id', 'like', "{$year}-%-{$campusLetter}")
+            ->orderBy('stud_id', 'desc')
+            ->first();
+
+        if ($latestStudent) {
+            // Extract the last 4-digit incremental number and increment it
+            $latestIncrement = (int) substr($latestStudent->stud_id, 5, 4);
+            $newIncrement = str_pad($latestIncrement + 1, 4, '0', STR_PAD_LEFT);
+        } else {
+            // If no students found, start from 0001
+            $newIncrement = '0001';
+        }
+
+        $formattedId = "{$year}-{$newIncrement}-{$campusLetter}";
+
+        return $formattedId;
+    }
+
+    protected function getCampusLetter($campus)
+    {
+        $role = Auth::guard('faculty')->user()->role;
+        
+        $campusMappings = [
+            'MC' => $role == 15 ? 'G' : 'K',
+            'VC' => 'V',
+            'SCC' => 'R',
+            'HC' => 'H',
+            'MP' => 'M',
+            'IC' => 'I',
+            'CA' => 'A',
+            'CC' => 'C',
+            'SC' => 'P',
+            'HinC' => 'N',
+            'VE' => 'D',
+        ];
+        return $campusMappings[$campus] ?? 'X';
+    }
 }

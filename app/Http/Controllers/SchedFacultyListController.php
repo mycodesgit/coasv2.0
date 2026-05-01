@@ -24,7 +24,7 @@ class SchedFacultyListController extends Controller
         $collegelist = College::whereIn('id', [2, 3, 4, 5, 6, 7, 8])->get();
         $deptlist = Department::get();
         $depts = Department::join('faculty', 'faculty.facdept', '=', 'department.deptCod')->get();
-        $adr = Addressee::all();
+        $adr = Addressee::where('id', '!=', 4)->get();
 
         return view('scheduler.faculty.list_faculty', compact('collegelist', 'deptlist', 'depts', 'adr'));
     }
@@ -34,7 +34,7 @@ class SchedFacultyListController extends Controller
         $campus = Auth::guard('web')->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
-        $data = Faculty::join('addressee', 'faculty.adrID', '=', 'addressee.id')
+        $data = Faculty::join('addressee', 'faculty.prefix', '=', 'addressee.id')
                 ->join('college', 'faculty.faccollege', '=', 'college.college_abbr')
                 ->leftJoin('department', 'faculty.facdept', '=', 'department.deptCod')
                 ->where(function ($q) use ($campusArray) {
@@ -80,7 +80,7 @@ class SchedFacultyListController extends Controller
                 'lname' => 'required',
                 'fname' => 'required',
                 'facdept' => 'required',
-                'adrID' => 'required',
+                'prefix' => 'required',
             ]);
 
             $lName = $request->input('lname'); 
@@ -105,7 +105,8 @@ class SchedFacultyListController extends Controller
                     'ext' => $request->input('ext'),
                     'faccollege' => $request->input('faccollege'),
                     'facdept' => $request->input('facdept'),
-                    'adrID' => $request->input('adrID'),
+                    'prefix' => $request->input('prefix'),
+                    'suffix' => $request->input('suffix'),
                     'email' => $request->input('email'),
                     'remember_token' => Str::random(60),
                 ]);
@@ -123,7 +124,7 @@ class SchedFacultyListController extends Controller
             'id' => 'required',
             'lname' => 'required',
             'fname' => 'required',
-            'adrID' => 'required',
+            'prefix' => 'required',
         ]);
 
         try {
@@ -143,7 +144,8 @@ class SchedFacultyListController extends Controller
                 'ext' => $request->input('ext'),
                 'faccollege' => $request->input('faccollege'),
                 'facdept' => $request->input('facdept'),
-                'adrID' => $request->input('adrID'),
+                'prefix' => $request->input('prefix'),
+                'suffix' => $request->input('suffix'),
                 'email' => $request->input('email'),
                 'rank' => $request->input('rank'),
         ]);

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('campus')->nullable();
             $table->string('facCollege')->nullable();
             $table->integer('fac_id')->nullable();
-            $table->string('rankcomma')->nullable();
             $table->string('designation')->nullable();
             $table->integer('dunit')->nullable();
             $table->timestamps();

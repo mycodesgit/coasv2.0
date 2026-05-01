@@ -133,11 +133,6 @@ CISS V.1.0 || Class Scheduler
                                                             </div>
 
                                                             <div class="mt-3 col-md-12">
-                                                                <label>Addresse <span class="text-danger">*</span></label>
-                                                                <input type="text" name="rankcomma" class="form-control form-control-sm">
-                                                            </div>
-
-                                                            <div class="mt-3 col-md-12">
                                                                 <label>Designation <span class="text-danger">*</span></label>
                                                                 <select class="form-control form-control-sm" name="designation">
                                                                     <option value="Dean">Dean</option>

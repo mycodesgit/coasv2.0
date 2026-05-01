@@ -100,7 +100,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.adrID + '" data-faccollege="' + row.faccollege + '" data-facdept="' + row.facdept + '" data-email="' + row.email + '" data-rank="' + row.rank + '">' +
+                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.prefix + '" data-suffix="' + row.suffix + '" data-faccollege="' + row.faccollege + '" data-facdept="' + row.facdept + '" data-email="' + row.email + '" data-rank="' + row.rank + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item faclty-delete">' +
@@ -130,7 +130,8 @@ $(document).on('click', '.btn-facultyedit', function() {
     var fName = $(this).data('ffname');
     var mName = $(this).data('fmname');
     var exName = $(this).data('fxname');
-    var salName = $(this).data('adrname');
+    var prefixName = $(this).data('adrname');
+    var suffixName = $(this).data('suffix');
     var collegeName = $(this).data('faccollege');
     var deptName = $(this).data('facdept');
     var email = $(this).data('email');
@@ -141,7 +142,8 @@ $(document).on('click', '.btn-facultyedit', function() {
     $('#editFirstname').val(fName);
     $('#editMiddlename').val(mName);
     $('#editExtname').val(exName);
-    $('#editSalutation').val(salName);
+    $('#editPrefix').val(prefixName);
+    $('#editSuffix').val(suffixName);
     $('#editcollege').val(collegeName);
     $('#editdept').val(deptName);
     $('#editEmail').val(email);
@@ -164,6 +166,7 @@ $('#editFacultyForm').submit(function(event) {
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
+                document.activeElement.blur();
                 $('#editFacultyModal').modal('hide');
                 $(document).trigger('facAdded');
             } else {
