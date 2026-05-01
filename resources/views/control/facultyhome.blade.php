@@ -161,7 +161,7 @@
                                                     Welcome, here you can quickly access your class attendance, class schedules, and Submission of student grades. Everything you need to streamline your academic tasks is right here.
                                                 </p>
                                                 <button class="btn btn-light btn-sm text-primary rounded-pill px-4 opacity-75">
-                                                    <i class="ti ti-circle-dot-filled text-success blink-status"></i> Designation: Program Head
+                                                    <i class="ti ti-circle-dot-filled text-success blink-status"></i> Faculty
                                                 </button>
                                             </div>
                                         </div>
