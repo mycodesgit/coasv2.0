@@ -159,8 +159,7 @@ class ControlController extends Controller
 
         $cacheKeyhome = "faculty_home_subload_{$facultyId}_{$campus}_{$schlyearactive}_{$semesteractive}";
 
-        $subload = Cache::remember($cacheKeyhome, 1000, function () use ($schlyearactive, $semesteractive, $facultyId, $campus) {
-            return SubjectOffered::join('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
+        $subload = SubjectOffered::join('coasv2_db_enrollment.studgrades', 'sub_offered.id', '=', 'coasv2_db_enrollment.studgrades.subjID')
                                 ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                                 ->join('scheduleclass', 'sub_offered.id', '=', 'scheduleclass.subject_id')
                                 ->where('sub_offered.schlyear', 'LIKE', $schlyearactive)
@@ -170,7 +169,6 @@ class ControlController extends Controller
                                 ->select('sub_offered.subSec', 'subjects.sub_name', 'coasv2_db_enrollment.studgrades.subjID', DB::raw('COUNT(*) as count'))
                                 ->groupBy('coasv2_db_enrollment.studgrades.subjID')
                                 ->get();
-                            });
 
         $countstudsubfac = [];
         $underproglevsecname = [];
@@ -210,8 +208,7 @@ class ControlController extends Controller
 
         $cacheKey1 = "faculty_home_subjectcount_{$facultyId}_{$campus}_{$schlyearactive}_{$semesteractive}";
         
-        $data = Cache::remember($cacheKey1, 1000, function () use ($schlyearactive, $semesteractive, $facultyId, $campus) {
-                    return Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
+        $data = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
                             ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
                             ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
                             ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
@@ -234,8 +231,7 @@ class ControlController extends Controller
                     ->where('coasv2_db_schedule.sub_offered.campus', $campus)
                     ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facultyId)
                     ->groupBy('studgrades.subjID')
-                    ->get();                
-                });
+                    ->get();     
         return response()->json(['data' => $data]);
     }
     
