@@ -351,7 +351,7 @@
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
     @if(request()->routeIs('homefaculty'))
         <script>
@@ -463,6 +463,10 @@
 
     @if (request()->routeIs('supfacevalrate'))
         @include('script.studnts.evaluation.ratecardnextbutton')
+    @endif
+    
+    @if (request()->routeIs('prelist.store'))
+        <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}?v={{ time() }}"></script>
     @endif
     
     @if (request()->routeIs('confirm.store'))

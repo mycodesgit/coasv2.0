@@ -4,16 +4,6 @@
 CISS V.1.0 || Faculty Services
 @endsection
 
-@section('sideheader')
-<h4>Grading</h4>
-@endsection
-
-@section('sideheaderlegend')
-<h4>Legend</h4>
-@endsection
-
-@yield('sidemenu')
-
 @section('workspace')
     <div class="row">
         <div class="col-12">
@@ -104,8 +94,8 @@ CISS V.1.0 || Faculty Services
                                                         </div>
                                                     </div>
                                                     <div class="d-flex justify-content-between align-items-center small">
-                                                        <div class="text-muted"><span class="text-success">2025-2026</span>, <span class="text-dark">2nd Sem</span></div>
-                                                        <div><a href="{{ route('supfaceval') }}" class="link-defalt text-decoration-underline">Start Evaluation</a></div>
+                                                        <div class="text-muted"><span class="text-success">2026-2027</span>, <span class="text-dark">1st Sem</span></div>
+                                                        <div><a href="{{ route('prelist.index') }}" class="link-defalt text-decoration-underline">Start Enrollment</a></div>
                                                     </div>
                                                 </div>
                                             </div>

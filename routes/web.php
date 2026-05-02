@@ -96,6 +96,7 @@ use App\Http\Controllers\KioskDashController;
 
 use App\Http\Controllers\GradingFacultyController;
 use App\Http\Controllers\GradingFacultyServicesController;
+use App\Http\Controllers\GradingFacultyServicePreenrolController;
 use App\Http\Controllers\GradingFacultyAdmissionConfirmController;
 use App\Http\Controllers\GradingFacultyAdmissionAcceptedController;
 
@@ -268,6 +269,17 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
                 Route::get('/list', [GradingFacultyServicesController::class, 'supfaceval'])->name('supfaceval');
                 Route::get('/list/rate/faculty', [GradingFacultyServicesController::class, 'supfacevalrate'])->name('supfacevalrate');
                 Route::post('/list/rate/dean/rate/fac/submit', [GradingFacultyServicesController::class,'deanfacevalrateformCreate'])->name('deanfacevalrateformCreate');
+            });
+            
+            Route::prefix('preenrolmnt')->group(function () {
+                Route::get('/list/search', [GradingFacultyServicePreenrolController::class, 'index'])->name('prelist.index');
+                Route::get('/list/search/process', [GradingFacultyServicePreenrolController::class, 'process'])->name('prelist.process');
+                Route::get('/list/search/result', [GradingFacultyServicePreenrolController::class, 'store'])->name('prelist.store');
+                Route::get('/list/search/result/fetch-subjects/fac', [GradingFacultyServicePreenrolController::class, 'fetchSubjectsOffered'])->name('fetchSubjectsOffered');
+                Route::get('/search/result/get-sub-title', [GradingFacultyServicePreenrolController::class, 'coursefetchSubjectsSelect'])->name('coursefetchSubjectsSelect');
+                Route::get('/search/result/get-sub-fee', [GradingFacultyServicePreenrolController::class, 'fetchFeeSubjectsSelect'])->name('fetchFeeSubjectsSelect');
+                Route::get('/searchstudent/enroll/check-enrollment', [GradingFacultyServicePreenrolController::class, 'faccheckEnrollment'])->name('faccheckEnrollment');
+                Route::post('/student/enroll/eval/submit', [GradingFacultyServicePreenrolController::class, 'studFacEvalEnrollmentCreate'])->name('studFacEvalEnrollmentCreate');
             });
         });
 

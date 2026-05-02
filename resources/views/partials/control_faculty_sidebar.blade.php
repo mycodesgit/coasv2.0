@@ -3,7 +3,18 @@
 
     $dashfacActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
     $attendfacActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
-    $servicesfacActive = in_array($curr_route, ['index.services', 'schedulefac', 'schedulefac_searchview', 'semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass', 'supfaceval', 'supfacevalrate']) ? 'active' : '';
+    $servicesfacActive = in_array($curr_route, [
+                                'index.services', 
+                                'schedulefac', 
+                                'schedulefac_searchview', 
+                                'semesterfac', 
+                                'virtualfaculty_class', 
+                                'virtual_facultysubjectclass', 
+                                'supfaceval', 
+                                'supfacevalrate',
+                                'prelist.index',
+                                'prelist.store'
+                            ]) ? 'active' : '';
     $confirmfacActive = in_array($curr_route, ['confirm.index', 'confirm.store']) ? 'active' : '';
     $aceptedfacActive = in_array($curr_route, ['accepted.index', 'accepted.store']) ? 'active' : '';
 @endphp

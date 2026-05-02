@@ -7,127 +7,127 @@
 @section('workspace')
     <style>
         .blink-status {
-        font-size: 12px;
-        animation: blinkPulse 1.2s infinite;
-    }
-
-    @keyframes blinkPulse {
-        0% {
-            opacity: 1;
-            transform: scale(1);
+            font-size: 12px;
+            animation: blinkPulse 1.2s infinite;
         }
-        50% {
-            opacity: .3;
-            transform: scale(1.3);
+
+        @keyframes blinkPulse {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: .3;
+                transform: scale(1.3);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
-        100% {
-            opacity: 1;
-            transform: scale(1);
+        #calendar {
+            font-family: 'Poppins', sans-serif;
         }
-    }
-    #calendar {
-        font-family: 'Poppins', sans-serif;
-    }
 
-    /* Main container */
-    .fc {
-        background: transparent;
-        border: none;
-    }
+        /* Main container */
+        .fc {
+            background: transparent;
+            border: none;
+        }
 
-    /* Remove all borders */
-    .fc-theme-standard td,
-    .fc-theme-standard th,
-    .fc-scrollgrid {
-        border: none !important;
-    }
+        /* Remove all borders */
+        .fc-theme-standard td,
+        .fc-theme-standard th,
+        .fc-scrollgrid {
+            border: none !important;
+        }
 
-    /* Header */
-    .fc-toolbar {
-        margin-bottom: 15px !important;
-        align-items: center;
-    }
+        /* Header */
+        .fc-toolbar {
+            margin-bottom: 15px !important;
+            align-items: center;
+        }
 
-    .fc-toolbar-title {
-        font-size: 18px !important;
-        font-weight: 700;
-        color: #2e3440;
-    }
+        .fc-toolbar-title {
+            font-size: 18px !important;
+            font-weight: 700;
+            color: #2e3440;
+        }
 
-    /* Arrows */
-    .fc-button {
-        background: transparent !important;
-        border: none !important;
-        color: #8c94a6 !important;
-        box-shadow: none !important;
-        padding: 4px !important;
-    }
+        /* Arrows */
+        .fc-button {
+            background: transparent !important;
+            border: none !important;
+            color: #8c94a6 !important;
+            box-shadow: none !important;
+            padding: 4px !important;
+        }
 
-    .fc-button:hover {
-        background: #f5f5f5 !important;
-        border-radius: 50%;
-    }
+        .fc-button:hover {
+            background: #f5f5f5 !important;
+            border-radius: 50%;
+        }
 
-    .fc-icon {
-        font-size: 18px !important;
-    }
+        .fc-icon {
+            font-size: 18px !important;
+        }
 
-    /* Weekday */
-    .fc-col-header-cell {
-        padding: 8px 0;
-    }
+        /* Weekday */
+        .fc-col-header-cell {
+            padding: 8px 0;
+        }
 
-    .fc-col-header-cell-cushion {
-        font-size: 13px;
-        color: #6c757d;
-        text-decoration: none !important;
-        font-weight: 600;
-    }
+        .fc-col-header-cell-cushion {
+            font-size: 13px;
+            color: #6c757d;
+            text-decoration: none !important;
+            font-weight: 600;
+        }
 
-    /* Dates */
-    .fc-daygrid-day {
-        height: 42px !important;
-    }
+        /* Dates */
+        .fc-daygrid-day {
+            height: 42px !important;
+        }
 
-    .fc-daygrid-day-number {
-        text-decoration: none !important;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        width: 34px;
-        height: 34px;
-        margin: 0 auto;
-        border-radius: 50%;
-        font-size: 14px;
-        padding: 0 !important;
-        transition: 0.3s;
-    }
+        .fc-daygrid-day-number {
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            margin: 0 auto;
+            border-radius: 50%;
+            font-size: 14px;
+            padding: 0 !important;
+            transition: 0.3s;
+        }
 
-    /* Hover */
-    .fc-daygrid-day-number:hover {
-        background: none;
-    }
+        /* Hover */
+        .fc-daygrid-day-number:hover {
+            background: none;
+        }
 
-    /* Today / active */
-    .fc-day-today {
-        background: transparent !important;
-    }
+        /* Today / active */
+        .fc-day-today {
+            background: transparent !important;
+        }
 
-    .fc-day-today .fc-daygrid-day-number {
-        background: #65ac86 !important;
-        color: white !important;
-        font-weight: 600;
-    }
+        .fc-day-today .fc-daygrid-day-number {
+            background: #65ac86 !important;
+            color: white !important;
+            font-weight: 600;
+        }
 
-    /* Remove event line */
-    .fc-daygrid-day-events {
-        display: none;
-    }
+        /* Remove event line */
+        .fc-daygrid-day-events {
+            display: none;
+        }
 
-    /* More spacing */
-    .fc-daygrid-body-natural .fc-daygrid-day-events {
-        margin-bottom: 0;
-    }
+        /* More spacing */
+        .fc-daygrid-body-natural .fc-daygrid-day-events {
+            margin-bottom: 0;
+        }
     </style>
     
     <div class="row">
@@ -144,7 +144,7 @@
                                     style="background: linear-gradient(135deg, #65ac86, #58886e);">
                                     <div class="card-body p-4">
                                         <div class="d-flex align-items-center">
-                                            <div class="me-4">
+                                            <div class="me-4 d-none d-lg-inline">
                                                 <div class="bg-white rounded-4 p-3 opacity-75">
                                                     <i class="ti ti-user text-success fs-1"></i>
                                                 </div>

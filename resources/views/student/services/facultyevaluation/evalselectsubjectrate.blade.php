@@ -49,7 +49,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card border-0">
+                        <div class="card card-animate border-0">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
                                     <i class="ti ti-book"></i> {{ $mysubjstarteval->first()->sub_name ?? 'No Subject Name' }} - {{ $mysubjstarteval->first()->sub_title ?? 'No Subject Title' }}

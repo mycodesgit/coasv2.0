@@ -49,6 +49,9 @@ use App\Models\AssessmentDB\StudPayment;
 
 use App\Models\SettingDB\ChatMessage;
 use App\Models\SettingDB\ConfigureCurrent;
+use App\Models\SettingDB\EnrollmentMode;
+
+use App\Models\EvaluationDB\QCEsetting;
 
 class StudentController extends Controller
 {
@@ -84,8 +87,11 @@ class StudentController extends Controller
             ->select('program_en_history.*', 'coasv2_db_schedule.programs.progAcronym')
             ->orderBy('schlyear', 'ASC')
             ->get();
+        
+        $enrolledStatus = EnrollmentMode::where('campus', $campus)->first();
+        $faculevalStatus = QCEsetting::first();
 
-        return view('student.dashstud', compact('guard', 'studauth', 'enrollmentHistory'));
+        return view('student.dashstud', compact('guard', 'studauth', 'enrollmentHistory', 'enrolledStatus', 'faculevalStatus'));
     }
 
     public function show()

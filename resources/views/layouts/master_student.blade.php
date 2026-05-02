@@ -233,6 +233,15 @@
         .textbold{
             font-weight: bold;
         }
+        .card-animate {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.3s ease;
+        }
+        .card-animate.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     </style>
 </head>
 
@@ -298,7 +307,7 @@
         <div class="logo-area">
             <div class="d-inline-flex">
                 <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" alt="logo" width="24">
-                <span class="logo-text ms-2" style="font-weight: bold">Student Kiosk</span>
+                <span class="logo-text ms-2" style="font-weight: bold">Student Portal</span>
             </div>
         </div>
         @include('partials.control_student_sidebar')
@@ -353,6 +362,8 @@
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
     <script>
         $(function () {
@@ -381,6 +392,15 @@
                     timeOut: 10000
                 });
             @endif
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll('.card-animate');
+
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 90); // stagger effect
+            });
         });
     </script>
 
