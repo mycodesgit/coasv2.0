@@ -95,11 +95,12 @@
                 left: 50%;
                 transform: translateX(-50%);
                 /* background: rgba(37, 37, 37, 0); */
-                background:
+                background: rgba(12, 135, 84, 0.9);
+                /* background:
                 radial-gradient(ellipse at 15% 0%, rgba(147,197,253,.3) 0%, transparent 50%),
                 radial-gradient(ellipse at 85% 15%, rgba(196,181,253,.2) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 100%, rgba(167,243,208,.15) 0%, transparent 50%),
-                #f4f5f7;
+                #f4f5f7; */
                 backdrop-filter: blur(3px);
                 width: 90%;
                 max-width: 400px;
@@ -128,7 +129,7 @@
                 align-items: center;
                 font-size: 7pt;
                 /* color: #377858; */
-                color: #377858;
+                color: #ffffff;
                 cursor: pointer;
                 transition: 0.2s;
                 padding: 5px;
@@ -142,7 +143,7 @@
 
             .nav-item.active {
                 /* color: #377858; */
-                color: #377858;
+                color: #ffffff;
                 font-weight: normal;
                 background: rgba(37, 37, 37, 0.2);
                 backdrop-filter: blur(10px);
