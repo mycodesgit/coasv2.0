@@ -87,7 +87,7 @@ CISS V.1.0 || Grading
                                                                         <tr>
                                                                             <td>{{ $no++ }}</td>
                                                                             <td><input type="hidden" value="{{ $studgrade->sgid }}"><strong>{{ $studgrade->studID }}</strong></td>
-                                                                            <td><strong>{{ $studgrade->lname }}, {{ $studgrade->fname }} {{ strtoupper(substr($studgrade->mname, 0, 1)) }}. </strong></td>
+                                                                            <td>{{ $studgrade->lname }}, {{ $studgrade->fname }} {{ strtoupper(substr($studgrade->mname, 0, 1)) }}. </td>
                                                                             <td>
                                                                                 @if ($studgrade->gstat == 1 || empty($studgrade->subjFgrade))
                                                                                     @if (!empty($studgrade->subjFgrade))
