@@ -326,8 +326,11 @@ class GradingFacultyController extends Controller
             ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
             ->groupBy('studgrades.subjID')
             ->get();
+
+        $data = $this->getActiveFacultyDesignationData();
+        $authfacdesig = $data['authfacdesig'];
             
-        return view('grading.gradesheet.faculty.attendance_search', compact('sy', 'datafacsubprogen'));
+        return view('grading.gradesheet.faculty.attendance_search', compact('sy', 'datafacsubprogen', 'authfacdesig'));
     }
 
     public function attendance_searchfacpdfpage(Request $request)
