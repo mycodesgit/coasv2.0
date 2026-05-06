@@ -19,8 +19,7 @@ CISS V.1.0 || Track Admission
                                     <i class="fas fa-home"></i>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item mt-1">Track Admission</li>
-                            <li class="breadcrumb-item active mt-1">Dashboard</li>
+                            <li class="breadcrumb-item active mt-1">Track Admission</li>
                         </ol>
                     </div>
                 </div>
@@ -68,7 +67,7 @@ CISS V.1.0 || Track Admission
                                                 <tbody>
                                                     <tr>
                                                         <th>Name:</th>
-                                                        <td><!-- value here --></td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
                                                         <th>Preferred Campus:</th>

@@ -9,6 +9,7 @@ use App\Http\Controllers\PortalController;
 use App\Http\Controllers\PassResetController;
 use App\Http\Controllers\RequestDocumentsController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StudentForgotPassController;
 use App\Http\Controllers\LoginFacultyController;
 use App\Http\Controllers\GoogleFacAuthController;
 
@@ -170,6 +171,7 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
 
     Route::get('/student/section', [LoginController::class, 'loginstudonline'])->name('loginstudonline');
     Route::post('/student/section', [LoginController::class, 'stud_login'])->name('stud_login');
+    Route::get('/student/forgot/credentials', [StudentForgotPassController::class, 'index'])->name('forgot.index');
 
     // Route::get('/extkioskstud', [LoginController::class, 'loginextkioskstud'])->name('loginextkioskstud');
     // Route::post('/stud/kiosk/extension/online', [LoginController::class, 'extensionstud_login'])->name('extensionstud_login');

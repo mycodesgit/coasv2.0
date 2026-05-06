@@ -227,7 +227,7 @@
                                 <label for="formCheck" class="form-check-label text-secondary"><small>Show Password</small></label>
                             </div>
                             <div class="forgot">
-                                {{-- <small><a href="#">Forgot Password?</a></small> --}}
+                                <small><a href="{{ route('forgot.index') }}" class="">Forgot Password?</a></small>
                             </div>
                         </div>
                         <div class="input-group mb-3">
