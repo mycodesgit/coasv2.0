@@ -62,11 +62,17 @@ class GradingFacultyAdmissionConfirmController extends Controller
         $year = $request->query('year');
         $strand = $request->query('strand');
         $campus = Auth::guard('faculty')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
 
         $query  = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
                         ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_dept_rating.*')
                         ->where('ad_applicant_admission.year', $year)
-                        ->where('ad_applicant_admission.campus', $campus)
+                        // ->where('ad_applicant_admission.campus', $campus)
+                        ->where(function ($q) use ($campusArray) {
+                            foreach ($campusArray as $campus) {
+                                $q->orWhere('ad_applicant_admission.campus', 'LIKE', "%$campus%");
+                            }
+                        })
                         ->where('p_status', '=', 4);
 
         if ($strand) {
