@@ -110,7 +110,7 @@ class GradingFacultyAdmissionConfirmController extends Controller
             $decryptedId = Crypt::decryptString($request->input('id'));
             $appresult = DeptRating::where('app_id', $decryptedId)->first();
             $appresult->update([
-                'interviewer' => Auth::guard('faculty')->user()->fname . ' ' .Auth::guard('faculty')->user()->lname ,
+                'interviewer' => Auth::guard('faculty')->user()->fname . ' ' .Auth::guard('faculty')->user()->lname,
                 'rating' => $request->input('rating'),
                 'remarks' => $request->input('remarks'),
                 'course' => $request->input('course'),
@@ -144,7 +144,10 @@ class GradingFacultyAdmissionConfirmController extends Controller
             ->update(['p_status' => 5]);
 
         $affectedRowsDeptRating = DeptRating::where('app_id', $decryptedId)
-            ->update(['deptcol' => Auth::guard('faculty')->user()->faccollege]);
+            ->update([
+                'deptcol' => Auth::guard('faculty')->user()->faccollege,
+                'interviewerid' => Auth::guard('faculty')->user()->id,
+            ]);
 
         if ($affectedRows > 0) {
             return response()->json(['success' => true, 'message' => 'Examinee has been pushed to Accepted Applicants List'], 200);

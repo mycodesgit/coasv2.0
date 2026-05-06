@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('ad_applicant_dept_rating', function (Blueprint $table) {
             $table->id();
             $table->integer('app_id');
+            $table->integer('interviewerid');
             $table->string('camp');
             $table->integer('admission_id');
             $table->string('interviewer')->nullable();

@@ -61,6 +61,7 @@ class GradingFacultyAdmissionAcceptedController extends Controller
     {   
         $year = $request->query('year');
         $campus = Auth::guard('faculty')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
         $strand = $request->query('strand');
         $user = Auth::guard('faculty')->user()->faccollege;
 
@@ -74,9 +75,15 @@ class GradingFacultyAdmissionAcceptedController extends Controller
                     'coasv2_db_enrollment.students.stud_id'
                 )
                 ->where('ad_applicant_admission.year', $year)
-                ->where('ad_applicant_admission.campus', $campus)
+                // ->where('ad_applicant_admission.campus', $campus)
+                ->where(function ($q) use ($campusArray) {
+                            foreach ($campusArray as $campus) {
+                                $q->orWhere('ad_applicant_admission.campus', 'LIKE', "%$campus%");
+                            }
+                        })
                 //->whereYear('coasv2_db_enrollment.students.created_at', now()->year)
                 ->where('ad_applicant_dept_rating.deptcol', $user)
+                ->where('ad_applicant_dept_rating.interviewerid', Auth::guard('faculty')->user()->id)
                 ->whereIn('ad_applicant_admission.p_status', [5, 6]);
 
         if ($strand) {

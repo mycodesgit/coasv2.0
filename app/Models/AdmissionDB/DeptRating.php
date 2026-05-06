@@ -13,6 +13,7 @@ class DeptRating extends Model
 
     protected $fillable = [
         'app_id',
+        'interviewerid',
         'camp',
         'admission_id', 
         'interviewer',
