@@ -182,7 +182,11 @@ class ControlController extends Controller
         $data = $this->getActiveFacultyDesignationData();
         $authfacdesig = $data['authfacdesig'];
 
-        $enrolledStatus = EnrollmentMode::where('campus', $campus)->first();
+        $enrolledStatus = EnrollmentMode::where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('campus', 'LIKE', "%$campus%");
+                    }
+                })->first();
         $faculevalStatus = QCEsetting::first();
 
         return view('control.facultyhome', compact('guard', 'schlyearactiveYear', 'schlyearactive', 'semesteractive', 'underproglevsecname', 'countstudsubfac', 'authfacdesig', 'enrolledStatus', 'faculevalStatus'));
