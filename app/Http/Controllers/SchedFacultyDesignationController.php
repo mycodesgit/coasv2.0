@@ -37,8 +37,13 @@ class SchedFacultyDesignationController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = $request->query('campus');
+        $campusArray = array_map('trim', explode(',', $campus));
 
-        $faclist = Faculty::where('campus', '=', Auth::guard('web')->user()->campus)->get();
+        $faclist = Faculty::where(function ($q) use ($campusArray) {
+                    foreach ($campusArray as $campus) {
+                        $q->orWhere('faculty.campus', 'LIKE', "%$campus%");
+                    }
+                })->get();
 
         $data = FacDesignation::select('fac_designation.*', 'faculty.*', 'fac_designation.id as fcdid')
                         ->join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')

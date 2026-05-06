@@ -15,74 +15,11 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
-    <!-- Logo for demo purposes -->
+    <!-- Logo -->
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <style type="text/css">
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
-
-        body{
-            font-family: 'Poppins', sans-serif;
-            background: #ececec;
-        }
-
-        /*------------ Login container ------------*/
-
-        .box-area{
-            width: 930px;
-        }
-
-        /*------------ Right box ------------*/
-
-        .right-box{
-            padding: 40px 30px 40px 40px;
-        }
-
-        /*------------ Custom Placeholder ------------*/
-
-        ::placeholder{
-            font-size: 16px;
-        }
-
-        .rounded-4{
-            border-radius: 20px;
-        }
-        .rounded-5{
-            border-radius: 30px;
-        }
-
-
-        /*------------ For small screens------------*/
-
-        @media only screen and (max-width: 768px){
-
-             .box-area{
-                margin: 0 10px;
-
-             }
-             .left-box{
-                height: 100px;
-                overflow: hidden;
-             }
-             .right-box{
-                padding: 20px;
-             }
-
-        }
-
-        
-
-        @media (min-width: 769px) { 
-            #cpsulogoImage {
-                display: none !important; /* Default: Hidden */
-            }
-        }
-
-        @media (max-width: 768px) { 
-            #cpsulogoleftsideImage {
-                display: none !important; Ensure it's shown on mobile
-            }
-        }
         #particles-js {
             position: fixed;
             width: 100%;
@@ -194,9 +131,17 @@
 
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="bg-icons">
+            <i class="bi bi-book-fill"></i>
+            <i class="bi bi-building"></i>
+            <i class="bi bi-mortarboard-fill"></i>
+            <i class="bi bi-book-fill"></i>
+            <i class="bi bi-building"></i>
+            <i class="bi bi-mortarboard-fill"></i>
+        </div>
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #04401f;">
-                <div id="particles-js"></div>
+                {{-- <div id="particles-js"></div> --}}
                 <div class="featured-image mb-3">
                     <center><img src="{{ asset('template/img/cpsulogov4.png') }}" class="img-fluid" id="" style="width: 100px; padding-top: 0px;"></center>
                     <p class="text-white text-center" style="font-family: 'Courier New', Courier, monospace; font-weight: 600; font-size: 1.5em !important">CISS</p>
@@ -279,8 +224,8 @@
     <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
-    <script src="{{ asset('particles/particles.js') }}"></script>
-    <script src="{{ asset('particles/app.js') }}"></script>
+    {{-- <script src="{{ asset('particles/particles.js') }}"></script>
+    <script src="{{ asset('particles/app.js') }}"></script> --}}
     <!-- Context -->
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
@@ -358,13 +303,11 @@
         
             buttons.forEach(button => {
                 button.addEventListener('click', () => {
-                    // Add the 'clicked' class
                     button.classList.add('clicked');
         
-                    // Remove the class after the animation duration to allow re-click
                     setTimeout(() => {
                         button.classList.remove('clicked');
-                    }, 300); // Duration matches the animation time
+                    }, 300); 
                 });
             });
         });
@@ -377,6 +320,21 @@
                 x.type = "password";
             }
         }
+    </script>
+    <script>
+        document.addEventListener("mousemove", (e) => {
+            const icons = document.querySelectorAll(".bg-icons i");
+
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+            icons.forEach((icon, index) => {
+                const speed = (index + 1) * 0.5;
+
+                icon.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                icon.style.transition = "transform 0.2s ease-out";
+            });
+        });
     </script>
 </body>
 </html>

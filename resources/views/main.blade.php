@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
     <!-- Logo -->
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         .btn-secondary {
             --bs-btn-color: #000;
@@ -40,10 +41,28 @@
             background-color: #adbfcd;
             border-color: #c6c7c8;
         }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            /* background-image: url('{{ asset('template/img/bg-campuswifi.png') }}'); */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 100%;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="bg-icons">
+            <i class="bi bi-book-fill"></i>
+            <i class="bi bi-building"></i>
+            <i class="bi bi-mortarboard-fill"></i>
+            <i class="bi bi-book-fill"></i>
+            <i class="bi bi-building"></i>
+            <i class="bi bi-mortarboard-fill"></i>
+        </div>
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #04401f;">
                 {{-- <div id="particles-js"></div> --}}
@@ -118,6 +137,22 @@
                 x.type = "password";
             }
         }
+    </script>
+
+    <script>
+        document.addEventListener("mousemove", (e) => {
+            const icons = document.querySelectorAll(".bg-icons i");
+
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+            icons.forEach((icon, index) => {
+                const speed = (index + 1) * 0.5;
+
+                icon.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                icon.style.transition = "transform 0.2s ease-out";
+            });
+        });
     </script>
 
 </body>

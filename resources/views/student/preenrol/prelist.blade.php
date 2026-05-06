@@ -34,11 +34,11 @@
                                             $endTime = now()->setHour(17)->setMinute(0)->setSecond(0);
                                         @endphp
 
-                                        {{-- @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+                                        @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
                                             <div class="alert alert-danger text-center mb-0" role="alert">
                                                 <h5>Pre-enrollment is only available from Monday to Friday, 8:00 AM to 5:00 PM.</h5>
                                             </div>
-                                        @else  --}}
+                                        @else 
 
                                             @if($prewait)
                                                 <div class="alert alert-warning text-center mb-0" role="alert">
@@ -191,7 +191,7 @@
                                                     </div>
                                                 </form>
                                             @endif
-                                        {{-- @endif --}}
+                                        @endif
                                     </div>
                                 </div>
                             </div>
