@@ -14,9 +14,10 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/login-style.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Logo -->
     <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         .btn-secondary {
             --bs-btn-color: #000;
@@ -45,13 +46,13 @@
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="bg-icons">
-            <i class="bi bi-book-fill"></i>
-            <i class="bi bi-building"></i>
-            <i class="bi bi-mortarboard-fill"></i>
-            <i class="bi bi-book-fill"></i>
-            <i class="bi bi-building"></i>
-            <i class="bi bi-mortarboard-fill"></i>
+        <div class="bg-icons d-none d-md-flex">
+            <i class="fas fa-book-open"></i>
+            <i class="fas fa-building"></i>
+            <i class="fas fa-graduation-cap"></i>
+            <i class="fas fa-book-open"></i>
+            <i class="fas fa-building"></i>
+            <i class="fas fa-graduation-cap"></i>
         </div>
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #04401f;">
@@ -91,11 +92,11 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Moment -->
-    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
     <!-- Toastr -->
-    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
     {{-- <script src="{{ asset('particles/particles.js') }}"></script>
     <script src="{{ asset('particles/app.js') }}"></script> --}}
     <!-- Context -->
