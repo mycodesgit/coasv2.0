@@ -26,174 +26,235 @@
                             <div class="card-body">
                                 <div class="row g-3 mb-4">
                                     <div class="col-md-12">
-                                        @php
-                                            date_default_timezone_set('Asia/Manila');
+                                        <div class="container-fluid px-2 px-md-3">
+                                            @php
+                                                date_default_timezone_set('Asia/Manila');
 
-                                            $now = now();
-                                            $startTime = now()->setHour(8)->setMinute(0)->setSecond(0);
-                                            $endTime = now()->setHour(17)->setMinute(0)->setSecond(0);
-                                        @endphp
+                                                $now = now();
+                                                $startTime = now()->setHour(8)->setMinute(0)->setSecond(0);
+                                                $endTime = now()->setHour(17)->setMinute(0)->setSecond(0);
+                                            @endphp
 
-                                        @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
-                                            <div class="alert alert-danger text-center mb-0" role="alert">
-                                                <h5>Pre-enrollment is only available from Monday to Friday, 8:00 AM to 5:00 PM.</h5>
-                                            </div>
-                                        @else 
-
-                                            @if($prewait)
-                                                <div class="alert alert-warning text-center mb-0" role="alert">
-                                                    <h5>Your Pre-enrollment for {{ $sy->first()->schlyear }} 
-                                                        @if($sy->first()->semester == 1)
-                                                            1st Sem
-                                                        @elseif($sy->first()->semester == 2)
-                                                            2nd Sem
-                                                        @elseif($sy->first()->semester == 3)
-                                                            Summer
-                                                        @endif
-                                                        has already been submitted for evaluation by the College Enrollment Committee.
-                                                    </h5>
-                                                </div>
-                                                <br>
-                                                <button class="btn btn-outline-success" onclick="location.reload();">
-                                                    <i class="fas fa-refresh"></i> Refresh Page for Updates
-                                                </button>
-                                                <div class="mt-4">
-                                                    <div class="table-responsive">
-                                                        <table id="waitpreTable" class="table table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Status</th>
-                                                                    <th>Course</th>
-                                                                    <th>Date</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                
-                                                            </tbody>
-                                                        </table>
+                                            {{-- OFF HOURS --}}
+                                            @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+                                                <div class="card shadow-sm border-0">
+                                                    <div class="card-body text-center py-5">
+                                                        <i class="fas fa-clock text-danger mb-3" style="font-size:60px;"></i>
+                                                        <h3 class="fw-bold text-danger">
+                                                            Pre-enrollment Closed
+                                                        </h3>
+                                                        <p class="text-muted mb-0">
+                                                            Pre-enrollment is available only from
+                                                            <strong>Monday to Friday</strong>,
+                                                            <strong>8:00 AM to 5:00 PM</strong>.
+                                                        </p>
                                                     </div>
                                                 </div>
-                                            @elseif ($prewaitreg)
-                                                <div class="alert alert-info text-center mb-0" role="alert">
-                                                    <h5>Your Pre-enrollment for {{ $sy->first()->schlyear }} 
-                                                        @if($sy->first()->semester == 1)
-                                                            1st Sem
-                                                        @elseif($sy->first()->semester == 2)
-                                                            2nd Sem
-                                                        @elseif($sy->first()->semester == 3)
-                                                            Summer
-                                                        @endif
-                                                        has already been approved. Pending in Registrar Office.
-                                                    </h5>
-                                                </div>
-                                                <br>
-                                                <button class="btn btn-outline-success" onclick="location.reload();">
-                                                    <i class="fas fa-refresh"></i> Refresh Page for Updates
-                                                </button>
-                                            @elseif ($preconfirmenrollreg)
-                                                <div class="alert alert-warning text-center mb-0" role="alert">
-                                                    <h5>
-                                                        Your pre-enrollment for {{ $sy->first()->schlyear }} 
-                                                        @if($sy->first()->semester == 1)
-                                                            1st Semester
-                                                        @elseif($sy->first()->semester == 2)
-                                                            2nd Semester
-                                                        @elseif($sy->first()->semester == 3)
-                                                            Summer Term
-                                                        @endif
-                                                        at the Main Campus in {{ $preconfirmenrollreg->course }} is ready for confirmation.
-                                                    </h5>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-3 mt-2">
-                                                        <div class="content-box pt-0 pb-3">
-                                                            <div class="text-center mt-3">
-                                                                <h6>Click Here to Confirm Your Enrollment</h6>
-                                                                <form action="{{ route('confirm.enrollment') }}" method="POST">
-                                                                    @csrf
+                                            @else
+                                                {{-- PENDING EVALUATION --}}
+                                                @if($prewait)
+                                                    <div class="card shadow-sm border-0 mb-4">
+                                                        <div class="card-body">
+                                                            <div class="d-flex align-items-center mb-3">
+                                                                <i class="fas fa-hourglass-half text-warning me-3" style="font-size:40px;"></i>
+                                                                <div>
+                                                                    <h4 class="mb-1 fw-bold">
+                                                                        Pending Evaluation
+                                                                    </h4>
+                                                                    <p class="mb-0 text-muted">
+                                                                        Your pre-enrollment for
+                                                                        <strong>{{ $sy->first()->schlyear }}</strong>
+                                                                        @if($sy->first()->semester == 1)
+                                                                            1st Semester
+                                                                        @elseif($sy->first()->semester == 2)
+                                                                            2nd Semester
+                                                                        @elseif($sy->first()->semester == 3)
+                                                                            Summer
+                                                                        @endif
+                                                                        has been submitted for evaluation.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <button class="btn btn-outline-success btn-sm mb-4"
+                                                                    onclick="location.reload();">
+                                                                <i class="fas fa-sync-alt"></i>
+                                                                Refresh Status
+                                                            </button>
 
-                                                                    <input type="hidden" name="schlyear" value="{{ $sy->first()->schlyear }}" readonly>
-                                                                    <input type="hidden" name="semester" value="{{ $sy->first()->semester }}" readonly>
-
-                                                                    <button type="submit" class="btn btn-success btn-md mt-2">
-                                                                        Yes, I Confirm Enrollment.
-                                                                    </button>
-                                                                </form>
+                                                            <div class="table-responsive">
+                                                                <table id="waitpreTable" class="table table-hover align-middle">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th>Status</th>
+                                                                            <th>Course</th>
+                                                                            <th>Date</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-9 mt-2">
-                                                        <div class="content-box">
-                                                            {{-- <iframe src="{{ route('rfstudactconfirm') }}" width="100%" height="500"></iframe> --}}
-                                                            @include('enrollment.studenroll.pdfrf.studRFconfirm')
+                                                {{-- APPROVED --}}
+                                                @elseif ($prewaitreg)
+                                                    <div class="card shadow-sm border-0">
+                                                        <div class="card-body text-center py-5">
+                                                            <i class="fas fa-check-circle text-info mb-3"
+                                                            style="font-size:60px;"></i>
+                                                            <h5 class="fw-bold text-info">
+                                                                Approved by College/Department
+                                                            </h5>
+                                                            <p class="text-muted">
+                                                                Your pre-enrollment has been approved and is now
+                                                                pending at the Registrar Office.
+                                                            </p>
+                                                            <button class="btn btn-outline-success mt-2"
+                                                                    onclick="location.reload();">
+                                                                <i class="fas fa-sync-alt"></i>
+                                                                Refresh Status
+                                                            </button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            @elseif ($preofficialenrollreg)
-                                                <div class="alert alert-success text-center mb-0" role="alert">
-                                                    <h5>You are Officially Enrolled for {{ $sy->first()->schlyear }} 
-                                                        @if($sy->first()->semester == 1)
-                                                            1st Semester
-                                                        @elseif($sy->first()->semester == 2)
-                                                            2nd Semester
-                                                        @elseif($sy->first()->semester == 3)
-                                                            Summer
-                                                        @endif
-                                                        at the Main Campus in {{ $preofficialenrollreg->course }}.
-                                                    </h5>
-                                                </div>
-                                                <br>
-                                                <iframe src="{{ route('rfstudactconfirm') }}" width="100%" height="500"></iframe>
-                                            @else
-                                                <form method="GET" action="{{ route('pre.show') }}" id="enrollStud" class="">
-                                                    @csrf
-                                                    <div class="row g-3 align-items-end">
-
-                                                        <div class="col-12 col-md-3">
-                                                            <label class="form-label mb-1">
-                                                                <span>Student ID Number</span>
-                                                            </label>
-                                                            <input type="text" name="stud_id" class="form-control form-control-sm" value="{{ $studauth->stud_id }}" readonly>
+                                                {{-- READY FOR CONFIRMATION --}}
+                                                @elseif ($preconfirmenrollreg)
+                                                    <div class="row g-3">
+                                                        <div class="col-lg-4">
+                                                            <div class="card shadow-sm border-0 h-100">
+                                                                <div class="card-body text-center">
+                                                                    <i class="fas fa-user-check text-warning mb-3"
+                                                                    style="font-size:55px;"></i>
+                                                                    <h4 class="fw-bold">
+                                                                        Enrollment Ready
+                                                                    </h4>
+                                                                    <p class="text-muted">
+                                                                        Your enrollment is ready for confirmation.
+                                                                    </p>
+                                                                    <div class="alert alert-warning text-start">
+                                                                        <strong>Course:</strong>
+                                                                        {{ $preconfirmenrollreg->course }}
+                                                                    </div>
+                                                                    <form action="{{ route('confirm.enrollment') }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden"
+                                                                            name="schlyear"
+                                                                            value="{{ $sy->first()->schlyear }}">
+                                                                        <input type="hidden"
+                                                                            name="semester"
+                                                                            value="{{ $sy->first()->semester }}">
+                                                                        <button type="submit"
+                                                                                class="btn btn-success w-100">
+                                                                            <i class="fas fa-check-circle"></i>
+                                                                            Confirm Enrollment
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
                                                         </div>
-
-                                                        <div class="col-12 col-md-3">
-                                                            <label class="form-label mb-1">
-                                                                <span>School Year</span>
-                                                            </label>
-                                                            <select class="form-select form-select-sm" name="schlyear">
-                                                                @foreach ($sy as $datasy)
-                                                                    <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-12 col-md-3">
-                                                            <label class="form-label mb-1">
-                                                                <span>Semester</span>
-                                                            </label>
-                                                            <select class="form-select form-select-sm" name="semester">
-                                                                @foreach ($sy as $datasy)
-                                                                    <option value="{{ $datasy->semester }}">
-                                                                        @if ($datasy->semester == 1)
-                                                                            1st Sem
-                                                                        @elseif($datasy->semester == 2)
-                                                                            2nd Sem
-                                                                        @elseif($datasy->semester == 3)
-                                                                            Summer
-                                                                        @endif
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-12 col-md-3">
-                                                            <label class="form-label mb-1 d-block">&nbsp;</label>
-                                                            <button type="submit" class="btn btn-success btn-sm w-100">OK</button>
+                                                        <div class="col-lg-8">
+                                                            <div class="card shadow-sm border-0">
+                                                                <div class="card-body">
+                                                                    <h5 class="fw-bold mb-3">
+                                                                        Registration Form Preview
+                                                                    </h5>
+                                                                    @include('enrollment.studenroll.pdfrf.studRFconfirm')
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                {{-- OFFICIALLY ENROLLED --}}
+                                                @elseif ($preofficialenrollreg)
+                                                    <div class="card shadow-sm border-0">
+                                                        <div class="card-body text-center py-4">
+                                                            <i class="fas fa-graduation-cap text-success mb-3"
+                                                            style="font-size:65px;"></i>
+                                                            <h3 class="fw-bold text-success">
+                                                                Officially Enrolled
+                                                            </h3>
+                                                            <p class="text-muted mb-4">
+                                                                Congratulations! You are officially enrolled in
+                                                                <strong>{{ $preofficialenrollreg->course }}</strong>.
+                                                            </p>
+                                                            <div class="border rounded overflow-hidden">
+                                                                <iframe src="{{ route('rfstudactconfirm') }}"
+                                                                        width="100%"
+                                                                        height="600"
+                                                                        style="border:none;">
+                                                                </iframe>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {{-- FORM --}}
+                                                @else
+                                                    <div class="card shadow-sm border-0">
+                                                        <div class="card-header bg-success text-white">
+                                                            <h5 class="mb-0">
+                                                                <i class="fas fa-edit"></i>
+                                                                Student Pre-enrollment
+                                                            </h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <form method="GET"
+                                                                action="{{ route('pre.show') }}"
+                                                                id="enrollStud">
+                                                                @csrf
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label fw-semibold">
+                                                                            Student ID Number
+                                                                        </label>
+                                                                        <input type="text"
+                                                                            name="stud_id"
+                                                                            class="form-control"
+                                                                            value="{{ $studauth->stud_id }}"
+                                                                            readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label fw-semibold">
+                                                                            School Year
+                                                                        </label>
+                                                                        <select class="form-select"
+                                                                                name="schlyear">
+                                                                            @foreach ($sy as $datasy)
+                                                                                <option value="{{ $datasy->schlyear }}">
+                                                                                    {{ $datasy->schlyear }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label fw-semibold">
+                                                                            Semester
+                                                                        </label>
+                                                                        <select class="form-select"
+                                                                                name="semester">
+                                                                            @foreach ($sy as $datasy)
+                                                                                <option value="{{ $datasy->semester }}">
+                                                                                    @if ($datasy->semester == 1)
+                                                                                        1st Semester
+                                                                                    @elseif($datasy->semester == 2)
+                                                                                        2nd Semester
+                                                                                    @elseif($datasy->semester == 3)
+                                                                                        Summer
+                                                                                    @endif
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <button type="submit"
+                                                                                class="btn btn-success px-4">
+                                                                            <i class="fas fa-paper-plane"></i>
+                                                                            Continue Pre-enrollment
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             @endif
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
