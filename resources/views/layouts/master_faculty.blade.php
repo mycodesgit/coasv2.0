@@ -366,7 +366,11 @@
     
     <script>
         $(function () {
-            $('.select2').select2();
+            $('.select2').each(function () {
+                $(this).select2({
+                    dropdownParent: $(this).closest('.modal'),
+                });
+            });
 
             $('.select2bs4').select2({
                 theme: 'bootstrap4',
@@ -465,8 +469,14 @@
         @include('script.studnts.evaluation.ratecardnextbutton')
     @endif
     
+    @if (request()->routeIs('prelist.index'))
+        @include('script.faculty.preenrolEvaljs')
+    @endif
     @if (request()->routeIs('prelist.store'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}?v={{ time() }}"></script>
+    @endif
+    @if (request()->routeIs('storeprenrolview.store'))
+        @include('script.enrllmnt.evalEnrolmentSerialize')
     @endif
     
     @if (request()->routeIs('confirm.store'))

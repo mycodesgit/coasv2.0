@@ -13,7 +13,8 @@
                                 'supfaceval', 
                                 'supfacevalrate',
                                 'prelist.index',
-                                'prelist.store'
+                                'prelist.store',
+                                'storeprenrolview.store'
                             ]) ? 'active' : '';
     $confirmfacActive = in_array($curr_route, ['confirm.index', 'confirm.store']) ? 'active' : '';
     $aceptedfacActive = in_array($curr_route, ['accepted.index', 'accepted.store']) ? 'active' : '';

@@ -275,8 +275,11 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
             
             Route::prefix('preenrolmnt')->group(function () {
                 Route::get('/list/search', [GradingFacultyServicePreenrolController::class, 'index'])->name('prelist.index');
+                Route::get('/list/search/subject/stud/fetch/list', [GradingFacultyServicePreenrolController::class, 'fetchprestudenrol'])->name('fetchprestudenrol');
                 Route::get('/list/search/process', [GradingFacultyServicePreenrolController::class, 'process'])->name('prelist.process');
+                Route::get('/list/search/process/pending/req', [GradingFacultyServicePreenrolController::class, 'storeprenrolprocess'])->name('storeprenrolprocess');
                 Route::get('/list/search/result', [GradingFacultyServicePreenrolController::class, 'store'])->name('prelist.store');
+                Route::get('/list/search/result/pending/req', [GradingFacultyServicePreenrolController::class, 'storeprenrolview'])->name('storeprenrolview.store');
                 Route::get('/list/search/result/fetch-subjects/fac', [GradingFacultyServicePreenrolController::class, 'fetchSubjectsOffered'])->name('fetchSubjectsOffered');
                 Route::get('/search/result/get-sub-title', [GradingFacultyServicePreenrolController::class, 'coursefetchSubjectsSelect'])->name('coursefetchSubjectsSelect');
                 Route::get('/search/result/get-sub-fee', [GradingFacultyServicePreenrolController::class, 'fetchFeeSubjectsSelect'])->name('fetchFeeSubjectsSelect');

@@ -61,7 +61,11 @@ CISS V.1.0 || Faculty Services
                                         </div>
                                     </form>
                                     <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-                                    @if(in_array(Auth::guard('faculty')->user()->campus, ['MC']))
+                                    @php
+                                        $campuses = explode(',', Auth::guard('faculty')->user()->campus);
+                                    @endphp
+
+                                    @if(count(array_intersect($campuses, ['MC', 'VC', 'SCC', 'HC', 'MP', 'IC', 'CA', 'CC', 'SC', 'HinC'])) > 0)
                                         @if($queueMode->statusqueue === 'Off')
 
                                         @else
@@ -115,5 +119,8 @@ CISS V.1.0 || Faculty Services
                 formatInput(input);
             }
         }
+
+        var preenrollistReadRoute = "{{ route('fetchprestudenrol') }}";
+        var preenrollistShowRoute  = "{{ route('storeprenrolprocess') }}";
     </script>
 @endsection

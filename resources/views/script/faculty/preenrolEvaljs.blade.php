@@ -81,7 +81,7 @@
                                 + '&semester=' + encodeURIComponent(row.semester);
 
                             return `
-                                <a href="${url}" class="btn btn-sm btn-primary">
+                                <a href="${url}" class="btn btn-sm btn-success text-light">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             `;

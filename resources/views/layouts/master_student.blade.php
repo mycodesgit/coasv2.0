@@ -415,6 +415,13 @@
         </script>
         @include('script.studnts.class.schedjs')
     @endif
+    @if(request()->routeIs('pre.show'))
+        @include('script.enrllmnt.preenrolSerialize')
+    @endif
+    
+    @if(request()->routeIs('pre.index'))
+        @include('script.enrllmnt.preenrolStudSerialize')
+    @endif
 
 </body>
 
