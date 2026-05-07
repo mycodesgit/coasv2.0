@@ -375,25 +375,27 @@
                 //height: '150'
             })
         });
-        $(document).ready(function() {
-            @if(session('error'))
-                toastr.error("{{ session('error') }}", "Error", {
-                    closeButton: true,
-                    progressBar: true,
-                    positionClass: "toast-bottom-left",
-                    timeOut: 5000
-                });
-            @endif
+        @if (!request()->routeIs('index.student'))
+            $(document).ready(function() {
+                @if(session('error'))
+                    toastr.error("{{ session('error') }}", "Error", {
+                        closeButton: true,
+                        progressBar: true,
+                        positionClass: "toast-bottom-left",
+                        timeOut: 5000
+                    });
+                @endif
 
-            @if(session('success'))
-                toastr.success("{{ session('success') }}", "Success", {
-                    closeButton: true,
-                    progressBar: true,
-                    positionClass: "toast-bottom-left",
-                    timeOut: 10000
-                });
-            @endif
-        });
+                @if(session('success'))
+                    toastr.success("{{ session('success') }}", "Success", {
+                        closeButton: true,
+                        progressBar: true,
+                        positionClass: "toast-bottom-left",
+                        timeOut: 10000
+                    });
+                @endif
+            });
+        @endif
         document.addEventListener("DOMContentLoaded", function () {
             const cards = document.querySelectorAll('.card-animate');
 
@@ -415,12 +417,11 @@
         </script>
         @include('script.studnts.class.schedjs')
     @endif
-    @if(request()->routeIs('pre.show'))
-        @include('script.enrllmnt.preenrolSerialize')
-    @endif
-    
     @if(request()->routeIs('pre.index'))
         @include('script.enrllmnt.preenrolStudSerialize')
+    @endif
+    @if(request()->routeIs('pre.show'))
+        @include('script.enrllmnt.preenrolSerialize')
     @endif
 
 </body>

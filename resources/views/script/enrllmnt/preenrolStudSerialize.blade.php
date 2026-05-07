@@ -12,11 +12,24 @@
             },
             destroy: true,
             info: false,
-            responsive: true,
+            responsive: false,
             lengthChange: false,
             searching: false,
             paging: false,
             "columns": [
+                {data: 'status',
+                        render: function(data, type, row) {
+                        switch(parseInt(data)) {
+                            case 1:
+                                return '<span class="badge bg-warning">Pending in College/Department</span>';
+                            case 2:
+                                return '<span class="badge bg-info">Submitted</span>';
+                            default:
+                                return '<span class="badge bg-secondary">Unknown Status</span>';
+                        }
+                    },
+                },
+                {data: 'course'},
                 { data: 'created_ats',
                     render: function (data, type, row) {
                         if (type === 'display') {
@@ -25,19 +38,6 @@
                             return data;
                         }
                     }
-                },
-                {data: 'course'},
-                {data: 'status',
-                        render: function(data, type, row) {
-                        switch(parseInt(data)) {
-                            case 1:
-                                return '<span class="badge badge-warning">Pending</span>';
-                            case 2:
-                                return '<span class="badge badge-info">Submitted</span>';
-                            default:
-                                return '<span class="badge badge-secondary">Unknown Status</span>';
-                        }
-                    },
                 },
             ],
             "createdRow": function (row, data, index) {

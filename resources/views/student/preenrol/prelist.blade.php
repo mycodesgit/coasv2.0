@@ -58,18 +58,20 @@
                                                     <i class="fas fa-refresh"></i> Refresh Page for Updates
                                                 </button>
                                                 <div class="mt-4">
-                                                    <table id="waitpreTable" class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Date</th>
-                                                                <th>Course</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            
-                                                        </tbody>
-                                                    </table>
+                                                    <div class="table-responsive">
+                                                        <table id="waitpreTable" class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Status</th>
+                                                                    <th>Course</th>
+                                                                    <th>Date</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             @elseif ($prewaitreg)
                                                 <div class="alert alert-info text-center mb-0" role="alert">

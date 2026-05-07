@@ -228,13 +228,13 @@ class StudentController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 3)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
         
         $sypre = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 3)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear')
@@ -255,7 +255,7 @@ class StudentController extends Controller
         $preconfirmenrollreg  = StudEnrolmentHistory::where('studentID', '=', $studentowner)
                     ->where('schlyear', '=', $sypre->schlyear)
                     ->where('semester', '=', $sypre->semester)
-                    ->where('status', 3)
+                    ->where('status', 2)
                     ->first();
 
         $preofficialenrollreg  = StudEnrolmentHistory::where('studentID', '=', $studentowner)
