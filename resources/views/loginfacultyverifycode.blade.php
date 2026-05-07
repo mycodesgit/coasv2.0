@@ -9,13 +9,15 @@
     <title>CISS - Verification</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/bootstrap.min.css') }}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/bootstrap/css/bootstrap.min.css') }}">
     <!-- Login Design -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/login-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/login-style.css') }}">
     <!-- Toastr -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Logo -->
-    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
+    <link rel="shortcut icon" type="" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
     <style>
         .btn-light {
             --bs-btn-color: #000;
@@ -37,6 +39,14 @@
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="bg-icons d-none d-md-flex">
+            <i class="fas fa-book-open"></i>
+            <i class="fas fa-building"></i>
+            <i class="fas fa-graduation-cap"></i>
+            <i class="fas fa-book-open"></i>
+            <i class="fas fa-building"></i>
+            <i class="fas fa-graduation-cap"></i>
+        </div>
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #04401f;">
                 {{-- <div id="particles-js"></div> --}}
@@ -77,11 +87,11 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}?v={{ time() }}"></script>
     <!-- Moment -->
-    <script src="{{ asset('template/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}?v={{ time() }}"></script>
     <!-- Toastr -->
-    <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}?v={{ time() }}"></script>
     {{-- <script src="{{ asset('particles/particles.js') }}"></script>
     <script src="{{ asset('particles/app.js') }}"></script> --}}
     <!-- Context -->
@@ -117,6 +127,21 @@
                 x.type = "password";
             }
         }
+    </script>
+    <script>
+        document.addEventListener("mousemove", (e) => {
+            const icons = document.querySelectorAll(".bg-icons i");
+
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+            icons.forEach((icon, index) => {
+                const speed = (index + 1) * 0.5;
+
+                icon.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                icon.style.transition = "transform 0.2s ease-out";
+            });
+        });
     </script>
 
 </body>
