@@ -9,15 +9,15 @@
     <title>CISS</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/bootstrap.min.css') }}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/bootstrap/css/bootstrap.min.css') }}">
     <!-- Login Design -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/login-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/login-style.css') }}">
     <!-- Toastr -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
     <!-- fontawesome -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Logo -->
-    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
+    <link rel="shortcut icon" type="" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
     <style>
         .btn-secondary {
             --bs-btn-color: #000;
@@ -92,11 +92,11 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}?v={{ time() }}"></script>
     <!-- Moment -->
-    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}?v={{ time() }}"></script>
     <!-- Toastr -->
-    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}?v={{ time() }}"></script>
     {{-- <script src="{{ asset('particles/particles.js') }}"></script>
     <script src="{{ asset('particles/app.js') }}"></script> --}}
     <!-- Context -->

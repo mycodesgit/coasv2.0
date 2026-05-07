@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>CISS - Student Login</title>
+    <title>CISS - Login</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/bootstrap.min.css') }}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/bootstrap/css/bootstrap.min.css') }}">
     <!-- Login Design -->
-    <link rel="stylesheet" href="{{ asset('template/dist/css/login-style.css') }}">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/fontawesome-free-V6/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/login-style.css') }}">
     <!-- Toastr -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
     <!-- fontawesome -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Logo -->
-    <link rel="shortcut icon" type="" href="{{ asset('template/img/CPSU_L.png') }}">
+    <link rel="shortcut icon" type="" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
 
     <style type="text/css">
         #particles-js {
@@ -220,11 +219,11 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}?v={{ time() }}"></script>
     <!-- Moment -->
-    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}?v={{ time() }}"></script>
     <!-- Toastr -->
-    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}?v={{ time() }}"></script>
     {{-- <script src="{{ asset('particles/particles.js') }}"></script>
     <script src="{{ asset('particles/app.js') }}"></script> --}}
     <!-- Context -->
