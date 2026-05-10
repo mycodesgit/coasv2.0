@@ -251,7 +251,7 @@
         });
     </script>
     
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             const keyboard = document.getElementById('numericKeyboard');
             const studentIdInput = document.getElementById('studentIdInput');
@@ -320,7 +320,7 @@
                 x.type = "password";
             }
         }
-    </script>
+    </script> --}}
     <script>
         document.addEventListener("mousemove", (e) => {
             const icons = document.querySelectorAll(".bg-icons i");

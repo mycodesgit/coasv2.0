@@ -228,13 +228,13 @@ class StudentController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 2)
+                ->where('set_status', 3)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
         
         $sypre = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 2)
+                ->where('set_status', 3)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear')

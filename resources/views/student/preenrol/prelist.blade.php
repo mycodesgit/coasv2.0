@@ -36,7 +36,7 @@
                                             @endphp
 
                                             {{-- OFF HOURS --}}
-                                            @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+                                            {{-- @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
                                                 <div class="card shadow-sm border-0">
                                                     <div class="card-body text-center py-5">
                                                         <i class="fas fa-clock text-danger mb-3" style="font-size:60px;"></i>
@@ -50,7 +50,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                            @else
+                                            @else --}}
                                                 {{-- PENDING EVALUATION --}}
                                                 @if($prewait)
                                                     <div class="card shadow-sm border-0 mb-4">
@@ -186,74 +186,50 @@
                                                     </div>
                                                 {{-- FORM --}}
                                                 @else
-                                                    <div class="card shadow-sm border-0">
-                                                        <div class="card-header bg-success text-white">
-                                                            <h5 class="mb-0">
-                                                                <i class="fas fa-edit"></i>
-                                                                Student Pre-enrollment
-                                                            </h5>
+                                                    <form method="GET" action="{{ route('pre.show') }}" id="enrollStud">
+                                                        @csrf
+                                                        <div class="row g-3">
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">Student ID Number: <span class="text-danger">*</span></label>
+                                                                <input type="text" name="stud_id" class="form-control" value="{{ $studauth->stud_id }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">School Year: <span class="text-danger">*</span></label>
+                                                                <select class="form-control" name="schlyear">
+                                                                    @foreach ($sy as $datasy)
+                                                                        <option value="{{ $datasy->schlyear }}">
+                                                                            {{ $datasy->schlyear }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">Semester: <span class="text-danger">*</span></label>
+                                                                <select class="form-control" name="semester">
+                                                                    @foreach ($sy as $datasy)
+                                                                        <option value="{{ $datasy->semester }}">
+                                                                            @if ($datasy->semester == 1)
+                                                                                1st Semester
+                                                                            @elseif($datasy->semester == 2)
+                                                                                2nd Semester
+                                                                            @elseif($datasy->semester == 3)
+                                                                                Summer
+                                                                            @endif
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <br>
+                                                                <button type="submit" class="btn btn-success mt-2 btn-block">
+                                                                    <i class="fas fa-paper-plane"></i>
+                                                                    Continue Pre-enrollment
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                        <div class="card-body">
-                                                            <form method="GET"
-                                                                action="{{ route('pre.show') }}"
-                                                                id="enrollStud">
-                                                                @csrf
-                                                                <div class="row g-3">
-                                                                    <div class="col-md-4">
-                                                                        <label class="form-label fw-semibold">
-                                                                            Student ID Number
-                                                                        </label>
-                                                                        <input type="text"
-                                                                            name="stud_id"
-                                                                            class="form-control"
-                                                                            value="{{ $studauth->stud_id }}"
-                                                                            readonly>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <label class="form-label fw-semibold">
-                                                                            School Year
-                                                                        </label>
-                                                                        <select class="form-select"
-                                                                                name="schlyear">
-                                                                            @foreach ($sy as $datasy)
-                                                                                <option value="{{ $datasy->schlyear }}">
-                                                                                    {{ $datasy->schlyear }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <label class="form-label fw-semibold">
-                                                                            Semester
-                                                                        </label>
-                                                                        <select class="form-select"
-                                                                                name="semester">
-                                                                            @foreach ($sy as $datasy)
-                                                                                <option value="{{ $datasy->semester }}">
-                                                                                    @if ($datasy->semester == 1)
-                                                                                        1st Semester
-                                                                                    @elseif($datasy->semester == 2)
-                                                                                        2nd Semester
-                                                                                    @elseif($datasy->semester == 3)
-                                                                                        Summer
-                                                                                    @endif
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <button type="submit"
-                                                                                class="btn btn-success px-4">
-                                                                            <i class="fas fa-paper-plane"></i>
-                                                                            Continue Pre-enrollment
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
+                                                    </form>
                                                 @endif
-                                            @endif
+                                            {{-- @endif --}}
                                         </div>
                                     </div>
                                 </div>

@@ -524,7 +524,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/get-sub-fee', [EnrollmentController::class, 'fetchFeeSubjects'])->name('fetchFeeSubjects');
             Route::post('/student/enroll/submit', [EnrollmentController::class, 'studEnrollmentCreate'])->name('studEnrollmentCreate');
 
-            Route::delete('/student/enroll/submit', [EnrollmentController::class, 'deleteAllRecords'])->name('deleteAllRecords');
+            Route::delete('/student/enroll/delete', [EnrollmentController::class, 'deleteAllRecords'])->name('deleteAllRecords');
 
             Route::post('/queue/next', [EnrollmentController::class, 'getNextQueue'])->name('queue.next');
             Route::post('/queue/call', [EnrollmentController::class, 'getCallQueue'])->name('queue.call');

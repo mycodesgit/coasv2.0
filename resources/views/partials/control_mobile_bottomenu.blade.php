@@ -36,14 +36,14 @@
         </div>
     </a>
 @elseif (request()->routeIs('pre.show'))
-    <a href="{{ route('pre.index') }}">
+    {{-- <a href="{{ route('pre.index') }}">
         <div class="bottom-nav">
             <div class="nav-item" data-label="Dashboard">
                 <i class="fas fa-arrow-left icon"></i>
                 <span>Go Back</span>
             </div>
         </div>
-    </a>
+    </a> --}}
 @elseif (request()->routeIs('show.evaluation.rate'))
     <a href="{{ route('index.evaluation') }}">
         <div class="bottom-nav">

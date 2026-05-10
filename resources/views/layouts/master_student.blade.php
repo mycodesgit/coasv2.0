@@ -243,6 +243,10 @@
             opacity: 1;
             transform: translateY(0) scale(1);
         }
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
     </style>
 </head>
 

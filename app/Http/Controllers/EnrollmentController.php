@@ -589,14 +589,14 @@ class EnrollmentController extends Controller
 
     public function searchStud()
     {   
-        $sy = ConfigureCurrent::select('id', 'schlyear')
+        $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
                     ->from('settings_conf')
                     ->groupBy('schlyear');
             })
-            //->where('set_status', 2)
-            ->whereIn('id', ['24', '22', '21'])
+            ->where('set_status', 3)
+            //->whereIn('id', ['24', '22', '21'])
             ->orderBy('id', 'DESC')
             ->get();
 

@@ -17,12 +17,30 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card card-animate">
-                            <div class="card-header pt-3">
-                                <h6 class="card-title">
-                                    <i class="ti ti-receipt"></i> Pre-Enrollment
-                                </h6>
+                        
+                        <div class="card card-animate border-0 shadow rounded-3 text-white mb-3" style="background: linear-gradient(135deg, #65ac86, #58886e);">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-4 d-none d-lg-inline">
+                                        <div class="bg-white rounded-4 p-3 opacity-75">
+                                            <i class="ti ti-device-laptop text-success fs-1"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h2 class="fw-bold mb-2">
+                                            <a href="{{ route('pre.index') }}" class="btn btn-light text-primary rounded-circle p-3 opacity-75 d-lg-none" style="width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center;">
+                                                <i class="ti ti-arrow-left"></i>
+                                            </a>
+                                            Pre-enrollment
+                                        </h2>
+                                        <p class="mb-3 opacity-75">
+                                            {{ request('schlyear') }} - {{ request('semester') == 1 ? '1st Semester' : (request('semester') == 2 ? '2nd Semester' : 'Summer') }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <div class="card card-animate">
                             <div class="card-body">
                                 <div class="row g-3 mb-4">
                                     <div class="col-md-12">
@@ -44,7 +62,7 @@
 
                                                     <div class="col-12 col-md-2">
                                                         <label class="text-bold">Status <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm bg-white" disabled>
+                                                        <select class="form-control bg-white" disabled>
                                                             @foreach ($studstat as $data)
                                                                 <option value="{{ $data->id }}" {{ $data->id == $selectedStudStatus ? 'selected' : '' }}>{{ $data->studentStatName }}</option>
                                                             @endforeach
@@ -54,7 +72,7 @@
 
                                                     <div class="col-12 col-md-3">
                                                         <labe class="text-bold">Type <span class="text-danger">*</span></labe>
-                                                        <select class="form-control form-control-sm bg-white" disabled>
+                                                        <select class="form-control bg-white" disabled>
                                                             <option disabled selected> --Select--</option>
                                                             @foreach ($studtype as $data)
                                                                 <option value="{{ $data->id }}" {{ $data->id == 2 ? 'selected' : '' }}>{{ $data->studentTypeName }}</option>
@@ -65,7 +83,7 @@
                                                     
                                                     <div class="col-12 col-md-3">
                                                         <label class="text-bold">Course Year&Section <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm" name="course" id="programNameSelect">
+                                                        <select class="form-control" name="course" id="programNameSelect">
                                                             <option disabled selected> --Select --</option> {{-- Always default to this; JS can auto-select if needed --}}
                                                             @forelse ($classEnrolls as $class) {{-- Use @forelse to handle empty --}}
                                                             @php
@@ -96,23 +114,23 @@
 
                                                     <div class="col-12 col-md-2">
                                                         <label class="text-bold">Total Units</label>
-                                                        <input type="text" id="totalunitInput" name="studUnit" class="form-control form-control-sm" readonly>
+                                                        <input type="text" id="totalunitInput" name="studUnit" class="form-control" readonly>
                                                     </div>
 
                                                     <div class="col-12 col-md-2">
                                                         <label class="text-bold">Year Level</label>
-                                                        <input type="text" id="yearsectionInput" name="" class="form-control form-control-sm" readonly>
+                                                        <input type="text" id="yearsectionInput" name="" class="form-control" readonly>
                                                     </div>
 
                                                     <div class="col-12 col-md-5">
                                                         <label class="text-bold">Program Name</label>
-                                                        <input type="text" id="programNameInput" name="" class="form-control form-control-sm" readonly>
+                                                        <input type="text" id="programNameInput" name="" class="form-control" readonly>
                                                     </div>
 
                                                     <div class="col-12 col-md-7">
                                                         <label class="text-bold">Student Level</label>
                                                         <input type="hidden" name="studLevel" id="studLevelHidden" value="50">
-                                                        <select class="form-control form-control-sm" name="studLevel" id="studLevel" disabled style="background-color: #fff !important">
+                                                        <select class="form-control" name="studLevel" id="studLevel" disabled style="background-color: #fff !important">
                                                             <option disabled selected> --Select Course-- </option>
                                                             @foreach ($studlvl as $data)
                                                                 <option value="{{ $data->id }}" {{ $data->id == 50 ? 'selected' : '' }}>{{ $data->studLevel }}</option>
