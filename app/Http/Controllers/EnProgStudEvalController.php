@@ -54,11 +54,21 @@ class EnProgStudEvalController extends Controller
     public function loadstudsub()
     {
         //$sy = ConfigureCurrent::where('set_status', '=', '2')->get();
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-                ->whereIn('id', ['21', '20'])
-                ->orderBy('id', 'DESC')
-                ->get()
-                ->unique('schlyear');
+        // $sy = ConfigureCurrent::select('id', 'schlyear')
+        //         ->whereIn('id', ['21', '20'])
+        //         ->orderBy('id', 'DESC')
+        //         ->get()
+        //         ->unique('schlyear');
+        $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->where('set_status', 3)
+            //->whereIn('id', ['24', '22', '21'])
+            ->orderBy('id', 'DESC')
+            ->get();
         $queueMode = QueueMode::first();
 
         return view('enrollment.evalstud.search_studeval', compact('sy', 'queueMode'));
