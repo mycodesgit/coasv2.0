@@ -48,7 +48,7 @@ class LoginController extends Controller
         $validatedUser = auth()->guard('web')->attempt([
             'email' => $request->email,
             'password' => $request->password,
-            'statuser' => 1,
+            // 'statuser' => 1,
         ]);
 
         if ($validatedUser) {
