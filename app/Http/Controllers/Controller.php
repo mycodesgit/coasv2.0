@@ -18,7 +18,7 @@ class Controller extends BaseController
 
     protected function getActiveFacultyDesignationData()
     {
-        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        $activeConfig = ConfigureCurrent::where('set_status', 3)->first();
 
         if (!$activeConfig) {
             return null;

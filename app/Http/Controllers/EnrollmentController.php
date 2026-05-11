@@ -1171,6 +1171,13 @@ class EnrollmentController extends Controller
         if (!$student) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
+
+        $preassessenrollreg  = StudEnrolmentHistory::where('studentID', '=', $stud_id)
+                    ->where('schlyear', '=', $schlyear)
+                    ->where('semester', '=', $semester)
+                    ->where('status', 4)
+                    ->first();
+
         $programEnHistory = StudEnrolmentHistory::join('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
                 ->where('program_en_history.studentID', $stud_id)
                 ->where('program_en_history.schlyear', $schlyear)
@@ -1301,7 +1308,7 @@ class EnrollmentController extends Controller
                         
         $subjectCount = $subjOffer->count();
     
-        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID' ,'studsubenrollIdsprimIDitfee', 'studsubenrollIdslog', 'studsubenrollIdsprimIDlog', 'subOfferedIdslog'));
+        return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'preassessenrollreg', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID' ,'studsubenrollIdsprimIDitfee', 'studsubenrollIdslog', 'studsubenrollIdsprimIDlog', 'subOfferedIdslog'));
     }
 
     public function studEnrollmentUpdate(Request $request) 

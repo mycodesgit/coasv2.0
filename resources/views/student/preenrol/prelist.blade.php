@@ -115,6 +115,26 @@
                                                             </button>
                                                         </div>
                                                     </div>
+                                                {{-- ASSESSMENT --}}
+                                                @elseif ($preassessenrollreg)
+                                                    <div class="card shadow-sm border-0">
+                                                        <div class="card-body text-center py-5">
+                                                            <i class="fas fa-check-circle text-info mb-3"
+                                                            style="font-size:60px;"></i>
+                                                            <h5 class="fw-bold text-info">
+                                                                Approved by Registrar Office
+                                                            </h5>
+                                                            <p class="text-muted">
+                                                                Your pre-enrollment has been approved and is now
+                                                                pending at the Assessment Office.
+                                                            </p>
+                                                            <button class="btn btn-outline-success mt-2"
+                                                                    onclick="location.reload();">
+                                                                <i class="fas fa-sync-alt"></i>
+                                                                Refresh Status
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 {{-- READY FOR CONFIRMATION --}}
                                                 @elseif ($preconfirmenrollreg)
                                                     <div class="row g-3">
@@ -123,40 +143,58 @@
                                                                 <div class="card-body text-center">
                                                                     <i class="fas fa-user-check text-warning mb-3"
                                                                     style="font-size:55px;"></i>
+
                                                                     <h4 class="fw-bold">
                                                                         Enrollment Ready
                                                                     </h4>
+
                                                                     <p class="text-muted">
                                                                         Your enrollment is ready for confirmation.
                                                                     </p>
+
+                                                                    <!-- Instruction -->
+                                                                    <div class="alert alert-info text-start">
+                                                                        <i class="fas fa-info-circle"></i>
+                                                                        Please review all enrolled subjects carefully in the
+                                                                        <strong>Registration Form Preview</strong> before clicking
+                                                                        <strong>Confirm Enrollment</strong>. Make sure the subject
+                                                                        codes, schedules, and units are correct.
+                                                                    </div>
+
                                                                     <div class="alert alert-warning text-start">
                                                                         <strong>Course:</strong>
                                                                         {{ $preconfirmenrollreg->course }}
                                                                     </div>
+
                                                                     <form action="{{ route('confirm.enrollment') }}"
                                                                         method="POST">
                                                                         @csrf
+
                                                                         <input type="hidden"
                                                                             name="schlyear"
                                                                             value="{{ $sy->first()->schlyear }}">
+
                                                                         <input type="hidden"
                                                                             name="semester"
                                                                             value="{{ $sy->first()->semester }}">
+
                                                                         <button type="submit"
-                                                                                class="btn btn-success w-100">
+                                                                                class="btn btn-success w-100 text-light">
                                                                             <i class="fas fa-check-circle"></i>
-                                                                            Confirm Enrollment
+                                                                            Yes, I Confirm Enrollment
                                                                         </button>
                                                                     </form>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <div class="col-lg-8">
                                                             <div class="card shadow-sm border-0">
                                                                 <div class="card-body">
-                                                                    <h5 class="fw-bold mb-3">
+                                                                    <h5 class="fw-bold mb-3 text-center">
                                                                         Registration Form Preview
                                                                     </h5>
+
                                                                     @include('enrollment.studenroll.pdfrf.studRFconfirm')
                                                                 </div>
                                                             </div>

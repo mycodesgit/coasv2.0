@@ -31,7 +31,7 @@ CISS V.1.0 || Enrollment
                                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
                                     <h4>Edit Student Enrollment</h4>
                                 </div>
-                                <div class="row">
+                                <div class="row g-3">
                                     <div class="col-md-10 scrolling-column">
                                         <div class="card mt-2" style="background-color: #e9ecef">
                                             <div class="card-body pr-2 pl-2 pt-2">
@@ -308,15 +308,17 @@ CISS V.1.0 || Enrollment
                                                 <a href="" class="col-md-12 btn btn-warning btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-bs-toggle="modal" data-bs-target="#modal-addSub">Add Subject</a>
                                                 <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="assessButton">Assess</button>
                                                 <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
-                                                <form action="{{ route('studrfprint') }}" method="get" target="_blank">
-                                                    @csrf
-                                                    <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
-                                                    <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
-                                                    <input type="hidden" name="semester" value="{{ request('semester') }}">
-                                                <button type="submit" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="printRFButton" target="_blank">
-                                                    Print RF
-                                                </button>
-                                                </form>
+                                                @if ($preassessenrollreg)
+                                                    <form action="{{ route('studrfprint') }}" method="get" target="_blank">
+                                                        @csrf
+                                                        <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
+                                                        <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                                                        <input type="hidden" name="semester" value="{{ request('semester') }}">
+                                                    <button type="submit" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="printRFButton" target="_blank">
+                                                        Print RF
+                                                    </button>
+                                                    </form>
+                                                @endif
                                                 {{-- @if(Auth::guard('web')->user()->role == 0) --}}
                                                 <button type="button" class="col-md-12 btn btn-outline-danger btn-sm mt-2" id="deleteButton">
                                                     <span style="font-size: 8pt;">Delete Enrollment</span>
