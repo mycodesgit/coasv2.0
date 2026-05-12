@@ -285,6 +285,7 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
                 Route::get('/search/result/get-sub-fee', [GradingFacultyServicePreenrolController::class, 'fetchFeeSubjectsSelect'])->name('fetchFeeSubjectsSelect');
                 Route::get('/searchstudent/enroll/check-enrollment', [GradingFacultyServicePreenrolController::class, 'faccheckEnrollment'])->name('faccheckEnrollment');
                 Route::post('/student/enroll/eval/submit', [GradingFacultyServicePreenrolController::class, 'studFacEvalEnrollmentCreate'])->name('studFacEvalEnrollmentCreate');
+                Route::get('/student/enroll/record/eval/searchPDF', [GradingFacultyServicePreenrolController::class, 'studevalfacultypdf'])->name('studevalfacultypdf');
             });
         });
 

@@ -86,7 +86,7 @@ CISS V.1.0 || Faculty Services
                                     <div class="tab-content mt-1" id="pills-tabContent">
                                         <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab" tabindex="0">
                                             <div class="bg-light p-2 rounded-2">
-                                                {{-- <iframe src="{{ route('studevalRead_listsearchpdf', ['stud_id' => request('stud_id')]) }}" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe> --}}
+                                                <iframe src="{{ route('studevalfacultypdf', ['stud_id' => request('stud_id')]) }}" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="pills-supeval" role="tabpanel" aria-labelledby="pills-supeval-tab" tabindex="0">
