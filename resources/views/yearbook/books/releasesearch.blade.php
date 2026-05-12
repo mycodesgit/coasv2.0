@@ -83,7 +83,7 @@ CISS V.1.0 || YearBook
                                 <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="table-responsive mt-3 p-2">
                                             <table id="studpaidlistTable" class="table table-hover table-striped">
                                                 <thead>
@@ -96,26 +96,6 @@ CISS V.1.0 || YearBook
                                                         <th>Name</th>
                                                         <th>Semester</th>
                                                         <th>Schlyear</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="table-responsive mt-3 p-2">
-                                            <table id="studreleaselistTable" class="table table-hover table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>OR No.</th>
-                                                        <th>Account</th>
-                                                        <th>Amount</th>
-                                                        <th>Stud ID</th>
-                                                        <th>Name</th>
-                                                        <th>Date Paid</th>
-                                                        <th>Status</th>
-                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

@@ -155,6 +155,7 @@ class YearbookController extends Controller
                 ->where('studpayment.schlyear', '=', $schlyear)
                 ->where('studpayment.semester', '=', $semester)
                 ->where('studpayment.campus', '=', $campus)
+                ->where('studpayment.account', '=', 'YEARBOOK FEE')
                 ->select(
                     'coasv2_db_enrollment.students.lname', 
                     'coasv2_db_enrollment.students.fname', 

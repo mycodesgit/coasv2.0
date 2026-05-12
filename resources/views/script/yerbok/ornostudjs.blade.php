@@ -50,12 +50,25 @@
                     }
                 },
                 {data: 'schlyear'},
-                {data: 'semester'},
+                {
+                    data: 'semester',
+                    render: function(data) {
+                        if (data == 1) {
+                            return '1st Sem';
+                        } else if (data == 2) {
+                            return '2nd Sem';
+                        } else if (data == 3) {
+                            return 'Summer';
+                        } else {
+                            return '';
+                        }
+                    }
+                }
             ],
             "createdRow": function (row, data, index) {
                 $(row).attr('id', 'tr-' + data.id); 
             },
-            dom: 'Bfrtip'
+            // dom: 'Bfrtip'
         }).buttons().container().appendTo('#courseEn_wrapper .col-md-6:eq(0)');
         $(document).on('studenrlld', function() {
             dataTable.ajax.reload();
