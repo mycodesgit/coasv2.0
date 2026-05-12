@@ -374,7 +374,7 @@ CISS V.1.0 || Enrollment
                                                 <div class="form-group" style="padding-left: 10px; padding-right: 10px">
                                                     <div class="row">
                                                         <label>Posted By:</label>
-                                                        <input type="text" name="" value="{{ $selectedpostedby }}" class="form-control form-control-sm" readonly>
+                                                        <input type="text" name="" value="" class="form-control form-control-sm" readonly>
                                                     </div>
                                                 </div>
                                             </div>

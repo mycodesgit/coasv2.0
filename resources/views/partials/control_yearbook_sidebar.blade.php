@@ -3,6 +3,7 @@
 
     $dashyearbookActive = in_array($curr_route, ['yearbook-index']) ? 'active' : '';
     $studlistyearbookActive = in_array($curr_route, ['showStudent', 'showStudentResult']) ? 'active' : '';
+    $studreleaseyearbookActive = in_array($curr_route, ['showRelease', 'showReleaseResult']) ? 'active' : '';
 @endphp
 
 <ul class="nav flex-column">
@@ -21,7 +22,7 @@
     </li>
 
     <li>
-        <a class="nav-link" href="#">
+        <a class="nav-link {{ $studreleaseyearbookActive }}" href="{{ route('showRelease') }}">
             <i class="ti ti-book"></i><span class="nav-text">Releasing</span>
         </a>
     </li>

@@ -20,6 +20,8 @@ use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\ApplicantDocs;
 
+use App\Models\AssessmentDB\StudPayment;
+
 use App\Models\SettingDB\ConfigureCurrent;
 use App\Models\SettingDB\Region;
 use App\Models\SettingDB\Province;
@@ -114,5 +116,55 @@ class YearbookController extends Controller
         $campus = $request->query('campus'); 
 
         return view('yearbook.studs.liststudsearch', compact('sy'));
+    }
+
+    public function showRelease()
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+        return view('yearbook.books.release', compact('sy'));
+    }
+    
+    public function showReleaseResult(Request $request)
+    {
+        $sy = ConfigureCurrent::select('id', 'schlyear')
+            ->whereIn('id', function($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('settings_conf')
+                    ->groupBy('schlyear');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('yearbook.books.releasesearch', compact('sy'));
+    }
+
+    public function getstudorreleaseRead(Request $request) 
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = $request->query('campus');
+    
+        $data = StudPayment::leftJoin('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->where('studpayment.schlyear', '=', $schlyear)
+                ->where('studpayment.semester', '=', $semester)
+                ->where('studpayment.campus', '=', $campus)
+                ->select(
+                    'coasv2_db_enrollment.students.lname', 
+                    'coasv2_db_enrollment.students.fname', 
+                    'coasv2_db_enrollment.students.mname', 
+                    'coasv2_db_enrollment.students.ext',
+                    'studpayment.*'
+                )
+                ->orderBy('studpayment.orno', 'ASC')
+                ->get();
+
+        return response()->json(['data' => $data]);
     }
 }

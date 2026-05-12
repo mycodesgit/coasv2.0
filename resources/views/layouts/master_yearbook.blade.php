@@ -190,6 +190,13 @@
         <script src="{{ asset('js/validation/yerbok/studentValidation.js') }}"></script>
         @include('script.yerbok.studentjs')
     @endif
+    @if(request()->routeIs('showStudentResult'))
+        <script src="{{ asset('js/validation/yerbok/studentValidation.js') }}"></script>
+        @include('script.yerbok.studentjs')
+    @endif
+    @if(request()->routeIs('showReleaseResult'))
+        @include('script.yerbok.ornostudjs')
+    @endif
 </body>
 
 </html>
