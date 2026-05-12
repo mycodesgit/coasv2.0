@@ -1178,11 +1178,12 @@ class EnrollmentController extends Controller
                     ->where('status', 4)
                     ->first();
 
-        $programEnHistory = StudEnrolmentHistory::where('program_en_history.studentID', $stud_id)
+        $programEnHistory = StudEnrolmentHistory::join('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
+                ->where('program_en_history.studentID', $stud_id)
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
                 ->where('program_en_history.campus', '=', $campus)
-                ->select('program_en_history.*')
+                ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
                 ->first(); 
 
         if (!$programEnHistory) {
