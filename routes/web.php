@@ -880,6 +880,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::prefix('studappraisal/assess')->group(function () {
             Route::get('/search', [StudFeeAssessEnrolController::class, 'index'])->name('studcheckappraisal.index');
             Route::get('/search/fetch', [StudFeeAssessEnrolController::class, 'show'])->name('studcheckappraisal.show');
+            Route::get('/search/result', [StudFeeAssessEnrolController::class, 'store'])->name('studcheckappraisal.store');
         });
 
         Route::prefix('reports')->group(function () {

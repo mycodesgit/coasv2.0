@@ -293,6 +293,9 @@
     @if(request()->routeIs('studcheckappraisal.index'))
         @include('script.assessmnt.checkappraisaljs')
     @endif
+    @if(request()->routeIs('studcheckappraisal.store'))
+        <script src="{{ asset('js/ajax/enrolment/editEnrollmentSerialize.js') }}?v={{ time() }}"></script>
+    @endif
 
     <script>
         @if(Session::has('success'))

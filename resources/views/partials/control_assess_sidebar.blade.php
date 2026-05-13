@@ -9,7 +9,7 @@
 
     $studFeeTemplateActive = in_array($curr_route, ['searchStudfeeTemplate', 'list_searchStudfeetemplate']) ? 'active' : '';
 
-    $studcheckappActive = in_array($curr_route, ['studcheckappraisal.index']) ? 'active' : '';
+    $studcheckappActive = in_array($curr_route, ['studcheckappraisal.index', 'studcheckappraisal.store']) ? 'active' : '';
 
     $studStateAccntActive = in_array($curr_route, ['stateaccntpersem', 'stateaccntpersem_search']) ? 'active' : '';
     $studStateAccntStudActive = in_array($curr_route, ['stateaccntperstudent', 'stateaccntperstudentid_search', 'stateaccntperstudentname_search']) ? 'active' : '';

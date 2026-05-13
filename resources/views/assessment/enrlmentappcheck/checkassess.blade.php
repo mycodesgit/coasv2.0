@@ -62,6 +62,6 @@ CISS V.1.0 || Assessment
     </div>
     <script>
         var checkappReadRoute = "{{ route('studcheckappraisal.show') }}";
-        var checkappShowReadRoute = "{{ route('editsearchStudRead') }}";
+        var checkappShowReadRoute = "{{ route('studcheckappraisal.store') }}";
     </script>
 @endsection

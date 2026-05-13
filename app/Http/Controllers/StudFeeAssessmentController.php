@@ -73,7 +73,7 @@ class StudFeeAssessmentController extends Controller
                     ->orderBy('account_name', 'ASC')
                     ->get();
 
-        $data = StudentFee::query()
+        $datafee = StudentFee::query()
             ->select('student_fee.*', 'coasv2_db_schedule.programs.progAcronym')
             ->join('coasv2_db_schedule.programs', function ($join) {
                 $join->on('student_fee.prog_Code', '=', 'coasv2_db_schedule.programs.progCod');
@@ -85,25 +85,25 @@ class StudFeeAssessmentController extends Controller
         $usercampus = Auth::guard('web')->user()->campus;
 
         if ($usercampus) {
-            $data->where('student_fee.campus', $usercampus);
+            $datafee->where('student_fee.campus', $usercampus);
         }
         if ($request->prog_Code) {
-            $data->where('student_fee.prog_Code', $request->prog_Code);
+            $datafee->where('student_fee.prog_Code', $request->prog_Code);
         }
         if ($request->yrlevel) {
-            $data->where('student_fee.yrlevel', $request->yrlevel);
+            $datafee->where('student_fee.yrlevel', $request->yrlevel);
         }
         if ($request->schlyear) {
-            $data->where('student_fee.schlyear', $request->schlyear);
+            $datafee->where('student_fee.schlyear', $request->schlyear);
         }
         if ($request->semester) {
-            $data->where('student_fee.semester', $request->semester);
+            $datafee->where('student_fee.semester', $request->semester);
         }
 
-        $data = $data->get();
+        $datafee = $datafee->get();
 
-        $request->session()->put('recent_search', $data);
-        $totalSearchResults = count($data);
+        $request->session()->put('recent_search', $datafee);
+        $totalSearchResults = count($datafee);
 
         return view('assessment.studentfee.listsearch_studfee', compact('data', 'totalSearchResults', 'data', 'studfund', 'studAccntap'));
     }
