@@ -316,6 +316,7 @@
                 }
             });
         @endif
+        var allPendingAppraisalcheckCountRoute = "{{ route('studcheckappraisal.index') }}";
         $(document).ready(function () {
             $.ajaxSetup({
                 headers: {
@@ -324,7 +325,7 @@
             });
 
             function updateBudPendingCount() {
-                $.get(allPendingBudgetCountRoute, function (data) {
+                $.get(allPendingAppraisalcheckCountRoute, function (data) {
                     $('#pendingAppraisalCount').text(data.pendCount);
                 });
             }

@@ -67,7 +67,7 @@
         <a class="nav-link {{ $studcheckappActive }}" href="{{ route('studcheckappraisal.index') }}">
             <i class="ti ti-device-laptop"></i>
             <span class="nav-text">Stud. Appraisal</span>
-            <span class="badge bg-warning ms-1" id="pendingAppraisalCount">0</span>
+            <span class="badge bg-warning ms-1" id="pendingAppraisalCount">{{ $data['pendCount'] }}</span>
         </a>
     </li>
     

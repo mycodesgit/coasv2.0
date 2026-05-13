@@ -111,7 +111,7 @@ CISS V.1.0 || Assessment
                                                                                 ? route('stateaccntperstudent_searchpdf') 
                                                                                 : route('stateaccntperstudentname_searchpdf');
                                                                 @endphp
-                                                                @foreach($data as $datasumstudfeesen)
+                                                                @foreach($datalist as $datasumstudfeesen)
                                                                     <tr>
                                                                         <td>{{ $datasumstudfeesen->stud_id }}</td>
                                                                         <td>{{ $datasumstudfeesen->lname }}, {{ $datasumstudfeesen->fname }}</td>

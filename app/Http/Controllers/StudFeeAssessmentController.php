@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use App\Traits\PendingAppraisalAssessmentCountTrait;
+
 use App\Models\AssessmentDB\AccountAppraisal;
 use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudFeeTemplate;
@@ -20,8 +22,22 @@ use App\Models\SettingDB\ConfigureCurrent;
 
 class StudFeeAssessmentController extends Controller
 {
+    use PendingAppraisalAssessmentCountTrait;
+
     public function searchStudfee()
     {   
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -30,15 +46,28 @@ class StudFeeAssessmentController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
+
         $programsEn = EnPrograms::whereRaw("FIND_IN_SET(?, campus)", [Auth::guard('web')->user()->campus])
                     ->orderBy('progAcronym', 'ASC')
                     ->get();
 
-        return view('assessment.studentfee.list_studfee', compact('programsEn', 'sy'));
+        return view('assessment.studentfee.list_studfee', compact('data', 'programsEn', 'sy'));
     }
 
     public function list_searchStudfee(Request $request)
     {   
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $studfund = Funds::orderBy('id', 'DESC')->get();
         $studAccntap = AccountAppraisal::whereIn('id', ['2', '7', '33', '42', '44', '49', '74', '76', '79', '85', '90', '91', '92', '93', '99', '118', '133', '134', '151', '152', '153', '154', '155', '156', '159', '161', '168'])
                     ->orderBy('account_name', 'ASC')
@@ -76,7 +105,7 @@ class StudFeeAssessmentController extends Controller
         $request->session()->put('recent_search', $data);
         $totalSearchResults = count($data);
 
-        return view('assessment.studentfee.listsearch_studfee', compact('totalSearchResults', 'data', 'studfund', 'studAccntap'));
+        return view('assessment.studentfee.listsearch_studfee', compact('data', 'totalSearchResults', 'data', 'studfund', 'studAccntap'));
     }
 
     public function getstudFeeRead(Request $request) 

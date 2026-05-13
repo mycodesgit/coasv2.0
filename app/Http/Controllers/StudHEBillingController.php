@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use App\Traits\PendingAppraisalAssessmentCountTrait;
+
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\EnrollmentDB\Student;
 
@@ -22,8 +24,22 @@ use App\Models\SettingDB\ConfigureCurrent;
 
 class StudHEBillingController extends Controller
 {
+    use PendingAppraisalAssessmentCountTrait;
+
     public function hebillingRead()
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -33,11 +49,23 @@ class StudHEBillingController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('assessment.assessreports.hebilling', compact('sy'));
+        return view('assessment.assessreports.hebilling', compact('data', 'sy'));
     }
 
     public function hebillingRead_search(Request $request)
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -116,6 +144,6 @@ class StudHEBillingController extends Controller
                         ->orderBy('students.lname', 'ASC')
                         ->get();
 
-        return view('assessment.assessreports.hebilling_listsearch', compact('sy', 'studfeesbill'));
+        return view('assessment.assessreports.hebilling_listsearch', compact('data', 'sy', 'studfeesbill'));
     }
 }

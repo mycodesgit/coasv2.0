@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
+use App\Traits\PendingAppraisalAssessmentCountTrait;
+
 use App\Models\AssessmentDB\Funds;
 use App\Models\AssessmentDB\AccountCoa;
 use App\Models\AssessmentDB\AccountAppraisal;
@@ -24,8 +26,22 @@ use App\Models\SettingDB\ConfigureCurrent;
 
 class StudFundAssessmentController extends Controller
 {
+    use PendingAppraisalAssessmentCountTrait;
+
     public function index() 
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $currentYear = Carbon::now()->year;
         $previousYear = Carbon::now()->year;
         $userCampus = Auth::guard('web')->user()->campus;
@@ -133,7 +149,7 @@ class StudFundAssessmentController extends Controller
                             ->whereIn('program_en_history.status',  [2, 3])
                             ->count();
 
-        return view('assessment.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
+        return view('assessment.index', compact('data', 'collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
     }
 
     public function encodedAppRead()
@@ -171,7 +187,19 @@ class StudFundAssessmentController extends Controller
 
     public function fundsRead()
     {   
-        return view('assessment.studentfund.list_fund');
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
+        return view('assessment.studentfund.list_fund', compact('data'));
     }
 
     public function getfundsRead() 
@@ -243,7 +271,19 @@ class StudFundAssessmentController extends Controller
 
     public function accountCOARead()
     {   
-        return view('assessment.studentfund.list_accountcoa');
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
+        return view('assessment.studentfund.list_accountcoa', compact('data'));
     }
 
     public function getaccountCOARead() 
@@ -321,10 +361,22 @@ class StudFundAssessmentController extends Controller
 
     public function accountAppraisalRead()
     {   
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $funds = Funds::orderBy('id', 'ASC')->get();
         $accntsCOA = AccountCoa::orderBy('id', 'ASC')->get();
 
-        return view('assessment.studentfund.list_accounts', compact('funds', 'accntsCOA'));
+        return view('assessment.studentfund.list_accounts', compact('data', 'funds', 'accntsCOA'));
     }
 
     public function getaccountAppraisalRead() 

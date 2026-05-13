@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use PDF;
 use Carbon\Carbon;
 
+use App\Traits\PendingAppraisalAssessmentCountTrait;
+
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
 use App\Models\EnrollmentDB\Student;
 
@@ -23,8 +25,22 @@ use App\Models\SettingDB\ConfigureCurrent;
 
 class StudStateAccntAssessmentController extends Controller
 {
+    use PendingAppraisalAssessmentCountTrait;
+
     public function stateaccntpersem()
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -34,11 +50,23 @@ class StudStateAccntAssessmentController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('assessment.assessreports.statementaccnt', compact('sy'));
+        return view('assessment.assessreports.statementaccnt', compact('data', 'sy'));
     }
 
     public function stateaccntpersem_search(Request $request)
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -124,7 +152,7 @@ class StudStateAccntAssessmentController extends Controller
 
                     $studpayment = $query->get();
 
-        return view('assessment.assessreports.statementaccnt_search', compact('sy', 'studAccntap', 'studfees', 'studpayment'));
+        return view('assessment.assessreports.statementaccnt_search', compact('data', 'sy', 'studAccntap', 'studfees', 'studpayment'));
     }
 
     public function stateaccntpersem_searchpdf(Request $request)
@@ -359,11 +387,35 @@ class StudStateAccntAssessmentController extends Controller
 
     public function stateaccntperstudent()
     {
-        return view('assessment.assessreports.statementaccntstudent');
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
+        return view('assessment.assessreports.statementaccntstudent', compact('data'));
     }
 
     public function stateaccntperstudentid_search(Request $request)
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $stud_id = $request->query('stud_id');
         $campus = Auth::guard('web')->user()->campus;
 
@@ -372,18 +424,30 @@ class StudStateAccntAssessmentController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> does not exist.');
         }
 
-        $data = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
+        $datalist = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
                 ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                 ->where('students.stud_id', $stud_id)
                 ->select('students.*', 'program_en_history.progCod', 'coasv2_db_schedule.programs.progAcronym')
                 ->groupBy('program_en_history.studentID', 'program_en_history.progCod', 'coasv2_db_schedule.programs.progAcronym')
                 ->get();
 
-        return view('assessment.assessreports.statementaccntstudentSearch',compact('data'));
+        return view('assessment.assessreports.statementaccntstudentSearch',compact('data', 'datalist'));
     }
 
     public function stateaccntperstudentname_search(Request $request)
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $lname = $request->query('lname');
         $fname = $request->query('fname');
         $campus = Auth::guard('web')->user()->campus;
@@ -393,7 +457,7 @@ class StudStateAccntAssessmentController extends Controller
             return redirect()->back()->with('error', 'Student <strong>' . $lname . ' ' . $fname . '</strong> does not exist.');
         }
 
-        $data = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
+        $datalist = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
                 ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                 ->where('students.lname', $lname)
                 ->where('students.fname', $fname)
@@ -401,7 +465,7 @@ class StudStateAccntAssessmentController extends Controller
                 ->groupBy('program_en_history.studentID', 'program_en_history.progCod', 'coasv2_db_schedule.programs.progAcronym')
                 ->get();
 
-        return view('assessment.assessreports.statementaccntstudentSearch',compact('data'));
+        return view('assessment.assessreports.statementaccntstudentSearch',compact('data', 'datalist'));
     }
 
     public function stateaccntperstudent_searchpdf(Request $request)
@@ -526,6 +590,18 @@ class StudStateAccntAssessmentController extends Controller
 
     public function stateaccntpersum()
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -535,11 +611,23 @@ class StudStateAccntAssessmentController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('assessment.assessreports.statementaccntsum', compact('sy'));
+        return view('assessment.assessreports.statementaccntsum', compact('data', 'sy'));
     }
 
     public function stateaccntpersum_search(Request $request)
     {
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -598,7 +686,7 @@ class StudStateAccntAssessmentController extends Controller
         //     ->where('balance', '>', 0)
         //     ->get();
 
-        return view('assessment.assessreports.statementaccntsum_search', compact('sy'));
+        return view('assessment.assessreports.statementaccntsum_search', compact('data', 'sy'));
     }
 
     public function getstateaccntpersum_search(Request $request)

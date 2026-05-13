@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use App\Traits\PendingAppraisalAssessmentCountTrait;
+
 use App\Models\AssessmentDB\AccountAppraisal;
 use App\Models\AssessmentDB\StudentFee;
 use App\Models\AssessmentDB\StudFeeTemplate;
@@ -20,21 +22,47 @@ use App\Models\SettingDB\ConfigureCurrent;
 
 class StudFeeTemplateController extends Controller
 {
+    use PendingAppraisalAssessmentCountTrait;
+
     public function searchStudfeeTemplate()
     {   
-        return view('assessment.template.list_template');
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
+        return view('assessment.template.list_template', compact('data'));
     }
 
     public function list_searchStudfeetemplate(Request $request)
     {   
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
+
         $studfund = Funds::orderBy('id', 'DESC')->get();
         $studAccntap = AccountAppraisal::whereIn('id', ['2', '7', '33', '42', '44', '49', '74', '76', '79', '85', '90', '91', '92', '93', '99', '118', '133', '134', '151', '152', '153', '154', '155', '156', '159', '161', '168'])
                     ->orderBy('account_name', 'ASC')
                     ->get();
 
-        $data = StudFeeTemplate::all();
+        $datatempt = StudFeeTemplate::all();
 
-        return view('assessment.template.listsearch_template', compact('data', 'studfund', 'studAccntap'));
+        return view('assessment.template.listsearch_template', compact('data', 'datatempt', 'studfund', 'studAccntap'));
     }
 
     public function getstudFeetemplateRead(Request $request) 

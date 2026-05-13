@@ -51,7 +51,7 @@ use App\Models\SettingDB\QueueCounter;
 use App\Models\SettingDB\QueueCustomer;
 use App\Models\SettingDB\QueueMode;
 
-class StudeAssessEnrolController extends Controller
+class StudFeeAssessEnrolController extends Controller
 {
     use PendingAppraisalAssessmentCountTrait;
 
@@ -59,14 +59,16 @@ class StudeAssessEnrolController extends Controller
     {
         $pendCount = $this->getPendingAllCount();
 
-        $data = [   'pendCount' => $pendCount, 
-                ];
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
 
         if (request()->ajax()) {
             return response()->json([
                 'pendCount' => $pendCount, 
             ]);
         }
+        
         return view('assessment.enrlmentappcheck.checkassess', compact('data'));
     }
     
