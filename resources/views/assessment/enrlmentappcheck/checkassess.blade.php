@@ -34,8 +34,7 @@ CISS V.1.0 || Assessment
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mt-5">
-                                            <h5>List of Pre-Enrolled Students</h5>
-                                            <table id="holdTable" class="table table-hover">
+                                            <table id="holdcheckappTable" class="table table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th>Date</th>
@@ -43,6 +42,7 @@ CISS V.1.0 || Assessment
                                                         <th>Fullname</th>
                                                         <th>Course Yr&Section</th>
                                                         <th>Campus</th>
+                                                        <th>Status</th>
                                                         <th width="10%">Action</th>
                                                     </tr>
                                                 </thead>
@@ -61,27 +61,7 @@ CISS V.1.0 || Assessment
         </div>
     </div>
     <script>
-        function formatInput(input) {
-            let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-            
-            if (cleaned.length > 0) {
-                let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
-                input.value = formatted;
-            } else {
-                input.value = '';
-            }
-        }
-
-        function handleDelete(event) {
-            if (event.key === 'Backspace') {
-                let input = event.target;
-                let value = input.value;
-                input.value = value.substring(0, value.length - 1);
-                formatInput(input);
-            }
-        }
-
-        var preenrollistReadRoute = "{{ route('fetchprestudenrol') }}";
-        
+        var checkappReadRoute = "{{ route('studcheckappraisal.show') }}";
+        var checkappShowReadRoute = "{{ route('editsearchStudRead') }}";
     </script>
 @endsection

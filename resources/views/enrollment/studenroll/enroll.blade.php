@@ -55,9 +55,11 @@ CISS V.1.0 || Enrollment
                                                     <div class="col-md-3">
                                                         <label>Semester: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="semester">
-                                                            @foreach($sy as $datasy)
+                                                            {{-- @foreach($sy as $datasy)
                                                                 <option value="{{ $datasy->semester }}">{{ $datasy->semester == 1 ? '1st Semester' : ($datasy->semester == 2 ? '2nd Semester' : 'Summer') }}</option>
-                                                            @endforeach
+                                                            @endforeach --}}
+                                                            <option value="3">Summer</option>
+                                                            <option value="2">Second Semester</option>
                                                         </select>
                                                     </div>
 

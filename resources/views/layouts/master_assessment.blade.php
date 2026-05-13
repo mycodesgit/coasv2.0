@@ -290,6 +290,9 @@
     @if(request()->routeIs('stateaccntpersem_search'))
         <script src="{{ asset('js/ajax/assess/apprsalUpdateSerialize.js') }}?v={{ time() }}"></script>
     @endif
+    @if(request()->routeIs('studcheckappraisal.index'))
+        @include('script.assessmnt.checkappraisaljs')
+    @endif
 
     <script>
         @if(Session::has('success'))
@@ -313,6 +316,20 @@
                 }
             });
         @endif
+        $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            function updateBudPendingCount() {
+                $.get(allPendingBudgetCountRoute, function (data) {
+                    $('#pendingAppraisalCount').text(data.pendCount);
+                });
+            }
+            setInterval(updateBudPendingCount, 5000);
+        });
     </script>
 </body>
 

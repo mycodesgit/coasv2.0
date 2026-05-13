@@ -5,9 +5,9 @@
         "positionClass": "toast-top-right"
     };
     $(document).ready(function() {
-        var dataTable = $('#holdTable').DataTable({
+        var dataTable = $('#holdcheckappTable').DataTable({
             "ajax": {
-                "url": preenrollistReadRoute,
+                "url": checkappReadRoute,
                 "type": "GET",
             },
             destroy: true,
@@ -61,10 +61,8 @@
                 {data: 'status',
                         render: function(data, type, row) {
                         switch(parseInt(data)) {
-                            case 1:
+                            case 4:
                                 return '<span class="badge bg-warning">Pending</span>';
-                            case 2:
-                                return '<span class="badge bg-info">Submitted</span>';
                             default:
                                 return '<span class="badge bg-secondary">Unknown Status</span>';
                         }
@@ -75,13 +73,13 @@
                     render: function (data, type, row) {
                         if (type === 'display') {
 
-                            let url = preenrollistShowRoute
+                            let url = checkappShowReadRoute
                                 + '?stud_id=' + encodeURIComponent(row.studentID)
                                 + '&schlyear=' + encodeURIComponent(row.schlyear)
                                 + '&semester=' + encodeURIComponent(row.semester);
 
                             return `
-                                <a href="${url}" class="btn btn-sm btn-primary">
+                                <a href="${url}" class="btn btn-sm btn-success text-light">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             `;
