@@ -881,6 +881,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/search', [StudFeeAssessEnrolController::class, 'index'])->name('studcheckappraisal.index');
             Route::get('/search/fetch', [StudFeeAssessEnrolController::class, 'show'])->name('studcheckappraisal.show');
             Route::get('/search/result', [StudFeeAssessEnrolController::class, 'store'])->name('studcheckappraisal.store');
+            Route::post('/search/result/update', [StudFeeAssessEnrolController::class, 'update'])->name('studcheckappraisal.update');
+            Route::post('/search/result/push', [StudFeeAssessEnrolController::class, 'pushtoregistrar'])->name('pushtoregistrar.update');
         });
 
         Route::prefix('reports')->group(function () {

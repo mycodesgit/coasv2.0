@@ -300,7 +300,7 @@ CISS V.1.0 || Assessment
                                             <div class="card-body">
                                                 <button type="button" class="col-md-12 btn btn-warning btn-sm mt-2 btnprim" id="assessButton">Assess</button>
                                                 <button type="button" class="col-md-12 btn btn-info btn-sm mt-2 btnprim" id="submitButton">Save</button>
-                                                <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="confirmButton">Confirm</button>
+                                                <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="confirmButton" data-id="{{ $programEnHistory->id }}">Confirm</button>
                                                 {{-- <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
                                                 <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}
                                             </div>
@@ -443,7 +443,7 @@ CISS V.1.0 || Assessment
         var fetchTemplateRoute  = "{{ route('fetchSubjects') }}";
         var getfetchSubjectRoute  = "{{ route('coursefetchSubjects') }}";
         var fetchFeeDataRoute  = "{{ route('fetchFeeSubjects') }}";
-        var updateEnrollmentRoute  = "{{ route('studEnrollmentUpdate') }}";
+        var updateEnrollmentRoute  = "{{ route('studcheckappraisal.update') }}";
 
         document.addEventListener('DOMContentLoaded', function() {
         var scrollableColumn = document.querySelector('.scrolling-column');

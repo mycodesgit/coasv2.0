@@ -108,18 +108,6 @@ class StudFeeAssessEnrolController extends Controller
 
     public function store(Request $request)
     {
-        $pendCount = $this->getPendingAllCount();
-
-        $data = [
-            'pendCount' => $pendCount, 
-        ];
-
-        if (request()->ajax()) {
-            return response()->json([
-                'pendCount' => $pendCount, 
-            ]);
-        }
-
         $studlvl = StudentLevel::all();
         $studscholar = Scholar::all();
         $mamisub = MajorMinor::all();
@@ -281,11 +269,23 @@ class StudFeeAssessEnrolController extends Controller
                     ->get();
                         
         $subjectCount = $subjOffer->count();
+
+        $pendCount = $this->getPendingAllCount();
+
+        $data = [
+            'pendCount' => $pendCount, 
+        ];
+
+        if (request()->ajax()) {
+            return response()->json([
+                'pendCount' => $pendCount, 
+            ]);
+        }
     
         return view('assessment.enrlmentappcheck.checkassess_search', compact('data', 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'preassessenrollreg', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID' ,'studsubenrollIdsprimIDitfee', 'studsubenrollIdslog', 'studsubenrollIdsprimIDlog', 'subOfferedIdslog'));
     }
 
-    public function studEnrollmentUpdate(Request $request) 
+    public function update(Request $request) 
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -369,6 +369,24 @@ class StudFeeAssessEnrolController extends Controller
             } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
             }
+        }
+    }
+
+    public function pushtoregistrar(Request $request) 
+    {
+        $request->validate([
+            'id' => 'required',
+        ]);
+
+        try {
+            $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
+            $enrolment->update([
+                'status' => 3,
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Student Appraisal Confirmed Successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => 'Failed to change campus!'], 404);
         }
     }
 }

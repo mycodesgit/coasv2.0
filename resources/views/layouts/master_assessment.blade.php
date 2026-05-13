@@ -294,6 +294,7 @@
         @include('script.assessmnt.checkappraisaljs')
     @endif
     @if(request()->routeIs('studcheckappraisal.store'))
+        @include('script.assessmnt.pushtoregistrarjs')
         <script src="{{ asset('js/ajax/enrolment/editEnrollmentSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
