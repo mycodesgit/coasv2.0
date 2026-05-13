@@ -9,6 +9,8 @@
 
     $studFeeTemplateActive = in_array($curr_route, ['searchStudfeeTemplate', 'list_searchStudfeetemplate']) ? 'active' : '';
 
+    $studcheckappActive = in_array($curr_route, ['studcheckappraisal.index']) ? 'active' : '';
+
     $studStateAccntActive = in_array($curr_route, ['stateaccntpersem', 'stateaccntpersem_search']) ? 'active' : '';
     $studStateAccntStudActive = in_array($curr_route, ['stateaccntperstudent', 'stateaccntperstudentid_search', 'stateaccntperstudentname_search']) ? 'active' : '';
     $studStateAccntSumActive = in_array($curr_route, ['stateaccntpersum', 'stateaccntpersum_search']) ? 'active' : '';
@@ -59,6 +61,15 @@
             </a>
         </li>
     @endif
+
+    <li class="px-4 py-2"><small class="nav-text text-muted">Checking</small></li>
+    <li>
+        <a class="nav-link {{ $studcheckappActive }}" href="{{ route('studcheckappraisal.index') }}">
+            <i class="ti ti-device-laptop"></i>
+            <span class="nav-text">Stud. Appraisal</span>
+            <span class="badge bg-warning ms-1" id="pendingAppraisalCount">0</span>
+        </a>
+    </li>
     
     <li class="nav-text-space"><small class="nav-text"></small></li>
     <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>

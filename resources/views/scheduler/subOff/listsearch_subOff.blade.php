@@ -242,7 +242,7 @@ CISS V.1.0 || Class Scheduler
                                                                                 <select class="form-control form-control-sm" name="isOJT" id="isOJT">
                                                                                     <option value="No">No</option>
                                                                                     @if(request('semester') == '3')
-                                                                                        <option value="YesThesis">Yes, it's Thesis</option>
+                                                                                        {{-- <option value="YesThesis">Yes, it's Thesis</option> --}}
                                                                                         <option value="YesPrac">Yes, it's Practicum</option>
                                                                                     @endif
                                                                                     <option value="Yes">Yes, it's OJT</option>
@@ -447,7 +447,7 @@ CISS V.1.0 || Class Scheduler
                                         <select class="form-control form-control-sm" name="isOJT" id="isOJTSelect">
                                             <option value="No">No</option>
                                             @if(request('semester') == '3')
-                                                <option value="YesThesis">Yes, it's Thesis</option>
+                                                {{-- <option value="YesThesis">Yes, it's Thesis</option> --}}
                                                 <option value="YesPrac">Yes, it's Practicum</option>
                                             @endif
                                             <option value="Yes">Yes, it's OJT</option>

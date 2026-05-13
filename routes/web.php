@@ -70,6 +70,7 @@ use App\Http\Controllers\SchedReportsController;
 use App\Http\Controllers\StudFundAssessmentController;
 use App\Http\Controllers\StudFeeAssessmentController;
 use App\Http\Controllers\StudFeeTemplateController;
+use App\Http\Controllers\StudeAssessEnrolController;
 use App\Http\Controllers\StudStateAccntAssessmentController;
 use App\Http\Controllers\StudHEBillingController;
 
@@ -874,6 +875,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/search/list/temp', [StudFeeTemplateController::class, 'list_searchStudfeetemplate'])->name('list_searchStudfeetemplate');
             Route::get('/search/list/temp/ajax', [StudFeeTemplateController::class, 'getstudFeetemplateRead'])->name('getstudFeetemplateRead');
             Route::post('/search/list/temp/ajax/add', [StudFeeTemplateController::class, 'studFeeTemplateCreate'])->name('studFeeTemplateCreate');
+        });
+        
+        Route::prefix('studappraisal/assess')->group(function () {
+            Route::get('/search', [StudeAssessEnrolController::class, 'index'])->name('studcheckappraisal.index');
         });
 
         Route::prefix('reports')->group(function () {
