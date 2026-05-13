@@ -27,6 +27,8 @@
                                 icon: 'success',
                                 title: 'Success',
                                 text: response.message
+                            }).then(() => {
+                                window.location.href = response.redirect_url;
                             });
                         },
                         error: function (xhr) {

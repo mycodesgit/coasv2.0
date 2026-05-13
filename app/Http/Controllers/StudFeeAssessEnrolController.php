@@ -384,7 +384,7 @@ class StudFeeAssessEnrolController extends Controller
                 'status' => 3,
             ]);
 
-            return response()->json(['success' => true, 'message' => 'Student Appraisal Confirmed Successfully'], 200);
+            return response()->json(['success' => true, 'message' => 'Student Appraisal Confirmed Successfully', 'redirect_url' => route('studcheckappraisal.index')], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => true, 'message' => 'Failed to change campus!'], 404);
         }
