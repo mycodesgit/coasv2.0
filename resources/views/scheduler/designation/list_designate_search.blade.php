@@ -143,6 +143,15 @@ CISS V.1.0 || Class Scheduler
                                                                     <option value="CampusAdmin">Campus Admin</option>
                                                                 </select> --}}
                                                                 <select name="designation" id="designation" class="form-control select2bs4 form-control-sm">
+                                                                    <optgroup label="Most Selected">
+                                                                        <option value="Dean">Dean</option>
+                                                                        <option value="Division Chair">Division Chair</option>
+                                                                        <option value="Program Head">Program Head</option>
+                                                                        <option value="Registrar">Registrar</option>
+                                                                        <option value="Assessment">Assessment</option>
+                                                                        <option value="CampusAdmin">Campus Administrator</option>
+                                                                    </optgroup>
+
                                                                     <optgroup label="A. University Wide">
                                                                         <option value="Vice President">Vice President</option>
                                                                         <option value="Dean">Dean</option>
