@@ -121,9 +121,7 @@ class StudentController extends Controller
         $studfees = StudentAppraisal::select('student_appraisal.*')
                     ->where('student_appraisal.studID', $studentowner)
                     ->orderBy('student_appraisal.id', 'ASC')
-                    ->get();
-
-        
+                    ->get();       
 
         return view('student.services.list', compact('guard', 'studauth', 'studfees'));
     }
@@ -224,7 +222,7 @@ class StudentController extends Controller
 
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
         
-        $campus = "MC";
+        $campus = Auth::guard($guard)->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
@@ -331,7 +329,7 @@ class StudentController extends Controller
         $studentowner = Auth::guard($guard)->user()->studid;
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
-        $campus = "MC";
+        $campus = Auth::guard($guard)->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::where('set_status', 3)
@@ -619,7 +617,7 @@ class StudentController extends Controller
         $studentowner = Auth::guard($guard)->user()->studid;
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
-        $campus = "MC";
+        $campus = Auth::guard($guard)->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::where('set_status', 2)

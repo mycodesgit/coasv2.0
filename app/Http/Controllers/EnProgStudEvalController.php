@@ -76,7 +76,7 @@ class EnProgStudEvalController extends Controller
 
     public function searchstudsubfetch()
     {
-        $campus = "MC";
+        $campus = Auth::guard('web')->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::where('set_status', 2)
@@ -127,7 +127,7 @@ class EnProgStudEvalController extends Controller
         $stud_id = $request->stud_id;
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = "MC";
+        $campus = Auth::guard('web')->user()->campus;
 
         $sy = ConfigureCurrent::where('set_status', '=', '2')->get();
         //$student = Student::where('stud_id', $stud_id)->where('campus', $campus)->first();
@@ -225,7 +225,7 @@ class EnProgStudEvalController extends Controller
         $program = EnPrograms::all();
 
         $stud_id = $request->stud_id;
-        $campus = "MC";
+        $campus = Auth::guard('web')->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
         $syold = ConfigureCurrent::where('set_status', '=', '2')->get();
