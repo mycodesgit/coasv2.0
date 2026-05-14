@@ -435,6 +435,9 @@
                             title: 'Deleted!',
                             text: 'Successfully Deleted!',
                             icon: 'warning',
+                            customClass: {
+                                container: 'my-swal-on-top'
+                            },
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {

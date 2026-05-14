@@ -235,7 +235,7 @@ CISS V.1.0 || Class Scheduler
     </div>
 
     <!-- Delete Schedule Modal -->
-    <div class="modal fade mt-6" id="viewScheduletoDeleteModal">
+    <div class="modal fade mt-6" id="viewScheduletoDeleteModal" tabindex="-1" role="dialog" aria-labelledby="viewScheduletoDeleteModalLabel" aria-hidden="true"  style="z-index: 9998 !important;" >
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center">

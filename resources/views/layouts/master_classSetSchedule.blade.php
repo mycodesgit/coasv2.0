@@ -29,6 +29,15 @@
     <!-- fullCalendar -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
+
+    <style>
+        .swal2-container {
+            z-index: 99999 !important;
+        }
+         .my-swal-on-top {
+            z-index: 99999 !important;
+        }
+    </style>
     
 </head>
 
