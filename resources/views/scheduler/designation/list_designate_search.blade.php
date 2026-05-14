@@ -134,13 +134,54 @@ CISS V.1.0 || Class Scheduler
 
                                                             <div class="mt-3 col-md-12">
                                                                 <label>Designation <span class="text-danger">*</span></label>
-                                                                <select class="form-control form-control-sm" name="designation">
+                                                                {{-- <select class="form-control form-control-sm" name="designation">
                                                                     <option value="Dean">Dean</option>
                                                                     <option value="Division Chair">Division Chair</option>
                                                                     <option value="Program Head">Program Head</option>
                                                                     <option value="Registrar">Registrar</option>
                                                                     <option value="Assessment">Assessment</option>
                                                                     <option value="CampusAdmin">Campus Admin</option>
+                                                                </select> --}}
+                                                                <select name="designation" id="designation" class="form-control select2bs4 form-control-sm">
+                                                                    <optgroup label="A. University Wide">
+                                                                        <option value="Vice President">Vice President</option>
+                                                                        <option value="Dean">Dean</option>
+                                                                        <option value="Quality Assurance">Quality Assurance</option>
+                                                                        <option value="Research & Extension">Research & Extension</option>
+                                                                        <option value="Planning Officer">Planning Officer</option>
+                                                                        <option value="Director (by category)">Director (by category)</option>
+                                                                        <option value="CampusAdmin">Campus Administrator</option>
+                                                                        <option value="Coordinator">Coordinator</option>
+                                                                        <option value="Internal Lead Auditor">Internal Lead Auditor</option>
+                                                                        <option value="ISO/ISA Secretariat">ISO/ISA Secretariat</option>
+                                                                        <option value="Faculty Regent">Faculty Regent</option>
+                                                                        <option value="Editor-in-Chief/Managing Editor">Editor-in-Chief/Managing Editor</option>
+                                                                    </optgroup>
+
+                                                                    <optgroup label="B. Campus/College Level">
+                                                                        <option value="Division Chair">Division Chair</option>
+                                                                        <option value="Program Head">Program Head</option>
+                                                                        <option value="Collecting and Disbursing Officer">Collecting and Disbursing Officer</option>
+                                                                        <option value="Library Services/Librarian">Library Services/Librarian</option>
+                                                                        <option value="Registrar">Registrar</option>
+                                                                        <option value="Assessment">Assessment</option>
+                                                                        <option value="MIS">Network Administrator/Management Information System (MIS) In-charge</option>
+                                                                        <option value="Data Privacy Act Officer">Data Privacy Act Officer</option>
+                                                                        <option value="Guidance and Counseling/Health Services">Guidance and Counseling/Health Services</option>
+                                                                        <option value="Property Custodian/Supply Officer/Records Officer/Campus-HR">Property Custodian/Supply Officer/Records Officer/Campus-HR</option>
+                                                                        <option value="OSSA Coordinator">OSSA Coordinator</option>
+                                                                        <option value="NBC Local Evaluator">NBC Local Evaluator</option>
+                                                                        <option value="Coordinator, Research/Extension">Coordinator, Research/Extension</option>
+                                                                        <option value="Coordinator, Landscaping and Beautification">Coordinator, Landscaping and Beautification</option>
+                                                                        <option value="Coordinator, Sports and Cultural">Coordinator, Sports and Cultural</option>
+                                                                        <option value="Adviser, Student Organization (FLP/SSG)">Adviser, Student Organization (FLP/SSG)</option>
+                                                                        <option value="Adviser, School Publication/Journal">Adviser, School Publication/Journal</option>
+                                                                        <option value="Laboratory/AVR In-charge">Laboratory/AVR In-charge</option>
+                                                                        <option value="Yearbook In-charge">Yearbook In-charge</option>
+                                                                        <option value="Sports and Cultural Coach (Varsity)">Sports and Cultural Coach (Varsity)</option>
+                                                                        <option value="Project In-charge">Project In-charge</option>
+                                                                        <option value="Faculty with approved Research/Extension/Production proposal">Faculty with approved Research/Extension/Production proposal</option>
+                                                                    </optgroup>
                                                                 </select>
                                                             </div>
 
