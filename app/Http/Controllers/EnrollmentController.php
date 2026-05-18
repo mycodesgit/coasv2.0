@@ -1175,8 +1175,7 @@ class EnrollmentController extends Controller
         $preassessenrollreg  = StudEnrolmentHistory::where('studentID', '=', $stud_id)
                     ->where('schlyear', '=', $schlyear)
                     ->where('semester', '=', $semester)
-                    ->where('status', 4)
-                    ->first();
+                    ->get();
 
         $programEnHistory = StudEnrolmentHistory::leftJoin('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
                 ->where('program_en_history.studentID', $stud_id)
@@ -1410,7 +1409,7 @@ class EnrollmentController extends Controller
                     'studType' => $request->input('studType'),
                     'transferee' => $request->input('transferee'),
                     'fourPs' => $request->input('fourPs'),
-                    'status' => 3,
+                    'status' => 4,
                 ]);
 
                 StudHisLog::create([

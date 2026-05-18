@@ -366,7 +366,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
                     ->get();
 
@@ -374,7 +379,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
                     ->pluck('coasv2_db_schedule.sub_offered.id');
         $subOfferedIds = implode(',', $subjectsEnID->toArray());
@@ -383,7 +393,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
                     ->pluck('preenrollsubj.subjID');
         $studsubenrollIds = implode(',', $studsubview->toArray());
@@ -392,7 +407,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
                     ->pluck('preenrollsubj.id');
         $studsubenrollIdsprimID = implode(',', $studsubviewprimID->toArray());
@@ -401,7 +421,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('preenrollsubj.studID', '=', $programEnHistory->studentID)
                     ->pluck('coasv2_db_schedule.sub_offered.itfee');
         $studsubenrollIdsprimIDitfee = implode(',', $studsubviewprimIDitfee->toArray());
@@ -411,7 +436,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studsublog.studID', '=', $programEnHistory->studentID)
                     ->pluck('coasv2_db_schedule.sub_offered.id');
         $subOfferedIdslog = implode(',', $subjectsEnIDlog->toArray());
@@ -420,7 +450,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studsublog.studID', '=', $programEnHistory->studentID)
                     ->pluck('studsublog.subjID');
         $studsubenrollIdslog = implode(',', $studsubviewlog->toArray());
@@ -429,7 +464,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->where('coasv2_db_schedule.sub_offered.schlyear', '=', $sy->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester', '=', $sy->semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    // ->where('coasv2_db_schedule.sub_offered.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('studsublog.studID', '=', $programEnHistory->studentID)
                     ->pluck('studsublog.id');
         $studsubenrollIdsprimIDlog = implode(',', $studsubviewprimIDlog->toArray());
@@ -442,9 +482,9 @@ class GradingFacultyServicePreenrolController extends Controller
                         $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
                     })
                     ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
-                    ->where('schlyear', '=', $sy->schlyear)
-                    ->where('semester', '=', $sy->semester)
-                    ->where('campus', '=', $campus)
+                    ->where('class_enroll.schlyear', '=', $sy->schlyear)
+                    ->where('class_enroll.semester', '=', $sy->semester)
+                    ->where('class_enroll.campus', '=', $campus)
                     ->where('class_enroll.progCode', 'LIKE', '%-GSS-%')
                     ->orderBy('programs.progAcronym', 'ASC')
                     ->orderBy('class_enroll.classSection', 'ASC')
@@ -771,6 +811,7 @@ class GradingFacultyServicePreenrolController extends Controller
                         'studType' => $request->input('studType'),
                         'transferee' => $request->input('transferee'),
                         'fourPs' => $request->input('fourPs'),
+                        'status' => 4,
                     ]);
 
                     StudHisLog::create([

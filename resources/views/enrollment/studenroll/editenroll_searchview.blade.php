@@ -308,7 +308,7 @@ CISS V.1.0 || Enrollment
                                                 <a href="" class="col-md-12 btn btn-warning btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-bs-toggle="modal" data-bs-target="#modal-addSub">Add Subject</a>
                                                 <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="assessButton">Assess</button>
                                                 <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
-                                                {{-- @if ($preassessenrollreg) --}}
+                                                @if ($preassessenrollreg->first()->status == 3)
                                                     <form action="{{ route('studrfprint') }}" method="get" target="_blank">
                                                         @csrf
                                                         <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
@@ -318,7 +318,7 @@ CISS V.1.0 || Enrollment
                                                         Print RF
                                                     </button>
                                                     </form>
-                                                {{-- @endif --}}
+                                                @endif
                                                 {{-- @if(Auth::guard('web')->user()->role == 0) --}}
                                                 <button type="button" class="col-md-12 btn btn-outline-danger btn-sm mt-2" id="deleteButton">
                                                     <span style="font-size: 8pt;">Delete Enrollment</span>
