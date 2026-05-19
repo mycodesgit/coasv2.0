@@ -53,7 +53,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
-                                                    <div class="text-muted"><span class="text-success">Upcoming</span>, <span class="text-dark">1st Sem</span></div>
+                                                    <div class="text-muted">
+                                                        <span class="text-success">{{ $sy->first()->schlyear ?? 'N/A' }}</span>, 
+                                                        <span class="text-dark">
+                                                            {{ $sy->first()->semester == 1 ? '1st Sem' : ($sy->first()->semester == 2 ? '2nd Sem' : ($sy->first()->semester == 3 ? 'Summer' : 'N/A')) }}
+                                                        </span>
+                                                        </div>
                                                     <div><a href="{{ route('pre.index') }}" class="link-defalt text-decoration-underline">Pre-Enrol Now</a></div>
                                                 </div>
                                             </div>

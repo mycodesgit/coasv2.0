@@ -122,8 +122,14 @@ class StudentController extends Controller
                     ->where('student_appraisal.studID', $studentowner)
                     ->orderBy('student_appraisal.id', 'ASC')
                     ->get();       
+        
+        $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
+                ->where('set_status', 3)
+                ->orderBy('id', 'DESC')
+                ->get()
+                ->unique('schlyear');
 
-        return view('student.services.list', compact('guard', 'studauth', 'studfees'));
+        return view('student.services.list', compact('guard', 'studauth', 'studfees', 'sy'));
     }
 
     public function schedclassRead()
