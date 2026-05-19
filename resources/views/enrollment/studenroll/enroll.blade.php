@@ -87,6 +87,7 @@ CISS V.1.0 || Enrollment
                                                                 <th>Fullname</th>
                                                                 <th>Course Yr&Section</th>
                                                                 <th>Campus</th>
+                                                                <th>Status</th>
                                                                 <th width="10%">Action</th>
                                                             </tr>
                                                         </thead>

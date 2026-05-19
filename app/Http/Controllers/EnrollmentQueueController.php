@@ -53,7 +53,7 @@ class EnrollmentQueueController extends Controller
 {
     public function studqueuefetch()
     {
-        $campus = "MC";
+        $campus = Auth::guard('web')->user()->campus;
         $dept = Auth::guard('web')->user()->dept;
         $campusArray = array_map('trim', explode(',', $campus));
 
@@ -76,7 +76,7 @@ class EnrollmentQueueController extends Controller
                     $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                 }
             })
-            ->where('program_en_history.status', 1)
+            ->whereIn('program_en_history.status', [1, 3])
             ->orderBy('program_en_history.created_at', 'asc')
             ->get();
 

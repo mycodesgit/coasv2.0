@@ -180,7 +180,7 @@
 						<th width="6%">Credit</th>
 						<th width="7%">Lec Fee</th>
 						<th width="7%">Lab Fee</th>
-						@if(Auth::guard('kioskstudent')->user()->role == 15 || Str::contains($student->studentID, '-G')) 
+						@if(Auth::guard('kioskstudent')->user()->role == 15 || Str::contains($studauth->stud_id, '-G')) 
 						<th width="">Cycle</th>
 						@endif
 					</tr>
@@ -302,7 +302,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="4" style="padding-left: 5px">Balance for the @if($student->semester == 1) <span class="badge badge-primary">FIRST SEMESTER</span> @elseif($student->semester == 2) <span class="badge badge-success">2ND SEMESTER</span> @elseif($student->semester == 3) <span class="badge badge-secondary">SUMMER</span> @endif SY {{ $student->schlyear }} {{ \Carbon\Carbon::now()->format('F j, Y') }}: {{ number_format($totalBalanceFee - $totalPaidFee, 2) }}</td>
+						<td colspan="4" style="padding-left: 5px">Balance for the @if($studauth->semester == 1) <span class="badge badge-primary">FIRST SEMESTER</span> @elseif($studauth->semester == 2) <span class="badge badge-success">2ND SEMESTER</span> @elseif($studauth->semester == 3) <span class="badge badge-secondary">SUMMER</span> @endif SY {{ $studauth->schlyear }} {{ \Carbon\Carbon::now()->format('F j, Y') }}: {{ number_format($totalBalanceFee - $totalPaidFee, 2) }}</td>
 					</tr>
 				</tbody>
 			</table>

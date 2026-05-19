@@ -484,7 +484,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
                     ->where('class_enroll.schlyear', '=', $sy->schlyear)
                     ->where('class_enroll.semester', '=', $sy->semester)
-                    ->where('class_enroll.campus', '=', $campus)
+                    // ->where('class_enroll.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('class_enroll.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->where('class_enroll.progCode', 'LIKE', '%-GSS-%')
                     ->orderBy('programs.progAcronym', 'ASC')
                     ->orderBy('class_enroll.classSection', 'ASC')
@@ -497,7 +502,12 @@ class GradingFacultyServicePreenrolController extends Controller
                     ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
                     ->where('class_enroll.schlyear', '=', $sy->schlyear)
                     ->where('class_enroll.semester', '=', $sy->semester)
-                    ->where('class_enroll.campus', '=', $campus)
+                    // ->where('class_enroll.campus', '=', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('class_enroll.campus', 'LIKE', "%$campus%");
+                        }
+                    })
                     ->orderBy('programs.progAcronym', 'ASC')
                     ->orderBy('class_enroll.classSection', 'ASC')
                     ->get();

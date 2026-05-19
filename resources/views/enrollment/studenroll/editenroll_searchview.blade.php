@@ -308,7 +308,7 @@ CISS V.1.0 || Enrollment
                                                 <a href="" class="col-md-12 btn btn-warning btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-bs-toggle="modal" data-bs-target="#modal-addSub">Add Subject</a>
                                                 <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="assessButton">Assess</button>
                                                 <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="submitButton">Save</button>
-                                                @if ($preassessenrollreg->first()->status == 3)
+                                                @if (in_array($preassessenrollreg->first()->status, [2,3]))
                                                     <form action="{{ route('studrfprint') }}" method="get" target="_blank">
                                                         @csrf
                                                         <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">

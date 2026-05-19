@@ -64,6 +64,18 @@
                     }
                 },
                 {
+                    data: 'status',
+                    render: function(data, type, row) {
+                        if (data == 1) {
+                            return '<span class="badge bg-info-subtle text-dark">For Checking</span>';
+                        } else if (data == 3) {
+                            return '<span class="badge bg-success-subtle text-success" style="color: #2b2b2b">For Printing</span>';
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+                {
                     data: 'id',
                     render: function (data, type, row) {
                         if (type === 'display') {

@@ -222,7 +222,7 @@ class StudentController extends Controller
 
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
         
-        $campus = Auth::guard($guard)->user()->campus;
+        $campus = $studauth->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
@@ -297,7 +297,7 @@ class StudentController extends Controller
                     ->where('coasv2_db_schedule.sub_offered.schlyear',  $sypre->schlyear)
                     ->where('coasv2_db_schedule.sub_offered.semester',  $sypre->semester)
                     ->where('coasv2_db_schedule.sub_offered.campus',  $campus)
-                    ->where('studgrades.studID', $studentowner)
+                    ->where('studgrades.studID', $studauth->stud_id)
                     ->orderBy('coasv2_db_schedule.sub_offered.subCode', 'ASC')
                     ->get();
 
@@ -617,10 +617,10 @@ class StudentController extends Controller
         $studentowner = Auth::guard($guard)->user()->studid;
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
-        $campus = Auth::guard($guard)->user()->campus;
+        $campus = $studauth->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
-        $sy = ConfigureCurrent::where('set_status', 2)
+        $sy = ConfigureCurrent::where('set_status', 3)
             ->first(['schlyear', 'semester']);
 
 
@@ -638,11 +638,11 @@ class StudentController extends Controller
                     })
                     ->where('program_en_history.studentID', $studentowner)->first();
 
-        $programEnHistory = StudEnrolmentHistory::join('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
+        $programEnHistory = StudEnrolmentHistory::leftJoin('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
                 ->where('program_en_history.studentID', $studentowner)
                 ->where('program_en_history.schlyear', $sy->schlyear)
                 ->where('program_en_history.semester', '=', $sy->semester)
-                ->where('program_en_history.campus', '=', $campus)
+                ->where('program_en_history.campus', $campus)
                 ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
                 ->first(); 
         $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;

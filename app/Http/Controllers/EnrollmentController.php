@@ -1487,6 +1487,8 @@ class EnrollmentController extends Controller
                             'status' => $request->input('status')[$index] ?? $existingData['status'],
                             'compstat' => $request->input('compstat')[$index] ?? $existingData['compstat'],
                             'postedBy' => $request->input('postedBy'),
+                            'semester' => $request->input('semester'),
+                            'schlyear' => $request->input('schlyear'),
                         ]);
                     } else {
                         // Create new grade
@@ -1499,6 +1501,8 @@ class EnrollmentController extends Controller
                             'status' => $request->input('status')[$index] ?? '',
                             'compstat' => $request->input('compstat')[$index] ?? '',
                             'postedBy' => $request->input('postedBy'),
+                            'semester' => $request->input('semester'),
+                            'schlyear' => $request->input('schlyear'),
                             'campus' => Auth::guard('web')->user()->campus,
                         ]);
 
@@ -1511,6 +1515,8 @@ class EnrollmentController extends Controller
                             'status' => $request->input('status')[$index] ?? '',
                             'compstat' => $request->input('compstat')[$index] ?? '',
                             'postedBy' => $request->input('postedBy'),
+                            'semester' => $request->input('semester'),
+                            'schlyear' => $request->input('schlyear'),
                             'campus' => Auth::guard('web')->user()->campus,
                             'encode' => $encode,
                         ]);
