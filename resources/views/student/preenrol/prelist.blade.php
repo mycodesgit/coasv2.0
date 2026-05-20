@@ -31,12 +31,13 @@
                                                 date_default_timezone_set('Asia/Manila');
 
                                                 $now = now();
+                                                $openingDate = \Carbon\Carbon::create(2026, 5, 25, 0, 0, 0, 'Asia/Manila');
                                                 $startTime = now()->setHour(8)->setMinute(0)->setSecond(0);
                                                 $endTime = now()->setHour(17)->setMinute(0)->setSecond(0);
                                             @endphp
 
                                             {{-- OFF HOURS --}}
-                                            {{-- @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+                                            @if($now->lt($openingDate) || !$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
                                                 <div class="card shadow-sm border-0">
                                                     <div class="card-body text-center py-5">
                                                         <i class="fas fa-clock text-danger mb-3" style="font-size:60px;"></i>
@@ -48,9 +49,13 @@
                                                             <strong>Monday to Friday</strong>,
                                                             <strong>8:00 AM to 5:00 PM</strong>.
                                                         </p>
+                                                        <div class="alert alert-info d-inline-block mt-3 mb-0">
+                                                            <strong>Note:</strong> Pre-enrollment will officially open on
+                                                            <strong>Monday, May 25, 2026</strong>.
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            @else --}}
+                                            @else
                                                 {{-- PENDING EVALUATION --}}
                                                 @if($prewait)
                                                     <div class="card shadow-sm border-0 mb-4">
@@ -267,7 +272,7 @@
                                                         </div>
                                                     </form>
                                                 @endif
-                                            {{-- @endif --}}
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

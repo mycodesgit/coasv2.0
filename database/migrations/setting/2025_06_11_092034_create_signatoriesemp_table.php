@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sigpresvice', function (Blueprint $table) {
+        Schema::create('signatoriesemp', function (Blueprint $table) {
             $table->id();
             $table->string('fulname')->nullable();
             $table->string('titledeg')->nullable();
             $table->string('position')->nullable();
             $table->string('schlyear')->nullable();
             $table->string('semester')->nullable();
+            $table->string('campus')->nullable();
             $table->enum('status', ['1', '2'])->default('1');
             $table->text('esign')->nullable();
             $table->timestamps();
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sigpresvice');
+        Schema::dropIfExists('signatoriesemp');
     }
 };

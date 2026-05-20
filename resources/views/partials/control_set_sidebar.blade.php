@@ -17,7 +17,7 @@
 
 
     $addressActive = in_array($curr_route, ['regionsRead']) ? 'active' : '';
-    $signatoryActive = in_array($curr_route, ['gradesheetSignatoryRead']) ? 'active' : '';
+    $signatoryActive = in_array($curr_route, ['signatory.index', 'signatory.store']) ? 'active' : '';
 @endphp
 
 <ul class="nav flex-column">
@@ -94,7 +94,7 @@
         </li>
         
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $signatoryActive }}" href="{{ route('signatory.index') }}">
                 <i class="ti ti-signature"></i><span class="nav-text">Signatories</span>
             </a>
         </li>

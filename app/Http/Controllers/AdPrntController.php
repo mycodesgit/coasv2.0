@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 
-use Storage;
 use Carbon\Carbon;
+use Storage;
+use PDF;
+
 use App\Models\AdmissionDB\Applicant;
 use App\Models\AdmissionDB\ApplicantDocs;
 use App\Models\AdmissionDB\ExamineeResult;
@@ -21,7 +23,8 @@ use App\Models\AdmissionDB\AdmissionDate;
 use App\Models\AdmissionDB\Time;
 use App\Models\AdmissionDB\Venue;
 use App\Models\AdmissionDB\Year;
-use PDF;
+
+use App\Models\SettingDB\SignatoriesEmp;
 
 class AdPrntController extends Controller
 {
@@ -76,9 +79,48 @@ class AdPrntController extends Controller
         $decryptedId = Crypt::decryptString($id);
         $examinee = Applicant::findOrFail($decryptedId); 
 
-        view()->share('examinee',$examinee); 
+        // view()->share('examinee',$examinee);
+        $rawScoreValue = $examinee->result->raw_score;
 
-        $pdf = PDF::loadView('admission.examinee.genPreEnrolment')->setPaper('Legal', 'portrait');
+        $stanine = '';
+        $remarks = '';
+
+        if ($rawScoreValue >= 1 && $rawScoreValue <= 12) {
+            $stanine = 1;
+            $remarks = 'Failed';
+        } else if ($rawScoreValue <= 18) {
+            $stanine = 2;
+            $remarks = 'Failed';
+        } else if ($rawScoreValue <= 23) {
+            $stanine = 3;
+            $remarks = 'Passed';
+        } else if ($rawScoreValue <= 29) {
+            $stanine = 4;
+            $remarks = 'Passed';
+        } else if ($rawScoreValue <= 36) {
+            $stanine = 5;
+            $remarks = 'Passed';
+        } else if ($rawScoreValue <= 43) {
+            $stanine = 6;
+            $remarks = 'Passed';
+        } else if ($rawScoreValue <= 49) {
+            $stanine = 7;
+            $remarks = 'Passed';
+        } else if ($rawScoreValue <= 56) {
+            $stanine = 8;
+            $remarks = 'Passed';
+        } else if ($rawScoreValue <= 72) {
+            $stanine = 9;
+            $remarks = 'Passed';
+        }
+        
+        $counselor = SignatoriesEmp::where('position', 'Guidance Counselor')
+                            ->where('schlyear', '=', '2026-2027')
+                            ->where('semester', '=', '1')
+                            ->where('campus', Auth::guard('web')->user()->campus)
+                            ->first();
+
+        $pdf = PDF::loadView('admission.examinee.genPreEnrolment', compact('examinee', 'stanine', 'remarks', 'counselor'))->setPaper('Legal', 'portrait');
         return $pdf->stream();
         //return view('admission.examinee.printPreEnrolmentView')->with('examinee', $examinee);
     }

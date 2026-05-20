@@ -4,12 +4,12 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#addPressViceForm').submit(function(event) {
+    $('#addGuidanceForm').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
         $.ajax({
-            url: sigpresviceCreateRoute,
+            url: sigpnatoriesCreateRoute,
             type: "POST",
             data: formData,
             success: function(response) {
@@ -17,7 +17,7 @@ $(document).ready(function() {
                     toastr.success(response.message);
                     console.log(response);
                     $(document).trigger('presvicesigAdded');
-                    $('#modal-presvice').modal('hide');
+                    $('#modal-guidanceSignatory').modal('hide');
                     $('input[name="fulname"]').val('');
                     $('input[name="titledeg"]').val('');
                 } else {
@@ -32,10 +32,18 @@ $(document).ready(function() {
         });
     });
 
-    var dataTable = $('#presvicetab').DataTable({
+    var urlParams = new URLSearchParams(window.location.search);
+    var schlyear = urlParams.get('schlyear') || ''; 
+    var semester = urlParams.get('semester') || '';
+
+    var dataTable = $('#signatoryguidanceTable').DataTable({
         "ajax": {
-            "url": sigpresviceReadRoute,
+            "url": sigpnatoriesReadRoute,
             "type": "GET",
+            "data": function(d) { 
+                d.schlyear = schlyear;
+                d.semester = semester;
+            }
         },
         destroy: true,
         info: true,
@@ -60,16 +68,16 @@ $(document).ready(function() {
                 }
             },
             {data: 'fulname'},
-            {data: 'titledeg'},
+            {data: 'position'},
             {
                 data: null,
                 render: function (data, type, row) {
                     let status = '';
 
                     if (data.status == 1) {
-                        status = '<span class="badge badge-success">Active</span>';
+                        status = '<span class="badge bg-success">Active</span>';
                     } else {
-                        status = '<span class="badge badge-danger">Unactive</span>';
+                        status = '<span class="badge bg-danger">Unactive</span>';
                     } 
                     return status;
                 }
@@ -79,7 +87,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
-                            '<a class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"></a>' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
                             '<a href="#" class="dropdown-item btn-fundedit" data-id="' + row.id + '" data-fundname="' + row.fund_name + '">' +
                             '<i class="fas fa-pen"></i> Edit' +

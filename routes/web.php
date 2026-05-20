@@ -1179,9 +1179,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         });
 
         Route::prefix('person')->group(function () {
-            Route::get('/sign/all/campshow', [SettingSignatoryController::class, 'gradesheetSignatoryRead'])->name('gradesheetSignatoryRead');
-            Route::get('/sign/all/presvice', [SettingSignatoryController::class, 'getPresViceSigRead'])->name('getPresViceSigRead');
-            Route::post('/sign/all/presvice/add', [SettingSignatoryController::class, 'presViceSigCreate'])->name('presViceSigCreate');
+            Route::get('/sign/all', [SettingSignatoryController::class, 'index'])->name('signatory.index');
+            Route::get('/sign/search/all', [SettingSignatoryController::class, 'store'])->name('signatory.store');
+            Route::get('/sign/all/fetch', [SettingSignatoryController::class, 'show'])->name('signatory.show');
+            Route::post('/sign/all/add', [SettingSignatoryController::class, 'create'])->name('signatory.create');
         });
     });
 });

@@ -217,7 +217,7 @@
         <script src="{{ asset('js/ajax/settngs/addressSerialize.js') }}"></script>
     @endif
 
-    @if(request()->routeIs('gradesheetSignatoryRead'))
+    @if(request()->routeIs('signatory.store'))
         <script src="{{ asset('js/ajax/settngs/sigPresViceSerialize.js') }}"></script>
     @endif
 </body>
