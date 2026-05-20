@@ -72,7 +72,7 @@ class SettingSignatoryController extends Controller
                 return response()->json(['error' => true, 'message' => 'Signatory already exists'], 404);
             }
 
-            //try {
+            try {
                 SignatoriesEmp::create([
                     'fulname' => $request->input('fulname'),
                     'titledeg' => $request->input('titledeg'),
@@ -83,9 +83,9 @@ class SettingSignatoryController extends Controller
                 ]);
 
                 return response()->json(['success' => true, 'message' => 'Signatory stored successfully'], 200);
-            //} catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Signatory'], 404);
-            //}
+            }
         }
     }
 }
