@@ -400,25 +400,51 @@ class StudentController extends Controller
 
         $currentProgCode = $enrollmentHistory ? $enrollmentHistory->progCod : null;
 
-        // Now query classEnrolls, filtered by student's progCod if available
-        $classEnrollsQuery = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
-                    ->join('coasv2_db_enrollment.yearlevel', function($join) {
-                        $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
-                    })
-                    ->select('class_enroll.*', 'class_enroll.id as clid', 'programs.progAcronym', 'programs.progName', 'coasv2_db_enrollment.yearlevel.*')
-                    ->where('class_enroll.schlyear', '=', $schlyear)
-                    ->where('class_enroll.semester', '=', $semester)
-                    ->where('class_enroll.campus', '=', $campus);
+        $latestHistory = StudEnrolmentHistory::where('progCod', $currentProgCode)
+            ->orderByDesc('id')
+            ->first();
 
-        // Filter by progCod if set (only show student's program sections)
+        $nextYearLevel = null;
+
+        if ($latestHistory) {
+            preg_match('/(\d+)/', $latestHistory->course, $matches);
+
+            if (isset($matches[1])) {
+                $nextYearLevel = (int) $matches[1] + 1;
+            }
+        }
+
+        $classEnrollsQuery = ClassEnroll::join(
+                'programs',
+                'class_enroll.progCode',
+                '=',
+                'programs.progCod'
+            )
+            ->select(
+                'class_enroll.*',
+                'class_enroll.id as clid',
+                'programs.progAcronym',
+                'programs.progName'
+            )
+            ->where('class_enroll.schlyear', $schlyear)
+            ->where('class_enroll.semester', $semester)
+            ->where('class_enroll.campus', $campus);
+
         if ($currentProgCode) {
-            $classEnrollsQuery->where('programs.progCod', '=', $currentProgCode);
+            $classEnrollsQuery->where('programs.progCod', $currentProgCode);
+        }
+
+        if ($nextYearLevel) {
+            $classEnrollsQuery->whereRaw(
+                'class_enroll.classSection LIKE ?',
+                ["%{$nextYearLevel}-%"]
+            );
         }
 
         $classEnrolls = $classEnrollsQuery
-                    ->orderBy('programs.progAcronym', 'ASC')
-                    ->orderBy('class_enroll.classSection', 'ASC')
-                    ->get();
+            ->orderBy('programs.progAcronym', 'ASC')
+            ->orderBy('class_enroll.classSection', 'ASC')
+            ->get();
 
         return view('student.preenrol.prelistview', compact('studauth', 'sy', 'studstat', 'studtype', 'studlvl', 'selectedStudType', 'selectedStudStatus', 'classEnrolls', 'currentProgCode'));
     }
