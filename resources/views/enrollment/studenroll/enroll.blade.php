@@ -46,20 +46,22 @@ CISS V.1.0 || Enrollment
                                                     <div class="col-md-3">
                                                         <label>School Year: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="schlyear">
-                                                            @foreach($sy as $datasy)
+                                                            {{-- @foreach($sy as $datasy)
                                                                 <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                            @endforeach
+                                                            @endforeach --}}
+                                                            <option value="2026-2027">2026-2027</option>
+                                                            <option value="2024-2025">2024-2025</option>
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <label>Semester: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="semester">
-                                                            @foreach($sy as $datasy)
+                                                            {{-- @foreach($sy as $datasy)
                                                                 <option value="{{ $datasy->semester }}">{{ $datasy->semester == 1 ? '1st Semester' : ($datasy->semester == 2 ? '2nd Semester' : 'Summer') }}</option>
-                                                            @endforeach
-                                                            {{-- <option value="3">Summer</option>
-                                                            <option value="2">2nd Semester</option> --}}
+                                                            @endforeach --}}
+                                                            <option value="1">1st Semester</option>
+                                                            <option value="3">Summer</option>
                                                         </select>
                                                     </div>
 
