@@ -202,7 +202,7 @@
 				@if(auth()->guard('web')->user() && auth()->guard('web')->user()->campus == 'MC')
 					<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>{{ $counselor->fulname }}</b></div>
 					<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>&nbsp;</b></div>
-					<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>&nbsp;</b></div>
+					<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>KRISTINE C. DURAN, MAN</b></div>
 				@else
 					<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>&nbsp;</b></div>
 					<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>&nbsp;</b></div>
