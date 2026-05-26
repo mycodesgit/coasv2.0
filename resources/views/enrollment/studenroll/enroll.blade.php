@@ -50,7 +50,7 @@ CISS V.1.0 || Enrollment
                                                                 <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
                                                             @endforeach --}}
                                                             <option value="2026-2027">2026-2027</option>
-                                                            <option value="2024-2025">2024-2025</option>
+                                                            <option value="2025-2026">2025-2026</option>
                                                         </select>
                                                     </div>
 
