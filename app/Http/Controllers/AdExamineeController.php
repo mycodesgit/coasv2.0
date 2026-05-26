@@ -23,6 +23,11 @@ use App\Models\AdmissionDB\Time;
 use App\Models\AdmissionDB\Venue;
 use App\Models\AdmissionDB\Year;
 
+use App\Models\SettingDB\Region;
+use App\Models\SettingDB\Province;
+use App\Models\SettingDB\City;
+use App\Models\SettingDB\Barangay;
+
 class AdExamineeController extends Controller
 {
     public function examinee_list()
@@ -160,7 +165,9 @@ class AdExamineeController extends Controller
     {
         $strand = Strands::all();
         $curryear = Year::orderBy('adyear', 'DESC')->get();
-        return view('admission.examinee.result-search', compact('strand', 'curryear'));
+        $regions = Region::all();
+
+        return view('admission.examinee.result-search', compact('strand', 'curryear', 'regions'));
     }
 
     public function getsrchexamineeResultList(Request $request)

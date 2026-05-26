@@ -229,7 +229,7 @@
         <script src="{{ asset('js/ajax/admssion/examineeajax/examAssignRateSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('resultlist_search'))
-        <script src="{{ asset('js/ajax/admssion/examresult/exresultSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/admssion/examresult/exresultSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('srchconfirmList'))
         <script src="{{ asset('js/ajax/admssion/examresult/exconfirmSerialize.js') }}"></script>

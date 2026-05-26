@@ -88,7 +88,7 @@ $(document).ready(function() {
                             '<div class="dropdown-menu">';
 
                         if (isCampus) {
-                            dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
+                            dropdown += '<a href="#" class="dropdown-item btn-viewappdata" data-id="' + row.adid + '" data-admissionid="' + row.admission_id + '" data-type="' + row.type + '" data-campus="' + row.campus + '" data-fname="' + row.fname + '" data-mname="' + row.mname + '" data-lname="' + row.lname + '" data-ext="' + row.ext + '" data-hnum="' + row.hnum + '" data-brgy="' + row.brgy + '" data-city="' + row.city + '" data-province="' + row.province + '" data-region="' + row.region + '" data-zcode="' + row.zcode + '" data-gender="' + row.gender + '" data-bday="' + row.bday + '" data-civilstat="' + row.civil_status + '" data-contact="' + row.contact + '" data-email="' + row.email + '" data-address="' + row.address + '" data-lsa="' + row.lstsch_attended + '" data-strand="' + row.strand + '" data-cula="' + row.suc_lst_attended + '" data-culac="' + row.course + '" data-cp1="' + row.preference_1 + '" data-cp2="' + row.preference_2 + '">' +
                                 '<i class="fas fa-eye"></i> View Data' +
                                 '</a>' +
                                 '<a href="srchexamineeResultList/view/' + row.adid + '" class="dropdown-item btn-edit" target="_blank">' +
@@ -143,6 +143,12 @@ $(document).on('click', '.btn-viewappdata', function() {
     var civilstat = $(this).data('civilstat');
     var contact = $(this).data('contact');
     var email = $(this).data('email');
+    var hnum = $(this).data('hnum');
+    var brgy = $(this).data('brgy');
+    var city = $(this).data('city');
+    var province = $(this).data('province');
+    var region = $(this).data('region');
+    var zcode = $(this).data('zcode');
     var address = $(this).data('address');
     var lsa = $(this).data('lsa');
     var strand = $(this).data('strand');
@@ -202,7 +208,7 @@ $(document).on('click', '.btn-viewappdata', function() {
     $('#viewdataresultexamcvilstat').val(civilstat);
     $('#viewdataresultexamMobile').val(contact);
     $('#viewdataresultexamEmail').val(email);
-    $('#viewdataresultexamAddress').val(address);
+    $('#viewdatastudAddress').val(address);
     $('#viewdataresultexamLSA').val(lsa);
     $('#viewdataresultexamStrand').val(strand);
     $('#viewdataresultexamCUla').val(cula);
@@ -254,6 +260,124 @@ $('#editAppDataPersonalinfoForm').submit(function(event) {
             toastr.error(errorMessage);
         }
     });
+});
+
+function updateAddress() {
+    let hnum = $('#viewdatastudHnum').val();
+    let barangay = $('#barangay').find(':selected').data('name');
+    let city = $('#city').find(':selected').data('name');
+    let province = $('#province').find(':selected').data('name');
+    let region = $('#region').find(':selected').data('name');
+    let zipcode = $('#zipcode').val();
+
+    let fullAddress = [
+        hnum,
+        barangay,
+        city,
+        province,
+        region,
+        zipcode
+    ].filter(Boolean).join(', ');
+
+    $('#viewdatastudAddress').val(fullAddress);
+}
+
+$(document).ready(function () {
+    $('#viewdatastudHnum').on('input', updateAddress);
+
+    $('#viewdataresultexamModal').on('shown.bs.modal', function () {
+        $('#region, #province, #city, #barangay').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $('#viewdataresultexamModal')
+        });
+    });
+
+    $('#region').on('change', function () {
+        var regionId = $(this).val();
+        var regionName = $(this).find(':selected').data('name');
+
+        $('#region_name').val(regionName);
+        updateAddress();
+
+        $('#province').empty().append('<option disabled selected>Loading...</option>');
+
+        $.get(provincesRoute + '/' + regionId, function (data) {
+
+            $('#province').html('<option disabled selected>Select Province</option>');
+
+            data.forEach(p => {
+                $('#province').append(
+                    `<option value="${p.province_id}" data-name="${p.name}">
+                        ${p.name}
+                    </option>`
+                );
+            });
+        });
+    });
+
+    $('#province').on('change', function () {
+
+        var provinceId = $(this).val();
+        var provinceName = $(this).find(':selected').data('name');
+
+        $('#province_name').val(provinceName);
+        updateAddress();
+
+        $('#city').empty().append('<option disabled selected>Loading...</option>');
+
+        $.get(citiesRoute + '/' + provinceId, function (data) {
+
+            $('#city').html('<option disabled selected>Select City</option>');
+
+            data.forEach(c => {
+                $('#city').append(
+                    `<option value="${c.city_id}" 
+                        data-name="${c.name}" 
+                        data-zip="${c.zip_code}">
+                        ${c.name}
+                    </option>`
+                );
+            });
+        });
+    });
+
+    $('#city').on('change', function () {
+
+        var cityName = $(this).find(':selected').data('name');
+        var zip = $(this).find(':selected').data('zip');
+
+        $('#city_name').val(cityName);
+        $('#zipcode').val(zip || '');
+
+        updateAddress();
+
+        var cityId = $(this).val();
+
+        $('#barangay').empty().append('<option disabled selected>Loading...</option>');
+
+        $.get(barangaysRoute + '/' + cityId, function (data) {
+
+            $('#barangay').html('<option disabled selected>Select Barangay</option>');
+
+            data.forEach(b => {
+                $('#barangay').append(
+                    `<option value="${b.id}" data-name="${b.name}">
+                        ${b.name}
+                    </option>`
+                );
+            });
+        });
+    });
+
+    $('#barangay').on('change', function () {
+
+        var brgyName = $(this).find(':selected').data('name');
+
+        $('#brgy_name').val(brgyName);
+
+        updateAddress();
+    });
+
 });
 
 $(document).on('click', '.btn-updateresultexam', function() {

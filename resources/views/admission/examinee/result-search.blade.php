@@ -228,9 +228,58 @@ CISS V.1.0 || Admission
 
                         <div class="form-group mt-3">
                             <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label>Region</label>
+                                    <select id="region" class="form-control form-control-sm select2bs4">
+                                        <option value="">Select Region</option>
+                                        @foreach($regions as $region)
+                                            <option value="{{ $region->region_id }}" data-name="{{ $region->name }}">{{ $region->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" id="region_name" name="region">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Province</label>
+                                    <select id="province" class="form-control form-control-sm select2bs4">
+                                        <option value="">Select Province</option>
+                                    </select>
+                                    <input type="hidden" id="province_name" name="province">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>City/Municipality</label>
+                                    <select id="city" class="form-control form-control-sm select2bs4">
+                                        <option value="">Select City</option>
+                                    </select>
+                                    <input type="hidden" id="city_name" name="city">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label>Barangay</label>
+                                    <select id="barangay" class="form-control form-control-sm select2bs4">
+                                        <option value="">Select Barangay</option>
+                                    </select>
+                                    <input type="hidden" id="brgy_name" name="brgy">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>House No. / Block / Purok</label>
+                                    <input type="text" name="hnum" id="viewdatastudHnum" class="form-control form-control-sm" placeholder="House No. / Block / Purok">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Zipcode</label>
+                                    <input type="text" name="zcode" id="zipcode" class="form-control form-control-sm" readonly placeholder="Zip Code" style="background-color: #ddd !important; border: 1px solid #aaa;">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mt-3">
+                            <div class="row g-3">
                                 <div class="col-md-12">
                                     <label>Address: <span class="text-danger">*</span></label>
-                                    <input type="text" name="" class="form-control form-control-sm" id="viewdataresultexamAddress" readonly>
+                                    <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddress" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
                                 </div>
                             </div>
                         </div>
@@ -383,6 +432,10 @@ CISS V.1.0 || Admission
 
         var isCampus = '{{ Auth::guard('web')->user()->campus }}';
         var requestedCampus = '{{ request('campus') }}'
+
+        var provincesRoute = '{{ route("getProvinces", "") }}';
+        var citiesRoute = '{{ route("getCities", "") }}';
+        var barangaysRoute = '{{ route("getBarangays", "") }}';
     </script>
 
 

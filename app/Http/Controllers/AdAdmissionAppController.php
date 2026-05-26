@@ -150,6 +150,13 @@ class AdAdmissionAppController extends Controller
                 'ext' => $request->input('ext'),
                 'gender' => $request->input('gender'),
                 'civil_status' => $request->input('civil_status'),
+                'address' => $request->input('address'),
+                'hnum' => $request->input('hnum'),
+                'brgy' => $request->input('brgy'),
+                'city' => $request->input('city'),
+                'province' => $request->input('province'),
+                'region' => $request->input('region'),
+                'zcode' => $request->input('zcode'),
         ]);
             return response()->json(['success' => true, 'message' => 'Applicant Personal Information update successfully'], 200);
         } catch (\Exception $e) {

@@ -377,7 +377,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             
             Route::get('/{id}/confirm', [AdExamineeController::class, 'examinee_confirm'])->name('examinee_confirm');
             
-
+            Route::get('/portal/provinces/{region_id}', [PortalController::class, 'getPortalProvinces'])->name('getPortalProvinces');
+            Route::get('/portal/cities/{province_id}', [PortalController::class, 'getPortalCities'])->name('getPortalCities');
+            Route::get('/portal/barangays/{city_id}', [PortalController::class, 'getPortalBarangays'])->name('getPortalBarangays');
             
             
             Route::get('/list/printPreEnrolment/srch/{id}', [AdPrntController::class, 'pre_enrolment_print_srch'])->name('pre_enrolment_print_srch');
