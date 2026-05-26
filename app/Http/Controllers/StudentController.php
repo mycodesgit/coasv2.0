@@ -400,7 +400,12 @@ class StudentController extends Controller
 
         $currentProgCode = $enrollmentHistory ? $enrollmentHistory->progCod : null;
 
-        $latestHistory = StudEnrolmentHistory::where('progCod', $currentProgCode)
+        // $latestHistory = StudEnrolmentHistory::where('progCod', $currentProgCode)
+        //     ->orderByDesc('id')
+        //     ->first();
+
+        $latestHistory = StudEnrolmentHistory::where('studentID', $studauth->stud_id)
+            ->where('progCod', $currentProgCode)
             ->orderByDesc('id')
             ->first();
 
