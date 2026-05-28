@@ -67,7 +67,7 @@ CISS V.1.0 || Enrollment
 
                                         <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
-                                        <div class="table-responsive mt-3">
+                                        <div class="table-responsive mt-3 p-2">
                                             <table id="madapak" class="table table-striped">
                                                 <thead>
                                                     <tr>
