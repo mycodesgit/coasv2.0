@@ -302,7 +302,7 @@ class GradingFacultyServicesController extends Controller
         $currsem = QCEsemester::where('qcesemstat', 2)->get();
         $currsemnow = QCEsemester::where('qcesemstat', 2)->first();
 
-        $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
+        $sy = ConfigureCurrent::where('set_status', 4)->first(['schlyear', 'semester']);
         $setevalmode = QCEsetting::first();
 
         $collegedean = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
