@@ -19,7 +19,7 @@ CISS V.1.0 || Faculty Services
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <div class="row g-4 mb-4">
+                                <div class="row g-3 mb-4">
                                     <!-- Class Schedule -->
                                     <div class="col-12 col-sm-6 col-xl-3 d-flex">
                                         <div class="card card-hover w-100 h-100">
