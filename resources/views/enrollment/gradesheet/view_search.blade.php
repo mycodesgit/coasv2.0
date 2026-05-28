@@ -241,7 +241,7 @@ CISS V.1.0 || Enrollment
                                                             <td><strong>{{ $datagenstud->creditEarned }}</strong></td>
                                                             <td style="text-align:center;">
                                                                 <div class="btn-group">
-                                                                    <button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <button type="button" class="btn btn-success btn-sm text-light dropdown-toggle dropdown-icon" data-bs-toggle="dropdown" aria-expanded="false">
                                                                         <span class="sr-only">Toggle Dropdown</span>
                                                                     </button>
                                                                     <div class="dropdown-menu" role="menu">
