@@ -102,7 +102,7 @@ class StudHEBillingController extends Controller
 
         $studfeesbill = StudEnrolmentHistory::join('students', 'program_en_history.studentID', 'students.stud_id')
                         ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-                        ->join('coasv2_db_assessment.student_appraisal', 'program_en_history.studentID', '=', 'coasv2_db_assessment.student_appraisal.studID')
+                        ->leftJoin('coasv2_db_assessment.student_appraisal', 'program_en_history.studentID', '=', 'coasv2_db_assessment.student_appraisal.studID')
                         ->where('program_en_history.schlyear',  $schlyear)
                         ->where('program_en_history.semester',  $semester)
                         ->whereIn('program_en_history.status',  [2, 3])
