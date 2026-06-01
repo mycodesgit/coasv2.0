@@ -164,6 +164,7 @@ class SchedClassController extends Controller
 
         $progroom = Room::where('campus', $campus)
                         ->orderBy('room_name', 'ASC')
+                        ->where('status', '=', 1)
                         ->get();
 
         return response()->json($progroom);

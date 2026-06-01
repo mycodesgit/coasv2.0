@@ -28,7 +28,6 @@ class SchedClassRoomsController extends Controller
         $data = Room::join('college', 'rooms.college_room', '=', 'college.id')
                 ->where('rooms.campus', '=', Auth::guard('web')->user()->campus)
                 ->select('rooms.*', 'college.*', 'rooms.id as rmid')
-                ->where('rooms.status', '=', 1)
                 ->get();
 
         return response()->json(['data' => $data]);
