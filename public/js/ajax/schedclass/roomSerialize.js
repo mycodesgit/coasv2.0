@@ -49,9 +49,10 @@ $(document).ready(function() {
             {
                 data: 'status',
                 render: function(data, type, row) {
-                    if (type === 'display') {
-                        var badgeClass = data == 1 ? 'bg-success' : (data == 2 ? 'bg-warning' : 'bg-secondary');
-                        return '<span class="badge ' + badgeClass + '">' + data + '</span>';
+                    if (data == 1) {
+                        return '<span class="badge bg-info-subtle text-info">Active</span>';
+                    } else if (data == 2) {
+                        return '<span class="badge bg-danger-subtle text-danger">Inactive</span>';
                     } else {
                         return data;
                     }
