@@ -16,5 +16,6 @@ class Room extends Model
         'college_room', 
         'room_capacity',
         'campus', 
+        'status',
     ];
 }

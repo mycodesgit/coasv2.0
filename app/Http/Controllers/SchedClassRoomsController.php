@@ -28,6 +28,7 @@ class SchedClassRoomsController extends Controller
         $data = Room::join('college', 'rooms.college_room', '=', 'college.id')
                 ->where('rooms.campus', '=', Auth::guard('web')->user()->campus)
                 ->select('rooms.*', 'college.*', 'rooms.id as rmid')
+                ->where('rooms.status', '=', 1)
                 ->get();
 
         return response()->json(['data' => $data]);
@@ -87,7 +88,8 @@ class SchedClassRoomsController extends Controller
                 'room_name' => $request->input('room_name'),
                 'college_room' => $request->input('college_room'),
                 'room_capacity' => $request->input('room_capacity'),
-        ]);
+                'status' => $request->input('status'),
+            ]);
             return response()->json(['success' => true, 'message' => 'Room update successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => true, 'message' => 'Failed to update Room'], 404);

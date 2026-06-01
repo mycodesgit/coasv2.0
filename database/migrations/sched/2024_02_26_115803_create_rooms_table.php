@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('college_room')->nullable();
             $table->string('room_capacity')->nullable();
             $table->string('campus')->nullable();
+            $table->enum('status', [1, 2])->default(1);
             $table->timestamps();
         });
     }

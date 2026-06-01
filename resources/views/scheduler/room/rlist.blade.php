@@ -40,6 +40,7 @@ CISS V.1.0 || Class Scheduler
                                                     <th>Room Name</th>
                                                     <th>Room Capacity</th>
                                                     <th>Campus</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -83,6 +84,13 @@ CISS V.1.0 || Class Scheduler
                         <div class="form-group mt-3">
                             <label for="editRoomCapacity">Capacity: <span class="text-danger">*</span></label>
                             <input type="number" class="form-control form-control-sm" id="editRoomCapacity" name="room_capacity">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="editRoomStatus">Status: <span class="text-danger">*</span></label>
+                            <select class="form-control form-control-sm" id="editRoomStatus" name="status">
+                                <option value="1">Active</option>
+                                <option value="2">Inactive</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">

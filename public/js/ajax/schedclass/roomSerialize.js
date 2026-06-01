@@ -47,13 +47,24 @@ $(document).ready(function() {
             {data: 'room_capacity'},
             {data: 'campus'},
             {
+                data: 'status',
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        var badgeClass = data == 1 ? 'bg-success' : (data == 2 ? 'bg-warning' : 'bg-secondary');
+                        return '<span class="badge ' + badgeClass + '">' + data + '</span>';
+                    } else {
+                        return data;
+                    }
+                }
+            },
+            {
                 data: 'rmid',
                 render: function(data, type, row) {
                     if (type === 'display') {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-roomedit" data-id="' + row.rmid + '" data-college="' + row.college_room + '" data-room="' + row.room_name + '" data-capacity="' + row.room_capacity + '">' +
+                            '<a href="#" class="dropdown-item btn-roomedit" data-id="' + row.rmid + '" data-college="' + row.college_room + '" data-room="' + row.room_name + '" data-capacity="' + row.room_capacity + '" data-status="' + row.status + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item room-delete">' +
@@ -83,11 +94,13 @@ $(document).on('click', '.btn-roomedit', function() {
     var collegeId = $(this).data('college');
     var roomName = $(this).data('room');
     var roomCapacity = $(this).data('capacity');
+    var roomStatus = $(this).data('status');
 
     $('#editRoomId').val(id);
     $('#editRoomCollege').val(collegeId);
     $('#editRoomName').val(roomName);
     $('#editRoomCapacity').val(roomCapacity);
+    $('#editRoomStatus').val(roomStatus);
 
     // Set the selected option in the dropdown
     $('#college_room').val(collegeId);
