@@ -27,7 +27,7 @@ use App\Models\ScheduleDB\Sday;
 use App\Models\ScheduleDB\SetClassSchedule;
 
 use App\Models\SettingDB\ConfigureCurrent;
-use App\Models\SettingDB\SigPresVice;
+use App\Models\SettingDB\SignatoriesEmp;
 
 class SchedFacultyController extends Controller
 {
@@ -370,7 +370,7 @@ class SchedFacultyController extends Controller
             return $s->sublecredit + $s->sublabcredit;
         });
 
-        $vice = SigPresVice::where('position', 'Vice President')
+        $vice = SignatoriesEmp::where('position', 'Vice President')
             ->first();
 
         $data = [
