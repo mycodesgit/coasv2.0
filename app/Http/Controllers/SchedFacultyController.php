@@ -331,7 +331,7 @@ class SchedFacultyController extends Controller
             ->join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
             ->where('fac_designation.schlyear', $schlyear)
             ->where('fac_designation.semester', $semester)
-            ->where('fac_designation.facCollege', $faculty->dept)
+            ->where('fac_designation.facCollege', $faculty->faccollege)
             ->first();
 
         $facloadsched = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
