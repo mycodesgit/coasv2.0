@@ -70,7 +70,7 @@ class GradingFacultyAdmissionConfirmController extends Controller
                         // ->where('ad_applicant_admission.campus', $campus)
                         ->where(function ($q) use ($campusArray) {
                             foreach ($campusArray as $campus) {
-                                $q->orWhere('ad_applicant_admission.campus', 'LIKE', "%$campus%");
+                                $q->orWhere('ad_applicant_admission.campus', 'LIKE', "$campus");
                             }
                         })
                         ->where('p_status', '=', 4);
