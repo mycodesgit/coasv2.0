@@ -815,7 +815,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/faculty/set/class/add', [SchedFacultyController::class, 'facultySchedCreate'])->name('facultySchedCreate');
             Route::get('/faculty/set/class/fetch', [SchedFacultyController::class, 'fetchFacultySchedule'])->name('fetchFacultySchedule');
             Route::get('/faculty/set/view/load', [SchedFacultyController::class, 'facultyloadPDFTemplate'])->name('facultyloadPDFTemplate');
-            Route::post('/print/faculty/schedule', [SchedFacultyController::class, 'printFacultySchedule'])->name('printFacultySchedule');
+            Route::get('/print/faculty/schedule', [SchedFacultyController::class, 'printFacultySchedule'])->name('printFacultySchedule');
 
             Route::get('/room', [SchedRoomController::class, 'roomSchedRead'])->name('roomSchedRead');
             Route::get('/room/set', [SchedRoomController::class, 'roomSchedSetRead'])->name('roomSchedSetRead');
