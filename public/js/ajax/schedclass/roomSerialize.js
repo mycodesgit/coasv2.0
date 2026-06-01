@@ -50,7 +50,7 @@ $(document).ready(function() {
                 data: 'status',
                 render: function(data, type, row) {
                     if (data == 1) {
-                        return '<span class="badge bg-info-subtle text-info">Active</span>';
+                        return '<span class="badge bg-success-subtle text-success">Active</span>';
                     } else if (data == 2) {
                         return '<span class="badge bg-danger-subtle text-danger">Inactive</span>';
                     } else {
