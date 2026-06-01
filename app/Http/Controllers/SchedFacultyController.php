@@ -327,11 +327,11 @@ class SchedFacultyController extends Controller
             $facultysigName = 'Faculty not found';
         }
 
-        $facDesignateId = FacDesignation::join('college', 'fac_designation.facdept', '=', 'college.college_abbr')
+        $facDesignateId = FacDesignation::join('college', 'fac_designation.facCollege', '=', 'college.college_abbr')
             ->join('faculty', 'fac_designation.fac_id', '=', 'faculty.id')
             ->where('fac_designation.schlyear', $schlyear)
             ->where('fac_designation.semester', $semester)
-            ->where('fac_designation.facdept', $faculty->dept)
+            ->where('fac_designation.facCollege', $faculty->dept)
             ->first();
 
         $facloadsched = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
