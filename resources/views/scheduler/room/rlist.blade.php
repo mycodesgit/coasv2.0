@@ -33,6 +33,10 @@ CISS V.1.0 || Class Scheduler
                                 </div>
                                 <div class="row">
                                     <div class="table-responsive p-3 mt-3">
+                                        <button type="button" class="btn btn-success btn-sm mb-4 text-light" data-bs-toggle="modal" data-bs-target="#modal-room">
+                                            <i class="fas fa-user-plus"></i> Add New
+                                        </button>
+
                                         <table id="classRooms" class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -53,6 +57,57 @@ CISS V.1.0 || Class Scheduler
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-room" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modal-roomLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-roomLabel">Add New Room</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="{{ route('roomCreate') }}" method="post" id="addRoom">  
+                        @csrf
+
+                        <div class="form-group">
+                            <div class="row g-3">
+                                <div class="mt-2 col-md-12">
+                                    <label><span class="badge bg-secondary">Belongs to</span></label>
+                                    <select class="form-control form-control-sm" name="college_room">
+                                        <option disabled selected> ---Select---</option>
+                                        @foreach($collegelist as $datacollegelist)
+                                            <option value="{{ $datacollegelist->id }}">{{ $datacollegelist->college_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mt-2 col-md-12">
+                                    <label><span class="badge bg-secondary">Room name</span></label>
+                                    <input type="text" name="room_name" class="form-control form-control-sm">
+                                </div>
+                                <div class="mt-2 col-md-12">
+                                    <label><span class="badge bg-secondary">Room Capacity</span></label>
+                                    <input type="number" name="room_capacity" class="form-control form-control-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-5">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>   
+                    </form>
                 </div>
             </div>
         </div>
