@@ -72,6 +72,7 @@ class GradingFacultyServicePreenrolController extends Controller
     {
         $campus = Auth::guard('faculty')->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
+        $lastCampus = end($campusArray);
 
         $sy = ConfigureCurrent::where('set_status', 3)
             ->first(['schlyear', 'semester']);
@@ -89,11 +90,12 @@ class GradingFacultyServicePreenrolController extends Controller
             ->whereRaw("SUBSTRING_INDEX(preenrol.progCod, '-', 1) = ?", [
                 Auth::guard('faculty')->user()->faccollege
             ])
-            ->where(function ($q) use ($campusArray) {
-                foreach ($campusArray as $campus) {
-                    $q->orWhere('preenrol.campus', 'LIKE', "$campus");
-                }
-            })
+            // ->where(function ($q) use ($campusArray) {
+            //     foreach ($campusArray as $campus) {
+            //         $q->orWhere('preenrol.campus', 'LIKE', "$campus");
+            //     }
+            // })
+            ->where('preenrol.campus', 'LIKE', $lastCampus)
             ->where('preenrol.status', 1)
             ->orderBy('preenrol.created_at', 'asc')
             ->get();
