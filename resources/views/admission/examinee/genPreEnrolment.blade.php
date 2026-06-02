@@ -228,6 +228,7 @@
 				<li><input type="checkbox" class="checkbox" value="BSAGRI-Cs" {{ old('type', $examinee->interview->course) === 'BSAGRI-Cs' ? 'checked' : '' }}> <span>Bachelor of Science in Agriculture major in Crop Science</span></li>
 				<li><input type="checkbox" class="checkbox" value="BSF" {{ old('type', $examinee->interview->course) === 'BSF' ? 'checked' : '' }}> <span>Bachelor of Science in Forestry (BSF)</span></li>
 				<li><input type="checkbox" class="checkbox" value="BST" {{ old('type', $examinee->interview->course) === 'BST' ? 'checked' : '' }}> <span>Bachelor in Sugar Technology (BST)</span></li>
+				<li><input type="checkbox" class="checkbox" value="BS FISHERIES" {{ old('type', $examinee->interview->course) === 'BS FISHERIES' ? 'checked' : '' }}> <span>Bachelor of Science in Fisheries (BS FISHERIES)</span></li>
 			</ul>
 
 			<div style="text-align: left;border-bottom: none;margin-top: 10px;font-size: 10px;"><b>COLLEGE OF ARTS AND SCIENCES (CAS)</b></div>
