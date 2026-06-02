@@ -91,7 +91,7 @@ class GradingFacultyServicePreenrolController extends Controller
             ])
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('preenrol.campus', 'LIKE', "%$campus%");
+                    $q->orWhere('preenrol.campus', 'LIKE', "$campus");
                 }
             })
             ->where('preenrol.status', 1)
