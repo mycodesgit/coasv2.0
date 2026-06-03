@@ -137,7 +137,7 @@ CISS V.1.0 || Class Scheduler
                                                                                                 <option value="4">4th Year</option>
                                                                                             </select>
                                                                                         </div>
-                                                                                        <input type="text" id="combinedValue" name="subSec" value="">
+                                                                                        <input type="hidden" id="combinedValue" name="subSec" value="">
 
                                                                                         <div class="mt-2 col-md-12">
                                                                                             <label>Subjects: <span class="text-danger">*</span></label>
