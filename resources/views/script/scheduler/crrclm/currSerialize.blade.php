@@ -6,9 +6,9 @@
     };
     $(document).ready(function() {
         // Initialize Select2 for year level
-        $('#yrlvl').select2({
-            theme: 'bootstrap4'
-        });
+        // $('#yrlvl').select2({
+        //     theme: 'bootstrap4'
+        // });
 
         // Function to update hidden input
         function updateHidden() {

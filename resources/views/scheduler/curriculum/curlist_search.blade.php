@@ -129,7 +129,7 @@ CISS V.1.0 || Class Scheduler
 
                                                                                         <div class="mt-2 col-md-4">
                                                                                             <label>Year Level: <span class="text-danger">*</span></label>
-                                                                                            <select class="form-control form-control-sm" name="yrlvl">
+                                                                                            <select class="form-control form-control-sm" name="yrlvl" id="yrlvl">
                                                                                                 <option disabled selected>---Select---</option>
                                                                                                 <option value="1">1st Year</option>
                                                                                                 <option value="2">2nd Year</option>
@@ -137,7 +137,7 @@ CISS V.1.0 || Class Scheduler
                                                                                                 <option value="4">4th Year</option>
                                                                                             </select>
                                                                                         </div>
-                                                                                        <input type="hidden" id="combinedValue" name="subSec" value="">
+                                                                                        <input type="text" id="combinedValue" name="subSec" value="">
 
                                                                                         <div class="mt-2 col-md-12">
                                                                                             <label>Subjects: <span class="text-danger">*</span></label>
