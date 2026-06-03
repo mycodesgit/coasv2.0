@@ -149,6 +149,7 @@ class AdAdmissionAppController extends Controller
                 'mname' => $request->input('mname'),
                 'ext' => $request->input('ext'),
                 'gender' => $request->input('gender'),
+                'bday' => $request->input('bday'),
                 'civil_status' => $request->input('civil_status'),
                 'address' => $request->input('address'),
                 'hnum' => $request->input('hnum'),
