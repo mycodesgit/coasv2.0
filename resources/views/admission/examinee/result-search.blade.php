@@ -202,7 +202,7 @@ CISS V.1.0 || Admission
                                 </div>
                                 <div class="col-md-2">
                                     <label>Birthday: <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm" name="bday" id="viewdataresultexamBday">
+                                    <input type="date" class="form-control form-control-sm" name="bday" id="viewdataresultexamBday">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Civil Status: <span class="text-danger">*</span></label>
