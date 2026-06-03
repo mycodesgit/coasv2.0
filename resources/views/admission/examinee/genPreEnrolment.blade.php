@@ -209,11 +209,11 @@
 					<div class="name-p-signatories" style="width: 32%;text-align: center;font-size: 10px;"><b>&nbsp;</b></div>
 				@endif
 				@if(auth()->guard('web')->user() && auth()->guard('web')->user()->campus == 'MC')
-					<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Guidance Counselor</b></div>
+					<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>&nbsp;</b></div>
 					<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>&nbsp;</b></div>
 					<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Nurse II</b></div>
 				@else
-					<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Guidance Counselor</b></div>
+					<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>&nbsp;</b></div>
 					<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>&nbsp;</b></div>
 					<div class="name-p-signatories" style="width: 32%;text-align: center;border-bottom: none;margin-top: -60px;font-size: 10px;"><b>Nurse</b></div>
 				@endif
