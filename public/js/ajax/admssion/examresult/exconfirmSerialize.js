@@ -242,8 +242,30 @@ $(document).on('click', '.btn-updateInterviewResult', function() {
     var id = $(this).data('id');
     var fullname = $(this).data('name');
     var nameParts = fullname.split(' ');
-    var middleInitial = nameParts[1] ? nameParts[1].charAt(0) + '.' : ''; 
-    var updatedName = nameParts[0] + ' ' + middleInitial + ' ' + nameParts[2];
+    
+    var firstName, middleInitial, lastName;
+    
+    if (nameParts.length === 1) {
+        firstName = nameParts[0];
+        middleInitial = '';
+        lastName = '';
+    } else if (nameParts.length === 2) {
+        firstName = nameParts[0];
+        middleInitial = '';
+        lastName = nameParts[1];
+    } else if (nameParts.length === 3) {
+        firstName = nameParts[0];
+        middleInitial = nameParts[1].charAt(0) + '.';
+        lastName = nameParts[2];
+    } else {
+        firstName = nameParts.slice(0, -2).join(' ');
+        middleInitial = nameParts[nameParts.length - 2].charAt(0) + '.';
+        lastName = nameParts[nameParts.length - 1];
+    }
+    
+    var updatedName = firstName + ' ' + middleInitial + ' ' + lastName;
+    updatedName = updatedName.replace(/\s+/g, ' ').trim();
+
     var strnd = $(this).data('strnd');
     var camp = $(this).data('camp');
     var rating = parseFloat($(this).data('crating'));
