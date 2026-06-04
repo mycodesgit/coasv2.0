@@ -63,7 +63,7 @@ CISS V.1.0 || Class Scheduler
     </div>
 
     <div class="modal fade" id="modal-room" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modal-roomLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-roomLabel">Add New Room</h5>
@@ -76,7 +76,7 @@ CISS V.1.0 || Class Scheduler
                         <div class="form-group">
                             <div class="row g-3">
                                 <div class="mt-2 col-md-12">
-                                    <label><span class="badge bg-secondary">Belongs to</span></label>
+                                    <label>Belongs to: <span class="text-danger">*</span></label>
                                     <select class="form-control form-control-sm" name="college_room">
                                         <option disabled selected> ---Select---</option>
                                         @foreach($collegelist as $datacollegelist)
@@ -85,11 +85,11 @@ CISS V.1.0 || Class Scheduler
                                     </select>
                                 </div>
                                 <div class="mt-2 col-md-12">
-                                    <label><span class="badge bg-secondary">Room name</span></label>
+                                    <label>Room name: <span class="text-danger">*</span></label>
                                     <input type="text" name="room_name" class="form-control form-control-sm">
                                 </div>
                                 <div class="mt-2 col-md-12">
-                                    <label><span class="badge bg-secondary">Room Capacity</span></label>
+                                    <label>Room Capacity: <span class="text-danger">*</span></label>
                                     <input type="number" name="room_capacity" class="form-control form-control-sm">
                                 </div>
                             </div>
