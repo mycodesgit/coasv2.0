@@ -62,7 +62,7 @@ CISS V.1.0 || Class Scheduler
         </div>
     </div>
 
-    {{-- <div class="modal fade" id="modal-room" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modal-roomLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-room" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modal-roomLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -70,7 +70,7 @@ CISS V.1.0 || Class Scheduler
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" action="{{ route('roomCreate') }}" method="post" id="addRoom">  
+                    <form class="form-horizontal" action="{{ route('roomsCreate') }}" method="post" id="addRoom">  
                         @csrf
 
                         <div class="form-group">
@@ -111,7 +111,7 @@ CISS V.1.0 || Class Scheduler
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
     <div class="modal fade mt-6" id="editRoomModal" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
