@@ -19,7 +19,7 @@ class SchedClassRoomsController extends Controller
 {
     public function roomsRead() 
     {
-        $collegelist = College::all();
+        $collegelist = College::whereIn('id', [2,3,4,5,6,7,8])->get();
         return view('scheduler.room.rlist', compact('collegelist'));
     }
 
