@@ -4,7 +4,7 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#adRoom').submit(function(event) {
+    $('#addRoom').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
 
@@ -20,6 +20,7 @@ $(document).ready(function() {
                     $('select[name="college_room"]').val('');
                     $('input[name="room_name"]').val('');
                     $('input[name="room_capacity"]').val('');
+                    $('#modal-room').modal('hide');
                 } else {
                     toastr.error(response.message);
                     console.log(response);
