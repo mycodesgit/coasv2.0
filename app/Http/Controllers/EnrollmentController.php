@@ -1177,13 +1177,40 @@ class EnrollmentController extends Controller
                     ->where('semester', '=', $semester)
                     ->get();
 
-        $programEnHistory = StudEnrolmentHistory::leftJoin('coasv2_db_admission.users', 'program_en_history.postedBy', '=', 'coasv2_db_admission.users.id')
-                ->where('program_en_history.studentID', $stud_id)
-                ->where('program_en_history.schlyear', $schlyear)
-                ->where('program_en_history.semester', '=', $semester)
-                ->where('program_en_history.campus', '=', $campus)
-                ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
-                ->first(); 
+        $programEnHistory = StudEnrolmentHistory::leftJoin(
+                'coasv2_db_schedule.faculty',
+                'program_en_history.postedBy',
+                '=',
+                'coasv2_db_schedule.faculty.id'
+            )
+            ->leftJoin(
+                'coasv2_db_admission.users',
+                'program_en_history.postedBy',
+                '=',
+                'coasv2_db_admission.users.id'
+            )
+            ->where('program_en_history.studentID', $stud_id)
+            ->where('program_en_history.schlyear', $schlyear)
+            ->where('program_en_history.semester', $semester)
+            ->where('program_en_history.campus', $campus)
+            ->select(
+                'program_en_history.*',
+                DB::raw("
+                    CASE
+                        WHEN program_en_history.status = 1
+                        THEN coasv2_db_schedule.faculty.lname
+                        ELSE coasv2_db_admission.users.lname
+                    END AS lname
+                "),
+                DB::raw("
+                    CASE
+                        WHEN program_en_history.status = 1
+                        THEN coasv2_db_schedule.faculty.fname
+                        ELSE coasv2_db_admission.users.fname
+                    END AS fname
+                ")
+            )
+            ->first();
 
         if (!$programEnHistory) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> not enrolled at this term or school year.');

@@ -271,7 +271,7 @@ CISS V.1.0 || Faculty Services
                                                     <div class="card mt-2" style="background-color: #e9ecef">
                                                         <div class="card-body">
                                                             <a href="{{ route('loadstudsub') }}" class="col-md-12 btn btn-success btn-sm">New</a>
-                                                            <a href="" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-bs-toggle="modal" data-bs-target="#modal-addSub">Add Subject</a>
+                                                            <a href="#" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-bs-toggle="modal" data-bs-target="#modal-addSub">Add Subject</a>
                                                             <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="assessButton" style="display: none;">Assess</button>
                                                             <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="submitEvalButton">Save</button>
                                                         </div>

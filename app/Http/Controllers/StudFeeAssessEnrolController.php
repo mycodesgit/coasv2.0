@@ -77,7 +77,7 @@ class StudFeeAssessEnrolController extends Controller
         $campus = Auth::guard('web')->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
-        $sy = ConfigureCurrent::where('set_status', 3)
+        $sy = ConfigureCurrent::where('set_status', 2)
             ->first(['schlyear', 'semester']);
 
         $student = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
