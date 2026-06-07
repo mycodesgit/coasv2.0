@@ -595,7 +595,7 @@ class EnrollmentController extends Controller
                     ->from('settings_conf')
                     ->groupBy('schlyear');
             })
-            ->where('set_status', 3)
+            ->where('set_status', 2)
             //->whereIn('id', ['24', '22', '21'])
             ->orderBy('id', 'DESC')
             ->get();

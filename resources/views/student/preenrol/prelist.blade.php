@@ -37,7 +37,7 @@
                                             @endphp
 
                                             {{-- OFF HOURS --}}
-                                            @if($now->lt($openingDate) || !$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+                                            {{-- @if($now->lt($openingDate) || !$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
                                                 <div class="card shadow-sm border-0">
                                                     <div class="card-body text-center py-5">
                                                         <i class="fas fa-clock text-danger mb-3" style="font-size:60px;"></i>
@@ -55,7 +55,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @else
+                                            @else --}}
                                                 {{-- PENDING EVALUATION --}}
                                                 @if($prewait)
                                                     <div class="card shadow-sm border-0 mb-4">
@@ -272,7 +272,7 @@
                                                         </div>
                                                     </form>
                                                 @endif
-                                            @endif
+                                            {{-- @endif --}}
                                         </div>
                                     </div>
                                 </div>
