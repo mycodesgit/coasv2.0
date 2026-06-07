@@ -124,7 +124,7 @@ class StudentController extends Controller
                     ->get();       
         
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 3)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
@@ -232,13 +232,13 @@ class StudentController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 3)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
         
         $sypre = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 3)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear')
@@ -338,7 +338,7 @@ class StudentController extends Controller
         $campus = Auth::guard($guard)->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
-        $sy = ConfigureCurrent::where('set_status', 3)
+        $sy = ConfigureCurrent::where('set_status', 2)
             ->first(['schlyear', 'semester']);
 
         $student = PreEnroll::join('students', 'preenrol.studentID', '=', 'students.stud_id')
@@ -377,7 +377,7 @@ class StudentController extends Controller
         $campusArray = array_map('trim', explode(',', $studauth->campus));
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 3)
+                ->where('set_status', 2)
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
@@ -657,7 +657,7 @@ class StudentController extends Controller
         $campus = $studauth->campus;
         $campusArray = array_map('trim', explode(',', $campus));
 
-        $sy = ConfigureCurrent::where('set_status', 3)
+        $sy = ConfigureCurrent::where('set_status', 2)
             ->first(['schlyear', 'semester']);
 
 
