@@ -173,6 +173,11 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
     Route::get('/student/section', [LoginController::class, 'loginstudonline'])->name('loginstudonline');
     Route::post('/student/section', [LoginController::class, 'stud_login'])->name('stud_login');
     Route::get('/student/forgot/credentials', [StudentForgotPassController::class, 'index'])->name('forgot.index');
+    // Password Reset Routes
+    Route::post('/reset-password/verify-student', [StudentForgotPassController::class, 'verifyStudent'])->name('reset-password.verify-student');
+    Route::post('/reset-password/send-otp', [StudentForgotPassController::class, 'sendOTP'])->name('reset-password.send-otp');
+    Route::post('/reset-password/update', [StudentForgotPassController::class, 'updatePassword'])->name('reset-password.update');
+    Route::post('/reset-password/resend-otp', [StudentForgotPassController::class, 'resendOTP'])->name('reset-password.resend-otp');
 
     // Route::get('/extkioskstud', [LoginController::class, 'loginextkioskstud'])->name('loginextkioskstud');
     // Route::post('/stud/kiosk/extension/online', [LoginController::class, 'extensionstud_login'])->name('extensionstud_login');
