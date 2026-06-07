@@ -59,7 +59,7 @@ class GradingFacultyServicePreenrolController extends Controller
         $authfacdesig = $data['authfacdesig'];
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-            ->where('set_status', 3)
+            ->where('set_status', 2)
             ->orderBy('id', 'DESC')
             ->get();
         
@@ -74,7 +74,7 @@ class GradingFacultyServicePreenrolController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
         $lastCampus = end($campusArray);
 
-        $sy = ConfigureCurrent::where('set_status', 3)
+        $sy = ConfigureCurrent::where('set_status', 2)
             ->first(['schlyear', 'semester']);
 
         $student = PreEnroll::join('students', 'preenrol.studentID', '=', 'students.stud_id')
@@ -171,7 +171,7 @@ class GradingFacultyServicePreenrolController extends Controller
         $campus = "MC";
 
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-            ->where('set_status', 3)
+            ->where('set_status', 2)
             ->orderBy('id', 'DESC')
             ->get();
 
@@ -320,7 +320,7 @@ class GradingFacultyServicePreenrolController extends Controller
         $campusArray = array_map('trim', explode(',', $campus));
 
         $syold = ConfigureCurrent::where('set_status', '=', '2')->get();
-        $sy = ConfigureCurrent::where('set_status', 3)
+        $sy = ConfigureCurrent::where('set_status', 2)
             ->first(['schlyear', 'semester']);
 
         $campusArray = array_map('trim', explode(',', $campus));
