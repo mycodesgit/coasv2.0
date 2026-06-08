@@ -70,7 +70,7 @@ CISS V.1.0 || Enrollment
                                             </div>
                                         </form>
                                         <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-                                        @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
+                                        @if(in_array(Auth::guard('web')->user()->campus, ['MC', 'VC', 'SCC', 'HC', 'MP', 'IC', 'CA', 'CC', 'SC', 'HinC']))
                                             @if($queueMode->statusqueue === 'Off')
 
                                             @else
