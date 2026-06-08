@@ -56,7 +56,7 @@
         </li>
     @endif
 
-    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 11, 12, 13, 14, 15]) && Auth::guard('web')->user()->lname != 'Movillion')
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 7, 11, 12, 13, 14, 15]) && Auth::guard('web')->user()->lname != 'Movillion')
         <li>
             <a class="nav-link {{ $searchStudActive }}" href="{{ route('searchStud') }}">
                 <i class="ti ti-device-laptop"></i><span class="nav-text">Enroll Student</span>
