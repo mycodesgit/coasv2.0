@@ -126,7 +126,7 @@
         </li>
     @endif
     
-    @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie' || Auth::guard('web')->user()->lname == 'RAMADA' || Auth::guard('web')->user()->lname == 'Arquero' || Auth::guard('web')->user()->lname == 'Doronila')
+    @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->fname == 'Rosalie' || Auth::guard('web')->user()->lname == 'RAMADA' || Auth::guard('web')->user()->lname == 'Arquero' || Auth::guard('web')->user()->lname == 'Doronila' || Auth::guard('web')->user()->lname == 'Balladares')
         <li>
             <a class="nav-link {{ $subjectAllActive }}" href="{{ route('subjectsRead') }}">
                 <i class="ti ti-book"></i><span class="nav-text">Subjects</span>
