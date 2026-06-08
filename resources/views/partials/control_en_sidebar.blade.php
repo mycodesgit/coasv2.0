@@ -56,7 +56,7 @@
         </li>
     @endif
 
-    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 7, 11, 12, 13, 14, 15]) && Auth::guard('web')->user()->lname != 'Movillion')
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 11, 12, 13, 14, 15]) && Auth::guard('web')->user()->lname != 'Movillion')
         <li>
             <a class="nav-link {{ $searchStudActive }}" href="{{ route('searchStud') }}">
                 <i class="ti ti-device-laptop"></i><span class="nav-text">Enroll Student</span>
@@ -79,7 +79,7 @@
     @endif
 
     @if(Auth::guard('web')->user()->campus == 'MC')
-        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 5, 6, 15]))
+        @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 5, 6, 7, 15]))
             <li>
                 <a class="nav-link {{ $searchStudEvalActive }}" href="{{ route('loadstudsub') }}">
                     <i class="ti ti-scoreboard"></i><span class="nav-text">Evaluated Student</span>
