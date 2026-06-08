@@ -133,8 +133,10 @@ CISS V.1.0 || Enrollment
                                                                         <input type="hidden" name="id" value="{{ $queueUser->id ?? '' }}" hidden>
                                                                         <select name="category" class="form-control" id="transacCategory">
                                                                             <option value="Enrollment" {{ (isset($queueUser) && $queueUser->category == 'Enrollment') ? 'selected' : '' }}>Enrollment</option>
-                                                                            <option value="Processing" {{ (isset($queueUser) && $queueUser->category == 'Processing') ? 'selected' : '' }}>Evaluation</option>
+                                                                            <option value="Processing" {{ (isset($queueUser) && $queueUser->category == 'Processing') ? 'selected' : '' }}>Processing</option>
                                                                             <option value="Pre-register" {{ (isset($queueUser) && $queueUser->category == 'Pre-register') ? 'selected' : '' }}>Pre-register</option>
+                                                                            <option value="Evaluation" {{ (isset($queueUser) && $queueUser->category == 'Evaluation') ? 'selected' : '' }}>Evaluation</option>
+                                                                            <option value="Printing" {{ (isset($queueUser) && $queueUser->category == 'Printing') ? 'selected' : '' }}>Printing</option>
                                                                         </select>
                                                                         <button type="submit" class="btn btn-outline-success btn-block mt-3">Save</button> 
                                                                     </form>
