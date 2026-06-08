@@ -110,7 +110,7 @@
         </li>
     @endif
     
-    @if(Auth::guard('web')->user()->role == '3' && Auth::guard('web')->user()->campus == 'MC')
+    @if(Auth::guard('web')->user()->role == '3' && Auth::guard('web')->user()->campus == 'MC' && Auth::guard('web')->user()->role == 0)
         <li>
             <a class="nav-link" href="#">
                 <i class="ti ti-file-spreadsheet"></i><span class="nav-text">Correction of Grades</span>
