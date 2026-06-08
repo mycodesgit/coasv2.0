@@ -484,6 +484,7 @@ class EnProgStudEvalController extends Controller
                         'studType' => $request->input('studType'),
                         'transferee' => $request->input('transferee'),
                         'fourPs' => $request->input('fourPs'),
+                        'status' => 1,
                     ]);
 
                     StudHisLog::create([
