@@ -59,7 +59,7 @@ CISS V.1.0 || Queueing
                                                                     <option value="Enrollment">Enrollment</option>
                                                                     <option value="Processing">Processing</option>
                                                                     <option value="Pre-register">Pre-register</option>
-                                                                    <option value="Print">Printing</option>
+                                                                    <option value="Printing">Printing</option>
                                                                     <option value="Evaluation">Evaluation</option>
                                                                 </select>
                                                             </div>
