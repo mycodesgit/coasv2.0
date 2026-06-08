@@ -35,11 +35,11 @@ class StudentForgotPassController extends Controller
         
         if (!$student) {
             // Log failed attempt
-            Log::warning('Password reset verification failed', [
-                'stud_id' => $request->stud_id,
-                'email' => $request->email,
-                'ip' => $request->ip()
-            ]);
+            // Log::warning('Password reset verification failed', [
+            //     'stud_id' => $request->stud_id,
+            //     'email' => $request->email,
+            //     'ip' => $request->ip()
+            // ]);
             
             return back()->with('error', 'No matching student found. Please check your Student ID and Email.');
         }
@@ -79,13 +79,13 @@ class StudentForgotPassController extends Controller
                           ->first();
         
         if (!$student) {
-            return redirect()->route('reset-password')->with('error', 'Student verification failed.');
+            return redirect()->route('forgot.index')->with('error', 'Student verification failed.');
         }
         
         // Verify kiosk user exists
         $kioskUser = KioskUser::where('studid', $request->stud_id)->first();
         if (!$kioskUser) {
-            return redirect()->route('reset-password')->with('error', 'No login account found.');
+            return redirect()->route('forgot.index')->with('error', 'No login account found.');
         }
         
         // Generate 6-digit OTP
@@ -120,11 +120,11 @@ class StudentForgotPassController extends Controller
             Cache::increment($attemptKey);
             Cache::put($attemptKey, Cache::get($attemptKey, 0), now()->addMinutes(30));
             
-            Log::info('Password reset OTP sent', [
-                'stud_id' => $student->stud_id,
-                'email' => $student->email,
-                'ip' => $request->ip()
-            ]);
+            // Log::info('Password reset OTP sent', [
+            //     'stud_id' => $student->stud_id,
+            //     'email' => $student->email,
+            //     'ip' => $request->ip()
+            // ]);
             
             return view('studforgotpass', [
                 'student' => $student,
@@ -132,10 +132,10 @@ class StudentForgotPassController extends Controller
             ])->with('success', 'A 6-digit OTP has been sent to your registered email. Valid for 15 minutes.');
             
         } catch (\Exception $e) {
-            Log::error('Failed to send password reset OTP', [
-                'stud_id' => $student->stud_id,
-                'error' => $e->getMessage()
-            ]);
+            // Log::error('Failed to send password reset OTP', [
+            //     'stud_id' => $student->stud_id,
+            //     'error' => $e->getMessage()
+            // ]);
             
             return back()->with('error', 'Failed to send OTP. Please try again later or contact support.');
         }
@@ -148,19 +148,9 @@ class StudentForgotPassController extends Controller
             'stud_id' => 'required',
             'token' => 'required',
             'otp' => 'required|digits:6',
-            'new_password' => [
-                'required',
-                'string',
-                'min:8',
-                'regex:/[A-Z]/',     // at least 1 uppercase
-                'regex:/[a-z]/',     // at least 1 lowercase
-                'regex:/[0-9]/',     // at least 1 number
-                'regex:/[!@#$%^&*]/', // at least 1 special character
-                'confirmed'
-            ],
             'confirm_password' => 'required'
         ], [
-            'new_password.regex' => 'Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*)'
+            'new_password.regex' => 'Password must be either: (1) 4 digits + K/U/G (e.g., 1234K), OR (2) at least 8 chars with uppercase, lowercase, number, and special character'
         ]);
         
         $cacheKey = 'password_reset_' . $request->stud_id;
@@ -181,11 +171,11 @@ class StudentForgotPassController extends Controller
             
             if ($resetData['attempts'] >= 3) {
                 Cache::forget($cacheKey);
-                Log::warning('Password reset OTP attempts exhausted', [
-                    'stud_id' => $request->stud_id,
-                    'ip' => $request->ip()
-                ]);
-                return redirect()->route('reset-password')
+                // Log::warning('Password reset OTP attempts exhausted', [
+                //     'stud_id' => $request->stud_id,
+                //     'ip' => $request->ip()
+                // ]);
+                return redirect()->route('forgot.index')
                     ->with('error', 'Too many invalid OTP attempts. Please restart the password reset process.');
             }
             
@@ -197,20 +187,20 @@ class StudentForgotPassController extends Controller
         
         if (!$kioskUser) {
             Cache::forget($cacheKey);
-            return redirect()->route('reset-password')
+            return redirect()->route('forgot.index')
                 ->with('error', 'User account not found. Please contact administrator.');
         }
         
         // Optional: Check password history (prevent reusing last 5 passwords)
-        if (method_exists($kioskUser, 'checkPasswordHistory')) {
-            if ($kioskUser->checkPasswordHistory($request->new_password)) {
-                return back()->with('error', 'You cannot reuse your recent passwords. Please choose a new password.');
-            }
-        }
+        // if (method_exists($kioskUser, 'checkPasswordHistory')) {
+        //     if ($kioskUser->checkPasswordHistory($request->new_password)) {
+        //         return back()->with('error', 'You cannot reuse your recent passwords. Please choose a new password.');
+        //     }
+        // }
         
         // Update password
         $kioskUser->password = Hash::make($request->new_password);
-        $kioskUser->password_changed_at = now();
+        //$kioskUser->password_changed_at = now();
         $kioskUser->save();
         
         // Store password in history (if you have password_history table)
@@ -220,16 +210,16 @@ class StudentForgotPassController extends Controller
         Cache::forget($cacheKey);
         
         // Log successful password change
-        Log::notice('Password reset successful', [
-            'stud_id' => $request->stud_id,
-            'ip' => $request->ip(),
-            'timestamp' => now()
-        ]);
+        // Log::notice('Password reset successful', [
+        //     'stud_id' => $request->stud_id,
+        //     'ip' => $request->ip(),
+        //     'timestamp' => now()
+        // ]);
         
         // Optional: Invalidate all sessions (if using session-based auth)
         // You can add a session token column in KioskUser and regenerate it here
         
-        return redirect()->route('login')->with('success', 
+        return redirect()->route('loginstudonline')->with('success', 
             '✓ Password reset successful! Please login with your new password.');
     }
     
@@ -275,18 +265,18 @@ class StudentForgotPassController extends Controller
                         ->subject('New Password Reset OTP - CISS V.1.0');
             });
             
-            Log::info('Password reset OTP resent', [
-                'stud_id' => $student->stud_id,
-                'email' => $student->email
-            ]);
+            // Log::info('Password reset OTP resent', [
+            //     'stud_id' => $student->stud_id,
+            //     'email' => $student->email
+            // ]);
             
             return response()->json(['success' => true, 'message' => 'New OTP sent successfully']);
             
         } catch (\Exception $e) {
-            Log::error('Failed to resend OTP', [
-                'stud_id' => $student->stud_id,
-                'error' => $e->getMessage()
-            ]);
+            // Log::error('Failed to resend OTP', [
+            //     'stud_id' => $student->stud_id,
+            //     'error' => $e->getMessage()
+            //]);
             
             return response()->json(['success' => false, 'message' => 'Failed to send OTP'], 500);
         }

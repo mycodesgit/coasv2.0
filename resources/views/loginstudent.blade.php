@@ -156,7 +156,14 @@
                         <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
                         <h2>Hi, Cenphilian</h2>
                         <p>Sign in to start session</p>
+                        @php
+                            date_default_timezone_set('Asia/Manila');
 
+                            $now = now();
+                            $openingDate = \Carbon\Carbon::create(2026, 5, 25, 0, 0, 0, 'Asia/Manila');
+                            $startTime = now()->setHour(8)->setMinute(0)->setSecond(0);
+                            $endTime = now()->setHour(17)->setMinute(0)->setSecond(0);
+                        @endphp
                     </div>
                     <form action="{{ route('stud_login') }}" method="post">
                         @csrf
@@ -171,9 +178,12 @@
                                 <input type="checkbox" class="form-check-input" id="formCheck" onclick="myFunction()">
                                 <label for="formCheck" class="form-check-label text-secondary"><small>Show Password</small></label>
                             </div>
-                            {{-- <div class="forgot">
-                                <small><a href="{{ route('forgot.index') }}" class="">Forgot Password?</a></small>
-                            </div> --}}
+                            @if($now->lt($openingDate) || !$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+                            @else
+                                <div class="forgot">
+                                    <small><a href="{{ route('forgot.index') }}" class="">Forgot Password?</a></small>
+                                </div>
+                            @endif
                         </div>
                         <div class="input-group mb-3">
                             <button class="btn btn-lg btn-success w-100 fs-6">Login</button>

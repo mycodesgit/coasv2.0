@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     
     <style>
+        .toast-top-right {
+            margin-top: 50px;
+        }
         .btn-block {
             display: block;
             width: 100%;
@@ -119,6 +122,8 @@
             });
         });
     </script>
-</body>
 
+    
+        @include('script.resetpass.pass-resetjs')
+</body>
 </html>
