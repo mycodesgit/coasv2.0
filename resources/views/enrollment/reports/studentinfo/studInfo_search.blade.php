@@ -144,7 +144,7 @@ CISS V.1.0 || Enrollment
                                 </div>
                                 <div class="col-md-2">
                                     <label>Ext. name</label>
-                                    <input type="text" name="" class="form-control form-control-sm" id="viewdatastudExt">
+                                    <input type="text" name="ext" class="form-control form-control-sm" id="viewdatastudExt">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Gender</label>
