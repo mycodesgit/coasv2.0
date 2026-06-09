@@ -74,6 +74,38 @@ $(document).ready(function() {
             },
             {data: 'campus'},
             {data: 'appstrand'},
+            {
+                data: 'adid',
+                className: "action-column",
+                render: function(data, type, row) {
+                    if (type === 'display' && isCampus === requestedCampus) {
+                        var dropdown = '<div class="d-inline-block">' +
+                            '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
+                            '<div class="dropdown-menu">';
+
+                        if (isCampus) {
+                            dropdown += '<a href="acceptedList/view/pdf/' + row.adid + '" class="dropdown-item btn-edit" target="_blank">' +
+                                '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
+                                '</a>';
+
+                                if (row.p_status == 5) {
+                                    dropdown += '';
+                                } else {
+                                    dropdown += '<span class="dropdown-item disabled"><i class="fas fa-check"></i> Done Pushed Enrollment</span>';
+                                }
+                        } else {
+                            dropdown += '<span class="dropdown-item disabled"><i class="fas fa-eye"></i> View</span>' +
+                                '<span class="dropdown-item disabled"><i class="fas fa-trash"></i> Delete</span>';
+                        }
+                        
+                        dropdown += '</div>' +
+                            '</div>';
+                        return dropdown;
+                    } else {
+                        return '';
+                    }
+                },
+            }
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id); 
