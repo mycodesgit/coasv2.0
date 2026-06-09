@@ -114,6 +114,11 @@ class AdAcceptedController extends Controller
 
         $data = $query->get();
 
+        $data->transform(function ($item) {
+            $item->adid = Crypt::encryptString($item->adid);
+            return $item;
+        });
+
         return response()->json(['data' => $data]);
     }
 
