@@ -186,6 +186,7 @@ class AdAcceptedController extends Controller
         $enrollmentStudent->zcode = $applicant->zcode;
         $enrollmentStudent->lstsch_attended = $applicant->lstsch_attended;
         $enrollmentStudent->suc_lst_attended = $applicant->suc_lst_attended;
+        $enrollmentStudent->date_admission = $applicant->d_admission;
         $enrollmentStudent->stud_pic = $applicant->stud_pic;
         $enrollmentStudent->created_at = Carbon::now();
 
