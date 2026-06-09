@@ -39,6 +39,12 @@
     
     @if(in_array(Auth::user()->role, [0, 1, 2]))
         <li>
+            <a class="nav-link {{ $appAddActive }}" href="{{ route('applicant-add') }}">
+                <i class="ti ti-user-plus"></i><span class="nav-text">Add Applicant</span>
+            </a>
+        </li>
+        
+        <li>
             <a class="nav-link {{ $appListActive }}" href="{{ route('applicant-list') }}">
                 <i class="ti ti-user-star"></i><span class="nav-text">List of Applicants</span>
             </a>
