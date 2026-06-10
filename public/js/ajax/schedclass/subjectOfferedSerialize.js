@@ -200,10 +200,23 @@ $(document).ready(function() {
         $('#lecFee').val(lecFee);
         $('#labFee').val(labFee);
 
-        if (labUnit > 0) {
-        $('#fundSelect option:eq(1)').prop('selected', true);
-            $('#fundSelect').trigger('change');
+        if (parseFloat(labUnit) > 0) {
+            $('#fundSelect option').prop('selected', false);
+            $('#fundSelect option').filter(function () {
+                return $(this).text().trim() === '164 - LAB FEE';
+            }).prop('selected', true);
+
+        } else if (specialCodes.includes(subcode)) {
+            $('#fundSelect option').prop('selected', false);
+            $('#fundSelect option').filter(function () {
+                return $(this).text().trim() === '164 - NSTP lab fee';
+            }).prop('selected', true);
+
+        } else {
+            $('#fundSelect').val('');
         }
+
+        $('#fundSelect').trigger('change');
     }
     
     $('#isOJT').on('change', function () {
@@ -260,12 +273,61 @@ $(document).ready(function() {
         var subcodeEdit = selectedOption.data('sub-codeedit');
         var lecUnitEdit = selectedOption.data('lec-unitedit');
         var labUnitEdit = selectedOption.data('lab-unitedit');
+        var subUnitEdit = lecUnitEdit + labUnitEdit;
         
         $('#subcodeEdit').val(subcodeEdit);
         $('#lecUnitEdit').val(lecUnitEdit);
         $('#labUnitEdit').val(labUnitEdit);
-        $('#subUnitEdit').val(lecUnitEdit + labUnitEdit);
+        $('#subUnitEdit').val(subUnitEdit);
+
+        if (subcodeEdit.startsWith('KAB-GSS')) {
+            $('#lecFee').removeAttr('readonly');
+        } else {
+            $('#lecFee').attr('readonly', 'readonly');
+        }
+
+        editcalculateFees(subcodeEdit, subUnitEdit, labUnitEdit);
     });
+
+    function editcalculateFees(subcodeEdit, subUnitEdit, labUnitEdit) {
+        var specialCodesEdit = ["KAB-SER-076", "KAB-SER-077", "KAB-SER-144", "KAB-SER-145", "KAB-SER-146", "KAB-SER-147", "KAB-SER-148", "KAB-SER-149"];
+        // var lecFee = specialCodes.includes(subcode) ? 270 : subUnit * 180;
+        // var labFee = labUnit > 0 ? 500 : 0;
+
+        var lecFee = 0;
+
+        // Set lecFee to 0 if subcode starts with "KAB-GSS"
+        if (subcodeEdit.startsWith('KAB-GSS')) {
+            lecFee = 0;
+        } else if (specialCodesEdit.includes(subcodeEdit)) {
+            lecFee = 270;
+        } else {
+            lecFee = subUnitEdit * 180;
+        }
+
+        var labFee = labUnitEdit > 0 ? 500 : 0;
+
+        $('#editlecfee').val(lecFee);
+        $('#editlabfee').val(labFee);
+
+        if (parseFloat(labUnitEdit) > 0) {
+            $('#fundSelectEdit option').prop('selected', false);
+            $('#fundSelectEdit option').filter(function () {
+                return $(this).text().trim() === '164 - LAB FEE';
+            }).prop('selected', true);
+
+        } else if (specialCodesEdit.includes(subcodeEdit)) {
+            $('#fundSelectEdit option').prop('selected', false);
+            $('#fundSelectEdit option').filter(function () {
+                return $(this).text().trim() === '164 - NSTP lab fee';
+            }).prop('selected', true);
+
+        } else {
+            $('#fundSelectEdit').val('');
+        }
+
+        $('#fundSelectEdit').trigger('change');
+    }
 });
 
 $(document).ready(function() {

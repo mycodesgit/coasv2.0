@@ -164,10 +164,23 @@
             $('#lecFee').val(lecFee);
             $('#labFee').val(labFee);
 
-            if (labUnit > 0) {
-            $('#fundSelect option:eq(1)').prop('selected', true);
-                $('#fundSelect').trigger('change');
+            if (parseFloat(labUnit) > 0) {
+                $('#fundSelect option').prop('selected', false);
+                $('#fundSelect option').filter(function () {
+                    return $(this).text().trim() === '164 - LAB FEE';
+                }).prop('selected', true);
+
+            } else if (specialCodes.includes(subcode)) {
+                $('#fundSelect option').prop('selected', false);
+                $('#fundSelect option').filter(function () {
+                    return $(this).text().trim() === '164 - NSTP lab fee';
+                }).prop('selected', true);
+
+            } else {
+                $('#fundSelect').val('');
             }
+
+            $('#fundSelect').trigger('change');
         }
         
         $('#isOJT').on('change', function () {
