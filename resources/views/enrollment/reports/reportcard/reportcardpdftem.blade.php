@@ -34,6 +34,8 @@
             <img src="{{ public_path('template/img/reportcard/reportcardheaderMain.png') }}" width="80%">
         @elseif(Auth::guard('web')->user()->campus == 'VC')
             <img src="{{ public_path('template/img/reportcard/reportcardheaderVic.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'SCC')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderSCC.jpg') }}" width="80%">
         @endif
     </div>
 
