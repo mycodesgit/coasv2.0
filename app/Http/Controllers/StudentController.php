@@ -412,7 +412,9 @@ class StudentController extends Controller
         $nextYearLevel = null;
 
         if ($latestHistory) {
-            preg_match('/(\d+)/', $latestHistory->course, $matches);
+            $course = preg_replace('/\s*\([^)]*\)/', '', $latestHistory->course);
+
+            preg_match('/(\d+)/', $course, $matches);
 
             if (isset($matches[1])) {
                 $nextYearLevel = (int) $matches[1] + 1;
