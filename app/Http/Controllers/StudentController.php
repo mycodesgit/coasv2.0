@@ -444,14 +444,14 @@ class StudentController extends Controller
         // For now, let's show all available sections for the program
         // If you want to filter by year level, uncomment the condition below
         /*
+        */
         if ($nextYearLevel && $nextYearLevel > 1) {
             $classEnrollsQuery->whereRaw(
                 'class_enroll.classSection LIKE ?',
                 ["{$nextYearLevel}-%"]
             );
         }
-        */
-
+        
         $classEnrolls = $classEnrollsQuery
             ->orderBy('class_enroll.classSection', 'ASC')
             ->get();
