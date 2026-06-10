@@ -163,6 +163,11 @@
 
             $('#lecFee').val(lecFee);
             $('#labFee').val(labFee);
+
+            if (labUnit > 0) {
+            $('#fundSelect option:eq(1)').prop('selected', true);
+                $('#fundSelect').trigger('change');
+            }
         }
         
         $('#isOJT').on('change', function () {
