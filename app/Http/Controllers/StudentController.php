@@ -410,16 +410,28 @@ class StudentController extends Controller
             ->first();
 
         $nextYearLevel = null;
+$baseProgram = null;
+$track = null;
 
-        if ($latestHistory) {
-            $course = preg_replace('/\s*\([^)]*\)/', '', $latestHistory->course);
+if ($latestHistory) {
 
-            preg_match('/(\d+)/', $course, $matches);
+    // Example: "BSME (STEM) 1-A"
+    $course = $latestHistory->course;
 
-            if (isset($matches[1])) {
-                $nextYearLevel = (int) $matches[1] + 1;
-            }
-        }
+    // 1. Get base program (BSME)
+    preg_match('/^[A-Z]+/', $course, $progMatch);
+    $baseProgram = $progMatch[0] ?? null;
+
+    // 2. Get track inside parentheses (STEM / NSTEM)
+    preg_match('/\((.*?)\)/', $course, $trackMatch);
+    $track = $trackMatch[1] ?? null;
+
+    // 3. Get year number
+    preg_match('/(\d+)/', $course, $yearMatch);
+    $year = isset($yearMatch[1]) ? (int)$yearMatch[1] + 1 : null;
+
+    $nextYearLevel = $year;
+}
 
         $classEnrollsQuery = ClassEnroll::join(
                 'programs',
