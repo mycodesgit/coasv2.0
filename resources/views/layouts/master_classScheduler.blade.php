@@ -227,7 +227,7 @@
         <script src="{{ asset('js/ajax/schedclass/designationSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('subjectsOffered_search'))
-        <script src="{{ asset('js/ajax/schedclass/subjectOfferedSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/subjectOfferedSerialize.js') }}?v={{ time() }}"></script>
         @include('script.scheduler.sbjctoffer.studsubjTemplateSerialize')
     @endif
     @if(request()->routeIs('curRead_search'))
