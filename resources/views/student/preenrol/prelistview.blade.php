@@ -82,30 +82,29 @@
                                                     </div>
                                                     
                                                     <div class="col-12 col-md-3">
-                                                        <label class="text-bold">Course Year&Section <span class="text-danger">*</span></label>
-                                                        <select class="form-control" name="course" id="programNameSelect">
-                                                            <option disabled selected> --Select --</option> {{-- Always default to this; JS can auto-select if needed --}}
-                                                            @forelse ($classEnrolls as $class) {{-- Use @forelse to handle empty --}}
-                                                            @php
-                                                                $yearsection = preg_replace('/\D/', '', $class->classSection);
-                                                                // Optional: Auto-select first or based on current year (e.g., if you have $currentSection)
-                                                                $isSelected = false; // Or: $isSelected = ($class->classSection === $currentSection ?? false);
-                                                            @endphp
-                                                            <option value="{{ $class->progAcronym }} {{ $class->classSection }}" 
-                                                                    data-pkey="{{ $class->subjID}}" 
-                                                                    data-section="{{ $class->classSection }}"  
-                                                                    data-program-code="{{ $class->progCode }}" 
-                                                                    data-program-classid="{{ $class->clid }}" 
-                                                                    data-program-name="{{ $class->progName }}" 
-                                                                    data-year-section="{{ $class->yearleveldesc }}"
-                                                                    {{ $isSelected ? 'selected' : '' }}>
-                                                                {{ $class->progAcronym }} {{ $class->classSection }}
-                                                            </option>
-                                                            @empty
-                                                                <option disabled>No sections available for your program.</option>
-                                                            @endforelse
-                                                        </select>
-                                                    </div>
+    <label class="text-bold">Course Year&Section <span class="text-danger">*</span></label>
+    <select class="form-control" name="course" id="programNameSelect">
+        <option disabled selected> --Select --</option>
+        @forelse ($classEnrolls as $class)
+            @php
+                $yearsection = preg_replace('/\D/', '', $class->classSection);
+                $isSelected = false;
+            @endphp
+            <option value="{{ $class->progAcronym }} {{ $class->classSection }}" 
+                    data-pkey="{{ $class->id }}"  
+                    data-section="{{ $class->classSection }}"  
+                    data-program-code="{{ $class->progCode }}" 
+                    data-program-classid="{{ $class->clid }}" 
+                    data-program-name="{{ $class->progName }}" 
+                    data-year-section="{{ $yearsection }}"
+                    {{ $isSelected ? 'selected' : '' }}>
+                {{ $class->progAcronym }} {{ $class->classSection }}
+            </option>
+        @empty
+            <option disabled>No sections available for your program.</option>
+        @endforelse
+    </select>
+</div>
 
                                                     <input type="hidden" id="programIDInput" name="studClassID" class="form-control form-control-sm" readonly>
                                                     <input type="hidden" id="programCodeInput" name="progCod" class="form-control form-control-sm" readonly>
