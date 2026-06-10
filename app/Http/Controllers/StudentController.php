@@ -365,108 +365,95 @@ class StudentController extends Controller
     }
 
     public function preenrolment_searchResult(Request $request)
-    {
-        $guard = $this->getGuard(); 
-        $studentowner = Auth::guard($guard)->user()->studid;
-        
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
+{
+    $guard = $this->getGuard(); 
+    $studentowner = Auth::guard($guard)->user()->studid;
+    
+    $schlyear = $request->query('schlyear');
+    $semester = $request->query('semester');
 
-        $studauth = Student::where('stud_id', '=', $studentowner)->first();
-        $campus = $studauth->campus;
-        $campusArray = array_map('trim', explode(',', $studauth->campus));
+    $studauth = Student::where('stud_id', '=', $studentowner)->first();
+    $campus = $studauth->campus;
+    $campusArray = array_map('trim', explode(',', $studauth->campus));
 
-        $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
-                ->where('set_status', 2)
-                ->orderBy('id', 'DESC')
-                ->get()
-                ->unique('schlyear');
-        
-        $studstat = StudentStatus::all();
-        $studtype = StudentType::all();
-        $studlvl = StudentLevel::all();
+    $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
+            ->where('set_status', 2)
+            ->orderBy('id', 'DESC')
+            ->get()
+            ->unique('schlyear');
+    
+    $studstat = StudentStatus::all();
+    $studtype = StudentType::all();
+    $studlvl = StudentLevel::all();
 
-        $enrollmentHistory = StudEnrolmentHistory::where('studentID', $studauth->stud_id)
-            ->where(function ($q) use ($campusArray) {
-                foreach ($campusArray as $campusItem) {
-                    $q->orWhere('campus', 'LIKE', "%$campusItem%");
-                }
-            })
-            ->latest() 
-            ->first();
-        
-        $selectedStudType = $enrollmentHistory->studType ?? null;
-        $selectedStudStatus = $enrollmentHistory->studStatus ?? null;
+    $enrollmentHistory = StudEnrolmentHistory::where('studentID', $studauth->stud_id)
+        ->where(function ($q) use ($campusArray) {
+            foreach ($campusArray as $campusItem) {
+                $q->orWhere('campus', 'LIKE', "%$campusItem%");
+            }
+        })
+        ->latest() 
+        ->first();
+    
+    $selectedStudType = $enrollmentHistory->studType ?? null;
+    $selectedStudStatus = $enrollmentHistory->studStatus ?? null;
 
-        $currentProgCode = $enrollmentHistory ? $enrollmentHistory->progCod : null;
+    $currentProgCode = $enrollmentHistory ? $enrollmentHistory->progCod : null;
 
-        // $latestHistory = StudEnrolmentHistory::where('progCod', $currentProgCode)
-        //     ->orderByDesc('id')
-        //     ->first();
+    // Get the base program code without the () suffix
+    $baseProgCode = $currentProgCode ? preg_replace('/\s*\([^)]*\)/', '', $currentProgCode) : null;
+    $baseProgCode = trim($baseProgCode); // Remove any extra spaces
 
-        $latestHistory = StudEnrolmentHistory::where('studentID', $studauth->stud_id)
-            ->where('progCod', $currentProgCode)
-            ->orderByDesc('id')
-            ->first();
+    $latestHistory = StudEnrolmentHistory::where('studentID', $studauth->stud_id)
+        ->where('progCod', $currentProgCode)
+        ->orderByDesc('id')
+        ->first();
 
-        $nextYearLevel = null;
-$baseProgram = null;
-$track = null;
+    $nextYearLevel = null;
 
-if ($latestHistory) {
+    if ($latestHistory) {
+        preg_match('/(\d+)/', $latestHistory->course, $matches);
 
-    // Example: "BSME (STEM) 1-A"
-    $course = $latestHistory->course;
-
-    // 1. Get base program (BSME)
-    preg_match('/^[A-Z]+/', $course, $progMatch);
-    $baseProgram = $progMatch[0] ?? null;
-
-    // 2. Get track inside parentheses (STEM / NSTEM)
-    preg_match('/\((.*?)\)/', $course, $trackMatch);
-    $track = $trackMatch[1] ?? null;
-
-    // 3. Get year number
-    preg_match('/(\d+)/', $course, $yearMatch);
-    $year = isset($yearMatch[1]) ? (int)$yearMatch[1] + 1 : null;
-
-    $nextYearLevel = $year;
-}
-
-        $classEnrollsQuery = ClassEnroll::join(
-                'programs',
-                'class_enroll.progCode',
-                '=',
-                'programs.progCod'
-            )
-            ->select(
-                'class_enroll.*',
-                'class_enroll.id as clid',
-                'programs.progAcronym',
-                'programs.progName'
-            )
-            ->where('class_enroll.schlyear', $schlyear)
-            ->where('class_enroll.semester', $semester)
-            ->where('class_enroll.campus', $campus);
-
-        if ($currentProgCode) {
-            $classEnrollsQuery->where('programs.progCod', $currentProgCode);
+        if (isset($matches[1])) {
+            $nextYearLevel = (int) $matches[1] + 1;
         }
-
-        if ($nextYearLevel) {
-            $classEnrollsQuery->whereRaw(
-                'class_enroll.classSection LIKE ?',
-                ["%{$nextYearLevel}-%"]
-            );
-        }
-
-        $classEnrolls = $classEnrollsQuery
-            ->orderBy('programs.progAcronym', 'ASC')
-            ->orderBy('class_enroll.classSection', 'ASC')
-            ->get();
-
-        return view('student.preenrol.prelistview', compact('studauth', 'sy', 'studstat', 'studtype', 'studlvl', 'selectedStudType', 'selectedStudStatus', 'classEnrolls', 'currentProgCode'));
     }
+
+    $classEnrollsQuery = ClassEnroll::join(
+            'programs',
+            'class_enroll.progCode',
+            '=',
+            'programs.progCod'
+        )
+        ->select(
+            'class_enroll.*',
+            'class_enroll.id as clid',
+            'programs.progAcronym',
+            'programs.progName'
+        )
+        ->where('class_enroll.schlyear', $schlyear)
+        ->where('class_enroll.semester', $semester)
+        ->where('class_enroll.campus', $campus);
+
+    // Filter by base program code (without the suffix)
+    if ($baseProgCode) {
+        $classEnrollsQuery->where('programs.progCod', 'LIKE', $baseProgCode . '%');
+    }
+
+    if ($nextYearLevel) {
+        $classEnrollsQuery->whereRaw(
+            'class_enroll.classSection LIKE ?',
+            ["%{$nextYearLevel}-%"]
+        );
+    }
+
+    $classEnrolls = $classEnrollsQuery
+        ->orderBy('programs.progAcronym', 'ASC')
+        ->orderBy('class_enroll.classSection', 'ASC')
+        ->get();
+
+    return view('student.preenrol.prelistview', compact('studauth', 'sy', 'studstat', 'studtype', 'studlvl', 'selectedStudType', 'selectedStudStatus', 'classEnrolls', 'currentProgCode', 'baseProgCode'));
+}
 
     public function checkPreEnroll(Request $request)
     {
