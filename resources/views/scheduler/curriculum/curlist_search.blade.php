@@ -190,7 +190,7 @@ CISS V.1.0 || Class Scheduler
                                                                                         </div>
 
                                                                                         <div class="col-md-4 mt-2">
-                                                                                            <label>Developmental Fee: <span class="text-danger">*</span></label>
+                                                                                            <label>Dev. Fee: <span class="text-danger">*</span></label>
                                                                                             <input type="number" name="devFee" id="devFee" class="form-control form-control-sm" value="0" min="0" readonly>
                                                                                         </div>
 
