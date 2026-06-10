@@ -36,6 +36,20 @@
             <img src="{{ public_path('template/img/reportcard/reportcardheaderVic.jpg') }}" width="80%">
         @elseif(Auth::guard('web')->user()->campus == 'SCC')
             <img src="{{ public_path('template/img/reportcard/reportcardheaderSCC.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'HC')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderHC.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'MP')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderMP.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'IC')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderIC.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'CC')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderCC.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'CA')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderCA.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'SC')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderSC.jpg') }}" width="80%">
+        @elseif(Auth::guard('web')->user()->campus == 'HinC')
+            <img src="{{ public_path('template/img/reportcard/reportcardheaderHinC.jpg') }}" width="80%">
         @endif
     </div>
 
