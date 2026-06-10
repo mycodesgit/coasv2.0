@@ -400,10 +400,9 @@ class StudentController extends Controller
 
         $currentProgCode = $enrollmentHistory ? $enrollmentHistory->progCod : null;
 
-        // $latestHistory = StudEnrolmentHistory::where('progCod', $currentProgCode)
-        //     ->orderByDesc('id')
-        //     ->first();
-
+        // Get the base program code - in your case it's already COE-ELE-005
+        $baseProgCode = $currentProgCode;
+        
         $latestHistory = StudEnrolmentHistory::where('studentID', $studauth->stud_id)
             ->where('progCod', $currentProgCode)
             ->orderByDesc('id')
@@ -429,29 +428,35 @@ class StudentController extends Controller
                 'class_enroll.*',
                 'class_enroll.id as clid',
                 'programs.progAcronym',
-                'programs.progName'
+                'programs.progName',
+                'programs.progCod as program_code' // Add this to get the program code
             )
             ->where('class_enroll.schlyear', $schlyear)
             ->where('class_enroll.semester', $semester)
             ->where('class_enroll.campus', $campus);
 
-        if ($currentProgCode) {
-            $classEnrollsQuery->where('programs.progCod', $currentProgCode);
+        // Filter by base program code
+        if ($baseProgCode) {
+            $classEnrollsQuery->where('programs.progCod', $baseProgCode);
         }
 
-        if ($nextYearLevel) {
+        // Only apply year level filter if nextYearLevel exists and we're not in pre-enrollment for first year
+        // For now, let's show all available sections for the program
+        // If you want to filter by year level, uncomment the condition below
+        /*
+        if ($nextYearLevel && $nextYearLevel > 1) {
             $classEnrollsQuery->whereRaw(
                 'class_enroll.classSection LIKE ?',
-                ["%{$nextYearLevel}-%"]
+                ["{$nextYearLevel}-%"]
             );
         }
+        */
 
         $classEnrolls = $classEnrollsQuery
-            ->orderBy('programs.progAcronym', 'ASC')
             ->orderBy('class_enroll.classSection', 'ASC')
             ->get();
 
-        return view('student.preenrol.prelistview', compact('studauth', 'sy', 'studstat', 'studtype', 'studlvl', 'selectedStudType', 'selectedStudStatus', 'classEnrolls', 'currentProgCode'));
+        return view('student.preenrol.prelistview', compact('studauth', 'sy', 'studstat', 'studtype', 'studlvl', 'selectedStudType', 'selectedStudStatus', 'classEnrolls', 'currentProgCode', 'baseProgCode'));
     }
 
     public function checkPreEnroll(Request $request)
