@@ -363,7 +363,7 @@ CISS V.1.0 || Enrollment
                         <div class="form-row">
                             <div class="col-md-12">
                                 <label>Subjects</label><br>
-                                <select class="form-control form-control-sm select2bs4" name="dd" id="subjectSelect">
+                                <select class="form-control form-control-sm select2" name="dd" id="subjectSelect">
                                     <option disabled selected> --Select-- </option>
                                     @foreach($subjOffer as $subs)
                                         <option value="{{ $subs->sub_name }} {{ $subs->subSec }}"
