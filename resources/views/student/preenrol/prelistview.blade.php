@@ -92,7 +92,7 @@
                                                                 $isSelected = false; // Or: $isSelected = ($class->classSection === $currentSection ?? false);
                                                             @endphp
                                                             <option value="{{ $class->progAcronym }} {{ $class->classSection }}" 
-                                                                    data-pkey="{{ $class->id}}" 
+                                                                    data-pkey="{{ $class->subjID}}" 
                                                                     data-section="{{ $class->classSection }}"  
                                                                     data-program-code="{{ $class->progCode }}" 
                                                                     data-program-classid="{{ $class->clid }}" 

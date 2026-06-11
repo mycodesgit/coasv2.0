@@ -440,60 +440,32 @@ class StudentController extends Controller
         }
 
         // Build query for class enrollments using the NEXT program code
-$classEnrollsQuery = ClassEnroll::join(
-        'programs',
-        'class_enroll.progCode',
-        '=',
-        'programs.progCod'
-    )
-    ->select(
-        'class_enroll.*',
-        'class_enroll.id as clid',
-        'programs.progAcronym',
-        'programs.progName',
-        'programs.progCod as program_code'
-    )
-    ->where('class_enroll.schlyear', $schlyear)
-    ->where('class_enroll.semester', $semester)
-    ->where('class_enroll.campus', $campus)
-    ->where('programs.progCod', $nextProgCode);
+        $classEnrollsQuery = ClassEnroll::join(
+                'programs',
+                'class_enroll.progCode',
+                '=',
+                'programs.progCod'
+            )
+            ->select(
+                'class_enroll.*',
+                'class_enroll.id as clid',
+                'programs.progAcronym',
+                'programs.progName',
+                'programs.progCod as program_code'
+            )
+            ->where('class_enroll.schlyear', $schlyear)
+            ->where('class_enroll.semester', $semester)
+            ->where('class_enroll.campus', $campus)
+            ->where('programs.progCod', $nextProgCode); // Use the next program code
 
-// Filter by next year level
-if ($nextYearLevel) {
-    $classEnrollsQuery->where('class_enroll.classSection', 'LIKE', "{$nextYearLevel}-%");
-}
+        // Filter by next year level
+        if ($nextYearLevel) {
+            $classEnrollsQuery->where('class_enroll.classSection', 'LIKE', "{$nextYearLevel}-%");
+        }
 
-$classEnrolls = $classEnrollsQuery
-    ->orderBy('class_enroll.classSection', 'ASC')
-    ->get();
-
-// If no results found for next year level, show all available sections for this program
-if ($classEnrolls->isEmpty() && $nextYearLevel) {
-    \Log::info('No sections found for Year ' . $nextYearLevel . ', showing all available sections');
-    
-    $classEnrolls = ClassEnroll::join(
-            'programs',
-            'class_enroll.progCode',
-            '=',
-            'programs.progCod'
-        )
-        ->select(
-            'class_enroll.*',
-            'class_enroll.id as clid',
-            'programs.progAcronym',
-            'programs.progName',
-            'programs.progCod as program_code'
-        )
-        ->where('class_enroll.schlyear', $schlyear)
-        ->where('class_enroll.semester', $semester)
-        ->where('class_enroll.campus', $campus)
-        ->where('programs.progCod', $nextProgCode)
-        ->orderBy('class_enroll.classSection', 'ASC')
-        ->get();
-    
-    // Add a flash message to inform user
-    session()->flash('warning', 'No Year ' . $nextYearLevel . ' sections available yet. Showing all available sections for your program.');
-}
+        $classEnrolls = $classEnrollsQuery
+            ->orderBy('class_enroll.classSection', 'ASC')
+            ->get();
 
         return view('student.preenrol.prelistview', compact(
             'studauth', 
