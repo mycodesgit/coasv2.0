@@ -792,3 +792,86 @@ $(document).on('click', '.delete-row', function(e) {
 //         }
 //     }
 // });
+
+$(document).on('click', '#doneprintButton', function() {
+    // Get the form
+    var form = $(this).closest('form');
+    
+    // Get form data
+    var formData = {
+        id: form.find('input[name="id"]').val(),
+        studentID: form.find('input[name="stud_id"]').val(),
+        schlyear: form.find('input[name="schlyear"]').val(),
+        semester: form.find('input[name="semester"]').val(),
+        _token: form.find('input[name="_token"]').val()
+    };
+
+    // Show loading state
+    Swal.fire({
+        title: 'Processing...',
+        text: 'Please wait while we process the enrollment',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    $.ajax({
+        url: form.attr('action'),
+        type: 'POST',
+        data: formData,
+        success: function(response) {
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: response.message,
+                    showClass: {
+                        popup: 'my-custom-show-animation'
+                    },
+                    hideClass: {
+                        popup: ''
+                    }
+                }).then(() => {
+                    // Reload the page to show updated status
+                    //window.location.reload();
+                });
+            } else if (response.error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: response.message,
+                    showClass: {
+                        popup: 'my-custom-show-animation'
+                    },
+                    hideClass: {
+                        popup: ''
+                    }
+                });
+            }
+        },
+        error: function(xhr) {
+            let errorMessage = 'Failed to process enrollment';
+            
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            } else if (xhr.status === 400) {
+                errorMessage = 'Student ID is required';
+            } else if (xhr.status === 404) {
+                errorMessage = 'Enrollment for this Student ID No. already exists this semester';
+            }
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                showClass: {
+                    popup: 'my-custom-show-animation'
+                },
+                hideClass: {
+                    popup: ''
+                }
+            });
+        }
+    });
+});

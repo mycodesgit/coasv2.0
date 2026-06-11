@@ -326,7 +326,16 @@ CISS V.1.0 || Enrollment
                                                 {{-- @endif --}}
                                                 {{-- <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
                                                 <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}
-                                                <button type="button" class="col-md-12 btn btn-info btn-sm mt-2 btnprim mt-6" id="doneprintButton">Done Print</button>
+                                                @if (in_array($preassessenrollreg->first()->status, [2,3]))
+                                                    <form action="{{ route('done.print') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="stud_id" value="{{ request('stud_id') }}">
+                                                        <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                                                        <input type="hidden" name="semester" value="{{ request('semester') }}">
+                                                        <input type="hidden" name="id" value="{{ $preassessenrollreg->first()->id }}">
+                                                        <button type="button" class="col-md-12 btn btn-info btn-sm mt-2 btnprim mt-6" id="doneprintButton">Done Print</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </div>
 

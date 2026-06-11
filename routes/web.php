@@ -563,6 +563,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/student/enroll/view', [EnrollmentController::class, 'editsearchStudRead'])->name('editsearchStudRead');
             Route::post('/student/enroll/update', [EnrollmentController::class, 'studEnrollmentUpdate'])->name('studEnrollmentUpdate');
             Route::get('/student/enroll/viewRF', [EnrollmentController::class, 'studrfprint'])->name('studrfprint');
+            Route::post('/done-print', [EnrollmentController::class, 'donePrint'])->name('done.print');
         });
 
         Route::prefix('dup')->group(function () {

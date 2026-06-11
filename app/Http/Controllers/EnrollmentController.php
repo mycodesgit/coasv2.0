@@ -1771,7 +1771,7 @@ class EnrollmentController extends Controller
                 ]);
 
 
-                return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
+                return response()->json(['success' => true, 'message' => 'Student RF Done Print'], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
             }
