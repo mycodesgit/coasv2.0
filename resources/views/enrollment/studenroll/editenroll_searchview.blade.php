@@ -326,6 +326,7 @@ CISS V.1.0 || Enrollment
                                                 {{-- @endif --}}
                                                 {{-- <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Check Conflict</a>
                                                 <a href="" class="form-control form-control-sm btn btn-success btn-sm mt-2 btnprim">Est. No. of Stud.</a> --}}
+                                                <button type="button" class="col-md-12 btn btn-info btn-sm mt-2 btnprim mt-6" id="doneprintButton">Done Print</button>
                                             </div>
                                         </div>
 

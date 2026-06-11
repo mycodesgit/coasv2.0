@@ -1735,4 +1735,46 @@ class EnrollmentController extends Controller
             'message' => 'No queue available to call.',
         ]);
     }
+
+    public function donePrint(Request $request) 
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'id' => 'required',
+            ]);
+
+
+            $studentID = $request->input('studentID');
+
+            if (empty($studentID)) {
+                return response()->json(['error' => true, 'message' => 'Student ID is required'], 400);
+            }   
+
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = $request->input('campus');
+
+            $existingStudEnroll = StudEnrolmentHistory::where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', $campus)
+                    ->where('studentID', $studentID)
+                    ->where('id', '!=', $request->input('id'))->first();
+
+            if ($existingStudEnroll) {
+                return response()->json(['error' => true, 'message' => 'Enrollment for this Student ID No. already exists this semester'], 404);
+            }
+
+            try {
+                $enrolment = StudEnrolmentHistory::findOrFail($request->input('id'));
+                $enrolment->update([
+                    'status' => 2,
+                ]);
+
+
+                return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Failed to store Enroll Student'], 404);
+            }
+        }
+    }
 }
