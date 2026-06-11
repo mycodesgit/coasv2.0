@@ -53,7 +53,7 @@
                             <div class="col-md-12">
                                 <label>To Campus:</label>
                                 <select class="form-control form-control-sm" name="tocampus">
-                                    @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo' || Auth::guard('web')->user()->fname == 'Regielyn')
+                                    @if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo' || Auth::guard('web')->user()->fname == 'Regielyn' || Auth::guard('web')->user()->lname == 'Baldevino')
                                         <option value="MC">Main</option>
                                         <option value="VC">Victorias</option>
                                         <option value="SCC">San Carlos</option>
