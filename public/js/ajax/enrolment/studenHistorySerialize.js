@@ -25,8 +25,11 @@ $(document).ready(function() {
             data: 'id',
                 render: function(data, type, row) {
                     if (type === 'display') {
-                        var editLink = '<a href="#" class="btn btn-success btn-sm btn-studhisview text-light"  data-id="' + row.stud_id + '" data-fname="' + row.fname + '" data-lname="' + row.lname + '">' +
+                        var editLink = '<a href="#" class="btn btn-success btn-sm btn-studhisview text-light pl-5 me-2"  data-id="' + row.stud_id + '" data-fname="' + row.fname + '" data-lname="' + row.lname + '">' +
                             '<i class="fas fa-eye"></i>' +
+                            '</a>' +
+                            '<a href="view/pdf/' + row.id + '" class="btn btn-warning btn-sm btn-studpreform text-light pl-5" target="_blank"  data-id="' + row.stud_id + '" data-fname="' + row.fname + '" data-lname="' + row.lname + '">' +
+                            '<i class="fas fa-file"></i>' +
                             '</a>';
                         return editLink;
                     } else {

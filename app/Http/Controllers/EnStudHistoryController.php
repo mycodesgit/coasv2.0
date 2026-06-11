@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 
+use PDF;
 use Storage;
 use Carbon\Carbon;
 
@@ -96,5 +98,17 @@ class EnStudHistoryController extends Controller
             ->get();
 
         return response()->json(['data' => $enrollmentHistory]);
+    }
+
+    public function studgenPreEnrolment(Request $request, $id)
+    {
+        $campus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
+
+        $enrollmentHistory = Student::where('id', $id)->first();
+        \Log::info('PDF Generation - ID received:', ['id' => $id]);
+
+        $pdf = PDF::loadView('enrollment.enrolhis.genpreenrolment', compact('id', 'enrollmentHistory'))->setPaper('Legal', 'portrait');
+        return $pdf->stream();
     }
 }

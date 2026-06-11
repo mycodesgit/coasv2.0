@@ -578,6 +578,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/listsearch/student/view', [EnStudHistoryController::class, 'viewsearchenStudHistory'])->name('viewsearchenStudHistory');
             Route::get('/listsearch/student/ajax', [EnStudHistoryController::class, 'searchenStudHistory'])->name('searchenStudHistory');
             Route::get('/listsearch/student/historyajax', [EnStudHistoryController::class, 'fetchStudEnrollmentHistory'])->name('fetchStudEnrollmentHistory');
+            Route::get('/listsearch/student/view/pdf/{id}', [EnStudHistoryController::class, 'studgenPreEnrolment'])->name('studgenPreEnrolment');
         });
 
         Route::prefix('gradesheet')->group(function () {
