@@ -276,6 +276,7 @@ CISS V.1.0 || Class Scheduler
                                 <option value="MA">MA</option>
                                 <option value="MBA">MBA</option>
                                 <option value="CPA">CPA</option>
+                                <option value="MEd">MEd</option>
                             </select>
                         </div>
                         <div class="form-group mt-3">
