@@ -471,12 +471,12 @@ class StudentController extends Controller
             ->orderBy('class_enroll.classSection', 'ASC')
             ->get();
 
-            \Log::info('Current Prog Code: ' . $currentProgCode);
-            \Log::info('Next Prog Code: ' . $nextProgCode);
-            \Log::info('Next Year Level: ' . $nextYearLevel);
-            \Log::info('Campus: ' . $campus);
-            \Log::info('School Year: ' . $schlyear);
-            \Log::info('Semester: ' . $semester);
+            // \Log::info('Current Prog Code: ' . $currentProgCode);
+            // \Log::info('Next Prog Code: ' . $nextProgCode);
+            // \Log::info('Next Year Level: ' . $nextYearLevel);
+            // \Log::info('Campus: ' . $campus);
+            // \Log::info('School Year: ' . $schlyear);
+            // \Log::info('Semester: ' . $semester);
 
         return view('student.preenrol.prelistview', compact(
             'studauth', 
