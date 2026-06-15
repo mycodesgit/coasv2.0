@@ -64,7 +64,11 @@ CISS V.1.0 || Admission
                                                                     @elseif(Auth::user()->campus == 'VE') Valladolid 
                                                                 @endif
                                                             </option>
-                                                            @if(Auth::user()->role == 0 || (Auth::user()->campus == 'MC' && Auth::user()->role == 1) || (Auth::user()->campus == 'CA' && Auth::user()->role == 1) || (Auth::user()->campus == 'IC' && Auth::user()->role == 1))
+                                                            @php
+                                                                $campusNames = ['MC'=>'Main', 'VC'=>'Victorias', 'SCC'=>'San Carlos', 'HC'=>'Hinigaran', 'MP'=>'Moises Padilla', 'IC'=>'Ilog', 'CA'=>'Candoni', 'CC'=>'Cauayan', 'SC'=>'Sipalay', 'HinC'=>'Hinobaan'];
+                                                                $hasAccess = Auth::user()->role == 0 || Auth::user()->role == 1;
+                                                            @endphp
+                                                            @if($hasAccess)
                                                                 <option value="MC">Main</option>
                                                                 <option value="VC">Victorias</option>
                                                                 <option value="SCC">San Carlos</option>

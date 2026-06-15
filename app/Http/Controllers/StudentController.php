@@ -423,7 +423,7 @@ class StudentController extends Controller
             'CAF-AFF-010' => ['CAF-CRP-003', 'CAF-ANS-011'],
         ];
         
-        // Get the next program code
+        // Get the next program code(s)
         $nextProgCode = $nextProgCodeMapping[$currentProgCode] ?? $currentProgCode;
 
         $latestHistory = StudEnrolmentHistory::where('studentID', $studauth->stud_id)
@@ -442,7 +442,7 @@ class StudentController extends Controller
             }
         }
 
-        // Build query for class enrollments using the NEXT program code
+        // Build query for class enrollments using the NEXT program code(s)
         $classEnrollsQuery = ClassEnroll::join(
                 'programs',
                 'class_enroll.progCode',
@@ -458,8 +458,14 @@ class StudentController extends Controller
             )
             ->where('class_enroll.schlyear', $schlyear)
             ->where('class_enroll.semester', $semester)
-            ->where('class_enroll.campus', $campus)
-            ->where('programs.progCod', $nextProgCode); // Use the next program code
+            ->where('class_enroll.campus', $campus);
+        
+        // IMPORTANT FIX: Use whereIn if $nextProgCode is an array, otherwise use where
+        if (is_array($nextProgCode)) {
+            $classEnrollsQuery->whereIn('programs.progCod', $nextProgCode);
+        } else {
+            $classEnrollsQuery->where('programs.progCod', $nextProgCode);
+        }
 
         // Filter by next year level
         if ($nextYearLevel) {
@@ -470,12 +476,14 @@ class StudentController extends Controller
             ->orderBy('class_enroll.classSection', 'ASC')
             ->get();
 
-            // \Log::info('Current Prog Code: ' . $currentProgCode);
-            // \Log::info('Next Prog Code: ' . $nextProgCode);
-            // \Log::info('Next Year Level: ' . $nextYearLevel);
-            // \Log::info('Campus: ' . $campus);
-            // \Log::info('School Year: ' . $schlyear);
-            // \Log::info('Semester: ' . $semester);
+        // Debug logging - fix array to string conversion
+        // \Log::info('Current Prog Code: ' . $currentProgCode);
+        // \Log::info('Next Prog Code: ' . (is_array($nextProgCode) ? json_encode($nextProgCode) : $nextProgCode));
+        // \Log::info('Next Year Level: ' . $nextYearLevel);
+        // \Log::info('Campus: ' . $campus);
+        // \Log::info('School Year: ' . $schlyear);
+        // \Log::info('Semester: ' . $semester);
+        // \Log::info('Classes Found: ' . $classEnrolls->count());
 
         return view('student.preenrol.prelistview', compact(
             'studauth', 
