@@ -418,6 +418,10 @@ class StudentController extends Controller
             // ABE Program codes
             'COE-ABE-003' => 'COE-ABE-002',
             'COE-ABE-004' => 'COE-ABE-002',
+            
+            // BSA Program codes
+            'CAF-AFF-010' => 'CAF-CRP-003',
+            'CAF-AFF-010' => 'CAF-ANS-011',
         ];
         
         // Get the next program code
@@ -466,6 +470,13 @@ class StudentController extends Controller
         $classEnrolls = $classEnrollsQuery
             ->orderBy('class_enroll.classSection', 'ASC')
             ->get();
+
+            \Log::info('Current Prog Code: ' . $currentProgCode);
+            \Log::info('Next Prog Code: ' . $nextProgCode);
+            \Log::info('Next Year Level: ' . $nextYearLevel);
+            \Log::info('Campus: ' . $campus);
+            \Log::info('School Year: ' . $schlyear);
+            \Log::info('Semester: ' . $semester);
 
         return view('student.preenrol.prelistview', compact(
             'studauth', 

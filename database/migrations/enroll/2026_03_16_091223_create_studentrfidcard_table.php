@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('studentrfidcard', function (Blueprint $table) {
             $table->id();
             $table->string('stdntid');
-            $table->string('stdntrfid');
+            $table->string('stdntrfid')->unique();
             $table->string('studphoto')->nullable();
             $table->string('studsignature')->nullable();
             $table->string('campus');
