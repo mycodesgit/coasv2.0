@@ -420,8 +420,7 @@ class StudentController extends Controller
             'COE-ABE-003' => 'COE-ABE-004',
             
             // BSA Program codes
-            'CAF-AFF-010' => 'CAF-CRP-003',
-            'CAF-AFF-010' => 'CAF-ANS-011',
+            'CAF-AFF-010' => ['CAF-CRP-003', 'CAF-ANS-011'],
         ];
         
         // Get the next program code
