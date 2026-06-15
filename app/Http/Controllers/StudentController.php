@@ -416,8 +416,8 @@ class StudentController extends Controller
             'COE-MEC-009' => 'COE-MEC-007',
             
             // ABE Program codes
-            'COE-ABE-003' => 'COE-ABE-002',
-            'COE-ABE-004' => 'COE-ABE-002',
+            'COE-ABE-002' => 'COE-ABE-004',
+            'COE-ABE-003' => 'COE-ABE-004',
             
             // BSA Program codes
             'CAF-AFF-010' => 'CAF-CRP-003',
