@@ -209,22 +209,22 @@
 
     <!-- Ajax -->
     @if(request()->routeIs('collegeRead'))
-        <script src="{{ asset('js/ajax/schedclass/collegeSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/collegeSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('faculty_list'))
-        <script src="{{ asset('js/ajax/schedclass/facultylistSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/facultylistSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('programsRead'))
-        <script src="{{ asset('js/ajax/schedclass/programsSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/programsSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('roomsRead'))
-        <script src="{{ asset('js/ajax/schedclass/roomSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/roomSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('courseEnroll_list_search'))
-        <script src="{{ asset('js/ajax/schedclass/classEnrollSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/classEnrollSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('faculty_design_search'))
-        <script src="{{ asset('js/ajax/schedclass/designationSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/designationSerialize.js') }}?v={{ time() }}"></script>
     @endif
     @if(request()->routeIs('subjectsOffered_search'))
         <script src="{{ asset('js/ajax/schedclass/subjectOfferedSerialize.js') }}?v={{ time() }}"></script>
