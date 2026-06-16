@@ -767,7 +767,7 @@ class StudentController extends Controller
             'studor' => $studor,
             'selectedpostedby' => $selectedpostedby,
         ];
-        $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRFconfirmation', $data)->setPaper('Legal', 'portrait');
+        $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRFconfirm', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
 
     }
