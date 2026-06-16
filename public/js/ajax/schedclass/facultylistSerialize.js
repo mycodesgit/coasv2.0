@@ -103,9 +103,9 @@ $(document).ready(function() {
                             '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.prefix + '" data-suffix="' + row.suffix + '" data-faccollege="' + row.faccollege + '" data-facdept="' + row.facdept + '" data-email="' + row.email + '" data-rank="' + row.rank + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
-                            '<button type="button" value="' + data + '" class="dropdown-item faclty-delete">' +
-                            '<i class="fas fa-trash"></i> Delete' +
-                            '</button>' +
+                            // '<button type="button" value="' + data + '" class="dropdown-item faclty-delete">' +
+                            // '<i class="fas fa-trash"></i> Delete' +
+                            // '</button>' +
                             '</div>' +
                             '</div>';
                         return dropdown;
