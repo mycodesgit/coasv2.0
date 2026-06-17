@@ -39,7 +39,7 @@ class SchedFacultyListController extends Controller
                 ->leftJoin('department', 'faculty.facdept', '=', 'department.deptCod')
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
-                        $q->orWhere('faculty.campus', 'LIKE', "%$campus%");
+                        $q->orWhere('faculty.campus', 'LIKE', "$campus");
                     }
                 })
                 ->select('faculty.*', 'faculty.id as fctyid', 'faculty.campus as fcamp', 'faculty.campactive', 'college.*', 'addressee.*', 'addressee.id as adrid', 'department.deptCod')
