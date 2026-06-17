@@ -150,7 +150,7 @@ CISS V.1.0 || Admission
                             <center>
                                 <h3>Push the Accepted Applicant to the Registrar for Enrollment</h3>
                                 <br>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>  Yes!, Push to Registrar for Enrollment</button>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>  Yes!, Push to Registrar for Enrollment</button>
                             </center>
                         </div>
                     </div>
@@ -168,6 +168,7 @@ CISS V.1.0 || Admission
         var pushtoEnrollmentRoute = "{{ route('save_enroll_applicant',  ['id' => ':id']) }}";
 
         var isCampus = "{{ Auth::guard('web')->user()->campus }}";
+        var isAdmin = "{{ Auth::guard('web')->user()->role == 0 }}";
         var requestedCampus = "{{ request('campus') }}";
     </script>
 @endsection

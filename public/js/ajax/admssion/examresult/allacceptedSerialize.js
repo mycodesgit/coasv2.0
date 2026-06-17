@@ -83,13 +83,15 @@ $(document).ready(function() {
                             '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">';
 
-                        if (isCampus) {
+                        if (isCampus && isAdmin) {
                             dropdown += '<a href="acceptedListAll/view/pdf/' + row.adid + '" class="dropdown-item btn-edit" target="_blank">' +
                                 '<i class="fas fa-file-pdf"></i> Generate Pre-Enrollment' +
                                 '</a>';
 
                                 if (row.p_status == 5) {
-                                    dropdown += '';
+                                    dropdown += '<a href="#" class="dropdown-item btn-pushtoenrollment" data-id="' + row.adid + '">' +
+                                        '<i class="fas fa-check"></i> Push Enrollment' +
+                                        '</a>';
                                 } else {
                                     dropdown += '<span class="dropdown-item disabled"><i class="fas fa-check"></i> Done Pushed Enrollment</span>';
                                 }
@@ -114,5 +116,39 @@ $(document).ready(function() {
     toggleActionColumn();
     $(document).on('pushtoenrolltable', function() {
         dataTable.ajax.reload();
+    });
+});
+
+$(document).on('click', '.btn-pushtoenrollment', function() {
+    var id = $(this).data('id');
+    $('#pushtoEnrollmentId').val(id);
+    $('#pushtoEnrollmentModal').modal('show');
+});
+
+$('#pushtoEnrollmentForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: pushtoEnrollmentRoute,
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response.success) {
+                toastr.success(response.message);
+                document.activeElement.blur();
+                $('#pushtoEnrollmentModal').modal('hide');
+                $(document).trigger('pushtoenrolltable');
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error, message) {
+            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+            toastr.error(errorMessage);
+        }
     });
 });
