@@ -5,6 +5,19 @@ toastr.options = {
 };
 
 $(document).ready(function() {
+    const campusMap = {
+        'MC': 'Main',
+        'VC': 'Victorias',
+        'SCC': 'San Carlos',
+        'HC': 'Hinigaran',
+        'MP': 'Moise Padilla',
+        'IC': 'Ilog',
+        'CA': 'Candoni',
+        'CC': 'Cauayan',
+        'SC': 'Sipalay',
+        'HinC': 'Hinobaan'
+    };
+
     var dataTable = $('#collegeProg').DataTable({
         "ajax": {
             "url": collegeReadRoute,
@@ -17,7 +30,17 @@ $(document).ready(function() {
         "columns": [
             {data: 'college_abbr'},
             {data: 'college_name'},
-            {data: 'campus'},
+            { 
+                data: 'campus', 
+                title: 'Campus',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    // Split comma-separated codes and map to names
+                    const codes = data.split(',');
+                    const names = codes.map(code => campusMap[code] || code);
+                    return names.join(', ');
+                }
+            },
             {
             data: 'id',
                 render: function(data, type, row) {
