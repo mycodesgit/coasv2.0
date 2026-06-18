@@ -118,6 +118,123 @@
         });
     }
 
+    function loadGradStudents(page = 1) {
+        const searchInput = document.getElementById('searchGradInput');
+        const tableBody = document.getElementById('graduatestudentsTable');
+        const pagination = document.getElementById('paginationGradStudLinks');
+        
+        if (!tableBody) return;
+        
+        const search = searchInput ? searchInput.value.trim() : '';
+        const searchRoute = "{{ route('student.fetch') }}";
+
+        fetch(`${searchRoute}?searchgradstud=${encodeURIComponent(search)}&page=${page}`, {
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(res => {
+            tableBody.innerHTML = '';
+            pagination.innerHTML = '';
+
+            if (res.data.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center">No records found</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            res.data.forEach(gradstudent => {
+                const campusMap = {
+                    'MC': 'Main',
+                    'VC': 'Victorias',
+                    'SCC': 'San Carlos',
+                    'HC': 'Hinigaran',
+                    'MP': 'Moises Padilla',
+                    'IC': 'Ilog',
+                    'CA': 'Candoni',
+                    'CC': 'Cauayan',
+                    'SC': 'Sipalay',
+                    'HinC': 'Hinobaan'
+                };
+                
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${gradstudent.lname}, ${gradstudent.fname}</td>
+                        <td>${gradstudent.stud_id}</td>
+                        <td>${gradstudent.gender || 'N/A'}</td>
+                        <td>${campusMap[gradstudent.campus] || gradstudent.campus || 'N/A'}</td>
+                        <td>${gradstudent.civil_status || 'N/A'}</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-1">
+                                <a href="#" class="btn btn-success btn-sm border btn-studdataview" 
+                                    data-id="${gradstudent.stdntid}" 
+                                    data-studid="${gradstudent.stud_id}" 
+                                    data-fname="${gradstudent.fname || ''}" 
+                                    data-mname="${gradstudent.mname || ''}" 
+                                    data-lname="${gradstudent.lname || ''}" 
+                                    data-ext="${gradstudent.ext || ''}" 
+                                    data-gender="${gradstudent.gender || ''}" 
+                                    data-bday="${gradstudent.bday || ''}" 
+                                    data-pbirth="${gradstudent.pbirth || ''}" 
+                                    data-contact="${gradstudent.contact || ''}" 
+                                    data-email="${gradstudent.email || ''}" 
+                                    data-religion="${gradstudent.religion || ''}" 
+                                    data-address="${gradstudent.address || ''}" 
+                                    data-civil="${gradstudent.civil_status || ''}" 
+                                    data-hnum="${gradstudent.hnum || ''}" 
+                                    data-brgy="${gradstudent.brgy || ''}" 
+                                    data-city="${gradstudent.city || ''}" 
+                                    data-province="${gradstudent.province || ''}" 
+                                    data-region="${gradstudent.region || ''}" 
+                                    data-zcode="${gradstudent.zcode || ''}" 
+                                    data-father="${gradstudent.stud_father || ''}" 
+                                    data-mother="${gradstudent.stud_mother || ''}" 
+                                    data-guardian="${gradstudent.stud_guardian || ''}" 
+                                    data-income="${gradstudent.monthly_income || ''}" 
+                                    data-pcontact="${gradstudent.guardian_contact || ''}" 
+                                    data-lstschattended="${gradstudent.lstsch_attended || ''}" 
+                                    data-lstschattendedyear="${gradstudent.lst_sch_attended_year || ''}" 
+                                    data-suclstattended="${gradstudent.suc_lst_attended || ''}" 
+                                    data-dateadmission="${gradstudent.date_admission || ''}" 
+                                    data-enhiscourse="${gradstudent.enhiscourse || ''}"
+                                    title="View Details">
+                                    <i class="ti ti-eye" style="color: #fff"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Pagination
+            for (let i = 1; i <= res.last_page; i++) {
+                pagination.innerHTML += `
+                    <li class="page-item ${i === res.current_page ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `;
+            }
+
+            // Pagination click events
+            pagination.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loadGradStudents(parseInt(this.dataset.page));
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error loading students:', error);
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center text-danger">Error loading data</td>
+                </tr>
+            `;
+        });
+    }
+
     function loadEnrollmentHistory(studentId) {
         const tableBody = document.getElementById('enrollmentHistoryTable');
         if (!tableBody) return;
@@ -261,9 +378,11 @@
 
             $('#city_name').val(cityName);
             $('#zipcode').val(zip || '');
+
             updateAddress();
 
             const cityId = $(this).val();
+
             if (cityId) {
                 $('#barangay').empty().append('<option disabled selected>Loading...</option>');
                 // Replace :id with the actual city ID
@@ -451,6 +570,29 @@
         },
         submitHandler: function() {
             loadStudents(1);
+        }
+    });
+
+    $('#searchGradForm').validate({
+        rules: {
+            searchgradstud: { required: true },
+        },
+        messages: {
+            searchgradstud: { required: "Please Enter Search Student Last Name or Student ID" },
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.col-md-4').append(error);
+        },
+        highlight: function(element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element) {
+            $(element).removeClass('is-invalid');
+        },
+        submitHandler: function() {
+            loadGradStudents(1);
         }
     });
 </script>

@@ -626,11 +626,14 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/undergraduate/show', [StudentInfoController::class, 'show'])->name('student.show');
             Route::get('/info/students/undergraduat/enrollment-history/{stdntid}', [StudentInfoController::class, 'getEnrollmentHistory'])->name('studenthistory.fetch');
             Route::post('/info/students/undergraduate/view/update/{id}', [StudentInfoController::class, 'update'])->name('student.update');
+
+            Route::get('/info/students/graduate/show', [StudentInfoController::class, 'fetch'])->name('student.fetch');
+
             Route::get('/regions', [StudentInfoController::class, 'getRegions'])->name('getRegions');
             Route::get('/provinces/{region_id}', [StudentInfoController::class, 'getProvinces'])->name('getProvinces');
             Route::get('/cities/{province_id}', [StudentInfoController::class, 'getCities'])->name('getCities');
             Route::get('/barangays/{city_id}', [StudentInfoController::class, 'getBarangays'])->name('getBarangays');
-            
+
 
             Route::get('/info/students/graduateschool', [EnreportsController::class, 'studInfograduated'])->name('studInfograduated');
             Route::get('/info/students/graduateschool/search/list', [EnreportsController::class, 'studInfograduated_search'])->name('studInfograduated_search');

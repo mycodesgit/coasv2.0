@@ -42,11 +42,21 @@ CISS V.1.0 || Enrollment
                                                 </button>
                                             </li>
                                             &nbsp;
+                                            @if(Auth::guard('web')->user()->campus == 'MC')
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="pills-two-tab" data-bs-toggle="pill"
+                                                        data-bs-target="#pills-two" type="button" role="tab"
+                                                        aria-controls="pills-two" aria-selected="false" tabindex="-1"> <i class="ti ti-user-code"></i>
+                                                        Graduate Student
+                                                    </button>
+                                                </li>
+                                                &nbsp;
+                                            @endif
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-two-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-two" type="button" role="tab"
-                                                    aria-controls="pills-two" aria-selected="false" tabindex="-1"> <i class="ti ti-user-code"></i>
-                                                    Graduate Student
+                                                <button class="nav-link" id="pills-three-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#pills-three" type="button" role="tab"
+                                                    aria-controls="pills-three" aria-selected="true"> <i class="ti ti-file"></i>
+                                                    Student Reports
                                                 </button>
                                             </li>
                                         </ul>
@@ -93,10 +103,10 @@ CISS V.1.0 || Enrollment
                                                         </div>
                                                     </div>
                                                     <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab" tabindex="0">
-                                                        <form id="searchEmpForm">
+                                                        <form id="searchGradForm">
                                                             <div class="row g-2">
                                                                 <div class="col-md-4">
-                                                                    <input type="text" id="searchEmpInput" name="searchemp" class="form-control form-control-md" placeholder="Search Student Last Name or First Name or Student ID">
+                                                                    <input type="text" id="searchGradInput" name="searchgradstud" class="form-control form-control-md" placeholder="Search Student Last Name or First Name or Student ID">
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <button type="submit" class="btn btn-success btn-md text-light">Search</button>
@@ -109,22 +119,22 @@ CISS V.1.0 || Enrollment
                                                                 <thead class="">
                                                                     <tr>
                                                                         <th>Name</th>
-                                                                        <th>EmpID</th>
+                                                                        <th>StudentID</th>
                                                                         <th>Gender</th>
                                                                         <th>Campus</th>
                                                                         <th>Civil Status</th>
                                                                         <th>Action</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody id="employeesTable">
+                                                                <tbody id="graduatestudentsTable">
                                                                     <tr>
-                                                                        <td colspan="6" class="text-center">Search to load data</td>
+                                                                        <td colspan="7" class="text-center">Search to load data</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
                                                             <br>
                                                             <nav>
-                                                                <ul class="pagination justify-content-center" id="paginationEmpLinks"></ul>
+                                                                <ul class="pagination justify-content-center" id="paginationGradStudLinks"></ul>
                                                             </nav>
                                                         </div>
                                                     </div>

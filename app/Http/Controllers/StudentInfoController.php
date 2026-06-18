@@ -58,6 +58,7 @@ class StudentInfoController extends Controller
                     ->orWhere('students.stud_id', 'LIKE', "%{$search}%");
                 });
             })
+            ->where('students.stud_id', 'NOT LIKE', '%-G%')
             ->orderBy('students.lname')
             ->paginate(10);
 
@@ -67,6 +68,39 @@ class StudentInfoController extends Controller
         });
 
         return response()->json($students);
+    }
+
+    public function fetch(Request $request)
+    {
+        $campus = Auth::guard('web')->user()->campus;
+        $search = $request->query('searchgradstud');
+
+        $gradstudents = Student::join(
+                DB::raw('(SELECT MAX(id) as id, studentID FROM program_en_history GROUP BY studentID) as latest'),
+                'students.stud_id',
+                '=',
+                'latest.studentID'
+            )
+            ->join('program_en_history', 'program_en_history.id', '=', 'latest.id')
+            ->select('students.*', 'students.id as stdntid', 'program_en_history.course as enhiscourse')
+            ->where('students.campus', $campus)
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('students.lname', 'LIKE', "%{$search}%")
+                    ->orWhere('students.fname', 'LIKE', "%{$search}%")
+                    ->orWhere('students.stud_id', 'LIKE', "%{$search}%");
+                });
+            })
+            ->where('students.stud_id', 'LIKE', '%-G%')
+            ->orderBy('students.lname')
+            ->paginate(10);
+
+        $gradstudents->transform(function ($item) {
+            $item->stdntid = $item->id;
+            return $item;
+        });
+
+        return response()->json($gradstudents);
     }
 
     public function getEnrollmentHistory($studentId)
