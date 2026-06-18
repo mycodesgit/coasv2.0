@@ -39,6 +39,7 @@ use App\Http\Controllers\EnstudgradeController;
 use App\Http\Controllers\EnTransferStudController;
 use App\Http\Controllers\EnSubjectsController;
 use App\Http\Controllers\EnGraduatesController;
+use App\Http\Controllers\StudentInfoController;
 use App\Http\Controllers\EnreportsController;
 use App\Http\Controllers\EnStudentPerCurriculumController;
 use App\Http\Controllers\EnStudentPerSubjectController;
@@ -621,20 +622,20 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         });
 
         Route::prefix('report')->group(function () {
-            Route::get('/info/students/undergraduate', [EnreportsController::class, 'studInfo'])->name('studInfo');
-            Route::get('/info/students/undergraduate/searchList', [EnreportsController::class, 'studInfo_search'])->name('studInfo_search');
-            Route::get('/info/students/undergraduate/searchListajax', [EnreportsController::class, 'getstudInfo_search'])->name('getstudInfo_search');
-            Route::get('/info/students/undergraduate/view/{id}', [EnreportsController::class, 'studInfo_view'])->name('studInfo_view');
-            Route::post('/info/students/undergraduate/view/update', [EnreportsController::class, 'studInfoUpdate'])->name('studInfoUpdate');
+            Route::get('/info/students/undergraduate', [StudentInfoController::class, 'index'])->name('student.index');
+            Route::get('/info/students/undergraduate/show', [StudentInfoController::class, 'show'])->name('student.show');
+            Route::get('/info/students/undergraduat/enrollment-history/{stdntid}', [StudentInfoController::class, 'getEnrollmentHistory'])->name('studenthistory.fetch');
+            Route::post('/info/students/undergraduate/view/update/{id}', [StudentInfoController::class, 'update'])->name('student.update');
+            Route::get('/regions', [StudentInfoController::class, 'getRegions'])->name('getRegions');
+            Route::get('/provinces/{region_id}', [StudentInfoController::class, 'getProvinces'])->name('getProvinces');
+            Route::get('/cities/{province_id}', [StudentInfoController::class, 'getCities'])->name('getCities');
+            Route::get('/barangays/{city_id}', [StudentInfoController::class, 'getBarangays'])->name('getBarangays');
+            
 
             Route::get('/info/students/graduateschool', [EnreportsController::class, 'studInfograduated'])->name('studInfograduated');
             Route::get('/info/students/graduateschool/search/list', [EnreportsController::class, 'studInfograduated_search'])->name('studInfograduated_search');
             Route::get('/info/students/graduateschool/search/listajax', [EnreportsController::class, 'getstudInfograduated_search'])->name('getstudInfograduated_search');
 
-            Route::get('/regions', [EnreportsController::class, 'getRegions'])->name('getRegions');
-            Route::get('/provinces/{region_id}', [EnreportsController::class, 'getProvinces'])->name('getProvinces');
-            Route::get('/cities/{province_id}', [EnreportsController::class, 'getCities'])->name('getCities');
-            Route::get('/barangays/{city_id}', [EnreportsController::class, 'getBarangays'])->name('getBarangays');
 
             Route::get('/info/students/registration/form/search', [EnreportsController::class, 'rfstudprint'])->name('rfstudprint');
             Route::get('/info/students/registration/form/search/result', [EnreportsController::class, 'rfstudprintsearch'])->name('rfstudprintsearch');
