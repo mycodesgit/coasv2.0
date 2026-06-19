@@ -527,6 +527,7 @@
                     // Reload the table with current page
                     const currentPage = $('.page-item.active .page-link').data('page') || 1;
                     loadStudents(currentPage);
+                    loadGradStudents(currentPage);
                 } else {
                     toastr.error(response.message);
                 }
