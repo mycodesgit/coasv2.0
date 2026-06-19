@@ -10,6 +10,18 @@
         const search = searchInput ? searchInput.value.trim() : '';
         const searchRoute = "{{ route('student.show') }}";
 
+        // Show loading state
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center">                
+                    <div class="d-flex justify-content-center align-items-center py-2">
+                        <i class="fas fa-spinner fa-spin me-2"></i>
+                        <span>Searching Student...</span>
+                    </div>
+                </td>
+            </tr>
+        `;
+
         fetch(`${searchRoute}?search=${encodeURIComponent(search)}&page=${page}`, {
             headers: { 'Accept': 'application/json' }
         })
@@ -127,6 +139,18 @@
         
         const search = searchInput ? searchInput.value.trim() : '';
         const searchRoute = "{{ route('student.fetch') }}";
+
+        // Show loading state
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center">                
+                    <div class="d-flex justify-content-center align-items-center py-2">
+                        <i class="fas fa-spinner fa-spin me-2"></i>
+                        <span>Searching Student...</span>
+                    </div>
+                </td>
+            </tr>
+        `;
 
         fetch(`${searchRoute}?searchgradstud=${encodeURIComponent(search)}&page=${page}`, {
             headers: { 'Accept': 'application/json' }

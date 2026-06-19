@@ -38,7 +38,7 @@ CISS V.1.0 || Enrollment
                                                 <button class="nav-link active" id="pills-one-tab" data-bs-toggle="pill"
                                                     data-bs-target="#pills-one" type="button" role="tab"
                                                     aria-controls="pills-one" aria-selected="true"> <i class="ti ti-user-bolt"></i>
-                                                    Undergraduate Student
+                                                    Undergraduate Students
                                                 </button>
                                             </li>
                                             &nbsp;
@@ -47,18 +47,11 @@ CISS V.1.0 || Enrollment
                                                     <button class="nav-link" id="pills-two-tab" data-bs-toggle="pill"
                                                         data-bs-target="#pills-two" type="button" role="tab"
                                                         aria-controls="pills-two" aria-selected="false" tabindex="-1"> <i class="ti ti-user-code"></i>
-                                                        Graduate Student
+                                                        Graduate Students
                                                     </button>
                                                 </li>
                                                 &nbsp;
                                             @endif
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-three-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-three" type="button" role="tab"
-                                                    aria-controls="pills-three" aria-selected="true"> <i class="ti ti-file"></i>
-                                                    Student Reports
-                                                </button>
-                                            </li>
                                         </ul>
                                     </div>
                                     <div class="col-md-12">
