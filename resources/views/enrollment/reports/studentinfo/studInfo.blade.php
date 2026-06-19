@@ -187,9 +187,6 @@ CISS V.1.0 || Enrollment
                                 </div>
                                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
                                     <div class="d-flex gap-2 justify-content-md-end">
-                                        <button class="btn btn-light btn-sm"><i class="fas fa-print me-1"></i>Print</button>
-                                        <button class="btn btn-outline-light btn-sm"><i class="fas fa-download me-1"></i>PDF</button>
-                                        <button class="btn btn-outline-light btn-sm"><i class="fas fa-edit"></i></button>
                                     </div>
                                 </div>
                             </div>
