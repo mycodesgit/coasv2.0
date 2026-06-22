@@ -33,7 +33,7 @@ CISS V.1.0 || Higher Education Billing
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form method="GET" action="{{ route('applicant_reports') }}" id="adAppAd">
+                                        <form method="GET" action="{{ route('adbillingRead_search') }}" id="adAppAd">
                                             @csrf
 
                                             <div class="form-group mt-3">
