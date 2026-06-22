@@ -1506,8 +1506,8 @@ CISS V.1.0 || Faculty Services
                                                             </div>
                                                         </a>
                                                     </div>
-                                                @endif --}}
-                                            @endforeach
+                                                @endif
+                                            @endforeach --}}
                                         @endif
                                     @else
                                         <div class="col-12">
