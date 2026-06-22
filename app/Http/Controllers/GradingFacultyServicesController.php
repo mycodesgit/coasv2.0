@@ -305,7 +305,7 @@ class GradingFacultyServicesController extends Controller
         $sy = ConfigureCurrent::where('set_status', 4)->first(['schlyear', 'semester']);
         $setevalmode = QCEsetting::first();
 
-        $vicepres = Faculty::where('lname', '=', 'Jungco')->first();
+        $vicepres = Faculty::where('lname', '=', 'Jungco')->where('campus', Auth::guard('faculty')->user()->campus)->first();
         $viceprescampusad = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('fac_designation.designation', '=', 'CampusAdmin')
                     ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
