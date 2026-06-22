@@ -25,44 +25,6 @@ CISS V.1.0 || Faculty Services
                             </div>
                             <div class="card-body">
                                 <div class="col-md-12"> 
-                                    <form method="GET" action="{{ route('loadstudsub_searchview') }}" id="enrollStud" class="mb-4">
-                                        @csrf 
-
-                                        <div class="form-group mt-2">
-                                            <div class="row g-3">
-                                                <div class="col-md-3">
-                                                    <label>Student ID Number: <span class="text-danger">*</span></label>
-                                                    <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <label>School Year: <span class="text-danger">*</span></label>
-                                                    <select class="form-control form-control-sm" name="schlyear">
-                                                        @foreach($sy as $datasy)
-                                                            <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                        @endforeach
-                                                        {{-- <option value="2025-2026">2025-2026</option>
-                                                        <option value="2022-2023">2022-2023</option> --}}
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <label>Semester: <span class="text-danger">*</span></label>
-                                                    <select class="form-control form-control-sm" name="semester">
-                                                        <option disabled selected>Select</option>
-                                                        <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
-                                                        <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
-                                                        <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <label>&nbsp;</label>
-                                                    <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
 
                                     <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
 
