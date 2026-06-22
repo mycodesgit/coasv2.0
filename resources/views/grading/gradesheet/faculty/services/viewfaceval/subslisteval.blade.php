@@ -694,11 +694,11 @@ CISS V.1.0 || Faculty Services
                                                     </div>
                                                 @endif
                                             @endforeach
-
+                                            
+                                            <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+                                            <h3>Faculties:</h3>
                                             @foreach($facollegeprogramhead as $datafacollegeprogramhead)
                                                 @if($disabledsubj->contains($datafacollegeprogramhead->facID))
-                                                    <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-                                                    <h3>Faculties:</h3>
                                                     <div class="col-lg-3 col-12">
                                                         <a href="#" disabled>
                                                             <div class="card h-100" >
