@@ -631,6 +631,8 @@ CISS V.1.0 || Faculty Services
                                                 </div>
                                             </div>
                                         @else
+                                            <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+                                            <h3>Program Head:</h3>
                                             @foreach($facollegedean as $datafacollegedean)
                                                 @if($disabledsubj->contains($datafacollegedean->facID))
                                                     <div class="col-lg-3 col-12">
@@ -662,8 +664,6 @@ CISS V.1.0 || Faculty Services
                                                         </a>
                                                     </div>
                                                 @else
-                                                    <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-                                                    <h3>Program Head</h3>
                                                     <div class="col-lg-3 col-12">
                                                         <a href="{{ route('supfacevalrate', ['id' => $datafacollegedean->subjID, 'qcefacID'  => $datafacollegedean->facID, 'qcefacname'  => $datafacollegedean->fname . ' ' . $datafacollegedean->lname, 'qceevaluator' => 'Dean']) }}">
                                                             <div class="card card-hover h-100">
@@ -698,7 +698,7 @@ CISS V.1.0 || Faculty Services
                                             @foreach($facollegeprogramhead as $datafacollegeprogramhead)
                                                 @if($disabledsubj->contains($datafacollegeprogramhead->facID))
                                                     <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-                                                    <h3>Faculties</h3>
+                                                    <h3>Faculties:</h3>
                                                     <div class="col-lg-3 col-12">
                                                         <a href="#" disabled>
                                                             <div class="card h-100" >
