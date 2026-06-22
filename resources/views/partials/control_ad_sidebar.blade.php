@@ -169,7 +169,7 @@
     
     @if(!in_array(Auth::user()->role, [5, 6, 7]))  
         <li>
-            <a class="nav-link {{ $billingreportActive }}" href="#">
+            <a class="nav-link {{ $billingreportActive }}" href="{{ route('adbillingRead') }}">
                 <i class="ti ti-file-code"></i><span class="nav-text">Billing</span>
             </a>
         </li>

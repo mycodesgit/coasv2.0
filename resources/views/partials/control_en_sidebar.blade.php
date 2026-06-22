@@ -149,7 +149,7 @@
 
     @if(in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 13, 14]) || Auth::guard('web')->user()->lname == 'Gargoles' || Auth::guard('web')->user()->lname == 'Monteseven')
         <li>
-            <a class="nav-link {{ $studinfoActive }}" href="{{ Auth::guard('web')->user()->role == 0 ? route('student.index') : '' }}">
+            <a class="nav-link {{ $studinfoActive }}" href="{{ route('student.index') }}">
                 <i class="ti ti-user"></i><span class="nav-text">Student Information</span>
             </a>
         </li>

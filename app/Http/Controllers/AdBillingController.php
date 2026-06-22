@@ -17,6 +17,7 @@ use App\Models\AdmissionDB\DeptRating;
 use App\Models\AdmissionDB\Programs;
 use App\Models\AdmissionDB\Strands;
 use App\Models\AdmissionDB\AdmissionDate;
+use App\Models\AdmissionDB\Year;
 
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudEnrolmentHistory;
@@ -32,8 +33,10 @@ class AdBillingController extends Controller
 {
     public function adbillingRead()
     {
+        $strand = Strands::all();
+        $curryear = Year::orderBy('adyear', 'DESC')->get();
 
-        return view('admission.reports.billing');
+        return view('admission.reports.billing', compact('curryear', 'strand'));
     }
 
     public function adbillingRead_search(Request $request)
