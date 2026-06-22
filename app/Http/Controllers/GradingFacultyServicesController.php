@@ -308,8 +308,8 @@ class GradingFacultyServicesController extends Controller
         $vicepres = Faculty::where('id', 434)->first();
         $viceprescampusad = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('fac_designation.designation', '=', 'CampusAdmin')
-                    ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
-                    ->where('fac_designation.semester', $currsemnow->qcesemester)
+                    ->where('fac_designation.schlyear', $sy->qceschlyear)
+                    ->where('fac_designation.semester', $sy->qcesemester)
                     ->select(
                         'faculty.id', 
                         'faculty.fname', 
