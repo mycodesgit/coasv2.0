@@ -150,8 +150,13 @@ class SchedClassController extends Controller
     public function getFacultyClassSched(Request $request)
     {
         $campus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
 
-        $progfaculty = Faculty::where('campus', $campus)
+        $progfaculty = Faculty::where(function ($q) use ($campusArray) {
+                            foreach ($campusArray as $campus) {
+                                $q->orWhere('faculty.campus', 'LIKE', "%$campus%");
+                            }
+                        })
                         ->orderBy('lname', 'ASC')
                         ->get();
 
