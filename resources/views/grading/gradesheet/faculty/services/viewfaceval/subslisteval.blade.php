@@ -1447,7 +1447,7 @@ CISS V.1.0 || Faculty Services
                                         @else
                                             <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
                                             <h3>Program Head:</h3>
-                                            @foreach($viceprescampusad as $dataviceprescampusad)
+                                            {{-- @foreach($viceprescampusad as $dataviceprescampusad)
                                                 @if($disabledsubj->contains($dataviceprescampusad->facID))
                                                     <div class="col-lg-3 col-12">
                                                         <a href="#" disabled>
@@ -1506,7 +1506,7 @@ CISS V.1.0 || Faculty Services
                                                             </div>
                                                         </a>
                                                     </div>
-                                                @endif
+                                                @endif --}}
                                             @endforeach
                                         @endif
                                     @else
