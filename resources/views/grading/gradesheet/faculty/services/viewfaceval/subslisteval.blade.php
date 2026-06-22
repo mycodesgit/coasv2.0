@@ -1434,7 +1434,7 @@ CISS V.1.0 || Faculty Services
                                                 @endif
                                             @endforeach
                                         @endif
-                                    @elseif(optional($vicepres)->id === 434)
+                                    @elseif(optional($vicepres)->lname == 'Jungco')
                                         @if($setevalmode->statuseval === 'Off')
                                             <div class="col-12">
                                                 <div class="alert alert-warning d-flex align-items-center" role="alert">
