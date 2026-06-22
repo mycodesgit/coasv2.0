@@ -305,20 +305,22 @@ class GradingFacultyServicesController extends Controller
         $sy = ConfigureCurrent::where('set_status', 4)->first(['schlyear', 'semester']);
         $setevalmode = QCEsetting::first();
 
-        $vicepres = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
-                    ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
-                    ->where('fac_designation.designation', '=', 'Dean')
+        $vicepres = Faculty::where('id', '=', '434')->first();
+        $viceprescampusad = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('fac_designation.designation', '=', 'CampusAdmin')
+                    ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
+                    ->where('fac_designation.semester', $currsemnow->qcesemester)
                     ->select(
-                            'faculty.id', 
-                            'faculty.fname', 
-                            'faculty.mname', 
-                            'faculty.lname', 
-                            'faculty.rank', 
-                            'faculty.campus', 
-                            'faculty.id as facID', 
-                            'fac_designation.designation'
-                        )
+                        'faculty.id', 
+                        'faculty.fname', 
+                        'faculty.mname', 
+                        'faculty.lname', 
+                        'faculty.rank', 
+                        'faculty.campus', 
+                        'faculty.id as facID', 
+                        'fac_designation.designation', 
+                        'fac_designation.facCollege'
+                    )
                     ->get();
         
         $campusad = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
@@ -427,7 +429,7 @@ class GradingFacultyServicesController extends Controller
         $data = $this->getActiveFacultyDesignationData();
         $authfacdesig = $data['authfacdesig'];
                         
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'campusad', 'campusadprogramhead', 'collegedean', 'collegeprogramhead', 'casdivisionchair', 'facdivisionchair', 'facollegedean', 'facollegeprogramhead', 'setevalmode', 'disabledsubj', 'disabledsubjdean', 'authfacdesig'));
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'vicepres', 'viceprescampusad', 'campusad', 'campusadprogramhead', 'collegedean', 'collegeprogramhead', 'casdivisionchair', 'facdivisionchair', 'facollegedean', 'facollegeprogramhead', 'setevalmode', 'disabledsubj', 'disabledsubjdean', 'authfacdesig'));
     }
 
     public function supfacevalrate(Request $request)
