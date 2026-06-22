@@ -1434,7 +1434,7 @@ CISS V.1.0 || Faculty Services
                                                 @endif
                                             @endforeach
                                         @endif
-                                    @elseif(optional($vicepres)->lname == 'Jungco')
+                                    {{-- @elseif(optional($vicepres)->lname == 'Jungco')
                                         @if($setevalmode->statuseval === 'Off')
                                             <div class="col-12">
                                                 <div class="alert alert-warning d-flex align-items-center" role="alert">
@@ -1447,7 +1447,7 @@ CISS V.1.0 || Faculty Services
                                         @else
                                             <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
                                             <h3>Program Head:</h3>
-                                            {{-- @foreach($viceprescampusad as $dataviceprescampusad)
+                                            @foreach($viceprescampusad as $dataviceprescampusad)
                                                 @if($disabledsubj->contains($dataviceprescampusad->facID))
                                                     <div class="col-lg-3 col-12">
                                                         <a href="#" disabled>
@@ -1507,8 +1507,8 @@ CISS V.1.0 || Faculty Services
                                                         </a>
                                                     </div>
                                                 @endif
-                                            @endforeach --}}
-                                        @endif
+                                            @endforeach
+                                        @endif --}}
                                     @else
                                         <div class="col-12">
                                             <div class="alert alert-warning d-flex align-items-center" role="alert">
