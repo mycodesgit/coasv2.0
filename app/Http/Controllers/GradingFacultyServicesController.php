@@ -300,7 +300,7 @@ class GradingFacultyServicesController extends Controller
     public function supfaceval()
     {
         $currsem = QCEsemester::where('qcesemstat', 2)->get();
-        $currsemnow = QCEsemester::where('qcesemstat', 2)->first();
+        $currsemnow = QCEsemester::where('qcesemstat', 4)->first();
 
         $sy = ConfigureCurrent::where('set_status', 4)->first(['schlyear', 'semester']);
         $setevalmode = QCEsetting::first();
@@ -308,8 +308,8 @@ class GradingFacultyServicesController extends Controller
         $vicepres = Faculty::where('id', 434)->first();
         $viceprescampusad = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('fac_designation.designation', '=', 'CampusAdmin')
-                    ->where('fac_designation.schlyear', $sy->qceschlyear)
-                    ->where('fac_designation.semester', $sy->qcesemester)
+                    ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
+                    ->where('fac_designation.semester', $currsemnow->qcesemester)
                     ->select(
                         'faculty.id', 
                         'faculty.fname', 
