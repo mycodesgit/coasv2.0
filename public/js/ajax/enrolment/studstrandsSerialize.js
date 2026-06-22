@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var schlyear = urlParams.get('schlyear') || ''; 
+    var type = urlParams.get('type') || '';
     var semester = urlParams.get('semester') || '';
     var campus = urlParams.get('campus') || ''; 
 
@@ -21,6 +22,7 @@ $(document).ready(function() {
             "type": "GET",
             "data": { 
                 "schlyear": schlyear,
+                "type": type,
                 "semester": semester,
                 "campus": campus,
             }

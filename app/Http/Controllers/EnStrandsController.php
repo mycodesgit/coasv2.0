@@ -57,6 +57,7 @@ class EnStrandsController extends Controller
     public function getsearchstudstrandsRead(Request $request) 
     {
         $schlyear = $request->query('schlyear');
+        $type = $request->query('type');
         $semester = $request->query('semester');
         $campus = $request->query('campus');
         $campusArray = array_map('trim', explode(',', $campus));
@@ -96,7 +97,14 @@ class EnStrandsController extends Controller
                         $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
                     }
                 })
-                ->where('students.stud_id', 'NOT LIKE', '%-G')
+                ->where(function ($q) use ($type) {
+                    if ($type == 1) {
+                        $q->where('students.stud_id', 'NOT LIKE', '%-G');
+                    } elseif ($type == 2) {
+                        $q->where('students.stud_id', 'LIKE', '%-G');
+                    }
+                    // If type is neither 1 nor 2, no condition is applied
+                })
                 ->where('program_en_history.schlyear', '=', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
                 ->get();

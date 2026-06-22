@@ -47,7 +47,16 @@ CISS V.1.0 || Enrollment
                                                         </select>
                                                     </div>
 
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2">
+                                                        <label>Type: <span class="text-danger">*</span></label>
+                                                        <select class="form-control form-control-sm" name="type" id="type">
+                                                            <option disabled selected>Select</option>
+                                                            <option value="1">Undergraduate Students</option>
+                                                            <option value="2">Graduate Students</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
                                                         <label>Semester: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="semester" id="semester">
                                                             <option disabled selected>Select</option>
@@ -57,7 +66,7 @@ CISS V.1.0 || Enrollment
                                                         </select>
                                                     </div>
 
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2">
                                                         <label>Campus: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="campus" id="campus">
                                                             <option value="MC">Main</option>
