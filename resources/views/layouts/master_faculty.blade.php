@@ -475,6 +475,9 @@
     @if (request()->routeIs('prelist.store'))
         <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}?v={{ time() }}"></script>
     @endif
+    @if (request()->routeIs('prelist.storeshift'))
+        <script src="{{ asset('js/ajax/enrolment/enrollmentSerialize.js') }}?v={{ time() }}"></script>
+    @endif
     @if (request()->routeIs('storeprenrolview.store'))
         @include('script.enrllmnt.evalEnrolmentSerialize')
     @endif

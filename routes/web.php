@@ -284,14 +284,17 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
                 Route::get('/list/search', [GradingFacultyServicePreenrolController::class, 'index'])->name('prelist.index');
                 Route::get('/list/search/subject/stud/fetch/list', [GradingFacultyServicePreenrolController::class, 'fetchprestudenrol'])->name('fetchprestudenrol');
                 Route::get('/list/search/process', [GradingFacultyServicePreenrolController::class, 'process'])->name('prelist.process');
+                Route::get('/list/search/process/shift', [GradingFacultyServicePreenrolController::class, 'processShift'])->name('prelist.processShift');
                 Route::get('/list/search/process/pending/req', [GradingFacultyServicePreenrolController::class, 'storeprenrolprocess'])->name('storeprenrolprocess');
                 Route::get('/list/search/result', [GradingFacultyServicePreenrolController::class, 'store'])->name('prelist.store');
+                Route::get('/list/search/result/shift', [GradingFacultyServicePreenrolController::class, 'storeshift'])->name('prelist.storeshift');
                 Route::get('/list/search/result/pending/req', [GradingFacultyServicePreenrolController::class, 'storeprenrolview'])->name('storeprenrolview.store');
                 Route::get('/list/search/result/fetch-subjects/fac', [GradingFacultyServicePreenrolController::class, 'fetchSubjectsOffered'])->name('fetchSubjectsOffered');
                 Route::get('/search/result/get-sub-title', [GradingFacultyServicePreenrolController::class, 'coursefetchSubjectsSelect'])->name('coursefetchSubjectsSelect');
                 Route::get('/search/result/get-sub-fee', [GradingFacultyServicePreenrolController::class, 'fetchFeeSubjectsSelect'])->name('fetchFeeSubjectsSelect');
                 Route::get('/searchstudent/enroll/check-enrollment', [GradingFacultyServicePreenrolController::class, 'faccheckEnrollment'])->name('faccheckEnrollment');
                 Route::post('/student/enroll/eval/submit', [GradingFacultyServicePreenrolController::class, 'studFacEvalEnrollmentCreate'])->name('studFacEvalEnrollmentCreate');
+                Route::post('/student/enroll/eval/submit/shift/trans', [GradingFacultyServicePreenrolController::class, 'studFacEvalEnrollmentShiftTransCreate'])->name('studFacEvalEnrollmentShiftTransCreate');
                 Route::get('/student/enroll/record/eval/searchPDF', [GradingFacultyServicePreenrolController::class, 'studevalfacultypdf'])->name('studevalfacultypdf');
             });
         });
