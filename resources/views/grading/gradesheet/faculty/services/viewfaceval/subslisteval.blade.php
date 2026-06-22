@@ -665,7 +665,7 @@ CISS V.1.0 || Faculty Services
                                                     </div>
                                                 @else
                                                     <div class="col-lg-3 col-12">
-                                                        <a href="{{ route('supfacevalrate', ['id' => $datafacollegedean->subjID, 'qcefacID'  => $datafacollegedean->facID, 'qcefacname'  => $datafacollegedean->fname . ' ' . $datafacollegedean->lname, 'qceevaluator' => 'Dean']) }}">
+                                                        <a href="{{ route('supfacevalrate', ['id' => $datafacollegedean->subjID, 'qcefacID'  => $datafacollegedean->facID, 'qcefacname'  => $datafacollegedean->fname . ' ' . $datafacollegedean->lname]) }}">
                                                             <div class="card card-hover h-100">
                                                                 <div class="card-body p-4">
                                                                     <div class="d-flex justify-content-between pb-5 mb-3">
@@ -729,7 +729,7 @@ CISS V.1.0 || Faculty Services
                                                     </div>
                                                 @else
                                                     <div class="col-lg-3 col-12">
-                                                        <a href="{{ route('supfacevalrate', ['id' => $datafacollegeprogramhead->subjID, 'qcefacID'  => $datafacollegeprogramhead->facID, 'qcefacname'  => $datafacollegeprogramhead->fname . ' ' . $datafacollegeprogramhead->lname, 'qceevaluator' => 'Program Head']) }}">
+                                                        <a href="{{ route('supfacevalrate', ['id' => $datafacollegeprogramhead->subjID, 'qcefacID'  => $datafacollegeprogramhead->facID, 'qcefacname'  => $datafacollegeprogramhead->fname . ' ' . $datafacollegeprogramhead->lname]) }}">
                                                             <div class="card card-hover h-100">
                                                                 <div class="card-body p-4">
                                                                     <div class="d-flex justify-content-between pb-5 mb-3">
