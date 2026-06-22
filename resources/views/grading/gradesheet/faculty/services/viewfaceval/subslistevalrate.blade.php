@@ -83,7 +83,7 @@ CISS V.1.0 || Faculty Services
                                     <input type="hidden" name="evaluatorID" value="{{ Auth::guard('faculty')->user()->id }}">
                                     <input type="hidden" name="studidno" value="{{ Auth::guard('faculty')->user()->id }}">
                                     <input type="hidden" name="prog" value="{{ $facdetail->faccollege ?? '' }}">
-                                    <input type="hidden" name="qceevaluator" value="{{ $facDesignateRole->designation }}">
+                                    <input type="hidden" name="qceevaluator" value="{{ request('qceevaluator') }}">
 
                                     <div class="row mb-1">
                                         <div id="card-1" class="row g-2 mb-2">

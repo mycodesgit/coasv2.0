@@ -305,6 +305,45 @@ class GradingFacultyServicesController extends Controller
         $sy = ConfigureCurrent::where('set_status', 4)->first(['schlyear', 'semester']);
         $setevalmode = QCEsetting::first();
 
+        $vicepres = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
+                    ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
+                    ->where('fac_designation.designation', '=', 'Dean')
+                    ->where('fac_designation.designation', '=', 'CampusAdmin')
+                    ->select(
+                            'faculty.id', 
+                            'faculty.fname', 
+                            'faculty.mname', 
+                            'faculty.lname', 
+                            'faculty.rank', 
+                            'faculty.campus', 
+                            'faculty.id as facID', 
+                            'fac_designation.designation'
+                        )
+                    ->get();
+        
+        $campusad = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
+                    ->where('designation', '=', 'CampusAdmin')
+                    ->where('schlyear', $currsemnow->qceschlyear)
+                    ->where('semester', $currsemnow->qcesemester)
+                    ->where('campus', Auth::guard('faculty')->user()->campus)
+                    ->first();
+
+        $campusadprogramhead = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
+                    ->where('faculty.campus', '=', Auth::guard('faculty')->user()->campus)
+                    ->where('fac_designation.designation', '=', 'Program Head')
+                    ->select(
+                        'faculty.id', 
+                        'faculty.fname', 
+                        'faculty.mname', 
+                        'faculty.lname', 
+                        'faculty.rank', 
+                        'faculty.campus', 
+                        'faculty.id as facID', 
+                        'fac_designation.designation', 
+                        'fac_designation.facCollege'
+                    )
+                    ->get();
+
         $collegedean = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
                     ->where('facCollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('designation', '=', 'Dean')
@@ -388,7 +427,7 @@ class GradingFacultyServicesController extends Controller
         $data = $this->getActiveFacultyDesignationData();
         $authfacdesig = $data['authfacdesig'];
                         
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'collegedean', 'collegeprogramhead', 'casdivisionchair', 'facdivisionchair', 'facollegedean', 'facollegeprogramhead', 'setevalmode', 'disabledsubj', 'disabledsubjdean', 'authfacdesig'));
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'campusad', 'campusadprogramhead', 'collegedean', 'collegeprogramhead', 'casdivisionchair', 'facdivisionchair', 'facollegedean', 'facollegeprogramhead', 'setevalmode', 'disabledsubj', 'disabledsubjdean', 'authfacdesig'));
     }
 
     public function supfacevalrate(Request $request)
