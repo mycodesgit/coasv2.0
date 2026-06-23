@@ -331,6 +331,8 @@ class GradingFacultyServicesController extends Controller
         $campusadprogramhead = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('faculty.campus', '=', Auth::guard('faculty')->user()->campus)
                     ->where('fac_designation.designation', '=', 'Program Head')
+                    ->where('schlyear', $currsemnow->qceschlyear)
+                    ->where('semester', $currsemnow->qcesemester)
                     ->select(
                         'faculty.id', 
                         'faculty.fname', 
@@ -372,6 +374,8 @@ class GradingFacultyServicesController extends Controller
                     ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('faculty.campus', '=', Auth::guard('faculty')->user()->campus)
                     ->where('fac_designation.designation', '=', 'Division Chair')
+                    ->where('fac_designation.schlyear', '=', $currsemnow->qceschlyear)
+                    ->where('fac_designation.semester', '=', $currsemnow->qcesemester)
                     ->select(
                             'faculty.id', 
                             'faculty.fname', 
@@ -387,7 +391,9 @@ class GradingFacultyServicesController extends Controller
         $facollegedean = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
                     ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
                     ->where('faculty.campus', '=', Auth::guard('faculty')->user()->campus)
-                    ->where('fac_designation.designation', '=', 'Program Head')
+                    ->where('fac_designation.designation', 'LIKE', 'Program Head')
+                    ->where('fac_designation.schlyear', '=', $currsemnow->qceschlyear)
+                    ->where('fac_designation.semester', '=', $currsemnow->qcesemester)
                     ->select(
                         'faculty.id', 
                         'faculty.fname', 
