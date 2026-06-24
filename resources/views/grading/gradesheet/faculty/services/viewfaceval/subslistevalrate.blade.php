@@ -78,12 +78,12 @@ CISS V.1.0 || Faculty Services
                                     <input type="hidden" name="qceschlyearsemID" value="{{ $currsem->first()->id }}">
                                     <input type="hidden" name="schlyear" value="{{ $currsem->first()->qceschlyear }}">
                                     <input type="hidden" name="semester" value="{{ $currsem->first()->qcesemester }}">
-                                    <input type="hidden" name="qcefacID" value="{{ request('qcefacID') }}">
+                                    <input type="hidden" name="qcefacID" value="{{ $subjsIDselected }}">
                                     <input type="hidden" name="evaluatorname" value="{{ Auth::guard('faculty')->user()->fname }} {{ substr(Auth::guard('faculty')->user()->mname ?? '', 0, 1) }} {{ Auth::guard('faculty')->user()->lname }}">
                                     <input type="hidden" name="evaluatorID" value="{{ Auth::guard('faculty')->user()->id }}">
                                     <input type="hidden" name="studidno" value="{{ Auth::guard('faculty')->user()->id }}">
                                     <input type="hidden" name="prog" value="{{ $facdetail->faccollege ?? '' }}">
-                                    <input type="hidden" name="qceevaluator" value="{{ $facDesignateRole->designation }}">
+                                    <input type="hidden" name="qceevaluator" value="{{ $qceevaluator ?? $facDesignateRole->designation ?? 'Faculty' }}">
 
                                     <div class="row mb-1">
                                         <div id="card-1" class="row g-2 mb-2">

@@ -10,10 +10,17 @@
         ? $faculty->subjIDs[0] 
         : ($faculty->subjID ?? $faculty->id);
     
+    // ENCRYPT all values except qcefacname
+    $encryptedId = EncryptionHelper::encryptUrl($subjID);
+    $encryptedFacID = EncryptionHelper::encryptUrl($faculty->facID ?? $faculty->id);
+    $encryptedEvaluator = isset($evaluator) ? EncryptionHelper::encryptUrl($evaluator) : EncryptionHelper::encryptUrl('Faculty');
+    // qcefacname is NOT encrypted - kept as plain text for readability
+
     $route = $isDone ? '#' : route('supfacevalrate', [
-        'id' => $subjID,
-        'qcefacID' => $faculty->facID ?? $faculty->id,
-        'qcefacname' => $faculty->fname . ' ' . $faculty->lname
+        'id' => $encryptedId,
+        'qcefacID' => $encryptedFacID,
+        'qcefacname' => $faculty->fname . ' ' . $faculty->lname,
+        'qceevaluator' => $encryptedEvaluator   
     ]);
     $disabled = $isDone ? 'disabled' : '';
     $cardClass = $isDone ? '' : 'card-hover';
@@ -21,7 +28,7 @@
         ->map(fn($name) => strtoupper(substr($name, 0, 1)))
         ->implode('');
     $middleInitial = substr($faculty->mname, 0, 1);
-    $semesterText = $sy->semester == 1 ? '1st Sem' : ($sy->semester == 2 ? '2nd Sem' : ($sy->semester == 3 ? 'Summer' : $sy->semester));
+    $semesterText = $currsem->first()->semester == 1 ? '1st Sem' : ($currsem->first()->semester == 2 ? '2nd Sem' : ($currsem->first()->semester == 3 ? 'Summer' : $currsem->first()->semester));
     
     // Handle multiple designations
     $designations = isset($faculty->designations) && is_array($faculty->designations) 

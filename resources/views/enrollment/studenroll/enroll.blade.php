@@ -61,6 +61,7 @@ CISS V.1.0 || Enrollment
                                                                 <option value="{{ $datasy->semester }}">{{ $datasy->semester == 1 ? '1st Semester' : ($datasy->semester == 2 ? '2nd Semester' : 'Summer') }}</option>
                                                             @endforeach --}}
                                                             <option value="1">1st Semester</option>
+                                                            <option value="2">2nd Semester</option>
                                                             <option value="3">Summer</option>
                                                         </select>
                                                     </div>

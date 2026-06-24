@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FacultyOtpMail;
+use App\Helpers\EncryptionHelper;
 
 use PDF;
 use Storage;
@@ -811,8 +812,20 @@ class GradingFacultyServicesController extends Controller
 
     public function supfacevalrate(Request $request)
     {
-        $subjsIDselected = $request->query('id');
-        $qcefacID = $request->query('qcefacID');
+        $encryptedId = $request->query('id');
+        $encryptedFacID = $request->query('qcefacID');
+        $qcefacname = $request->query('qcefacname'); // NOT encrypted - plain text
+        $encryptedEvaluator = $request->query('qceevaluator');
+        
+        // DECRYPT all encrypted values
+        $subjsIDselected = EncryptionHelper::decryptUrl($encryptedId);
+        $qcefacID = EncryptionHelper::decryptUrl($encryptedFacID);
+        $qceevaluator = EncryptionHelper::decryptUrl($encryptedEvaluator);
+        
+        // If decryption fails, use the encrypted value as fallback or redirect with error
+        if (!$subjsIDselected || !$qcefacID || !$qceevaluator) {
+            return redirect()->route('supfaceval')->with('error', 'Invalid or tampered URL parameters.');
+        }
 
         $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 1)->get();
         $inst = QCEinstruction::where('instructcat', 1)->get();
@@ -845,8 +858,16 @@ class GradingFacultyServicesController extends Controller
 
         $data = $this->getActiveFacultyDesignationData();
         $authfacdesig = $data['authfacdesig'];
+
+        // Get all user designations for display
+        $userDesignations = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
+            ->where('schlyear', $currsemnow->qceschlyear)
+            ->where('semester', $currsemnow->qcesemester)
+            ->where('campus', Auth::guard('faculty')->user()->campus)
+            ->pluck('designation')
+            ->toArray();
     
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslistevalrate', compact('inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'facDesignateRole', 'authfacdesig'));
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslistevalrate', compact('inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'facDesignateRole', 'authfacdesig', 'qceevaluator', 'userDesignations', 'subjsIDselected'));
     }
 
     public function deanfacevalrateformCreate(Request $request)
