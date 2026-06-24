@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Helpers\EncryptionHelper;
 
 use PDF;
 use Storage;
@@ -119,8 +120,12 @@ class StudentFacultyEvaluationController extends Controller
         $studentowner = Auth::guard($guard)->user()->studid;
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
-        $subjsIDselected = $request->query('id');
-        $qcefacID = $request->query('qcefacID');
+        $encryptedId = $request->query('id');
+        $encryptedFacID = $request->query('qcefacID');
+
+        // DECRYPT all encrypted values
+        $subjsIDselected = EncryptionHelper::decryptUrl($encryptedId);
+        $qcefacID = EncryptionHelper::decryptUrl($encryptedFacID);
 
         $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 1)->get();
         $inst = QCEinstruction::where('instructcat', 1)->get();
@@ -166,7 +171,7 @@ class StudentFacultyEvaluationController extends Controller
                         ->groupBy('studgrades.subjID')
                         ->get();
 
-        return view('student.services.facultyevaluation.evalselectsubjectrate', compact('studauth', 'inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'mysubjstarteval'));
+        return view('student.services.facultyevaluation.evalselectsubjectrate', compact('studauth', 'inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'mysubjstarteval', 'subjsIDselected', 'qcefacID'));
     }
 
     public function create(Request $request)

@@ -70,8 +70,13 @@
                                                     </a>
                                                 </div>
                                             @else  
+                                                @php
+                                                    // ENCRYPT all values except qcefacname
+                                                    $encryptedId = EncryptionHelper::encryptUrl($datafacsubprogen->subjID);
+                                                    $encryptedFacID = EncryptionHelper::encryptUrl($datafacsubprogen->id);
+                                                @endphp     
                                                 <div class="col-lg-3 col-12">
-                                                    <a href="{{ route('show.evaluation.rate', ['id' => $datafacsubprogen->subjID, 'qcefacID'  => $datafacsubprogen->id, 'qcefacname'  => $datafacsubprogen->fname . ' ' . $datafacsubprogen->lname]) }}">
+                                                    <a href="{{ route('show.evaluation.rate', ['id' => $encryptedId, 'qcefacID'  => $encryptedFacID, 'qcefacname'  => $datafacsubprogen->fname . ' ' . $datafacsubprogen->lname]) }}">
                                                         <div class="card card-hover h-100">
                                                             <div class="card-body p-4">
                                                                 <div class="d-flex justify-content-between border-bottom pb-5 mb-3">

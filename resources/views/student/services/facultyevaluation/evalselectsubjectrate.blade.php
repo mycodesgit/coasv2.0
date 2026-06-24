@@ -63,12 +63,12 @@
                                     <input type="hidden" name="qceschlyearsemID" value="{{ $currsem->first()->id }}">
                                     <input type="hidden" name="schlyear" value="{{ $currsem->first()->qceschlyear }}">
                                     <input type="hidden" name="semester" value="{{ $currsem->first()->qcesemester }}">
-                                    <input type="hidden" name="qcefacID" value="{{ request('qcefacID') }}">
+                                    <input type="hidden" name="qcefacID" value="{{ $qcefacID }}">
                                     <input type="hidden" name="evaluatorname" value="{{ $studauth->fname }} {{ substr($studauth->mname, 0, 1) }} {{ $studauth->lname }}">
                                     <input type="hidden" name="evaluatorID" value="{{ $studauth->id }}">
                                     <input type="hidden" name="studidno" value="{{ $studauth->stud_id }}">
                                     <input type="hidden" name="prog" value="{{ $facdetail->first()->faccollege ?? 'N/A' }}">
-                                    <input type="hidden" name="subjidrate" value="{{ request('id') }}">
+                                    <input type="hidden" name="subjidrate" value="{{ $subjsIDselected }}">
                                     <input type="hidden" name="qceevaluator" value="Student">
 
                                     <div class="row mb-1">
