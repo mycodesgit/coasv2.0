@@ -299,141 +299,514 @@ class GradingFacultyServicesController extends Controller
 
     public function supfaceval()
     {
-        $currsem = QCEsemester::where('qcesemstat', 2)->get();
+        $user = Auth::guard('faculty')->user();
         $currsemnow = QCEsemester::where('qcesemstat', 2)->first();
+        
+        if (!$currsemnow) {
+            return redirect()->back()->with('error', 'No active semester found.');
+        }
 
         $sy = ConfigureCurrent::where('set_status', 4)->first(['schlyear', 'semester']);
         $setevalmode = QCEsetting::first();
 
-        $vicepres = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
-                    ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
-                    ->where('fac_designation.designation', '=', 'Dean')
-                    ->where('fac_designation.designation', '=', 'CampusAdmin')
-                    ->select(
-                            'faculty.id', 
-                            'faculty.fname', 
-                            'faculty.mname', 
-                            'faculty.lname', 
-                            'faculty.rank', 
-                            'faculty.campus', 
-                            'faculty.id as facID', 
-                            'fac_designation.designation'
-                        )
-                    ->get();
-        
-        $campusad = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
-                    ->where('designation', '=', 'CampusAdmin')
-                    ->where('schlyear', $currsemnow->qceschlyear)
-                    ->where('semester', $currsemnow->qcesemester)
-                    ->where('campus', Auth::guard('faculty')->user()->campus)
-                    ->first();
+        // Get user's designations for the current semester
+        $userDesignations = FacDesignation::where('fac_id', $user->id)
+            ->where('schlyear', $currsemnow->qceschlyear)
+            ->where('semester', $currsemnow->qcesemester)
+            ->where('campus', $user->campus)
+            ->get();
 
-        $campusadprogramhead = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
-                    ->where('faculty.campus', '=', Auth::guard('faculty')->user()->campus)
-                    ->where('fac_designation.designation', '=', 'Program Head')
-                    ->where('schlyear', $currsemnow->qceschlyear)
-                    ->where('semester', $currsemnow->qcesemester)
-                    ->select(
-                        'faculty.id', 
-                        'faculty.fname', 
-                        'faculty.mname', 
-                        'faculty.lname', 
-                        'faculty.rank', 
-                        'faculty.campus', 
-                        'faculty.id as facID', 
-                        'fac_designation.designation', 
-                        'fac_designation.facCollege'
-                    )
-                    ->get();
+        // Check if user has specific designations
+        $hasCampusAdmin = $userDesignations->contains('designation', 'CampusAdmin');
+        $hasDean = $userDesignations->contains('designation', 'Dean');
+        $hasProgramHead = $userDesignations->contains('designation', 'Program Head');
+        $hasDivisionChair = $userDesignations->contains('designation', 'Division Chair');
 
-        $collegedean = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
-                    ->where('facCollege', '=', Auth::guard('faculty')->user()->faccollege)
-                    ->where('designation', '=', 'Dean')
-                    ->where('schlyear', $currsemnow->qceschlyear)
-                    ->where('semester', $currsemnow->qcesemester)
-                    ->where('campus', Auth::guard('faculty')->user()->campus)
-                    ->first();
-        
-        $collegeprogramhead = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
-                    ->where('facCollege', '=', Auth::guard('faculty')->user()->faccollege)
-                    ->where('designation', '=', 'Program Head')
-                    ->where('schlyear', $currsemnow->qceschlyear)
-                    ->where('semester', $currsemnow->qcesemester)
-                    ->where('campus', Auth::guard('faculty')->user()->campus)
-                    ->first();
+        // Get the actual designation objects
+        $collegedean = $userDesignations->where('designation', 'Dean')->first();
+        $collegeprogramhead = $userDesignations->where('designation', 'Program Head')->first();
+        $casdivisionchair = $userDesignations->where('designation', 'Division Chair')->first();
+        $campusad = $userDesignations->where('designation', 'CampusAdmin')->first();
 
-        $casdivisionchair = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
-                    ->where('facCollege', '=', Auth::guard('faculty')->user()->faccollege)
-                    ->where('designation', '=', 'Division Chair')
-                    ->where('schlyear', $currsemnow->qceschlyear)
-                    ->where('semester', $currsemnow->qcesemester)
-                    ->where('campus', Auth::guard('faculty')->user()->campus)
-                    ->first();
+        // Determine user's college and department
+        $userCollege = $user->faccollege;
+        $userDept = $user->facdept;
 
-        $facdivisionchair = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
-                    ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
-                    ->where('faculty.campus', '=', Auth::guard('faculty')->user()->campus)
-                    ->where('fac_designation.designation', '=', 'Division Chair')
-                    ->where('fac_designation.schlyear', '=', $currsemnow->qceschlyear)
-                    ->where('fac_designation.semester', '=', $currsemnow->qcesemester)
-                    ->select(
-                            'faculty.id', 
-                            'faculty.fname', 
-                            'faculty.mname', 
-                            'faculty.lname', 
-                            'faculty.rank', 
-                            'faculty.campus', 
-                            'faculty.id as facID', 
-                            'fac_designation.designation'
-                        )
-                    ->get();
+        // Get ALL faculty with their designations in the user's campus (excluding current user)
+        $allFacultyInCampus = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
+            ->where('faculty.campus', $user->campus)
+            ->where('faculty.id', '!=', $user->id)
+            ->whereIn('fac_designation.designation', ['Dean', 'Program Head', 'Division Chair', 'CampusAdmin'])
+            ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
+            ->where('fac_designation.semester', $currsemnow->qcesemester)
+            ->select(
+                'faculty.id', 
+                'faculty.fname', 
+                'faculty.mname', 
+                'faculty.lname', 
+                'faculty.rank', 
+                'faculty.campus', 
+                'faculty.faccollege',
+                'faculty.facdept',
+                'faculty.id as facID', 
+                'fac_designation.designation', 
+                'fac_designation.facCollege',
+                'fac_designation.id as desigID'
+            )
+            ->get();
 
-        $facollegedean = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
-                    ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
-                    ->where('faculty.campus', '=', Auth::guard('faculty')->user()->campus)
-                    ->where('fac_designation.designation', 'LIKE', 'Program Head')
-                    ->where('fac_designation.schlyear', '=', $currsemnow->qceschlyear)
-                    ->where('fac_designation.semester', '=', $currsemnow->qcesemester)
-                    ->select(
-                        'faculty.id', 
-                        'faculty.fname', 
-                        'faculty.mname', 
-                        'faculty.lname', 
-                        'faculty.rank', 
-                        'faculty.campus', 
-                        'faculty.id as facID', 
-                        'fac_designation.designation', 
-                        'fac_designation.facCollege'
-                    )
-                    ->get();
-        
-        $facollegeprogramhead = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
-                    ->where('faculty.faccollege', '=', Auth::guard('faculty')->user()->faccollege)
-                    ->where('faculty.facdept', '=', Auth::guard('faculty')->user()->facdept)
-                    ->where('faculty.campus', Auth::guard('faculty')->user()->campus)
-                    ->where('faculty.role', '=', 943)
-                    ->whereNull('fac_designation.fac_id')
-                    ->select('faculty.id', 'faculty.fname', 'faculty.mname', 'faculty.lname', 'faculty.rank', 'faculty.campus', 'faculty.id as facID', 'fac_designation.designation', 'fac_designation.facCollege')
-                    ->get();
-        
-        $disabledsubj = QCEfevalrate::where('qceformevalrate.evaluatorID', Auth::guard('faculty')->user()->id)
-                    ->whereIn('qceformevalrate.statprint', [1,2])
-                    ->where('qceformevalrate.schlyear', $currsemnow->qceschlyear)
-                    ->where('qceformevalrate.semester', $currsemnow->qcesemester)
-                    ->where('qceformevalrate.qceevaluator', '=', 'Program Head')
-                    ->pluck('qcefacID');
+        // Group by faculty ID to handle multiple designations
+        $facultyGrouped = $allFacultyInCampus->groupBy('id');
 
-        $disabledsubjdean = QCEfevalrate::where('evaluatorID', Auth::guard('faculty')->user()->id)
-                    ->whereIn('statprint', [1,2])
-                    ->where('schlyear', $currsemnow->qceschlyear)
-                    ->where('semester', $currsemnow->qcesemester)
-                    ->where('qceevaluator', 'Dean')
-                    ->pluck('qcefacID');
+        // Get unique faculty with their designations (excluding current user)
+        $allFacultyWithDesignations = $facultyGrouped->map(function($facultyGroup) {
+            $faculty = $facultyGroup->first();
+            $faculty->designations = $facultyGroup->pluck('designation')->toArray();
+            $faculty->facColleges = $facultyGroup->pluck('facCollege')->filter()->toArray();
+            $faculty->subjIDs = $facultyGroup->pluck('subjID')->filter()->toArray();
+            return $faculty;
+        })->values();
 
+        // Get faculties without designation (role 943) - excluding current user
+        $regularFaculties = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
+            ->where('faculty.campus', $user->campus)
+            ->where('faculty.id', '!=', $user->id)
+            ->where('faculty.role', 943)
+            ->whereNull('fac_designation.fac_id')
+            ->select(
+                'faculty.id', 
+                'faculty.fname', 
+                'faculty.mname', 
+                'faculty.lname', 
+                'faculty.rank', 
+                'faculty.campus', 
+                'faculty.faccollege',
+                'faculty.facdept',
+                'faculty.id as facID', 
+                'fac_designation.designation', 
+                'fac_designation.facCollege'
+            )
+            ->get()
+            ->map(function($faculty) {
+                $faculty->designations = ['Faculty'];
+                $faculty->facColleges = [$faculty->faccollege];
+                $faculty->subjIDs = [];
+                return $faculty;
+            });
+
+        // Get disabled subjects for different evaluator types
+        $disabledsubj = QCEfevalrate::where('evaluatorID', $user->id)
+            ->whereIn('statprint', [1,2])
+            ->where('schlyear', $currsemnow->qceschlyear)
+            ->where('semester', $currsemnow->qcesemester)
+            ->where('qceevaluator', 'Program Head')
+            ->pluck('qcefacID');
+
+        $disabledsubjdean = QCEfevalrate::where('evaluatorID', $user->id)
+            ->whereIn('statprint', [1,2])
+            ->where('schlyear', $currsemnow->qceschlyear)
+            ->where('semester', $currsemnow->qcesemester)
+            ->where('qceevaluator', 'Dean')
+            ->pluck('qcefacID');
+
+        $disabledsubjdivchair = QCEfevalrate::where('evaluatorID', $user->id)
+            ->whereIn('statprint', [1,2])
+            ->where('schlyear', $currsemnow->qceschlyear)
+            ->where('semester', $currsemnow->qcesemester)
+            ->where('qceevaluator', 'Division Chair')
+            ->pluck('qcefacID');
+
+        $disabledsubjcampusadmin = QCEfevalrate::where('evaluatorID', $user->id)
+            ->whereIn('statprint', [1,2])
+            ->where('schlyear', $currsemnow->qceschlyear)
+            ->where('semester', $currsemnow->qcesemester)
+            ->where('qceevaluator', 'CampusAdmin')
+            ->pluck('qcefacID');
+
+        // Get active faculty designation data from parent Controller
         $data = $this->getActiveFacultyDesignationData();
         $authfacdesig = $data['authfacdesig'];
-                        
-        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact('currsem', 'sy', 'campusad', 'campusadprogramhead', 'collegedean', 'collegeprogramhead', 'casdivisionchair', 'facdivisionchair', 'facollegedean', 'facollegeprogramhead', 'setevalmode', 'disabledsubj', 'disabledsubjdean', 'authfacdesig'));
+
+        // Get all active semesters
+        $currsem = QCEsemester::where('qcesemstat', 2)->get();
+
+        // Build evaluation sections based on user roles
+        $sections = $this->getEvaluationSections(
+            $user,
+            $hasCampusAdmin,
+            $hasDean,
+            $hasProgramHead,
+            $hasDivisionChair,
+            $campusad,
+            $casdivisionchair,
+            $collegedean,
+            $collegeprogramhead,
+            $allFacultyWithDesignations,
+            $regularFaculties,
+            $userCollege,
+            $userDept,
+            $disabledsubj,
+            $disabledsubjdean,
+            $disabledsubjdivchair,
+            $disabledsubjcampusadmin
+        );
+
+        return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact(
+            'currsem', 
+            'sy', 
+            'setevalmode', 
+            'sections',
+            'campusad',
+            'collegedean',
+            'collegeprogramhead',
+            'casdivisionchair',
+            'authfacdesig'
+        ));
+    }
+
+    private function getEvaluationSections(
+        $user,
+        $hasCampusAdmin,
+        $hasDean,
+        $hasProgramHead,
+        $hasDivisionChair,
+        $campusad,
+        $casdivisionchair,
+        $collegedean,
+        $collegeprogramhead,
+        $allFacultyWithDesignations,
+        $regularFaculties,
+        $userCollege,
+        $userDept,
+        $disabledsubj,
+        $disabledsubjdean,
+        $disabledsubjdivchair,
+        $disabledsubjcampusadmin
+    ) 
+    {
+        $sections = [];
+
+        // ============================================================
+        // SCENARIO 1: CAMPUS ADMIN ONLY (No Program Head)
+        // Display all Program Heads in the campus
+        // ============================================================
+        if ($hasCampusAdmin && !$hasProgramHead) {
+            // Get all Program Heads in the campus (excluding self)
+            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Program Head', $faculty->designations) &&
+                       $faculty->id != $user->id;
+            });
+
+            if ($programHeadsInCampus->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads (Campus-wide)',
+                    'data' => $programHeadsInCampus,
+                    'evaluator' => 'CampusAdmin',
+                    'disabled' => $disabledsubjcampusadmin,
+                    'icon' => 'ti ti-user',
+                    'role' => 'CampusAdmin'
+                ];
+            }
+        }
+
+        // ============================================================
+        // SCENARIO 2: CAMPUS ADMIN + PROGRAM HEAD
+        // Display all Program Heads AND Faculties in their college
+        // ============================================================
+        if ($hasCampusAdmin && $hasProgramHead) {
+            // Get all Program Heads in the campus (excluding self)
+            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Program Head', $faculty->designations) &&
+                       $faculty->id != $user->id;
+            });
+
+            // Get faculties in the user's college and department (excluding self)
+            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+                return $faculty->faccollege == $userCollege &&
+                       $faculty->facdept == $userDept &&
+                       $faculty->id != $user->id;
+            });
+
+            if ($programHeadsInCampus->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads (Campus-wide)',
+                    'data' => $programHeadsInCampus,
+                    'evaluator' => 'CampusAdmin',
+                    'disabled' => $disabledsubjcampusadmin,
+                    'icon' => 'ti ti-user',
+                    'role' => 'CampusAdmin'
+                ];
+            }
+
+            if ($facultiesInCollege->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Faculties (College)',
+                    'data' => $facultiesInCollege,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-users',
+                    'role' => 'Program Head'
+                ];
+            }
+        }
+
+        // ============================================================
+        // SCENARIO 3: DEAN ONLY (No Program Head)
+        // Display all Faculty directly (no Program Head to evaluate)
+        // ============================================================
+        if ($hasDean && !$hasProgramHead) {
+            // Check if there are Program Heads in the college
+            $hasProgramHeadsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($userCollege) {
+                return in_array('Program Head', $faculty->designations) &&
+                       in_array($userCollege, $faculty->facColleges);
+            })->isNotEmpty();
+
+            if ($hasProgramHeadsInCollege) {
+                // If there are Program Heads, display them
+                $programHeadsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($userCollege, $user) {
+                    return in_array('Program Head', $faculty->designations) &&
+                           in_array($userCollege, $faculty->facColleges) &&
+                           $faculty->id != $user->id;
+                });
+
+                if ($programHeadsInCollege->isNotEmpty()) {
+                    $sections[] = [
+                        'title' => 'Program Heads',
+                        'data' => $programHeadsInCollege,
+                        'evaluator' => 'Dean',
+                        'disabled' => $disabledsubjdean,
+                        'icon' => 'ti ti-user',
+                        'role' => 'Dean'
+                    ];
+                }
+            } else {
+                // If NO Program Heads, display all Faculty directly
+                $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+                    return $faculty->faccollege == $userCollege &&
+                           $faculty->facdept == $userDept &&
+                           $faculty->id != $user->id;
+                });
+
+                if ($facultiesInCollege->isNotEmpty()) {
+                    $sections[] = [
+                        'title' => 'Faculties',
+                        'data' => $facultiesInCollege,
+                        'evaluator' => 'Dean',
+                        'disabled' => $disabledsubjdean,
+                        'icon' => 'ti ti-users',
+                        'role' => 'Dean'
+                    ];
+                }
+            }
+        }
+
+        // ============================================================
+        // SCENARIO 4: DEAN + PROGRAM HEAD
+        // Display Program Heads AND Faculties in their college
+        // ============================================================
+        if ($hasDean && $hasProgramHead) {
+            // Get user's college
+            $deanCollege = $collegedean->facCollege ?? $userCollege;
+
+            // Special handling for CAS
+            $isCAS = ($deanCollege == 'CAS');
+
+            if ($isCAS) {
+                // CAS: Dean evaluates Division Chair
+                $divisionChairsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($deanCollege, $user) {
+                    return in_array('Division Chair', $faculty->designations) &&
+                           in_array($deanCollege, $faculty->facColleges) &&
+                           $faculty->id != $user->id;
+                });
+
+                if ($divisionChairsInCollege->isNotEmpty()) {
+                    $sections[] = [
+                        'title' => 'Division Chairs (CAS)',
+                        'data' => $divisionChairsInCollege,
+                        'evaluator' => 'Dean',
+                        'disabled' => $disabledsubjdean,
+                        'icon' => 'ti ti-briefcase',
+                        'role' => 'Dean'
+                    ];
+                }
+
+                // Program Heads (excluding self) in CAS
+                $programHeadsInCAS = $allFacultyWithDesignations->filter(function($faculty) use ($deanCollege, $user) {
+                    return in_array('Program Head', $faculty->designations) &&
+                           in_array($deanCollege, $faculty->facColleges) &&
+                           $faculty->id != $user->id;
+                });
+
+                if ($programHeadsInCAS->isNotEmpty()) {
+                    $sections[] = [
+                        'title' => 'Program Heads (CAS)',
+                        'data' => $programHeadsInCAS,
+                        'evaluator' => 'Division Chair',
+                        'disabled' => $disabledsubjdivchair,
+                        'icon' => 'ti ti-user',
+                        'role' => 'Division Chair'
+                    ];
+                }
+
+            } else {
+                // Non-CAS: Dean evaluates Program Heads
+                $programHeadsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($deanCollege, $user) {
+                    return in_array('Program Head', $faculty->designations) &&
+                           in_array($deanCollege, $faculty->facColleges) &&
+                           $faculty->id != $user->id;
+                });
+
+                if ($programHeadsInCollege->isNotEmpty()) {
+                    $sections[] = [
+                        'title' => 'Program Heads',
+                        'data' => $programHeadsInCollege,
+                        'evaluator' => 'Dean',
+                        'disabled' => $disabledsubjdean,
+                        'icon' => 'ti ti-user',
+                        'role' => 'Dean'
+                    ];
+                }
+            }
+
+            // As Program Head: Evaluate Faculties in their college/department
+            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+                return $faculty->faccollege == $userCollege &&
+                       $faculty->facdept == $userDept &&
+                       $faculty->id != $user->id;
+            });
+
+            if ($facultiesInCollege->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Faculties',
+                    'data' => $facultiesInCollege,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-users',
+                    'role' => 'Program Head'
+                ];
+            }
+        }
+
+        // ============================================================
+        // SCENARIO 5: DIVISION CHAIR (CAS only) + PROGRAM HEAD
+        // Display Program Heads AND Faculties
+        // ============================================================
+        if ($hasDivisionChair && $hasProgramHead && optional($casdivisionchair)->facCollege == "CAS") {
+            // Get Program Heads in CAS (excluding self)
+            $programHeadsInCAS = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Program Head', $faculty->designations) &&
+                       in_array('CAS', $faculty->facColleges) &&
+                       $faculty->id != $user->id;
+            });
+
+            if ($programHeadsInCAS->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads (CAS)',
+                    'data' => $programHeadsInCAS,
+                    'evaluator' => 'Division Chair',
+                    'disabled' => $disabledsubjdivchair,
+                    'icon' => 'ti ti-user',
+                    'role' => 'Division Chair'
+                ];
+            }
+
+            // As Program Head: Evaluate Faculties
+            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+                return $faculty->faccollege == $userCollege &&
+                       $faculty->facdept == $userDept &&
+                       $faculty->id != $user->id;
+            });
+
+            if ($facultiesInCollege->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Faculties',
+                    'data' => $facultiesInCollege,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-users',
+                    'role' => 'Program Head'
+                ];
+            }
+        }
+
+        // ============================================================
+        // SCENARIO 6: DIVISION CHAIR ONLY (CAS)
+        // Display Program Heads only
+        // ============================================================
+        if ($hasDivisionChair && !$hasProgramHead && optional($casdivisionchair)->facCollege == "CAS") {
+            // Get Program Heads in CAS (excluding self)
+            $programHeadsInCAS = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Program Head', $faculty->designations) &&
+                       in_array('CAS', $faculty->facColleges) &&
+                       $faculty->id != $user->id;
+            });
+
+            if ($programHeadsInCAS->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads (CAS)',
+                    'data' => $programHeadsInCAS,
+                    'evaluator' => 'Division Chair',
+                    'disabled' => $disabledsubjdivchair,
+                    'icon' => 'ti ti-user',
+                    'role' => 'Division Chair'
+                ];
+            }
+        }
+
+        // ============================================================
+        // SCENARIO 7: PROGRAM HEAD ONLY
+        // Display all Faculty in their college/department
+        // ============================================================
+        if ($hasProgramHead && !$hasCampusAdmin && !$hasDean && !$hasDivisionChair) {
+            // Get faculties in the Program Head's college and department (excluding self)
+            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+                return $faculty->faccollege == $userCollege &&
+                       $faculty->facdept == $userDept &&
+                       $faculty->id != $user->id;
+            });
+
+            // Get other Program Heads (excluding self) in the college
+            $otherProgramHeads = $allFacultyWithDesignations->filter(function($faculty) use ($user, $userCollege) {
+                return $faculty->id != $user->id && 
+                       in_array('Program Head', $faculty->designations) &&
+                       in_array($userCollege, $faculty->facColleges);
+            });
+
+            if ($otherProgramHeads->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads',
+                    'data' => $otherProgramHeads,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-user',
+                    'role' => 'Program Head'
+                ];
+            }
+
+            if ($facultiesInCollege->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Faculties',
+                    'data' => $facultiesInCollege,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-users',
+                    'role' => 'Program Head'
+                ];
+            }
+        }
+
+        // ============================================================
+        // SCENARIO 8: DEAN ONLY (Non-CAS with Program Heads)
+        // Display Program Heads only, not Faculties
+        // ============================================================
+        // This is already handled in Scenario 3 with the condition:
+        // if ($hasProgramHeadsInCollege) { display Program Heads }
+        // else { display Faculties }
+
+        // Filter out empty sections
+        return array_filter($sections, function($section) {
+            return $section['data']->isNotEmpty();
+        });
     }
 
     public function supfacevalrate(Request $request)

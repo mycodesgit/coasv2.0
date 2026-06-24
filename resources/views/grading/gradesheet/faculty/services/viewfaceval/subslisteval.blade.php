@@ -24,32 +24,50 @@ CISS V.1.0 || Faculty Services
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <div class="row g-3 justify-content-center align-items-center min-vh-50">
-                                    <!-- Content Section - Full width on mobile -->
-                                    <div class="col-lg-5 col-md-6 col-sm-12 col-12">
-                                        <div class="p-4 p-md-5 w-100" 
-                                            style="background: linear-gradient(135deg, #04401f, #066a32); border-radius: 12px; min-height: 300px;">
-                                            <div class="text-light text-center d-flex flex-column justify-content-center align-items-center h-100">
-                                                <!-- Server Icon -->
-                                                <div class="mb-3">
-                                                    <i class="fas fa-server" style="font-size: 4rem; opacity: 0.9;"></i>
+                                <div class="row g-3">
+                                    @if($setevalmode->statuseval === 'Off')
+                                        <div class="col-12">
+                                            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                                <i class="ti ti-alert-triangle fs-3 me-3"></i>
+                                                <div>
+                                                    Faculty Evaluation is currently unavailable. Please check back later.
                                                 </div>
-                                                
-                                                <!-- Heading -->
-                                                <h2 class="fw-bold mb-2">We'll be back soon!</h2>
-                                                
-                                                <!-- Divider -->
-                                                <div class="divider-custom my-3">
-                                                    <div class="divider-custom-line" style="width: 60px; height: 2px; background: rgba(255,255,255,0.3); margin: 0 auto;"></div>
-                                                </div>
-                                                
-                                                <!-- Message -->
-                                                <p class="mb-0 px-2" style="font-size: 1rem; line-height: 1.6; max-width: 400px;">
-                                                    Sorry for the inconvenience but we're performing some maintenance at the moment. We'll be back online shortly!
-                                                </p>
                                             </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        @forelse($sections as $section)
+                                            @if($section['title'] !== 'Division Chair')
+                                                <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+                                            @endif
+                                            <h3>
+                                                @if(isset($section['icon']))
+                                                    <i class="{{ $section['icon'] }} me-2"></i>
+                                                @endif
+                                                {{ $section['title'] }}
+                                                @if(isset($section['role']))
+                                                    <small class="text-muted">(Evaluating as: {{ $section['role'] }})</small>
+                                                @endif
+                                                <span class="badge bg-secondary">{{ $section['data']->count() }}</span>
+                                            </h3>
+                                            <div class="row g-3">
+                                                @foreach($section['data'] as $faculty)
+                                                    @include('grading.gradesheet.faculty.services.viewfaceval.partials.facultycards', [
+                                                        'faculty' => $faculty,
+                                                        'evaluator' => $section['evaluator'],
+                                                        'disabledsubj' => $section['disabled'],
+                                                        'sy' => $sy
+                                                    ])
+                                                @endforeach
+                                            </div>
+                                        @empty
+                                            <div class="col-12">
+                                                <div class="alert alert-info d-flex align-items-center" role="alert">
+                                                    <i class="ti ti-info-circle fs-3 me-3"></i>
+                                                    <div>Waiting for Supervisor Evaluation</div>
+                                                </div>
+                                            </div>
+                                        @endforelse
+                                    @endif
                                 </div>
                             </div>
                         </div>
