@@ -39,7 +39,7 @@ CISS V.1.0 || Faculty Services
                                             @if($section['title'] !== 'Division Chair')
                                                 <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
                                             @endif
-                                            <h3>
+                                            <h4>
                                                 @if(isset($section['icon']))
                                                     <i class="{{ $section['icon'] }} me-2"></i>
                                                 @endif
@@ -47,8 +47,8 @@ CISS V.1.0 || Faculty Services
                                                 @if(isset($section['role']))
                                                     <small class="text-muted">(Evaluating as: {{ $section['role'] }})</small>
                                                 @endif
-                                                <span class="badge bg-secondary">{{ $section['data']->count() }}</span>
-                                            </h3>
+                                                <small class="text-sm" style="font-size: 12pt"><span class="badge bg-secondary">{{ $section['data']->count() }}</span></small>
+                                            </h4>
                                             <div class="row g-3">
                                                 @foreach($section['data'] as $faculty)
                                                     @include('grading.gradesheet.faculty.services.viewfaceval.partials.facultycards', [
