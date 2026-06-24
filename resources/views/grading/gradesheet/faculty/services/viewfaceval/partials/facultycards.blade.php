@@ -1,4 +1,6 @@
 @php
+    use App\Helpers\EncryptionHelper;
+
     $isDone = $disabledsubj->contains($faculty->facID);
     $cardStyle = $isDone ? 'background-color: rgba(230, 230, 230, 0.644)' : '';
     $badgeClass = $isDone ? 'bg-success' : 'bg-info';
