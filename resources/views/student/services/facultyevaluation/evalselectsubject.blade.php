@@ -71,6 +71,7 @@
                                                 </div>
                                             @else  
                                                 @php
+                                                    use App\Helpers\EncryptionHelper;
                                                     // ENCRYPT all values except qcefacname
                                                     $encryptedId = EncryptionHelper::encryptUrl($datafacsubprogen->subjID);
                                                     $encryptedFacID = EncryptionHelper::encryptUrl($datafacsubprogen->id);
