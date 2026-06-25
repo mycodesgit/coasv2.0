@@ -71,10 +71,10 @@
                                                 </div>
                                             @else  
                                                 @php
-                                                    use App\Helpers\EncryptionHelper;
+                                                    
                                                     // ENCRYPT all values except qcefacname
-                                                    $encryptedId = EncryptionHelper::encryptUrl($datafacsubprogen->subjID);
-                                                    $encryptedFacID = EncryptionHelper::encryptUrl($datafacsubprogen->id);
+                                                    $encryptedId = urlencode(Crypt::encryptString((string)$datafacsubprogen->subjID));
+                                                    $encryptedFacID = urlencode(Crypt::encryptString((string)($datafacsubprogen->id)));
                                                 @endphp     
                                                 <div class="col-lg-3 col-12">
                                                     <a href="{{ route('show.evaluation.rate', ['id' => $encryptedId, 'qcefacID'  => $encryptedFacID, 'qcefacname'  => $datafacsubprogen->fname . ' ' . $datafacsubprogen->lname]) }}">
