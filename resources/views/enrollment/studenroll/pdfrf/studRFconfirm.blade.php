@@ -180,7 +180,7 @@
 						<th width="6%">Credit</th>
 						<th width="7%">Lec Fee</th>
 						<th width="7%">Lab Fee</th>
-						@if(Auth::guard('kioskstudent')->user()->role == 15 || Str::contains($studauth->stud_id, '-G')) 
+						@if(Auth::guard('kioskstudent')->user()->role == 15) 
 						<th width="">Cycle</th>
 						@endif
 					</tr>
