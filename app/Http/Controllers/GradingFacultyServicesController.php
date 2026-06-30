@@ -334,14 +334,12 @@ class GradingFacultyServicesController extends Controller
         $userDept = $user->facdept;
 
         // Get ALL faculty with their designations in the user's campus (excluding current user)
-        $allFacultyInCampus = SetClassSchedule::leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-            ->leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
+        $allFacultyInCampus = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
             ->where('faculty.campus', $user->campus)
             ->where('faculty.id', '!=', $user->id)
-            ->where('faculty.role', 943)
-            ->whereNull('fac_designation.fac_id')
-            ->where('scheduleclass.schlyear', $currsemnow->qceschlyear)
-            ->where('scheduleclass.semester', $currsemnow->qcesemester)
+            ->whereIn('fac_designation.designation', ['Dean', 'Program Head', 'Division Chair', 'CampusAdmin'])
+            ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
+            ->where('fac_designation.semester', $currsemnow->qcesemester)
             ->select(
                 'faculty.id', 
                 'faculty.fname', 
@@ -371,14 +369,11 @@ class GradingFacultyServicesController extends Controller
         })->values();
 
         // Get faculties without designation (role 943) - excluding current user
-        $regularFaculties = SetClassSchedule::leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-            ->leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
+        $regularFaculties = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
             ->where('faculty.campus', $user->campus)
             ->where('faculty.id', '!=', $user->id)
             ->where('faculty.role', 943)
             ->whereNull('fac_designation.fac_id')
-            ->where('scheduleclass.schlyear', $currsemnow->qceschlyear)
-            ->where('scheduleclass.semester', $currsemnow->qcesemester)
             ->select(
                 'faculty.id', 
                 'faculty.fname', 
@@ -392,7 +387,6 @@ class GradingFacultyServicesController extends Controller
                 'fac_designation.designation', 
                 'fac_designation.facCollege'
             )
-            ->groupBy('scheduleclass.faculty_id')
             ->get()
             ->map(function($faculty) {
                 $faculty->designations = ['Faculty'];
