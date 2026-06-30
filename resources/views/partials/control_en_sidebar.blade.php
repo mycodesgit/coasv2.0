@@ -118,7 +118,7 @@
         </li>
     @endif
     
-    @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo' || Auth::guard('web')->user()->fname == 'Regielyn' || Auth::guard('web')->user()->lname == 'Baldevino' || Auth::guard('web')->user()->lname == 'Balladares')
+    @if(Auth::guard('web')->user()->role ==0 || Auth::guard('web')->user()->lname == 'Arlos' || Auth::guard('web')->user()->lname == 'Gallardo' || Auth::guard('web')->user()->fname == 'Regielyn' || Auth::guard('web')->user()->lname == 'Baldevino' || Auth::guard('web')->user()->lname == 'Balladares' || Auth::guard('web')->user()->lname == 'Dimailig')
         <li>
             <a class="nav-link {{ $studtransAllActive }}" href="{{ route('list_trans') }}">
                 <i class="ti ti-transfer"></i><span class="nav-text">Transfered Student</span>
