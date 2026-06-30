@@ -573,6 +573,8 @@ document.getElementById('assessButton').addEventListener('click', function() {
     var numericPart = document.getElementById('editnumericPart').value;
     var totalLecFee = 0; 
     var totalLabFee = 0;
+    // Get the transferee/shiftee value
+    var transShiftValue = document.getElementById('assesstranshift').value;
 
     if (!programCode || !numericPart || !schlyear || !semester || !campus) {
         alert('Please fill in all fields.');
@@ -612,6 +614,13 @@ document.getElementById('assessButton').addEventListener('click', function() {
                 amountFeeInput.value = '';
 
                 data.forEach(function(item) {
+                    // Skip items if transferee/shiftee = 2 and fee is ADMISSION FEE, ENTRANCE FEE, or SCHOOL ID FEE
+                    if (transShiftValue == '2') {
+                        var excludedFees = ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE'];
+                        if (excludedFees.includes(item.accountName.toUpperCase())) {
+                            return; // Skip this item, don't display it
+                        }
+                    }
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = item.fundname_code;
                     row.insertCell(1).textContent = item.accountName;

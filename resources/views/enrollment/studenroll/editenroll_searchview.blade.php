@@ -193,7 +193,7 @@ CISS V.1.0 || Enrollment
 
                                                                 <div class="col-md-3">
                                                                     <label>Transferee/Shiftee</label>
-                                                                    <select class="form-control form-control-sm" name="transferee">
+                                                                    <select class="form-control form-control-sm" name="transferee" id="assesstranshift">
                                                                         <option disabled selected> --Select--</option>
                                                                         @foreach ($shiftrans as $data)
                                                                             <option value="{{ $data->id }}" {{ $data->id == $selectedStudTransferee ? 'selected' : '' }}>{{ $data->studentShiftTransDesc }}</option>
