@@ -365,7 +365,7 @@ class GradingFacultyController extends Controller
                     )
             ->where('coasv2_db_schedule.sub_offered.semester', $semester)
             ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
-            ->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
+            //->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
             ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
             ->groupBy('studgrades.subjID')
             ->get();
