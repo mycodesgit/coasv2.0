@@ -104,6 +104,7 @@ class GradingFacultyServicesController extends Controller
         $semester = $request->query('semester');
         $faculty_id = Auth::guard('faculty')->user()->id;
         $campus = Auth::guard('faculty')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
 
         $schedule = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
                         ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -112,7 +113,12 @@ class GradingFacultyServicesController extends Controller
                         ->where('scheduleclass.schlyear', '=', $schlyear)
                         ->where('scheduleclass.semester', '=', $semester)
                         ->where('scheduleclass.faculty_id', $faculty_id)
-                        ->where('scheduleclass.campus', $campus)
+                        // ->where('scheduleclass.campus', $campus)
+                        ->where(function ($q) use ($campusArray) {
+                            foreach ($campusArray as $campus) {
+                                $q->orWhere('scheduleclass.campus', 'LIKE', "$campus");
+                            }
+                        })
                         ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
                         ->get();
 
