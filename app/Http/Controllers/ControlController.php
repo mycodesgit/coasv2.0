@@ -215,6 +215,7 @@ class ControlController extends Controller
 
         $facultyId = Auth::guard('faculty')->user()->id;
         $campus = Auth::guard('faculty')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
 
         $cacheKey1 = "faculty_home_subjectcount_{$facultyId}_{$campus}_{$schlyearactive}_{$semesteractive}";
         
