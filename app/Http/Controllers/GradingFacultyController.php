@@ -302,8 +302,6 @@ class GradingFacultyController extends Controller
         $semester = $request->query('semester');
         $schlyear = $request->query('schlyear');
         $facID = Auth::guard('faculty')->user()->id;
-        $campus = Auth::guard('faculty')->user()->campus;
-        $campusArray = array_map('trim', explode(',', $campus));
 
         $datafacsubprogen = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
                     ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
@@ -325,12 +323,6 @@ class GradingFacultyController extends Controller
             ->where('coasv2_db_schedule.sub_offered.semester', $semester)
             ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
             //->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
-            ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
-            ->where(function ($q) use ($campusArray) {
-                foreach ($campusArray as $campus) {
-                    $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "$campus");
-                }
-            })
             ->groupBy('studgrades.subjID')
             ->get();
 
