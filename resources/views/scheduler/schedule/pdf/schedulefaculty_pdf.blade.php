@@ -285,7 +285,7 @@
         <div style="display: inline-block; margin-left: 5px; vertical-align: top; text-align: center; border-bottom: 1px solid black; width: 195px; font-size: 9pt !important">
             <span style="font-weight: bold; font-size: 9pt !important; text-transform: uppercase;">
                 @if(Auth::guard('web')->user()->campus == 'MC')
-                    @if($lname != 'Jalandoni')
+                    @if(Auth::guard('web')->user()->lname != 'Jalandoni')
                         {{ $dean }}
                     @else
                         &nbsp;
