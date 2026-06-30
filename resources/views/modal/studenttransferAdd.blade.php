@@ -31,10 +31,9 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="row mb-3">
+                        <div class="row">
                             <div class="col-md-12">
-                                <label>Primary ID:</label>
-                                <input type="text" id="primaryId" name="studbaseprim_id" class="form-control form-control-sm" readonly>
+                                <input type="hidden" id="primaryId" name="studbaseprim_id" class="form-control form-control-sm" readonly>
                             </div>
                         </div>
                     </div>
