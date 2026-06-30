@@ -222,7 +222,7 @@
         </li>
     @endif
 
-    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 13, 14, 15, 19, 20]))
+    @if(in_array(Auth::guard('web')->user()->role, [0, 3, 4, 7, 13, 14, 15, 19, 20]))
         <li>
             <a class="nav-link {{ $studevalActive }}" href="{{ route('studevalRead') }}">
                 <i class="ti ti-book-2"></i><span class="nav-text">Student Record</span>
