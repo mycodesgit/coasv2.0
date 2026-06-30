@@ -238,7 +238,12 @@ class ControlController extends Controller
                             )
                     ->where('coasv2_db_schedule.sub_offered.semester', $semesteractive)
                     ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyearactive)
-                    ->where('coasv2_db_schedule.sub_offered.campus', $campus)
+                    //->where('coasv2_db_schedule.sub_offered.campus', $campus)
+                    ->where(function ($q) use ($campusArray) {
+                        foreach ($campusArray as $campus) {
+                            $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "$campus");
+                        }
+                    })
                     ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facultyId)
                     ->groupBy('studgrades.subjID')
                     ->get();     
