@@ -129,6 +129,7 @@ class GradingFacultyStudAttendanceController extends Controller
                     ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
                     ->select(
                         'coasv2_db_schedule.subjects.sub_name',
+                        'coasv2_db_schedule.sub_offered.id as subofferedid',
                         'coasv2_db_schedule.sub_offered.subSec',
                         'coasv2_db_schedule.sub_offered.schlyear',
                         'coasv2_db_schedule.sub_offered.semester',
