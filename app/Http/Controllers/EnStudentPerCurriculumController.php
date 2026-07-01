@@ -224,6 +224,7 @@ class EnStudentPerCurriculumController extends Controller
             ->where('program_en_history.studSec', $studSec)
             ->where('program_en_history.schlyear', $schlyear)
             ->where('program_en_history.semester', $semester)
+            ->whereIn('program_en_history.status', [2, 3])
             // ->where('program_en_history.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
