@@ -108,6 +108,7 @@ class GradingFacultyStudAttendanceController extends Controller
             ->where('coasv2_db_schedule.scheduleclass.semester', $semester)
             ->where('coasv2_db_schedule.scheduleclass.schlyear', $schlyear)
             ->where('coasv2_db_schedule.scheduleclass.faculty_id', Auth::guard('faculty')->user()->id)
+            ->groupBy('coasv2_db_schedule.scheduleclass.subject_id')
             ->get();
 
         $data = $this->getActiveFacultyDesignationData();
@@ -144,6 +145,7 @@ class GradingFacultyStudAttendanceController extends Controller
             ->where('coasv2_db_schedule.scheduleclass.semester', $semester)
             ->where('coasv2_db_schedule.scheduleclass.schlyear', $schlyear)
             ->where('coasv2_db_schedule.scheduleclass.faculty_id', Auth::guard('faculty')->user()->id)
+            ->groupBy('coasv2_db_schedule.scheduleclass.subject_id')
             ->get();
 
         $data = $this->getActiveFacultyDesignationData();
