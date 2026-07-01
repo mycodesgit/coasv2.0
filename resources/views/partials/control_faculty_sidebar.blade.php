@@ -30,11 +30,11 @@
             <i class="ti ti-layout-grid"></i><span class="nav-text">Dashboard</span>
         </a>
     </li>
-    <li>
+    {{-- <li>
         <a class="nav-link {{$attendfacActive}}" href="{{ route('attendancefac') }}">
             <i class="ti ti-file"></i><span class="nav-text">Attendance</span>
         </a>
-    </li>
+    </li> --}}
     <li>
         <a class="nav-link {{$servicesfacActive}}" href="{{ route('index.services') }}">
             <i class="ti ti-server"></i><span class="nav-text">Services</span>
