@@ -363,7 +363,7 @@ class EnrollmentController extends Controller
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.studStatus', '=', '1')
-                                ->where('program_en_history.status', '=', 2)
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->where('program_en_history.campus', '=', $userCampus)
                                 ->count();
             });
@@ -374,7 +374,7 @@ class EnrollmentController extends Controller
                                 ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                                 ->where('program_en_history.semester', 'LIKE', $semesteractive)
                                 ->where('program_en_history.studStatus', '=', '2')
-                                ->where('program_en_history.status', '=', 2)
+                                ->whereIn('program_en_history.status', [2, 3])
                                 ->where('program_en_history.campus', '=', $userCampus)
                                 ->count();
             });
