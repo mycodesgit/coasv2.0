@@ -209,7 +209,11 @@ class EnStudentPerCurriculumController extends Controller
         $studSec = $request->input('studSec');
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
-        $campus = Auth::guard('web')->user()->campus;
+        if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
+            $campus = $request->query('campus');
+        } else {
+            $campus = Auth::guard('web')->user()->campus;
+        }
 
         $campusArray = array_map('trim', explode(',', $campus));
 
@@ -247,7 +251,11 @@ class EnStudentPerCurriculumController extends Controller
         $studSec = $request->input('studSec');
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
-        $campus = Auth::guard('web')->user()->campus;
+        if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
+            $campus = $request->query('campus');
+        } else {
+            $campus = Auth::guard('web')->user()->campus;
+        }
 
         $campusArray = array_map('trim', explode(',', $campus));
 
