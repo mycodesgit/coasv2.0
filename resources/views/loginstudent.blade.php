@@ -154,8 +154,8 @@
                 <div class="row align-items-center">
                     <div class="header-text mb-2 text-center">
                         <img src="{{ asset('template/img/cpsulogov4.png') }}" style="width:100px; margin-top: -250px" id="cpsulogoImage">
-                        {{-- <h2>Hi, Cenphilian</h2>
-                        <p>Sign in to start session</p> --}}
+                        <h2>Hi, Cenphilian</h2>
+                        <p>Sign in to start session</p>
                         @php
                             date_default_timezone_set('Asia/Manila');
 
@@ -166,7 +166,7 @@
                         @endphp
                     </div>
                     <form action="{{ route('stud_login') }}" method="post">
-                        {{-- @csrf
+                        @csrf
                         <div class="input-group mb-2">
                             <input type="text" name="studid" class="form-control form-control-lg bg-light fs-6" placeholder="Student ID number" id="studentIdInput">
                         </div>
@@ -187,25 +187,23 @@
                         </div>
                         <div class="input-group mb-3">
                             <button class="btn btn-lg btn-success w-100 fs-6">Login</button>
+                        </div>
+                        {{-- <div class="modal-content">
+                            <div class="modal-header text-center justify-content-center mb-3">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i> Temporarily Unavailable
+                                </h5>
+                            </div>
+
+                            <div class="modal-body text-center bg-light p-4 rounded-3 mb-2">
+
+                                <p style="font-size: 11pt; font-weight: 500;">
+                                    The student login portal is currently undergoing system maintenance. We appreciate your patience while we work to improve the system.
+                                
+                                    Please return to the home page and try again soon.
+                                </p>
+                            </div>
                         </div> --}}
-                        <div class="modal-content">
-
-                        <div class="modal-header text-center justify-content-center mb-3">
-                            <h5 class="modal-title">
-                                <i class="fas fa-exclamation-triangle text-warning"></i> Temporarily Unavailable
-                            </h5>
-                        </div>
-
-                        <div class="modal-body text-center bg-light p-4 rounded-3 mb-2">
-
-                            <p style="font-size: 11pt; font-weight: 500;">
-                                The student login portal is currently undergoing system maintenance. We appreciate your patience while we work to improve the system.
-                            
-                                Please return to the home page and try again soon.
-                            </p>
-                        </div>
-
-                    </div>
                         {{-- <a href="{{ route('main') }}" class="btn btn-outline-warning btn-lg w-100 fs-6 text-bold mb-2 text-dark">Back</a> --}}
                         <div class="text-center"><a href="{{ route('main') }}" class="text-center text-dark" style="text-decoration: none">Back to main page</a></div>
                     </form>
