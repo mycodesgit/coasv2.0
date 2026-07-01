@@ -4,16 +4,6 @@
 CISS V.1.0 || Attendance Sheet
 @endsection
 
-@section('sideheader')
-<h4>Grading</h4>
-@endsection
-
-@section('sideheaderlegend')
-<h4>Legend</h4>
-@endsection
-
-@yield('sidemenu')
-
 @section('workspace')
     <div class="row">
         <div class="col-12">
