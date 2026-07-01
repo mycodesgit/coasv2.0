@@ -343,7 +343,7 @@ class EnrollmentController extends Controller
                     ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
                     ->where('program_en_history.semester', 'LIKE', $semesteractive)
                     ->where('program_en_history.campus', '=', $userCampus)
-                    ->where('program_en_history.status', '=', 2)
+                    ->whereIn('program_en_history.status', [2, 3])
                     ->select('coasv2_db_schedule.programs.progAcronym', DB::raw('COUNT(*) as count'))
                     ->groupBy('coasv2_db_schedule.programs.progAcronym')
                     ->get();
