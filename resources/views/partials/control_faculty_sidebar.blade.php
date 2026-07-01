@@ -2,7 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $dashfacActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
-    $attendfacActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
+    $attendfacActive = in_array($curr_route, ['attendance-index', 'attendance-store', 'attendance_searchfacpdfpage']) ? 'active' : '';
     $servicesfacActive = in_array($curr_route, [
                                 'index.services', 
                                 'schedulefac', 
@@ -30,11 +30,11 @@
             <i class="ti ti-layout-grid"></i><span class="nav-text">Dashboard</span>
         </a>
     </li>
-    {{-- <li>
-        <a class="nav-link {{$attendfacActive}}" href="{{ route('attendancefac') }}">
+    <li>
+        <a class="nav-link {{$attendfacActive}}" href="{{ route('attendance-index') }}">
             <i class="ti ti-file"></i><span class="nav-text">Attendance</span>
         </a>
-    </li> --}}
+    </li>
     <li>
         <a class="nav-link {{$servicesfacActive}}" href="{{ route('index.services') }}">
             <i class="ti ti-server"></i><span class="nav-text">Services</span>

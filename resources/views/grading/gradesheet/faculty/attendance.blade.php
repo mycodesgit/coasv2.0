@@ -19,7 +19,7 @@ CISS V.1.0 || Grading
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <form method="GET" action="{{ route('attendance_searchfac') }}" id="attendancegrading">
+                                <form method="GET" action="{{ route('attendance-store') }}" id="attendancegrading">
                                     @csrf   
 
                                     <div class="form-group">

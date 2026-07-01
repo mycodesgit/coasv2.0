@@ -271,117 +271,6 @@ class GradingFacultyController extends Controller
         return $pdf->stream();
     }
 
-    public function attendancefac()
-    {
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
-
-        $data = $this->getActiveFacultyDesignationData();
-        $authfacdesig = $data['authfacdesig'];
-            
-        return view('grading.gradesheet.faculty.attendance', compact('sy', 'authfacdesig'));
-    }
-
-    public function attendance_searchfac(Request $request)
-    {
-        $sy = ConfigureCurrent::select('id', 'schlyear')
-            ->whereIn('id', function($query) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('settings_conf')
-                    ->groupBy('schlyear');
-            })
-            ->orderBy('id', 'DESC')
-            ->get();
-
-        $semester = $request->query('semester');
-        $schlyear = $request->query('schlyear');
-        $facID = Auth::guard('faculty')->user()->id;
-        $campus = Auth::guard('faculty')->user()->campus;
-        $campusArray = array_map('trim', explode(',', $campus));
-
-        $datafacsubprogen = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
-                    ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
-                    ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
-                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                    ->select(
-                        'studgrades.*',
-                        'studgrades.id as stugdeID',
-                        'coasv2_db_schedule.subjects.sub_name',
-                        'coasv2_db_schedule.sub_offered.subSec',
-                        'coasv2_db_schedule.sub_offered.schlyear',
-                        'coasv2_db_schedule.sub_offered.semester',
-                        'coasv2_db_schedule.sub_offered.campus',
-                        'coasv2_db_schedule.scheduleclass.faculty_id',
-                        'coasv2_db_schedule.scheduleclass.subject_id',
-                        'coasv2_db_schedule.faculty.fname',
-                        'coasv2_db_schedule.faculty.lname',
-                    )
-            ->where('coasv2_db_schedule.sub_offered.semester', $semester)
-            ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
-            //->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
-            ->where(function ($q) use ($campusArray) {
-                foreach ($campusArray as $campus) {
-                    $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "$campus");
-                }
-            })
-            ->groupBy('studgrades.subjID')
-            ->get();
-
-        $data = $this->getActiveFacultyDesignationData();
-        $authfacdesig = $data['authfacdesig'];
-            
-        return view('grading.gradesheet.faculty.attendance_search', compact('sy', 'datafacsubprogen', 'authfacdesig'));
-    }
-
-    public function attendance_searchfacpdfpage(Request $request)
-    {
-        $semester = $request->query('semester');
-        $schlyear = $request->query('schlyear');
-        $facID = Auth::guard('faculty')->user()->id;
-        $campus = Auth::guard('faculty')->user()->campus;
-        $campusArray = array_map('trim', explode(',', $campus));
-
-        $datafacsubprogen = Grade::leftJoin('coasv2_db_schedule.scheduleclass', 'studgrades.subjID', '=', 'coasv2_db_schedule.scheduleclass.subject_id')
-                    ->leftJoin('coasv2_db_schedule.faculty', 'coasv2_db_schedule.scheduleclass.faculty_id', '=', 'coasv2_db_schedule.faculty.id')
-                    ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
-                    ->leftJoin('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                    ->select(
-                        'studgrades.*',
-                        'studgrades.id as stugdeID',
-                        'coasv2_db_schedule.subjects.sub_name',
-                        'coasv2_db_schedule.sub_offered.subSec',
-                        'coasv2_db_schedule.sub_offered.schlyear',
-                        'coasv2_db_schedule.sub_offered.semester',
-                        'coasv2_db_schedule.sub_offered.campus',
-                        'coasv2_db_schedule.scheduleclass.faculty_id',
-                        'coasv2_db_schedule.scheduleclass.subject_id',
-                        'coasv2_db_schedule.faculty.fname',
-                        'coasv2_db_schedule.faculty.lname',
-                    )
-            ->where('coasv2_db_schedule.sub_offered.semester', $semester)
-            ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
-            //->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
-            ->where(function ($q) use ($campusArray) {
-                foreach ($campusArray as $campus) {
-                    $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "$campus");
-                }
-            })
-            ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
-            ->groupBy('studgrades.subjID')
-            ->get();
-
-        $data = $this->getActiveFacultyDesignationData();
-        $authfacdesig = $data['authfacdesig'];
-            
-        return view('grading.gradesheet.faculty.attendance_searchpdf', compact('datafacsubprogen', 'authfacdesig'));
-    }
-
     public function getsubjectsfacajax(Request $request)
     {
         $semester = $request->query('semester');
@@ -410,42 +299,16 @@ class GradingFacultyController extends Controller
             ->where('coasv2_db_schedule.sub_offered.semester', $semester)
             ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
             //->where('coasv2_db_schedule.sub_offered.campus', Auth::guard('faculty')->user()->campus)
-            ->where(function ($q) use ($campusArray) {
-                foreach ($campusArray as $campus) {
-                    $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "$campus");
-                }
-            })
+            // ->where(function ($q) use ($campusArray) {
+            //     foreach ($campusArray as $campus) {
+            //         $q->orWhere('coasv2_db_schedule.sub_offered.campus', 'LIKE', "$campus");
+            //     }
+            // })
             ->where('coasv2_db_schedule.scheduleclass.faculty_id', $facID)
             ->groupBy('studgrades.subjID')
             ->get();
 
         return response()->json(['data' => $data]);
-    }
-
-    public function studsubjectsReadPDFfacattendance(Request $request)
-    {
-        $id = $request->id;
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');   
-        $campus = Auth::guard('faculty')->user()->campus;
-
-
-        $substudnowviewpdf = Grade::select('so.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
-                ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
-                ->join('students', 'studgrades.studID', '=', 'students.stud_id')
-                ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
-                ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
-                ->where('so.schlyear', $schlyear)
-                ->where('so.semester', $semester)
-                ->where('studgrades.subjID', $id)
-                ->orderBy('students.lname', 'ASC')
-                ->get();
-        $data = [
-            'substudnowviewpdf' => $substudnowviewpdf,
-        ];
-
-        $pdf = PDF::loadView('enrollment.reports.studentsub.pdf.attendancestud', $data)->setPaper('Legal', 'portrait');
-        return $pdf->stream();
     }
 
     

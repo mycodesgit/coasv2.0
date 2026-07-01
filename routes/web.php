@@ -98,6 +98,7 @@ use App\Http\Controllers\SettingSignatoryController;
 use App\Http\Controllers\KioskDashController;
 
 use App\Http\Controllers\GradingFacultyController;
+use App\Http\Controllers\GradingFacultyStudAttendanceController;
 use App\Http\Controllers\GradingFacultyServicesController;
 use App\Http\Controllers\GradingFacultyServicePreenrolController;
 use App\Http\Controllers\GradingFacultyAdmissionConfirmController;
@@ -248,10 +249,10 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
         Route::post('/faculty/applist/encrypt', [ForAllEncryptIDController::class, 'idFacCrypt'])->name('idFacCrypt');
 
         Route::prefix('stud/attendance')->group(function () {
-            Route::get('/list/current/sem', [GradingFacultyController::class, 'attendancefac'])->name('attendancefac');
-            Route::get('/list/current/sem/search', [GradingFacultyController::class, 'attendance_searchfac'])->name('attendance_searchfac');
-            Route::get('/list/current/sem/search/pdf', [GradingFacultyController::class, 'attendance_searchfacpdfpage'])->name('attendance_searchfacpdfpage');
-            Route::get('/list/current/sem/search/view/pdf/{id}', [GradingFacultyController::class, 'studsubjectsReadPDFfacattendance'])->name('studsubjectsReadPDFfacattendance');
+            Route::get('/list/current/sem', [GradingFacultyStudAttendanceController::class, 'index'])->name('attendance-index');
+            Route::get('/list/current/sem/search', [GradingFacultyStudAttendanceController::class, 'store'])->name('attendance-store');
+            Route::get('/list/current/sem/search/pdf', [GradingFacultyStudAttendanceController::class, 'attendance_searchfacpdfpage'])->name('attendance_searchfacpdfpage');
+            Route::get('/list/current/sem/search/view/pdf/{id}', [GradingFacultyStudAttendanceController::class, 'studsubjectsReadPDFfacattendance'])->name('studsubjectsReadPDFfacattendance');
         });
 
         Route::prefix('fac/services')->group(function () {

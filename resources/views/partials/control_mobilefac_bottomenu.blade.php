@@ -2,7 +2,7 @@
     $curr_route = request()->route()->getName();
 
     $dashfacActive = in_array($curr_route, ['homefaculty']) ? 'active' : '';
-    $attendfacActive = in_array($curr_route, ['attendancefac', 'attendance_searchfac', 'attendance_searchfacpdfpage']) ? 'active' : '';
+    $attendfacActive = in_array($curr_route, ['attendance-index', 'attendance-store', 'attendance_searchfacpdfpage']) ? 'active' : '';
     $servicesfacActive = in_array($curr_route, ['index.services', 'schedulefac', 'schedulefac_searchview', 'semesterfac', 'virtualfaculty_class', 'virtual_facultysubjectclass']) ? 'active' : '';
 @endphp
 
@@ -69,7 +69,7 @@
             </div>
         </a>
 
-        <a href="{{ route('attendancefac') }}">
+        <a href="{{ route('attendance-index') }}">
             <div class="nav-item {{ $attendfacActive }}" data-label="Attendance">
                 <i class="fas fa-file-pdf icon"></i>
                 <span>Attendance</span>
