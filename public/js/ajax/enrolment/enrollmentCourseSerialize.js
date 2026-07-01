@@ -3,6 +3,7 @@ $(document).ready(function() {
     var schlyear = urlParams.get('schlyear') || ''; 
     var semester = urlParams.get('semester') || '';
     var campus = urlParams.get('campus') || ''; 
+     console.log('Encrypted campus from URL:', campus);
 
     var dataTable = $('#courseEn').DataTable({
         "ajax": {

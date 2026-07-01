@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 use App\Rules\UniqueStudentID;
 
 use PDF;
@@ -62,6 +63,13 @@ class EnStudentPerCurriculumController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
+        
+        // if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
+        //     $encrypted = $request->query('campus');
+        //     $campus = Crypt::decryptString($encrypted);
+        // } else {
+        //     $campus = Auth::guard('web')->user()->campus;
+        // }
             
         return view('enrollment.reports.studentcurr.listsearch_studcurr', compact('sy'));
     }
@@ -86,7 +94,7 @@ class EnStudentPerCurriculumController extends Controller
         $semester = $request->query('semester');   
         // $campus = Auth::guard('web')->user()->campus;
         if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
-            $campus = $request->query('campus');    
+            $campus = $request->query('campus');
         } else {
             $campus = Auth::guard('web')->user()->campus;
         }
