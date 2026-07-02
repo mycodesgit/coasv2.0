@@ -380,10 +380,13 @@ class GradingFacultyServicesController extends Controller
         })->values();
 
         // Get faculties without designation (role 943) - excluding current user
-        $regularFaculties = Faculty::leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
-            ->where('faculty.campus', $user->campus)
-            ->where('faculty.id', '!=', $user->id)
+        $regularFaculties = SetClassSchedule::leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+            ->leftJoin('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
+            ->where('scheduleclass.campus', $user->campus)
+            ->where('scheduleclass.faculty_id', '!=', $user->id)
             ->where('faculty.role', 943)
+            ->where('scheduleclass.schlyear', $currsemnow->qceschlyear)
+            ->where('scheduleclass.semester', $currsemnow->qcesemester)
             ->whereNull('fac_designation.fac_id')
             ->select(
                 'faculty.id', 
@@ -398,6 +401,7 @@ class GradingFacultyServicesController extends Controller
                 'fac_designation.designation', 
                 'fac_designation.facCollege'
             )
+            ->distinct()
             ->get()
             ->map(function($faculty) {
                 $faculty->designations = ['Faculty'];
