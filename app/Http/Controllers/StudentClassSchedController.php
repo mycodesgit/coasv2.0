@@ -135,11 +135,11 @@ class StudentClassSchedController extends Controller
                         ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                         ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
                         ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                        ->join('coasv2_db_enrollment.studgrades', 'scheduleclass.subject_id', '=', 'coasv2_db_enrollment.studgrades.subjID')
                         ->where('scheduleclass.schlyear', '=', $schlyear)
                         ->where('scheduleclass.semester', '=', $semester)
-                        ->where('scheduleclass.progcodename', $progCodPart)
-                        ->where('scheduleclass.progcodesection', $progCodSuffix)
                         ->where('scheduleclass.campus', $campus)
+                        ->where('coasv2_db_enrollment.studgrades.studID', $studentowner)
                         ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
                         ->get();
 
