@@ -101,7 +101,7 @@
             position: absolute;
             font-weight: bold;
             font-family: "Poppins", sans-serif !important;
-            top: 160px;
+            top: 180px;
             left: 125px;
             font-size: 8pt;
         }
@@ -109,7 +109,7 @@
             position: absolute;
             font-weight: bold;
             font-family: "Poppins", sans-serif !important;
-            top: 185px;
+            top: 200px;
             left: 125px;
             font-size: 8pt;
         }
@@ -326,7 +326,7 @@
                                             </div>
                                             <div class="card-body" style="background-color: #e3eee4">
                                                 <div class="table-responsive">
-                                                    <div class="id-frontcard" style="background-image: url('{{ asset('uilibs/images/studentidimage/IDfrontoldphotoframe.webp') }}'); 
+                                                    <div class="id-frontcard" style="background-image: url('{{ asset('uilibs/images/studentidimage/IDfontframe.webp') }}'); 
                                                         background-size: cover;
                                                         background-position: center;
                                                         background-repeat: no-repeat;">
@@ -543,7 +543,7 @@
                     <div class="id-frontcard" style="
                             transform: scale(1.5);
                             transform-origin: top center;
-                            background-image: url('{{ asset('uilibs/images/studentidimage/IDfrontoldphotoframe.webp') }}'); 
+                            background-image: url('{{ asset('uilibs/images/studentidimage/IDfontframe.webp') }}'); 
                             background-size: cover;
                             background-position: center;
                             background-repeat: no-repeat;
@@ -601,7 +601,7 @@
                                 <div style="position: absolute;
                                             font-family: 'Poppins', sans-serif !important;
                                             font-weight: bold;
-                                            top: 95px;
+                                            top: 110px;
                                             left: 110px;
                                             font-size: 7pt;" 
                                     id="previewId">
@@ -609,7 +609,7 @@
                                 <div style="position: absolute;
                                             font-family: 'Poppins', sans-serif !important;
                                             font-weight: bold;
-                                            top: 120px;
+                                            top: 130px;
                                             left: 110px;
                                             font-size: 7pt;" 
                                     id="previewCourse">
@@ -804,7 +804,7 @@
                         document.getElementById('studentCivilStatus').value = civilStatus;
                         document.getElementById('studentAddress').value = address;
 
-                        document.getElementById('studentCardName').textContent = fullName;
+                        document.getElementById('studentCardName').innerHTML = fullName.replace(/, /g, ',<br>');
                         document.getElementById('studentCardNo').textContent = data.stud_id;
                         document.getElementById('studentCardCourse').textContent = progName;
                         document.getElementById('studentCardAddress').textContent = address;
@@ -846,8 +846,11 @@
 
         modal.addEventListener('show.bs.modal', function () {
 
-            document.getElementById('previewName').textContent =
-                document.getElementById('studentCardName').textContent;
+            // document.getElementById('previewName').textContent =
+            //     document.getElementById('studentCardName').textContent;
+            const name = document.getElementById('studentCardName').textContent;
+            // Replace ALL commas with comma + line break
+            document.getElementById('previewName').innerHTML = name.replace(/,/g, ',<br>');
 
             document.getElementById('previewId').textContent =
                 document.getElementById('studentCardNo').textContent;
