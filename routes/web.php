@@ -101,6 +101,7 @@ use App\Http\Controllers\GradingFacultyController;
 use App\Http\Controllers\GradingFacultyStudAttendanceController;
 use App\Http\Controllers\GradingFacultyServicesController;
 use App\Http\Controllers\GradingFacultyServicePreenrolController;
+use App\Http\Controllers\GradingFacultyProfileAccountController;
 use App\Http\Controllers\GradingFacultyAdmissionConfirmController;
 use App\Http\Controllers\GradingFacultyAdmissionAcceptedController;
 
@@ -299,6 +300,10 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
                 Route::get('/student/enroll/record/eval/searchPDF', [GradingFacultyServicePreenrolController::class, 'studevalfacultypdf'])->name('studevalfacultypdf');
             });
         });
+
+        Route::prefix('profile')->group(function () {
+                Route::get('/account', [GradingFacultyProfileAccountController::class, 'index'])->name('profile.account-index');
+            });
 
         Route::prefix('app/confirm')->group(function () {
             Route::get('/list/search', [GradingFacultyAdmissionConfirmController::class, 'index'])->name('confirm.index');

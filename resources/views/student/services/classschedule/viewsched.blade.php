@@ -25,41 +25,36 @@
                             </div>
                             <div class="card-body">
                                 <div class="row g-3 mb-2">
-                                    <div class="table-responsive">
-                                        <table class="table table-head-fixed text-nowrap" style="font-size: 10pt">
-                                            <thead>
-                                                <tr>
-                                                    <th>A.Y. Semester</th>
-                                                    <th>Prog. Yr&Section</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($enrollmentHistory as $history)
-                                                    <tr>
-                                                        <td>{{ $history->schlyear }}
-                                                            @if($history->semester == 1)
-                                                                <span class="badge bg-primary">1st Sem</span>
-                                                            @elseif($history->semester == 2)
-                                                                <span class="badge bg-success">2nd Sem</span>
-                                                            @elseif($history->semester == 3)
-                                                                <span class="badge bg-secondary">Summer</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>{{ $history->progAcronym }} {{ $history->studYear }}-{{ $history->studSec }}</td>
-                                                        <td>
-                                                            <a href="{{ route('show.scheduleclass', ['schlyear' => $history->schlyear, 'semester' => $history->semester, 'progCod' => $history->progCod.'+'.$history->studYear.'-'.$history->studSec]) }}" class="btn btn-outline-success btn-sm">
-                                                                View Sched
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                                <tr>
-                                                    <td colspan="3" class="text-center">No Class Schedule Found</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    @foreach ($enrollmentHistory as $history)
+                                        <div class="col-lg-3 col-12">
+                                            <a href="{{ route('show.scheduleclass', ['schlyear' => $history->schlyear, 'semester' => $history->semester]) }}">
+                                                <div class="card card-hover h-100" style="background: url('{{ asset('template/img/img_bookclub.jpg') }}')no-repeat; background-position: center; background-size: cover;">
+                                                    <div class="card-body p-4">
+                                                        <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
+                                                            <div class="text-light">
+                                                                <h3 class="fw-bold h4">{{ $history->progAcronym }} {{ $history->studYear }}-{{ $history->studSec }}</h3>
+                                                                <span>Class Schedule</span><br>
+                                                                <span style="font-size: 9pt;">
+                                                                    
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <i class="ti ti-book fs-1 text-warning"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex justify-content-between align-items-center small">
+                                                            <div class="text-muted">
+                                                                <span class="text-white">
+                                                                    <span class="text-white">{{ $history->schlyear }}</span>, {{ $history->semester == 1 ? '1st Sem' : ($history->semester == 2 ? '2nd Sem' : ($history->semester == 3 ? 'Summer' : $history->semester)) }}
+                                                                </span>
+                                                            </div>
+                                                            <div><span class="badge bg-light textbold text-dark"><i class="ti ti-circle-filled text-success"></i> Click to View</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

@@ -17,6 +17,7 @@
                                 'prelist.storeshift',
                                 'storeprenrolview.store'
                             ]) ? 'active' : '';
+    $accountfacActive = in_array($curr_route, ['profile.account-index']) ? 'active' : '';
     $confirmfacActive = in_array($curr_route, ['confirm.index', 'confirm.store']) ? 'active' : '';
     $aceptedfacActive = in_array($curr_route, ['accepted.index', 'accepted.store']) ? 'active' : '';
 @endphp
@@ -41,7 +42,7 @@
         </a>
     </li>
     <li>
-        <a class="nav-link" href="#">
+        <a class="nav-link {{$accountfacActive}}" href="{{ route('profile.account-index') }}">
             <i class="ti ti-user"></i><span class="nav-text">Profile</span>
         </a>
     </li>
