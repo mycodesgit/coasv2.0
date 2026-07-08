@@ -91,7 +91,7 @@
             position: absolute;
             top: 124px !important;
             left: 120px;
-            font-size: 8pt;
+            font-size: 10pt;
             font-weight: bold;
             color: #ffffff;
             z-index: 10;
@@ -121,8 +121,11 @@
         }
         .id-body-back {
             padding: 16px 18px;
-            font-family: Arial, sans-serif;
+            font-family: "Poppins", sans-serif !important;
             background-color: #ffffff;
+        }
+        .form-labelbold {
+            font-weight: bold !important;
         }
         .emergency-text {
             margin-top: -5px;
@@ -369,18 +372,18 @@
                                                 <div class="table-responsive">
                                                     <div class="id-backcard">
                                                         <div class="id-body-back">
-                                                            <p class="emergency-text">
+                                                            <p class="emergency-text" style="margin-bottom: 10px">
                                                                 In case of emergency, please contact:
                                                             </p>
 
                                                             <div class="back-grid">
                                                                 <div class="back-col">
-                                                                    <label>Person:</label>
+                                                                    <label class="form-labelbold">Person:</label>
                                                                     <div class="linedata">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
                                                                 <div class="back-col">
-                                                                    <label>Number:</label>
+                                                                    <label class="form-labelbold">Number:</label>
                                                                     <div class="linedata">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
@@ -388,24 +391,24 @@
 
                                                             <div class="back-grid-second">
                                                                 <div class="back-col-second">
-                                                                    <label>Birthday:</label>
+                                                                    <label class="form-labelbold">Birthday:</label>
                                                                     <div class="linedata" id="studentCardBirthday">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
                                                                 <div class="back-col-second">
-                                                                    <label>Blood Type:</label>
+                                                                    <label class="form-labelbold">Blood Type:</label>
                                                                     <div class="linedata">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
                                                                 <div class="back-col-second">
-                                                                    <label>Contact No.:</label>
+                                                                    <label class="form-labelbold">Contact No.:</label>
                                                                     <div class="linedata" id="studentCardContact">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
                                                             </div>
                                                             
                                                             <div class="back-col-full">
-                                                                <label>Address:</label>
+                                                                <label class="form-labelbold">Address:</label>
                                                                 <div class="linedata" id="studentCardAddress">&nbsp;</div>
                                                                 <div class="line"></div>
                                                             </div>
@@ -589,7 +592,7 @@
                                     position: absolute;
                                     top: 60px !important;
                                     left: 104px;
-                                    font-size: 8pt;
+                                    font-size: 10pt;
                                     font-family: 'Poppins', sans-serif !important;
                                     font-weight: bold;
                                     color: #ffffff;
@@ -630,18 +633,18 @@
                     <div class="id-backcard" style="transform: scale(1.5);
                             transform-origin: middle center; margin-top: 130px;">
                         <div class="id-body-back">
-                            <p class="emergency-text">
+                            <p class="emergency-text" style="margin-bottom: 10px">
                                 In case of emergency, please contact:
                             </p>
-
+                            
                             <div class="back-grid">
                                 <div class="back-col">
-                                    <label>Person:</label>
+                                    <label class="form-labelbold">Person:</label>
                                     <div class="linedata">&nbsp;</div>
                                     <div class="line"></div>
                                 </div>
                                 <div class="back-col">
-                                    <label>Number:</label>
+                                    <label class="form-labelbold">Number:</label>
                                     <div class="linedata">&nbsp;</div>
                                     <div class="line"></div>
                                 </div>
@@ -649,24 +652,24 @@
 
                             <div class="back-grid-second">
                                 <div class="back-col-second">
-                                    <label>Birthday:</label>
+                                    <label class="form-labelbold">Birthday:</label>
                                     <div class="linedata" id="studentCardBirthdayPreview">&nbsp;</div>
                                     <div class="line"></div>
                                 </div>
                                 <div class="back-col-second">
-                                    <label>Blood Type:</label>
+                                    <label class="form-labelbold">Blood Type:</label>
                                     <div class="linedata">&nbsp;</div>
                                     <div class="line"></div>
                                 </div>
                                 <div class="back-col-second">
-                                    <label>Contact No.:</label>
-                                    <div class="linedata" id="studentCardContactPreview"></div>
+                                    <label class="form-labelbold">Contact No.:</label>
+                                    <div class="linedata" id="studentCardContactPreview">&nbsp;</div>
                                     <div class="line"></div>
                                 </div>
                             </div>
                             
                             <div class="back-col-full">
-                                <label>Address:</label>
+                                <label class="form-labelbold">Address:</label>
                                 <div class="linedata" id="studentCardAddressPreview">&nbsp;</div>
                                 <div class="line"></div>
                             </div>
