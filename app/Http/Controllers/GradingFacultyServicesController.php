@@ -793,9 +793,10 @@ class GradingFacultyServicesController extends Controller
         // ============================================================
         if ($hasDivisionChair && !$hasProgramHead && optional($casdivisionchair)->facCollege == "CAS") {
             // Get Program Heads in CAS (excluding self)
-            $programHeadsInCAS = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+            $programHeadsInCAS = $allFacultyWithDesignations->filter(function($faculty) use ($userDept, $user) {
                 return in_array('Program Head', $faculty->designations) &&
-                       in_array('CAS', $faculty->facColleges) &&
+                       //in_array('CAS', $faculty->facColleges) &&
+                       $faculty->facdept == $userDept &&
                        $faculty->id != $user->id;
             });
 
