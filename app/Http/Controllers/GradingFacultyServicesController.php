@@ -824,22 +824,22 @@ class GradingFacultyServicesController extends Controller
             });
 
             // Get other Program Heads (excluding self) in the college
-            $otherProgramHeads = $allFacultyWithDesignations->filter(function($faculty) use ($user, $userCollege) {
-                return $faculty->id != $user->id && 
-                       in_array('Program Head', $faculty->designations) &&
-                       in_array($userCollege, $faculty->facColleges);
-            });
+            // $otherProgramHeads = $allFacultyWithDesignations->filter(function($faculty) use ($user, $userCollege) {
+            //     return $faculty->id != $user->id && 
+            //            in_array('Program Head', $faculty->designations) &&
+            //            in_array($userCollege, $faculty->facColleges);
+            // });
 
-            if ($otherProgramHeads->isNotEmpty()) {
-                $sections[] = [
-                    'title' => 'Program Heads',
-                    'data' => $otherProgramHeads,
-                    'evaluator' => 'Program Head',
-                    'disabled' => $disabledsubj,
-                    'icon' => 'ti ti-user',
-                    'role' => 'Program Head'
-                ];
-            }
+            // if ($otherProgramHeads->isNotEmpty()) {
+            //     $sections[] = [
+            //         'title' => 'Program Heads',
+            //         'data' => $otherProgramHeads,
+            //         'evaluator' => 'Program Head',
+            //         'disabled' => $disabledsubj,
+            //         'icon' => 'ti ti-user',
+            //         'role' => 'Program Head'
+            //     ];
+            // }
 
             if ($facultiesInCollege->isNotEmpty()) {
                 $sections[] = [
