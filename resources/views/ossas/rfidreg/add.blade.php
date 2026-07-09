@@ -965,7 +965,7 @@
             const front = document.querySelector('.id-frontcard').cloneNode(true);
             const back = document.querySelector('.id-backcard').cloneNode(true);
             
-            const frontBg = "{{ asset('uilibs/images/studentidimage/IDfrontoldphotoframe.webp') }}";
+            const frontBg = "{{ asset('uilibs/images/studentidimage/IDfontframe.webp') }}";
             const printWindow = window.open('', '', 'width=400,height=300');
 
             printWindow.document.write(`
@@ -1062,7 +1062,7 @@
                             flex: 1;
                         }
                         .photo-wrapper {
-                            margin-top: -35px !important;
+                            margin-top: -30px !important;
                             display: flex;
                             flex-direction: column;
                             align-items: center;
@@ -1111,20 +1111,39 @@
                             padding-bottom: 3px;
                             padding-right: 12px;
                             position: absolute;
-                            top: 63px !important;
+                            top: 50px !important;
                             left: 103px;
-                            font-size: 8pt;
+                            font-size: 12pt;
                             font-weight: bold;
                             color: #ffffff;
                             z-index: 10;
                             clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);
                         }
 
+                        .id-label {
+                            position: absolute;
+                            font-family: "Poppins", sans-serif !important;
+                            top: 95px;
+                            left: 110px;
+                            font-size: 8pt;
+                            font-weight: bold;
+                            color: #333;
+                        }
+                        .program-label {
+                            position: absolute;
+                            font-family: "Poppins", sans-serif !important;
+                            top: 120px;
+                            left: 110px;
+                            font-size: 8pt;
+                            font-weight: bold;
+                            color: #333;
+                        }
+
                         .student-id {
                             position: absolute;
                             font-weight: bold;
                             font-family: "Poppins", sans-serif !important;
-                            top: 98px;
+                            top: 105px;
                             left: 110px;
                             font-size: 8pt;
                         }
@@ -1133,7 +1152,7 @@
                             position: absolute;
                             font-weight: bold;
                             font-family: "Poppins", sans-serif !important;
-                            top: 120px;
+                            top: 132px;
                             left: 110px;
                             font-size: 8pt;
                         }
@@ -1149,11 +1168,15 @@
                         }
                         .id-body-back {
                             padding: 16px 18px;
-                            font-family: Arial, sans-serif;
+                            font-family: "Poppins", sans-serif !important;
+                        }
+                        .form-labelbold {
+                            font-weight: bold !important;
                         }
 
                         /* Top text */
                         .emergency-text {
+                            margin-top: -5px;
                             font-size: 7px;
                             font-style: italic;
                             margin-bottom: 2px;
