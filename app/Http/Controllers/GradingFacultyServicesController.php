@@ -568,50 +568,92 @@ class GradingFacultyServicesController extends Controller
 
         // ============================================================
         // SCENARIO 3: DEAN ONLY (No Program Head)
-        // Display all Faculty directly (no Program Head to evaluate)
+        // Modified to handle CAS Division Chairs
         // ============================================================
         if ($hasDean && !$hasProgramHead) {
-            // Check if there are Program Heads in the college
-            $hasProgramHeadsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($userCollege) {
-                return in_array('Program Head', $faculty->designations) &&
-                       in_array($userCollege, $faculty->facColleges);
-            })->isNotEmpty();
-
-            if ($hasProgramHeadsInCollege) {
-                // If there are Program Heads, display them
-                $programHeadsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($userCollege, $user) {
-                    return in_array('Program Head', $faculty->designations) &&
-                           in_array($userCollege, $faculty->facColleges) &&
-                           $faculty->id != $user->id;
+            // Check if Dean is from CAS
+            $deanCollege = $collegedean->facCollege ?? $userCollege;
+            $isCAS = ($deanCollege == 'CAS');
+            
+            if ($isCAS) {
+                // For CAS: Show Division Chairs (Dean evaluates them)
+                $divisionChairsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($deanCollege, $user) {
+                    return in_array('Division Chair', $faculty->designations) &&
+                        in_array($deanCollege, $faculty->facColleges) &&
+                        $faculty->id != $user->id;
                 });
 
-                if ($programHeadsInCollege->isNotEmpty()) {
+                if ($divisionChairsInCollege->isNotEmpty()) {
                     $sections[] = [
-                        'title' => 'Program Heads',
-                        'data' => $programHeadsInCollege,
+                        'title' => 'Division Chairs (CAS)',
+                        'data' => $divisionChairsInCollege,
                         'evaluator' => 'Dean',
                         'disabled' => $disabledsubjdean,
-                        'icon' => 'ti ti-user',
+                        'icon' => 'ti ti-briefcase',
                         'role' => 'Dean'
                     ];
                 }
-            } else {
-                // If NO Program Heads, display all Faculty directly
-                $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
-                    return $faculty->faccollege == $userCollege &&
-                           $faculty->facdept == $userDept &&
-                           $faculty->id != $user->id;
-                });
+                
+                // Also show Program Heads (if any) - but Dean doesn't evaluate them directly
+                // $programHeadsInCAS = $allFacultyWithDesignations->filter(function($faculty) use ($deanCollege, $user) {
+                //     return in_array('Program Head', $faculty->designations) &&
+                //            in_array($deanCollege, $faculty->facColleges) &&
+                //            $faculty->id != $user->id;
+                // });
 
-                if ($facultiesInCollege->isNotEmpty()) {
-                    $sections[] = [
-                        'title' => 'Faculties',
-                        'data' => $facultiesInCollege,
-                        'evaluator' => 'Dean',
-                        'disabled' => $disabledsubjdean,
-                        'icon' => 'ti ti-users',
-                        'role' => 'Dean'
-                    ];
+                // if ($programHeadsInCAS->isNotEmpty()) {
+                //     $sections[] = [
+                //         'title' => 'Program Heads (CAS)',
+                //         'data' => $programHeadsInCAS,
+                //         'evaluator' => 'Division Chair',  // Division Chair evaluates them
+                //         'disabled' => $disabledsubjdivchair,
+                //         'icon' => 'ti ti-user',
+                //         'role' => 'Division Chair'
+                //     ];
+                // }
+            } else {
+                // Non-CAS: Check if there are Program Heads in the college
+                $hasProgramHeadsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($userCollege) {
+                    return in_array('Program Head', $faculty->designations) &&
+                        in_array($userCollege, $faculty->facColleges);
+                })->isNotEmpty();
+
+                if ($hasProgramHeadsInCollege) {
+                    // If there are Program Heads, display them
+                    $programHeadsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($userCollege, $user) {
+                        return in_array('Program Head', $faculty->designations) &&
+                            in_array($userCollege, $faculty->facColleges) &&
+                            $faculty->id != $user->id;
+                    });
+
+                    if ($programHeadsInCollege->isNotEmpty()) {
+                        $sections[] = [
+                            'title' => 'Program Heads',
+                            'data' => $programHeadsInCollege,
+                            'evaluator' => 'Dean',
+                            'disabled' => $disabledsubjdean,
+                            'icon' => 'ti ti-user',
+                            'role' => 'Dean'
+                        ];
+                    }
+                } else {
+                    // If NO Program Heads, display all Faculty directly
+                    $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+                        return $faculty->faccollege == $userCollege &&
+                            $faculty->facdept == $userDept &&
+                            $faculty->id != $user->id;
+                    });
+
+                    if ($facultiesInCollege->isNotEmpty()) {
+                        $sections[] = [
+                            'title' => 'Faculties',
+                            'data' => $facultiesInCollege,
+                            'evaluator' => 'Dean',
+                            'disabled' => $disabledsubjdean,
+                            'icon' => 'ti ti-users',
+                            'role' => 'Dean'
+                        ];
+                    }
                 }
             }
         }

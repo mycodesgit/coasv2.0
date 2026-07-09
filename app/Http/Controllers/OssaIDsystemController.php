@@ -200,7 +200,7 @@ class OssaIDsystemController extends Controller
                 'students.gender',
                 'students.bday',
                 'students.contact',
-                'coasv2_db_schedule.programs.progName'
+                'coasv2_db_schedule.programs.progAcronym'
             ])
             ->first();
 

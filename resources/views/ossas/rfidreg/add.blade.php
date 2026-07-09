@@ -97,19 +97,37 @@
             z-index: 10;
             clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);
         }
+        .id-label {
+            position: absolute;
+            font-family: "Poppins", sans-serif !important;
+            top: 172px;
+            left: 125px;
+            font-size: 8pt;
+            font-weight: bold;
+            color: #333;
+        }
         .student-id {
             position: absolute;
             font-weight: bold;
             font-family: "Poppins", sans-serif !important;
-            top: 180px;
+            top: 185px;
             left: 125px;
             font-size: 8pt;
+        }
+        .program-label {
+            position: absolute;
+            font-family: "Poppins", sans-serif !important;
+            top: 203px;
+            left: 125px;
+            font-size: 8pt;
+            font-weight: bold;
+            color: #333;
         }
         .student-course {
             position: absolute;
             font-weight: bold;
             font-family: "Poppins", sans-serif !important;
-            top: 200px;
+            top: 215px;
             left: 125px;
             font-size: 8pt;
         }
@@ -349,7 +367,9 @@
                                                             </div>
                                                             <div>
                                                                 <div class="student-name" id="studentCardName">NAME</div>
+                                                                <label class="id-label">ID No.:</label>
                                                                 <div class="student-id" id="studentCardNo"></div>
+                                                                <label class="program-label">Program:</label>
                                                                 <div class="student-course" id="studentCardCourse"></div>
                                                             </div>
                                                         </div>
@@ -598,18 +618,20 @@
                                     color: #ffffff;
                                     z-index: 10;
                                     clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);" id="previewName"></div>
+                                <label style="position: absolute; font-family: 'Poppins', sans-serif !important; font-weight: bold; top: 110px; left: 110px; font-size: 8pt;">ID No.:</label>
                                 <div style="position: absolute;
                                             font-family: 'Poppins', sans-serif !important;
                                             font-weight: bold;
-                                            top: 110px;
+                                            top: 120px;
                                             left: 110px;
                                             font-size: 7pt;" 
                                     id="previewId">
                                 </div>
+                                <label style="position: absolute; font-family: 'Poppins', sans-serif !important; font-weight: bold; top: 135px; left: 110px; font-size: 8pt;">PROGRAM:</label>
                                 <div style="position: absolute;
                                             font-family: 'Poppins', sans-serif !important;
                                             font-weight: bold;
-                                            top: 130px;
+                                            top: 145px;
                                             left: 110px;
                                             font-size: 7pt;" 
                                     id="previewCourse">
@@ -786,7 +808,7 @@
 
                         const civilStatus = `${data.civil_status}`.toUpperCase();
 
-                        const progName = `${data.progName || ''}`
+                        const progName = `${data.progAcronym || ''}`
                             .replace(/BACHELOR OF ARTS/i, 'BA')
                             .replace(/BACHELOR OF SCIENCE/i, 'BS')
                             .replace(/BACHELOR OF SECONDARY/i, 'BS')
