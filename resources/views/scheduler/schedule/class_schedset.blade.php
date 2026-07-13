@@ -224,6 +224,44 @@ CISS V.1.0 || Class Scheduler
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Merge Toggle -->
+                        <div class="form-group mt-3">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="is_merged" name="is_merged" value="1">
+                                        <label class="form-check-label" for="is_merged">
+                                            <strong>Merge Multiple Sections?</strong>
+                                            <small class="text-muted d-block">Check this if you want to combine sections (e.g., 1-A and 1-B)</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sections to Merge (hidden by default) -->
+                        <div class="form-group mt-3" id="merge_sections_container" style="display: none;">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label for="merge_sections">Select Sections to Merge: <span class="text-danger">*</span></label>
+                                    <select class="form-control form-control-sm select2" 
+                                        id="merge_sections" 
+                                        name="merge_sections[]" 
+                                        multiple="multiple" 
+                                        data-placeholder="Select sections to merge">
+                                </select>
+                                <small class="text-muted">Hold Ctrl/Cmd to select multiple sections</small>
+                                <div id="selected_sections_info" class="mt-2" style="display:none;">
+                                    <span class="badge bg-info">Selected: <span id="selected_count">0</span> sections</span>
+                                    <span class="badge bg-success">Main: <span id="main_section_display">{{ $progCodSuffix }}</span></span>
+                                    <div class="alert alert-info mt-2">
+                                        <i class="fas fa-info-circle"></i> 
+                                        This schedule will be applied to: <strong id="all_sections_display">{{ $progCodSuffix }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

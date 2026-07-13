@@ -126,7 +126,25 @@ class SchedClassController extends Controller
                     ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'subjects.sub_title', 'faculty.lname', 'faculty.fname', 'faculty.fname', 'rooms.room_name')
                     ->get();
 
-        return response()->json(['data' => $data]);
+        foreach ($data as $row) {
+            if ($row->is_merged) {
+                $row->merged_sections = SetClassSchedule::join(
+                        'sub_offered',
+                        'scheduleclass.subject_id',
+                        '=',
+                        'sub_offered.id'
+                    )
+                    ->where('scheduleclass.is_merged', $row->is_merged)
+                    ->pluck('sub_offered.subSec');
+            } else {
+                $row->merged_sections = [];
+            }
+        }
+
+        return response()->json([
+            'progAcronym' => $progAcronym,
+            'data' => $data
+        ]);
     }
 
     public function getSubjectsClassSched(Request $request)
@@ -192,6 +210,9 @@ class SchedClassController extends Controller
                 'faculty_id' => 'required|string',
                 'room_id' => 'required|string',
                 'remarks' => 'required|string',
+                'is_merged' => 'nullable|boolean',
+                'merge_sections' => 'nullable|array',
+                //'merge_sections.*' => 'exists:sub_offered,id',
             ]);
 
             $day = $request->input('schedday');
@@ -206,6 +227,14 @@ class SchedClassController extends Controller
             $faculty_id = $request->input('faculty_id');
             $room_id = $request->input('room_id');
             $remarks = $request->input('remarks');
+
+            $subjectIds = [$subject_id];
+
+            if ($request->boolean('is_merged') && $request->filled('merge_sections')) {
+                $subjectIds = array_unique(
+                    array_merge($subjectIds, $request->merge_sections)
+                );
+            }
 
             $conflicts = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
                 ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -282,21 +311,36 @@ class SchedClassController extends Controller
 
 
             try {
-                SetClassSchedule::create([
-                    'schedday' => $day,
-                    'start_time' => $startTime,
-                    'end_time' => $endTime,
-                    'progcodename' => $progcodename,
-                    'progcodesection' => $progcodesection,
-                    'schlyear' => $schlyear,
-                    'semester' => $semester,
-                    'postedBy' => $request->input('postedBy'),
-                    'campus' => $campus,
-                    'subject_id' => $subject_id,
-                    'faculty_id' => $faculty_id,
-                    'room_id' => $room_id,
-                    'remarks' => $remarks,
-                ]);
+                $mergeId = null;
+
+                if ($request->boolean('is_merged')) {
+                    $mergeId = (string) Str::uuid();
+                }
+
+                foreach ($subjectIds as $sid) {
+                    $subjectOffer = SubjectOffered::findOrFail($sid);
+                    $parts = preg_split('/[\+\s]/', $subjectOffer->subSec);
+                    $section = end($parts);
+
+                    SetClassSchedule::create([
+                        'schedday' => $day,
+                        'start_time' => $startTime,
+                        'end_time' => $endTime,
+                        'progcodename' => $progcodename,
+                        'progcodesection' => $section,
+                        'schlyear' => $schlyear,
+                        'semester' => $semester,
+                        'postedBy' => $request->postedBy,
+                        'campus' => $campus,
+                        'subject_id' => $sid,
+                        'faculty_id' => $faculty_id,
+                        'room_id' => $room_id,
+                        'remarks' => $remarks,
+                        'is_merged' => $mergeId,
+                        'merge_sections' => $subjectIds
+                    ]);
+
+                }
 
                 // FacultyLoad::create([
                 //     'subjectID' => $subject_id,

@@ -113,7 +113,7 @@
 				<tr>
 					<td width="10%">{{ $datafacloadsched->subCode }}</td>
 					<td width="13%">{{ $datafacloadsched->sub_name }}</td>
-					<td width="13%">{{ $datafacloadsched->subSec }}</td>
+					<td width="13%">{{ $datafacloadsched->displaySection  }}</td>
 					<td>{{ $datafacloadsched->sub_title }}</td>
 					<td style="text-align: center;" width="5%">{{ $datafacloadsched->sublecredit }}</td>
 					<td style="text-align: center;" width="5%">{{ $datafacloadsched->sublabcredit }}</td>

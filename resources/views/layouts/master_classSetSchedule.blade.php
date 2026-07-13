@@ -209,6 +209,24 @@
     @if(request()->routeIs('roomSchedSetRead'))
         @include('scheduler.schedule.roomsched_script')
     @endif
+
+    <script>
+        $(document).ready(function() {
+    $('#is_merged').change(function() {
+        if ($(this).is(':checked')) {
+            $('#merge_sections_container').show();
+            $('#main_section_container').hide();
+            $('#merge_sections').prop('required', true);
+            $('#progcodesection').prop('required', false);
+        } else {
+            $('#merge_sections_container').hide();
+            $('#main_section_container').show();
+            $('#merge_sections').prop('required', false);
+            $('#progcodesection').prop('required', true);
+        }
+    });
+});
+    </script>
 </body>
 
 </html>

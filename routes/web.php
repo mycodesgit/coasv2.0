@@ -827,6 +827,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/print-schedule', [SchedClassController::class, 'printSchedule'])->name('printSchedule');
             Route::get('/class/plotted/class/ajaxfetch', [SchedClassController::class, 'getschedclassplotted'])->name('getschedclassplotted');
             Route::get('/class/plotted/list/delete{id}', [SchedClassController::class, 'schedclassplottedDelete'])->name('schedclassplottedDelete');
+            Route::get('/get-sections-for-merge', [SchedClassController::class, 'getSectionsForMerge'])->name('getSectionsForMerge');
 
 
             Route::get('/faculty', [SchedFacultyController::class, 'facultySchedRead'])->name('facultySchedRead');

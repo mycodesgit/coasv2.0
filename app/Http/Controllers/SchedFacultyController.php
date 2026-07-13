@@ -142,6 +142,28 @@ class SchedFacultyController extends Controller
                         ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
                         ->get();
 
+        // Merge schedules having the same merge UUID
+        $schedule = $schedule->groupBy(function ($item) {
+            return $item->is_merged ?: 'single_'.$item->id;
+        })->map(function ($group) {
+
+            $first = $group->first();
+
+            if ($first->is_merged) {
+
+                $sections = $group->pluck('subSec')
+                    ->unique()
+                    ->sort()
+                    ->values()
+                    ->implode('/');
+
+                $first->subSec = $sections;
+            }
+
+            return $first;
+
+        })->values();
+
         return response()->json($schedule);
     }
 
@@ -295,11 +317,46 @@ class SchedFacultyController extends Controller
                                 'rooms.room_name',
                                 DB::raw('COUNT(DISTINCT coasv2_db_enrollment.studgrades.studID) as studentCount'))
                         ->groupBy(
-                            'sub_offered.subSec',
+                            DB::raw('COALESCE(scheduleclass.is_merged, scheduleclass.id)'),
                             'sub_offered.subCode',
+                            'subjects.sub_name',
+                            'subjects.sub_title',
+                            'subjects.sublecredit',
+                            'subjects.sublabcredit',
+                            'subjects.sub_unit',
+                            'faculty.lname',
+                            'faculty.fname',
+                            'rooms.room_name'
                         )
                         ->orderBy('sub_offered.subSec')
                         ->get();
+        $facloadsched = $facloadsched->map(function ($row) {
+
+            if (!empty($row->is_merged)) {
+
+                $sections = SetClassSchedule::join(
+                        'sub_offered',
+                        'scheduleclass.subject_id',
+                        '=',
+                        'sub_offered.id'
+                    )
+                    ->where('scheduleclass.is_merged', $row->is_merged)
+                    ->orderBy('sub_offered.subSec')
+                    ->pluck('sub_offered.subSec')
+                    ->unique()
+                    ->values()
+                    ->toArray();
+
+                $row->displaySection = implode('/', $sections);
+
+            } else {
+
+                $row->displaySection = $row->subSec;
+
+            }
+
+            return $row;
+        });
 
         $data = [
             'facultyName' => $facultyName,
@@ -362,6 +419,32 @@ class SchedFacultyController extends Controller
                         )
                         ->orderBy('sub_offered.subSec')
                         ->get();
+
+        $facloadsched = $facloadsched
+            ->groupBy(function ($item) {
+                // If merged, group by the merge UUID.
+                // Otherwise, group by the schedule ID.
+                return $item->is_merged ?: 'single_'.$item->id;
+            })
+            ->map(function ($group) {
+
+                $first = $group->first();
+
+                if (!empty($first->is_merged)) {
+
+                    $sections = $group->pluck('subSec')
+                        ->unique()
+                        ->sort()
+                        ->values()
+                        ->implode('/');
+
+                    $first->subSec = $sections;
+                }
+
+                return $first;
+            })
+            ->values();
+
         $groupedFacloadsched = $facloadsched->groupBy('sub_name');
 
         $totalUnits = $facloadsched->sum('sub_unit');
