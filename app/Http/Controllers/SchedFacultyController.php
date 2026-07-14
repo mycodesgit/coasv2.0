@@ -141,24 +141,21 @@ class SchedFacultyController extends Controller
                         ->where('scheduleclass.campus', $campus)
                         ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
                         ->get();
-
-        // Merge schedules having the same merge UUID
+                        
+        // Merge schedules with the same merge UUID
         $schedule = $schedule->groupBy(function ($item) {
-            return $item->is_merged ?: 'single_'.$item->id;
+            return !empty($item->is_merged)
+                ? $item->is_merged
+                : 'single_'.$item->id;
         })->map(function ($group) {
 
             $first = $group->first();
 
-            if ($first->is_merged) {
-
-                $sections = $group->pluck('subSec')
-                    ->unique()
-                    ->sort()
-                    ->values()
-                    ->implode('/');
-
-                $first->subSec = $sections;
-            }
+            // Combine section names
+            $first->subSec = $group->pluck('subSec')
+                ->unique()
+                ->sort()
+                ->implode('/');
 
             return $first;
 

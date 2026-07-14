@@ -25,6 +25,7 @@ class SetClassSchedule extends Model
         'faculty_id',
         'room_id',
         'remarks',
-        'is_merged'
+        'is_merged',
+        'merge_sections'
     ];
 }

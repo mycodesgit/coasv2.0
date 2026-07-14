@@ -337,7 +337,8 @@ class SchedClassController extends Controller
                         'room_id' => $room_id,
                         'remarks' => $remarks,
                         'is_merged' => $mergeId,
-                        'merge_sections' => $subjectIds
+                        'merge_sections' => implode(',', $subjectIds),
+
                     ]);
 
                 }
