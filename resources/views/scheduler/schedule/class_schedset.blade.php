@@ -97,13 +97,13 @@ CISS V.1.0 || Class Scheduler
                                             </div>
                                             <div class="col-md-4 mt-3">
                                                 <div class="g-3">
-                                                    <button id="viewSchedule" class="btn btn-success btn-sm">
+                                                    <button type="button" id="viewSchedule" class="btn btn-success btn-sm">
                                                         <i class="fas fa-eye"></i> View Schedule
                                                     </button>
                                                     <button type="button" id="refreshSchedule" class="btn btn-info btn-sm">
                                                         <i class="fas fa-sync"></i> Refresh
                                                     </button>  
-                                                    <button data-bs-toggle="modal" data-bs-target="#viewScheduletoDeleteModal" class="btn btn-danger btn-sm">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#viewScheduletoDeleteModal" class="btn btn-danger btn-sm">
                                                         <i class="fas fa-trash"></i> Delete Schedule
                                                     </button>
                                                 </div>
@@ -153,15 +153,12 @@ CISS V.1.0 || Class Scheduler
                 <div class="modal-body" id="schedule-view">
                     <!-- Schedule content will be dynamically inserted here -->
                 </div>
-                <div class="modal-footer">
-                    
-                </div>
             </div>
         </div>
     </div>
 
     <!-- Add Schedule Modal -->
-    <div class="modal fade mt-6" id="scheduleModal" tabindex="" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal fade mt-6" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -188,9 +185,7 @@ CISS V.1.0 || Class Scheduler
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <label for="subject_id">Select Subject: <span class="text-danger">*</span></label>
-                                    <select class="form-control form-control-sm select2" data-placeholder="Select Subjects" id="subject_id" name="subject_id" >
-                                        
-                                    </select>
+                                    <select class="form-control form-control-sm select2" data-placeholder="Select Subjects" id="subject_id" name="subject_id" ></select>
                                 </div>
                             </div>
                         </div>
@@ -250,14 +245,15 @@ CISS V.1.0 || Class Scheduler
                                         name="merge_sections[]" 
                                         multiple="multiple" 
                                         data-placeholder="Select sections to merge">
-                                </select>
-                                <small class="text-muted">Hold Ctrl/Cmd to select multiple sections</small>
-                                <div id="selected_sections_info" class="mt-2" style="display:none;">
-                                    <span class="badge bg-info">Selected: <span id="selected_count">0</span> sections</span>
-                                    <span class="badge bg-success">Main: <span id="main_section_display">{{ $progCodSuffix }}</span></span>
-                                    <div class="alert alert-info mt-2">
-                                        <i class="fas fa-info-circle"></i> 
-                                        This schedule will be applied to: <strong id="all_sections_display">{{ $progCodSuffix }}</strong>
+                                    </select>
+                                    <small class="text-muted">Hold Ctrl/Cmd to select multiple sections</small>
+                                    <div id="selected_sections_info" class="mt-2" style="display:none;">
+                                        <span class="badge bg-info">Selected: <span id="selected_count">0</span> sections</span>
+                                        <span class="badge bg-success">Main: <span id="main_section_display">{{ $progCodSuffix }}</span></span>
+                                        <div class="alert alert-info mt-2">
+                                            <i class="fas fa-info-circle"></i> 
+                                            This schedule will be applied to: <strong id="all_sections_display">{{ $progCodSuffix }}</strong>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
