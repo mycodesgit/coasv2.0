@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('faculty_id')->nullable();
             $table->string('room_id')->nullable();
             $table->string('remarks')->nullable();
+            $table->string('is_merged')->nullable();
+            $table->string('merge_sections')->nullable();
             $table->timestamps();
         });
     }
