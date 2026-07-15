@@ -588,7 +588,7 @@ class SchedClassController extends Controller
                 $subjectName = $timeOccupied->sub_name ?? 'Unknown Subject';
                 $section = $timeOccupied->subSec ?? 'N/A';
                 
-                $mergeErrors[] = "❌ The time slot {$day} from {$startTime} to {$endTime} is already occupied by {$subjectName} ({$section}) in room {$roomName} with faculty {$facultyName}. Merge cannot proceed!";
+                $mergeErrors[] = "The time slot {$day} from {$startTime} to {$endTime} is already occupied by {$subjectName} ({$section}) in room {$roomName} with faculty {$facultyName}. Merge cannot proceed!";
             }
 
             // ============================================================
@@ -634,7 +634,7 @@ class SchedClassController extends Controller
                 $subjectName = $roomOccupied->sub_name ?? 'Unknown Subject';
                 $section = $roomOccupied->subSec ?? 'N/A';
                 
-                $mergeErrors[] = "❌ Room {$roomName} is already occupied by {$subjectName} ({$section}) with faculty {$facultyName} from {$roomOccupied->start_time} to {$roomOccupied->end_time} on {$roomOccupied->schedday}. Merge cannot proceed!";
+                $mergeErrors[] = "Room {$roomName} is already occupied by {$subjectName} ({$section}) with faculty {$facultyName} from {$roomOccupied->start_time} to {$roomOccupied->end_time} on {$roomOccupied->schedday}. Merge cannot proceed!";
             }
 
             // ============================================================
@@ -680,7 +680,7 @@ class SchedClassController extends Controller
                 $section = $facultyConflict->subSec ?? 'N/A';
                 $roomName = $facultyConflict->room_name ?? 'N/A';
                 
-                $mergeErrors[] = "❌ Faculty {$facultyName} is already scheduled to teach {$subjectName} ({$section}) in room {$roomName} from {$facultyConflict->start_time} to {$facultyConflict->end_time} on {$facultyConflict->schedday}. Merge cannot proceed!";
+                $mergeErrors[] = "Faculty {$facultyName} is already scheduled to teach {$subjectName} ({$section}) in room {$roomName} from {$facultyConflict->start_time} to {$facultyConflict->end_time} on {$facultyConflict->schedday}. Merge cannot proceed!";
             }
 
             // ============================================================
@@ -724,7 +724,7 @@ class SchedClassController extends Controller
             if ($facultyChangeCheck) {
                 $facultyName = trim(($facultyChangeCheck->lname ?? '') . ' ' . ($facultyChangeCheck->fname ?? ''));
                 $subjectName = $facultyChangeCheck->sub_name ?? 'Unknown Subject';
-                $mergeErrors[] = "⚠️ Warning: Subject {$subjectName} is assigned to a different faculty ({$facultyName}) on {$day} from {$startTime} to {$endTime}. Please verify faculty assignment.";
+                $mergeErrors[] = "Warning: Subject {$subjectName} is assigned to a different faculty ({$facultyName}) on {$day} from {$startTime} to {$endTime}. Please verify faculty assignment.";
             }
 
             // ============================================================
