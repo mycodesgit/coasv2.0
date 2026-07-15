@@ -533,100 +533,30 @@ class SchedClassController extends Controller
             $mergeErrors = [];
             
             // Log what we're checking
-            \Log::info('Merge Conflict Check:', [
-                'subject_ids' => $subjectIds,
-                'day' => $day,
-                'start_time' => $startTimeFormatted,
-                'end_time' => $endTimeFormatted,
-                'room_id' => $room_id,
-                'faculty_id' => $faculty_id
-            ]);
+            // \Log::info('Merge Conflict Check:', [
+            //     'subject_ids' => $subjectIds,
+            //     'day' => $day,
+            //     'start_time' => $startTimeFormatted,
+            //     'end_time' => $endTimeFormatted,
+            //     'room_id' => $room_id,
+            //     'faculty_id' => $faculty_id
+            // ]);
             
             // ============================================================
-            // CHECK 1: Does ANY merged subject already have a schedule
-            // at this day and time? (CRITICAL CHECK)
+            // CHECK 1: Is the TIME and DAY already occupied by ANY schedule?
+            // (Check ALL schedules regardless of room, subject, faculty)
             // ============================================================
-            foreach ($subjectIds as $sid) {
-                // Get subject details
-                $subjectOffer = SubjectOffered::find($sid);
-                $subjectLabel = $subjectOffer ? $subjectOffer->subSec : $sid;
-                
-                // Check if this subject already has a schedule at this day and time
-                // DO NOT filter by room, faculty, or anything else!
-                $existingSchedule = SetClassSchedule::where('subject_id', $sid)
-                    ->where('schedday', $day)
-                    ->where('schlyear', $schlyear)
-                    ->where('semester', $semester)
-                    ->where('campus', $campus)
-                    ->where(function($query) use ($startTimeFormatted, $endTimeFormatted) {
-                        $query->whereRaw("
-                            STR_TO_DATE(
-                                SUBSTRING_INDEX(scheduleclass.start_time, '-', 1), 
-                                '%H:%i'
-                            ) < STR_TO_DATE(?, '%H:%i')
-                        ", [$endTimeFormatted])
-                        ->whereRaw("
-                            STR_TO_DATE(
-                                SUBSTRING_INDEX(scheduleclass.end_time, '-', -1), 
-                                '%H:%i'
-                            ) > STR_TO_DATE(?, '%H:%i')
-                        ", [$startTimeFormatted]);
-                    })
-                    ->exists();
-
-                if ($existingSchedule) {
-                    // Get the conflicting schedule details
-                    $conflictDetails = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
-                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
-                        // ->where('scheduleclass.subject_id', $sid)
-                        ->where('scheduleclass.schedday', $day)
-                        ->where('scheduleclass.schlyear', $schlyear)
-                        ->where('scheduleclass.semester', $semester)
-                        ->where('scheduleclass.campus', $campus)
-                        ->where(function($query) use ($startTimeFormatted, $endTimeFormatted) {
-                            $query->whereRaw("
-                                STR_TO_DATE(
-                                    SUBSTRING_INDEX(scheduleclass.start_time, '-', 1), 
-                                    '%H:%i'
-                                ) < STR_TO_DATE(?, '%H:%i')
-                            ", [$endTimeFormatted])
-                            ->whereRaw("
-                                STR_TO_DATE(
-                                    SUBSTRING_INDEX(scheduleclass.end_time, '-', -1), 
-                                    '%H:%i'
-                                ) > STR_TO_DATE(?, '%H:%i')
-                            ", [$startTimeFormatted]);
-                        })
-                        ->select(
-                            'scheduleclass.*',
-                            'sub_offered.subSec',
-                            'subjects.sub_name',
-                            'faculty.lname',
-                            'faculty.fname',
-                            'rooms.room_name'
-                        )
-                        ->first();
-
-                    if ($conflictDetails) {
-                        $facultyName = trim(($conflictDetails->lname ?? '') . ' ' . ($conflictDetails->fname ?? ''));
-                        $mergeErrors[] = "Subject ({$conflictDetails->sub_name}) {$subjectLabel} already has a schedule on {$day} from {$startTime} to {$endTime} in room {$conflictDetails->room_name} with faculty {$facultyName}. Merge cannot proceed!";
-                    } else {
-                        $mergeErrors[] = "Subject ({$conflictDetails->sub_name}) {$subjectLabel} already has a schedule on {$day} from {$startTime} to {$endTime}. Merge cannot proceed!";
-                    }
-                }
-            }
-
-            // ============================================================
-            // CHECK 2: Is the ROOM occupied by ANY schedule at this day and time?
-            // (Check ALL schedules in the room, regardless of subject)
-            // ============================================================
-            $roomOccupied = SetClassSchedule::where('room_id', $room_id)
-                ->where('schedday', $day)
-                ->where('schlyear', $schlyear)
-                ->where('semester', $semester)
-                ->where('campus', $campus)
+            $timeOccupied = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                ->where('scheduleclass.schedday', $day)
+                ->where('scheduleclass.schlyear', $schlyear)
+                ->where('scheduleclass.semester', $semester)
+                ->where('scheduleclass.campus', $campus)
+                // NO room_id filter!
+                // NO faculty_id filter!
+                // NO subject_id filter!
                 ->where(function($query) use ($startTimeFormatted, $endTimeFormatted) {
                     $query->whereRaw("
                         STR_TO_DATE(
@@ -641,52 +571,70 @@ class SchedClassController extends Controller
                         ) > STR_TO_DATE(?, '%H:%i')
                     ", [$startTimeFormatted]);
                 })
+                ->select(
+                    'scheduleclass.*',
+                    'sub_offered.subSec',
+                    'subjects.sub_name',
+                    'faculty.lname',
+                    'faculty.fname',
+                    'rooms.room_name'
+                )
+                ->first();
+
+            // If ANY schedule exists at this day and time, BLOCK the merge!
+            if ($timeOccupied) {
+                $facultyName = trim(($timeOccupied->lname ?? '') . ' ' . ($timeOccupied->fname ?? ''));
+                $roomName = $timeOccupied->room_name ?? 'N/A';
+                $subjectName = $timeOccupied->sub_name ?? 'Unknown Subject';
+                $section = $timeOccupied->subSec ?? 'N/A';
+                
+                $mergeErrors[] = "❌ The time slot {$day} from {$startTime} to {$endTime} is already occupied by {$subjectName} ({$section}) in room {$roomName} with faculty {$facultyName}. Merge cannot proceed!";
+            }
+
+            // ============================================================
+            // CHECK 2: Is the ROOM occupied at this day and time?
+            // ============================================================
+            $roomOccupied = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                ->where('scheduleclass.room_id', $room_id)
+                ->where('scheduleclass.schedday', $day)
+                ->where('scheduleclass.schlyear', $schlyear)
+                ->where('scheduleclass.semester', $semester)
+                ->where('scheduleclass.campus', $campus)
+                ->whereNotIn('scheduleclass.subject_id', $subjectIds)
+                ->where(function($query) use ($startTimeFormatted, $endTimeFormatted) {
+                    $query->whereRaw("
+                        STR_TO_DATE(
+                            SUBSTRING_INDEX(scheduleclass.start_time, '-', 1), 
+                            '%H:%i'
+                        ) < STR_TO_DATE(?, '%H:%i')
+                    ", [$endTimeFormatted])
+                    ->whereRaw("
+                        STR_TO_DATE(
+                            SUBSTRING_INDEX(scheduleclass.end_time, '-', -1), 
+                            '%H:%i'
+                        ) > STR_TO_DATE(?, '%H:%i')
+                    ", [$startTimeFormatted]);
+                })
+                ->select(
+                    'scheduleclass.*',
+                    'sub_offered.subSec',
+                    'subjects.sub_name',
+                    'faculty.lname',
+                    'faculty.fname',
+                    'rooms.room_name'
+                )
                 ->first();
 
             if ($roomOccupied) {
-                // Get the conflicting schedule details
-                $conflictingSchedule = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
-                    ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                    ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                    ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
-                    ->where('scheduleclass.room_id', $room_id)
-                    ->where('scheduleclass.schedday', $day)
-                    ->where('scheduleclass.schlyear', $schlyear)
-                    ->where('scheduleclass.semester', $semester)
-                    ->where('scheduleclass.campus', $campus)
-                    ->where(function($query) use ($startTimeFormatted, $endTimeFormatted) {
-                        $query->whereRaw("
-                            STR_TO_DATE(
-                                SUBSTRING_INDEX(scheduleclass.start_time, '-', 1), 
-                                '%H:%i'
-                            ) < STR_TO_DATE(?, '%H:%i')
-                        ", [$endTimeFormatted])
-                        ->whereRaw("
-                            STR_TO_DATE(
-                                SUBSTRING_INDEX(scheduleclass.end_time, '-', -1), 
-                                '%H:%i'
-                            ) > STR_TO_DATE(?, '%H:%i')
-                        ", [$startTimeFormatted]);
-                    })
-                    ->select(
-                        'scheduleclass.*',
-                        'sub_offered.subSec',
-                        'subjects.sub_name',
-                        'faculty.lname',
-                        'faculty.fname',
-                        'rooms.room_name'
-                    )
-                    ->first();
-
-                if ($conflictingSchedule) {
-                    $facultyName = trim(($conflictingSchedule->lname ?? '') . ' ' . ($conflictingSchedule->fname ?? ''));
-                    // Only add if this is not the same subject (to avoid duplicate errors)
-                    if (!in_array($conflictingSchedule->subject_id, $subjectIds)) {
-                        $mergeErrors[] = "Room {$conflictingSchedule->room_name} is already occupied by {$conflictingSchedule->sub_name} ({$conflictingSchedule->progcodename} - {$conflictingSchedule->progcodesection}) with faculty {$facultyName} from {$conflictingSchedule->start_time} to {$conflictingSchedule->end_time} on {$conflictingSchedule->schedday}. Merge cannot proceed!";
-                    }
-                } else {
-                    $mergeErrors[] = "Room {$conflictingSchedule->room_name} is already occupied on {$day} from {$startTime} to {$endTime}. Merge cannot proceed!";
-                }
+                $facultyName = trim(($roomOccupied->lname ?? '') . ' ' . ($roomOccupied->fname ?? ''));
+                $roomName = $roomOccupied->room_name ?? 'N/A';
+                $subjectName = $roomOccupied->sub_name ?? 'Unknown Subject';
+                $section = $roomOccupied->subSec ?? 'N/A';
+                
+                $mergeErrors[] = "❌ Room {$roomName} is already occupied by {$subjectName} ({$section}) with faculty {$facultyName} from {$roomOccupied->start_time} to {$roomOccupied->end_time} on {$roomOccupied->schedday}. Merge cannot proceed!";
             }
 
             // ============================================================
@@ -701,6 +649,7 @@ class SchedClassController extends Controller
                 ->where('scheduleclass.schlyear', $schlyear)
                 ->where('scheduleclass.semester', $semester)
                 ->where('scheduleclass.campus', $campus)
+                ->whereNotIn('scheduleclass.subject_id', $subjectIds)
                 ->where(function($query) use ($startTimeFormatted, $endTimeFormatted) {
                     $query->whereRaw("
                         STR_TO_DATE(
@@ -715,48 +664,23 @@ class SchedClassController extends Controller
                         ) > STR_TO_DATE(?, '%H:%i')
                     ", [$startTimeFormatted]);
                 })
-                ->exists();
+                ->select(
+                    'scheduleclass.*',
+                    'sub_offered.subSec',
+                    'subjects.sub_name',
+                    'faculty.lname',
+                    'faculty.fname',
+                    'rooms.room_name'
+                )
+                ->first();
 
             if ($facultyConflict) {
-                $conflictingFaculty = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
-                    ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                    ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                    ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
-                    ->where('scheduleclass.faculty_id', $faculty_id)
-                    ->where('scheduleclass.schedday', $day)
-                    ->where('scheduleclass.schlyear', $schlyear)
-                    ->where('scheduleclass.semester', $semester)
-                    ->where('scheduleclass.campus', $campus)
-                    ->where(function($query) use ($startTimeFormatted, $endTimeFormatted) {
-                        $query->whereRaw("
-                            STR_TO_DATE(
-                                SUBSTRING_INDEX(scheduleclass.start_time, '-', 1), 
-                                '%H:%i'
-                            ) < STR_TO_DATE(?, '%H:%i')
-                        ", [$endTimeFormatted])
-                        ->whereRaw("
-                            STR_TO_DATE(
-                                SUBSTRING_INDEX(scheduleclass.end_time, '-', -1), 
-                                '%H:%i'
-                            ) > STR_TO_DATE(?, '%H:%i')
-                        ", [$startTimeFormatted]);
-                    })
-                    ->select(
-                        'scheduleclass.*',
-                        'sub_offered.subSec',
-                        'subjects.sub_name',
-                        'faculty.lname',
-                        'faculty.fname',
-                        'rooms.room_name'
-                    )
-                    ->first();
-
-                if ($conflictingFaculty) {
-                    $facultyName = trim(($conflictingFaculty->lname ?? '') . ' ' . ($conflictingFaculty->fname ?? ''));
-                    $mergeErrors[] = "Faculty {$facultyName} is already scheduled to teach {$conflictingFaculty->sub_name} ({$conflictingFaculty->progcodename} - {$conflictingFaculty->progcodesection}) in room {$conflictingFaculty->room_name} from {$conflictingFaculty->start_time} to {$conflictingFaculty->end_time} on {$conflictingFaculty->schedday}. Merge cannot proceed!";
-                } else {
-                    $mergeErrors[] = "Faculty is already scheduled to teach another class on {$day} from {$startTime} to {$endTime}. Merge cannot proceed!";
-                }
+                $facultyName = trim(($facultyConflict->lname ?? '') . ' ' . ($facultyConflict->fname ?? ''));
+                $subjectName = $facultyConflict->sub_name ?? 'Unknown Subject';
+                $section = $facultyConflict->subSec ?? 'N/A';
+                $roomName = $facultyConflict->room_name ?? 'N/A';
+                
+                $mergeErrors[] = "❌ Faculty {$facultyName} is already scheduled to teach {$subjectName} ({$section}) in room {$roomName} from {$facultyConflict->start_time} to {$facultyConflict->end_time} on {$facultyConflict->schedday}. Merge cannot proceed!";
             }
 
             // ============================================================
@@ -798,7 +722,9 @@ class SchedClassController extends Controller
                 ->first();
 
             if ($facultyChangeCheck) {
-                $mergeErrors[] = "Warning: One or more merged subjects are assigned to a different faculty on {$day} from {$startTime} to {$endTime}. Please verify faculty assignment.";
+                $facultyName = trim(($facultyChangeCheck->lname ?? '') . ' ' . ($facultyChangeCheck->fname ?? ''));
+                $subjectName = $facultyChangeCheck->sub_name ?? 'Unknown Subject';
+                $mergeErrors[] = "⚠️ Warning: Subject {$subjectName} is assigned to a different faculty ({$facultyName}) on {$day} from {$startTime} to {$endTime}. Please verify faculty assignment.";
             }
 
             // ============================================================
@@ -809,9 +735,9 @@ class SchedClassController extends Controller
                     $conflicts[] = [
                         'type' => 'merge_conflict',
                         'subject' => 'Merge Conflict',
-                        'course' => 'Multiple Sections',
+                        'course' => 'Merged Sections: ' . implode(' + ', $subjectIds),
                         'faculty' => 'N/A',
-                        'room' => $facultyChangeCheck->room_name ?? 'N/A',
+                        'room' => $room_id,
                         'schedday' => $day,
                         'start_time' => $startTime,
                         'end_time' => $endTime,
