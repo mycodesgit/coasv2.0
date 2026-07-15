@@ -93,6 +93,7 @@ class EnStudEnrolledController extends Controller
                     }
                 })
                 ->where('students.stud_id', 'NOT LIKE', '%-G')
+                ->whereIn('program_en_history.status', [2, 3])
                 ->where('program_en_history.schlyear', '=', $schlyear)
                 ->where('program_en_history.semester', '=', $semester)
                 ->get();
