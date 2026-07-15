@@ -230,8 +230,8 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('student/registrationform/pdf', [StudentController::class, 'rfstudactconfirm'])->name('rfstudactconfirm');
         Route::post('/confirm-enrollment', [StudentController::class, 'confirmEnrollment'])->name('confirm.enrollment');
 
-        Route::get('/chat/messages', [ChatController::class, 'fetchMessages'])->name('chat.fetch');
-        Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+        // Route::get('/chat/messages', [ChatController::class, 'fetchMessages'])->name('chat.fetch');
+        // Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 
         Route::get('/logout/stud', [ControlController::class, 'logout'])->name('destory.logout');
     });
