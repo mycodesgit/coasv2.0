@@ -89,7 +89,7 @@ class EnStudEnrolledController extends Controller
                 // ->where('program_en_history.campus', '=', $campus)
                 ->where(function ($q) use ($campusArray) {
                     foreach ($campusArray as $campus) {
-                        $q->orWhere('program_en_history.campus', 'LIKE', "%$campus%");
+                        $q->orWhere('program_en_history.campus', 'LIKE', "$campus");
                     }
                 })
                 ->where('students.stud_id', 'NOT LIKE', '%-G')
