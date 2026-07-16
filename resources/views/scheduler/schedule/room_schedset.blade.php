@@ -33,7 +33,7 @@ CISS V.1.0 || Class Scheduler
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form method="GET" action="{{ route('facultySchedSetRead') }}" id="classsched">
+                                        <form method="GET" action="{{ route('roomSchedSetRead') }}" id="roomsched">
                                             @csrf
 
                                             <div class="mt-2">
