@@ -724,8 +724,22 @@ class SchedClassController extends Controller
             if ($facultyChangeCheck) {
                 $facultyName = trim(($facultyChangeCheck->lname ?? '') . ' ' . ($facultyChangeCheck->fname ?? ''));
                 $subjectName = $facultyChangeCheck->sub_name ?? 'Unknown Subject';
+                $roomName = $facultyChangeCheck->room_name ?? 'Unknown Room';
                 $mergeErrors[] = "Warning: Subject {$subjectName} is assigned to a different faculty ({$facultyName}) on {$day} from {$startTime} to {$endTime}. Please verify faculty assignment.";
             }
+
+            $mergedDisplay = [];
+            foreach ($subjectIds as $sid) {
+                $subjectOffer = SubjectOffered::find($sid);
+                if ($subjectOffer) {
+                    $subject = Subject::where('sub_code', $subjectOffer->subCode)->first();
+                    $subjectName = $subject ? $subject->sub_name : 'Unknown';
+                    $mergedDisplay[] = $subjectName . ' (' . $subjectOffer->subSec . ')';
+                } else {
+                    $mergedDisplay[] = 'Subject ID: ' . $sid;
+                }
+            }
+            $mergedDisplayText = implode(' + ', $mergedDisplay);
 
             // ============================================================
             // If there are any merge errors, add them to conflicts
@@ -735,9 +749,9 @@ class SchedClassController extends Controller
                     $conflicts[] = [
                         'type' => 'merge_conflict',
                         'subject' => 'Merge Conflict',
-                        'course' => 'Merged Sections: ' . implode(' + ', $subjectIds),
-                        'faculty' => 'N/A',
-                        'room' => $room_id,
+                        'course' => $mergedDisplayText,
+                        'faculty' => $facultyName,
+                        'room' => $roomName,
                         'schedday' => $day,
                         'start_time' => $startTime,
                         'end_time' => $endTime,

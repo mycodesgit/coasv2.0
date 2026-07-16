@@ -299,7 +299,7 @@
                             `;
                             $.each(groupedConflicts.time_conflict, function(i, conflict) {
                                 conflictHtml += `
-                                    <div class="conflict-item">
+                                    <div class="bg-light p-2 mb-2 border rounded">
                                         <div class="conflict-details">
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><i class="fas fa-book"></i> Subject:</span>
@@ -311,7 +311,7 @@
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><i class="fas fa-door-open"></i> Room:</span>
-                                                <span class="conflict-value">${conflict.room}</span>
+                                                <span class="conflict-value"><strong class="text-warning"><i>${conflict.room}</i></strong></span>
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><i class="fas fa-calendar-day"></i> Day:</span>
@@ -323,7 +323,7 @@
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><i class="fas fa-info-circle"></i> Message:</span>
-                                                <span class="conflict-message">${conflict.message}</span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
                                             </div>
                                         </div>
                                     </div>
@@ -381,11 +381,11 @@
                             hasConflicts = true;
                             conflictHtml += `
                                 <div class="conflict-category conflict-faculty">
-                                    <h6 class="text-info"><i class="fas fa-user-graduate"></i> Faculty Conflicts</h6>
+                                    <h6 class="text-success"><i class="fas fa-user-graduate"></i> Faculty Conflicts</h6>
                             `;
                             $.each(groupedConflicts.faculty_conflict, function(i, conflict) {
                                 conflictHtml += `
-                                    <div class="conflict-item">
+                                    <div class="bg-light p-2 mb-2 border rounded">
                                         <div class="conflict-details">
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><strong>Subject:</strong></span>
@@ -397,7 +397,7 @@
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><strong>Room:</strong></span>
-                                                <span class="conflict-value"><i>${conflict.room}</i></span>
+                                                <span class="conflict-value"><strong class="text-warning"><i>${conflict.room}</i></strong></span>
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><strong>Day:</strong></span>
@@ -409,7 +409,7 @@
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><strong>Message:</strong></span>
-                                                <span class="conflict-message"><i>${conflict.message}</i></span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
                                             </div>
                                         </div>
                                     </div>
@@ -440,7 +440,7 @@
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><strong>Room:</strong></span>
-                                                <span class="conflict-value"><i>${conflict.room}</i></span>
+                                                <span class="conflict-value"><strong class="text-warning"><i>${conflict.room}</i></strong></span>
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><strong>Day:</strong></span>
@@ -452,7 +452,7 @@
                                             </div>
                                             <div class="conflict-row">
                                                 <span class="conflict-label"><strong>Message:</strong></span>
-                                                <span class="conflict-message"><i>${conflict.message}</i></span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
                                             </div>
                                         </div>
                                     </div>
@@ -505,22 +505,10 @@
                             conflictHtml = '<p class="text-center text-muted"><i class="fas fa-check-circle text-success"></i> No conflicts found.</p>';
                         }
                         
-                        // Add action buttons
-                        conflictHtml += `
-                            <div class="conflict-actions mt-3">
-                                <button class="btn btn-warning btn-sm" onclick="forceSaveSchedule()">
-                                    <i class="fas fa-exclamation-triangle"></i> Force Save (Override Conflicts)
-                                </button>
-                                <button class="btn btn-secondary btn-sm" onclick="closeConflictModal()">
-                                    <i class="fas fa-times"></i> Cancel
-                                </button>
-                            </div>
-                        `;
-                        
                         // Show Swal with conflicts
                         Swal.fire({
                             icon: 'error',
-                            title: '<i class="fas fa-exclamation-circle text-danger"></i> Schedule Conflicts Detected',
+                            title: 'Schedule Conflicts Detected',
                             html: `
                                 <div style="text-align: left; max-height: 500px; overflow-y: auto; padding: 5px;">
                                     ${conflictHtml}
@@ -547,52 +535,6 @@
                 }
             });
         });
-
-        // Force Save Function
-        function forceSaveSchedule() {
-            Swal.close();
-            
-            Swal.fire({
-                title: '<i class="fas fa-exclamation-triangle text-warning"></i> Force Save Schedule?',
-                text: "This will override existing conflicts. Are you sure?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: '<i class="fas fa-check"></i> Yes, force save!',
-                cancelButtonText: '<i class="fas fa-times"></i> Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let formData = $('#scheduleForm').serialize();
-                    formData += '&force_save=true';
-                    
-                    let saveBtn = $('#saveSchedule');
-                    saveBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Force Saving...');
-                    
-                    $.ajax({
-                        url: '{{ route('classSchedCreate') }}',
-                        method: 'POST',
-                        data: formData,
-                        success: function(response) {
-                            if(response.success) {
-                                toastr.success('<i class="fas fa-check-circle"></i> Schedule force saved successfully!');
-                                $('#scheduleModal').modal('hide');
-                                clearHighlights();
-                                loadSchedule();
-                                $(document).trigger('subjplotAdded');
-                            } else {
-                                toastr.error('<i class="fas fa-times-circle"></i> Failed to force save: ' + response.message);
-                            }
-                            saveBtn.prop('disabled', false).html('<i class="fas fa-save"></i> Save Schedule');
-                        },
-                        error: function(response) {
-                            toastr.error('<i class="fas fa-times-circle"></i> Failed to force save: ' + (response.responseJSON.message || 'Unknown error'));
-                            saveBtn.prop('disabled', false).html('<i class="fas fa-save"></i> Save Schedule');
-                        }
-                    });
-                }
-            });
-        }
 
         function closeConflictModal() {
             Swal.close();
