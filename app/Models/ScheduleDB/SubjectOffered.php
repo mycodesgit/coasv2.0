@@ -33,4 +33,16 @@ class SubjectOffered extends Model
         'itfee',
         'fundAccount',
     ];
+
+    // Relationship to Subject
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subCode', 'sub_code');
+    }
+
+    // Relationship to Program through subSec
+    public function program()
+    {
+        return $this->belongsTo(Program::class, 'subSec', 'progAcronym');
+    }
 }

@@ -147,22 +147,78 @@ class SchedClassController extends Controller
         ]);
     }
 
+    // public function getSubjectsClassSched(Request $request)
+    // {
+    //     $schlyear = $request->input('schlyear');
+    //     $semester = $request->input('semester');
+    //     $campus = Auth::guard('web')->user()->campus;
+
+    //     $progsuboff = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+    //                         ->where('sub_offered.schlyear', $schlyear)
+    //                         ->where('sub_offered.semester', $semester)
+    //                         ->where('sub_offered.campus', $campus)
+    //                         ->select('sub_offered.subCode', 'sub_offered.subSec', 'sub_offered.schlyear', 'sub_offered.semester', 'sub_offered.campus', 'sub_offered.id as soschid', 'subjects.*')
+    //                         ->orderBy('subjects.sub_name', 'ASC')
+    //                         ->orderBy('sub_offered.subSec', 'ASC')
+    //                         ->get();
+
+    //     return response()->json($progsuboff);
+    // }
+
     public function getSubjectsClassSched(Request $request)
     {
-        $schlyear = $request->input('schlyear');
-        $semester = $request->input('semester');
-        $campus = Auth::guard('web')->user()->campus;
+        try {
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = Auth::guard('web')->user()->campus;
+            $progCod = $request->input('progCod');
 
-        $progsuboff = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            if (empty($progCod)) {
+                return response()->json([]);
+            }
+
+            // Extract program code
+            $programCode = preg_split('/[+ ]/', $progCod)[0];
+            $sectionYear = '';
+            
+            if (preg_match('/[+ ](.+)$/', $progCod, $matches)) {
+                $sectionYear = $matches[1];
+            }
+
+            $program = EnPrograms::where('progCod', $programCode)->first();
+            
+            if (!$program) {
+                return response()->json([]);
+            }
+
+            $progAcronym = $program->progAcronym;
+
+            // Use LIKE with wildcard for more flexibility
+            $searchPattern = $progAcronym . '%' . $sectionYear;
+
+            $results = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
                             ->where('sub_offered.schlyear', $schlyear)
                             ->where('sub_offered.semester', $semester)
                             ->where('sub_offered.campus', $campus)
-                            ->select('sub_offered.subCode', 'sub_offered.subSec', 'sub_offered.schlyear', 'sub_offered.semester', 'sub_offered.campus', 'sub_offered.id as soschid', 'subjects.*')
+                            ->where('sub_offered.subSec', 'LIKE', $searchPattern)
+                            ->select(
+                                'sub_offered.id as soschid',
+                                'sub_offered.subCode',
+                                'sub_offered.subSec',
+                                'sub_offered.schlyear',
+                                'sub_offered.semester',
+                                'sub_offered.campus',
+                                'subjects.sub_name',
+                            )
                             ->orderBy('subjects.sub_name', 'ASC')
-                            ->orderBy('sub_offered.subSec', 'ASC')
                             ->get();
 
-        return response()->json($progsuboff);
+            return response()->json($results);
+
+        } catch (\Exception $e) {
+            //\Log::error('Error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function getFacultyClassSched(Request $request)

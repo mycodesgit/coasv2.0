@@ -29,4 +29,10 @@ class Subject extends Model
         'subjprereq',
         'subacadtype'
     ];
+
+    // Relationship to SubjectOffered
+    public function subjectOffered()
+    {
+        return $this->hasMany(SubjectOffered::class, 'subCode', 'sub_code');
+    }
 }

@@ -35,4 +35,9 @@ class EnPrograms extends Model
         'progFund',
         'progAccount',
     ];
+    // Relationship to SubjectOffered
+    public function subjectOffered()
+    {
+        return $this->hasMany(SubjectOffered::class, 'subSec', 'progAcronym');
+    }
 }

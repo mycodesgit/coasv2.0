@@ -5,6 +5,11 @@ $(document).ready(function () {
     var urlParams = new URLSearchParams(window.location.search);
     var schlyear = urlParams.get('schlyear') || '';
     var semester = urlParams.get('semester') || '';
+    var progCod = urlParams.get('progCod') || '';
+
+    console.log('schlyear:', schlyear);
+    console.log('semester:', semester);
+    console.log('progCod:', progCod);
 
     $.ajax({
         url: classSubOfferSchedReadRoute,
@@ -12,6 +17,7 @@ $(document).ready(function () {
         data: {
             schlyear: schlyear,
             semester: semester,
+            progCod: progCod
         },
         success: function (data) {
 
