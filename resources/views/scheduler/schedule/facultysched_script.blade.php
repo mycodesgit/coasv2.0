@@ -236,49 +236,355 @@
         $('#saveSchedule').click(function() {
             // Save the schedule via AJAX
             let formData = $('#scheduleForm').serialize();
+            
+            // Show loading state
+            let saveBtn = $(this);
+            saveBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Saving...');
+            
             $.ajax({
                 url: '{{ route('facultySchedCreate') }}',
                 method: 'POST',
                 data: formData,
                 success: function(response) {
                     if(response.success) {
-                        toastr.success(response.message);
+                        toastr.success('<i class="fas fa-check-circle"></i> ' + response.message);
                         $('#scheduleModal').modal('hide');
                         clearHighlights();
                         loadSchedule();
+                        $(document).trigger('subjplotAdded');
                     } else {
-                        toastr.error('Error: ' + response.message);
+                        toastr.error('<i class="fas fa-times-circle"></i> Error: ' + response.message);
                     }
+                    saveBtn.prop('disabled', false).html('<i class="fas fa-save"></i> Save Schedule');
                 },
                 error: function(response) {
-                    // Conflict status code
-                    if (response.status === 409) {
-                        let conflictMessages = response.responseJSON.conflicts.map(function(conflict) {
-                            return `Conflict with:<br> 
-                                    Subject: ${conflict.subject}<br>
-                                    Course: ${conflict.course}<br>
-                                    Faculty: ${conflict.faculty}<br>
-                                    Room: ${conflict.room}<br>
-                                    Day: ${conflict.schedday}<br>
-                                    Time: ${conflict.start_time} - ${conflict.end_time}<br><br>`;
-                        }).join('');
-
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Conflict',
-                            html: conflictMessages,  // Use `html` instead of `text`
-                        });
-                    } else if (response.status === 422) { // Validation error status code
+                    saveBtn.prop('disabled', false).html('<i class="fas fa-save"></i> Save Schedule');
+                    
+                    // Handle validation errors (422)
+                    if (response.status === 422) {
                         let errors = response.responseJSON.errors;
-                        // Loop through each validation error and show them
+                        $('.is-invalid').removeClass('is-invalid');
+                        $('.invalid-feedback').remove();
+                        
                         $.each(errors, function(field, messages) {
                             let element = $('[name="' + field + '"]');
                             element.addClass('is-invalid');
                             let errorElement = $('<span class="invalid-feedback"></span>').text(messages.join(' '));
                             element.closest('.col-md-12').append(errorElement);
                         });
+                    } 
+                    // Handle conflicts (409)
+                    else if (response.status === 409) {
+                        let conflicts = response.responseJSON.conflicts;
+                        let conflictHtml = '';
+                        
+                        // Group conflicts by type
+                        let groupedConflicts = {
+                            'time_conflict': [],
+                            'room_conflict': [],
+                            'faculty_conflict': [],
+                            'merge_conflict': [],
+                            'faculty_change': [],
+                            'program_section_conflict': [],
+                        };
+                        
+                        $.each(conflicts, function(index, conflict) {
+                            if (groupedConflicts[conflict.type]) {
+                                groupedConflicts[conflict.type].push(conflict);
+                            }
+                        });
+                        
+                        // Build conflict HTML
+                        let hasConflicts = false;
+                        
+                        // Program Section Conflicts
+                        if (groupedConflicts.program_section_conflict.length > 0) {
+                            hasConflicts = true;
+                            conflictHtml += `
+                                <div class="conflict-category conflict-program-section">
+                                    <h6 class="text-success"><i class="fas fa-graduation-cap"></i> Program/Section Conflict</h6>
+                            `;
+                            $.each(groupedConflicts.program_section_conflict, function(i, conflict) {
+                                conflictHtml += `
+                                    <div class="bg-light p-2 mb-2 border rounded">
+                                        <div class="conflict-details">
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Subject:</strong></span>
+                                                <span class="conflict-value"><strong><i>${conflict.subject}</i></strong></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Section:</strong></span>
+                                                <span class="conflict-value"><strong><i>${conflict.course}</i></strong></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Faculty:</strong></span>
+                                                <span class="conflict-value"><strong><i>${conflict.faculty}</i></strong></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Room:</strong></span>
+                                                <span class="conflict-value"><strong class="text-warning"><i>${conflict.room}</i></strong></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Day:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.schedday}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Time:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.start_time} - ${conflict.end_time}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Message:</strong></span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                `;
+                            });
+                            conflictHtml += '</div>';
+                        }
+
+                        // Time Conflicts
+                        if (groupedConflicts.time_conflict.length > 0) {
+                            hasConflicts = true;
+                            conflictHtml += `
+                                <div class="conflict-category conflict-time">
+                                    <h6 class="text-danger"><i class="fas fa-clock"></i> Time Conflicts</h6>
+                            `;
+                            $.each(groupedConflicts.time_conflict, function(i, conflict) {
+                                conflictHtml += `
+                                    <div class="bg-light p-2 mb-2 border rounded">
+                                        <div class="conflict-details">
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><i class="fas fa-book"></i> Subject:</span>
+                                                <span class="conflict-value"><strong>${conflict.subject}</strong> (${conflict.course})</span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><i class="fas fa-user-tie"></i> Faculty:</span>
+                                                <span class="conflict-value">${conflict.faculty}</span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><i class="fas fa-door-open"></i> Room:</span>
+                                                <span class="conflict-value"><strong class="text-warning"><i>${conflict.room}</i></strong></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><i class="fas fa-calendar-day"></i> Day:</span>
+                                                <span class="conflict-value">${conflict.schedday}</span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><i class="fas fa-hourglass-half"></i> Time:</span>
+                                                <span class="conflict-value">${conflict.start_time} - ${conflict.end_time}</span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><i class="fas fa-info-circle"></i> Message:</span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                `;
+                            });
+                            conflictHtml += '</div>';
+                        }
+                        
+                        // Room Conflicts
+                        if (groupedConflicts.room_conflict.length > 0) {
+                            hasConflicts = true;
+                            conflictHtml += `
+                                <div class="conflict-category conflict-room">
+                                    <h6 class="text-success"><i class="fas fa-building"></i> Room Conflicts</h6>
+                            `;
+                            $.each(groupedConflicts.room_conflict, function(i, conflict) {
+                                conflictHtml += `
+                                    <div class="bg-light p-2 mb-2 border rounded">
+                                        <div class="conflict-details">
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Subject: </strong></span>
+                                                <span class="conflict-value"><strong>${conflict.subject}</strong><i>(${conflict.course})</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Faculty:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.faculty}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Room:</strong></span>
+                                                <span class="conflict-value"><strong class="text-warning"><i>${conflict.room}</i></strong></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Day:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.schedday}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Time:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.start_time} - ${conflict.end_time}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Message:</strong></span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                `;
+                            });
+                            conflictHtml += '</div>';
+                        }
+                        
+                        // Faculty Conflicts
+                        if (groupedConflicts.faculty_conflict.length > 0) {
+                            hasConflicts = true;
+                            conflictHtml += `
+                                <div class="conflict-category conflict-faculty">
+                                    <h6 class="text-success"><i class="fas fa-user-graduate"></i> Faculty Conflicts</h6>
+                            `;
+                            $.each(groupedConflicts.faculty_conflict, function(i, conflict) {
+                                conflictHtml += `
+                                    <div class="bg-light p-2 mb-2 border rounded">
+                                        <div class="conflict-details">
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Subject:</strong></span>
+                                                <span class="conflict-value"><i><strong>${conflict.subject}</strong> (${conflict.course})</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Faculty:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.faculty}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Room:</strong></span>
+                                                <span class="conflict-value"><strong class="text-warning"><i>${conflict.room}</i></strong></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Day:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.schedday}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Time:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.start_time} - ${conflict.end_time}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Message:</strong></span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                `;
+                            });
+                            conflictHtml += '</div>';
+                        }
+                        
+                        // Merge Conflicts
+                        if (groupedConflicts.merge_conflict.length > 0) {
+                            hasConflicts = true;
+                            conflictHtml += `
+                                <div class="conflict-category conflict-merge">
+                                    <h6 class="text-primary"><i class="fas fa-code-branch"></i> Merge Conflicts</h6>
+                            `;
+                            $.each(groupedConflicts.merge_conflict, function(i, conflict) {
+                                conflictHtml += `
+                                    <div class="bg-light p-2 mb-2 border rounded">
+                                        <div class="conflict-details">
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Subject: </strong></span>
+                                                <span class="conflict-value"><i><strong>${conflict.subject}</strong> (${conflict.course})</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Faculty:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.faculty}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Room:</strong></span>
+                                                <span class="conflict-value"><strong class="text-warning"><i>${conflict.room}</i></strong></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Day:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.schedday}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Time:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.start_time} - ${conflict.end_time}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Message:</strong></span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                `;
+                            });
+                            conflictHtml += '</div>';
+                        }
+                        
+                        // Faculty Change Warning
+                        if (groupedConflicts.faculty_change.length > 0) {
+                            hasConflicts = true;
+                            conflictHtml += `
+                                <div class="conflict-category conflict-faculty-change">
+                                    <h6 class="text-success"><i class="fas fa-exchange-alt"></i> Faculty Change Warning</h6>
+                            `;
+                            $.each(groupedConflicts.faculty_change, function(i, conflict) {
+                                conflictHtml += `
+                                    <div class="bg-light p-2 mb-2 border rounded">
+                                        <div class="conflict-details">
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Subject:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.subject}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Course:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.course}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Faculty:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.faculty}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Day:</strong></span>
+                                                <span class="conflict-value"><i>${conflict.schedday}</i></span>
+                                            </div>
+                                            <div class="conflict-row">
+                                                <span class="conflict-label"><strong>Message:</strong></span>
+                                                <span class="conflict-message text-danger"><i>${conflict.message}</i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                `;
+                            });
+                            conflictHtml += '</div>';
+                        }
+                        
+                        if (!hasConflicts) {
+                            conflictHtml = '<p class="text-center text-muted"><i class="fas fa-check-circle text-success"></i> No conflicts found.</p>';
+                        }
+                        
+                        // Show Swal with conflicts
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Schedule Conflicts Detected',
+                            html: `
+                                <div style="text-align: left; max-height: 500px; overflow-y: auto; padding: 5px;">
+                                    ${conflictHtml}
+                                </div>
+                            `,
+                            showConfirmButton: false,
+                            showCancelButton: true,
+                            cancelButtonText: '<i class="fas fa-times"></i> Close',
+                            customClass: {
+                                popup: 'conflict-dialog'
+                            },
+                            width: 750,
+                        });
+                        
                     } else {
-                        alert('Error saving schedule: ' + response.responseJSON.message);
+                        // Other errors
+                        Swal.fire({
+                            icon: 'error',
+                            title: '<i class="fas fa-times-circle text-danger"></i> Error',
+                            text: response.responseJSON.message || 'Error saving schedule',
+                            confirmButtonText: '<i class="fas fa-check"></i> OK'
+                        });
                     }
                 }
             });
