@@ -181,25 +181,42 @@
         <script src="{{ asset('js/ajax/schedclass/getCourseYrSecSerialize.js') }}"></script>
     @endif
     @if(request()->routeIs('classSchedSetRead'))
-        <script src="{{ asset('js/ajax/schedclass/getSubOffschedClassSerialize.js') }}"></script>
-        <script src="{{ asset('js/ajax/schedclass/getFacultyschedClassSerialize.js') }}"></script>
-        <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}"></script>
-        <script src="{{ asset('js/ajax/schedclass/classplotdeleteSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getSubOffschedClassSerialize.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getFacultyschedClassSerialize.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/classplotdeleteSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
     @if(request()->routeIs('facultySchedSetRead'))
-        <script src="{{ asset('js/ajax/schedclass/getCourseYrSecSerializeFac.js') }}"></script>
-        <script src="{{ asset('js/ajax/schedclass/getSubOffschedClassSerialize.js') }}"></script>
-        <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getCourseYrSecSerializeFac.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getSubOffschedClassSerialize.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
     @if(request()->routeIs('roomSchedSetRead'))
-        <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
 
     @if(request()->routeIs('classSchedSetRead'))
         @include('scheduler.schedule.classsched_script')
+        <script>
+            $(document).ready(function() {
+                $('#is_merged').change(function() {
+                    if ($(this).is(':checked')) {
+                        $('#merge_sections_container').show();
+                        $('#main_section_container').hide();
+                        $('#merge_sections').prop('required', true);
+                        $('#progcodesection').prop('required', false);
+                    } else {
+                        $('#merge_sections_container').hide();
+                        $('#main_section_container').show();
+                        $('#merge_sections').prop('required', false);
+                        $('#progcodesection').prop('required', true);
+                    }
+                });
+            });
+        </script>
     @endif
 
     @if(request()->routeIs('facultySchedSetRead'))
@@ -209,24 +226,6 @@
     @if(request()->routeIs('roomSchedSetRead'))
         @include('scheduler.schedule.roomsched_script')
     @endif
-
-    <script>
-        $(document).ready(function() {
-    $('#is_merged').change(function() {
-        if ($(this).is(':checked')) {
-            $('#merge_sections_container').show();
-            $('#main_section_container').hide();
-            $('#merge_sections').prop('required', true);
-            $('#progcodesection').prop('required', false);
-        } else {
-            $('#merge_sections_container').hide();
-            $('#main_section_container').show();
-            $('#merge_sections').prop('required', false);
-            $('#progcodesection').prop('required', true);
-        }
-    });
-});
-    </script>
 </body>
 
 </html>
