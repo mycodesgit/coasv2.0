@@ -136,6 +136,7 @@ CISS V.1.0 || Class Scheduler
                                                                 <label>Designation <span class="text-danger">*</span></label>
                                                                 <select name="designation" id="designation" class="form-control select2bs4 form-control-sm">
                                                                     <optgroup label="Most Selected">
+                                                                        <option value="Dean of Instruction">Dean of Instruction</option>
                                                                         <option value="Dean">Dean</option>
                                                                         <option value="Division Chair">Division Chair</option>
                                                                         <option value="Program Head">Program Head</option>

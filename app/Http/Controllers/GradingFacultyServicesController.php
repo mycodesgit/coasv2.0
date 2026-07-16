@@ -506,65 +506,65 @@ class GradingFacultyServicesController extends Controller
         // SCENARIO 1: CAMPUS ADMIN ONLY (No Program Head)
         // Display all Program Heads in the campus
         // ============================================================
-        if ($hasCampusAdmin && !$hasProgramHead) {
-            // Get all Program Heads in the campus (excluding self)
-            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
-                return in_array('Program Head', $faculty->designations) &&
-                       $faculty->id != $user->id;
-            });
+        // if ($hasCampusAdmin && !$hasProgramHead) {
+        //     // Get all Program Heads in the campus (excluding self)
+        //     $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+        //         return in_array('Program Head', $faculty->designations) &&
+        //                $faculty->id != $user->id;
+        //     });
 
-            if ($programHeadsInCampus->isNotEmpty()) {
-                $sections[] = [
-                    'title' => 'Program Heads (Campus-wide)',
-                    'data' => $programHeadsInCampus,
-                    'evaluator' => 'CampusAdmin',
-                    'disabled' => $disabledsubjcampusadmin,
-                    'icon' => 'ti ti-user',
-                    'role' => 'CampusAdmin'
-                ];
-            }
-        }
+        //     if ($programHeadsInCampus->isNotEmpty()) {
+        //         $sections[] = [
+        //             'title' => 'Program Heads (Campus-wide)',
+        //             'data' => $programHeadsInCampus,
+        //             'evaluator' => 'CampusAdmin',
+        //             'disabled' => $disabledsubjcampusadmin,
+        //             'icon' => 'ti ti-user',
+        //             'role' => 'CampusAdmin'
+        //         ];
+        //     }
+        // }
 
         // ============================================================
         // SCENARIO 2: CAMPUS ADMIN + PROGRAM HEAD
         // Display all Program Heads AND Faculties in their college
         // ============================================================
-        if ($hasCampusAdmin && $hasProgramHead) {
-            // Get all Program Heads in the campus (excluding self)
-            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
-                return in_array('Program Head', $faculty->designations) &&
-                       $faculty->id != $user->id;
-            });
+        // if ($hasCampusAdmin && $hasProgramHead) {
+        //     // Get all Program Heads in the campus (excluding self)
+        //     $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+        //         return in_array('Program Head', $faculty->designations) &&
+        //                $faculty->id != $user->id;
+        //     });
 
-            // Get faculties in the user's college and department (excluding self)
-            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
-                return $faculty->faccollege == $userCollege &&
-                       $faculty->facdept == $userDept &&
-                       $faculty->id != $user->id;
-            });
+        //     // Get faculties in the user's college and department (excluding self)
+        //     $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+        //         return $faculty->faccollege == $userCollege &&
+        //                $faculty->facdept == $userDept &&
+        //                $faculty->id != $user->id;
+        //     });
 
-            if ($programHeadsInCampus->isNotEmpty()) {
-                $sections[] = [
-                    'title' => 'Program Heads (Campus-wide)',
-                    'data' => $programHeadsInCampus,
-                    'evaluator' => 'CampusAdmin',
-                    'disabled' => $disabledsubjcampusadmin,
-                    'icon' => 'ti ti-user',
-                    'role' => 'CampusAdmin'
-                ];
-            }
+        //     if ($programHeadsInCampus->isNotEmpty()) {
+        //         $sections[] = [
+        //             'title' => 'Program Heads (Campus-wide)',
+        //             'data' => $programHeadsInCampus,
+        //             'evaluator' => 'CampusAdmin',
+        //             'disabled' => $disabledsubjcampusadmin,
+        //             'icon' => 'ti ti-user',
+        //             'role' => 'CampusAdmin'
+        //         ];
+        //     }
 
-            if ($facultiesInCollege->isNotEmpty()) {
-                $sections[] = [
-                    'title' => 'Faculties (College)',
-                    'data' => $facultiesInCollege,
-                    'evaluator' => 'Program Head',
-                    'disabled' => $disabledsubj,
-                    'icon' => 'ti ti-users',
-                    'role' => 'Program Head'
-                ];
-            }
-        }
+        //     if ($facultiesInCollege->isNotEmpty()) {
+        //         $sections[] = [
+        //             'title' => 'Faculties (College)',
+        //             'data' => $facultiesInCollege,
+        //             'evaluator' => 'Program Head',
+        //             'disabled' => $disabledsubj,
+        //             'icon' => 'ti ti-users',
+        //             'role' => 'Program Head'
+        //         ];
+        //     }
+        // }
 
         // ============================================================
         // SCENARIO 3: DEAN ONLY (No Program Head)
