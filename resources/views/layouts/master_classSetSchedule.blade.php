@@ -189,7 +189,6 @@
 
     @if(request()->routeIs('facultySchedSetRead'))
         <script src="{{ asset('js/ajax/schedclass/getCourseYrSecSerializeFac.js') }}?v={{ time() }}"></script>
-        <script src="{{ asset('js/ajax/schedclass/getSubOffschedClassSerialize.js') }}?v={{ time() }}"></script>
         <script src="{{ asset('js/ajax/schedclass/getRoomschedClassSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
