@@ -318,6 +318,7 @@ CISS V.1.0 || Class Scheduler
         var classSubOfferSchedReadRoute = "{{ route('getSubjectsClassSched') }}";
         var classFacultySchedReadRoute = "{{ route('getFacultyClassSched') }}";
         var classRoomSchedReadRoute = "{{ route('getRoomClassSched') }}";
+        var getAllSubjectsMergeRoute = "{{ route('getAllSubjectsForMerge') }}";
 
         var classplottedReadRoute = "{{ route('getschedclassplotted') }}";
         var classplottedDeleteRoute = "{{ route('schedclassplottedDelete', ['id' => ':id']) }}";

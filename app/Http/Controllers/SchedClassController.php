@@ -249,6 +249,39 @@ class SchedClassController extends Controller
         return response()->json($progroom);
     }
 
+    public function getAllSubjectsForMerge(Request $request)
+{
+    try {
+        $schlyear = $request->input('schlyear');
+        $semester = $request->input('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        // Get ALL subjects (all programs and sections) for the given year and semester
+        $results = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                            ->where('sub_offered.schlyear', $schlyear)
+                            ->where('sub_offered.semester', $semester)
+                            ->where('sub_offered.campus', $campus)
+                            ->select(
+                                'sub_offered.id as soschid',
+                                'sub_offered.subCode',
+                                'sub_offered.subSec',
+                                'sub_offered.schlyear',
+                                'sub_offered.semester',
+                                'sub_offered.campus',
+                                'subjects.sub_name'
+                            )
+                            ->orderBy('subjects.sub_name', 'ASC')
+                            ->orderBy('sub_offered.subSec', 'ASC')
+                            ->get();
+
+        return response()->json($results);
+
+    } catch (\Exception $e) {
+        \Log::error('Error in getAllSubjectsForMerge: ' . $e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
     public function classSchedCreate(Request $request)
     {
         if ($request->isMethod('post')) {
