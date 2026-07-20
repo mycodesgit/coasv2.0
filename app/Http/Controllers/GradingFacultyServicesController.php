@@ -329,7 +329,7 @@ class GradingFacultyServicesController extends Controller
             ->get();
 
         // Check if user has specific designations
-        $hasCampusAdmin = $userDesignations->contains('designation', 'CampusAdmin');
+        $hasDeanInstruction = $userDesignations->contains('designation', 'Dean of Instruction');
         $hasDean = $userDesignations->contains('designation', 'Dean');
         $hasProgramHead = $userDesignations->contains('designation', 'Program Head');
         $hasDivisionChair = $userDesignations->contains('designation', 'Division Chair');
@@ -338,7 +338,7 @@ class GradingFacultyServicesController extends Controller
         $collegedean = $userDesignations->where('designation', 'Dean')->first();
         $collegeprogramhead = $userDesignations->where('designation', 'Program Head')->first();
         $casdivisionchair = $userDesignations->where('designation', 'Division Chair')->first();
-        $campusad = $userDesignations->where('designation', 'CampusAdmin')->first();
+        $campusdeaninstruction = $userDesignations->where('designation', 'Dean of Instruction')->first();
 
         // Determine user's college and department
         $userCollege = $user->faccollege;
@@ -348,7 +348,7 @@ class GradingFacultyServicesController extends Controller
         $allFacultyInCampus = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
             ->where('faculty.campus', $user->campus)
             ->where('faculty.id', '!=', $user->id)
-            ->whereIn('fac_designation.designation', ['Dean', 'Program Head', 'Division Chair', 'CampusAdmin'])
+            ->whereIn('fac_designation.designation', ['Dean', 'Program Head', 'Division Chair', 'Dean of Instruction'])
             ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
             ->where('fac_designation.semester', $currsemnow->qcesemester)
             ->select(
@@ -432,11 +432,11 @@ class GradingFacultyServicesController extends Controller
             ->where('qceevaluator', 'Division Chair')
             ->pluck('qcefacID');
 
-        $disabledsubjcampusadmin = QCEfevalrate::where('evaluatorID', $user->id)
+        $disabledsubjcampusdeaninstruction = QCEfevalrate::where('evaluatorID', $user->id)
             ->whereIn('statprint', [1,2])
             ->where('schlyear', $currsemnow->qceschlyear)
             ->where('semester', $currsemnow->qcesemester)
-            ->where('qceevaluator', 'CampusAdmin')
+            ->where('qceevaluator', 'Dean of Instruction')
             ->pluck('qcefacID');
 
         // Get active faculty designation data from parent Controller
@@ -449,11 +449,11 @@ class GradingFacultyServicesController extends Controller
         // Build evaluation sections based on user roles
         $sections = $this->getEvaluationSections(
             $user,
-            $hasCampusAdmin,
+            $hasDeanInstruction,
             $hasDean,
             $hasProgramHead,
             $hasDivisionChair,
-            $campusad,
+            $campusdeaninstruction,
             $casdivisionchair,
             $collegedean,
             $collegeprogramhead,
@@ -464,7 +464,7 @@ class GradingFacultyServicesController extends Controller
             $disabledsubj,
             $disabledsubjdean,
             $disabledsubjdivchair,
-            $disabledsubjcampusadmin
+            $disabledsubjcampusdeaninstruction
         );
 
         return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact(
@@ -472,7 +472,7 @@ class GradingFacultyServicesController extends Controller
             'sy', 
             'setevalmode', 
             'sections',
-            'campusad',
+            'campusdeaninstruction',
             'collegedean',
             'collegeprogramhead',
             'casdivisionchair',
@@ -482,11 +482,11 @@ class GradingFacultyServicesController extends Controller
 
     private function getEvaluationSections(
         $user,
-        $hasCampusAdmin,
+        $hasDeanInstruction,
         $hasDean,
         $hasProgramHead,
         $hasDivisionChair,
-        $campusad,
+        $campusdeaninstruction,
         $casdivisionchair,
         $collegedean,
         $collegeprogramhead,
@@ -497,7 +497,7 @@ class GradingFacultyServicesController extends Controller
         $disabledsubj,
         $disabledsubjdean,
         $disabledsubjdivchair,
-        $disabledsubjcampusadmin
+        $disabledsubjcampusdeaninstruction
     ) 
     {
         $sections = [];
@@ -506,24 +506,40 @@ class GradingFacultyServicesController extends Controller
         // SCENARIO 1: CAMPUS ADMIN ONLY (No Program Head)
         // Display all Program Heads in the campus
         // ============================================================
-        // if ($hasCampusAdmin && !$hasProgramHead) {
-        //     // Get all Program Heads in the campus (excluding self)
-        //     $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
-        //         return in_array('Program Head', $faculty->designations) &&
-        //                $faculty->id != $user->id;
-        //     });
+        if ($hasDeanInstruction && !$hasProgramHead) {
+            // Get all Program Heads in the campus (excluding self)
+            $deansInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Dean', $faculty->designations) &&
+                       $faculty->id != $user->id;
+            });
 
-        //     if ($programHeadsInCampus->isNotEmpty()) {
-        //         $sections[] = [
-        //             'title' => 'Program Heads (Campus-wide)',
-        //             'data' => $programHeadsInCampus,
-        //             'evaluator' => 'CampusAdmin',
-        //             'disabled' => $disabledsubjcampusadmin,
-        //             'icon' => 'ti ti-user',
-        //             'role' => 'CampusAdmin'
-        //         ];
-        //     }
-        // }
+            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Program Head', $faculty->designations) &&
+                    $faculty->id != $user->id;
+            });
+
+            if ($deansInCampus->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Deans',
+                    'data' => $deansInCampus,
+                    'evaluator' => 'Dean of Instruction',
+                    'disabled' => $disabledsubjcampusdeaninstruction,
+                    'icon' => 'ti ti-user',
+                    'role' => 'Dean of Instruction'
+                ];
+            }
+
+            if ($programHeadsInCampus->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads',
+                    'data' => $programHeadsInCampus,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-user',
+                    'role' => 'Program Head'
+                ];
+            }
+        }
 
         // ============================================================
         // SCENARIO 2: CAMPUS ADMIN + PROGRAM HEAD
@@ -817,7 +833,7 @@ class GradingFacultyServicesController extends Controller
         // SCENARIO 7: PROGRAM HEAD ONLY
         // Display all Faculty in their college/department
         // ============================================================
-        if ($hasProgramHead && !$hasCampusAdmin && !$hasDean && !$hasDivisionChair) {
+        if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair) {
             // Get faculties in the Program Head's college and department (excluding self)
             $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
                 return $faculty->faccollege == $userCollege &&
