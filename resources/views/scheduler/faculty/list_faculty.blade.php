@@ -233,11 +233,22 @@ CISS V.1.0 || Class Scheduler
                         </div>
                         <div class="form-group mt-3">
                             <label for="editdept">Department: <span class="text-danger">*</span></label>
-                            <select class="form-control form-control-sm" id="editdept" name="facdept">
+                            <select class="form-control form-control-sm" id="editdept" name="facdept"  onchange="toggleSedDropdown()">
                                 <option disabled selected> --Select-- </option>
                                 @foreach($depts as $datadepts)
                                     <option value="{{ $datadepts->deptCod }}">{{ $datadepts->deptName }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <!-- Additional dropdown for SED department -->
+                        <div class="form-group mt-3" id="sedDropdownContainer" style="display: none; margin-top: 10px;">
+                            <label for="sedProgram">Major: <span class="text-danger">*</span></label>
+                            <select class="form-control form-control-sm" id="sedProgram" name="deptmajor">
+                                <option value=""> --Select Major-- </option>
+                                <option value="English">English</option>
+                                <option value="Filipino">Filipino</option>
+                                <option value="Math">Math</option>
+                                <option value="Science">Science</option>
                             </select>
                         </div>
                         <div class="form-group mt-3">

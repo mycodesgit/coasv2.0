@@ -343,6 +343,7 @@ class GradingFacultyServicesController extends Controller
         // Determine user's college and department
         $userCollege = $user->faccollege;
         $userDept = $user->facdept;
+        $userDeptMajor = $user->deptmajor;
 
         // Get ALL faculty with their designations in the user's campus (excluding current user)
         $allFacultyInCampus = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
@@ -397,6 +398,7 @@ class GradingFacultyServicesController extends Controller
                 'faculty.campus', 
                 'faculty.faccollege',
                 'faculty.facdept',
+                'faculty.deptmajor',
                 'faculty.id as facID', 
                 'fac_designation.designation', 
                 'fac_designation.facCollege'
@@ -461,6 +463,7 @@ class GradingFacultyServicesController extends Controller
             $regularFaculties,
             $userCollege,
             $userDept,
+            $userDeptMajor,
             $disabledsubj,
             $disabledsubjdean,
             $disabledsubjdivchair,
@@ -494,6 +497,7 @@ class GradingFacultyServicesController extends Controller
         $regularFaculties,
         $userCollege,
         $userDept,
+        $userMajor,
         $disabledsubj,
         $disabledsubjdean,
         $disabledsubjdivchair,
@@ -833,7 +837,7 @@ class GradingFacultyServicesController extends Controller
         // SCENARIO 7: PROGRAM HEAD ONLY
         // Display all Faculty in their college/department
         // ============================================================
-        if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair) {
+        if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair && empty($user->deptmajor)) {
             // Get faculties in the Program Head's college and department (excluding self)
             $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
                 return $faculty->faccollege == $userCollege &&
@@ -872,12 +876,30 @@ class GradingFacultyServicesController extends Controller
         }
 
         // ============================================================
-        // SCENARIO 8: DEAN ONLY (Non-CAS with Program Heads)
-        // Display Program Heads only, not Faculties
+        // SCENARIO 8: PROGRAM HEAD WITH DEPTMAJOR
+        // Display all Faculty in their college/department and same major
         // ============================================================
-        // This is already handled in Scenario 3 with the condition:
-        // if ($hasProgramHeadsInCollege) { display Program Heads }
-        // else { display Faculties }
+        if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair && !empty($user->deptmajor)) {
+            
+            // Get faculties in the Program Head's college, department, and major (excluding self)
+            $facultiesMajorInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
+                return $faculty->faccollege == $userCollege &&
+                    $faculty->facdept == $userDept &&
+                    $faculty->deptmajor == $userMajor &&
+                    $faculty->id != $user->id;
+            });
+
+            if ($facultiesMajorInCollege->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Faculties (' . $userMajor . ' Major)',
+                    'data' => $facultiesMajorInCollege,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-users',
+                    'role' => 'Program Head'
+                ];
+            }
+        }
 
         // Filter out empty sections
         return array_filter($sections, function($section) {

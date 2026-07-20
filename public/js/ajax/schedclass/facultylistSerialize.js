@@ -72,7 +72,25 @@ $(document).ready(function() {
             },
             {data: 'adrDesc'},
             {data: 'college_abbr'},
-            {data: 'deptCod'},
+            {
+                data: null,
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        var dept = row.deptCod || '';
+                        var major = row.deptmajor || '';
+                        
+                        if (dept && major) {
+                            return dept + ' - ' + major;
+                        } else if (dept) {
+                            return dept; // Only show department
+                        } else {
+                            return ''; // Empty if both are null
+                        }
+                    }
+                    return data;
+                },
+                title: 'Department'
+            },
             {data: 'rank'},
             { 
                 data: 'fcamp', 
@@ -100,7 +118,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.prefix + '" data-suffix="' + row.suffix + '" data-faccollege="' + row.faccollege + '" data-facdept="' + row.facdept + '" data-email="' + row.email + '" data-rank="' + row.rank + '">' +
+                            '<a href="#" class="dropdown-item btn-facultyedit" data-id="' + row.fctyid + '" data-flname="' + row.lname + '" data-ffname="' + row.fname + '" data-fmname="' + row.mname + '" data-fxname="' + row.ext + '" data-adrname="' + row.prefix + '" data-suffix="' + row.suffix + '" data-faccollege="' + row.faccollege + '" data-facdept="' + row.facdept + '" data-email="' + row.email + '" data-rank="' + row.rank + '" data-deptmajor="' + row.deptmajor + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             // '<button type="button" value="' + data + '" class="dropdown-item faclty-delete">' +
@@ -124,32 +142,62 @@ $(document).ready(function() {
     });
 });
 
-$(document).on('click', '.btn-facultyedit', function() {
-    var id = $(this).data('id');
-    var lName = $(this).data('flname');
-    var fName = $(this).data('ffname');
-    var mName = $(this).data('fmname');
-    var exName = $(this).data('fxname');
-    var prefixName = $(this).data('adrname');
-    var suffixName = $(this).data('suffix');
-    var collegeName = $(this).data('faccollege');
-    var deptName = $(this).data('facdept');
-    var email = $(this).data('email');
-    var rank = $(this).data('rank');
+// Toggle function
+function toggleSedDropdown() {
+    var selectedDept = $('#editdept').val();
+    
+    if (selectedDept === 'SED') {
+        $('#sedDropdownContainer').slideDown(300);
+        $('#sedProgram').prop('required', true);
+    } else {
+        $('#sedDropdownContainer').slideUp(300);
+        $('#sedProgram').prop('required', false);
+        $('#sedProgram').val('');
+    }
+}
 
-    $('#editFacultyId').val(id);
-    $('#editLastname').val(lName);
-    $('#editFirstname').val(fName);
-    $('#editMiddlename').val(mName);
-    $('#editExtname').val(exName);
-    $('#editPrefix').val(prefixName);
-    $('#editSuffix').val(suffixName);
-    $('#editcollege').val(collegeName);
-    $('#editdept').val(deptName);
-    $('#editEmail').val(email);
-    $('#eeditacadrank').val(rank);
+$(document).ready(function() { 
+    // Bind change event
+    $('#editdept').on('change', toggleSedDropdown);
 
-    $('#editFacultyModal').modal('show');
+    $(document).on('click', '.btn-facultyedit', function() {
+        var id = $(this).data('id');
+        var lName = $(this).data('flname');
+        var fName = $(this).data('ffname');
+        var mName = $(this).data('fmname');
+        var exName = $(this).data('fxname');
+        var prefixName = $(this).data('adrname');
+        var suffixName = $(this).data('suffix');
+        var collegeName = $(this).data('faccollege');
+        var deptName = $(this).data('facdept');
+        var email = $(this).data('email');
+        var rank = $(this).data('rank');
+        var deptMajor = $(this).data('deptmajor');
+
+        $('#editFacultyId').val(id);
+        $('#editLastname').val(lName);
+        $('#editFirstname').val(fName);
+        $('#editMiddlename').val(mName);
+        $('#editExtname').val(exName);
+        $('#editPrefix').val(prefixName);
+        $('#editSuffix').val(suffixName);
+        $('#editcollege').val(collegeName);
+        $('#editdept').val(deptName);
+        $('#editEmail').val(email);
+        $('#eeditacadrank').val(rank);
+
+        // Set program if exists
+        if (deptName === 'SED' && deptMajor) {
+            $('#sedProgram').val(deptMajor);
+        } else {
+            $('#sedProgram').val('');
+        }
+        
+        // Trigger change to show/hide SED dropdown
+        $('#editdept').trigger('change');
+
+        $('#editFacultyModal').modal('show');
+    });
 });
 
 $('#editFacultyForm').submit(function(event) {
