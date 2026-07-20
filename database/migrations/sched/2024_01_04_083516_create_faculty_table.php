@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('campactive');
             $table->string('faccollege');
             $table->string('facdept')->nullable();
+            $table->string('deptmajor')->nullable();
             $table->string('fname');
             $table->string('mname');
             $table->string('lname');

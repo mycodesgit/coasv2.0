@@ -213,6 +213,24 @@
     @endif
     @if(request()->routeIs('faculty_list'))
         <script src="{{ asset('js/ajax/schedclass/facultylistSerialize.js') }}?v={{ time() }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('#department').on('change', function() {
+                    var selectedDept = $(this).val();
+                    
+                    if (selectedDept === 'SED') {
+                        $('#deptDropdownContainer').show();
+                        // Optionally make it required
+                        $('#deptprogmajor').prop('required', true);
+                    } else {
+                        $('#deptDropdownContainer').hide();
+                        $('#deptprogmajor').prop('required', false);
+                        // Reset the value
+                        $('#deptprogmajor').val('');
+                    }
+                });
+            });
+        </script>
     @endif
     @if(request()->routeIs('programsRead'))
         <script src="{{ asset('js/ajax/schedclass/programsSerialize.js') }}?v={{ time() }}"></script>

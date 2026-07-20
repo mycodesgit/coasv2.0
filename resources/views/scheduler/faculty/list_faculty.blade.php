@@ -74,6 +74,17 @@ CISS V.1.0 || Class Scheduler
                                                                             </select>
                                                                         </div>
 
+                                                                        <div class="mt-2 col-md-12" id="deptDropdownContainer" style="display: none; margin-top: 10px;">
+                                                                            <label for="deptprogmajor">Major: <span class="text-danger">*</span></label>
+                                                                            <select class="form-control form-control-sm" id="deptprogmajor" name="deptmajor">
+                                                                                <option value=""> --Select Major-- </option>
+                                                                                <option value="English">English</option>
+                                                                                <option value="Filipino">Filipino</option>
+                                                                                <option value="Math">Math</option>
+                                                                                <option value="Science">Science</option>
+                                                                            </select>
+                                                                        </div>
+
                                                                         <div class="mt-2 col-md-12">
                                                                             <label>Lastname: <span class="text-danger">*</span></label>
                                                                             <input type="text" name="lname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">

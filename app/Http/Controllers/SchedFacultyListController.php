@@ -108,6 +108,7 @@ class SchedFacultyListController extends Controller
                     'prefix' => $request->input('prefix'),
                     'suffix' => $request->input('suffix'),
                     'email' => $request->input('email'),
+                    'deptmajor' => $request->input('deptmajor'),
                     'remember_token' => Str::random(60),
                 ]);
 
