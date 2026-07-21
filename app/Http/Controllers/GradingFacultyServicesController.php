@@ -388,7 +388,7 @@ class GradingFacultyServicesController extends Controller
             ->where('faculty.role', 943)
             ->where('scheduleclass.schlyear', $currsemnow->qceschlyear)
             ->where('scheduleclass.semester', $currsemnow->qcesemester)
-            ->whereNull('fac_designation.fac_id')
+            //->whereNull('fac_designation.fac_id')
             ->select(
                 'faculty.id', 
                 'faculty.fname', 
