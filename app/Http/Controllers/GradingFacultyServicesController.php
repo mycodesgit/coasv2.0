@@ -830,7 +830,26 @@ class GradingFacultyServicesController extends Controller
                     'icon' => 'ti ti-user',
                     'role' => 'Division Chair'
                 ];
-            }
+            } else {
+                // No Program Heads found, display all faculty under this department
+                $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+                    $match = $faculty->faccollege == $userCollege &&
+                            $faculty->facdept == $userDept &&
+                            $faculty->id != $user->id;
+                    return $match;
+                });  
+
+                if ($facultiesInCollege->isNotEmpty()) {
+                    $sections[] = [
+                        'title' => 'Faculty Members (' . $userDept . ')',
+                        'data' => $facultiesInCollege,
+                        'evaluator' => 'Division Chair',
+                        'disabled' => $disabledsubjdivchair,
+                        'icon' => 'ti ti-users',
+                        'role' => 'Division Chair'
+                    ];
+                }
+            }   
         }
 
         // ============================================================
