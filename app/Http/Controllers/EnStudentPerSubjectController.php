@@ -174,6 +174,7 @@ class EnStudentPerSubjectController extends Controller
                 ->where('so.semester', $semester)
                 ->where('studgrades.subjID', $id)
                 ->orderBy('students.lname', 'ASC')
+                ->orderBy('students.fname', 'ASC')
                 ->get();
         $data = [
             'substudnowviewpdf' => $substudnowviewpdf,
