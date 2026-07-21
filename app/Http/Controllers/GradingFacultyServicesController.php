@@ -329,6 +329,7 @@ class GradingFacultyServicesController extends Controller
             ->get();
 
         // Check if user has specific designations
+        $hasCampusAdmin = $userDesignations->contains('designation', 'CampusAdmin');
         $hasDeanInstruction = $userDesignations->contains('designation', 'Dean of Instruction');
         $hasDean = $userDesignations->contains('designation', 'Dean');
         $hasProgramHead = $userDesignations->contains('designation', 'Program Head');
