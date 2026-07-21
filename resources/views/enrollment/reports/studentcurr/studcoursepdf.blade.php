@@ -66,12 +66,14 @@
         </h3>
     </div>
 
-    @php $maleCount = 0; $femaleCount = 0; @endphp
+    @php $maleCount = 0; $femaleCount = 0; $unknownCount = 0; @endphp
     @foreach($enrolledstud as $student)
         @if($student->gender == 'Male')
             @php $maleCount++; @endphp
-        @else
+        @elseif($student->gender == 'Female')
             @php $femaleCount++; @endphp
+        @else
+            @php $unknownCount++; @endphp
         @endif
     @endforeach
 
@@ -115,6 +117,31 @@
                 @php $no = 1; @endphp
                 @foreach($enrolledstud as $student)
                     @if($student->gender == 'Female')
+                        <tr>
+                            <td><strong>{{ $no++ }}</strong></td>
+                            <td><strong>{{ $student->studentID }}</strong></td>
+                            <td><strong>{{ $student->lname }}, {{ $student->fname }} {{ $student->mname ? substr($student->mname, 0, 1).'.' : '' }} {{ $student->ext != 'N/A' ? $student->ext : '' }}</strong></td>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+    
+    @if($unknownCount > 0)
+        <h4>Unknown Gender Students</h4>
+        <table class="table table-striped" style="margin-top: -20px">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php $no = 1; @endphp
+                @foreach($enrolledstud as $student)
+                    @if($student->gender == 'Unknown')
                         <tr>
                             <td><strong>{{ $no++ }}</strong></td>
                             <td><strong>{{ $student->studentID }}</strong></td>

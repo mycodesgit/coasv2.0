@@ -129,7 +129,8 @@ class EnStudentPerCurriculumController extends Controller
                             program_en_history.studSec, 
                             COUNT(DISTINCT students.stud_id) as studentCount,
                             COUNT(DISTINCT CASE WHEN students.gender IN ("Male", "MALE") THEN students.stud_id END) as maleCount,
-                            COUNT(DISTINCT CASE WHEN students.gender IN ("Female", "FEMALE") THEN students.stud_id END) as femaleCount')
+                            COUNT(DISTINCT CASE WHEN students.gender IN ("Female", "FEMALE") THEN students.stud_id END) as femaleCount,
+                            COUNT(DISTINCT CASE WHEN students.gender IN ("Unknown", "UNKNOWN") THEN students.stud_id END) as unknownCount')
                 ->get();
 
         return response()->json(['data' => $data]);
@@ -171,7 +172,8 @@ class EnStudentPerCurriculumController extends Controller
                             program_en_history.studSec, 
                             COUNT(DISTINCT students.stud_id) as studentCount,
                             COUNT(DISTINCT CASE WHEN students.gender IN ("Male", "MALE") THEN students.stud_id END) as maleCount,
-                            COUNT(DISTINCT CASE WHEN students.gender IN ("Female", "FEMALE") THEN students.stud_id END) as femaleCount')
+                            COUNT(DISTINCT CASE WHEN students.gender IN ("Female", "FEMALE") THEN students.stud_id END) as femaleCount,
+                            COUNT(DISTINCT CASE WHEN students.gender IN ("Unknown", "UNKNOWN") THEN students.stud_id END) as unknownCount')
                 ->get();
 
         return response()->json(['data' => $data]);
@@ -196,7 +198,8 @@ class EnStudentPerCurriculumController extends Controller
                             program_en_history.studSec, 
                             COUNT(DISTINCT students.stud_id) as studentCount,
                             COUNT(DISTINCT CASE WHEN students.gender = "Male" THEN students.stud_id END) as maleCount,
-                            COUNT(DISTINCT CASE WHEN students.gender = "Female" THEN students.stud_id END) as femaleCount')
+                            COUNT(DISTINCT CASE WHEN students.gender = "Female" THEN students.stud_id END) as femaleCount,
+                            COUNT(DISTINCT CASE WHEN students.gender = "Unknown" THEN students.stud_id END) as unknownCount')
                 ->get();
 
         return response()->json(['data' => $data]);
