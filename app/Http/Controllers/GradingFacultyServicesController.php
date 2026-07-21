@@ -920,6 +920,30 @@ class GradingFacultyServicesController extends Controller
             }
         }
 
+        // ============================================================
+        // SCENARIO 9: Dean ONLY
+        // Display all Faculty in their college
+        // ============================================================
+        // if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair && empty($user->deptmajor)) {
+        //     // Get faculties in the Program Head's college and department (excluding self)
+        //     $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+        //         return $faculty->faccollege == $userCollege &&
+        //                $faculty->facdept == $userDept &&
+        //                $faculty->id != $user->id;
+        //     });
+
+        //     if ($facultiesInCollege->isNotEmpty()) {
+        //         $sections[] = [
+        //             'title' => 'All Faculty Members (' . $userCollege . ')',
+        //             'data' => $facultiesInCollege,
+        //             'evaluator' => 'Dean',
+        //             'disabled' => $disabledsubj,
+        //             'icon' => 'ti ti-users',
+        //             'role' => 'Dean'
+        //         ];
+        //     }
+        // }
+
         // Filter out empty sections
         return array_filter($sections, function($section) {
             return $section['data']->isNotEmpty();
