@@ -507,8 +507,8 @@ class GradingFacultyServicesController extends Controller
         $sections = [];
 
         // ============================================================
-        // SCENARIO 1: CAMPUS ADMIN ONLY (No Program Head)
-        // Display all Program Heads in the campus
+        // SCENARIO 1: Dean of Instruction ONLY (No Program Head)
+        // Display all Deans and Program Heads in the campus
         // ============================================================
         if ($hasDeanInstruction && !$hasProgramHead) {
             // Get all Program Heads in the campus (excluding self)
@@ -537,10 +537,10 @@ class GradingFacultyServicesController extends Controller
                 $sections[] = [
                     'title' => 'Program Heads',
                     'data' => $programHeadsInCampus,
-                    'evaluator' => 'Program Head',
+                    'evaluator' => 'Dean of Instruction',
                     'disabled' => $disabledsubj,
                     'icon' => 'ti ti-user',
-                    'role' => 'Program Head'
+                    'role' => 'Dean of Instruction'
                 ];
             }
         }
