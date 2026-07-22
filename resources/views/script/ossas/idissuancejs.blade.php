@@ -24,6 +24,9 @@
             lengthChange: true,
             searching: true,
             paging: true,
+            buttons: [
+                'excel', 'pdf'
+            ],
             "columns": [
                 {data: 'stdntid'},
                 { 
@@ -50,7 +53,8 @@
             ],
             "createdRow": function (row, data, index) {
                 $(row).attr('id', 'tr-' + data.id); 
-            }
+            },
+            dom: 'Bfrtip'
         });
         setInterval(function() {
             dataTable.ajax.reload(null, false); // false = keeps current page
