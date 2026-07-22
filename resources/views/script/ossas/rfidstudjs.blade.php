@@ -30,10 +30,10 @@ $(document).ready(function() {
     $('#adRFIDstud').submit(function(event) {
         event.preventDefault();
 
-        if(display.value.trim() === "") {
-            toastr.error("Please scan the RFID card before saving.");
-            return;
-        }
+        // if(display.value.trim() === "") {
+        //     toastr.error("Please scan the RFID card before saving.");
+        //     return;
+        // }
 
         var formData = new FormData(this); 
 
@@ -48,7 +48,7 @@ $(document).ready(function() {
                     toastr.success(response.message);
                     console.log(response);
 
-                    $('#adRFIDstud')[0].reset();
+                    //$('#adRFIDstud')[0].reset();
                     lastScannedRFID = "";
                     $('#stdntID').focus();
                 } else {

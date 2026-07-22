@@ -218,30 +218,30 @@ class OssaIDsystemController extends Controller
 
             $request->validate([
                 'stdntid' => 'required',
-                'stdntrfid' => 'required',
+                //'stdntrfid' => 'required',
             ]);
 
             $studidName = $request->input('stdntid'); 
-            $studidRFID = $request->input('stdntrfid');
+            //$studidRFID = $request->input('stdntrfid');
             $base64Image = $request->input('studphoto'); 
             $base64Signature = $request->input('studsignature');
-            $encryptedRFID = Hash::make($studidRFID);
+            //$encryptedRFID = Hash::make($studidRFID);
 
-            $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
-            if ($existingStudentID) {
-                return response()->json([
-                    'error' => true, 
-                    'message' => 'This Student ID already has an RFID assigned.'
-                ], 409);
-            }
+            // $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
+            // if ($existingStudentID) {
+            //     return response()->json([
+            //         'error' => true, 
+            //         'message' => 'This Student ID already has an RFID assigned.'
+            //     ], 409);
+            // }
 
-            $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
-            if ($existingRFID) {
-                return response()->json([
-                    'error' => true,
-                    'message' => 'This RFID is already assigned to another Student ID.'
-                ], 409);
-            }
+            // $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
+            // if ($existingRFID) {
+            //     return response()->json([
+            //         'error' => true,
+            //         'message' => 'This RFID is already assigned to another Student ID.'
+            //     ], 409);
+            // }
 
             try {
                 $imagePath = null;
@@ -281,7 +281,7 @@ class OssaIDsystemController extends Controller
 
                 StudentRFID::create([
                     'stdntid' => $studidName,
-                    'stdntrfid' => $encryptedRFID,
+                    //'stdntrfid' => $encryptedRFID,
                     'studphoto' => $imagePath, 
                     'studsignature' => $signaturePath,
                     'campus' => Auth::guard('web')->user()->campus,
