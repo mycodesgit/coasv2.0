@@ -35,7 +35,7 @@ $(document).ready(function() {
             },
             {data: 'sub_title'},
             {data: 'subSec'},
-            // {data: 'countstud'},
+            {data: 'countstud'},
             {
                 data: 'sid',
                 render: function(data, type, row) {
