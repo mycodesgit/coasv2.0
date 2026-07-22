@@ -254,6 +254,9 @@
     @if(request()->routeIs('verifyStudentIDrfid'))
         @include('script.ossas.verifyrfidjs')
     @endif
+    @if(request()->routeIs('id-issuance-log.store'))
+        @include('script.ossas.idissuancejs')
+    @endif
 </body>
 
 </html>

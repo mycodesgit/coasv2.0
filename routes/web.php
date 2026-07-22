@@ -88,6 +88,7 @@ use App\Http\Controllers\QueueingSettingController;
 use App\Http\Controllers\NstpController;
 
 use App\Http\Controllers\OssaIDsystemController;
+use App\Http\Controllers\OssaIDReportController;
 
 use App\Http\Controllers\DocumentRequestController;
 
@@ -1133,6 +1134,12 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/admin/registration/student/idcard/add', [OssaIDsystemController::class, 'create'])->name('rfid.create');
             Route::get('/admin/registration/student/idcard/verify', [OssaIDsystemController::class, 'verifyStudentIDrfid'])->name('verifyStudentIDrfid');
             Route::post('/admin/registration/student/idcard/verifiedstudent', [OssaIDsystemController::class, 'verifyByRFID'])->name('verifyStudentByRFID');
+        });
+
+        Route::prefix('report')->group(function () {
+            Route::get('/show/id/issuance/idcard', [OssaIDReportController::class, 'index'])->name('id-issuance-log.index');
+            Route::get('/show/id/issuance/idcard/logs', [OssaIDReportController::class, 'store'])->name('id-issuance-log.store');
+            Route::get('/show/id/issuance/idcard/logs/show', [OssaIDReportController::class, 'show'])->name('id-issuance-log.show');
         });
     });
 

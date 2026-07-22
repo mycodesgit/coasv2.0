@@ -20,6 +20,8 @@ class StudentRFID extends Model
         'contactpersonno',
         'studsignature',
         'campus',
+        'schlyear',
+        'semester',
         'postedBy',
     ];
 }

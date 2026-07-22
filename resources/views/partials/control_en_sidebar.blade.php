@@ -70,7 +70,7 @@
         </li>
     @endif
 
-    @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Gargoles' || Auth::guard('web')->user()->lname == 'Monteseven' || Auth::guard('web')->user()->id == 23)
+    @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Gargoles' || Auth::guard('web')->user()->lname == 'Monteseven' || Auth::guard('web')->user()->id == 23 || Auth::guard('web')->user()->lname == 'Salmayor')
         <li>
             <a class="nav-link {{ $editDupAppEnrollStudActive }}" href="{{ route('dupapprslSearch') }}">
                 <i class="ti ti-receipt"></i><span class="nav-text">Edit Dup. Fees</span>

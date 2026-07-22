@@ -4,6 +4,8 @@
     $dashossaActive = in_array($curr_route, ['ossa-index']) ? 'active' : '';
     $studrfidregossaActive = in_array($curr_route, ['rfid.store']) ? 'active' : '';
     $studrfidverifyossaActive = in_array($curr_route, ['verifyStudentIDrfid']) ? 'active' : '';
+
+    $idIssuanceLogActive = in_array($curr_route, ['id-issuance-log.index', 'id-issuance-log.store']) ? 'active' : '';
 @endphp
 
 <ul class="nav flex-column">
@@ -42,7 +44,7 @@
     <li class="nav-text-space"><small class="nav-text"></small></li>
     <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
     <li>
-        <a class="nav-link" href="#">
+        <a class="nav-link {{ $idIssuanceLogActive }}" href="{{ route('id-issuance-log.index') }}">
             <i class="ti ti-id-badge"></i><span class="nav-text">ID Issuance Log</span>
         </a>
     </li>
