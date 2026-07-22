@@ -16,6 +16,8 @@ class StudentRFID extends Model
         'stdntid',
         'stdntrfid',
         'studphoto',
+        'contactperson',
+        'contactpersonno',
         'studsignature',
         'campus',
         'postedBy',

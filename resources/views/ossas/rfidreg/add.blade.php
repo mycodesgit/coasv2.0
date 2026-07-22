@@ -313,6 +313,14 @@
                                                             <textarea rows="3" id="studentAddress" class="form-control form-control-sm"></textarea>
                                                         </div>
                                                         <div class="col-md-12">
+                                                            <label for="studentContactPerson" class="form-label"> Contact Person:</label>
+                                                            <input type="text" id="studentContactPerson" class="form-control form-control-sm" name="contactperson">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label for="studentContactPersonNo" class="form-label"> Contact Person No.:</label>
+                                                            <input type="text" id="studentContactPersonNo" class="form-control form-control-sm" name="contactpersonno">
+                                                        </div>
+                                                        <div class="col-md-12">
                                                             <label for="studentUniqueRFID" class="form-label"> RFID:</label>
                                                             <input type="text" id="studentUniqueRFID" name="stdntrfid" class="form-control form-control-sm" readonly>
                                                             <input type="text" id="rfidScanner" style="opacity:0; position:absolute;">
@@ -399,12 +407,12 @@
                                                             <div class="back-grid">
                                                                 <div class="back-col">
                                                                     <label class="form-labelbold">Person:</label>
-                                                                    <div class="linedata">&nbsp;</div>
+                                                                    <div class="linedata" id="studentCardContactPerson">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
                                                                 <div class="back-col">
                                                                     <label class="form-labelbold">Number:</label>
-                                                                    <div class="linedata">&nbsp;</div>
+                                                                    <div class="linedata" id="studentCardContactNumber">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
                                                             </div>
@@ -662,12 +670,12 @@
                             <div class="back-grid">
                                 <div class="back-col">
                                     <label class="form-labelbold">Person:</label>
-                                    <div class="linedata">&nbsp;</div>
+                                    <div class="linedata" id="studentCardContactPersonPreview">&nbsp;</div>
                                     <div class="line"></div>
                                 </div>
                                 <div class="back-col">
                                     <label class="form-labelbold">Number:</label>
-                                    <div class="linedata">&nbsp;</div>
+                                    <div class="linedata" id="studentCardContactPersonNoPreview">&nbsp;</div>
                                     <div class="line"></div>
                                 </div>
                             </div>
@@ -860,6 +868,46 @@
                 });
         }
 
+        // Add event listener for the contact person input
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactPersonInput = document.getElementById('studentContactPerson');
+            const contactNumberInput = document.getElementById('studentContactPersonNo');
+
+            // Display elements for the back section
+            const displayPersonElement = document.getElementById('studentCardContactPerson');
+            const displayNumberElement = document.getElementById('studentCardContactNumber');
+
+            // Preview elements
+            const displayPersonElementPreview = document.getElementById('studentCardContactPersonPreview');
+            const displayNumberElementPreview = document.getElementById('studentCardContactPersonNoPreview');
+            
+            
+            if (contactPersonInput && displayPersonElement) {
+                // Initial value for Person
+                displayPersonElement.textContent = contactPersonInput.value || '\u00A0';
+                displayPersonElementPreview.textContent = contactPersonInput.value || '\u00A0';
+                
+                // Update on input for Person
+                contactPersonInput.addEventListener('input', function() {
+                    const value = this.value || '\u00A0';
+                    displayPersonElement.textContent = value;
+                    displayPersonElementPreview.textContent = value;
+                });
+            }
+            
+            if (contactNumberInput && displayNumberElement) {
+                // Initial value for Number
+                displayNumberElement.textContent = contactNumberInput.value || '\u00A0';
+                 displayNumberElementPreview.textContent = contactNumberInput.value || '\u00A0';
+                
+                // Update on input for Number
+                contactNumberInput.addEventListener('input', function() {
+                    const value = this.value || '\u00A0';
+                    displayNumberElement.textContent = value;
+                    displayNumberElementPreview.textContent = value;
+                });
+            }
+        });
 
         // =====================
         // PREVIEW MODAL

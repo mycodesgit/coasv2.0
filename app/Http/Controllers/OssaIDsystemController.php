@@ -227,13 +227,13 @@ class OssaIDsystemController extends Controller
             $base64Signature = $request->input('studsignature');
             //$encryptedRFID = Hash::make($studidRFID);
 
-            // $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
-            // if ($existingStudentID) {
-            //     return response()->json([
-            //         'error' => true, 
-            //         'message' => 'This Student ID already has an RFID assigned.'
-            //     ], 409);
-            // }
+            $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
+            if ($existingStudentID) {
+                return response()->json([
+                    'error' => true, 
+                    'message' => 'This Student ID already exist.'
+                ], 409);
+            }
 
             // $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
             // if ($existingRFID) {
@@ -284,6 +284,8 @@ class OssaIDsystemController extends Controller
                     //'stdntrfid' => $encryptedRFID,
                     'studphoto' => $imagePath, 
                     'studsignature' => $signaturePath,
+                    'contactperson' => $request->input('contactperson'),
+                    'contactpersonno' => $request->input('contactpersonno'),
                     'campus' => Auth::guard('web')->user()->campus,
                     'postedBy' => Auth::guard('web')->user()->id
                 ]);
