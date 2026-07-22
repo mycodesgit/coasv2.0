@@ -185,6 +185,7 @@
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <script src="{{ asset('js/validation/enroll/idissuanceValidation.js') }}?v={{ time() }}"></script>
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>

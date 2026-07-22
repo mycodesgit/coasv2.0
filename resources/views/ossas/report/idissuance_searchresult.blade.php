@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12"> 
-                                        <form method="GET" action="{{ route('id-issuance-log.store') }}" id="enrollStud">
+                                        <form method="GET" action="{{ route('id-issuance-log.store') }}" id="idissuanceLogForm">
                                             @csrf   
 
                                             <div class="form-group mt-2">
