@@ -508,7 +508,15 @@
                                                         {{-- <div id="signaturePlaceholder" style="display:flex; justify-content:center; align-items:center; height:150px; background:#f1f1f1; border-radius:8px;"> --}}
                                                             <canvas id="signatureCanvas" style="background:#f1f1f1; width:100%; height:150px; border-radius:8px;"></canvas>
                                                         {{-- </div> --}}
-
+                                                        <!-- Device Status -->
+                                                        <div class="mt-2">
+                                                            <span class="badge bg-secondary" id="deviceStatus">
+                                                                <i class="ti ti-device-tablet"></i> Device: Checking...
+                                                            </span>
+                                                            <span class="badge bg-secondary" id="sdkStatus">
+                                                                <i class="ti ti-code"></i> SDK: Checking...
+                                                            </span>
+                                                        </div>
                                                         <div class="mt-2">
                                                             <button type="button" class="btn btn-outline-warning" onclick="resetSignature()" id="btnResetSignature">
                                                                 <i class="ti ti-refresh me-1"></i>Reset Signature
