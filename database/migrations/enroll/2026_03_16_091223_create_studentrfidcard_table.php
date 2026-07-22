@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('studphoto')->nullable();
             $table->string('studsignature')->nullable();
             $table->string('campus');
+            $table->string('schlyear')->nullable();
+            $table->string('semester')->nullable();
             $table->string('postedBy');
             $table->timestamps();
         });
