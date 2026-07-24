@@ -563,22 +563,23 @@ class GradingFacultyServicesController extends Controller
         // ============================================================
         if ($hasCampusAdmin) {
 
-    $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
-        return in_array('Program Head', $faculty->designations)
-            && $faculty->id != $user->id;
-    });
+            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Program Head', $faculty->designations)
+                    && $faculty->id != $user->id;
+            });
 
-    if ($programHeadsInCampus->isNotEmpty()) {
-        $sections[] = [
-            'title' => 'Program Heads (Campus-wide)',
-            'data' => $programHeadsInCampus,
-            'evaluator' => 'CampusAdmin',
-            'disabled' => $disabledsubjcampusadmin,
-            'icon' => 'ti ti-user',
-            'role' => 'CampusAdmin'
-        ];
-    }
-}
+            if ($programHeadsInCampus->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads (Campus-wide)',
+                    'data' => $programHeadsInCampus,
+                    'evaluator' => 'CampusAdmin',
+                    'disabled' => $disabledsubjcampusadmin,
+                    'icon' => 'ti ti-user',
+                    'role' => 'CampusAdmin'
+                ];
+            }
+        }
+        
         if ($hasCampusAdmin && $hasProgramHead) {
             // Get all Program Heads in the campus (excluding self)
             $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
