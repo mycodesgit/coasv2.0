@@ -570,7 +570,7 @@ class GradingFacultyServicesController extends Controller
 
             if ($programHeadsInCampus->isNotEmpty()) {
                 $sections[] = [
-                    'title' => 'Program Heads (Campus-wide)',
+                    'title' => 'Program Heads',
                     'data' => $programHeadsInCampus,
                     'evaluator' => 'CampusAdmin',
                     'disabled' => $disabledsubjcampusadmin,
@@ -579,7 +579,7 @@ class GradingFacultyServicesController extends Controller
                 ];
             }
         }
-        
+
         if ($hasCampusAdmin && $hasProgramHead) {
             // Get all Program Heads in the campus (excluding self)
             $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
