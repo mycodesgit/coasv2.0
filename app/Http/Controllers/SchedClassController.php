@@ -250,37 +250,37 @@ class SchedClassController extends Controller
     }
 
     public function getAllSubjectsForMerge(Request $request)
-{
-    try {
-        $schlyear = $request->input('schlyear');
-        $semester = $request->input('semester');
-        $campus = Auth::guard('web')->user()->campus;
+    {
+        try {
+            $schlyear = $request->input('schlyear');
+            $semester = $request->input('semester');
+            $campus = Auth::guard('web')->user()->campus;
 
-        // Get ALL subjects (all programs and sections) for the given year and semester
-        $results = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                            ->where('sub_offered.schlyear', $schlyear)
-                            ->where('sub_offered.semester', $semester)
-                            ->where('sub_offered.campus', $campus)
-                            ->select(
-                                'sub_offered.id as soschid',
-                                'sub_offered.subCode',
-                                'sub_offered.subSec',
-                                'sub_offered.schlyear',
-                                'sub_offered.semester',
-                                'sub_offered.campus',
-                                'subjects.sub_name'
-                            )
-                            ->orderBy('subjects.sub_name', 'ASC')
-                            ->orderBy('sub_offered.subSec', 'ASC')
-                            ->get();
+            // Get ALL subjects (all programs and sections) for the given year and semester
+            $results = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                                ->where('sub_offered.schlyear', $schlyear)
+                                ->where('sub_offered.semester', $semester)
+                                ->where('sub_offered.campus', $campus)
+                                ->select(
+                                    'sub_offered.id as soschid',
+                                    'sub_offered.subCode',
+                                    'sub_offered.subSec',
+                                    'sub_offered.schlyear',
+                                    'sub_offered.semester',
+                                    'sub_offered.campus',
+                                    'subjects.sub_name'
+                                )
+                                ->orderBy('subjects.sub_name', 'ASC')
+                                ->orderBy('sub_offered.subSec', 'ASC')
+                                ->get();
 
-        return response()->json($results);
+            return response()->json($results);
 
-    } catch (\Exception $e) {
-        \Log::error('Error in getAllSubjectsForMerge: ' . $e->getMessage());
-        return response()->json(['error' => $e->getMessage()], 500);
+        } catch (\Exception $e) {
+            \Log::error('Error in getAllSubjectsForMerge: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-}
 
     public function classSchedCreate(Request $request)
     {
@@ -431,31 +431,50 @@ class SchedClassController extends Controller
             'conflicts' => $conflicts
         ]);
     }
+    private function parseTimeRange($timeRange) {
+        // Remove any extra spaces
+        $timeRange = trim($timeRange);
+        
+        // Split by hyphen
+        $parts = explode('-', $timeRange);
+        $start = trim($parts[0]);
+        $end = trim($parts[1]);
+        
+        // Check if end contains AM/PM
+        $hasAmPm = preg_match('/(am|pm)$/i', $end, $matches);
+        
+        if ($hasAmPm) {
+            $amPm = strtolower($matches[1]);
+            
+            // Remove AM/PM from end time
+            $end = trim(str_ireplace(['am', 'pm'], '', $end));
+            
+            // If start doesn't have AM/PM, inherit from end
+            if (!preg_match('/(am|pm)$/i', $start)) {
+                $start = trim($start) . $amPm;
+            }
+            
+            // End time inherits the AM/PM
+            $end = $end . $amPm;
+        }
+        
+        return [
+            'start' => $start,
+            'end' => $end
+        ];
+    }
 
     private function checkAllConflicts($day, $startTime, $endTime, $schlyear, $semester, $campus, $progcodename, $progcodesection, $faculty_id, $room_id, $subject_id, $subjectIds, $schedule_id = null)
     {
         $conflicts = [];
 
-        // Convert time strings to comparable format (HH:MM:SS)
-        function getStartTime($timeRange) {
-            $clean = str_replace(['am', 'pm'], '', $timeRange);
-            $parts = explode('-', $clean);
-            return trim($parts[0]);
-        }
+        // Parse time range properly with AM/PM context
+        $timeParts = $this->parseTimeRange($startTime . '-' . $endTime);
 
-        function getEndTime($timeRange) {
-            $clean = str_replace(['am', 'pm'], '', $timeRange);
-            $parts = explode('-', $clean);
-            return trim($parts[1]);
-        }
+        // Convert to 24-hour format
+        $startTimeFormatted = date('H:i:s', strtotime($timeParts['start']));
+        $endTimeFormatted = date('H:i:s', strtotime($timeParts['end']));
 
-        // Extract times from the incoming data
-        $startTimeOnly = getStartTime($startTime);
-        $endTimeOnly = getEndTime($endTime);
-
-        // Format for database comparison (24-hour format)
-        $startTimeFormatted = date('H:i:s', strtotime($startTimeOnly));
-        $endTimeFormatted = date('H:i:s', strtotime($endTimeOnly));
 
         // 1. Check TIME CONFLICTS - ONLY ON THE SAME DAY
         $timeConflicts = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
