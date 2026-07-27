@@ -235,6 +235,14 @@ class OssaIDsystemController extends Controller
                 ], 409);
             }
 
+            $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+            if (!$activeConfig) {
+                return back()->with('error', 'No active school year found.');
+            }
+
+            $schlyearactive = $activeConfig->schlyear;
+            $semesteractive = $activeConfig->semester;
+
             // $existingRFID = StudentRFID::where('stdntrfid', $encryptedRFID)->first();
             // if ($existingRFID) {
             //     return response()->json([
@@ -287,6 +295,8 @@ class OssaIDsystemController extends Controller
                     'contactperson' => $request->input('contactperson'),
                     'contactpersonno' => $request->input('contactpersonno'),
                     'campus' => Auth::guard('web')->user()->campus,
+                    'schlyear' => $schlyearactive,
+                    'semester' => $semesteractive,
                     'postedBy' => Auth::guard('web')->user()->id
                 ]);
 
