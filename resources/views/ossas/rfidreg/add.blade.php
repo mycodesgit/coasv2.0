@@ -359,7 +359,7 @@
                                                         <div class="id-header">
                                                             <div style="height: 35px">
                                                                 <h6 style="margin-left: 100px; margin-top: 10px">
-                                                                    <img src="{{ asset('uilibs/images/studentidimage/headerlogo.webp') }}" alt="logo" width="90%">
+                                                                    <img src="{{ asset('uilibs/images/studentidimage/headerlogo.webp') }}" alt="logo" width="95%">
                                                                 </h6>
                                                             </div>
                                                         </div>
@@ -588,7 +588,7 @@
                         <div class="id-header">
                             <div style="height: 35px">
                                 <h6 style="margin-left: 100px; margin-top: 10px">
-                                    <img src="{{ asset('uilibs/images/studentidimage/headerlogo.webp') }}" width="90%">
+                                    <img src="{{ asset('uilibs/images/studentidimage/headerlogo.webp') }}" width="95%">
                                 </h6>
                             </div>
                         </div>
