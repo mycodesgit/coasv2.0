@@ -998,8 +998,6 @@
         }
     </script>
 
-    
-    
     <script>
         function printFrontIDonly() {
             const front = document.querySelector('.id-frontcard').cloneNode(true);
