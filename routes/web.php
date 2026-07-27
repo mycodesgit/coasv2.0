@@ -89,6 +89,7 @@ use App\Http\Controllers\NstpController;
 
 use App\Http\Controllers\OssaIDsystemController;
 use App\Http\Controllers\OssaIDReportController;
+use App\Http\Controllers\IDCardController;
 
 use App\Http\Controllers\DocumentRequestController;
 
@@ -1134,6 +1135,11 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/admin/registration/student/idcard/add', [OssaIDsystemController::class, 'create'])->name('rfid.create');
             Route::get('/admin/registration/student/idcard/verify', [OssaIDsystemController::class, 'verifyStudentIDrfid'])->name('verifyStudentIDrfid');
             Route::post('/admin/registration/student/idcard/verifiedstudent', [OssaIDsystemController::class, 'verifyByRFID'])->name('verifyStudentByRFID');
+
+            Route::get('/id-card-designer', [IDCardController::class, 'designer'])->name('id-card.designer');
+            Route::post('/id-card/generate-pdf', [IDCardController::class, 'generatePDF'])->name('id-card.generate-pdf');
+Route::post('/id-card/save-design', [IDCardController::class, 'saveDesign'])->name('id-card.save-design');
+Route::get('/id-card/load-design/{id}', [IDCardController::class, 'loadDesign'])->name('id-card.load-design');
         });
 
         Route::prefix('report')->group(function () {

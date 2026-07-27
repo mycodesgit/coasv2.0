@@ -6,6 +6,64 @@
 
 @section('workspace')
     <style>
+        /* Drag and Drop Styles */
+.draggable-text {
+    cursor: grab;
+    position: absolute;
+    user-select: none;
+    touch-action: none;
+    padding: 2px 4px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 3px;
+    transition: outline 0.2s ease;
+}
+
+.draggable-text:hover {
+    cursor: grab;
+    outline: 2px dashed rgba(52, 152, 219, 0.6);
+    outline-offset: 2px;
+}
+
+.draggable-text.dragging {
+    opacity: 0.7;
+    cursor: grabbing;
+    outline: 2px solid #e74c3c;
+    outline-offset: 2px;
+    z-index: 1000;
+}
+
+.draggable-text.drag-over {
+    outline: 2px solid #2ecc71;
+    outline-offset: 2px;
+}
+
+/* Position badge */
+.position-badge {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+    z-index: 9999;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease;
+    font-size: 14px;
+}
+
+.position-badge.show {
+    display: block;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
         .id-frontcard {
             width: 85.6mm;
             height: 54mm;
@@ -396,54 +454,61 @@
                                                     <i class="ti ti-address-book"></i> Student ID Back Template
                                                 </h6>
                                             </div>
-                                            <div class="card-body" style="background-color: #e3eee4">
-                                                <div class="table-responsive">
-                                                    <div class="id-backcard" style="
-                                                        width: 85.6mm; 
-                                                        height: 54mm; 
-                                                        background-image: url('{{ asset('uilibs/images/studentidimage/IDback.webp') }}'); 
-                                                        background-size: cover;
-                                                        background-position: center;
-                                                        background-repeat: no-repeat;
-                                                        border-radius: 14px;
-                                                        overflow: hidden;
-                                                        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-                                                        position: relative;
-                                                        margin: 0 auto;">
-                                                        <div class="id-body-back">
-                                                            <!-- Emergency Contact Person -->
-                                                            <div style="position: absolute; top: 38px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardContactPerson" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
+                                            <div class="card">
+    <div class="card-header pt-3">
+        <h6 class="card-title">
+            <i class="ti ti-address-book"></i> Student ID Back Template
+        </h6>
+    </div>
+    <div class="card-body" style="background-color: #e3eee4">
+        <div class="table-responsive">
+            <div class="id-backcard" style="
+                width: 85.6mm; 
+                height: 54mm; 
+                background-image: url('{{ asset('uilibs/images/studentidimage/IDback.webp') }}'); 
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                border-radius: 14px;
+                overflow: hidden;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+                position: relative;
+                margin: 0 auto;">
+                
+                <!-- Emergency Contact Person -->
+                <div style="position: absolute; top: 38px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
+                    <span id="studentCardContactPerson" style="font-weight: 400;">&nbsp;</span>
+                </div>
 
-                                                            <!-- Emergency Contact Number -->
-                                                            <div style="position: absolute; top: 38px; left: 250px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardContactNumber" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
+                <!-- Emergency Contact Number -->
+                <div style="position: absolute; top: 38px; left: 250px; font-size: 8px; font-weight: 600; color: #333;">
+                    <span id="studentCardContactNumber" style="font-weight: 400;">&nbsp;</span>
+                </div>
 
-                                                            <!-- Birthday -->
-                                                            <div style="position: absolute; top: 68px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardBirthday" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
+                <!-- Birthday -->
+                <div style="position: absolute; top: 68px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
+                    <span id="studentCardBirthday" style="font-weight: 400;">&nbsp;</span>
+                </div>
 
-                                                            <!-- Blood Type -->
-                                                            <div style="position: absolute; top: 65px; left: 260px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardBloodTypeDisplay" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
+                <!-- Blood Type -->
+                <div style="position: absolute; top: 65px; left: 260px; font-size: 8px; font-weight: 600; color: #333;">
+                    <span id="studentCardBloodTypeDisplay" style="font-weight: 400;">&nbsp;</span>
+                </div>
 
-                                                            <!-- Contact No (second one) -->
-                                                            <div style="position: absolute; top: 68px; left: 250px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardContact" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
+                <!-- Contact No (second one) -->
+                <div style="position: absolute; top: 68px; left: 250px; font-size: 8px; font-weight: 600; color: #333;">
+                    <span id="studentCardContact" style="font-weight: 400;">&nbsp;</span>
+                </div>
 
-                                                            <!-- Address -->
-                                                            <div style="position: absolute; top: 90px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardAddress" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                <!-- Address -->
+                <div style="position: absolute; top: 90px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
+                    <span id="studentCardAddress" style="font-weight: 400;">&nbsp;</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4 d-none d-md-block">
@@ -1351,4 +1416,6 @@
             }, 1000);
         }
     </script>
+
+    
 @endsection
