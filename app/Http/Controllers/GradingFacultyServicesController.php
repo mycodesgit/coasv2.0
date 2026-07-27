@@ -550,7 +550,7 @@ class GradingFacultyServicesController extends Controller
                     'title' => 'Program Heads',
                     'data' => $programHeadsInCampus,
                     'evaluator' => 'Dean of Instruction',
-                    'disabled' => $disabledsubj,
+                    'disabled' => $disabledsubjcampusdeaninstruction,
                     'icon' => 'ti ti-user',
                     'role' => 'Dean of Instruction'
                 ];

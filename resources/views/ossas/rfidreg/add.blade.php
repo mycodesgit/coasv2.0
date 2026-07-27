@@ -411,7 +411,7 @@
                                                                     <div class="line"></div>
                                                                 </div>
                                                                 <div class="back-col">
-                                                                    <label class="form-labelbold">Number:</label>
+                                                                    <label class="form-labelbold">Contact No.:</label>
                                                                     <div class="linedata" id="studentCardContactNumber">&nbsp;</div>
                                                                     <div class="line"></div>
                                                                 </div>
@@ -451,7 +451,7 @@
                                                             </p>
                                                             <center>
                                                                 <div class="signature-block">
-                                                                    <div class="signature-line"></div>
+                                                                    <div class="signature-line"><img src="{{ asset('uilibs/images/studentidimage/signature.png') }}" alt=""></div>
                                                                     <div class="signature-name">ALADINO C. MORACA, PhD</div>
                                                                     <div class="signature-title">President</div>
                                                                 </div>
@@ -682,7 +682,7 @@
                                     <div class="line"></div>
                                 </div>
                                 <div class="back-col">
-                                    <label class="form-labelbold">Number:</label>
+                                    <label class="form-labelbold">Contact No.:</label>
                                     <div class="linedata" id="studentCardContactPersonNoPreview">&nbsp;</div>
                                     <div class="line"></div>
                                 </div>
@@ -722,7 +722,7 @@
                             </p>
                             <center>
                                 <div class="signature-block">
-                                    <div class="signature-line"></div>
+                                    <div class="signature-line"><img src="{{ asset('uilibs/images/studentidimage/signature.png') }}" alt=""></div>
                                     <div class="signature-name">ALADINO C. MORACA, PhD</div>
                                     <div class="signature-title">President</div>
                                 </div>
