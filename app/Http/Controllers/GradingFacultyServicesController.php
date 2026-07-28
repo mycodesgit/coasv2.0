@@ -402,7 +402,8 @@ class GradingFacultyServicesController extends Controller
                 'faculty.deptmajor',
                 'faculty.id as facID', 
                 'fac_designation.designation', 
-                'fac_designation.facCollege'
+                'fac_designation.facCollege',
+                'scheduleclass.progcodename'
             )
             ->distinct()
             ->get()
@@ -561,61 +562,61 @@ class GradingFacultyServicesController extends Controller
         // SCENARIO 2: CAMPUS ADMIN + PROGRAM HEAD
         // Display all Program Heads AND Faculties in their college
         // ============================================================
-        if ($hasCampusAdmin) {
+        // if ($hasCampusAdmin) {
 
-            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
-                return in_array('Program Head', $faculty->designations)
-                    && $faculty->id != $user->id;
-            });
+        //     $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+        //         return in_array('Program Head', $faculty->designations)
+        //             && $faculty->id != $user->id;
+        //     });
 
-            if ($programHeadsInCampus->isNotEmpty()) {
-                $sections[] = [
-                    'title' => 'Program Heads',
-                    'data' => $programHeadsInCampus,
-                    'evaluator' => 'CampusAdmin',
-                    'disabled' => $disabledsubjcampusadmin,
-                    'icon' => 'ti ti-user',
-                    'role' => 'CampusAdmin'
-                ];
-            }
-        }
+        //     if ($programHeadsInCampus->isNotEmpty()) {
+        //         $sections[] = [
+        //             'title' => 'Program Heads',
+        //             'data' => $programHeadsInCampus,
+        //             'evaluator' => 'CampusAdmin',
+        //             'disabled' => $disabledsubjcampusadmin,
+        //             'icon' => 'ti ti-user',
+        //             'role' => 'CampusAdmin'
+        //         ];
+        //     }
+        // }
 
-        if ($hasCampusAdmin && $hasProgramHead) {
-            // Get all Program Heads in the campus (excluding self)
-            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
-                return in_array('Program Head', $faculty->designations) &&
-                       $faculty->id != $user->id;
-            });
+        // if ($hasCampusAdmin && $hasProgramHead) {
+        //     // Get all Program Heads in the campus (excluding self)
+        //     $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+        //         return in_array('Program Head', $faculty->designations) &&
+        //                $faculty->id != $user->id;
+        //     });
 
-            // Get faculties in the user's college and department (excluding self)
-            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
-                return $faculty->faccollege == $userCollege &&
-                       $faculty->facdept == $userDept &&
-                       $faculty->id != $user->id;
-            });
+        //     // Get faculties in the user's college and department (excluding self)
+        //     $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+        //         return $faculty->faccollege == $userCollege &&
+        //                $faculty->facdept == $userDept &&
+        //                $faculty->id != $user->id;
+        //     });
 
-            if ($programHeadsInCampus->isNotEmpty()) {
-                $sections[] = [
-                    'title' => 'Program Heads (Campus-wide)',
-                    'data' => $programHeadsInCampus,
-                    'evaluator' => 'CampusAdmin',
-                    'disabled' => $disabledsubjcampusadmin,
-                    'icon' => 'ti ti-user',
-                    'role' => 'CampusAdmin'
-                ];
-            }
+        //     if ($programHeadsInCampus->isNotEmpty()) {
+        //         $sections[] = [
+        //             'title' => 'Program Heads (Campus-wide)',
+        //             'data' => $programHeadsInCampus,
+        //             'evaluator' => 'CampusAdmin',
+        //             'disabled' => $disabledsubjcampusadmin,
+        //             'icon' => 'ti ti-user',
+        //             'role' => 'CampusAdmin'
+        //         ];
+        //     }
 
-            if ($facultiesInCollege->isNotEmpty()) {
-                $sections[] = [
-                    'title' => 'Faculties (College)',
-                    'data' => $facultiesInCollege,
-                    'evaluator' => 'Program Head',
-                    'disabled' => $disabledsubj,
-                    'icon' => 'ti ti-users',
-                    'role' => 'Program Head'
-                ];
-            }
-        }
+        //     if ($facultiesInCollege->isNotEmpty()) {
+        //         $sections[] = [
+        //             'title' => 'Faculties (College)',
+        //             'data' => $facultiesInCollege,
+        //             'evaluator' => 'Program Head',
+        //             'disabled' => $disabledsubj,
+        //             'icon' => 'ti ti-users',
+        //             'role' => 'Program Head'
+        //         ];
+        //     }
+        // }
 
         // ============================================================
         // SCENARIO 3: DEAN ONLY (No Program Head)
@@ -689,22 +690,67 @@ class GradingFacultyServicesController extends Controller
                     }
                 } else {
                     // If NO Program Heads, display all Faculty directly
-                    $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
-                        return $faculty->faccollege == $userCollege &&
-                            $faculty->facdept == $userDept &&
-                            $faculty->id != $user->id;
+                    $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
+                        // Split progCode by '-' to get parts
+                        $progParts = explode('-', $faculty->progcodename);
+                        
+                        // Get college, dept, major from progCode
+                        $progCollege = $progParts[0] ?? '';
+                        $progDept = $progParts[1] ?? '';
+                        $progMajor = $progParts[2] ?? '';
+                        
+                        // Base condition: match college and department
+                        $isMatch = $progCollege == $userCollege && $progDept == $userDept;
+                        
+                        // If user has a major specified, also match the major
+                        if (!empty($userMajor)) {
+                            $isMatch = $isMatch && $progMajor == $userMajor;
+                        }
+                        
+                        // Exclude the user themselves
+                        return $isMatch && $faculty->id != $user->id;
                     });
-
-                    if ($facultiesInCollege->isNotEmpty()) {
+                    
+                    // Remove duplicate faculty entries (one faculty might have multiple progCodes)
+                    $uniqueFaculties = $filteredFaculties->unique('id');
+                    
+                    if ($uniqueFaculties->isNotEmpty()) {
+                        // Create title based on available filters
+                        $title = 'Faculties';
+                        if (!empty($userMajor)) {
+                            $title .= ' (' . $userMajor . ' Major)';
+                        } else {
+                            $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
+                        }
+                        
                         $sections[] = [
-                            'title' => 'Faculties',
-                            'data' => $facultiesInCollege,
-                            'evaluator' => 'Dean',
+                            'title' => $title,
+                            'data' => $uniqueFaculties,
+                            'evaluator' => 'Program Head',
                             'disabled' => $disabledsubjdean,
                             'icon' => 'ti ti-users',
-                            'role' => 'Dean'
+                            'role' => 'Program Head',
+                            'college' => $userCollege,
+                            'department' => $userDept,
+                            'major' => $userMajor
                         ];
-                    }
+                    }   
+                    // $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+                    //     return $faculty->faccollege == $userCollege &&
+                    //         $faculty->facdept == $userDept &&
+                    //         $faculty->id != $user->id;
+                    // });
+
+                    // if ($facultiesInCollege->isNotEmpty()) {
+                    //     $sections[] = [
+                    //         'title' => 'Faculties',
+                    //         'data' => $facultiesInCollege,
+                    //         'evaluator' => 'Dean',
+                    //         'disabled' => $disabledsubjdean,
+                    //         'icon' => 'ti ti-users',
+                    //         'role' => 'Dean'
+                    //     ];
+                    // }
                 }
             }
         }
@@ -778,22 +824,67 @@ class GradingFacultyServicesController extends Controller
             }
 
             // As Program Head: Evaluate Faculties in their college/department
-            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
-                return $faculty->faccollege == $userCollege &&
-                       $faculty->facdept == $userDept &&
-                       $faculty->id != $user->id;
+            $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
+                // Split progCode by '-' to get parts
+                $progParts = explode('-', $faculty->progcodename);
+                
+                // Get college, dept, major from progCode
+                $progCollege = $progParts[0] ?? '';
+                $progDept = $progParts[1] ?? '';
+                $progMajor = $progParts[2] ?? '';
+                
+                // Base condition: match college and department
+                $isMatch = $progCollege == $userCollege && $progDept == $userDept;
+                
+                // If user has a major specified, also match the major
+                if (!empty($userMajor)) {
+                    $isMatch = $isMatch && $progMajor == $userMajor;
+                }
+                
+                // Exclude the user themselves
+                return $isMatch && $faculty->id != $user->id;
             });
-
-            if ($facultiesInCollege->isNotEmpty()) {
+            
+            // Remove duplicate faculty entries (one faculty might have multiple progCodes)
+            $uniqueFaculties = $filteredFaculties->unique('id');
+            
+            if ($uniqueFaculties->isNotEmpty()) {
+                // Create title based on available filters
+                $title = 'Faculties';
+                if (!empty($userMajor)) {
+                    $title .= ' (' . $userMajor . ' Major)';
+                } else {
+                    $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
+                }
+                
                 $sections[] = [
-                    'title' => 'Faculties',
-                    'data' => $facultiesInCollege,
+                    'title' => $title,
+                    'data' => $uniqueFaculties,
                     'evaluator' => 'Program Head',
                     'disabled' => $disabledsubj,
                     'icon' => 'ti ti-users',
-                    'role' => 'Program Head'
+                    'role' => 'Program Head',
+                    'college' => $userCollege,
+                    'department' => $userDept,
+                    'major' => $userMajor
                 ];
-            }
+            }   
+            // $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+            //     return $faculty->faccollege == $userCollege &&
+            //            $faculty->facdept == $userDept &&
+            //            $faculty->id != $user->id;
+            // });
+
+            // if ($facultiesInCollege->isNotEmpty()) {
+            //     $sections[] = [
+            //         'title' => 'Faculties',
+            //         'data' => $facultiesInCollege,
+            //         'evaluator' => 'Program Head',
+            //         'disabled' => $disabledsubj,
+            //         'icon' => 'ti ti-users',
+            //         'role' => 'Program Head'
+            //     ];
+            // }
         }
 
         // ============================================================
@@ -820,23 +911,69 @@ class GradingFacultyServicesController extends Controller
                 ];
             }
 
-            // As Program Head: Evaluate Faculties
-            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
-                return $faculty->faccollege == $userCollege &&
-                       $faculty->facdept == $userDept &&
-                       $faculty->id != $user->id;
+            $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
+                // Split progCode by '-' to get parts
+                $progParts = explode('-', $faculty->progcodename);
+                
+                // Get college, dept, major from progCode
+                $progCollege = $progParts[0] ?? '';
+                $progDept = $progParts[1] ?? '';
+                $progMajor = $progParts[2] ?? '';
+                
+                // Base condition: match college and department
+                $isMatch = $progCollege == $userCollege && $progDept == $userDept;
+                
+                // If user has a major specified, also match the major
+                if (!empty($userMajor)) {
+                    $isMatch = $isMatch && $progMajor == $userMajor;
+                }
+                
+                // Exclude the user themselves
+                return $isMatch && $faculty->id != $user->id;
             });
-
-            if ($facultiesInCollege->isNotEmpty()) {
+            
+            // Remove duplicate faculty entries (one faculty might have multiple progCodes)
+            $uniqueFaculties = $filteredFaculties->unique('id');
+            
+            if ($uniqueFaculties->isNotEmpty()) {
+                // Create title based on available filters
+                $title = 'Faculties';
+                if (!empty($userMajor)) {
+                    $title .= ' (' . $userMajor . ' Major)';
+                } else {
+                    $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
+                }
+                
                 $sections[] = [
-                    'title' => 'Faculties',
-                    'data' => $facultiesInCollege,
+                    'title' => $title,
+                    'data' => $uniqueFaculties,
                     'evaluator' => 'Program Head',
                     'disabled' => $disabledsubj,
                     'icon' => 'ti ti-users',
-                    'role' => 'Program Head'
+                    'role' => 'Program Head',
+                    'college' => $userCollege,
+                    'department' => $userDept,
+                    'major' => $userMajor
                 ];
-            }
+            }   
+
+            // As Program Head: Evaluate Faculties
+            // $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+            //     return $faculty->faccollege == $userCollege &&
+            //            $faculty->facdept == $userDept &&
+            //            $faculty->id != $user->id;
+            // });
+
+            // if ($facultiesInCollege->isNotEmpty()) {
+            //     $sections[] = [
+            //         'title' => 'Faculties',
+            //         'data' => $facultiesInCollege,
+            //         'evaluator' => 'Program Head',
+            //         'disabled' => $disabledsubj,
+            //         'icon' => 'ti ti-users',
+            //         'role' => 'Program Head'
+            //     ];
+            // }
         }
 
         // ============================================================
@@ -888,12 +1025,58 @@ class GradingFacultyServicesController extends Controller
         // Display all Faculty in their college/department
         // ============================================================
         if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair && empty($user->deptmajor)) {
-            // Get faculties in the Program Head's college and department (excluding self)
-            $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
-                return $faculty->faccollege == $userCollege &&
-                       $faculty->facdept == $userDept &&
-                       $faculty->id != $user->id;
+
+            $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
+                // Split progCode by '-' to get parts
+                $progParts = explode('-', $faculty->progcodename);
+                
+                // Get college, dept, major from progCode
+                $progCollege = $progParts[0] ?? '';
+                $progDept = $progParts[1] ?? '';
+                $progMajor = $progParts[2] ?? '';
+                
+                // Base condition: match college and department
+                $isMatch = $progCollege == $userCollege && $progDept == $userDept;
+                
+                // If user has a major specified, also match the major
+                if (!empty($userMajor)) {
+                    $isMatch = $isMatch && $progMajor == $userMajor;
+                }
+                
+                // Exclude the user themselves
+                return $isMatch && $faculty->id != $user->id;
             });
+            
+            // Remove duplicate faculty entries (one faculty might have multiple progCodes)
+            $uniqueFaculties = $filteredFaculties->unique('id');
+            
+            if ($uniqueFaculties->isNotEmpty()) {
+                // Create title based on available filters
+                $title = 'Faculties';
+                if (!empty($userMajor)) {
+                    $title .= ' (' . $userMajor . ' Major)';
+                } else {
+                    $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
+                }
+                
+                $sections[] = [
+                    'title' => $title,
+                    'data' => $uniqueFaculties,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-users',
+                    'role' => 'Program Head',
+                    'college' => $userCollege,
+                    'department' => $userDept,
+                    'major' => $userMajor
+                ];
+            }   
+            // Get faculties in the Program Head's college and department (excluding self)
+            // $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
+            //     return $faculty->faccollege == $userCollege &&
+            //            $faculty->facdept == $userDept &&
+            //            $faculty->id != $user->id;
+            // });
 
             // Get other Program Heads (excluding self) in the college
             // $otherProgramHeads = $allFacultyWithDesignations->filter(function($faculty) use ($user, $userCollege) {
@@ -913,16 +1096,16 @@ class GradingFacultyServicesController extends Controller
             //     ];
             // }
 
-            if ($facultiesInCollege->isNotEmpty()) {
-                $sections[] = [
-                    'title' => 'Faculties',
-                    'data' => $facultiesInCollege,
-                    'evaluator' => 'Program Head',
-                    'disabled' => $disabledsubj,
-                    'icon' => 'ti ti-users',
-                    'role' => 'Program Head'
-                ];
-            }
+            // if ($facultiesInCollege->isNotEmpty()) {
+            //     $sections[] = [
+            //         'title' => 'Faculties',
+            //         'data' => $facultiesInCollege,
+            //         'evaluator' => 'Program Head',
+            //         'disabled' => $disabledsubj,
+            //         'icon' => 'ti ti-users',
+            //         'role' => 'Program Head'
+            //     ];
+            // }
         }
 
         // ============================================================
@@ -950,30 +1133,6 @@ class GradingFacultyServicesController extends Controller
                 ];
             }
         }
-
-        // ============================================================
-        // SCENARIO 9: Dean ONLY
-        // Display all Faculty in their college
-        // ============================================================
-        // if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair && empty($user->deptmajor)) {
-        //     // Get faculties in the Program Head's college and department (excluding self)
-        //     $facultiesInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $user) {
-        //         return $faculty->faccollege == $userCollege &&
-        //                $faculty->facdept == $userDept &&
-        //                $faculty->id != $user->id;
-        //     });
-
-        //     if ($facultiesInCollege->isNotEmpty()) {
-        //         $sections[] = [
-        //             'title' => 'All Faculty Members (' . $userCollege . ')',
-        //             'data' => $facultiesInCollege,
-        //             'evaluator' => 'Dean',
-        //             'disabled' => $disabledsubj,
-        //             'icon' => 'ti ti-users',
-        //             'role' => 'Dean'
-        //         ];
-        //     }
-        // }
 
         // Filter out empty sections
         return array_filter($sections, function($section) {
