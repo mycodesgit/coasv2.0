@@ -370,7 +370,7 @@
                                                                 </div>
                                                                 <div class="signature-icon">
                                                                     {{-- <span id="studentCardSignature"><i class="ti ti-signature"></i></span> --}}
-                                                                    <img id="studentCardSignature" style="max-width:50px; display:block;" />
+                                                                    <img id="studentCardSignature" style="max-width:50px; display:block; margin-top: 10px" />
                                                                 </div>
                                                             </div>
                                                             <div>
@@ -489,26 +489,58 @@
                                             <div class="card-body">
                                                 <div class="table-responsive">
                                                     <div class="id-signature text-center">
-                                                        {{-- <div id="signaturePlaceholder" style="display:flex; justify-content:center; align-items:center; height:150px; background:#f1f1f1; border-radius:8px;"> --}}
-                                                            <canvas id="signatureCanvas" style="background:#f1f1f1; width:100%; height:150px; border-radius:8px;"></canvas>
-                                                        {{-- </div> --}}
-                                                        <!-- Device Status -->
+                                                        <!-- Canvas -->
+                                                        <div id="sigwebCanvasWrap" style="background: #f8f9fa; border-radius: 8px; padding: 10px;">
+                                                            <canvas id="sigwebCanvas" 
+                                                                width="500" 
+                                                                height="200"
+                                                                style="
+                                                                    background: #ffffff; 
+                                                                    width: 100%; 
+                                                                    height: 200px; 
+                                                                    border-radius: 8px;
+                                                                    border: 2px dashed #5bc486;
+                                                                    touch-action: none;
+                                                                    display: block;
+                                                                    cursor: crosshair;
+                                                                "></canvas>
+                                                        </div>
+                                                        
+                                                        <!-- Status indicators -->
                                                         <div class="mt-2">
-                                                            <span class="badge bg-secondary" id="deviceStatus">
+                                                            <span class="badge bg-secondary" id="sigwebDeviceStatus">
                                                                 <i class="ti ti-device-tablet"></i> Device: Checking...
                                                             </span>
-                                                            <span class="badge bg-secondary" id="sdkStatus">
+                                                            <span class="badge bg-secondary" id="sigwebSdkStatus">
                                                                 <i class="ti ti-code"></i> SDK: Checking...
                                                             </span>
                                                         </div>
+                                                        
+                                                        <!-- Warning -->
+                                                        <div id="sigwebWarning" class="alert alert-warning mt-2 d-none">
+                                                            <i class="ti ti-alert-triangle"></i> 
+                                                            No Topaz signature pad detected. Please connect your Topaz tablet.
+                                                        </div>
+                                                        
+                                                        <!-- Error -->
+                                                        <div id="sigwebError" class="alert alert-danger mt-2 d-none"></div>
+                                                        
+                                                        <!-- Hint -->
+                                                        <div id="sigwebHint" class="text-muted small mt-1">
+                                                            <i class="ti ti-info-circle"></i> Sign on the Topaz tablet to capture your signature
+                                                        </div>
+                                                        
+                                                        <!-- Buttons -->
                                                         <div class="mt-2">
-                                                            <button type="button" class="btn btn-outline-warning" onclick="resetSignature()" id="btnResetSignature">
+                                                            <button type="button" class="btn btn-outline-warning" id="sigwebClearBtn">
                                                                 <i class="ti ti-refresh me-1"></i>Reset Signature
                                                             </button>
 
-                                                            <button type="button" class="btn btn-success text-light" onclick="saveSignature()" id="btnCaptureSignature">
+                                                            <button type="button" class="btn btn-success text-light" id="sigwebSaveBtn">
                                                                 <i class="ti ti-signature"></i> Capture
                                                             </button>
+                                                            
+                                                            <span id="sigwebSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -597,7 +629,7 @@
                                 </div>
                                 <div class="signature-icon">
                                     {{-- <span id="studentCardSignaturePreview"><i class="ti ti-signature"></i></span> --}}
-                                    <img id="studentCardSignaturePreview" style="max-width:80px; display:block;" />
+                                    <img id="studentCardSignaturePreview" style="max-width:80px; display:block; margin-top: 5px" />
                                 </div>
                             </div>
 
@@ -725,628 +757,5 @@
         var rfidstudentCreateRoute = "{{ route('rfid.create') }}";
     </script>
 
-    <script>
-        function formatInput(input) {
-            let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-
-            if (cleaned.length > 0) {
-                let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
-                input.value = formatted;
-            } else {
-                input.value = '';
-            }
-        }
-
-        function handleDelete(event) {
-            if (event.key === 'Backspace') {
-                let input = event.target;
-                let value = input.value;
-                input.value = value.substring(0, value.length - 1);
-                formatInput(input);
-            }
-        }
- 
-        let currentEncryptedId = '';
-
-        // =====================
-        // QR GENERATOR (MAIN)
-        // =====================
-        function generateQR(value) {
-            const qrContainer = document.getElementById('qrcode');
-
-            qrContainer.innerHTML = '';
-
-            if (!value) return;
-
-            new QRCode(qrContainer, {
-                text: value,
-                width: 80,
-                height: 80,
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        }
-
-
-        // =====================
-        // FETCH STUDENT
-        // =====================
-        function fetchStudentName(studid) {
-            if (!studid) return;
-
-            const url = `{{ route('getossaStudentById', ['id' => ':id']) }}`.replace(':id', studid);
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-
-                    if (data.error) {
-
-                        document.getElementById('studentName').value = 'Student not found';
-                        document.getElementById('studentCourse').value = 'Data not found';
-                        document.getElementById('studentCivilStatus').value = 'Data not found';
-                        document.getElementById('studentAddress').value = 'Data not found';
-
-                        document.getElementById('studentCardName').textContent = 'Data not found';
-                        document.getElementById('studentCardNo').textContent = '';
-                        document.getElementById('studentCardCourse').textContent = '';
-                        document.getElementById('studentCardAddress').textContent = '';
-                        document.getElementById('studentCardAddressPreview').textContent = '';
-                        document.getElementById('studentCardBirthday').textContent = '';
-                        document.getElementById('studentCardBirthdayPreview').textContent = '';
-                        document.getElementById('studentCardContact').textContent = '';
-                        document.getElementById('studentCardContactPreview').textContent = '';
-                        document.getElementById('studentCardSignature').textContent = '';
-                        document.getElementById('studentCardSignaturePreview').textContent = '';
-
-
-                        document.getElementById('qrcode').innerHTML = '';
-                        currentEncryptedId = '';
-
-                    } else {
-
-                        const fullName = `${data.lname}, ${data.fname}${data.mname ? ' ' + data.mname.charAt(0) + '.' : ''}${data.ext && data.ext.toLowerCase() !== 'n/a' ? ' ' + data.ext : ''}`.toUpperCase();
-
-                        const civilStatus = `${data.civil_status}`.toUpperCase();
-
-                        const progName = `${data.progAcronym || ''}`
-                            .replace(/BACHELOR OF ARTS/i, 'BA')
-                            .replace(/BACHELOR OF SCIENCE/i, 'BS')
-                            .replace(/BACHELOR OF SECONDARY/i, 'BS')
-                            .replace(/BACHELOR OF ELEMENTARY EDUCATION/i, 'BEED')
-                            .replace(/BACHELOR OF SCIENCE IN AGRICULTURAL AND BIOSYSTEMS ENGINEERING/i, 'BSABE')
-                            .toUpperCase();
-
-                        const address = `${data.address}`.toUpperCase();
-
-                        // =====================
-                        // TEXT FIELDS
-                        // =====================
-                        document.getElementById('studentName').value = fullName;
-                        document.getElementById('studentCourse').value = progName;
-                        document.getElementById('studentCivilStatus').value = civilStatus;
-                        document.getElementById('studentAddress').value = address;
-
-                        document.getElementById('studentCardName').innerHTML = fullName.replace(/, /g, ',<br>');
-                        document.getElementById('studentCardNo').textContent = data.stud_id;
-                        document.getElementById('studentCardCourse').textContent = progName;
-                        document.getElementById('studentCardAddress').textContent = address;
-                        document.getElementById('studentCardAddressPreview').textContent = address;
-                        document.getElementById('studentCardBirthday').textContent = data.bday;
-                        document.getElementById('studentCardBirthdayPreview').textContent = data.bday;
-                        document.getElementById('studentCardContact').textContent = data.contact;
-                        document.getElementById('studentCardContactPreview').textContent = data.contact;
-                        document.getElementById('studentCardSignature').textContent = data.gender;
-                        document.getElementById('studentCardSignaturePreview').textContent = data.gender;
-
-
-                        // =====================
-                        // STORE ENCRYPTED ID (GLOBAL)
-                        // =====================
-                        currentEncryptedId = data.encrypted_id;
-
-                        // =====================
-                        // GENERATE MAIN QR (ENCRYPTED)
-                        // =====================
-                        generateQR(currentEncryptedId);
-
-                        console.log("QR VALUE:", currentEncryptedId);
-
-                        document.getElementById('rfidScanner').focus();
-                    }
-
-                })
-                .catch(error => {
-                    console.error('Error fetching student:', error);
-                });
-        }
-
-        // Add event listener for the contact person input
-        document.addEventListener('DOMContentLoaded', function() {
-            const contactPersonInput = document.getElementById('studentContactPerson');
-            const contactNumberInput = document.getElementById('studentContactPersonNo');
-
-            // Display elements for the back section
-            const displayPersonElement = document.getElementById('studentCardContactPerson');
-            const displayNumberElement = document.getElementById('studentCardContactNumber');
-
-            // Preview elements
-            const displayPersonElementPreview = document.getElementById('studentCardContactPersonPreview');
-            const displayNumberElementPreview = document.getElementById('studentCardContactPersonNoPreview');
-            
-            
-            if (contactPersonInput && displayPersonElement) {
-                // Initial value for Person
-                displayPersonElement.textContent = contactPersonInput.value || '\u00A0';
-                displayPersonElementPreview.textContent = contactPersonInput.value || '\u00A0';
-                
-                // Update on input for Person
-                contactPersonInput.addEventListener('input', function() {
-                    const value = this.value || '\u00A0';
-                    displayPersonElement.textContent = value;
-                    displayPersonElementPreview.textContent = value;
-                });
-            }
-            
-            if (contactNumberInput && displayNumberElement) {
-                // Initial value for Number
-                displayNumberElement.textContent = contactNumberInput.value || '\u00A0';
-                 displayNumberElementPreview.textContent = contactNumberInput.value || '\u00A0';
-                
-                // Update on input for Number
-                contactNumberInput.addEventListener('input', function() {
-                    const value = this.value || '\u00A0';
-                    displayNumberElement.textContent = value;
-                    displayNumberElementPreview.textContent = value;
-                });
-            }
-        });
-
-        // =====================
-        // PREVIEW MODAL
-        // =====================
-        const modal = document.getElementById('idPreviewModal');
-
-        modal.addEventListener('show.bs.modal', function () {
-
-            // document.getElementById('previewName').textContent =
-            //     document.getElementById('studentCardName').textContent;
-            const name = document.getElementById('studentCardName').textContent;
-            // Replace ALL commas with comma + line break
-            document.getElementById('previewName').innerHTML = name.replace(/,/g, ',<br>');
-
-            document.getElementById('previewId').textContent =
-                document.getElementById('studentCardNo').textContent;
-
-            document.getElementById('previewCourse').textContent =
-                document.getElementById('studentCardCourse').textContent;
-
-            document.getElementById('previewPhoto').src =
-                document.getElementById('photo').src;
-
-            // =====================
-            // PREVIEW QR (ENCRYPTED)
-            // =====================
-            const qrContainer = document.getElementById('previewQr');
-            qrContainer.innerHTML = '';
-
-            if (currentEncryptedId) {
-                new QRCode(qrContainer, {
-                    text: currentEncryptedId,
-                    width: 100,
-                    height: 100,
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-            }
-        });
-    </script>
-
-    <script>
-        let video = document.getElementById('webcam');
-        let canvas = document.createElement('canvas');
-        let stream = null;
-
-        function startCamera() {
-            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-            .then(s => {
-                stream = s;
-                video.srcObject = stream;
-
-                video.style.display = 'block';
-                document.getElementById('cameraPlaceholder').style.display = 'none';
-
-                document.getElementById('btnStart').style.display = 'none';
-                document.getElementById('btnStop').style.display = 'inline-block';
-                document.getElementById('btnCapture').style.display = 'inline-block';
-            })
-            .catch(err => {
-                console.error("Camera error:", err);
-                alert("Unable to access camera");
-            });
-        }
-
-        function stopCamera() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-
-            video.srcObject = null;
-            video.style.display = 'none';
-
-            document.getElementById('cameraPlaceholder').style.display = 'flex';
-
-            document.getElementById('btnStart').style.display = 'inline-block';
-            document.getElementById('btnStop').style.display = 'none';
-            document.getElementById('btnCapture').style.display = 'none';
-        }
-
-        function capturePhoto() {
-            const photo = document.getElementById('photo');
-
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            const imageData = canvas.toDataURL('image/png');
-            photo.src = imageData;
-
-            const studId = document.getElementById('studentCardNo').textContent;
-            document.getElementById('studPhoto').value = imageData;
-            console.log("Captured image length:", imageData.length);
-        }
-    </script>
-
-    <script>
-        function printFrontIDonly() {
-            const front = document.querySelector('.id-frontcard').cloneNode(true);
-            const back = document.querySelector('.id-backcard').cloneNode(true);
-            
-            const frontBg = "{{ asset('uilibs/images/studentidimage/IDfontframe.webp') }}";
-            const printWindow = window.open('', '', 'width=400,height=300');
-
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>Print ID</title>
-                    <style>
-                        @page {
-                            size: 85.6mm 54mm;
-                            margin: 0;
-                        }
-
-                        body {
-                            margin: 0;
-                            padding: 0;
-                            -webkit-print-color-adjust: exact;
-                            print-color-adjust: exact;
-                        }
-
-                        .page {
-                            width: 85.6mm;
-                            height: 54mm;
-                            page-break-after: always;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        }
-
-                        .page:last-child {
-                            page-break-after: auto;
-                        }
-
-                        /* Scale ID card to fit page exactly */
-                        .id-frontcard {
-                            -webkit-print-color-adjust: exact;
-                            print-color-adjust: exact;
-                            width: 85.6mm;
-                            height: 54mm;
-                            border-radius: 14px;
-                            overflow: hidden;
-                            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-                            display: flex;
-                            flex-direction: column;
-                            box-sizing: border-box;
-                            font-family: 'Poppins', sans-serif;
-                            background-image: url("${frontBg}") !important;
-                            background-size: cover;
-                            background-position: center;
-                            background-repeat: no-repeat;
-                        }
-
-                        .id-backcard {
-                            width: 85.6mm;
-                            height: 54mm;
-                            border-radius: 14px;
-                            overflow: hidden;
-                            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-                            display: flex;
-                            flex-direction: column;
-                            box-sizing: border-box;
-                            font-family: 'Poppins', sans-serif;
-                        }
-
-                        /* Header */
-                        .id-header {
-                            /* background: #0f766e; */
-                            color: white;
-                            padding: 2px 10px 10px 10px;
-                        }
-
-                        .id-header h6 {
-                            margin: 0;
-                            font-weight: 700;
-                            letter-spacing: 1px;
-                            display: flex;
-                            align-items: center;
-                            gap: 5px;
-                            font-size: 10px;
-                        }
-
-                        .id-header small {
-                            font-size: 8px;
-                            opacity: .9;
-                            margin-top: -10px;
-                            padding-left: 34px;
-                        }
-
-                        /* Body */
-                        .id-body {
-                            padding: 6px 10px;
-                            display: flex;
-                            gap: 10px;
-                            align-items: center;
-                            flex: 1;
-                        }
-                        .photo-wrapper {
-                            margin-top: -30px !important;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                        }
-                        .student-photo {
-                            margin-top: -28px;
-                            margin-left: 1px;
-                            width: 85px;
-                            height: 106px;
-                            border: 1px solid #eff317;        
-                            box-shadow: 0 0 0 2px #116e36;
-                            border-radius: 6px;
-                            overflow: hidden;
-                            flex-shrink: 0;
-                        }
-                        .pic {
-                            width: 100%;
-                            height: 100%;
-                            object-fit: cover;
-                        }
-                        .signature-icon {
-                            font-size: 19px;
-                            color: #116e36;
-                        }
-
-                        .student-info {
-                            margin-top: -17px !important;
-                            flex: 1;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                        }
-
-                        .student-info h5 {
-                            font-weight: 700;
-                            color: #0f766e;
-                            margin-bottom: 4px;
-                            font-size: 12px;
-                        }
-
-                        .student-name {
-                            margin-left: -5px;
-                            background-color: #0a6c3f;
-                            padding-left: 8px;
-                            padding-top: 2px;
-                            padding-bottom: 3px;
-                            padding-right: 12px;
-                            position: absolute;
-                            top: 50px !important;
-                            left: 103px;
-                            font-size: 12pt;
-                            font-weight: bold;
-                            color: #ffffff;
-                            z-index: 10;
-                            clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 92% 100%, 96% 50%, 100% 0%);
-                        }
-
-                        .id-label {
-                            position: absolute;
-                            font-family: "Poppins", sans-serif !important;
-                            top: 95px;
-                            left: 110px;
-                            font-size: 8pt;
-                            font-weight: bold;
-                            color: #333;
-                        }
-                        .program-label {
-                            position: absolute;
-                            font-family: "Poppins", sans-serif !important;
-                            top: 120px;
-                            left: 110px;
-                            font-size: 8pt;
-                            font-weight: bold;
-                            color: #333;
-                        }
-
-                        .student-id {
-                            position: absolute;
-                            font-weight: bold;
-                            font-family: "Poppins", sans-serif !important;
-                            top: 105px;
-                            left: 110px;
-                            font-size: 8pt;
-                        }
-
-                        .student-course {
-                            position: absolute;
-                            font-weight: bold;
-                            font-family: "Poppins", sans-serif !important;
-                            top: 132px;
-                            left: 110px;
-                            font-size: 8pt;
-                        }
-
-                        /* Footer */
-                        .id-footer {
-                            /* background: #0f766e; */
-                            height: 18px;
-                        }
-
-                        img {
-                            max-width: 100%;
-                        }
-                        .id-body-back {
-                            padding: 16px 18px;
-                            font-family: "Poppins", sans-serif !important;
-                        }
-                        .form-labelbold {
-                            font-weight: bold !important;
-                        }
-
-                        /* Top text */
-                        .emergency-text {
-                            margin-top: -5px;
-                            font-size: 7px;
-                            font-style: italic;
-                            margin-bottom: 2px;
-                        }
-                        .back-grid {
-                            margin-top: 6px;
-                            display: flex;
-                            justify-content: space-between;
-                            gap: 5px;
-                        }
-                        .back-col:first-child {
-                            flex: 3;
-                            margin-top: -5px;
-                        }
-                        .back-col:last-child {
-                            flex: 1; 
-                            margin-top: -5px;
-                        }
-                        .back-grid-second {
-                            margin-top: 10px;
-                            display: flex;
-                            justify-content: space-between;
-                            gap: 5px;
-                        }
-                        .back-col-second:first-child {
-                            flex: 2;
-                            margin-top: -5px;
-                        }
-
-                        .back-col-second:nth-child(2) {
-                            flex: 1;
-                            margin-top: -5px;
-                        }
-
-                        .back-col-second:last-child {
-                            flex: 1; 
-                            margin-top: -5px;
-                        }
-                        .back-col label {
-                            font-weight: 300;
-                            font-size: 5pt;
-                        }
-                        .back-col-second label {
-                            font-weight: 300;
-                            font-size: 5pt;
-                        }
-                        .back-col-full{
-                            margin-top: -5px !important;
-                        }
-                        .back-col-full label{
-                            font-weight: 300;
-                            font-size: 5pt;
-                        }
-
-                        /* Lines */
-                        .linedata {
-                            padding-top: 2px !important;
-                            font-size: 5pt !important;
-                        }
-                        .line {
-                            border-bottom: 1px solid #000;
-                            height: 1px;
-                            margin-bottom: 8px;
-                            font-size: 5pt !important;
-                        }
-                        .green-line {
-                            margin-top: 9px !important;
-                            height: 2px;
-                            background: #2f855a;
-                            margin: 1px 0;
-                        }
-                        .note-text {
-                            margin-top: 5px;
-                            text-align: center;
-                            line-height: 1.1;
-                            font-size: 4.5pt;
-                        }
-                        .signature-block {
-                            text-align: center;
-                            margin-top: 5px;
-                        }
-
-                        .signature-line {
-                            margin-top: 25px !important;
-                            border-bottom: 1px solid #000;
-                            width: 100px;
-                            margin: 0 auto 2px auto;
-                        }
-
-                        .signature-name {
-                            font-size: 6pt;
-                            font-family: 'Poppins', sans-serif;
-                            font-weight: 600;
-                            line-height: 1.2;
-                        }
-
-                        .signature-title {
-                            font-size: 5pt;
-                            font-family: 'Poppins', sans-serif;
-                            margin-top: -1px;
-                        }
-                        #qrcode {
-                            width: 50px;
-                            height: 50px;
-                            position: absolute;
-                            float: right;
-                            bottom: 10px !important;
-                            right: 10px !important;
-                            border: 1px solid #ffffff;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <!-- PAGE 1 = FRONT -->
-            <div class="page">
-                ${front.outerHTML}
-            </div>
-
-            <!-- PAGE 2 = BACK -->
-            <div class="page">
-                ${back.outerHTML}
-            </div>
-                </body>
-                </html>
-            `);
-
-            printWindow.document.close();
-
-            setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 1000);
-        }
-    </script>
+    
 @endsection
