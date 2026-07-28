@@ -559,6 +559,91 @@ class GradingFacultyServicesController extends Controller
         }
 
         // ============================================================
+        // SCENARIO 2: Dean of Instruction + No Program Head
+        // Display all Deans and Program Heads in the campus
+        // ============================================================
+        if ($hasDeanInstruction && $hasProgramHead) {
+            // Get all Program Heads in the campus (excluding self)
+            $deansInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Dean', $faculty->designations) &&
+                       $faculty->id != $user->id;
+            });
+
+            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Program Head', $faculty->designations) &&
+                    $faculty->id != $user->id;
+            });
+
+            if ($deansInCampus->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Deans',
+                    'data' => $deansInCampus,
+                    'evaluator' => 'Dean of Instruction',
+                    'disabled' => $disabledsubjcampusdeaninstruction,
+                    'icon' => 'ti ti-user',
+                    'role' => 'Dean of Instruction'
+                ];
+            }
+
+            if ($programHeadsInCampus->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads',
+                    'data' => $programHeadsInCampus,
+                    'evaluator' => 'Dean of Instruction',
+                    'disabled' => $disabledsubjcampusdeaninstruction,
+                    'icon' => 'ti ti-user',
+                    'role' => 'Dean of Instruction'
+                ];
+            }
+
+            $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
+                // Split progCode by '-' to get parts
+                $progParts = explode('-', $faculty->progcodename);
+                
+                // Get college, dept, major from progCode
+                $progCollege = $progParts[0] ?? '';
+                $progDept = $progParts[1] ?? '';
+                $progMajor = $progParts[2] ?? '';
+                
+                // Base condition: match college and department
+                $isMatch = $progCollege == $userCollege && $progDept == $userDept;
+                
+                // If user has a major specified, also match the major
+                if (!empty($userMajor)) {
+                    $isMatch = $isMatch && $progMajor == $userMajor;
+                }
+                
+                // Exclude the user themselves
+                return $isMatch && $faculty->id != $user->id;
+            });
+            
+            // Remove duplicate faculty entries (one faculty might have multiple progCodes)
+            $uniqueFaculties = $filteredFaculties->unique('id');
+            
+            if ($uniqueFaculties->isNotEmpty()) {
+                // Create title based on available filters
+                $title = 'Faculties';
+                if (!empty($userMajor)) {
+                    $title .= ' (' . $userMajor . ' Major)';
+                } else {
+                    $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
+                }
+                
+                $sections[] = [
+                    'title' => $title,
+                    'data' => $uniqueFaculties,
+                    'evaluator' => 'Program Head',
+                    'disabled' => $disabledsubj,
+                    'icon' => 'ti ti-users',
+                    'role' => 'Program Head',
+                    'college' => $userCollege,
+                    'department' => $userDept,
+                    'major' => $userMajor
+                ];
+            }   
+        }
+
+        // ============================================================
         // SCENARIO 2: CAMPUS ADMIN + PROGRAM HEAD
         // Display all Program Heads AND Faculties in their college
         // ============================================================
