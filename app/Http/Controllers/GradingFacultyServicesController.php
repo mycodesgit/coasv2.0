@@ -647,6 +647,29 @@ class GradingFacultyServicesController extends Controller
         // SCENARIO 2: CAMPUS ADMIN + PROGRAM HEAD
         // Display all Program Heads AND Faculties in their college
         // ============================================================
+        if ($hasCampusAdmin) {
+
+            $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                return in_array('Program Head', $faculty->designations)
+                    && $faculty->id != $user->id;
+            });
+
+            if ($programHeadsInCampus->isNotEmpty()) {
+                $sections[] = [
+                    'title' => 'Program Heads',
+                    'data' => $programHeadsInCampus,
+                    'evaluator' => 'CampusAdmin',
+                    'disabled' => $disabledsubjcampusadmin,
+                    'icon' => 'ti ti-user',
+                    'role' => 'CampusAdmin'
+                ];
+            }
+        }
+
+        // ============================================================
+        // SCENARIO 2: CAMPUS ADMIN + PROGRAM HEAD
+        // Display all Program Heads AND Faculties in their college
+        // ============================================================
         // if ($hasCampusAdmin) {
 
         //     $programHeadsInCampus = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
