@@ -122,7 +122,7 @@ class StudentFacultyEvaluationController extends Controller
                             'coasv2_db_schedule.faculty.lname',
                             'coasv2_db_schedule.faculty.id',
                         )
-                        ->where('coasv2_db_schedule.sub_offered.semester', 1)
+                        ->where('coasv2_db_schedule.sub_offered.semester', 2)
                         ->where('coasv2_db_schedule.sub_offered.schlyear', '=', '2025-2026')
                         ->where('studgrades.studID', $studauth->stud_id)
                         ->groupBy('studgrades.subjID')
