@@ -356,7 +356,7 @@ CISS V.1.0 || Ossa
                                                     <div class="row g-3">
                                                         <div class="col-md-12">
                                                             <label>Address</label>
-                                                            <input type="text" name="address" class="form-control form-control-sm" id="viewdatastudAddressfetch" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
+                                                            <input type="text" class="form-control form-control-sm" id="viewdatastudAddressfetch" readonly style="background-color: #ddd !important; border: 1px solid #aaa;">
                                                         </div>
                                                     </div>
                                                 </div>
