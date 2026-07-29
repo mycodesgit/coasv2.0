@@ -189,6 +189,7 @@ class OssaIDsystemController extends Controller
                     $q->orWhereRaw("FIND_IN_SET(?, REPLACE(students.campus, ' ', ''))", [$campus]);
                 }
             })
+            ->orderBy('program_en_history.created_at', 'desc')
             ->select([
                 'students.stud_id',
                 'students.fname',

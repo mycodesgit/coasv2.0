@@ -447,14 +447,121 @@
             }
         }
 
-        // Function to check if canvas has non-white drawing
+        // Helper to convert canvas to transparent PNG background data URL with extra bold stroke processing
+        function getTransparentSignatureDataUrl(cnv) {
+            if (!cnv) return null;
+            try {
+                var tempCanvas = document.createElement('canvas');
+                tempCanvas.width = cnv.width;
+                tempCanvas.height = cnv.height;
+                var tempCtx = tempCanvas.getContext('2d');
+                
+                // Draw multiple subtle offsets to boost stroke thickness (dilating stroke for extra bold effect)
+                var offsets = [
+                    [0, 0], [-1, 0], [1, 0], [0, -1], [0, 1],
+                    [-0.5, -0.5], [0.5, -0.5], [-0.5, 0.5], [0.5, 0.5]
+                ];
+                for (var j = 0; j < offsets.length; j++) {
+                    tempCtx.drawImage(cnv, offsets[j][0], offsets[j][1]);
+                }
+
+                var imgData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+                var data = imgData.data;
+
+                for (var i = 0; i < data.length; i += 4) {
+                    var r = data[i];
+                    var g = data[i + 1];
+                    var b = data[i + 2];
+                    var a = data[i + 3];
+
+                    // Convert white / light background pixels to transparent
+                    if (a > 0 && r > 200 && g > 200 && b > 200) {
+                        data[i + 3] = 0;
+                    } else if (a > 30) {
+                        // Maximize contrast for ink strokes
+                        data[i] = 0;
+                        data[i + 1] = 0;
+                        data[i + 2] = 0;
+                        data[i + 3] = 255;
+                    }
+                }
+                tempCtx.putImageData(imgData, 0, 0);
+                return tempCanvas.toDataURL('image/png');
+            } catch (e) {
+                console.warn('[SigWeb] Transparent conversion error:', e);
+                return cnv.toDataURL('image/png');
+            }
+        }
+
+        // Helper to make base64 image data URL transparent if it has white background with extra bold stroke processing
+        function makeTransparentDataURL(b64, callback) {
+            if (!b64) {
+                if (callback) callback(null);
+                return;
+            }
+            if (!b64.startsWith('data:image/')) {
+                b64 = 'data:image/png;base64,' + b64;
+            }
+            var img = new Image();
+            img.onload = function () {
+                try {
+                    var tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = img.width || (canvas ? canvas.width : 500);
+                    tempCanvas.height = img.height || (canvas ? canvas.height : 200);
+                    var tempCtx = tempCanvas.getContext('2d');
+
+                    var offsets = [
+                        [0, 0], [-1, 0], [1, 0], [0, -1], [0, 1],
+                        [-0.5, -0.5], [0.5, -0.5], [-0.5, 0.5], [0.5, 0.5]
+                    ];
+                    for (var j = 0; j < offsets.length; j++) {
+                        tempCtx.drawImage(img, offsets[j][0], offsets[j][1]);
+                    }
+
+                    var imgData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+                    var data = imgData.data;
+
+                    for (var i = 0; i < data.length; i += 4) {
+                        var r = data[i];
+                        var g = data[i + 1];
+                        var b = data[i + 2];
+                        var a = data[i + 3];
+
+                        if (a > 0 && r > 200 && g > 200 && b > 200) {
+                            data[i + 3] = 0;
+                        } else if (a > 30) {
+                            data[i] = 0;
+                            data[i + 1] = 0;
+                            data[i + 2] = 0;
+                            data[i + 3] = 255;
+                        }
+                    }
+                    tempCtx.putImageData(imgData, 0, 0);
+                    var transparentB64 = tempCanvas.toDataURL('image/png');
+                    if (callback) callback(transparentB64);
+                } catch (e) {
+                    if (callback) callback(b64);
+                }
+            };
+            img.onerror = function () {
+                if (callback) callback(b64);
+            };
+            img.src = b64;
+        }
+
+        // Function to check if canvas has non-transparent drawing strokes
         function isCanvasDrawn(cnv) {
             if (!cnv) return false;
             try {
                 var context = cnv.getContext('2d');
                 var imgData = context.getImageData(0, 0, cnv.width, cnv.height).data;
                 for (var i = 0; i < imgData.length; i += 4) {
-                    if (imgData[i] < 240 || imgData[i+1] < 240 || imgData[i+2] < 240) {
+                    var r = imgData[i];
+                    var g = imgData[i+1];
+                    var b = imgData[i+2];
+                    var a = imgData[i+3];
+                    // Check for visible non-white stroke pixels
+                    if (a > 30 && (r < 220 || g < 220 || b < 220)) {
                         return true;
                     }
                 }
@@ -471,27 +578,38 @@
                 b64 = 'data:image/png;base64,' + b64;
             }
 
-            // 1. Update hidden input
-            var signatureInput = document.getElementById('studSignature');
-            if (signatureInput) {
-                signatureInput.value = b64;
+            function setPreviewData(dataUrl) {
+                // 1. Update hidden input
+                var signatureInput = document.getElementById('studSignature');
+                if (signatureInput) {
+                    signatureInput.value = dataUrl;
+                }
+
+                // 2. Update Front ID Image: studentCardSignature
+                var signaturePreview1 = document.getElementById('studentCardSignature');
+                if (signaturePreview1) {
+                    signaturePreview1.src = dataUrl;
+                    signaturePreview1.style.display = 'block';
+                }
+
+                // 3. Update Preview Modal Image: studentCardSignaturePreview
+                var signaturePreview2 = document.getElementById('studentCardSignaturePreview');
+                if (signaturePreview2) {
+                    signaturePreview2.src = dataUrl;
+                    signaturePreview2.style.display = 'block';
+                }
+
+                capturedSignatureData = dataUrl;
             }
 
-            // 2. Update Front ID Image: studentCardSignature
-            var signaturePreview1 = document.getElementById('studentCardSignature');
-            if (signaturePreview1) {
-                signaturePreview1.src = b64;
-                signaturePreview1.style.display = 'block';
-            }
+            setPreviewData(b64);
 
-            // 3. Update Preview Modal Image: studentCardSignaturePreview
-            var signaturePreview2 = document.getElementById('studentCardSignaturePreview');
-            if (signaturePreview2) {
-                signaturePreview2.src = b64;
-                signaturePreview2.style.display = 'block';
-            }
-
-            capturedSignatureData = b64;
+            // Asynchronously process white background to transparent if necessary
+            makeTransparentDataURL(b64, function(transparentDataUrl) {
+                if (transparentDataUrl && transparentDataUrl !== b64) {
+                    setPreviewData(transparentDataUrl);
+                }
+            });
         }
 
         // Sync real time signature from canvas or SignaturePad
@@ -500,9 +618,9 @@
             try {
                 var currentData = null;
                 if (signaturePad && !signaturePad.isEmpty()) {
-                    currentData = signaturePad.toDataURL('image/png');
+                    currentData = getTransparentSignatureDataUrl(canvas);
                 } else if (isCanvasDrawn(canvas)) {
-                    currentData = canvas.toDataURL('image/png');
+                    currentData = getTransparentSignatureDataUrl(canvas);
                 }
 
                 if (currentData && currentData !== lastCanvasData) {
@@ -576,7 +694,8 @@
                     if (typeof SetDisplayYSize === 'function') SetDisplayYSize(canvas.height);
                     if (typeof SetImageXSize === 'function') SetImageXSize(canvas.width);
                     if (typeof SetImageYSize === 'function') SetImageYSize(canvas.height);
-                    if (typeof SetImagePenWidth === 'function') SetImagePenWidth(3);
+                    if (typeof SetDisplayPenWidth === 'function') SetDisplayPenWidth(8);
+                    if (typeof SetImagePenWidth === 'function') SetImagePenWidth(8);
                     if (typeof SetJustifyMode === 'function') SetJustifyMode(0);
                     if (typeof ClearTablet === 'function') ClearTablet();
                 } catch (e) {}
@@ -611,12 +730,14 @@
                         if (n && n > 0 && typeof GetSigImageB64 === 'function') {
                             GetSigImageB64(function(b64) {
                                 if (b64 && b64.length > 50) {
-                                    displaySignatureInPreviews(b64);
-                                    if (typeof toastr !== 'undefined') {
-                                        toastr.success('Signature captured successfully!');
-                                    } else {
-                                        alert('✅ Signature captured successfully!');
-                                    }
+                                    makeTransparentDataURL(b64, function(transB64) {
+                                        displaySignatureInPreviews(transB64);
+                                        if (typeof toastr !== 'undefined') {
+                                            toastr.success('Signature captured successfully!');
+                                        } else {
+                                            alert('✅ Signature captured successfully!');
+                                        }
+                                    });
                                     return;
                                 }
                                 checkCanvasSignature();
@@ -632,9 +753,9 @@
                 function checkCanvasSignature() {
                     var dataUrl = null;
                     if (signaturePad && !signaturePad.isEmpty()) {
-                        dataUrl = signaturePad.toDataURL('image/png');
+                        dataUrl = getTransparentSignatureDataUrl(canvas);
                     } else if (canvas && isCanvasDrawn(canvas)) {
-                        dataUrl = canvas.toDataURL('image/png');
+                        dataUrl = getTransparentSignatureDataUrl(canvas);
                     }
 
                     if (dataUrl) {
@@ -666,8 +787,7 @@
                 }
 
                 if (ctx && canvas) {
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                 }
 
                 var signatureInput = document.getElementById('studSignature');
@@ -708,21 +828,26 @@
                 canvas.height = 200;
                 canvas.style.width = '100%';
                 canvas.style.height = '200px';
+                canvas.style.backgroundColor = '#ffffff';
 
                 ctx = canvas.getContext('2d');
                 if (ctx) {
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.lineWidth = 8;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.strokeStyle = '#000000';
+                    ctx.fillStyle = '#000000';
                 }
 
-                // Initialize SignaturePad for mouse, touch, and stylus drawing
+                // Initialize SignaturePad for mouse, touch, and stylus drawing (extra bold pen & transparent background)
                 if (typeof SignaturePad !== 'undefined') {
                     try {
                         signaturePad = new SignaturePad(canvas, {
-                            minWidth: 1.5,
-                            maxWidth: 3.5,
+                            minWidth: 5.0,
+                            maxWidth: 9.0,
                             penColor: 'rgb(0, 0, 0)',
-                            backgroundColor: 'rgb(255, 255, 255)'
+                            backgroundColor: 'rgba(0, 0, 0, 0)'
                         });
 
                         signaturePad.addEventListener('afterUpdate', function() {

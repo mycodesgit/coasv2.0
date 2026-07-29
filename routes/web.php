@@ -1139,8 +1139,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/id-card-designer', [IDCardController::class, 'designer'])->name('id-card.designer');
             Route::post('/id-card/generate-pdf', [IDCardController::class, 'generatePDF'])->name('id-card.generate-pdf');
-Route::post('/id-card/save-design', [IDCardController::class, 'saveDesign'])->name('id-card.save-design');
-Route::get('/id-card/load-design/{id}', [IDCardController::class, 'loadDesign'])->name('id-card.load-design');
+            Route::post('/id-card/save-design', [IDCardController::class, 'saveDesign'])->name('id-card.save-design');
+            Route::get('/id-card/load-design/{id}', [IDCardController::class, 'loadDesign'])->name('id-card.load-design');
         });
 
         Route::prefix('report')->group(function () {

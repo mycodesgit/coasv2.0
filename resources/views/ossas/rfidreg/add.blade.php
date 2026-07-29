@@ -370,7 +370,7 @@
                                                                 </div>
                                                                 <div class="signature-icon">
                                                                     {{-- <span id="studentCardSignature"><i class="ti ti-signature"></i></span> --}}
-                                                                    <img id="studentCardSignature" style="max-width:50px; display:block; margin-top: 10px" />
+                                                                    <img id="studentCardSignature" style="width:60px; height: 25px; display:block; margin-top: 10px" />
                                                                 </div>
                                                             </div>
                                                             <div>
