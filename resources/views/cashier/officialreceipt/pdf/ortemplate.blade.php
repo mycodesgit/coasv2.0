@@ -154,7 +154,7 @@
 			</tbody>
 		</table>
 	</div>
-	<div style="font-weight: bold; margin-left: 250px !important; margin-top: -30px; text-align: right !important; font-family: 'monospace';">{{ number_format($totalamnt, 2) }}</div>
+	<div style="font-weight: bold; margin-left: 350px !important; margin-top: -30px; text-align: left !important; font-family: 'monospace';">{{ number_format($totalamnt, 2) }}</div>
 	<div style="font-weight: bold; margin-left: 100px; margin-top: 10px; text-align: left; font-family: 'sans-serif;'">{{ ucfirst($totalInWords) }} pesos only</div>
 </body>
 </html>

@@ -666,7 +666,7 @@
                 }
 
                 if (ctx && canvas) {
-                    ctx.fillStyle = '#ffffff';
+                    ctx.fillStyle = 'rgb(0, 0, 0, 0)';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                 }
 
@@ -711,7 +711,7 @@
 
                 ctx = canvas.getContext('2d');
                 if (ctx) {
-                    ctx.fillStyle = '#ffffff';
+                    ctx.fillStyle = 'rgb(0, 0, 0, 0)';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                 }
 
@@ -722,7 +722,7 @@
                             minWidth: 1.5,
                             maxWidth: 3.5,
                             penColor: 'rgb(0, 0, 0)',
-                            backgroundColor: 'rgb(255, 255, 255)'
+                            backgroundColor: 'rgb(0, 0, 0, 0)'
                         });
 
                         signaturePad.addEventListener('afterUpdate', function() {
