@@ -5,6 +5,7 @@
     $studrfidregossaActive = in_array($curr_route, ['rfid.store']) ? 'active' : '';
     $studrfidverifyossaActive = in_array($curr_route, ['verifyStudentIDrfid']) ? 'active' : '';
 
+    $studinfosActive = in_array($curr_route, ['studsinfos.index']) ? 'active' : '';
     $idIssuanceLogActive = in_array($curr_route, ['id-issuance-log.index', 'id-issuance-log.store']) ? 'active' : '';
 @endphp
 
@@ -43,6 +44,11 @@
 
     <li class="nav-text-space"><small class="nav-text"></small></li>
     <li class="px-4 py-2"><small class="nav-text text-muted">Reports</small></li>
+    <li>
+        <a class="nav-link {{ $studinfosActive }}" href="{{ route('studsinfos.index') }}">
+            <i class="ti ti-users"></i><span class="nav-text">Students Info</span>
+        </a>
+    </li>
     <li>
         <a class="nav-link {{ $idIssuanceLogActive }}" href="{{ route('id-issuance-log.index') }}">
             <i class="ti ti-id-badge"></i><span class="nav-text">ID Issuance Log</span>

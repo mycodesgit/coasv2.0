@@ -89,6 +89,7 @@ use App\Http\Controllers\NstpController;
 
 use App\Http\Controllers\OssaIDsystemController;
 use App\Http\Controllers\OssaIDReportController;
+use App\Http\Controllers\OssaStudentInfoController;
 
 use App\Http\Controllers\DocumentRequestController;
 
@@ -1138,6 +1139,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         });
 
         Route::prefix('report')->group(function () {
+            Route::get('/show/student/info', [OssaStudentInfoController::class, 'index'])->name('studsinfos.index');
+
             Route::get('/show/id/issuance/idcard', [OssaIDReportController::class, 'index'])->name('id-issuance-log.index');
             Route::get('/show/id/issuance/idcard/logs', [OssaIDReportController::class, 'store'])->name('id-issuance-log.store');
             Route::get('/show/id/issuance/idcard/logs/show', [OssaIDReportController::class, 'show'])->name('id-issuance-log.show');

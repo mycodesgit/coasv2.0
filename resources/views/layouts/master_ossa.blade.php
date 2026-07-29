@@ -213,6 +213,9 @@
     @if(request()->routeIs('verifyStudentIDrfid'))
         @include('script.ossas.verifyrfidjs')
     @endif
+    @if(request()->routeIs('studsinfos.index'))
+        @include('script.enrllmnt.studentinfojs')
+    @endif
     @if(request()->routeIs('id-issuance-log.store'))
         @include('script.ossas.idissuancejs')
     @endif

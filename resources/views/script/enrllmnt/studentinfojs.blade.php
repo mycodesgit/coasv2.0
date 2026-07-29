@@ -485,6 +485,7 @@
         $('#viewdatastudEmail').val(data.email);
         $('#viewdatastudReligion').val(data.religion);
         $('#viewdatastudAddress').val(data.address);
+        $('#viewdatastudAddressfetch').val(data.address);
         $('#viewdatastudcivilstat').val(data.civil).trigger('change');
         $('#viewdatastudHnum').val(data.hnum);
         $('#barangay').val(data.brgy).trigger('change');
