@@ -7,6 +7,20 @@ CISS V.1.0 || Assessment
 @yield('sidemenu')
 
 @section('workspace')
+    <style>
+        /* Blur only the content of the parent modal */
+        .modal.modal-blur .modal-content {
+            filter: blur(10px);
+            transition: all .2s ease;
+            pointer-events: none;
+        }
+
+        /* Keep the child modal sharp */
+        #editStudFeeModal .modal-content {
+            transition: all .2s ease;
+            pointer-events: auto;
+        }
+    </style>
     <div class="row">
         <div class="col-12">
             <div class="mb-6">
@@ -94,6 +108,17 @@ CISS V.1.0 || Assessment
                                                                 <span style="font-weight: bold">NAME:</span> {{ $studfees->first()->fname }} {{ substr($studfees->first()->mname, 0,2) }} {{ $studfees->first()->lname }}
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <button type="button" class="btn btn-outline-success btn-md" data-bs-toggle="modal" data-bs-target="#viewStudFeeModal">
+                                                            <i class="fas fa-laptop-code"></i> Override Student Appraisal
+                                                        </button>
+                                                        <button type="button" class="btn btn-info btn-md text-light" id="refreshPageBtn">
+                                                            <i class="fas fa-refresh"></i> Refresh
+                                                        </button>
+                                                        <a href="{{ route('stateaccntpersem_searchpdf', ['stud_id' => request('stud_id'),'schlyear' => request('schlyear'),'semester' => request('semester'),'category' => request('category'),]) }}" target="_blank" class="btn btn-outline-warning btn-md" id="refreshPageBtn">
+                                                            <i class="fas fa-print"></i> Print
+                                                        </a>
                                                     </div>
                                                     <div class="col-md-6 mt-3">
                                                         <div class="card">
@@ -211,10 +236,53 @@ CISS V.1.0 || Assessment
         </div>
     </div>
 
-    {{-- <div class="modal fade mt-6" id="editStudFeeModal" role="dialog" aria-labelledby="editStudFeeModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade mt-6" id="viewStudFeeModal" role="dialog" aria-labelledby="viewStudFeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h5 class="modal-title" id="editFundModalLabel"><i class="fas fa-laptop-code"></i> Override Student Appraisal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table id="curapprsledit" class="table table-hover" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Fund</th>
+                                            <th>Account Name</th>
+                                            <th>Amount</th>
+                                            <th width="10%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="float-right">
+                                            <h5>Grand Total: <span id="grandTotal"></span></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade mt-6" id="editStudFeeModal" role="dialog" aria-labelledby="editStudFeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
                     <h5 class="modal-title" id="editFundModalLabel">Edit</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -240,13 +308,13 @@ CISS V.1.0 || Assessment
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success">Save changes</button>
                     </div>
                 </form>
             </div>
         </div>
-    </div> --}}
+    </div>
 
     <script>
         function formatInput(input) {

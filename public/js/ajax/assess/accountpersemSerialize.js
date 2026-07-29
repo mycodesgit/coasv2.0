@@ -4,58 +4,90 @@ toastr.options = {
     "positionClass": "toast-top-right"
 };
 $(document).ready(function() {
-    $('#adstudfeesmissing').submit(function(event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
+    $('#studFeeAssess').on('submit', function (e) {
+        e.preventDefault();
 
+        var rowsData = [];
+        $('#studentFeesTable tbody tr').each(function () {
+            var row = {
+                fundname_code: $('input[name="fundname_code[]"]', this).val().trim(), 
+                amountFee: $('input[name="amountFee[]"]', this).val().trim(), 
+                accountName: $('input[name="accountName[]"]', this).val().trim(),
+                prog_code: $('input[name="prog_Code[]"]').val(), 
+                yrlevel: $('input[name="yrlevel[]"]').val(), 
+                schlyear: $('input[name="schlyear[]"]').val(), 
+                semester: $('input[name="semester[]"]').val(),
+                campus: $('input[name="campus[]"]').val() 
+            };
+            rowsData.push(row);
+        });
+
+        
         $.ajax({
-            url: studFeesUpdtCreateRoute,
-            type: "POST",
-            data: formData,
-            success: function(response) {
-                if(response.success) {
+            url: studfeeCreateRoute, 
+            method: "POST",
+            data: {
+                rows_data: rowsData 
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+            },
+            success: function (response) {
+                if (response.success) {
                     toastr.success(response.message);
                     console.log(response);
-                    $(document).trigger('feesstudAdded');
-                    $('input[name="amount"]').val('');
+                    $('#studentFeesModal').modal('hide');
+                    $(document).trigger('studFeeAdded');
                 } else {
                     toastr.error(response.message);
-                    console.log(response);
                 }
             },
-            error: function(xhr, status, error, message) {
-                var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
-                toastr.error(errorMessage);
+            error: function (xhr) {
+                if (xhr.status === 419) {
+                    //alert("CSRF token mismatch or expired. Please reload the page and try again.");
+                    var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                    toastr.error(errorMessage);
+                } else {
+                    //alert("Failed to add student fees.");
+                    var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+                    toastr.error(errorMessage);
+                }
             }
         });
     });
 
     var urlParams = new URLSearchParams(window.location.search);
-    var stud_id = urlParams.get('stud_id') || ''; 
-    var schlyear = urlParams.get('schlyear') || '';
-    var semester = urlParams.get('semester') || ''; 
-    var category = urlParams.get('category') || ''; 
-    var dataTable = $('#curapprsledit').DataTable({
+    var campus = urlParams.get('campus') || ''; 
+    var progCode = urlParams.get('prog_Code') || ''; 
+    var yrlevel = urlParams.get('yrlevel') || ''; 
+    var schlyear = urlParams.get('schlyear') || ''; 
+    var semester = urlParams.get('semester') || '';
+    var dataTable = $('#studentFees').DataTable({
         "ajax": {
-            "url": studFeesUpdtReadRoute,
+            "url": studfeeReadRoute,
             "type": "GET",
             "data": { 
-                "stud_id": stud_id,
+                "campus": campus,
+                "prog_Code": progCode,
+                "yrlevel": yrlevel,
                 "schlyear": schlyear,
-                "semester": semester,
-                "category": category,
+                "semester": semester
             }
         },
-        destroy: true,
         info: false,
         responsive: true,
         lengthChange: false,
         searching: false,
         paging: false,
         "columns": [
-            {data: 'fundID'},
-            {data: 'account'},
-            {data: 'amount'},
+            {data: 'fundname_code'},
+            {data: 'accountName'},
+            {
+                data: 'amountFee',
+                render: function (data, type, row) {
+                    return '<strong>' + parseFloat(data).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</strong>';
+                }
+            },
             {
                 data: 'id',
                 render: function(data, type, row) {
@@ -63,7 +95,7 @@ $(document).ready(function() {
                         var dropdown = '<div class="d-inline-block">' +
                             '<a class="btn btn-success btn-sm dropdown-toggle dropdown-icon text-light" data-bs-toggle="dropdown"></a>' +
                             '<div class="dropdown-menu">' +
-                            '<a href="#" class="dropdown-item btn-studfee" data-id="' + row.id + '" data-fundid="' + row.fundID + '" data-account="' + row.account + '" data-amount="' + row.amount + '">' +
+                            '<a href="#" class="dropdown-item btn-studfee" data-id="' + row.id + '" data-fundcode="' + row.fundname_code + '" data-fundstudname="' + row.accountName + '" data-fundstudamount="' + row.amountFee + '">' +
                             '<i class="fas fa-pen"></i> Edit' +
                             '</a>' +
                             '<button type="button" value="' + data + '" class="dropdown-item studfees-delete">' +
@@ -90,28 +122,21 @@ $(document).ready(function() {
             $(row).attr('id', 'tr-' + data.id); 
         }
     });
-    $(document).on('feesstudAdded', function() {
+    $(document).on('studFeeAdded', function() {
         dataTable.ajax.reload();
     });
 });
 
 $(document).on('click', '.btn-studfee', function() {
     var id = $(this).data('id');
-    var fundStudfee = $(this).data('fundid');
-    var acountStud = $(this).data('account');
-    var amountStud = $(this).data('amount');
+    var fundStudfee = $(this).data('fundcode');
+    var acountStud = $(this).data('fundstudname');
+    var amountStud = $(this).data('fundstudamount');
     $('#editStudFeeId').val(id);
     $('#editstudfeeFund').val(fundStudfee);
     $('#editstudfeeaccountName').val(acountStud);
     $('#editstudfeeamountFee').val(amountStud);
-    // Blur the currently open modal (the large one)
-    $('.modal.show').not('#editStudFeeModal').addClass('modal-blur');
     $('#editStudFeeModal').modal('show');
-});
-
-$('#editStudFeeModal').on('hidden.bs.modal', function () {
-    // Remove blur from the parent modal
-    $('.modal-blur').removeClass('modal-blur');
 });
 
 $('#editStudFeeForm').submit(function(event) {
@@ -119,7 +144,7 @@ $('#editStudFeeForm').submit(function(event) {
     var formData = $(this).serialize();
 
     $.ajax({
-        url: studFeesUpdtUpdateRoute,
+        url: studfeeUpdateRoute,
         type: "POST",
         data: formData,
         headers: {
@@ -129,7 +154,7 @@ $('#editStudFeeForm').submit(function(event) {
             if(response.success) {
                 toastr.success(response.message);
                 $('#editStudFeeModal').modal('hide');
-                $(document).trigger('feesstudAdded');
+                $(document).trigger('studFeeAdded');
             } else {
                 toastr.error(response.message);
             }
@@ -159,8 +184,8 @@ $(document).on('click', '.studfees-delete', function(e) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                type: "POST",
-                url: studFeesUpdtDeleteRoute.replace(':id', id),
+                type: "GET",
+                url: studfeeDeleteRoute.replace(':id', id),
                 success: function(response) {
                     $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({
@@ -180,3 +205,4 @@ $(document).on('click', '.studfees-delete', function(e) {
         }
     })
 });
+
