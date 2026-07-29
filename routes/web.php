@@ -215,6 +215,7 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/student/services/class/schedule/show', [StudentClassSchedController::class, 'show'])->name('show.scheduleclass');
         Route::get('/section/student/services/class/schedule/fetch/ajax', [StudentClassSchedController::class, 'fetch'])->name('fetch.scheduleclass');
 
+        Route::get('/section/student/services/fac/evaluation/select', [StudentFacultyEvaluationController::class, 'evalselect'])->name('index.evalselect');
         Route::get('/section/student/services/fac/evaluation/view', [StudentFacultyEvaluationController::class, 'index'])->name('index.evaluation');
         Route::get('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'show'])->name('show.evaluation.rate');
         Route::post('/section/student/services/fac/evaluation/rate/view', [StudentFacultyEvaluationController::class, 'create'])->name('create.evaluation.rate');
