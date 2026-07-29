@@ -148,10 +148,10 @@ class StudentFacultyEvaluationController extends Controller
         $subjsIDselected = EncryptionHelper::decryptUrl($encryptedId);
         $qcefacID = EncryptionHelper::decryptUrl($encryptedFacID);
 
-        $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 2)->get();
-        $inst = QCEinstruction::where('instructcat', 2)->get();
+        $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 1)->get();
+        $inst = QCEinstruction::where('instructcat', 1)->get();
         $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
-        $currsem = QCEsemester::where('qcesemstat', 3)
+        $currsem = QCEsemester::where('qcesemstat', 2)
             ->get([
                 'qceschlyear',
                 'qcesemester',
@@ -162,7 +162,7 @@ class StudentFacultyEvaluationController extends Controller
 
         $question = QCEquestion::join('qcecategory', 'qcequestion.catName_id', '=', 'qcecategory.id')
                 ->select('qcecategory.catName', 'qcequestion.id', 'qcequestion.questiontext')
-                ->where('qcecategory.catstatus', 1)
+                ->where('qcecategory.catstatus', 2)
                 ->where('qcequestion.questcat', 2)
                 ->orderBy('qcecategory.catName') 
                 ->orderBy('qcequestion.id') 
