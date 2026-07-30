@@ -449,6 +449,12 @@ class GradingFacultyServicesController extends Controller
             ->where('semester', $currsemnow->qcesemester)
             ->where('qceevaluator', 'CampusAdmin')
             ->pluck('qcefacID');
+        $disabledsubjvpaa = QCEfevalrate::where('evaluatorID', $user->id)
+            ->whereIn('statprint', [1,2])
+            ->where('schlyear', $currsemnow->qceschlyear)
+            ->where('semester', $currsemnow->qcesemester)
+            ->where('qceevaluator', 'Vice President')
+            ->pluck('qcefacID');
 
         // Get active faculty designation data from parent Controller
         $data = $this->getActiveFacultyDesignationData();
@@ -479,7 +485,8 @@ class GradingFacultyServicesController extends Controller
             $disabledsubjdean,
             $disabledsubjdivchair,
             $disabledsubjcampusdeaninstruction,
-            $disabledsubjcampusadmin
+            $disabledsubjcampusadmin,
+            $disabledsubjvpaa
 
         );
 
@@ -517,7 +524,8 @@ class GradingFacultyServicesController extends Controller
         $disabledsubjdean,
         $disabledsubjdivchair,
         $disabledsubjcampusdeaninstruction,
-        $disabledsubjcampusadmin
+        $disabledsubjcampusadmin,
+        $disabledsubjvpaa
     ) 
     {
         $sections = [];
@@ -1267,7 +1275,7 @@ class GradingFacultyServicesController extends Controller
                     'title' => 'Deans (No Program Head - VP Evaluates)',
                     'data' => $deansWithoutProgramHead,
                     'evaluator' => 'Vice President',
-                    'disabled' => $disabledsubjcampusadmin,
+                    'disabled' => $disabledsubjvpaa,
                     'icon' => 'ti ti-user-check',
                     'role' => 'Vice President',
                     'reason' => 'No Program Head to evaluate Dean - Vice President evaluates',
