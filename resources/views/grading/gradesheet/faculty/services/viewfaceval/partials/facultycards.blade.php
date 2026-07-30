@@ -42,6 +42,7 @@
     
     // Color mapping for designations
     $colorMap = [
+        'Dean of Instruction' => 'danger',
         'Dean' => 'danger',
         'Program Head' => 'primary',
         'Division Chair' => 'warning',
