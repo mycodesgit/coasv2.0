@@ -1242,6 +1242,80 @@ class GradingFacultyServicesController extends Controller
             }
         }
 
+        // ============================================================
+        // SCENARIO E: Vice President evaluates Deans with no Program Head
+        // This catches any Dean who has no Program Head to evaluate them
+        // ============================================================
+        // Get all Deans who have no Program Head in their college
+        $deansWithoutProgramHead = $allFacultyWithDesignations->filter(function($faculty) use ($allFacultyWithDesignations, $user) {
+            if (!in_array('Dean', $faculty->designations)) {
+                return false;
+            }
+            
+            // Check if this Dean's college has any Program Head
+            $collegeHasProgramHead = $allFacultyWithDesignations->filter(function($f) use ($faculty) {
+                return in_array('Program Head', $f->designations) &&
+                    in_array($faculty->facCollege, $f->facColleges) &&
+                    $f->id != $faculty->id; // Exclude self
+            })->isNotEmpty();
+            
+            return !$collegeHasProgramHead && $faculty->id != $user->id;
+        });
+
+        if ($deansWithoutProgramHead->isNotEmpty()) {
+            $sections[] = [
+                'title' => 'Deans (No Program Head - VP Evaluates)',
+                'data' => $deansWithoutProgramHead,
+                'evaluator' => 'Vice President',
+                'disabled' => $disabledsubjcampusadmin,
+                'icon' => 'ti ti-user-check',
+                'role' => 'Vice President',
+                'reason' => 'No Program Head to evaluate Dean - Vice President evaluates',
+                'is_escalated' => true
+            ];
+        }
+
+        // ============================================================
+        // SCENARIO F: Self-evaluation conflict for all admin roles
+        // Any admin teaching and also serving as evaluator gets VP
+        // ============================================================
+        // Get all faculty with admin roles who are also Program Heads/Deans
+        $adminWithTeachingConflict = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+            $hasAdminRole = in_array('Dean', $faculty->designations) || 
+                        in_array('Dean of Instruction', $faculty->designations) ||
+                        in_array('Vice President', $faculty->designations) ||
+                        in_array('Chancellor', $faculty->designations);
+            
+            $hasTeachingRole = in_array('Program Head', $faculty->designations) ||
+                            in_array('Faculty', $faculty->designations) ||
+                            in_array('Professor', $faculty->designations);
+            
+            return $hasAdminRole && $hasTeachingRole && $faculty->id != $user->id;
+        });
+
+        if ($adminWithTeachingConflict->isNotEmpty()) {
+            // Check if user is a Program Head who should evaluate these admins
+            if ($hasProgramHead) {
+                $adminInDept = $adminWithTeachingConflict->filter(function($faculty) use ($userDept) {
+                    return $faculty->facdept == $userDept;
+                });
+
+                if ($adminInDept->isNotEmpty()) {
+                    $sections[] = [
+                        'title' => 'Admin Faculty (Teaching Evaluation - Conflict)',
+                        'data' => $adminInDept,
+                        'evaluator' => 'Vice President',
+                        'disabled' => $disabledsubjcampusadmin,
+                        'icon' => 'ti ti-user-cog',
+                        'role' => 'Vice President',
+                        'reason' => 'Admin also serves as evaluator - Vice President evaluates teaching',
+                        'is_escalated' => true,
+                        'is_teaching_evaluation' => true
+                    ];
+                }
+            }
+        }
+
         // Filter out empty sections
         return array_filter($sections, function($section) {
             return $section['data']->isNotEmpty();
