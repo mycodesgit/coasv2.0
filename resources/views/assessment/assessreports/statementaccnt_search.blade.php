@@ -246,6 +246,43 @@ CISS V.1.0 || Assessment
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
+                            <form id="adstudfeesmissing">
+                                <h5><i class="ti ti-plus"></i> Add Student Fee</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <input type="hidden" name="studID" value="{{ request('stud_id') }}">
+                                        <input type="hidden" name="schlyear" value="{{ request('schlyear') }}">
+                                        <input type="hidden" name="semester" value="{{ request('semester') }}">
+                                        <input type="hidden" name="dateAssess" value="{{ now()->format('Y-m-d') }}">
+                                        <div class="form-group">
+                                            <label for="editstudfeeFund">Fund</label>
+                                            <input type="text" name="fundID" value="164" readonly class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="editstudfeeaccountName">Account Name</label>
+                                            <select class="form-control form-control-sm select2" id="editstudfeeaccountName" name="account">
+                                                <option disabled selected> ---Select---</option>
+                                                @foreach($studAccntap as $studapp)
+                                                    <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="editstudfeeamountFee">Amount</label>
+                                            <input type="number" class="form-control form-control-sm" id="editstudfeeamountFee" name="amount">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-2">
+                                        <button type="submit" class="btn btn-success">Save changes</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr>
+
                             <div class="table-responsive">
                                 <table id="curapprsledit" class="table table-hover" style="width: 100%">
                                     <thead>
