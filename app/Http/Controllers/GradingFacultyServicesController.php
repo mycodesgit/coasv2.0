@@ -834,10 +834,10 @@ class GradingFacultyServicesController extends Controller
                         $sections[] = [
                             'title' => $title,
                             'data' => $uniqueFaculties,
-                            'evaluator' => 'Program Head',
+                            'evaluator' => 'Dean',
                             'disabled' => $disabledsubjdean,
                             'icon' => 'ti ti-users',
-                            'role' => 'Program Head',
+                            'role' => 'Dean',
                             'college' => $userCollege,
                             'department' => $userDept,
                             'major' => $userMajor
