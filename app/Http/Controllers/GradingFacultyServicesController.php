@@ -1276,6 +1276,188 @@ class GradingFacultyServicesController extends Controller
             }
         }
 
+        // ============================================================
+        // SCENARIO F: Self-evaluation conflict for all admin roles
+        // ONLY display this section when the user is a VICE PRESIDENT
+        // ============================================================
+        if ($hasVicePresident) {
+            // Get all faculty with admin roles who are also Program Heads/Deans
+            $adminWithTeachingConflict = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                $hasAdminRole = in_array('Dean', $faculty->designations) || 
+                            in_array('Dean of Instruction', $faculty->designations) ||
+                            in_array('Vice President', $faculty->designations) ||
+                            in_array('Chancellor', $faculty->designations);
+                
+                $hasTeachingRole = in_array('Program Head', $faculty->designations) ||
+                                in_array('Faculty', $faculty->designations) ||
+                                in_array('Professor', $faculty->designations);
+                
+                return $hasAdminRole && $hasTeachingRole && $faculty->id != $user->id;
+            });
+
+            if ($adminWithTeachingConflict->isNotEmpty()) {
+                // Group by campus to show separately
+                $groupedByCampus = $adminWithTeachingConflict->groupBy('campus');
+                
+                foreach ($groupedByCampus as $campus => $facultyList) {
+                    $sections[] = [
+                        'title' => 'Faculty with Teaching Roles (' . $campus . ' Campus - VP Evaluates)',
+                        'data' => $facultyList,
+                        'evaluator' => 'Vice President',
+                        'disabled' => $disabledsubjcampusadmin,
+                        'icon' => 'ti ti-user-cog',
+                        'role' => 'Vice President',
+                        'reason' => 'Admin also serves as evaluator - Vice President evaluates teaching',
+                        'is_escalated' => true,
+                        'is_teaching_evaluation' => true,
+                        'campus' => $campus
+                    ];
+                }
+            }
+
+            // ============================================================
+            // SCENARIO G: CROSS-CAMPUS CONFLICT
+            // ONLY display this section when the user is a VICE PRESIDENT
+            // ============================================================
+            // Get all faculty who have designations across different campuses
+            $facultyWithCrossCampusDesignations = $allFacultyWithDesignations->groupBy('id')->filter(function($facultyGroup) {
+                // Check if this faculty has designations in different campuses
+                $campuses = $facultyGroup->pluck('campus')->unique();
+                return $campuses->count() > 1;
+            })->keys();
+
+            if ($facultyWithCrossCampusDesignations->isNotEmpty()) {
+                // Get the full details of these faculty
+                $crossCampusFaculty = $allFacultyWithDesignations->filter(function($faculty) use ($facultyWithCrossCampusDesignations) {
+                    return in_array($faculty->id, $facultyWithCrossCampusDesignations->toArray()) &&
+                        $faculty->id != $user->id;
+                })->groupBy('id');
+
+                foreach ($crossCampusFaculty as $facultyId => $designations) {
+                    $first = $designations->first();
+                    $campuses = $designations->pluck('campus')->unique()->implode(' → ');
+                    $roles = $designations->pluck('designation')->unique()->implode(' / ');
+                    
+                    // Check if this person is a Dean of Instruction in one campus
+                    $isDeanInstruction = $designations->contains('designation', 'Dean of Instruction');
+                    $isProgramHead = $designations->contains('designation', 'Program Head');
+                    $isDean = $designations->contains('designation', 'Dean');
+                    
+                    // If they have Dean of Instruction + Program Head across campuses
+                    if ($isDeanInstruction && $isProgramHead) {
+                        $sections[] = [
+                            'title' => 'Cross-Campus Conflict: ' . $first->fname . ' ' . $first->lname,
+                            'data' => collect([$first]),
+                            'evaluator' => 'Vice President',
+                            'disabled' => $disabledsubjcampusadmin,
+                            'icon' => 'ti ti-user-exclamation',
+                            'role' => 'Vice President',
+                            'reason' => 'Dean of Instruction in one campus AND Program Head in another - VP evaluates (Campuses: ' . $campuses . ')',
+                            'is_escalated' => true,
+                            'is_cross_campus' => true,
+                            'campuses' => $campuses,
+                            'roles' => $roles
+                        ];
+                    }
+                    
+                    // If they have Dean + Program Head across campuses
+                    if ($isDean && $isProgramHead) {
+                        $sections[] = [
+                            'title' => 'Cross-Campus Conflict: ' . $first->fname . ' ' . $first->lname,
+                            'data' => collect([$first]),
+                            'evaluator' => 'Vice President',
+                            'disabled' => $disabledsubjcampusadmin,
+                            'icon' => 'ti ti-user-exclamation',
+                            'role' => 'Vice President',
+                            'reason' => 'Dean in one campus AND Program Head in another - VP evaluates (Campuses: ' . $campuses . ')',
+                            'is_escalated' => true,
+                            'is_cross_campus' => true,
+                            'campuses' => $campuses,
+                            'roles' => $roles
+                        ];
+                    }
+                }
+            }
+
+            // ============================================================
+            // SCENARIO H: DEAN OF INSTRUCTION with teaching role in ANY campus
+            // ONLY display this section when the user is a VICE PRESIDENT
+            // ============================================================
+            // Get all Dean of Instruction who also have teaching roles
+            $deansOfInstructionTeaching = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                $isDeanInstruction = in_array('Dean of Instruction', $faculty->designations);
+                $hasTeachingRole = in_array('Program Head', $faculty->designations) ||
+                                in_array('Faculty', $faculty->designations) ||
+                                in_array('Professor', $faculty->designations);
+                
+                return $isDeanInstruction && $hasTeachingRole && $faculty->id != $user->id;
+            });
+
+            if ($deansOfInstructionTeaching->isNotEmpty()) {
+                $groupedByCampus = $deansOfInstructionTeaching->groupBy('campus');
+                
+                foreach ($groupedByCampus as $campus => $facultyList) {
+                    $sections[] = [
+                        'title' => 'Dean of Instruction (Teaching Role - ' . $campus . ' Campus)',
+                        'data' => $facultyList,
+                        'evaluator' => 'Vice President',
+                        'disabled' => $disabledsubjcampusadmin,
+                        'icon' => 'ti ti-user-graduate',
+                        'role' => 'Vice President',
+                        'reason' => 'Dean of Instruction also has teaching role - VP evaluates (teaching effectiveness only)',
+                        'is_escalated' => true,
+                        'is_teaching_evaluation' => true,
+                        'campus' => $campus
+                    ];
+                }
+            }
+
+            // ============================================================
+            // SCENARIO I: SPECIFIC - User has Dean of Instruction + Program Head
+            // ONLY display this section when the user is a VICE PRESIDENT
+            // ============================================================
+            if ($hasDeanInstruction && $hasProgramHead) {
+                // Check if the user's Dean of Instruction is in a different campus
+                // than their Program Head designation
+                $userDeanInstructionCampus = $userDesignations->where('designation', 'Dean of Instruction')->first()->campus ?? $user->campus;
+                $userProgramHeadCampus = $userDesignations->where('designation', 'Program Head')->first()->campus ?? $user->campus;
+                
+                // Check if user's campuses are different
+                $isCrossCampus = $userDeanInstructionCampus != $userProgramHeadCampus;
+                
+                // Get the user as a faculty member to be evaluated
+                $userAsFaculty = $allFacultyWithDesignations->filter(function($faculty) use ($user) {
+                    return $faculty->id == $user->id;
+                });
+                
+                if ($userAsFaculty->isNotEmpty()) {
+                    $title = 'Your Evaluation (Dean of Instruction + Program Head)';
+                    if ($isCrossCampus) {
+                        $title .= ' - Cross-Campus Conflict';
+                    } else {
+                        $title .= ' - Self-Conflict';
+                    }
+                    
+                    $sections[] = [
+                        'title' => $title,
+                        'data' => $userAsFaculty,
+                        'evaluator' => 'Vice President',
+                        'disabled' => $disabledsubjcampusadmin,
+                        'icon' => 'ti ti-user-check',
+                        'role' => 'Vice President',
+                        'reason' => $isCrossCampus 
+                            ? 'Dean of Instruction (' . $userDeanInstructionCampus . ') AND Program Head (' . $userProgramHeadCampus . ') - VP evaluates'
+                            : 'Dean of Instruction AND Program Head in same campus - VP evaluates (self-conflict)',
+                        'is_escalated' => true,
+                        'is_self' => true,
+                        'is_cross_campus' => $isCrossCampus,
+                        'campus_doi' => $userDeanInstructionCampus,
+                        'campus_ph' => $userProgramHeadCampus
+                    ];
+                }
+            }
+        }
+
         // Filter out empty sections
         return array_filter($sections, function($section) {
             return $section['data']->isNotEmpty();
