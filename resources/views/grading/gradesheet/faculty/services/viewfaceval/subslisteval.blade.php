@@ -59,6 +59,7 @@ CISS V.1.0 || Faculty Services
                                                         'disabledsubjdivchair' => $section['disabled'],
                                                         'disabledsubjcampusdeaninstruction' => $section['disabled'],
                                                         'disabledsubjcampusadmin' => $section['disabled'],
+                                                        'disabledsubjvpaa' => $section['disabled'],
                                                         'sy' => $sy
                                                     ])
                                                 @endforeach
