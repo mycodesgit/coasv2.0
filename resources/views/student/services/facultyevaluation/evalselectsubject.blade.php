@@ -36,7 +36,7 @@
                                         </div>
                                     @else
                                         @foreach($mysubj as $datafacsubprogen)
-                                            {{-- @if($disabledsubj->contains('subjidrate', $datafacsubprogen->subjID))
+                                            @if($disabledsubj->contains('subjidrate', $datafacsubprogen->subjID))
                                                 <div class="col-lg-3 col-12">
                                                     <a href="#" disabled>
                                                         <div class="card h-100" style="background-color: rgba(230, 230, 230, 0.644)">
@@ -69,7 +69,7 @@
                                                         </div>
                                                     </a>
                                                 </div>
-                                            @else   --}}
+                                            @else  
                                                 @php
                                                     
                                                     // ENCRYPT all values except qcefacname
@@ -108,7 +108,7 @@
                                                         </div>
                                                     </a>
                                                 </div>
-                                            {{-- @endif --}}
+                                            @endif
                                         @endforeach
                                     @endif
                                 </div>
