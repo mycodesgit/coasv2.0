@@ -122,7 +122,7 @@ class StudentFacultyEvaluationController extends Controller
                             'coasv2_db_schedule.faculty.lname',
                             'coasv2_db_schedule.faculty.id',
                         )
-                        ->where('coasv2_db_schedule.sub_offered.semester', 1)
+                        ->where('coasv2_db_schedule.sub_offered.semester', 2)
                         ->where('coasv2_db_schedule.sub_offered.schlyear', '=', '2025-2026')
                         ->where('studgrades.studID', $studauth->stud_id)
                         ->groupBy('studgrades.subjID')
@@ -151,7 +151,7 @@ class StudentFacultyEvaluationController extends Controller
         $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 1)->get();
         $inst = QCEinstruction::where('instructcat', 1)->get();
         $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
-        $currsem = QCEsemester::where('qcesemstat', 3)
+        $currsem = QCEsemester::where('qcesemstat', 2)
             ->get([
                 'qceschlyear',
                 'qcesemester',
@@ -162,8 +162,8 @@ class StudentFacultyEvaluationController extends Controller
 
         $question = QCEquestion::join('qcecategory', 'qcequestion.catName_id', '=', 'qcecategory.id')
                 ->select('qcecategory.catName', 'qcequestion.id', 'qcequestion.questiontext')
-                ->where('qcecategory.catstatus', 1)
-                ->where('qcequestion.questcat', 1)
+                ->where('qcecategory.catstatus', 2)
+                ->where('qcequestion.questcat', 2)
                 ->orderBy('qcecategory.catName') 
                 ->orderBy('qcequestion.id') 
                 ->get()
