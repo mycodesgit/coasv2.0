@@ -78,7 +78,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
-                                                    <div class="text-muted"><span class="text-success">2025-2026</span>, <span class="text-dark">2nd Sem</span></div>
+                                                    <div class="text-muted"><span class="text-success">2025-2026</span>, <span class="text-dark">1st Sem</span></div>
                                                     {{-- <div><a href="{{ route('index.evaluation') }}" class="link-defalt text-decoration-underline">Start Evaluation</a></div> --}}
                                                     <div><a href="{{ route('index.evaluation') }}" class="link-defalt text-decoration-underline">Start Evaluation</a></div>
                                                 </div>
