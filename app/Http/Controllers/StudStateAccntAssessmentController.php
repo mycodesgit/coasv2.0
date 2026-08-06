@@ -247,9 +247,14 @@ class StudStateAccntAssessmentController extends Controller
         $semester = $request->query('semester');
         $category = $request->query('category');
         $campus = Auth::guard('web')->user()->campus;
+        $campusArray = array_map('trim', explode(',', $campus));
 
         $student = Student::where('stud_id', $stud_id)
-            ->where('campus', $campus)
+            ->where(function ($q) use ($campusArray) {
+                foreach ($campusArray as $campus) {
+                    $q->orWhere('campus', 'LIKE', "%$campus%");
+                }
+            })
             ->first();
 
         if (!$student) {
