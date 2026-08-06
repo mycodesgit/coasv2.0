@@ -261,8 +261,8 @@ CISS V.1.0 || Assessment
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="editstudfeeaccountName">Account Name</label>
-                                            <select class="form-control form-control-sm select2" id="editstudfeeaccountName" name="account">
+                                            <label for="addstudfeeaccountName">Account Name</label>
+                                            <select class="form-control form-control-sm select2" id="addstudfeeaccountName" name="account">
                                                 <option disabled selected> ---Select---</option>
                                                 @foreach($studAccntap as $studapp)
                                                     <option value="{{ $studapp->account_name }}">{{ $studapp->account_name }}</option>
@@ -272,8 +272,8 @@ CISS V.1.0 || Assessment
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="editstudfeeamountFee">Amount</label>
-                                            <input type="number" class="form-control form-control-sm" id="editstudfeeamountFee" name="amount">
+                                            <label for="addstudfeeamountFee">Amount</label>
+                                            <input type="number" class="form-control form-control-sm" id="addstudfeeamountFee" name="amount">
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-2">
