@@ -253,9 +253,15 @@ class SettingController extends Controller
 
     public function accountRead() 
     {
-        $guard= $this->getGuard();
-        $user = Auth::guard($guard)->user(); 
-        return view('control.settings.users.account', compact('user', 'guard'));
+        $guard = $this->getGuard();
+        $userId = Auth::guard($guard)->id();
+        
+        // Eager load the buttonAccess relationship defined in your User model
+        // Or fetch the user and buttonAccess directly
+        $user = User::find($userId);
+        $buttonAccess = ButtonAccess::where('user_id', $userId)->first();
+
+        return view('control.settings.users.account', compact('user', 'buttonAccess', 'guard'));
     }
 
     public function edit_user($id) 

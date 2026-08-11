@@ -23,6 +23,11 @@
 <ul class="nav flex-column">
     
     <li class="px-4 py-2"><small class="nav-text text-muted">Main Navigation</small></li>
+    <li>
+        <a class="nav-link {{ $usersAccntActive }}" href="{{ route('accountRead') }}">
+            <i class="ti ti-user"></i><span class="nav-text">Accounts</span>
+        </a>
+    </li>
     @if(Auth::guard('web')->user()->role == '0')
         <li>
             <a class="nav-link {{ $dashActive }}" href="{{ route('settings-index') }}">
