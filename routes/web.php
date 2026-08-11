@@ -528,6 +528,8 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/', [EnrollmentController::class, 'index'])->name('enrollment-index');
         Route::get('/regpdf', [EnrollmentController::class, 'regularStudentsPDF'])->name('regular.students.pdf');
         Route::get('/irregpdf', [EnrollmentController::class, 'irregularStudentsPDF'])->name('irregular.students.pdf');
+        Route::get('/transfereepdf', [EnrollmentController::class, 'transfereeStudentsPDF'])->name('transferee.students.pdf');
+        Route::get('/returneepdf', [EnrollmentController::class, 'returneeStudentsPDF'])->name('returnee.students.pdf');
 
         Route::prefix('addnew')->group(function () {
             Route::get('/student', [EnStudAddController::class, 'studentCreate'])->name('studentCreate');

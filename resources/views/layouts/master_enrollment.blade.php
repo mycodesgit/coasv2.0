@@ -274,6 +274,58 @@
                     });
                 });
             </script>
+            <script>
+                $(document).ready(function() {
+                    $('#transfereeModal').on('show.bs.modal', function () {
+                        let iframe = $('#transfereePdfFrame');
+                        let loading = $('#loadingText');
+                        
+                        // Show loading message
+                        loading.show();
+                        iframe.hide();
+
+                        // Load PDF only when modal opens
+                        iframe.attr('src', "{{ route('transferee.students.pdf') }}");
+
+                        // Once iframe is loaded, hide loading message
+                        iframe.on('load', function() {
+                            loading.hide();
+                            iframe.show();
+                        });
+                    });
+
+                    // Optional: clear iframe when modal closes to free memory
+                    $('#transfereeModal').on('hidden.bs.modal', function () {
+                        $('#transfereePdfFrame').attr('src', '');
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function() {
+                    $('#returneeModal').on('show.bs.modal', function () {
+                        let iframe = $('#returneePdfFrame');
+                        let loading = $('#loadingText');
+                        
+                        // Show loading message
+                        loading.show();
+                        iframe.hide();
+
+                        // Load PDF only when modal opens
+                        iframe.attr('src', "{{ route('returnee.students.pdf') }}");
+
+                        // Once iframe is loaded, hide loading message
+                        iframe.on('load', function() {
+                            loading.hide();
+                            iframe.show();
+                        });
+                    });
+
+                    // Optional: clear iframe when modal closes to free memory
+                    $('#returneeModal').on('hidden.bs.modal', function () {
+                        $('#returneePdfFrame').attr('src', '');
+                    });
+                });
+            </script>
         @endif
     @endif
 

@@ -88,7 +88,7 @@ CISS V.1.0 || Enrollment
                         </div>
 
                         <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
+                            <div class="card card-animate" data-bs-toggle="modal" data-bs-target="#transfereeModal">
                                 <div class="card-body p-6">
                                     <div class="d-flex justify-content-between pb-2">
                                         <div>
@@ -135,7 +135,7 @@ CISS V.1.0 || Enrollment
                         <div class="col-lg-3 col-12">
                             <div class="card card-animate">
                                 <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
+                                    <div class="d-flex justify-content-between pb-2" data-bs-toggle="modal" data-bs-target="#returneeModal">
                                         <div>
                                             <h3 class="fw-bold h1">{{ $enrlstudcountReturning }}</h3>
                                             <span>Returnee Stud. Enrolled this Sem</span>
@@ -314,6 +314,44 @@ CISS V.1.0 || Enrollment
                                 <div class="modal-body">
                                     {{-- <iframe src="{{ route('irregular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe> --}}
                                     <iframe id="irregularPdfFrame" src="" width="100%" height="600px" frameborder="0"></iframe>
+                                    <div id="loadingText" class="text-center" style="display:none;">
+                                        <p>Loading PDF, please wait...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    @if(Auth::guard('web')->check() && in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 16, 17, 18, 19, 20]))
+                    <div class="modal fade mt-6" id="transfereeModal" tabindex="-1" role="dialog" aria-labelledby="transfereeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Transferee Students List</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{-- <iframe src="{{ route('irregular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe> --}}
+                                    <iframe id="transfereePdfFrame" src="" width="100%" height="600px" frameborder="0"></iframe>
+                                    <div id="loadingText" class="text-center" style="display:none;">
+                                        <p>Loading PDF, please wait...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    @if(Auth::guard('web')->check() && in_array(Auth::guard('web')->user()->role, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 16, 17, 18, 19, 20]))
+                    <div class="modal fade mt-6" id="returneeModal" tabindex="-1" role="dialog" aria-labelledby="returneeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Returnee Students List</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{-- <iframe src="{{ route('irregular.students.pdf') }}" width="100%" height="600px" frameborder="0"></iframe> --}}
+                                    <iframe id="returneePdfFrame" src="" width="100%" height="600px" frameborder="0"></iframe>
                                     <div id="loadingText" class="text-center" style="display:none;">
                                         <p>Loading PDF, please wait...</p>
                                     </div>
