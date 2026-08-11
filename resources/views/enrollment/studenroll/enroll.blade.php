@@ -51,6 +51,7 @@ CISS V.1.0 || Enrollment
                                                             @endforeach --}}
                                                             <option value="2026-2027">2026-2027</option>
                                                             <option value="2025-2026">2025-2026</option>
+                                                            <option value="2023-2024">2023-2024</option>
                                                         </select>
                                                     </div>
 

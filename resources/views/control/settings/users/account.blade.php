@@ -122,7 +122,7 @@ CISS V.1.0 || Settings
                                                 </p>
 
                                                 <div class="d-flex flex-wrap justify-content-center gap-1 mb-3">
-                                                    <a href="#" class="badge bg-success text-white px-3 py-2 rounded-pill fw-normal text-decoration-none">
+                                                    <a href="#" class="badge bg-success px-3 py-2 rounded-pill fw-normal text-decoration-none" data-bs-toggle="modal" data-bs-target="#modal-changepassword">
                                                         <i class="fas fa-lock me-1"></i>Change Password
                                                     </a>
                                                     
@@ -239,6 +239,49 @@ CISS V.1.0 || Settings
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-changepassword" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modal-changepasswordLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-changepasswordLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="#" method="post" id="changePassword">  
+                        @csrf
+
+                        <div class="form-group">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label>New Password: <span class="text-danger">*</span></label>
+                                    <input type="password" name="new_password" placeholder="Enter New Password" class="form-control form-control-sm">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Confirm Password: <span class="text-danger">*</span></label>
+                                    <input type="password" name="confirm_password" placeholder="Confirm New Password" class="form-control form-control-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-5">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>   
+                    </form>
                 </div>
             </div>
         </div>
