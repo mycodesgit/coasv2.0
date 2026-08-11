@@ -245,26 +245,29 @@ CISS V.1.0 || Settings
     </div>
 
     <div class="modal fade" id="modal-changepassword" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modal-changepasswordLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-changepasswordLabel">Change Password</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" action="#" method="post" id="changePassword">  
+                    <div id="passwordAlert" class="alert d-none"></div>
+                    <form class="form-horizontal" action="{{ route('account.change-password') }}" method="post" id="changePasswordForm">  
                         @csrf
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label>New Password: <span class="text-danger">*</span></label>
-                                    <input type="password" name="new_password" placeholder="Enter New Password" class="form-control form-control-sm">
+                                <div class="col-md-6">
+                                    <label class="form-label">New Password: <span class="text-danger">*</span></label>
+                                    <input type="password" name="password" id="password" placeholder="Enter New Password" class="form-control form-control-sm" required>
+                                    <div class="invalid-feedback" id="password_error"></div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <label>Confirm Password: <span class="text-danger">*</span></label>
-                                    <input type="password" name="confirm_password" placeholder="Confirm New Password" class="form-control form-control-sm">
+                                <div class="col-md-6">
+                                    <label class="form-label">Confirm Password: <span class="text-danger">*</span></label>
+                                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm New Password" class="form-control form-control-sm" required>
+                                    <div class="invalid-feedback" id="password_confirmation_error"></div>
                                 </div>
                             </div>
                         </div>
@@ -272,11 +275,9 @@ CISS V.1.0 || Settings
                         <div class="form-group mt-5">
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                        Close
-                                    </button>
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="fas fa-save"></i> Save
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success" id="btnSavePassword">
+                                        <i class="fas fa-save me-1"></i> <span id="btnText">Save</span>
                                     </button>
                                 </div>
                             </div>

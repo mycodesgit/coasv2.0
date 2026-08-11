@@ -264,6 +264,38 @@ class SettingController extends Controller
         return view('control.settings.users.account', compact('user', 'buttonAccess', 'guard'));
     }
 
+    public function changePassword(Request $request)
+    {
+        // Validate request input
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:8|confirmed',
+        ], [
+            'password.required'  => 'Please enter a new password.',
+            'password.min'       => 'Password must be at least 5 characters long.',
+            'password.confirmed' => 'Password confirmation does not match.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Get current authenticated user
+        $guard = $this->getGuard();
+        $user = Auth::guard($guard)->user();
+
+        // Update password attribute in database
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Password updated successfully!'
+        ]);
+    }
+
     public function edit_user($id) 
     {
         $userID = decrypt($id);

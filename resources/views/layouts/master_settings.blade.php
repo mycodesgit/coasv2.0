@@ -205,6 +205,10 @@
     <script src="{{ asset('js/validation/settings/usersValidation.js') }}"></script>
 
     <!-- Ajax -->
+    @if(request()->routeIs('accountRead'))
+        @include('script.settings.changeaccountpass')
+    @endif
+    
     @if(request()->routeIs('usersRead'))
         <script src="{{ asset('js/ajax/settngs/useraccountSerialize.js') }}"></script>
     @endif
