@@ -112,7 +112,7 @@
     
     @if(in_array(Auth::guard('web')->user()->role, ['0', '3']) && Auth::guard('web')->user()->campus == 'MC')
         <li>
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ $gradeStudcorrectActive }}" href="{{ route('studgradecorrection_search') }}">
                 <i class="ti ti-file-spreadsheet"></i><span class="nav-text">Correction of Grades</span>
             </a>
         </li>

@@ -1,5 +1,5 @@
 <div class="modal fade mt-6" id="submitgrades" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">
