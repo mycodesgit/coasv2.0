@@ -86,7 +86,7 @@ CISS V.1.0 || NSTP
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="table-responsive mt-3 p-2">
-                                                    <table id="ltstab" class="table table-hover">
+                                                    <table id="rotctab" class="table table-hover">
                                                         <thead>
                                                             <tr>
                                                                 <th>1</th>
