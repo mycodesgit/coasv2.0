@@ -280,7 +280,10 @@ class EnStudentPerCurriculumController extends Controller
             // ->where('students.campus', $campus)
             ->where(function ($q) use ($campusArray) {
                 foreach ($campusArray as $campus) {
-                    $q->orWhere('students.campus', 'LIKE', "$campus");
+                    $q->orWhereRaw(
+                        "TRIM(SUBSTRING_INDEX(students.campus, ',', -1)) = ?",
+                        [$campus]
+                    );
                 }
             })
             ->select('program_en_history.*', 'students.*', 'coasv2_db_schedule.programs.progAcronym', 'coasv2_db_schedule.programs.progName')
