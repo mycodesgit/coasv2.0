@@ -84,7 +84,7 @@ CISS V.1.0 || Faculty Services
                                                             Evaluate your teachers and share feedback to improve learning quality.
                                                         </p>
                                                         <div class="small text-muted">
-                                                            <span class="text-success fw-semibold">2025-2026</span>, 2nd Sem
+                                                            <span class="text-success fw-semibold">2024-2025</span>, 2nd Sem
                                                         </div>
                                                     </div>
                                                     <i class="ti ti-chalkboard-teacher fs-1 text-success"></i>
