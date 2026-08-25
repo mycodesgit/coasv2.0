@@ -616,6 +616,7 @@ document.getElementById('assessButton').addEventListener('click', function() {
                 amountFeeInput.value = '';
 
                 data.forEach(function(item) {
+                    var accountUpper = item.accountName.toUpperCase();
                     // Skip items if transferee/shiftee = 2 and fee is ADMISSION FEE, ENTRANCE FEE, or SCHOOL ID FEE
                     if (transShiftValue == '2') {
                         var excludedFees = ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE'];
