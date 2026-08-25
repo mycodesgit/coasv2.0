@@ -575,6 +575,8 @@ document.getElementById('assessButton').addEventListener('click', function() {
     var totalLabFee = 0;
     // Get the transferee/shiftee value
     var transShiftValue = document.getElementById('assesstranshift').value;
+    // Get the student status value (e.g., ID 2 for Irregular)
+    var studStatusValue = document.getElementById('assessIreggular').value;
 
     if (!programCode || !numericPart || !schlyear || !semester || !campus) {
         alert('Please fill in all fields.');
@@ -621,6 +623,9 @@ document.getElementById('assessButton').addEventListener('click', function() {
                             return; // Skip this item, don't display it
                         }
                     }
+                    if (studStatusValue == '2' && accountUpper === 'HANDBOOK FEE') {
+                        return; // Skip item completely
+                    }
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = item.fundname_code;
                     row.insertCell(1).textContent = item.accountName;
@@ -640,10 +645,14 @@ document.getElementById('assessButton').addEventListener('click', function() {
                         : (item.accountName === 'LAB FEE' ? totalLabFeeInput.value
                         : (item.accountName === 'IT FEE' && itFeeCondition ? '500' : '0')))
                         : item.amountFee;
-                    
-                        // If item is DEVELOPMENTAL FEE, add the extra dev fee
+                                              
+                    // If item is DEVELOPMENTAL FEE, add the extra dev fee
                     if (item.accountName === 'DEVELOPMENTAL FEE') {
                         amount = (parseFloat(amount) || 0) + devFeeExtra;
+                    }
+                    // Adjust HANDBOOK FEE and LIBRARY FEE from 350 to 300
+                    if (studStatusValue == '2' && accountUpper === 'LIBRARY FEE') {
+                        amount = '300';
                     }
 
                     row.insertCell(2).textContent = amount;

@@ -174,7 +174,7 @@ CISS V.1.0 || Enrollment
                                                             <div class="row mt-3">
                                                                 <div class="col-md-3">
                                                                     <label>Status</label>
-                                                                    <select class="form-control form-control-sm" name="studStatus">
+                                                                    <select class="form-control form-control-sm" name="studStatus" id="assessIreggular">
                                                                         @foreach ($studstat as $data)
                                                                             <option value="{{ $data->id }}" {{ $data->id == $selectedStudStatus ? 'selected' : '' }}>{{ $data->studentStatName }}</option>
                                                                         @endforeach
