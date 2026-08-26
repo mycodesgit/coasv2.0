@@ -183,7 +183,7 @@ CISS V.1.0 || Enrollment
 
                                                                 <div class="col-md-3">
                                                                     <label>Type</label>
-                                                                    <select class="form-control form-control-sm" name="studType">
+                                                                    <select class="form-control form-control-sm" name="studType" id="assessNewType">
                                                                         <option disabled selected> --Select--</option>
                                                                         @foreach ($studtype as $data)
                                                                             <option value="{{ $data->id }}" {{ $data->id == $selectedStudType ? 'selected' : '' }}>{{ $data->studentTypeName }}</option>

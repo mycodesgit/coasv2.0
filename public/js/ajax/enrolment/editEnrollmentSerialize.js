@@ -577,6 +577,8 @@ document.getElementById('assessButton').addEventListener('click', function() {
     var transShiftValue = document.getElementById('assesstranshift').value;
     // Get the student status value (e.g., ID 2 for Irregular)
     var studStatusValue = document.getElementById('assessIreggular').value;
+    // Get the student Type value (e.g., 1 for New Student)
+    var studTypeValue = document.getElementById('assessNewType').value;
 
     if (!programCode || !numericPart || !schlyear || !semester || !campus) {
         alert('Please fill in all fields.');
@@ -624,7 +626,8 @@ document.getElementById('assessButton').addEventListener('click', function() {
                             return; // Skip this item, don't display it
                         }
                     }
-                    if (studStatusValue == '2' && accountUpper === 'HAND BOOK FEE') {
+                    // Exclude HANDBOOK FEE only if studStatusValue == '2' AND transShiftValue == '1'
+                    if (studStatusValue == '2' && transShiftValue == '1' && accountUpper === 'HANDBOOK FEE') {
                         return; // Skip item completely
                     }
                     var row = tableBody.insertRow();
