@@ -312,7 +312,7 @@ class GradingFacultyServicesController extends Controller
     public function supfaceval()
     {
         $user = Auth::guard('faculty')->user();
-        $currsemnow = QCEsemester::where('qcesemstat', 3)->first();
+        $currsemnow = QCEsemester::where('qcesemstat', 2)->first();
         
         if (!$currsemnow) {
             return redirect()->back()->with('error', 'No active semester found.');
@@ -1621,11 +1621,11 @@ class GradingFacultyServicesController extends Controller
             return redirect()->route('supfaceval')->with('error', 'Invalid or tampered URL parameters.');
         }
 
-        $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 2)->get();
+        $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 1)->get();
         $inst = QCEinstruction::where('instructcat', 2)->get();
-        $sy = ConfigureCurrent::where('set_status', 3)->first(['schlyear', 'semester']);
-        $currsemnow = QCEsemester::where('qcesemstat', 3)->first();
-        $currsem = QCEsemester::where('qcesemstat', 3)
+        $sy = ConfigureCurrent::where('set_status', 4)->first(['schlyear', 'semester']);
+        $currsemnow = QCEsemester::where('qcesemstat', 2)->first();
+        $currsem = QCEsemester::where('qcesemstat', 2)
             ->get([
                 'qceschlyear',
                 'qcesemester',
@@ -1636,8 +1636,8 @@ class GradingFacultyServicesController extends Controller
 
         $question = QCEquestion::join('qcecategory', 'qcequestion.catName_id', '=', 'qcecategory.id')
                 ->select('qcecategory.catName', 'qcequestion.id', 'qcequestion.questiontext')
-                ->where('qcecategory.catstatus', 1)
-                ->where('qcequestion.questcat', 1)
+                ->where('qcecategory.catstatus', 2)
+                ->where('qcequestion.questcat', 2)
                 ->orderBy('qcecategory.catName') 
                 ->orderBy('qcequestion.id') 
                 ->get()
