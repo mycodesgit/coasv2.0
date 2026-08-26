@@ -621,7 +621,11 @@ document.getElementById('assessButton').addEventListener('click', function() {
                     var accountUpper = item.accountName.toUpperCase();
                     // Skip items if transferee/shiftee = 2 and fee is ADMISSION FEE, ENTRANCE FEE, or SCHOOL ID FEE
                     if (transShiftValue == '2') {
-                        var excludedFees = ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE'];
+                        // If studTypeValue is NOT '1', exclude ADMISSION FEE along with ENTRANCE FEE and SCHOOL ID FEE.
+                        // If studTypeValue IS '1', keep ADMISSION FEE and only exclude ENTRANCE FEE and SCHOOL ID FEE.
+                        var excludedFees = (studTypeValue != '1') 
+                            ? ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE'] 
+                            : ['ENTRANCE FEE', 'SCHOOL ID FEE'];
                         if (excludedFees.includes(item.accountName.toUpperCase())) {
                             return; // Skip this item, don't display it
                         }
