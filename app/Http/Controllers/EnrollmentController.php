@@ -1479,7 +1479,6 @@ class EnrollmentController extends Controller
                             ->exists();
                 if (!$alreadyEnrolled) {
                     $subject = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')->find($subjID);
-                    $subject = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')->find($subjID);
                     if ($subject) {
                         $currentEnrollmentCount = Grade::where('subjID', $subjID)->count();
                         if ($currentEnrollmentCount >= $subject->maxstud) {
@@ -1640,15 +1639,45 @@ class EnrollmentController extends Controller
                     }
                 }
 
-
-                $studentID = $request->input('studentID');
+                // --- APPRAISAL FEES SYNC FIX ---
                 $postedBy = $request->input('postedBy');
+                $fndCodes = $request->input('fndCodes', []);
+                $accntNames = $request->input('accntNames', []);
+                $amntFees = $request->input('amntFees', []);
 
-                $fndCodes = $request->input('fndCodes');
-                $accntNames = $request->input('accntNames');
-                $amntFees = $request->input('amntFees');
+                // 1. Clear out stale/removed fee entries for this student/term/campus
+                StudentAppraisal::where('studID', $studentID)
+                    ->where('schlyear', $schlyear)
+                    ->where('semester', $semester)
+                    ->where('campus', Auth::guard('web')->user()->campus)
+                    ->delete();
 
-                $primIDs = $request->input('primIDs');
+                // 2. Insert the fresh set of fees
+                if (!empty($fndCodes) && !empty($accntNames) && !empty($amntFees)) {
+                    foreach ($fndCodes as $index => $fndCode) {
+                        if (empty($fndCode)) continue;
+
+                        StudentAppraisal::create([
+                            'studID' => $studentID,
+                            'semester' => $semester,
+                            'schlyear' => $schlyear,
+                            'campus' => Auth::guard('web')->user()->campus,
+                            'fundID' => $fndCode,
+                            'account' => $accntNames[$index] ?? '',
+                            'dateAssess' => $request->input('postedDate'),
+                            'amount' => $amntFees[$index] ?? 0,
+                            'postedBy' => $postedBy,
+                        ]);
+                    }
+                }
+
+                DB::commit();
+
+                // $fndCodes = $request->input('fndCodes');
+                // $accntNames = $request->input('accntNames');
+                // $amntFees = $request->input('amntFees');
+
+                // $primIDs = $request->input('primIDs');
 
                 // if ($primIDs && $fndCodes && $accntNames && $amntFees) {
                 //     foreach ($primIDs as $index => $primID) {
@@ -1667,40 +1696,40 @@ class EnrollmentController extends Controller
                 //     }
                 // }
                 
-                if ($fndCodes && $accntNames && $amntFees) {
-                    foreach ($fndCodes as $index => $fndCode) {
-                        $account = $accntNames[$index];
-                        $amount = $amntFees[$index];
-                        $primID = $primIDs[$index] ?? null; // Handle cases where primID might not be set
+                // if ($fndCodes && $accntNames && $amntFees) {
+                //     foreach ($fndCodes as $index => $fndCode) {
+                //         $account = $accntNames[$index];
+                //         $amount = $amntFees[$index];
+                //         $primID = $primIDs[$index] ?? null; // Handle cases where primID might not be set
 
-                        if ($primID) {
-                            // Find and update the existing record
-                            $studappfees = StudentAppraisal::find($primID);
+                //         if ($primID) {
+                //             // Find and update the existing record
+                //             $studappfees = StudentAppraisal::find($primID);
 
-                            if ($studappfees) {
-                                $studappfees->update([
-                                    'fundID' => $fndCode,
-                                    'account' => $account,
-                                    'amount' => $amount,
-                                    'postedBy' => $postedBy,
-                                ]);
-                            }
-                        } else {
-                            // Insert new record
-                            StudentAppraisal::create([
-                                'studID' => $request->input('studentID'),
-                                'semester' => $request->input('semester'),
-                                'schlyear' => $request->input('schlyear'),
-                                'campus' => Auth::guard('web')->user()->campus,
-                                'fundID' => $fndCode,
-                                'account' => $account,
-                                'dateAssess' => $request->input('postedDate'),
-                                'amount' => $amount,
-                                'postedBy' => $request->input('postedBy'),
-                            ]);
-                        }
-                    }
-                }
+                //             if ($studappfees) {
+                //                 $studappfees->update([
+                //                     'fundID' => $fndCode,
+                //                     'account' => $account,
+                //                     'amount' => $amount,
+                //                     'postedBy' => $postedBy,
+                //                 ]);
+                //             }
+                //         } else {
+                //             // Insert new record
+                //             StudentAppraisal::create([
+                //                 'studID' => $request->input('studentID'),
+                //                 'semester' => $request->input('semester'),
+                //                 'schlyear' => $request->input('schlyear'),
+                //                 'campus' => Auth::guard('web')->user()->campus,
+                //                 'fundID' => $fndCode,
+                //                 'account' => $account,
+                //                 'dateAssess' => $request->input('postedDate'),
+                //                 'amount' => $amount,
+                //                 'postedBy' => $request->input('postedBy'),
+                //             ]);
+                //         }
+                //     }
+                // }
 
 
                 return response()->json(['success' => true, 'message' => 'Student Enrolled successfully'], 200);
