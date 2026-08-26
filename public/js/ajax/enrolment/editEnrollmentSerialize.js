@@ -631,7 +631,7 @@ document.getElementById('assessButton').addEventListener('click', function() {
                         }
                     }
                     // Exclude HANDBOOK FEE only if studStatusValue == '2' AND transShiftValue == '1'
-                    if (studStatusValue == '2' && transShiftValue == '1' && studTypeValue == '2' && accountUpper === 'HAND BOOK FEE') {
+                    if (studStatusValue == '2' && transShiftValue == '1' || studTypeValue == '2' && accountUpper === 'HAND BOOK FEE') {
                         return; // Skip item completely
                     }
                     var row = tableBody.insertRow();
