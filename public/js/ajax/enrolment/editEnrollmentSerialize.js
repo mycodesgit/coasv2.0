@@ -624,7 +624,7 @@ document.getElementById('assessButton').addEventListener('click', function() {
                             return; // Skip this item, don't display it
                         }
                     }
-                    if (studStatusValue == '2' && accountUpper === 'HANDBOOK FEE') {
+                    if (studStatusValue == '2' && accountUpper === 'HAND BOOK FEE') {
                         return; // Skip item completely
                     }
                     var row = tableBody.insertRow();
