@@ -28,7 +28,14 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        })();
+    </script>
     <style>
         .sticky-column {
           position: sticky;
@@ -61,7 +68,7 @@
 <body>
     <div id="overlay" class="overlay"></div>
     <!-- TOPBAR -->
-    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9995">
+    <nav id="topbar" class="navbar border-bottom fixed-top px-3" style="z-index: 9995">
 
         <div id="s" class="text-light">
             CISS v.1.0 
@@ -79,10 +86,14 @@
                 <button id="mobileBtn" class="btn btn-outline-light btn-icon btn-sm d-lg-none me-2">
                     <i class="fas fa-bars"></i>
                 </button>
+                <li>
+                    <button id="themeToggleBtn" class="btn btn-light btn-sm rounded-circle" title="Toggle theme">
+                        <i id="themeIcon" class="ti ti-sun"></i>
+                    </button>
+                </li>
                 <!-- Dropdown -->
                 <li class="ms-3 dropdown d-none d-md-block">
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
-                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                 Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
@@ -103,7 +114,6 @@
                 </li>
                 <li class="ms-3 dropdown d-md-none">
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
-                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                 @if (Auth::guard('web')->user()->campus == 'MC') Main 
@@ -128,12 +138,7 @@
 
     <!-- SIDEBAR -->
     <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden" style="height: 95vh">
-        <div class="logo-area border-0">
-            <div class="d-inline-flex">
-                <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" alt="logo" width="24">
-                <span class="logo-text ms-2" style="font-weight: bold">CISS</span>
-            </div>
-        </div>
+        
         @include('partials.control_ad_sidebar')
 
     </aside>
@@ -192,12 +197,13 @@
     <!-- Validation JS -->
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <script src="{{ asset('js/basic/themejs.js') }}"></script>
 
     <script src="{{ asset('js/validation/applicant/applicantValidation.js') }}"></script>
     <script src="{{ asset('js/validation/configureAd/progCon.js') }}"></script>

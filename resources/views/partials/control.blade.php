@@ -1,4 +1,4 @@
-<div class="menu-container bg-white border-bottom">
+<div class="menu-container border-bottom">
     <div class="container-fluid py-3 d-none d-md-block">
         <div class="menu-grid">
 

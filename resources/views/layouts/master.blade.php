@@ -17,7 +17,14 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
-
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        })();
+    </script>
     <style>
         a.disabled {
             pointer-events: none;
@@ -30,15 +37,19 @@
 <body>
     <div id="overlay" class="overlay"></div>
     <!-- TOPBAR -->
-    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important;">
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3">
         <div id="toggleBtn" class="text-light" style="padding-left: 25px">
             CISS v.1.0
         </div>
         <div>
             <ul class="list-unstyled d-flex align-items-center mb-0 gap-1 d-none d-md-flex">
+                <li>
+                    <button id="themeToggleBtn" class="btn btn-light btn-sm rounded-circle" title="Toggle theme">
+                        <i id="themeIcon" class="ti ti-sun"></i>
+                    </button>
+                </li>
                 <li class="ms-3 dropdown">
                     <a href="#" role="button" class="text-light" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if (in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                 Logged as: {{ Auth::guard('web')->user()->fname }}
@@ -258,6 +269,7 @@
     <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <script src="{{ asset('js/basic/madapak.js') }}"></script>
+    <script src="{{ asset('js/basic/themejs.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
     <!-- ChartJs -->

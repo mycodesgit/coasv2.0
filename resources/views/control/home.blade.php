@@ -53,7 +53,7 @@
         </div>
         <div class="col-lg-8">
             <div class="card card-animate">
-                <div class="card-header bg-white d-flex justify-content-between align-items-center px-4 py-3">
+                <div class="card-header d-flex justify-content-between align-items-center px-4 py-3">
                     <h4 class="mb-0 h5">
                         Current Enrollment A.Y. 2025-2026, 2nd Semester -
                         @if (Auth::guard('web')->user()->campus == 'MC') Main Campus
