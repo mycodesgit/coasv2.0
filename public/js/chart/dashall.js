@@ -1,14 +1,15 @@
 $(function () {
     var ticksStyle = {
-        fontColor: '#495057',
-        fontStyle: 'bold'
-    }
+        color: '#495057',
+        font: {
+            weight: 'bold'
+        }
+    };
 
     var mode = 'index';
     var intersect = true;
 
     var $salesChart = $('#sales-chart');
-    // eslint-disable-next-line no-unused-vars
     var salesChart = new Chart($salesChart, {
         type: 'bar',
         data: {
@@ -17,6 +18,8 @@ $(function () {
                 {
                     backgroundColor: '#90ee90',
                     borderColor: '#ced4da',
+                    borderRadius: 8, // <--- Curved edges
+                    borderSkipped: false, // <--- Curves all corners
                     data: [
                         $salesChart.data('main'),
                         $salesChart.data('ilog'),
@@ -33,6 +36,8 @@ $(function () {
                 {
                     backgroundColor: '#00a65a',
                     borderColor: '#ced4da',
+                    borderRadius: 8, // <--- Curved edges
+                    borderSkipped: false,
                     data: [
                         $salesChart.data('main-sched'),
                         $salesChart.data('ilog-sched'),
@@ -50,47 +55,35 @@ $(function () {
         },
         options: {
             maintainAspectRatio: false,
-            tooltips: {
-                mode: mode,
-                intersect: intersect,
-                callbacks: {
-                    title: function (tooltipItem, data) {
-                        return data.labels[tooltipItem[0].index];
-                    },
-                    label: function (tooltipItem, data) {
-                        return 'Count: ' + tooltipItem.value;
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    mode: mode,
+                    intersect: intersect,
+                    callbacks: {
+                        title: function (tooltipItems) {
+                            return tooltipItems[0].label;
+                        },
+                        label: function (tooltipItem) {
+                            return 'Count: ' + tooltipItem.formattedValue;
+                        }
                     }
                 }
             },
-            hover: {
+            interaction: {
                 mode: mode,
                 intersect: intersect
             },
-            legend: {
-                display: false
-            },
             scales: {
-                // yAxes: [{
-                //     display: true,
-                //     gridLines: {
-                //         display: true,
-                //         lineWidth: '4px',
-                //         color: 'rgba(0, 0, 0, .2)',
-                //         zeroLineColor: 'transparent'
-                //     },
-                //     ticks: $.extend({
-                //         beginAtZero: false,
-                //         min: 1,
-                //         // stepSize: 50 
-                //     }, ticksStyle)
-                // }],
-                xAxes: [{
+                x: {
                     display: true,
-                    gridLines: {
+                    grid: {
                         display: true
                     },
                     ticks: ticksStyle
-                }]
+                }
             }
         }
     });

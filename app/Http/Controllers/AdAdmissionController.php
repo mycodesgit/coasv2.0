@@ -92,6 +92,24 @@ class AdAdmissionController extends Controller
         $user = Auth::guard('web')->user()->dept;
         $campus = Auth::guard('web')->user()->campus;
 
+        $applyapp = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                    ->where('ad_applicant_admission.year', $currentYear)
+                    ->where('ad_applicant_admission.campus', $campus)
+                    ->where('p_status', '=', 1)
+                    ->count();
+
+        $examineesapp = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                    ->where('ad_applicant_admission.year', $currentYear)
+                    ->where('ad_applicant_admission.campus', $campus)
+                    ->where('p_status', '=', 2)
+                    ->count();
+
+        $resultapp = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
+                    ->where('ad_applicant_admission.year', $currentYear)
+                    ->where('ad_applicant_admission.campus', $campus)
+                    ->where('p_status', '=', 3)
+                    ->count();
+
         $cnfrmapp = Applicant::join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
                     ->where('ad_applicant_admission.year', $currentYear)
                     ->where('ad_applicant_admission.campus', $campus)
@@ -119,7 +137,7 @@ class AdAdmissionController extends Controller
                     ->where('p_status', '=', 5)
                     ->count();
         
-        return view('admission.index', compact('applicantCounts', 'currentYear', 'cnfrmapp', 'acptapp', 'acptapppushen', 'acptappnotpushen'));
+        return view('admission.index', compact('applicantCounts', 'currentYear', 'applyapp', 'examineesapp', 'resultapp', 'cnfrmapp', 'acptapp', 'acptapppushen', 'acptappnotpushen'));
     }
 
     public function applicant_add()

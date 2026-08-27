@@ -145,6 +145,7 @@ CISS V.1.0 || Admission
                                                                 <th>Contact No.</th>
                                                                 <th>Campus</th>
                                                                 <th>Last School Attended</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>

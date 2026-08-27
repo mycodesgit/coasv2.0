@@ -218,8 +218,9 @@
     @php $curr_route = request()->route()->getName(); @endphp
         @if($curr_route == 'admission-index')
         <!-- ChartJS -->
-        <script src="{{ asset('template/plugins/chart.js/Chart.min.js') }}"></script>
+        <script src="{{ asset('uilibs/plugins/chart.js/Chart.min.js') }}"></script>
         <script src="{{ asset('js/chart/dashall.js') }}"></script>
+        <script src="{{ asset('js/basic/calendarwidget.js') }}"></script>
     @endif
     @if(request()->routeIs('srchappList'))
         <script src="{{ asset('js/ajax/admssion/applicant/applicantSerialize.js') }}?v={{ time() }}"></script>

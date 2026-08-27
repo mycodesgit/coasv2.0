@@ -64,6 +64,17 @@
                         return data.lstsch_attended ? data.lstsch_attended : data.suc_lst_attended;
                     }
                 },
+                {
+                    data: 'id',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            var buttons = '<button type="button" class="btn btn-sm btn-warning btn-formsview mr-1" data-id="' + row.id + '" data-toggle="tooltip" data-placement="top" title="View Forms"><i class="fas fa-file-pdf"></i></button>&nbsp;';
+                            return buttons;
+                        } else {
+                            return data;
+                        }
+                    },
+                },
             ],
             "createdRow": function (row, data, index) {
                 $(row).attr('id', 'tr-' + data.id); 
