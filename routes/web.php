@@ -742,6 +742,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     Route::prefix('schedmod/scheduler')->group(function () {
         
         Route::get('/', [SchedClassCollegeController::class, 'index'])->name('scheduler-index');
+        Route::get('/fetch/recent', [SchedClassCollegeController::class, 'recentschedfetch'])->name('recentschedfetch');
 
         Route::prefix('college')->group(function () {
             Route::get('/list', [SchedClassCollegeController::class, 'collegeRead'])->name('collegeRead');

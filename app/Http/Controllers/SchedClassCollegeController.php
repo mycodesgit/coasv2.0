@@ -13,9 +13,16 @@ use Illuminate\Support\Facades\Log;
 use Storage;
 use Carbon\Carbon;
 
+use App\Models\AdmissionDB\Year;
+
 use App\Models\ScheduleDB\College;
 use App\Models\ScheduleDB\EnPrograms;
 use App\Models\ScheduleDB\Room;
+use App\Models\ScheduleDB\Subject;
+use App\Models\ScheduleDB\SubjectOffered;
+use App\Models\ScheduleDB\SetClassSchedule;
+
+use App\Models\SettingDB\ConfigureCurrent;
 
 class SchedClassCollegeController extends Controller
 {
@@ -42,6 +49,9 @@ class SchedClassCollegeController extends Controller
 
     public function index()
     {
+        $currentYear = Year::where('status', 'On')->value('adyear');
+        $acadyear = ConfigureCurrent::where('set_status', 2)->value('schlyear');
+        $acadsem = ConfigureCurrent::where('set_status', 2)->value('semester');
         $guard = $this->getGuard();
 
         // Cache colleges count for 5 minutes (300 seconds)
@@ -65,7 +75,28 @@ class SchedClassCollegeController extends Controller
             return Room::where('campus', $userCampus)->count();
         });
 
-        return view('scheduler.index', compact('colCount', 'enunprogCount', 'engradprogCount', 'roomCount', 'guard'));
+        return view('scheduler.index', compact('currentYear', 'acadyear', 'acadsem', 'colCount', 'enunprogCount', 'engradprogCount', 'roomCount', 'guard'));
+    }
+
+    public function recentschedfetch()
+    {
+        $acadyear = ConfigureCurrent::where('set_status', 2)->value('schlyear');
+        $acadsem = ConfigureCurrent::where('set_status', 2)->value('semester');
+        $campus = Auth::guard('web')->user()->campus;
+
+        $data = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                        ->where('scheduleclass.schlyear', '=', $acadyear)
+                        ->where('scheduleclass.semester', '=', $acadsem)
+                        ->where('scheduleclass.campus', $campus)
+                        ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
+                        ->orderBy('scheduleclass.id', 'desc') // Orders by latest added records
+                        ->limit(5)
+                        ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function collegeRead() 

@@ -58,8 +58,8 @@ CISS V.1.0 || Class Scheduler
                                                     </div>
                                                     
                                                     <div class="col-md-2">
-                                                        <label>&nbsp;</label>
-                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
+                                                        <br>
+                                                        <button type="submit" class="btn btn-success btn-sm btn-block">Search</button>
                                                     </div>
                                                 </div>
                                             </div>

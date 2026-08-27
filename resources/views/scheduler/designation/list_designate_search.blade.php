@@ -43,7 +43,7 @@ CISS V.1.0 || Class Scheduler
                                                             <label>Academic Year: <span class="text-danger">*</span></label>
                                                             <select class="form-control form-control-sm" name="schlyear">
                                                                 @foreach($sy as $datasy)
-                                                                    <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                                    <option value="{{ $datasy->schlyear }}" {{ request('schlyear') == $datasy->schlyear || ($loop->first && !request('schlyear')) ? 'selected' : '' }}>{{ $datasy->schlyear }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -52,9 +52,9 @@ CISS V.1.0 || Class Scheduler
                                                             <label>Semester: <span class="text-danger">*</span></label>
                                                             <select class="form-control  form-control-sm" name="semester">
                                                                 <option disabled selected>---Select---</option>
-                                                                <option value="1">First Semester</option>
-                                                                <option value="2">Second Semester</option>
-                                                                <option value="3">Summer</option>
+                                                                <option value="1" {{ request('semester') == '1' ? 'selected' : '' }}>First Semester</option>
+                                                                <option value="2" {{ request('semester') == '2' ? 'selected' : '' }}>Second Semester</option>
+                                                                <option value="3" {{ request('semester') == '3' ? 'selected' : '' }}>Summer</option>
                                                             </select>
                                                         </div>
 
@@ -78,7 +78,7 @@ CISS V.1.0 || Class Scheduler
                                                         </div>
                                                         
                                                         <div class="col-md-2">
-                                                            <label>&nbsp;</label>
+                                                            <br>
                                                             <button type="submit" class="btn btn-success btn-sm btn-block">Search</button>
                                                         </div>
                                                     </div>
