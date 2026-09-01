@@ -84,17 +84,26 @@ class SchedClassCollegeController extends Controller
         $acadsem = ConfigureCurrent::where('set_status', 2)->value('semester');
         $campus = Auth::guard('web')->user()->campus;
 
-        $data = SetClassSchedule::join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
-                        ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-                        ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
-                        ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
-                        ->where('scheduleclass.schlyear', '=', $acadyear)
-                        ->where('scheduleclass.semester', '=', $acadsem)
-                        ->where('scheduleclass.campus', $campus)
-                        ->select('sub_offered.subSec', 'scheduleclass.*', 'subjects.sub_name', 'faculty.lname', 'faculty.fname', 'rooms.room_name')
-                        ->orderBy('scheduleclass.id', 'desc') // Orders by latest added records
-                        ->limit(5)
-                        ->get();
+        $data = SetClassSchedule::select([
+                    'scheduleclass.*',
+                    'sub_offered.subSec',
+                    'subjects.sub_name',
+                    'faculty.lname',
+                    'faculty.fname',
+                    'rooms.room_name'
+                ])
+                ->join('sub_offered', 'scheduleclass.subject_id', '=', 'sub_offered.id')
+                ->join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+                ->leftJoin('faculty', 'scheduleclass.faculty_id', '=', 'faculty.id')
+                ->leftJoin('rooms', 'scheduleclass.room_id', '=', 'rooms.id')
+                ->where([
+                    ['scheduleclass.schlyear', '=', $acadyear],
+                    ['scheduleclass.semester', '=', $acadsem],
+                    ['scheduleclass.campus', '=', $campus],
+                ])
+                ->latest('scheduleclass.id') // Cleaner syntax for orderBy('id', 'desc')
+                ->limit(5)
+                ->get();
 
         return response()->json(['data' => $data]);
     }

@@ -48,6 +48,10 @@
         margin-bottom: 1px;
         margin-top: 3px;
     }
+
+    [data-bs-theme="dark"] .nav-item {
+        color: #fff;
+    }
 }
 
 @media (max-width: 991px) {

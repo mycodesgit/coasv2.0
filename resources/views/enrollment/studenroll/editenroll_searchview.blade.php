@@ -218,7 +218,7 @@ CISS V.1.0 || Enrollment
                                         <div class="card mt-2" style="background-color: #e9ecef" >
                                             <div class="card-body pr-2 pl-2 pt-2 pb-2 table-responsive">
                                                 <table id="subjectTable" class="table">
-                                                    <thead style="background-color: #c9c9c9">
+                                                    <thead>
                                                         <tr>
                                                             <th>ID</th>
                                                             <th>SubjCode</th>
@@ -258,7 +258,7 @@ CISS V.1.0 || Enrollment
                                         <div class="card mt-2" style="background-color: #e9ecef" style="padding-left: 10px; padding-right: 10px">
                                             <div class="card-body pr-2 pl-2 pt-2 table-responsive">
                                                 <table id="studFeeTable" class="table">
-                                                    <thead style="background-color: #c9c9c9">
+                                                    <thead>
                                                         <tr>
                                                             <th>Fund</th>
                                                             <th>Account</th>

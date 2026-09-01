@@ -128,7 +128,6 @@
             <ul class="list-unstyled d-flex align-items-center mb-0 gap-1 d-md-none">
                 <li class="ms-3 dropdown">
                     <a href="#" role="button" class="text-light">
-                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if (in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                 @if (Auth::guard('web')->user()->campus == 'MC')
