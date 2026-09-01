@@ -12,7 +12,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
 
     <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}?v={{ time() }}">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
