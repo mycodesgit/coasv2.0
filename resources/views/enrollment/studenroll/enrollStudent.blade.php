@@ -39,7 +39,7 @@ CISS V.1.0 || Enrollment
                                                     <div class="row">
                                                         <div class="col-md-2">
                                                             <label>Student ID</label>
-                                                            <input type="text" name="" class="form-control form-control-sm" value="{{ $student->stud_id }}" readonly>
+                                                            <input type="text" name="" class="form-control form-control-sm" id="student_id" value="{{ $student->stud_id }}" readonly>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <label>Last Name</label>
@@ -170,7 +170,7 @@ CISS V.1.0 || Enrollment
                                                             <div class="row mt-3">
                                                                 <div class="col-md-3">
                                                                     <label>Status</label>
-                                                                    <select class="form-control form-control-sm" name="studStatus">
+                                                                    <select class="form-control form-control-sm" name="studStatus" id="assessIreggular">
                                                                         @foreach ($studstat as $data)
                                                                             <option value="{{ $data->id }}">{{ $data->studentStatName }}</option>
                                                                         @endforeach
@@ -179,7 +179,7 @@ CISS V.1.0 || Enrollment
 
                                                                 <div class="col-md-3">
                                                                     <label>Type</label>
-                                                                    <select class="form-control form-control-sm" name="studType">
+                                                                    <select class="form-control form-control-sm" name="studType" id="assessNewType">
                                                                         <option disabled selected> --Select--</option>
                                                                         @foreach ($studtype as $data)
                                                                             <option value="{{ $data->id }}">{{ $data->studentTypeName }}</option>

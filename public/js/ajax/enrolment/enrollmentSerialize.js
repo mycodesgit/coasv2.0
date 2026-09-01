@@ -595,13 +595,30 @@ document.getElementById('assessButton').addEventListener('click', function() {
     var semester = document.getElementById('semesterInput').value;
     var campus = document.getElementById('campusInput').value;
     var programCode = document.getElementById('programCodeInput').value;
-    var numericPart = document.getElementById('numericPart').value;
+    var inputNumericPart = document.getElementById('numericPart').value;
     var totalLecFee = 0; 
     var totalLabFee = 0;
     // Get the transferee/shiftee value
     var transShiftValue = document.getElementById('assesstranshift').value;
+    // Get the student status value (e.g., ID 2 for Irregular)
+    var studStatusValue = document.getElementById('assessIreggular').value;
+    // Get the student Type value (e.g., 1 for New Student)
+    var studTypeValue = document.getElementById('assessNewType').value;
+    // Get values needed for logic for student id LIKE -G
+    var studentId = document.getElementById('student_id').value;
 
-    if (!programCode || !numericPart || !schlyear || !semester || !campus) {
+    // Determine which numeric value to send based on Student ID
+    var numericPartToSend = '';
+
+    if (studentId.toUpperCase().includes('-G')) {
+        // If ID has '-G', ignore #numericPart input and use Type dropdown (1 or 2)
+        numericPartToSend = studTypeValue;
+    } else {
+        // If ID does NOT have '-G', use the original numericPart value from select box
+        numericPartToSend = inputNumericPart;
+    }
+
+    if (!programCode || !numericPartToSend || !schlyear || !semester || !campus) {
         //alert('Please fill in all fields.');
         Swal.fire({
             icon: 'error',
@@ -618,7 +635,7 @@ document.getElementById('assessButton').addEventListener('click', function() {
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', fetchFeeDataRoute + '?programCode=' + encodeURIComponent(programCode) + '&numericPart=' + encodeURIComponent(numericPart) + '&schlyear=' + encodeURIComponent(schlyear) + '&semester=' + encodeURIComponent(semester) + '&campus=' + encodeURIComponent(campus), true);
+    xhr.open('GET', fetchFeeDataRoute + '?programCode=' + encodeURIComponent(programCode) + '&numericPart=' + encodeURIComponent(numericPartToSend) + '&schlyear=' + encodeURIComponent(schlyear) + '&semester=' + encodeURIComponent(semester) + '&campus=' + encodeURIComponent(campus), true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
@@ -650,12 +667,27 @@ document.getElementById('assessButton').addEventListener('click', function() {
                 amountFeeInput.value = '';
 
                 data.forEach(function(item) {
+                    var accountUpper = item.accountName.toUpperCase();
                     // Skip items if transferee/shiftee = 2 and fee is ADMISSION FEE, ENTRANCE FEE, or SCHOOL ID FEE
+                    // if (transShiftValue == '2') {
+                    //     var excludedFees = ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE'];
+                    //     if (excludedFees.includes(item.accountName.toUpperCase())) {
+                    //         return; // Skip this item, don't display it
+                    //     }
+                    // }
                     if (transShiftValue == '2') {
-                        var excludedFees = ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE'];
+                        // If studTypeValue is NOT '1', exclude ADMISSION FEE along with ENTRANCE FEE and SCHOOL ID FEE.
+                        // If studTypeValue IS '1', keep ADMISSION FEE and only exclude ENTRANCE FEE and SCHOOL ID FEE.
+                        var excludedFees = (studTypeValue != '1') 
+                            ? ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE'] 
+                            : ['ENTRANCE FEE', 'SCHOOL ID FEE'];
                         if (excludedFees.includes(item.accountName.toUpperCase())) {
                             return; // Skip this item, don't display it
                         }
+                    }
+                    // Exclude HANDBOOK FEE only if studStatusValue == '2' AND transShiftValue == '1'
+                    if (studStatusValue == '2' && transShiftValue == '1' || studTypeValue == '2' && accountUpper === 'HAND BOOK FEE') {
+                        return; // Skip item completely
                     }
                     var row = tableBody.insertRow();
                     row.insertCell(0).textContent = item.fundname_code;
@@ -680,6 +712,11 @@ document.getElementById('assessButton').addEventListener('click', function() {
                         // If item is DEVELOPMENTAL FEE, add the extra dev fee
                     if (item.accountName === 'DEVELOPMENTAL FEE') {
                         amount = (parseFloat(amount) || 0) + devFeeExtra;
+                    }
+
+                    // Adjust HANDBOOK FEE and LIBRARY FEE from 350 to 300
+                    if (studStatusValue == '2' && accountUpper === 'LIBRARY FEE') {
+                        amount = '300';
                     }
 
                     row.insertCell(2).textContent = amount;

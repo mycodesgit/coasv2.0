@@ -39,7 +39,7 @@ CISS V.1.0 || Enrollment
                                                     <div class="row">
                                                         <div class="col-md-2">
                                                             <label>Student ID</label>
-                                                            <input type="text" name="" class="form-control form-control-sm" value="{{ $student->stud_id }}" readonly>
+                                                            <input type="text" name="" class="form-control form-control-sm" id="student_id" value="{{ $student->stud_id }}" readonly>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <label>Last Name</label>

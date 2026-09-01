@@ -580,13 +580,37 @@ document.getElementById('assessButton').addEventListener('click', function() {
     // Get the student Type value (e.g., 1 for New Student)
     var studTypeValue = document.getElementById('assessNewType').value;
 
-    if (!programCode || !numericPart || !schlyear || !semester || !campus) {
-        alert('Please fill in all fields.');
+    // Get values needed for logic for student id LIKE -G
+    var studentId = document.getElementById('student_id').value;
+
+    // Determine which numeric value to send based on Student ID
+    var numericPartToSend = '';
+
+    if (studentId.toUpperCase().includes('-G')) {
+        // If ID has '-G', ignore #numericPart input and use Type dropdown (1 or 2)
+        numericPartToSend = studTypeValue;
+    } else {
+        // If ID does NOT have '-G', use the original numericPart value from select box
+        numericPartToSend = inputNumericPart;
+    }
+
+    if (!programCode || !numericPartToSend || !schlyear || !semester || !campus) {
+         Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please fill in all fields.',
+            showClass: {
+                popup: 'my-custom-show-animation'
+            },
+            hideClass: {
+                popup: ''
+            }
+        });
         return;
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', fetchFeeDataRoute + '?programCode=' + encodeURIComponent(programCode) + '&numericPart=' + encodeURIComponent(numericPart) + '&schlyear=' + encodeURIComponent(schlyear) + '&semester=' + encodeURIComponent(semester) + '&campus=' + encodeURIComponent(campus), true);
+    xhr.open('GET', fetchFeeDataRoute + '?programCode=' + encodeURIComponent(programCode) + '&numericPart=' + encodeURIComponent(numericPartToSend) + '&schlyear=' + encodeURIComponent(schlyear) + '&semester=' + encodeURIComponent(semester) + '&campus=' + encodeURIComponent(campus), true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
