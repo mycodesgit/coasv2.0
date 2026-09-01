@@ -170,7 +170,7 @@
     <main id="content" class="py-5">
         <div class="container-fluid">
             <div class="row">
-                <div class="" style="z-index: 9999">
+                <div class="" style="background-color: #04401f !important; z-index: 9999">
                     <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" style="width:70px;" class="center-top">
                 </div>
             </div>
