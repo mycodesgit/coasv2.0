@@ -120,21 +120,27 @@ class EnStudAddController extends Controller
             ]);
 
             $campus = Auth::guard('web')->user()->campus;
+            // 1. Generate base admission ID
             $studentId = $this->generateAdmissionId($campus);
 
-            $lname = $request->input('lname');
-            $fname = $request->input('fname');
-            $mname = $request->input('mname');
+            // 2. Append '-G' if this is a Graduate student registration
+            if (strtolower($type) === 'graduate' || strtolower($type) === 'grad') {
+                if (!str_ends_with($studentId, '-G')) {
+                    $studentId .= '-G';
+                }
+            }
 
-            $existingStud = Student::where('campus', $campus)
-                            ->where('lname', $lname)
-                            ->where('fname', $fname)
-                            ->where('mname', $mname)
-                            ->where('stud_id', 'LIKE', '%-G')
-                            ->first();
+            // 3. Check if a record with the same name AND same suffix/ID type already exists
+            $existingGradStud = Student::where('campus', $campus)
+                ->where('lname', $lname)
+                ->where('fname', $fname)
+                ->where('mname', $mname)
+                ->where('stud_id', 'LIKE', '%-G')
+                ->first();
 
-            if ($existingStud) {
-                return response()->json(['error' => true, 'message' => 'Student already exists'], 404);
+            // Prevent duplicate Graduate School entries for the same person
+            if ($existingGradStud && (strtolower($type) === 'graduate' || strtolower($type) === 'grad')) {
+                return response()->json(['error' => true, 'message' => 'Graduate record for this student already exists.'], 422);
             }
 
             try {
