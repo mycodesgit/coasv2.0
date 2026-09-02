@@ -73,15 +73,15 @@ CISS V.1.0 || Enrollment
                                                         </div>
                                                         <div class="col-md-2 g-3">
                                                             <label>Firstname: <span class="text-danger">*</span></label>
-                                                            <input type="text" name="fname" class="form-control form-control-sm" id="viewdatastudFname">
+                                                            <input type="text" name="fname" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" id="viewdatastudFname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
                                                             <label>Middlename: </label>
-                                                            <input type="text" name="mname" class="form-control form-control-sm" id="viewdatastudMname">
+                                                            <input type="text" name="mname" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" id="viewdatastudMname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
                                                             <label>Lastname: <span class="text-danger">*</span></label>
-                                                            <input type="text" name="lname" class="form-control form-control-sm" id="viewdatastudLname">
+                                                            <input type="text" name="lname" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" id="viewdatastudLname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
                                                             <label>Ext. name:</label>
@@ -249,15 +249,15 @@ CISS V.1.0 || Enrollment
                                                         </div>
                                                         <div class="col-md-2 g-3">
                                                             <label>Firstname</label>
-                                                            <input type="text" name="fname" class="form-control form-control-sm" id="viewdatastudFname">
+                                                            <input type="text" name="fname" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" id="viewdatastudFname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
                                                             <label>Middlename</label>
-                                                            <input type="text" name="mname" class="form-control form-control-sm" id="viewdatastudMname">
+                                                            <input type="text" name="mname" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" id="viewdatastudMname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
                                                             <label>Lastname</label>
-                                                            <input type="text" name="lname" class="form-control form-control-sm" id="viewdatastudLname">
+                                                            <input type="text" name="lname" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm" id="viewdatastudLname">
                                                         </div>
                                                         <div class="col-md-2 g-3">
                                                             <label>Ext. name</label>
