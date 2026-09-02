@@ -32,8 +32,8 @@
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
             document.documentElement.setAttribute('data-bs-theme', theme);
         })();
     </script>

@@ -5,19 +5,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateIcon(theme) {
         if (themeIcon) {
-            // Sun shows when Dark mode is active (click to switch to light)
+            // Updated so Sun shows when Dark mode is active (click to switch to light)
             themeIcon.className = theme === 'dark' ? 'ti ti-sun text-warning' : 'ti ti-moon';
         }
     }
 
-    // 1. Get saved theme or default to 'light' on first load
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    // Sync icon with current attribute on load
+    const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
+    updateIcon(currentTheme);
 
-    // 2. Apply theme to <html> tag and update icon on load
-    htmlElement.setAttribute('data-bs-theme', savedTheme);
-    updateIcon(savedTheme);
-
-    // 3. Toggle logic on click
+    // Toggle logic on click
     if (themeBtn) {
         themeBtn.addEventListener('click', function () {
             const activeTheme = htmlElement.getAttribute('data-bs-theme');
