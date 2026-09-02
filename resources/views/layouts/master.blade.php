@@ -268,7 +268,7 @@
     <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <script src="{{ asset('js/basic/madapak.js') }}"></script>
-    <script src="{{ asset('js/basic/themejs.js') }}"></script>
+    <script src="{{ asset('js/basic/themejs.js') }}?v={{ time() }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
     <!-- ChartJs -->
