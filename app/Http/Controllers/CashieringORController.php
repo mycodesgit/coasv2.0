@@ -288,7 +288,11 @@ class CashieringORController extends Controller
                     ->where('studpayment.orno', $orno)
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
-                    ->select('studpayment.*', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.lname')
+                    ->select(
+                        'studpayment.*',
+                        \DB::raw("(SELECT fname FROM coasv2_db_enrollment.students WHERE stud_id = studpayment.studID LIMIT 1) as fname"),
+                        \DB::raw("(SELECT lname FROM coasv2_db_enrollment.students WHERE stud_id = studpayment.studID LIMIT 1) as lname")
+                    )
                     ->get();
 
         $data = [
@@ -312,7 +316,11 @@ class CashieringORController extends Controller
                     ->where('studpayment.orno', $orno)
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
-                    ->select('studpayment.*', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.lname')
+                    ->select(
+                        'studpayment.*',
+                        \DB::raw("(SELECT fname FROM coasv2_db_enrollment.students WHERE stud_id = studpayment.studID LIMIT 1) as fname"),
+                        \DB::raw("(SELECT lname FROM coasv2_db_enrollment.students WHERE stud_id = studpayment.studID LIMIT 1) as lname")
+                    )
                     ->get();
 
         $data = [
