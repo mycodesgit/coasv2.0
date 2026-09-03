@@ -289,6 +289,7 @@ class CashieringORController extends Controller
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
                     ->select('studpayment.*', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.lname')
+                    ->groupBy('studpayment.id')
                     ->get();
 
         $data = [
@@ -313,6 +314,7 @@ class CashieringORController extends Controller
                     ->where('studpayment.schlyear',  $schlyear)
                     ->where('studpayment.semester',  $semester)
                     ->select('studpayment.*', 'coasv2_db_enrollment.students.fname', 'coasv2_db_enrollment.students.lname')
+                    ->groupBy('studpayment.id')
                     ->get();
 
         $data = [
