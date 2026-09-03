@@ -24,4 +24,9 @@ class StudPayment extends Model
         'postedBy',
         'remember_token', 
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(\App\Models\EnrollmentDB\Student::class, 'studID', 'stud_id');
+    }
 }
