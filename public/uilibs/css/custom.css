@@ -302,3 +302,63 @@
 .shadcn-calendar-day.muted {
     color: #d4d4d8;
 }
+
+/* Container for the toggle switch */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 27px;
+}
+
+/* Hide original checkbox */
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Background track */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e4e6eb;
+    transition: background-color 0.3s ease;
+    border-radius: 30px;
+}
+
+/* Sliding knob content container */
+.slider-content {
+    position: absolute;
+    height: 20px;
+    width: 48px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #333;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Slide knob to the right when checked (Dark Mode) */
+input:checked + .slider .slider-content {
+    transform: translateX(24px);
+    background-color: #32363b;
+    color: #fff;
+}
+
+/* Dark background for track when active */
+input:checked + .slider {
+    background-color: #212529;
+}

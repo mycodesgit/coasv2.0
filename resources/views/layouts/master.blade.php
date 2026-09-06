@@ -44,9 +44,15 @@
         <div>
             <ul class="list-unstyled d-flex align-items-center mb-0 gap-1 d-none d-md-flex">
                 <li>
-                    <button id="themeToggleBtn" class="btn btn-light btn-sm rounded-circle" title="Toggle theme">
-                        <i id="themeIcon" class="ti ti-sun"></i>
-                    </button>
+                    <label class="theme-switch" for="themeToggle">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider">
+                            <span class="slider-content">
+                                <i id="themeIcon" class="ti ti-moon"></i>
+                                <span id="themeLabel">Dark</span>
+                            </span>
+                        </span>
+                    </label>
                 </li>
                 <li class="ms-3 dropdown">
                     <a href="#" role="button" class="text-light" data-bs-toggle="dropdown" aria-expanded="false">

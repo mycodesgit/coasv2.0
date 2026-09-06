@@ -1,31 +1,42 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const themeBtn = document.getElementById('themeToggleBtn');
+    const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
     const htmlElement = document.documentElement;
 
-    function updateIcon(theme) {
-        if (themeIcon) {
-            // Sun shows when Dark mode is active (click to switch to light)
-            themeIcon.className = theme === 'dark' ? 'ti ti-sun text-warning' : 'ti ti-moon';
+    function updateThemeUI(theme) {
+        const isDark = theme === 'dark';
+
+        // 1. Sync checkbox position
+        if (themeToggle) {
+            themeToggle.checked = isDark;
+        }
+
+        // 2. Update icon and label text based on current mode
+        if (isDark) {
+            if (themeIcon) themeIcon.className = 'ti ti-moon text-warning';
+            if (themeLabel) themeLabel.textContent = 'Dark';
+        } else {
+            if (themeIcon) themeIcon.className = 'ti ti-sun';
+            if (themeLabel) themeLabel.textContent = 'Light';
         }
     }
 
-    // 1. Read current attribute set by inline script, or compute same fallback
+    // Read saved or preference-based theme
     const currentTheme = htmlElement.getAttribute('data-bs-theme') || 
         (localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
-    // 2. Sync icon state without resetting data-bs-theme
-    updateIcon(currentTheme);
+    // Set initial UI state
+    updateThemeUI(currentTheme);
 
-    // 3. Toggle logic on click
-    if (themeBtn) {
-        themeBtn.addEventListener('click', function () {
-            const activeTheme = htmlElement.getAttribute('data-bs-theme');
-            const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+    // Toggle theme on change
+    if (themeToggle) {
+        themeToggle.addEventListener('change', function () {
+            const newTheme = this.checked ? 'dark' : 'light';
 
             htmlElement.setAttribute('data-bs-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateIcon(newTheme);
+            updateThemeUI(newTheme);
         });
     }
 });

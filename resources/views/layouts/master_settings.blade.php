@@ -11,8 +11,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
 
-    <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}?v={{ time() }}">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
@@ -31,7 +31,14 @@
     <!-- fullCalendar -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
-    
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        })();
+    </script>
     <style>
         .sticky-column {
           position: sticky;
@@ -82,6 +89,17 @@
                 <button id="mobileBtn" class="btn btn-outline-light btn-icon btn-sm d-lg-none me-2">
                     <i class="fas fa-bars"></i>
                 </button>
+                <li>
+                    <label class="theme-switch" for="themeToggle">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider">
+                            <span class="slider-content">
+                                <i id="themeIcon" class="ti ti-moon"></i>
+                                <span id="themeLabel">Dark</span>
+                            </span>
+                        </span>
+                    </label>
+                </li>
                 <!-- Dropdown -->
                 <li class="ms-3 dropdown d-none d-md-block">
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
@@ -131,14 +149,7 @@
 
     <!-- SIDEBAR -->
     <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden" style="height: 95vh">
-        <div class="logo-area border-0">
-            <div class="d-inline-flex">
-                <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" alt="logo" width="24">
-                <span class="logo-text ms-2" style="font-weight: bold">CISS</span>
-            </div>
-        </div>
         @include('partials.control_set_sidebar')
-
     </aside>
 
     <!-- MAINmainCONTENT -->
@@ -195,12 +206,13 @@
     <!-- Validation JS -->
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/yearscript.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/basic/schoolyear.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/themejs.js') }}?v={{ time() }}"></script>
 
     <script src="{{ asset('js/validation/settings/usersValidation.js') }}"></script>
 

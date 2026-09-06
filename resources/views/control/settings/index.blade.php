@@ -11,7 +11,7 @@ CISS V.1.0 || Settings
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-4" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,149 +24,120 @@ CISS V.1.0 || Settings
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">System Dashboard Overview</h1>
+                        <p class="text-muted small mb-0">System metrics, configuration, and daily activity logs.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     @if(Auth::guard('web')->user()->role == '0')
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">{{ $userCounts }}</h3>
-                                            <span>Total Users</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-users fs-1 text-info"></i>
-                                        </div>
-                                    </div>
+                        {{-- Total Users --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Total Users</span>
+                                    <i class="ti ti-users text-info fs-5"></i>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">{{ $userActiveCounts }}</h3>
-                                            <span>Total Active Users</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-users fs-1 text-success"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="h2 fw-bold mb-1">{{ number_format($userCounts ?? 0) }}</div>
+                                <small class="text-muted"><span class="text-info fw-semibold"><i class="ti ti-users"></i> System</span> total registered users</small>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">{{ $userUnActiveCounts }}</h3>
-                                            <span>Total Unactive Users</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-users fs-1 text-danger"></i>
-                                        </div>
-                                    </div>
+                        {{-- Total Active Users --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Total Active Users</span>
+                                    <i class="ti ti-users text-success fs-5"></i>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">{{ $userAddedTodayCounts }}</h3>
-                                            <span>Added User's Today</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-user-plus fs-1 text-success"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="h2 fw-bold mb-1">{{ number_format($userActiveCounts ?? 0) }}</div>
+                                <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-check"></i> Active</span> currently active accounts</small>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">{{ $admissionStatus->statusadmission }}</h3>
-                                            <span>Admission Status</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-calendar-user fs-1 text-success"></i>
-                                        </div>
-                                    </div>
+                        {{-- Total Unactive Users --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Total Unactive Users</span>
+                                    <i class="ti ti-users text-danger fs-5"></i>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">{{ $enrolledStatus->statusenroll }}</h3>
-                                            <span>Enrollment Status</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-device-laptop fs-1 text-success"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">{{ $queueStatus->statusqueue }}</h3>
-                                            <span>Queueing Status</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-line fs-1 text-success"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="h2 fw-bold mb-1">{{ number_format($userUnActiveCounts ?? 0) }}</div>
+                                <small class="text-muted"><span class="text-danger fw-semibold"><i class="ti ti-x"></i> Inactive</span> disabled or idle accounts</small>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">{{ $faculevalStatus->statuseval }}</h3>
-                                            <span>Faculty Eval. Status</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-file-analytics fs-1 text-success"></i>
-                                        </div>
-                                    </div>
+                        {{-- Added Users Today --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Added User's Today</span>
+                                    <i class="ti ti-user-plus text-success fs-5"></i>
                                 </div>
+                                <div class="h2 fw-bold mb-1">{{ number_format($userAddedTodayCounts ?? 0) }}</div>
+                                <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-arrow-up-right"></i> Today</span> new registrations</small>
                             </div>
                         </div>
-                        
-                        <div class="col-lg-3 col-12">
-                            <div class="card card-animate">
-                                <div class="card-body p-6">
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <div>
-                                            <h3 class="fw-bold h1">Off</h3>
-                                            <span>Server Maintenance Status</span>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-server fs-1 text-success"></i>
-                                        </div>
-                                    </div>
+
+                        {{-- Admission Status --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Admission Status</span>
+                                    <i class="ti ti-calendar-user text-success fs-5"></i>
                                 </div>
+                                <div class="h2 fw-bold mb-1">{{ $admissionStatus->statusadmission ?? 'N/A' }}</div>
+                                <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-info-circle"></i> Status</span> current admission mode</small>
+                            </div>
+                        </div>
+
+                        {{-- Enrollment Status --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Enrollment Status</span>
+                                    <i class="ti ti-device-laptop text-success fs-5"></i>
+                                </div>
+                                <div class="h2 fw-bold mb-1">{{ $enrolledStatus->statusenroll ?? 'N/A' }}</div>
+                                <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-info-circle"></i> Status</span> current enrollment mode</small>
+                            </div>
+                        </div>
+
+                        {{-- Queueing Status --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Queueing Status</span>
+                                    <i class="ti ti-line text-success fs-5"></i>
+                                </div>
+                                <div class="h2 fw-bold mb-1">{{ $queueStatus->statusqueue ?? 'N/A' }}</div>
+                                <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-info-circle"></i> Status</span> queue system operational state</small>
+                            </div>
+                        </div>
+
+                        {{-- Faculty Eval. Status --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Faculty Eval. Status</span>
+                                    <i class="ti ti-file-analytics text-success fs-5"></i>
+                                </div>
+                                <div class="h2 fw-bold mb-1">{{ $faculevalStatus->statuseval ?? 'N/A' }}</div>
+                                <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-info-circle"></i> Status</span> faculty evaluation system state</small>
+                            </div>
+                        </div>
+
+                        {{-- Server Maintenance Status --}}
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-animate p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small fw-medium">Server Maintenance Status</span>
+                                    <i class="ti ti-server text-success fs-5"></i>
+                                </div>
+                                <div class="h2 fw-bold mb-1">Off</div>
+                                <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-check"></i> Normal</span> server status operating</small>
                             </div>
                         </div>
                     @endif

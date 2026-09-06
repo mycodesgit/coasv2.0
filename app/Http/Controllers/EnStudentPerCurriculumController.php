@@ -93,13 +93,24 @@ class EnStudentPerCurriculumController extends Controller
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');   
         // $campus = Auth::guard('web')->user()->campus;
-        if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
-            $campus = $request->query('campus');
-        } else {
-            $campus = Auth::guard('web')->user()->campus;
+        $user = Auth::guard('web')->user();
+
+        // Prevent error if user is unauthenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        $campusArray = array_map('trim', explode(',', $campus));
+        // Check permissions with strict comparison and normalized string check
+        $isAdminOrArlos = ((int) $user->role === 0) || (strcasecmp(trim($user->lname), 'Arlos') === 0);
+
+        if ($isAdminOrArlos) {
+            $campus = $request->query('campus', $user->campus);
+        } else {
+            $campus = $user->campus;
+        }
+
+        // Ensure campus array is non-empty
+        $campusArray = array_filter(array_map('trim', explode(',', $campus ?? '')));
 
         $data = StudEnrolmentHistory::leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
                 ->join('students', 'program_en_history.studentID', '=', 'students.stud_id')
@@ -212,13 +223,24 @@ class EnStudentPerCurriculumController extends Controller
         $studSec = $request->input('studSec');
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
-        if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
-            $campus = $request->query('campus');
-        } else {
-            $campus = Auth::guard('web')->user()->campus;
+        $user = Auth::guard('web')->user();
+
+        // Prevent error if user is unauthenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        $campusArray = array_map('trim', explode(',', $campus));
+        // Check permissions with strict comparison and normalized string check
+        $isAdminOrArlos = ((int) $user->role === 0) || (strcasecmp(trim($user->lname), 'Arlos') === 0);
+
+        if ($isAdminOrArlos) {
+            $campus = $request->query('campus', $user->campus);
+        } else {
+            $campus = $user->campus;
+        }
+
+        // Ensure campus array is non-empty
+        $campusArray = array_filter(array_map('trim', explode(',', $campus ?? '')));
 
         $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
@@ -255,13 +277,24 @@ class EnStudentPerCurriculumController extends Controller
         $studSec = $request->input('studSec');
         $schlyear = $request->input('schlyear');
         $semester = $request->input('semester');
-        if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
-            $campus = $request->query('campus');
-        } else {
-            $campus = Auth::guard('web')->user()->campus;
+        $user = Auth::guard('web')->user();
+
+        // Prevent error if user is unauthenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        $campusArray = array_map('trim', explode(',', $campus));
+        // Check permissions with strict comparison and normalized string check
+        $isAdminOrArlos = ((int) $user->role === 0) || (strcasecmp(trim($user->lname), 'Arlos') === 0);
+
+        if ($isAdminOrArlos) {
+            $campus = $request->query('campus', $user->campus);
+        } else {
+            $campus = $user->campus;
+        }
+
+        // Ensure campus array is non-empty
+        $campusArray = array_filter(array_map('trim', explode(',', $campus ?? '')));
 
         $enrolledstud = StudEnrolmentHistory::join('students', 'program_en_history.studentID', '=', 'students.stud_id')
             ->join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')

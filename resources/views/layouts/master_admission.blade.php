@@ -87,9 +87,15 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <li>
-                    <button id="themeToggleBtn" class="btn btn-light btn-sm rounded-circle" title="Toggle theme">
-                        <i id="themeIcon" class="ti ti-sun"></i>
-                    </button>
+                    <label class="theme-switch" for="themeToggle">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider">
+                            <span class="slider-content">
+                                <i id="themeIcon" class="ti ti-moon"></i>
+                                <span id="themeLabel">Dark</span>
+                            </span>
+                        </span>
+                    </label>
                 </li>
                 <!-- Dropdown -->
                 <li class="ms-3 dropdown d-none d-md-block">
