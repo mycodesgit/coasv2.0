@@ -122,7 +122,7 @@
     <table class="layout-table" style="margin-bottom: 5px;">
         <tr>
             <td style="vertical-align: top; padding-top: 5px;">
-                <img src="{{ asset('template/img/studcourseheader.png') }}" alt="" width="90%">
+                <img src="{{ public_path('template/img/studcourseheader.png') }}" alt="" width="90%">
             </td>
             <td style="width: 130px; text-align: right;">
                 <div class="photo-box">
