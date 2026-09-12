@@ -319,8 +319,8 @@
 
     <!-- University Psychometrician Signature -->
     <div class="sig-container">
-        <div class="admin-sig-name">JIREC A. BACONGCO, RPm, MAEd.</div>
-        <div class="admin-sig-title">University Psychometrician</div>
+        <div class="admin-sig-name">SUNE S. QUINTAB, JD, CHRA.</div>
+        <div class="admin-sig-title">OIC Director SAFE CENTER</div>
     </div>
 
 </body>
