@@ -200,6 +200,27 @@ class AdPrntController extends Controller
         }
     }
 
+    public function viewAdslip($id)
+    {
+        $applicant = Applicant::findOrFail($id);
+
+        return view('admission.reports.partials.viewadslip', compact('applicant'));
+    }
+    
+    public function applicantadslipPDF_reports(Request $request, $id)
+    {
+        try {
+            $applicant = Applicant::findOrFail($id);
+
+            $pdf = PDF::loadView('admission.reports.pdf.admissionslipPDF', compact('applicant'))
+                    ->setPaper('Legal', 'portrait');
+
+            return $pdf->stream('admission_slip_' . $applicant->id . '.pdf');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal Server Error: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function applicantperschool_printing()
     {
         $curryear = Year::orderBy('adyear', 'DESC')->get();

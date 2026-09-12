@@ -165,8 +165,26 @@ CISS V.1.0 || Admission
         </div>
     </div>
 
+    <div class="modal fade" id="viewAppAdmssionSlipModal" tabindex="-1" role="dialog" aria-labelledby="viewAppAdmssionSlipModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="viewAppAdmssionSlipModalLabel">View Details</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalContent">
+                    <div class="text-center">Loading...</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var allApplicantRoute = "{{ route('getapplicantreportsRead') }}";
+        var applicantViewAdSlipRoute = "{{ route('viewAdslip', '') }}";
     </script>
 
 @endsection

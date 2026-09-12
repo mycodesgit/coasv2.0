@@ -82,4 +82,22 @@
             dom: 'Bfrtip'
         }).buttons().container().appendTo('#appsreplistTable_wrapper .col-md-6:eq(0)');
     });
+
+    $(document).on('click', '.btn-formsview', function () {
+        var id = $(this).data('id');
+
+        $('#viewAppAdmssionSlipModal').modal('show');
+        $('#modalContent').html('<div class="text-center">Loading...</div>');
+
+        $.ajax({
+            url: applicantViewAdSlipRoute + '/' + id,
+            type: 'GET',
+            success: function (response) {
+                $('#modalContent').html(response);
+            },
+            error: function () {
+                $('#modalContent').html('<div class="alert alert-danger">Failed to load data.</div>');
+            }
+        });
+    });
 </script>
