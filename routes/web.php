@@ -487,6 +487,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/applicantsReports/PDF', [AdPrntController::class, 'applicantPDF_reports'])->name('applicantPDF_reports');
             Route::get('/applicantsReports/modal/{id}', [AdPrntController::class, 'viewAdslip'])->name('viewAdslip');
             Route::get('/applicantsReports/admissionSlip/PDF/{id}', [AdPrntController::class, 'applicantadslipPDF_reports'])->name('applicantadslipPDF_reports');
+            Route::get('/applicants/reports/bulk-download-pdf', [AdPrntController::class, 'bulkDownloadAdSlipPDF'])->name('applicants.reports.bulkDownloadPdf');
             
             Route::get('/applicant/per/school', [AdPrntController::class, 'applicantperschool_printing'])->name('applicantperschool_printing');
             Route::get('/applicant/per/school/search/result', [AdPrntController::class, 'applicantperschool_reports'])->name('applicantperschool_reports');

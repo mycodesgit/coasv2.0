@@ -5,6 +5,12 @@
         var campus = urlParams.get('campus') || ''; 
         var strand = urlParams.get('strand') || ''; 
 
+        // Build route URL with current URL query parameters
+        var bulkDownloadUrl = "{{ route('applicants.reports.bulkDownloadPdf') }}" + 
+            "?year=" + encodeURIComponent(year) + 
+            "&campus=" + encodeURIComponent(campus) + 
+            "&strand=" + encodeURIComponent(strand);
+
         var dataTable = $('#appsreplistTable').DataTable({
             "ajax": {
                 "url": allApplicantRoute,
@@ -20,7 +26,14 @@
             searching: true,
             paging: true,
             buttons: [
-                'excel'
+                'excel',
+                {
+                    text: '<i class="fas fa-file-archive mr-1"></i> Download All PDFs (ZIP)',
+                    className: 'btn btn-primary',
+                    action: function (e, dt, node, config) {
+                        window.location.href = bulkDownloadUrl;
+                    }
+                }
             ],
             "columns": [
                 { 

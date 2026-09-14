@@ -8,10 +8,13 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 use Carbon\Carbon;
 use Storage;
 use PDF;
+
+use ZipArchive;
 
 use App\Models\AdmissionDB\Applicant;
 use App\Models\AdmissionDB\ApplicantDocs;
@@ -214,11 +217,78 @@ class AdPrntController extends Controller
 
             $pdf = PDF::loadView('admission.reports.pdf.admissionslipPDF', compact('applicant'))
                     ->setPaper('Legal', 'portrait');
+            
+            // Clean name components to ensure valid filenames
+            $lastName = preg_replace('/[^A-Za-z0-9_\- ]/', '', $applicant->lname);
+            $firstName = preg_replace('/[^A-Za-z0-9_\- ]/', '', $applicant->fname);
+
+            // Format: LASTNAME, FIRSTNAME.pdf
+            $fileName = strtoupper($lastName . ', ' . $firstName) . '.pdf';
 
             return $pdf->stream('admission_slip_' . $applicant->id . '.pdf');
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal Server Error: ' . $e->getMessage()], 500);
         }
+    }
+
+    public function bulkDownloadAdSlipPDF(Request $request) 
+    {
+        $selectedYear = $request->query('year');
+        $selectedCampus = $request->query('campus');
+        $selectedStrand = $request->query('strand');
+
+        // Fetch the filtered dataset matching your main table logic
+        $applicants = Applicant::where('p_status', '!=', 7)
+            ->when($selectedYear, function ($q) use ($selectedYear) {
+                return $q->where('year', $selectedYear);
+            })
+            ->when($selectedCampus, function ($q) use ($selectedCampus) {
+                return $q->where('campus', $selectedCampus);
+            })
+            ->when($selectedStrand, function ($q) use ($selectedStrand) {
+                return $q->where('strand', $selectedStrand);
+            })
+            ->get();
+
+        if ($applicants->isEmpty()) {
+            return back()->with('error', 'No applicants found for the selected filters.');
+        }
+
+        $zip = new ZipArchive();
+        $zipFileName = 'Applicant_Admission_Slips_' . time() . '.zip';
+        $zipPath = storage_path('app/public/' . $zipFileName);
+
+        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            $usedFileNames = [];
+
+            foreach ($applicants as $applicant) {
+                // Render PDF in memory
+                $pdf = PDF::loadView('admission.reports.pdf.admissionslipPDF', compact('applicant'))
+                    ->setPaper('Legal', 'portrait');
+
+                // Format name: LASTNAME, FIRSTNAME.pdf
+                $lastName = preg_replace('/[^A-Za-z0-9_\- ]/', '', $applicant->lname);
+                $firstName = preg_replace('/[^A-Za-z0-9_\- ]/', '', $applicant->fname);
+                $baseFileName = strtoupper(trim($lastName . ', ' . $firstName));
+
+                // Prevent overwriting duplicate applicant names inside the ZIP file
+                $fileName = $baseFileName . '.pdf';
+                $counter = 1;
+                while (in_array($fileName, $usedFileNames)) {
+                    $fileName = $baseFileName . " ({$counter}).pdf";
+                    $counter++;
+                }
+                $usedFileNames[] = $fileName;
+
+                // Add generated PDF directly into the ZIP archive
+                $zip->addFromString($fileName, $pdf->output());
+            }
+
+            $zip->close();
+        }
+
+        // Download and delete the temp zip file after sending
+        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 
     public function applicantperschool_printing()
