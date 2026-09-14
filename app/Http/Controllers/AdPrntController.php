@@ -241,10 +241,8 @@ class AdPrntController extends Controller
         $selectedCampus = $request->query('campus');
         $selectedStrand = $request->query('strand');
         
-        // Pagination parameters for chunking
         $offset = (int) $request->query('offset', 0);
-        $limit  = (int) $request->query('limit', 100); // Default 100 per batch
-
+        $limit  = (int) $request->query('limit', 100); 
         // Query with explicit ordering to avoid duplicates across chunks
         $applicants = Applicant::where('p_status', '!=', 7)
             ->when($selectedYear, function ($q) use ($selectedYear) {
