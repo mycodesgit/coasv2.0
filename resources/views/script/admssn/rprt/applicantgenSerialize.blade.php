@@ -28,10 +28,38 @@
             buttons: [
                 'excel',
                 {
-                    text: '<i class="fas fa-file-archive mr-1"></i> Download All PDFs (ZIP)',
+                    text: '<i class="fas fa-file-archive mr-1"></i> Bulk PDF Download',
                     className: 'btn btn-primary',
                     action: function (e, dt, node, config) {
-                        window.location.href = bulkDownloadUrl;
+                        // Get total filtered records dynamically from DataTables
+                        var totalRecords = dt.rows({ search: 'applied' }).count();
+                        var chunkSize = 100;
+                        var container = $('#batchButtonsContainer').empty();
+
+                        if (totalRecords === 0) {
+                            alert('No records found to download.');
+                            return;
+                        }
+
+                        // Generate batch range buttons
+                        for (var offset = 0; offset < totalRecords; offset += chunkSize) {
+                            var start = offset + 1;
+                            var end = Math.min(offset + chunkSize, totalRecords);
+                            
+                            var downloadUrl = "{{ route('applicants.reports.bulkDownloadPdf') }}" +
+                                "?year=" + encodeURIComponent(year) +
+                                "&campus=" + encodeURIComponent(campus) +
+                                "&strand=" + encodeURIComponent(strand) +
+                                "&offset=" + offset +
+                                "&limit=" + chunkSize;
+
+                            var btnHtml = '<a href="' + downloadUrl + '" class="btn btn-outline-primary m-1">' +
+                                'Records ' + start + ' - ' + end + '</a>';
+                            
+                            container.append(btnHtml);
+                        }
+
+                        $('#batchDownloadModal').modal('show');
                     }
                 }
             ],

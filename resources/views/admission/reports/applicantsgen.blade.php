@@ -182,6 +182,22 @@ CISS V.1.0 || Admission
         </div>
     </div>
 
+    <!-- Batch Selector Modal -->
+    <div class="modal fade" id="batchDownloadModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Download Batch</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>To prevent timeouts, select a batch of records to download (100 applicants per ZIP):</p>
+                    <div id="batchButtonsContainer" class="d-flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var allApplicantRoute = "{{ route('getapplicantreportsRead') }}";
         var applicantViewAdSlipRoute = "{{ route('viewAdslip', '') }}";

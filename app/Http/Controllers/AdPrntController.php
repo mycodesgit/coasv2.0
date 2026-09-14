@@ -233,11 +233,19 @@ class AdPrntController extends Controller
 
     public function bulkDownloadAdSlipPDF(Request $request) 
     {
-        $selectedYear = $request->query('year');
+        // Set higher limits for batch processing
+        ini_set('memory_limit', '512M');
+        set_time_limit(300); // 5 minutes max
+
+        $selectedYear   = $request->query('year');
         $selectedCampus = $request->query('campus');
         $selectedStrand = $request->query('strand');
+        
+        // Pagination parameters for chunking
+        $offset = (int) $request->query('offset', 0);
+        $limit  = (int) $request->query('limit', 100); // Default 100 per batch
 
-        // Fetch the filtered dataset matching your main table logic
+        // Query with explicit ordering to avoid duplicates across chunks
         $applicants = Applicant::where('p_status', '!=', 7)
             ->when($selectedYear, function ($q) use ($selectedYear) {
                 return $q->where('year', $selectedYear);
@@ -248,46 +256,50 @@ class AdPrntController extends Controller
             ->when($selectedStrand, function ($q) use ($selectedStrand) {
                 return $q->where('strand', $selectedStrand);
             })
+            ->orderBy('id', 'asc') // CRITICAL: Ensures consistent pagination without missing/duplicating records
+            ->offset($offset)
+            ->limit($limit)
             ->get();
 
         if ($applicants->isEmpty()) {
-            return back()->with('error', 'No applicants found for the selected filters.');
+            return back()->with('error', 'No records found for this chunk batch.');
         }
 
         $zip = new ZipArchive();
-        $zipFileName = 'Applicant_Admission_Slips_' . time() . '.zip';
+        $chunkStart = $offset + 1;
+        $chunkEnd   = $offset + $applicants->count();
+        $zipFileName = "Applicant_Slips_{$chunkStart}_to_{$chunkEnd}.zip";
         $zipPath = storage_path('app/public/' . $zipFileName);
 
         if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
             $usedFileNames = [];
 
             foreach ($applicants as $applicant) {
-                // Render PDF in memory
                 $pdf = PDF::loadView('admission.reports.pdf.admissionslipPDF', compact('applicant'))
                     ->setPaper('Legal', 'portrait');
 
-                // Format name: LASTNAME, FIRSTNAME.pdf
-                $lastName = preg_replace('/[^A-Za-z0-9_\- ]/', '', $applicant->lname);
+                $lastName  = preg_replace('/[^A-Za-z0-9_\- ]/', '', $applicant->lname);
                 $firstName = preg_replace('/[^A-Za-z0-9_\- ]/', '', $applicant->fname);
                 $baseFileName = strtoupper(trim($lastName . ', ' . $firstName));
 
-                // Prevent overwriting duplicate applicant names inside the ZIP file
+                // Prevent filename collisions within the same ZIP file
                 $fileName = $baseFileName . '.pdf';
                 $counter = 1;
                 while (in_array($fileName, $usedFileNames)) {
-                    $fileName = $baseFileName . " ({$counter}).pdf";
+                    $fileName = $baseFileName . " ({$counter}) [ID-{$applicant->id}].pdf";
                     $counter++;
                 }
                 $usedFileNames[] = $fileName;
 
-                // Add generated PDF directly into the ZIP archive
                 $zip->addFromString($fileName, $pdf->output());
+                
+                // Clear memory per loop iteration
+                unset($pdf);
             }
 
             $zip->close();
         }
 
-        // Download and delete the temp zip file after sending
         return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 
