@@ -25,4 +25,9 @@ class Yearbooks extends Model
     {
         return $this->hasMany(YearbookShipment::class);
     }
+
+    public function issuances()
+{
+    return $this->hasMany(YearbookIssuance::class, 'yearbook_id', 'id');
+}
 }

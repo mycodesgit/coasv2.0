@@ -25,71 +25,54 @@ CISS V.1.0 || YearBook
                     </div>
                 </div>
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
                     <div>
                         <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Yearbook Dashboard Overview</h1>
                         <p class="text-muted small mb-0">Yearbook Inventory, student payment, releasing and daily activity logs.</p>
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
-                    <div class="col-lg-3 col-12">
-                        <div class="card card-animate">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudcountfirst }}</h3>
-                                        <span>1st Stud Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
-                                    </div>
-                                </div>
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card card-animate p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted small fw-medium">1st Year</span>
+                                <i class="ti ti-users text-muted fs-5"></i>
                             </div>
+                            <div class="h2 fw-bold mb-1">{{ number_format($enrlstudcountfirst ?? 0) }}</div>
+                            <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-arrow-up-right"></i> Active</span> 1st Stud Enrolled this Sem</small>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-12">
-                        <div class="card card-animate">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudcountsecond }}</h3>
-                                        <span>2nd Stud Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
-                                    </div>
-                                </div>
+
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card card-animate p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted small fw-medium">2nd Year</span>
+                                <i class="ti ti-users text-muted fs-5"></i>
                             </div>
+                            <div class="h2 fw-bold mb-1">{{ number_format($enrlstudcountsecond ?? 0) }}</div>
+                            <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-arrow-up-right"></i> Active</span> 2nd Stud Enrolled this Sem</small>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-12">
-                        <div class="card card-animate">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudcountthird }}</h3>
-                                        <span>3rd Stud Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
-                                    </div>
-                                </div>
+
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card card-animate p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted small fw-medium">3rd Year</span>
+                                <i class="ti ti-users text-muted fs-5"></i>
                             </div>
+                            <div class="h2 fw-bold mb-1">{{ number_format($enrlstudcountthird ?? 0) }}</div>
+                            <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-arrow-up-right"></i> Active</span> 3rd Stud Enrolled this Sem</small>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-12">
-                        <div class="card card-animate">
-                            <div class="card-body p-6">
-                                <div class="d-flex justify-content-between pb-2">
-                                    <div>
-                                        <h3 class="fw-bold h1">{{ $enrlstudcountfourth }}</h3>
-                                        <span>4th Stud Enrolled this Sem</span>
-                                    </div>
-                                    <div>
-                                        <i class="ti ti-users fs-1 text-success"></i>
-                                    </div>
-                                </div>
+
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card card-animate p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted small fw-medium">4th Year</span>
+                                <i class="ti ti-users text-muted fs-5"></i>
                             </div>
+                            <div class="h2 fw-bold mb-1">{{ number_format($enrlstudcountfourth ?? 0) }}</div>
+                            <small class="text-muted"><span class="text-success fw-semibold"><i class="ti ti-arrow-up-right"></i> Active</span> 1st Stud Enrolled this Sem</small>
                         </div>
                     </div>
                 </div>

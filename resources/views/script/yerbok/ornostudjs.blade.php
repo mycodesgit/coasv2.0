@@ -81,7 +81,7 @@
                         return '<button type="button" class="btn btn-sm btn-success btn-release-yearbook" ' +
                             'data-studid="' + data.studID + '" ' +
                             'data-name="' + fullName + '">' +
-                            '<i class="fas fa-book me-1"></i> Release' +
+                            '<i class="ti ti-hand-grab"></i> Release' +
                             '</button>';
                     }
                 }

@@ -35,7 +35,7 @@ CISS V.1.0 || YearBook Shipments
                 <div class="row g-3 mb-3">
                     <!-- Add Shipment Form -->
                     <div class="col-md-4">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
                                     <i class="ti ti-truck-delivery"></i> New Supplier Shipment
@@ -79,7 +79,7 @@ CISS V.1.0 || YearBook Shipments
                                     </div>
 
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-outline-success w-100">
+                                        <button type="submit" class="btn btn-outline-success">
                                             <i class="fas fa-paper-plane"></i> Log Dispatch
                                         </button>
                                     </div>
@@ -90,7 +90,7 @@ CISS V.1.0 || YearBook Shipments
 
                     <!-- Shipments DataTable -->
                     <div class="col-md-8">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
                                     <i class="ti ti-list"></i> Shipment Logs
@@ -98,7 +98,7 @@ CISS V.1.0 || YearBook Shipments
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive mt-3 p-2">
-                                    <table id="shipmentListTable" class="table table-hover table-striped">
+                                    <table id="shipmentListTable" class="table table-hover table-striped" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>Batch</th>

@@ -35,60 +35,67 @@ use App\Models\YearBookDB\YearbookIssuance;
 class YearbookController extends Controller
 {
     public function index()
-    {
-        $userCampus = Auth::guard('web')->user()->campus;
+{
+    $userCampus = Auth::guard('web')->user()->campus;
 
-        // Fetch the active configuration with set_status = 2
-        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
-        if (!$activeConfig) {
-            return back()->with('error', 'No active school year found.');
-        }
-        $activeConfigId = $activeConfig->id;
-
-        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
-            ->orderBy('id', 'desc') // Get the most recent one
-            ->first();
-
-        $schlyearactiveYear = $activeConfig->schlyear;
-        $schlyearactive = $activeConfig->schlyear;
-        $semesteractive = $activeConfig->semester;
-        $prevsemesteractive = $previousConfig->semester;
-
-        $enrlstudcountfirst = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '1')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
-
-
-        $enrlstudcountsecond = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '2')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
-
-        $enrlstudcountthird = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '3')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
-
-        $enrlstudcountfourth = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '4')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
-
-        return view('yearbook.index', compact('enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
+    $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+    if (!$activeConfig) {
+        return back()->with('error', 'No active school year found.');
     }
+
+    $schlyearactive = $activeConfig->schlyear;
+    $semesteractive = $activeConfig->semester;
+
+    // OPTIMIZATION 1: Group student enrollment counts into 1 DB query instead of 4
+    $enrolmentCounts = StudEnrolmentHistory::where('studentID', 'NOT LIKE', '%-G%')
+        ->where('schlyear', $schlyearactive)
+        ->where('semester', $semesteractive)
+        ->where('campus', $userCampus)
+        ->whereIn('status', [2, 3])
+        ->select('studYear', DB::raw('count(*) as total'))
+        ->groupBy('studYear')
+        ->pluck('total', 'studYear');
+
+    $enrlstudcountfirst  = $enrolmentCounts->get(1, 0);
+    $enrlstudcountsecond = $enrolmentCounts->get(2, 0);
+    $enrlstudcountthird  = $enrolmentCounts->get(3, 0);
+    $enrlstudcountfourth = $enrolmentCounts->get(4, 0);
+
+    // OPTIMIZATION 2: Releasing Stats (Paid vs Released)
+    $totalPaidStudents = StudPayment::where('schlyear', $schlyearactive)
+        ->where('semester', $semesteractive)
+        ->where('campus', $userCampus)
+        ->where('account', 'YEARBOOK FEE')
+        ->count();
+
+    $totalReleased = YearbookIssuance::count(); // Adjust conditions/joins if linked to active SY
+    $totalPending  = max(0, $totalPaidStudents - $totalReleased);
+
+    // OPTIMIZATION 3: Last 7 Days Daily Releasing Trend for Chart
+    $dailyReleases = YearbookIssuance::select(
+            DB::raw('DATE(issued_at) as date'),
+            DB::raw('count(*) as count')
+        )
+        ->where('issued_at', '>=', Carbon::now()->subDays(7))
+        ->groupBy('date')
+        ->orderBy('date', 'ASC')
+        ->get();
+
+    $chartDates  = $dailyReleases->pluck('date')->map(fn($d) => Carbon::parse($d)->format('M d'));
+    $chartCounts = $dailyReleases->pluck('count');
+
+    return view('yearbook.index', compact(
+        'enrlstudcountfirst',
+        'enrlstudcountsecond',
+        'enrlstudcountthird',
+        'enrlstudcountfourth',
+        'totalPaidStudents',
+        'totalReleased',
+        'totalPending',
+        'chartDates',
+        'chartCounts'
+    ));
+}
 
     public function showStudent(Request $request)
     {

@@ -23,12 +23,6 @@
         </a>
     </li>
 
-    <li>
-        <a class="nav-link {{ $studreleaseyearbookActive }}" href="{{ route('showRelease') }}">
-            <i class="ti ti-book"></i><span class="nav-text">Releasing</span>
-        </a>
-    </li>
-
     <li class="px-4 py-2"><small class="nav-text text-muted">Inventory</small></li>
     <li>
         <a class="nav-link {{ $yearbookActive }}" href="{{ route('yerbokshipment.index') }}">
@@ -38,6 +32,11 @@
     <li>
         <a class="nav-link {{ $shipmentActive }}" href="{{ route('shipment.index') }}">
             <i class="ti ti-truck"></i><span class="nav-text">Shipments</span>
+        </a>
+    </li>
+    <li>
+        <a class="nav-link {{ $studreleaseyearbookActive }}" href="{{ route('showRelease') }}">
+            <i class="ti ti-hand-grab"></i><span class="nav-text">Releasing</span>
         </a>
     </li>
 </ul>

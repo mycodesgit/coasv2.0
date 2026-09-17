@@ -24,7 +24,7 @@ class YearbookInventoryController extends Controller
 
     public function show()
     {
-        $data = Yearbooks::all();
+        $data = Yearbooks::withCount('issuances')->get();
 
         return response()->json(['data' => $data]);
     }

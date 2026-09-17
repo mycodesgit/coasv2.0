@@ -49,6 +49,13 @@
                 {data: 'edition_title'},
                 {data: 'total_ordered'},
                 {data: 'total_received'},
+                { 
+                    // NEW COLUMN: Total Released Count
+                    data: 'issuances_count',
+                    render: function(data) {
+                        return '<span class="badge bg-success-subtle text-success">' + (data || 0) + ' Released</span>';
+                    }
+                },
                 {data: 'unit_cost'},
                 {
                     data: 'id',

@@ -20,7 +20,7 @@ CISS V.1.0 || YearBook
                                 </a>
                             </li>
                             <li class="breadcrumb-item mt-1">Yearbook</li>
-                            <li class="breadcrumb-item active mt-1">Inventory</li>
+                            <li class="breadcrumb-item active mt-1">Management</li>
                         </ol>
                     </div>
                 </div>
@@ -33,7 +33,7 @@ CISS V.1.0 || YearBook
                 </div>
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
                                     <i class="ti ti-plus"></i> Add New
@@ -102,7 +102,7 @@ CISS V.1.0 || YearBook
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="card">
+                        <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
                                     <i class="ti ti-list"></i> List
@@ -110,13 +110,14 @@ CISS V.1.0 || YearBook
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive mt-3 p-2">
-                                    <table id="yearbooklistTable" class="table table-hover table-striped">
+                                    <table id="yearbooklistTable" class="table table-hover table-striped" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>A.Y.</th>
                                                 <th>Edition Title</th>
                                                 <th>Total Ordered</th>
                                                 <th>Total Received</th>
+                                                <th>Total Released</th>
                                                 <th>Cost</th>
                                                 <th>Action</th>
                                             </tr>
