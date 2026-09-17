@@ -96,6 +96,8 @@ CISS V.1.0 || YearBook
                                                         <th>Name</th>
                                                         <th>Semester</th>
                                                         <th>Schlyear</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -112,7 +114,52 @@ CISS V.1.0 || YearBook
         </div>
     </div>
 
+    <!-- Release Yearbook Modal -->
+    <div class="modal fade" id="releaseYearbookModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title"><i class="fas fa-hand-holding"></i> Release Yearbook</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="releaseYearbookForm">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="student_id" id="modalStudID">
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Student ID / Name:</label>
+                            <input type="text" id="modalStudentName" class="form-control form-control-sm" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Select Yearbook Edition: <span class="text-danger">*</span></label>
+                            <select name="yearbook_id" id="modalYearbookSelect" class="form-control form-control-sm" required>
+                                <option value="" disabled selected>-- Select Edition --</option>
+                                @foreach($availableYearbooks as $yb)
+                                    <option value="{{ $yb->id }}">
+                                        {{ $yb->edition_title }} (SY {{ $yb->school_year }}) - Stock Left: {{ $yb->total_received }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Remarks / Notes:</label>
+                            <textarea name="remarks" class="form-control form-control-sm" rows="2" placeholder="Optional notes..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Confirm Release</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         var ornostudReadRoute = "{{ route('getstudorreleaseRead') }}";
+        var issueYearbookRoute = "{{ route('issueYearbookToStudent') }}";
     </script>
 @endsection

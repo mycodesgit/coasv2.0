@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('subSec')->nullable();
             $table->string('schlyear')->nullable();
             $table->string('semester')->nullable();
+            $table->string('campus')->nullable();
             $table->string('lecFee')->nullable();
             $table->string('labFee')->nullable();
             $table->string('devFee')->nullable();
@@ -26,7 +27,7 @@ return new class extends Migration
             $table->string('postedBy')->nullable();
             $table->string('datePosted')->nullable();
             $table->string('lecUnit')->nullable();
-            $table->string('lecUnit')->nullable();
+            $table->string('labUnit')->nullable();
             $table->string('maxstud')->nullable();
             $table->string('isOJT')->nullable();
             $table->string('isTemp')->nullable();

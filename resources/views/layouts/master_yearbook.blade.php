@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
-    
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
     <!-- Toastr -->
@@ -72,17 +72,17 @@
                         <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
-                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
-                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} -
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan
                                 @endif
                             @endif
                         @endauth
@@ -93,16 +93,16 @@
                         <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
-                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan
                                 @endif
                             @endif
                         @endauth
@@ -115,14 +115,7 @@
 
     <!-- SIDEBAR -->
     <aside id="sidebar" class="sidebar overflow-y-auto overflow-x-hidden">
-        <div class="logo-area border-0">
-            <div class="d-inline-flex">
-                <img src="{{ asset('uilibs/images/cpsulogov4.webp') }}" alt="logo" width="24">
-                <span class="logo-text ms-2" style="font-weight: bold">Faculty Portal</span>
-            </div>
-        </div>
         @include('partials.control_yearbook_sidebar')
-
     </aside>
 
     <!-- MAINmainCONTENT -->
@@ -196,6 +189,12 @@
     @endif
     @if(request()->routeIs('showReleaseResult'))
         @include('script.yerbok.ornostudjs')
+    @endif
+    @if(request()->routeIs('yerbokshipment.index'))
+        @include('script.yerbok.yearbookjs')
+    @endif
+    @if(request()->routeIs('shipment.index'))
+        @include('script.yerbok.yearbookshipmentjs')
     @endif
 </body>
 

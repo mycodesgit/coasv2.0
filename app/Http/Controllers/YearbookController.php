@@ -28,6 +28,10 @@ use App\Models\SettingDB\Province;
 use App\Models\SettingDB\City;
 use App\Models\SettingDB\Barangay;
 
+use App\Models\YearBookDB\Yearbooks;
+use App\Models\YearBookDB\YearbookShipment;
+use App\Models\YearBookDB\YearbookIssuance;
+
 class YearbookController extends Controller
 {
     public function index()
@@ -40,7 +44,7 @@ class YearbookController extends Controller
             return back()->with('error', 'No active school year found.');
         }
         $activeConfigId = $activeConfig->id;
-        
+
         $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
             ->orderBy('id', 'desc') // Get the most recent one
             ->first();
@@ -110,10 +114,10 @@ class YearbookController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
-            
+
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
-        $campus = $request->query('campus'); 
+        $campus = $request->query('campus');
 
         return view('yearbook.studs.liststudsearch', compact('sy'));
     }
@@ -130,7 +134,7 @@ class YearbookController extends Controller
             ->get();
         return view('yearbook.books.release', compact('sy'));
     }
-    
+
     public function showReleaseResult(Request $request)
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
@@ -141,31 +145,82 @@ class YearbookController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
+        
+        $availableYearbooks = Yearbooks::where('total_received', '>', 0)->get();
 
-        return view('yearbook.books.releasesearch', compact('sy'));
+        return view('yearbook.books.releasesearch', compact('sy', 'availableYearbooks'));
     }
 
-    public function getstudorreleaseRead(Request $request) 
+    public function getstudorreleaseRead(Request $request)
     {
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus = $request->query('campus');
-    
+
+        $yearbookDb = config('database.connections.yearbook.database');
+
         $data = StudPayment::leftJoin('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
+                ->leftJoin("{$yearbookDb}.yearbook_issuances", 'studpayment.studID', '=', "{$yearbookDb}.yearbook_issuances.student_id")
                 ->where('studpayment.schlyear', '=', $schlyear)
                 ->where('studpayment.semester', '=', $semester)
                 ->where('studpayment.campus', '=', $campus)
                 ->where('studpayment.account', '=', 'YEARBOOK FEE')
                 ->select(
-                    'coasv2_db_enrollment.students.lname', 
-                    'coasv2_db_enrollment.students.fname', 
-                    'coasv2_db_enrollment.students.mname', 
+                    'coasv2_db_enrollment.students.lname',
+                    'coasv2_db_enrollment.students.fname',
+                    'coasv2_db_enrollment.students.mname',
                     'coasv2_db_enrollment.students.ext',
-                    'studpayment.*'
+                    'studpayment.*',
+                    "{$yearbookDb}.yearbook_issuances.issued_at",
+                    "{$yearbookDb}.yearbook_issuances.issued_by"
                 )
                 ->orderBy('studpayment.orno', 'ASC')
                 ->get();
 
         return response()->json(['data' => $data]);
+    }
+
+    public function issueYearbookToStudent(Request $request)
+    {
+        $request->validate([
+            'yearbook_id' => 'required',
+            'student_id' => 'required',
+        ]);
+
+        try {
+            DB::transaction(function () use ($request) {
+                $yearbook = Yearbooks::findOrFail($request->input('yearbook_id'));
+
+                // Check stock availability
+                if ($yearbook->total_received <= 0) {
+                    throw new \Exception('Selected yearbook batch has no stock available.');
+                }
+
+                // Check duplicate release
+                $alreadyClaimed = YearbookIssuance::where('yearbook_id', $yearbook->id)
+                    ->where('student_id', $request->input('student_id'))
+                    ->exists();
+
+                if ($alreadyClaimed) {
+                    throw new \Exception('This student has already claimed a copy from this yearbook batch.');
+                }
+
+                // Record release log
+                YearbookIssuance::create([
+                    'yearbook_id' => $yearbook->id,
+                    'student_id'  => $request->input('student_id'),
+                    'issued_at'   => Carbon::now(),
+                    'issued_by'   => auth()->id() ?? 'Office Admin',
+                    'remarks'     => $request->input('remarks'),
+                ]);
+
+                // Deduct inventory stock
+                $yearbook->decrement('total_received', 1);
+            });
+
+            return response()->json(['success' => true, 'message' => 'Yearbook successfully released to student!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+        }
     }
 }

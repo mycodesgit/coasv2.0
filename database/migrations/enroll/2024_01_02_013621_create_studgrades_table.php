@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('subjComp')->nullable();
             $table->string('creditEarned')->nullable();
             $table->enum('status', array(1, 2))->nullable();
-            $table->string('postedBy')->nullable();
             $table->string('schlyear')->nullable();
             $table->string('semester')->nullable();
             $table->string('postedBy')->nullable();

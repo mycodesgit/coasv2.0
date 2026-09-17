@@ -80,6 +80,8 @@ use App\Http\Controllers\CashieringORController;
 use App\Http\Controllers\ScholarshipController;
 
 use App\Http\Controllers\YearbookController;
+use App\Http\Controllers\YearbookInventoryController;
+use App\Http\Controllers\YearbookShipmentController;
 
 use App\Http\Controllers\KioskAdminController;
 
@@ -166,8 +168,8 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
         Route::get('/queue-stream/current', [QueueingMonitorController::class, 'getCurrentQueue'])->name('queue.stream.current');
         Route::get('/queue-stream/call', [QueueingMonitorController::class, 'getCurrentCallQueue'])->name('queue.stream.call');
 
-        // Route::post('/queue/call', [QueueingMonitorController::class, 'callCustomer'])->name('callCustomer'); 
-        // Route::post('/queue/next', [QueueingMonitorController::class, 'serveNext'])->name('serveNext'); 
+        // Route::post('/queue/call', [QueueingMonitorController::class, 'callCustomer'])->name('callCustomer');
+        // Route::post('/queue/next', [QueueingMonitorController::class, 'serveNext'])->name('serveNext');
     });
 
 
@@ -223,7 +225,7 @@ Route::group(['middleware'=>['stud_auth', 'CheckMaintenanceMode']],function(){
         Route::get('/section/student/services/stud/assessment/view', [StudentFeeAssessAccntController::class, 'index'])->name('index.assessmentstudentfees');
 
         Route::get('/section/student/profile/stud/account/view', [StudentProfileAccountController::class, 'index'])->name('index.studprofile');
-        
+
         Route::get('/section/pre/enrollment/sem/view', [StudentController::class, 'preenrolment'])->name('pre.index');
         Route::get('/section/pre/enrollment/sem/fetch/list/status', [StudentController::class, 'preenrolmentfetch'])->name('preenrolmentfetch');
         Route::get('/section/pre/enrollment/sem/view/search/result', [StudentController::class, 'preenrolment_searchResult'])->name('pre.show');
@@ -248,7 +250,7 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
     });
 
     Route::prefix('estudgrdmod/grades/faculty')->group(function () {
-        
+
         Route::get('/', [GradingFacultyController::class, 'index'])->name('grading-index');
         Route::post('/faculty/applist/encrypt', [ForAllEncryptIDController::class, 'idFacCrypt'])->name('idFacCrypt');
 
@@ -278,13 +280,13 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
                 Route::post('/list/view/studgrde/submit/{subjID}', [GradingFacultyController::class, 'updateStatus_gradessubmit'])->name('updateStatus_gradessubmit');
                 Route::get('/list/view/studgrde/gradesheetPDF/{subjID}', [GradingFacultyController::class, 'PDFgradesheetnew'])->name('PDFgradesheetnew');
             });
-            
+
             Route::prefix('evalresult')->group(function () {
                 Route::get('/list', [GradingFacultyServicesController::class, 'supfaceval'])->name('supfaceval');
                 Route::get('/list/rate/faculty', [GradingFacultyServicesController::class, 'supfacevalrate'])->name('supfacevalrate');
                 Route::post('/list/rate/dean/rate/fac/submit', [GradingFacultyServicesController::class,'deanfacevalrateformCreate'])->name('deanfacevalrateformCreate');
             });
-            
+
             Route::prefix('preenrolmnt')->group(function () {
                 Route::get('/list/search', [GradingFacultyServicePreenrolController::class, 'index'])->name('prelist.index');
                 Route::get('/list/search/subject/stud/fetch/list', [GradingFacultyServicePreenrolController::class, 'fetchprestudenrol'])->name('fetchprestudenrol');
@@ -316,7 +318,7 @@ Route::group(['middleware'=>['fac_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/fac/rating/save', [GradingFacultyAdmissionConfirmController::class, 'savefacapplicantmod_rating'])->name('savefacapplicantmod_rating');
             Route::post('/fac/saveapplicant', [GradingFacultyAdmissionConfirmController::class, 'examineefacpushAcceptajax'])->name('examineefacpushAcceptajax');
         });
-        
+
         Route::prefix('app/accepted')->group(function () {
             Route::get('/list/search', [GradingFacultyAdmissionAcceptedController::class, 'index'])->name('accepted.index');
             Route::get('/list/search/view', [GradingFacultyAdmissionAcceptedController::class, 'store'])->name('accepted.store');
@@ -333,9 +335,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     });
 
     Route::prefix('emp/admission')->group(function () {
-        
-        Route::get('/', [AdAdmissionController::class, 'index'])->name('admission-index'); 
-    
+
+        Route::get('/', [AdAdmissionController::class, 'index'])->name('admission-index');
+
         Route::prefix('applicant')->group(function () {
             Route::post('/applist/encrypt', [ForAllEncryptIDController::class, 'idcrypt'])->name('idcrypt');
 
@@ -354,13 +356,13 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/list/search/edit/srch/{id}', [AdAdmissionController::class, 'applicant_edit_srch'])->name('applicant_edit_srch');
             Route::get('/list/search/edit/{id}', [AdAdmissionController::class, 'applicant_edit'])->name('applicant_edit');
-            
+
             Route::put('/list/search/update/{id}', [AdAdmissionController::class, 'applicant_update'])->name('applicant_update');
             Route::get('/{id}/schedule', [AdAdmissionController::class, 'applicant_schedule'])->name('applicant_schedule');
-            
+
             Route::get('/{id}/confirm', [AdAdmissionController::class, 'applicant_confirm'])->name('applicant_confirm');
-            
-            Route::get('/slots', [AdAdmissionController::class, 'slots'])->name('slots'); 
+
+            Route::get('/slots', [AdAdmissionController::class, 'slots'])->name('slots');
             Route::get('/slots/search', [AdAdmissionController::class, 'slots_search'])->name('slots_search');
             Route::get('/slots/searchajax', [AdAdmissionController::class, 'slots_ajax'])->name('slots.ajax');
 
@@ -371,7 +373,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::post('/capture/{id}/save', [AdCaptureImageController::class, 'applicant_save_image'])->name('applicant_save_image');
             Route::post('/schedule/{id}/save', [AdAdmissionController::class, 'applicant_schedule_save'])->name('applicant_schedule_save');
-            
+
         });
 
         Route::prefix('examinee')->group(function () {
@@ -392,14 +394,14 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/{id}/assignresult', [AdExamineeController::class, 'assignresult'])->name('assignresult');
             Route::put('/result/{id}/save', [AdExamineeController::class, 'examinee_result_save'])->name('examinee_result_save');
             Route::put('/result/{id}/save', [AdExamineeController::class, 'examinee_result_save_nd'])->name('examinee_result_save_nd');
-            
+
             Route::get('/{id}/confirm', [AdExamineeController::class, 'examinee_confirm'])->name('examinee_confirm');
-            
+
             Route::get('/portal/provinces/{region_id}', [PortalController::class, 'getPortalProvinces'])->name('getPortalProvinces');
             Route::get('/portal/cities/{province_id}', [PortalController::class, 'getPortalCities'])->name('getPortalCities');
             Route::get('/portal/barangays/{city_id}', [PortalController::class, 'getPortalBarangays'])->name('getPortalBarangays');
-            
-            
+
+
             Route::get('/list/printPreEnrolment/srch/{id}', [AdPrntController::class, 'pre_enrolment_print_srch'])->name('pre_enrolment_print_srch');
             Route::get('/list/printPreEnrolment/{id}', [AdPrntController::class, 'pre_enrolment_print'])->name('pre_enrolment_print');
             Route::get('/result/list/srchexamineeResultList/view/{id}', [AdPrntController::class, 'genPreEnrolment'])->name('genPreEnrolment');
@@ -409,7 +411,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/confirmPreEnrolment', [AdExamineeController::class, 'examinee_confirmPreEnrolmentajax'])->name('examinee_confirmPreEnrolmentajax');
         });
 
-        Route::prefix('confirm')->group(function () {    
+        Route::prefix('confirm')->group(function () {
             Route::get('/list', [AdConfirmController::class, 'examinee_confirm'])->name('examinee-confirm');
             Route::get('/list/srchconfirmList', [AdConfirmController::class, 'srchconfirmList'])->name('srchconfirmList');
             Route::get('/list/srchconfirmList/ajax', [AdConfirmController::class, 'getsrchconfirmList'])->name('getsrchconfirmList');
@@ -438,7 +440,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/pushapplicantenrollment', [AdAcceptedController::class, 'save_enroll_applicant'])->name('save_enroll_applicant');
         });
 
-        Route::prefix('configure')->group(function () {    
+        Route::prefix('configure')->group(function () {
             Route::get('/', [AdAdmissionController::class, 'configure_admission'])->name('configure_admission');
             Route::post('add', [AdAdmissionController::class, 'add_Program'])->name('add_Program');
             Route::get('/ajax', [AdAdmissionController::class, 'configure_admissionajax'])->name('configure_admissionajax');
@@ -480,7 +482,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/transfer/applicantstud/fetch', [AdChangeCampusController::class, 'getadstudTransferRead'])->name('getadstudTransferRead');
         });
 
-        Route::prefix('reports')->group(function () {    
+        Route::prefix('reports')->group(function () {
             Route::get('/applicant', [AdPrntController::class, 'applicant_printing'])->name('applicant_printing');
             Route::get('/applicantReports', [AdPrntController::class, 'applicant_reports'])->name('applicant_reports');
             Route::get('/applicantReports/ajax', [AdPrntController::class, 'getapplicantreportsRead'])->name('getapplicantreportsRead');
@@ -488,7 +490,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/applicantsReports/modal/{id}', [AdPrntController::class, 'viewAdslip'])->name('viewAdslip');
             Route::get('/applicantsReports/admissionSlip/PDF/{id}', [AdPrntController::class, 'applicantadslipPDF_reports'])->name('applicantadslipPDF_reports');
             Route::get('/applicants/reports/bulk-download-pdf', [AdPrntController::class, 'bulkDownloadAdSlipPDF'])->name('applicants.reports.bulkDownloadPdf');
-            
+
             Route::get('/applicant/per/school', [AdPrntController::class, 'applicantperschool_printing'])->name('applicantperschool_printing');
             Route::get('/applicant/per/school/search/result', [AdPrntController::class, 'applicantperschool_reports'])->name('applicantperschool_reports');
             Route::get('/applicant/per/school/search/result/ajaxget', [AdPrntController::class, 'getapplicantperschool_reports'])->name('getapplicantperschool_reports');
@@ -507,7 +509,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/examinationReports', [AdPrntController::class, 'examination_reports'])->name('examination_reports');
             Route::get('/examinationReports/ajax', [AdPrntController::class, 'getexaminationreportsRead'])->name('getexaminationreportsRead');
             Route::get('/examinationReports/PDF', [AdPrntController::class, 'examinationPDF_reports'])->name('examinationPDF_reports');
-            
+
             Route::get('/qualified', [AdPrntController::class, 'qualified_printing'])->name('qualified_printing');
             Route::get('/qualifiedReports', [AdPrntController::class, 'qualified_reports'])->name('qualified_reports');
             Route::get('/qualifiedReports/ajax', [AdPrntController::class, 'getqualifiedreportsRead'])->name('getqualifiedreportsRead');
@@ -527,7 +529,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     });
 
     Route::prefix('enmod/enrollment')->group(function () {
-        
+
         Route::get('/', [EnrollmentController::class, 'index'])->name('enrollment-index');
         Route::get('/regpdf', [EnrollmentController::class, 'regularStudentsPDF'])->name('regular.students.pdf');
         Route::get('/irregpdf', [EnrollmentController::class, 'irregularStudentsPDF'])->name('irregular.students.pdf');
@@ -632,7 +634,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/ajaxsubcode', [EnSubjectsController::class, 'getNextSubjectNumber'])->name('getNextSubjectNumber');
             Route::post('/list/add', [EnSubjectsController::class, 'subjectsCreate'])->name('subjectsCreate');
         });
-        
+
         Route::prefix('graduatesstudent')->group(function () {
             Route::get('/view', [EnGraduatesController::class, 'index'])->name('gradstud.index');
             Route::get('/view/list', [EnGraduatesController::class, 'store'])->name('gradstud.store');
@@ -743,7 +745,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     });
 
     Route::prefix('schedmod/scheduler')->group(function () {
-        
+
         Route::get('/', [SchedClassCollegeController::class, 'index'])->name('scheduler-index');
         Route::get('/fetch/recent', [SchedClassCollegeController::class, 'recentschedfetch'])->name('recentschedfetch');
 
@@ -800,7 +802,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::post('/flist/search/add', [SchedFacultyListController::class, 'facultyCreate'])->name('facultyCreate');
             Route::post('/flist/search/update', [SchedFacultyListController::class, 'facultyUpdate'])->name('facultyUpdate');
             Route::get('/flist/search/delete{id}', [SchedFacultyListController::class, 'facultyDelete'])->name('facultyDelete');
-            
+
             Route::get('/get-departments/{college}', [SchedFacultyListController::class, 'getDepartments'])->name('getDepartments');
             Route::get('/faculty-search', [SchedFacultyListController::class, 'search'])->name('faculty.search');
             Route::post('/faculty/{faculty}/update-campus', [SchedFacultyListController::class, 'ajaxUpdateCampus'])->name('faculty.updateCampus');
@@ -866,7 +868,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     });
 
     Route::prefix('assessmod/assessment')->group(function () {
-        
+
         Route::get('/', [StudFundAssessmentController::class, 'index'])->name('assessment-index');
         Route::get('/ajaxsds', [StudFundAssessmentController::class, 'encodedAppRead'])->name('encodedAppRead');
 
@@ -909,7 +911,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/search/list/temp/ajax', [StudFeeTemplateController::class, 'getstudFeetemplateRead'])->name('getstudFeetemplateRead');
             Route::post('/search/list/temp/ajax/add', [StudFeeTemplateController::class, 'studFeeTemplateCreate'])->name('studFeeTemplateCreate');
         });
-        
+
         Route::prefix('studappraisal/assess')->group(function () {
             Route::get('/search', [StudFeeAssessEnrolController::class, 'index'])->name('studcheckappraisal.index');
             Route::get('/search/fetch', [StudFeeAssessEnrolController::class, 'show'])->name('studcheckappraisal.show');
@@ -943,7 +945,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     });
 
     Route::prefix('cash/collection')->group(function () {
-        
+
         Route::get('/', [CashieringORController::class, 'index'])->name('cashiering-index');
 
         Route::prefix('official')->group(function () {
@@ -972,10 +974,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/receipt/all/or/list/ajaxorstudfee', [CashieringORController::class, 'getlistallorRead'])->name('getlistallorRead');
         });
-    }); 
+    });
 
     Route::prefix('studschmod/scholarship')->group(function () {
-        
+
         Route::get('/', [ScholarshipController::class, 'index'])->name('scholarship-index');
 
         Route::prefix('studScholar')->group(function () {
@@ -1032,15 +1034,28 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/search/current/sem', [YearbookController::class, 'showStudent'])->name('showStudent');
             Route::get('/search/current/sem/showresult', [YearbookController::class, 'showStudentResult'])->name('showStudentResult');
         });
-        
+
         Route::prefix('release/list')->group(function () {
             Route::get('/search/current/sem', [YearbookController::class, 'showRelease'])->name('showRelease');
             Route::get('/search/current/sem/showresult', [YearbookController::class, 'showReleaseResult'])->name('showReleaseResult');
             Route::get('/search/current/sem/showresult/fetch', [YearbookController::class, 'getstudorreleaseRead'])->name('getstudorreleaseRead');
+            Route::post('/search/current/sem/showresult/add', [YearbookController::class, 'issueYearbookToStudent'])->name('issueYearbookToStudent');
+        });
+
+        Route::prefix('inventory/list')->group(function () {
+            Route::get('/search/current/sem', [YearbookInventoryController::class, 'index'])->name('yerbokshipment.index');
+            Route::get('/search/current/sem/fetch', [YearbookInventoryController::class, 'show'])->name('yerbokshipment.show');
+            Route::post('/search/current/sem/add', [YearbookInventoryController::class, 'create'])->name('yerbokshipment.create');
+            Route::post('/search/current/sem/update',[YearbookInventoryController::class,'update'])->name('yerbokshipment.update');
+
+            Route::get('/shipments/list', [YearbookShipmentController::class, 'index'])->name('shipment.index');
+            Route::get('/shipments/show', [YearbookShipmentController::class, 'show'])->name('shipment.show');
+            Route::post('/shipments/create', [YearbookShipmentController::class, 'create'])->name('shipment.create');
+            Route::post('/shipments/receive', [YearbookShipmentController::class, 'receive'])->name('shipment.receive');
         });
     });
     // Route::prefix('estudgrdmod/grades/faculty')->group(function () {
-        
+
     //     Route::get('/', [GradingFacultyController::class, 'index'])->name('grading-index');
 
     //     Route::prefix('stud/attendance')->group(function () {
@@ -1089,7 +1104,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     });
 
     Route::prefix('conf/queue/settings')->group(function () {
-        
+
         Route::get('/', [QueueingSettingController::class, 'index'])->name('queue-index');
         Route::get('/getcounterajax', [QueueingSettingController::class, 'getcounterRead'])->name('getcounterRead');
         Route::post('/counter/add', [QueueingSettingController::class, 'counterCreate'])->name('counterCreate');
@@ -1161,13 +1176,13 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
     });
 
     Route::prefix('adempset/settings')->group(function () {
-        
+
         Route::get('/', [SettingController::class, 'index'])->name('settings-index');
 
         Route::prefix('usersAccount')->group(function () {
             Route::get('/list/info', [SettingController::class, 'accountRead'])->name('accountRead');
             Route::post('/list/info/account/change-password', [SettingController::class, 'changePassword'])->name('account.change-password');
-            
+
             Route::get('/list/all/users', [SettingController::class, 'usersRead'])->name('usersRead');
             Route::get('/list/all/users/getajax', [SettingController::class, 'getusersRead'])->name('getusersRead');
             Route::post('/users/list/add',[SettingController::class,'userCreate'])->name('userCreate');

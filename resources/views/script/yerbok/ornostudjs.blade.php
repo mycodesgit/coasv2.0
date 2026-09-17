@@ -63,15 +63,71 @@
                             return '';
                         }
                     }
+                },
+                {
+                    data: 'issued_at',
+                    render: function(data) {
+                        if (data) {
+                            var releaseDate = new Date(data).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+                            return '<span class="badge bg-success"><i class="fas fa-check-circle"></i> Released (' + releaseDate + ')</span>';
+                        }
+                        return '<span class="badge bg-warning text-dark"><i class="fas fa-clock"></i> Pending</span>';
+                    }
+                },
+                {
+                    data: null,
+                    render: function(data) {
+                        var fullName = data.fname + ' ' + data.lname;
+                        return '<button type="button" class="btn btn-sm btn-success btn-release-yearbook" ' +
+                            'data-studid="' + data.studID + '" ' +
+                            'data-name="' + fullName + '">' +
+                            '<i class="fas fa-book me-1"></i> Release' +
+                            '</button>';
+                    }
                 }
             ],
             "createdRow": function (row, data, index) {
                 $(row).attr('id', 'tr-' + data.id); 
             },
             // dom: 'Bfrtip'
-        }).buttons().container().appendTo('#courseEn_wrapper .col-md-6:eq(0)');
-        $(document).on('studenrlld', function() {
+        });
+        $(document).on('studpayed', function() {
             dataTable.ajax.reload();
+        });
+    });
+
+    $(document).on('click', '.btn-release-yearbook', function() {
+        var studID = $(this).data('studid');
+        var studName = $(this).data('name');
+
+        $('#modalStudID').val(studID);
+        $('#modalStudentName').val(studID + ' - ' + studName);
+        $('#releaseYearbookModal').modal('show');
+    });
+
+    $('#releaseYearbookForm').on('submit', function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: issueYearbookRoute,
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if(response.success) {
+                    toastr.success(response.message);
+                    $('#releaseYearbookModal').modal('hide');
+                    $(document).trigger('studpayed');
+                    $('#releaseYearbookForm')[0].reset();
+                    
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function(xhr) {
+                var msg = xhr.responseJSON ? xhr.responseJSON.message : 'Error releasing yearbook.';
+                toastr.error(msg);
+            }
         });
     });
 </script>
