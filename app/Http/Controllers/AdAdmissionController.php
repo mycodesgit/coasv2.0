@@ -136,7 +136,7 @@ class AdAdmissionController extends Controller
                     ->where('ad_applicant_dept_rating.deptcol', $user)
                     ->where('p_status', '=', 5)
                     ->count();
-        
+
         return view('admission.index', compact('applicantCounts', 'currentYear', 'applyapp', 'examineesapp', 'resultapp', 'cnfrmapp', 'acptapp', 'acptapppushen', 'acptappnotpushen'));
     }
 
@@ -158,7 +158,7 @@ class AdAdmissionController extends Controller
         ->with('venue', $venue);
     }
 
-    
+
 
     public function applicantCreate(Request $request)
     {
@@ -191,7 +191,8 @@ class AdAdmissionController extends Controller
             }
 
             $campus = Auth::guard('web')->user()->campus;
-            $year = Carbon::now()->format('Y');
+            // $year = Carbon::now()->format('Y');
+            $year = Year::where('status', 'On')->value('adyear');
 
             $latestApplicant = Applicant::where('campus', $campus)->latest('created_at')->first();
             $latestId = empty($latestApplicant) || date('Y', strtotime($latestApplicant->created_at)) < $year
@@ -292,7 +293,7 @@ class AdAdmissionController extends Controller
         $selectedPreference2 = $applicant->preference_2;
 
         $currentYear = now()->year;
-        
+
         $year = Carbon::now()->format('Y');
         $admissionid = Applicant::orderBy('admission_id', 'desc')->first();
         $program = Programs::orderBy('id', 'asc')->where('campus', '=', Auth::user()->campus)->get();
@@ -301,7 +302,7 @@ class AdAdmissionController extends Controller
         $time = Time::select('time', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('time')->get();
         $venue = Venue::select('venue', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('venue')->get();
         $date1 = AdmissionDate::select('date', DB::raw('count(*) as total'))->where('campus', '=', Auth::user()->campus)->groupBy('date')->whereYear('created_at', $currentYear)->get();
-        
+
         $time1 = Time::select('ad_time.*')
                 ->where('campus', '=', Auth::user()->campus)
                 ->whereYear('created_at', $currentYear)
@@ -368,10 +369,10 @@ class AdAdmissionController extends Controller
         $applicant->bday = $request->input('bday');
         $applicant->age = $request->input('age');
         $applicant->contact = $request->input('contact');
-        $applicant->email = $request->input('email'); 
-        $applicant->civil_status = $request->input('civil_status'); 
-        $applicant->religion = $request->input('religion'); 
-        $applicant->monthly_income = $request->input('monthly_income'); 
+        $applicant->email = $request->input('email');
+        $applicant->civil_status = $request->input('civil_status');
+        $applicant->religion = $request->input('religion');
+        $applicant->monthly_income = $request->input('monthly_income');
         $applicant->lstsch_attended = $request->input('lstsch_attended');
         $applicant->strand = $request->input('strand');
         $applicant->suc_lst_attended = $request->input('suc_lst_attended');
@@ -385,7 +386,7 @@ class AdAdmissionController extends Controller
 
         $docs = ApplicantDocs::where('app_id', $applicant->id)
         ->update([
-            'r_card' => $request->input('r_card'), 
+            'r_card' => $request->input('r_card'),
             'g_moral' => $request->input('g_moral'),
             'b_cert' => $request->input('b_cert'),
             'm_cert' => $request->input('m_cert'),
@@ -403,8 +404,8 @@ class AdAdmissionController extends Controller
     //     if ($applicant->delete()){$docts = ApplicantDocs::where('admission_id','=', $applicant->admission_id)->delete();return back()->with('success', 'The Applicant was successfully deleted.');}else{return back()->with('fail', 'An error was occured while deleting the data.');}
     // }
 
-    
-    
+
+
     public function applicant_confirm($id)
     {
         $applicant = Applicant::findOrFail($id);
@@ -416,15 +417,15 @@ class AdAdmissionController extends Controller
         else
         {
             $applicant->p_status = 2;
-            $dt = Carbon::now();  
+            $dt = Carbon::now();
             $applicant->updated_at = $dt;
             $applicant->update();
-            return Redirect::route('examinee_edit', encrypt($id))->with('success','Applicant data has been updated'); 
+            return Redirect::route('examinee_edit', encrypt($id))->with('success','Applicant data has been updated');
         }
-        
+
     }
 
-    
+
 
     public function applicant_schedule($id)
     {
@@ -442,7 +443,7 @@ class AdAdmissionController extends Controller
     }
 
     public function applicant_schedule_save(Request $request, $id)
-    {   
+    {
         $dateID = $request->input('dateID');
         $d_admission = $request->input('d_admission');
         $time = $request->input('time');
@@ -461,8 +462,8 @@ class AdAdmissionController extends Controller
         return response()->json(['success' => true, 'message' => 'Applicant schedule has been saved'], 200);
     }
 
-    
-    
+
+
     public function slots()
     {
         $curryear = Year::orderBy('adyear', 'DESC')->get();
@@ -620,7 +621,7 @@ class AdAdmissionController extends Controller
                 'program' => 'required',
             ]);
 
-            $codeName = $request->input('code'); 
+            $codeName = $request->input('code');
             $existingCode = Programs::where('code', $codeName)->first();
 
             if ($existingCode) {
@@ -655,7 +656,7 @@ class AdAdmissionController extends Controller
                 'strand' => 'required',
             ]);
 
-            $codeName = $request->input('code'); 
+            $codeName = $request->input('code');
             $existingCode = Strands::where('code', $codeName)->first();
 
             if ($existingCode) {
@@ -686,7 +687,7 @@ class AdAdmissionController extends Controller
                 'date' => 'required',
             ]);
 
-            $dateName = $request->input('date'); 
+            $dateName = $request->input('date');
             $existingDate = AdmissionDate::where('date', $dateName)->where('campus', Auth::guard('web')->user()->campus)->first();
 
             if ($existingDate) {
@@ -710,7 +711,7 @@ class AdAdmissionController extends Controller
     }
 
     public function programUpdate(Request $request)
-    {   
+    {
         $request->validate([
             'code' => 'required',
             'program' => 'required',
@@ -904,7 +905,7 @@ class AdAdmissionController extends Controller
 
             $currentYear = Year::where('status', 'On')->value('adyear');
 
-            $venueName = $request->input('venue'); 
+            $venueName = $request->input('venue');
             $existingVenue = Venue::where('venue', $venueName)->where('adyear', $currentYear)->first();
 
             if ($existingVenue) {
@@ -967,7 +968,7 @@ class AdAdmissionController extends Controller
                 'adyear' => 'required',
             ]);
 
-            $yearName = $request->input('adyear'); 
+            $yearName = $request->input('adyear');
             $existingYear = Year::where('adyear', $yearName)->first();
 
             if ($existingYear) {
