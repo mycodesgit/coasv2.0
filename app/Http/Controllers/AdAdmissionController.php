@@ -266,11 +266,11 @@ class AdAdmissionController extends Controller
                     'campus' => $request->input('campus'),
                     'admission_id' => $admissionid,
                 ]);
-                //return redirect()->route('applicant-add')->with(['success' => true, 'message' => 'Applicant Added Successfully'], 200);
-                return response()->json(['success' => true, 'message' => 'Applicant Added Successfully'], 200);
+                return redirect()->route('applicant-add')->with(['success' => true, 'message' => 'Applicant Added Successfully'], 200);
+                //return response()->json(['success' => true, 'message' => 'Applicant Added Successfully'], 200);
             } catch (\Exception $e) {
-                return response()->json(['error' => true, 'message' => 'Failed to add Applicant'], 404);
-                //return redirect()->route('applicant-add')->with('error', 'Failed to store user!');
+                //return response()->json(['error' => true, 'message' => 'Failed to add Applicant'], 404);
+                return redirect()->route('applicant-add')->with('error', 'Failed to store user!');
             }
         }
     }
