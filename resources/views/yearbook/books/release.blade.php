@@ -41,7 +41,7 @@ CISS V.1.0 || YearBook
                             </div>
                             <div class="card-body">
                                 <form method="GET" action="{{ route('showReleaseResult') }}" id="enrollStud">
-                                    @csrf   
+                                    @csrf
 
                                     <div class="form-group">
                                         <div class="row g-3">
