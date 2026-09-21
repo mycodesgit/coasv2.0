@@ -32,7 +32,38 @@
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
-                    <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-plus"></i> Add Funds
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" action="{{ route('fundCreate') }}" id="adFund">
+                                    @csrf
+
+                                    <div class="form-group">
+                                        <div class="row g-3">
+                                            <div class="col-md-12">
+                                                <label class="form-label fw-semibold">Fund Name: <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="number" name="fund_name"
+                                                    class="form-control form-control-sm"
+                                                    oninput="this.value = this.value.toUpperCase()">
+                                            </div>
+
+                                            <div class="col-md-12 d-flex justify-content-between">
+                                                <button type="reset" class="btn btn-light"><i class="ti ti-restore"></i> Clear</button>
+                                                <button type="submit" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
                         <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
@@ -40,58 +71,17 @@
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row g-3">
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <form method="post" action="{{ route('fundCreate') }}"
-                                                            id="adFund">
-                                                            @csrf
-                                                            <div class="page-header mt-1"
-                                                                style="border-bottom: 1px solid #04401f;">
-                                                                <h5>Add Funds</h5>
-                                                            </div>
+                                <table id="fund" class="table table-hover" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Fund Name</th>
+                                            <th width="10%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label class="form-label fw-semibold">Fund Name: <span
-                                                                                class="text-danger">*</span></label>
-                                                                        <input type="number" name="fund_name"
-                                                                            class="form-control form-control-sm"
-                                                                            oninput="this.value = this.value.toUpperCase()">
-                                                                    </div>
-
-                                                                    <div class="col-md-12">
-                                                                        <label>&nbsp;</label>
-                                                                        <button type="submit"
-                                                                            class="btn btn-success btn-sm btn-block">Save</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-9 mt-3">
-                                                <table id="fund" class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Fund Name</th>
-                                                            <th width="10%">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

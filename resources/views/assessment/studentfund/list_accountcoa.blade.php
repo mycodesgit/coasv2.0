@@ -32,7 +32,40 @@ CISS V.1.0 || Assessment
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
-                    <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-plus"></i> Add COA Account
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" action="{{route('accountCOACreate')}}" id="adCOA">
+                                    @csrf
+
+                                    <div class="form-group">
+                                        <div class="row g-3">
+                                            <div class="col-md-12">
+                                                <label class="form-label fw-semibold">Account Code: <span class="text-danger">*</span></label>
+                                                <input type="number" name="accountcoa_code" class="form-control form-control-sm">
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label class="form-label fw-semibold">Account Name: <span class="text-danger">*</span></label>
+                                                <input type="text" name="accountcoa_name" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                            </div>
+
+                                            <div class="col-md-12 d-flex justify-content-between">
+                                                <button type="reset" class="btn btn-light"><i class="ti ti-restore"></i> Clear</button>
+                                                <button type="submit" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
                         <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
@@ -40,58 +73,18 @@ CISS V.1.0 || Assessment
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row g-3">
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <form method="post" action="{{route('accountCOACreate')}}" id="adCOA">
-                                                            @csrf
-                                                            <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                                                <h5>Add COA Accounts</h5>
-                                                            </div>
+                                <table id="coa" class="table table-hover" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>COA Account Code</th>
+                                            <th>COA Account name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                                            <div class="form-group">
-                                                                <div class="form-row">
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label class="form-label fw-semibold">Account Code: <span class="text-danger">*</span></label>
-                                                                        <input type="number" name="accountcoa_code" class="form-control form-control-sm">
-                                                                    </div>
-
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label class="form-label fw-semibold">Account Name: <span class="text-danger">*</span></label>
-                                                                        <input type="text" name="accountcoa_name" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
-                                                                    </div>
-
-                                                                    <div class="col-md-12">
-                                                                        <label>&nbsp;</label>
-                                                                        <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-9 mt-3">
-                                                <table id="coa" class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>COA Account Code</th>
-                                                            <th>COA Account name</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

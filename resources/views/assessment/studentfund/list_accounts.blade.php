@@ -32,7 +32,55 @@ CISS V.1.0 || Assessment
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
-                    <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-plus"></i> Add COA Account
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" action="{{ route('accountAppraisalCreate') }}" enctype="multipart/form-data" id="adAccntApp">
+                                    @csrf
+
+                                    <div class="form-group">
+                                        <div class="row g-3">
+                                            <div class=col-md-12">
+                                                <label class="form-label fw-semibold">Funds: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm" name="fund_id">
+                                                    <option disabled selected> ---Select--- </option>
+                                                    @foreach($funds as $fund)
+                                                        <option value="{{ $fund->fund_name}}">{{ $fund->fund_name}} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label class="form-label fw-semibold">Account Name: <span class="text-danger">*</span></label>
+                                                <input type="text" name="account_name" class="form-control form-control-sm">
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label class="form-label fw-semibold">COA Account: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm select2bs4" name="coa_id">
+                                                    <option disabled selected> ---Select--- </option>
+                                                    @foreach($accntsCOA as $accntcoa)
+                                                        <option value="{{ $accntcoa->accountcoa_code}}">{{ $accntcoa->accountcoa_code}} - {{ $accntcoa->accountcoa_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-12 d-flex justify-content-between">
+                                                <button type="reset" class="btn btn-light"><i class="ti ti-restore"></i> Clear</button>
+                                                <button type="submit" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
                         <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
@@ -40,73 +88,20 @@ CISS V.1.0 || Assessment
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row g-3">
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <form method="post" action="{{ route('accountAppraisalCreate') }}" enctype="multipart/form-data" id="adAccntApp">
-                                                            @csrf
-                                                            <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                                                <h5>Add Accounts</h5>
-                                                            </div>
+                                <div class="table-responsive p-2">
+                                    <table id="accntApp" class="table table-hover" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Fund Name</th>
+                                                <th>COA Account Name</th>
+                                                <th>Account Name</th>
+                                                <th width="10%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                                            <div class="form-group">
-                                                                <div class="form-row">
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label class="form-label fw-semibold">Funds: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control form-control-sm" name="fund_id">
-                                                                            <option disabled selected> ---Select--- </option>
-                                                                            @foreach($funds as $fund)
-                                                                                <option value="{{ $fund->fund_name}}">{{ $fund->fund_name}} </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label class="form-label fw-semibold">Account Name: <span class="text-danger">*</span></label>
-                                                                        <input type="text" name="account_name" class="form-control form-control-sm">
-                                                                    </div>
-
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label class="form-label fw-semibold">COA Account: <span class="text-danger">*</span></label>
-                                                                        <select class="form-control form-control-sm select2bs4" name="coa_id">
-                                                                            <option disabled selected> ---Select--- </option>
-                                                                            @foreach($accntsCOA as $accntcoa)
-                                                                                <option value="{{ $accntcoa->accountcoa_code}}">{{ $accntcoa->accountcoa_code}} - {{ $accntcoa->accountcoa_name}}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-
-                                                                    <div class="col-md-12">
-                                                                        <label>&nbsp;</label>
-                                                                        <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-9 mt-3">
-                                                <table id="accntApp" class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Fund Name</th>
-                                                            <th>COA Account Name</th>
-                                                            <th>Account Name</th>
-                                                            <th width="10%">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
