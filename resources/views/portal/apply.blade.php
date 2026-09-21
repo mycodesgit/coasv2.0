@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>CISS V.1.0 - Portal</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -69,7 +69,7 @@
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style="color: #fff">
-                             
+
                         </a>
                     </li>
                 </ul>
@@ -114,7 +114,7 @@
 
                                 <form method="post" action="{{ route('post_admission_apply') }}" enctype="multipart/form-data" id="admissionApply">
                                     {{ csrf_field() }}
-                                    
+
                                     <div id="card-1">
                                         <p>
                                             @if(Session::has('success'))
@@ -469,7 +469,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div id="card-3" style="display: none;">
                                         <div class="card">
                                             <div class="card-body">
@@ -619,7 +619,7 @@
                                                             <label>Course Preference 1 <i style="color: red">*</i></label>
                                                             <select class="form-control form-control-sm" name="preference_1" style="text-transform: uppercase;">
                                                                 <option value="">Select Course Preference</option>
-                                                                
+
                                                             </select>
                                                         </div>
 
@@ -1247,7 +1247,7 @@
 
                 //         // Add highlight class to selected option
                 //         $citySelect.find('option[value="' + selectedCity + '"]').addClass('highlight');
-                        
+
                 //         if (cityInfo) {
                 //             $provinceInput.val(cityInfo.province);
                 //             $regionInput.val(cityInfo.region);
@@ -1274,7 +1274,7 @@
 
                     document.getElementById('age').value = age;
                 }
-                
+
                 $(function () {
                     $('.select2').select2();
 
@@ -1291,10 +1291,10 @@
                     $('#email').on('blur', function () {
                         let email = $(this).val();
                         if (email.endsWith('@gmail.com')) {
-                            $('#verification-message').show(); 
+                            $('#verification-message').show();
                         }
 
-                        $('#next-btn').hide(); 
+                        $('#next-btn').hide();
 
                         $.ajax({
                             url: '{{ route('checkEmail') }}',
@@ -1302,11 +1302,11 @@
                             data: { email: email, _token: '{{ csrf_token() }}' },
                             success: function (response) {
                                 console.log("Server response:", response);
-                                $('#verification-message').hide(); 
+                                $('#verification-message').hide();
 
                                 if (response.valid) {
-                                    $('#next-btn').show(); 
-                                    $('#error-message').hide(); 
+                                    $('#next-btn').show();
+                                    $('#error-message').hide();
                                     //$('#ok-btn').hide();
                                     Swal.fire({
                                         icon: 'success',
@@ -1314,7 +1314,7 @@
                                         text: 'This email is registered with Google.',
                                     });
                                 } else {
-                                    $('#next-btn').hide(); 
+                                    $('#next-btn').hide();
                                     Swal.fire({
                                         icon: 'error',
                                         title: 'Invalid Email',
@@ -1323,8 +1323,8 @@
                                 }
                             },
                             error: function () {
-                                $('#verification-message').hide(); 
-                                $('#next-btn').hide(); 
+                                $('#verification-message').hide();
+                                $('#next-btn').hide();
                             }
                         });
                     });
@@ -1410,7 +1410,7 @@
                     const selectedText = selectedOption.text();
 
                     // Separate date and time based on the format "January 01, 2024 09:00 AM"
-                    const dateTime = moment(selectedText, 'MMMM D, YYYY hh:mm A'); 
+                    const dateTime = moment(selectedText, 'MMMM D, YYYY hh:mm A');
 
                     const formattedDate = dateTime.format('YYYY-MM-DD');
                     const formattedTime = dateTime.format('HH:mm:ss');
@@ -1423,8 +1423,8 @@
 
                 // Listen for the 'scheduleUpdated' event
                 $(document).on('scheduleUpdated', function() {
-                    const selectedCampus = $('#campus').val(); 
-                    updateExamSchedule(selectedCampus); 
+                    const selectedCampus = $('#campus').val();
+                    updateExamSchedule(selectedCampus);
                 });
 
                 $('#campus').change(function () {
@@ -1445,7 +1445,7 @@
             {{-- <script type="text/javascript">
                 setTimeout(function () {
                     $("#alert").delay(4500).fadeOut(5000);
-                }, 0); 
+                }, 0);
             </script> --}}
             <script>
                 document.getElementById("genderSelect").addEventListener("change", function() {
@@ -1503,7 +1503,7 @@
                 function handleReligionChange() {
                     const select = document.getElementById('religionSelect');
                     const otherInput = document.getElementById('otherReligionInput');
-                    
+
                     if (select.value === 'OTHER') {
                         otherInput.style.display = 'block';
                         otherInput.setAttribute('name', 'religion'); // include in form submission
@@ -1520,4 +1520,3 @@
 </body>
 {{-- @endif --}}
 </html>
-   

@@ -116,7 +116,7 @@ class PortalController extends Controller
 
     //     $apiKey = 'af0087ae-c398-4a9e-8c1d-b6f29ec2de8f';
     //     $url = 'https://api.mails.so/v1/validate?email=' . $email;
-        
+
     //     $response = Http::withHeaders([
     //         'x-mails-api-key' => $apiKey,
     //     ])->get($url);
@@ -220,7 +220,7 @@ class PortalController extends Controller
         if ($todayRegistrations >= 2000) {
             return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Daily registration limit reached!');
         }
-            
+
         // $campus = $request->input('campus');
         // $year = Year::where('status', 'On')->value('adyear');
         // $admissionid = '';
@@ -290,9 +290,9 @@ class PortalController extends Controller
         $applicant->contact = $request->input('contact');
         $applicant->email = $request->input('email');
         $applicant->civil_status = $request->input('civil_status');
-        $applicant->religion = $request->input('religion'); 
-        $applicant->monthly_income = $request->input('monthly_income'); 
-        $applicant->strand = $request->input('strand');  
+        $applicant->religion = $request->input('religion');
+        $applicant->monthly_income = $request->input('monthly_income');
+        $applicant->strand = $request->input('strand');
         $applicant->lstsch_attended = $request->input('lstsch_attended');
         $applicant->strand = $request->input('strand');
         $applicant->suc_lst_attended = $request->input('suc_lst_attended');
@@ -302,14 +302,14 @@ class PortalController extends Controller
         $applicant->dateID = $request->input('dateID');
         $applicant->d_admission = $request->input('d_admission');
         $applicant->time = $request->input('time');
-        $dt = Carbon::now();  
+        $dt = Carbon::now();
         $applicant->created_at = $dt;
         $applicant->save();
 
         if ($applicant->save())
         {
-            $appid = $applicant->id; 
-            $camp = $applicant->campus; 
+            $appid = $applicant->id;
+            $camp = $applicant->campus;
 
             $docs = new ApplicantDocs;
             $docs->app_id = $appid;
@@ -430,10 +430,10 @@ class PortalController extends Controller
         $request->validate([
             'email' => 'required|email'
         ]);
-        
+
         $year = $request->input('year');
         $email = $request->input('email');
-        
+
 
         Mail::raw("
             Dear Applicant,
@@ -484,20 +484,20 @@ class PortalController extends Controller
                 ->where('ad_applicant_admission.p_status', '!=', 7)
                 ->where('ad_applicant_admission.year', '=', '2026')
                 ->select(
-                    'ad_applicant_admission.admission_id', 
-                    'ad_applicant_admission.p_status', 
-                    'ad_applicant_admission.campus', 
-                    'ad_applicant_admission.fname', 
-                    'ad_applicant_admission.mname', 
-                    'ad_applicant_admission.lname', 
-                    'ad_applicant_admission.campus', 
-                    'ad_applicant_admission.bday', 
-                    'ad_applicant_admission.email', 
-                    'ad_applicant_admission.contact', 
-                    'ad_applicant_admission.address', 
-                    'ad_applicant_admission.d_admission', 
-                    'ad_applicant_admission.time as adtime', 
-                    'ad_applicant_admission.venue', 
+                    'ad_applicant_admission.admission_id',
+                    'ad_applicant_admission.p_status',
+                    'ad_applicant_admission.campus',
+                    'ad_applicant_admission.fname',
+                    'ad_applicant_admission.mname',
+                    'ad_applicant_admission.lname',
+                    'ad_applicant_admission.campus',
+                    'ad_applicant_admission.bday',
+                    'ad_applicant_admission.email',
+                    'ad_applicant_admission.contact',
+                    'ad_applicant_admission.address',
+                    'ad_applicant_admission.d_admission',
+                    'ad_applicant_admission.time as adtime',
+                    'ad_applicant_admission.venue',
                     'ad_applicant_admission.created_at',
                     'ad_applicant_admission.updated_at',
                     'ad_examinee_result.raw_score',
@@ -521,17 +521,17 @@ class PortalController extends Controller
         }
     }
 
-    public function getPortalProvinces($region_id) 
+    public function getPortalProvinces($region_id)
     {
         return response()->json(Province::where('region_id', $region_id)->get());
     }
-    
-    public function getPortalCities($province_id) 
+
+    public function getPortalCities($province_id)
     {
         return response()->json(City::where('province_id', $province_id)->get());
     }
-    
-    public function getPortalBarangays($city_id) 
+
+    public function getPortalBarangays($city_id)
     {
         return response()->json(Barangay::where('city_id', $city_id)->get());
     }

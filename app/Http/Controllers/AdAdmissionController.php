@@ -213,7 +213,7 @@ class AdAdmissionController extends Controller
                 $applicantID = Applicant::create([
                     // 'year' => Carbon::now()->format('Y'),
                     'year' => Year::where('status', 'On')->value('adyear'),
-                    'campus' => Year::where('status', 'On')->value('adyear'),
+                    'campus' => $request->input('campus'),
                     'admission_id' => $admissionid,
                     'type' => $request->input('type'),
                     'lname' => $request->input('lname'),

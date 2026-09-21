@@ -59,17 +59,17 @@ CISS V.1.0 || Add Applicant
                                                         <label>Preffered Campus: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="campus">
                                                             <option value="{{Auth::user()->campus}}">
-                                                                    @if (Auth::user()->campus == 'MC') Main 
-                                                                        @elseif(Auth::user()->campus == 'VC') Victorias 
-                                                                        @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                                                        @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                                                        @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                                                        @elseif(Auth::user()->campus == 'IC') Ilog 
-                                                                        @elseif(Auth::user()->campus == 'CA') Candoni 
-                                                                        @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                                                        @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                                                        @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                                                        @elseif(Auth::user()->campus == 'VE') Valladolid 
+                                                                    @if (Auth::user()->campus == 'MC') Main
+                                                                        @elseif(Auth::user()->campus == 'VC') Victorias
+                                                                        @elseif(Auth::user()->campus == 'SCC') San Carlos
+                                                                        @elseif(Auth::user()->campus == 'HC') Hinigaran
+                                                                        @elseif(Auth::user()->campus == 'MP') Moises Padilla
+                                                                        @elseif(Auth::user()->campus == 'IC') Ilog
+                                                                        @elseif(Auth::user()->campus == 'CA') Candoni
+                                                                        @elseif(Auth::user()->campus == 'CC') Cauayan
+                                                                        @elseif(Auth::user()->campus == 'SC') Sipalay
+                                                                        @elseif(Auth::user()->campus == 'HinC') Hinobaan
+                                                                        @elseif(Auth::user()->campus == 'VE') Valladolid
                                                                     @endif
                                                                 </option>
                                                                 @if (Auth::user()->isAdmin == 0)
@@ -198,7 +198,7 @@ CISS V.1.0 || Add Applicant
                                                             <select class="level form-control form-control-sm" name="strand" style="text-transform: uppercase;">
                                                                 <option value="">Select</option>
                                                                 @foreach ($strand as $strand)
-                                                                <option value="{{ $strand->code }}" @if (old('strand') == $strand->code) {{ 'selected' }} @endif>{{ $strand->strand }}</option>
+                                                                <option value="{{ $strand->code }}">{{ $strand->strand }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
