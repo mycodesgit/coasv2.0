@@ -71,14 +71,14 @@ class GradingFacultyServicesController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
-        
+
         $data = $this->getActiveFacultyDesignationData();
         $authfacdesig = $data['authfacdesig'];
-            
+
         return view('grading.gradesheet.faculty.services.facschedule.facschedulenow', compact('sy' ,'authfacdesig'));
     }
 
-    public function schedulefac_searchview(Request $request) 
+    public function schedulefac_searchview(Request $request)
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
@@ -94,7 +94,7 @@ class GradingFacultyServicesController extends Controller
 
         $data = $this->getActiveFacultyDesignationData();
         $authfacdesig = $data['authfacdesig'];
-            
+
         return view('grading.gradesheet.faculty.services.facschedule.facschedulenowSearchPDF', compact('sy', 'days', 'times', 'authfacdesig'));
     }
 
@@ -133,7 +133,7 @@ class GradingFacultyServicesController extends Controller
         $faculty_id = Auth::guard('faculty')->user()->id;
         $campus = Auth::guard('faculty')->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
-        
+
 
         $faculty = Faculty::where('faculty.id', '=', $faculty_id)->first();
         if ($faculty) {
@@ -164,16 +164,16 @@ class GradingFacultyServicesController extends Controller
                                 $q->orWhere('scheduleclass.campus', 'LIKE', "$campus");
                             }
                         })
-                        ->select('sub_offered.subSec', 
-                                'sub_offered.subCode', 
-                                'scheduleclass.*', 
-                                'subjects.sub_name', 
+                        ->select('sub_offered.subSec',
+                                'sub_offered.subCode',
+                                'scheduleclass.*',
+                                'subjects.sub_name',
                                 'subjects.sub_title',
-                                'subjects.sublecredit',  
-                                'subjects.sublabcredit', 
-                                'subjects.sub_unit', 
-                                'faculty.lname', 
-                                'faculty.fname', 
+                                'subjects.sublecredit',
+                                'subjects.sublabcredit',
+                                'subjects.sub_unit',
+                                'faculty.lname',
+                                'faculty.fname',
                                 'rooms.room_name',
                                 DB::raw('COUNT(DISTINCT coasv2_db_enrollment.studgrades.studID) as studentCount'))
                         ->groupBy(
@@ -302,7 +302,7 @@ class GradingFacultyServicesController extends Controller
         $grade = Grade::where('subjID', $id)
                         ->where('status', '!=', '')
                         ->count();
-        
+
         $data = $this->getActiveFacultyDesignationData();
         $authfacdesig = $data['authfacdesig'];
 
@@ -313,7 +313,7 @@ class GradingFacultyServicesController extends Controller
     {
         $user = Auth::guard('faculty')->user();
         $currsemnow = QCEsemester::where('qcesemstat', 2)->first();
-        
+
         if (!$currsemnow) {
             return redirect()->back()->with('error', 'No active semester found.');
         }
@@ -355,16 +355,16 @@ class GradingFacultyServicesController extends Controller
             ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
             ->where('fac_designation.semester', $currsemnow->qcesemester)
             ->select(
-                'faculty.id', 
-                'faculty.fname', 
-                'faculty.mname', 
-                'faculty.lname', 
-                'faculty.rank', 
-                'faculty.campus', 
+                'faculty.id',
+                'faculty.fname',
+                'faculty.mname',
+                'faculty.lname',
+                'faculty.rank',
+                'faculty.campus',
                 'faculty.faccollege',
                 'faculty.facdept',
-                'faculty.id as facID', 
-                'fac_designation.designation', 
+                'faculty.id as facID',
+                'fac_designation.designation',
                 'fac_designation.facCollege',
                 'fac_designation.id as desigID'
             )
@@ -375,25 +375,25 @@ class GradingFacultyServicesController extends Controller
 
         // Get ALL faculty with their designations in the user's campus (excluding current user)
         $allFacultyWithDesignationInCampus = Faculty::join('fac_designation', 'faculty.id', '=', 'fac_designation.fac_id')
-    ->where('faculty.id', '!=', $user->id)
-    ->whereIn('fac_designation.designation', ['Dean', 'Dean of Instruction', 'Program Head', 'CampusAdmin', 'Division Chair', 'Vice President'])
-    ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
-    ->where('fac_designation.semester', $currsemnow->qcesemester)
-    ->select(
-        'faculty.id', 
-        'faculty.fname', 
-        'faculty.mname', 
-        'faculty.lname', 
-        'faculty.rank', 
-        'faculty.campus', 
-        'faculty.faccollege',
-        'faculty.facdept',
-        'faculty.id as facID', 
-        'fac_designation.designation', 
-        'fac_designation.facCollege',
-        'fac_designation.id as desigID'
-    )
-    ->get();
+            ->where('faculty.id', '!=', $user->id)
+            ->whereIn('fac_designation.designation', ['Dean', 'Dean of Instruction', 'Program Head', 'CampusAdmin', 'Division Chair', 'Vice President'])
+            ->where('fac_designation.schlyear', $currsemnow->qceschlyear)
+            ->where('fac_designation.semester', $currsemnow->qcesemester)
+            ->select(
+                'faculty.id',
+                'faculty.fname',
+                'faculty.mname',
+                'faculty.lname',
+                'faculty.rank',
+                'faculty.campus',
+                'faculty.faccollege',
+                'faculty.facdept',
+                'faculty.id as facID',
+                'fac_designation.designation',
+                'fac_designation.facCollege',
+                'fac_designation.id as desigID'
+            )
+            ->get();
 
         // Group by faculty ID to handle multiple designations
         $facultyGroupedDesignation = $allFacultyWithDesignationInCampus->groupBy('id');
@@ -406,7 +406,7 @@ class GradingFacultyServicesController extends Controller
             $faculty->subjIDs = $facultyGroup->pluck('subjID')->filter()->toArray();
             return $faculty;
         })->values();
-        
+
         // Get unique faculty with their designations (excluding current user)
         $allFacultyWithAllCampusDesignations = $facultyGroupedDesignation->map(function($facultyGroup) {
             $faculty = $facultyGroup->first();
@@ -426,17 +426,17 @@ class GradingFacultyServicesController extends Controller
             ->where('scheduleclass.semester', $currsemnow->qcesemester)
             //->whereNull('fac_designation.fac_id')
             ->select(
-                'faculty.id', 
-                'faculty.fname', 
-                'faculty.mname', 
-                'faculty.lname', 
-                'faculty.rank', 
-                'faculty.campus', 
+                'faculty.id',
+                'faculty.fname',
+                'faculty.mname',
+                'faculty.lname',
+                'faculty.rank',
+                'faculty.campus',
                 'faculty.faccollege',
                 'faculty.facdept',
                 'faculty.deptmajor',
-                'faculty.id as facID', 
-                'fac_designation.designation', 
+                'faculty.id as facID',
+                'fac_designation.designation',
                 'fac_designation.facCollege',
                 'scheduleclass.progcodename'
             )
@@ -526,9 +526,9 @@ class GradingFacultyServicesController extends Controller
         );
 
         return view('grading.gradesheet.faculty.services.viewfaceval.subslisteval', compact(
-            'currsem', 
-            'sy', 
-            'setevalmode', 
+            'currsem',
+            'sy',
+            'setevalmode',
             'sections',
             'campusdeaninstruction',
             'collegedean',
@@ -562,7 +562,7 @@ class GradingFacultyServicesController extends Controller
         $disabledsubjcampusdeaninstruction,
         $disabledsubjcampusadmin,
         $disabledsubjvpaa
-    ) 
+    )
     {
         $sections = [];
 
@@ -646,27 +646,27 @@ class GradingFacultyServicesController extends Controller
             $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
                 // Split progCode by '-' to get parts
                 $progParts = explode('-', $faculty->progcodename);
-                
+
                 // Get college, dept, major from progCode
                 $progCollege = $progParts[0] ?? '';
                 $progDept = $progParts[1] ?? '';
                 $progMajor = $progParts[2] ?? '';
-                
+
                 // Base condition: match college and department
                 $isMatch = $progCollege == $userCollege && $progDept == $userDept;
-                
+
                 // If user has a major specified, also match the major
                 if (!empty($userMajor)) {
                     $isMatch = $isMatch && $progMajor == $userMajor;
                 }
-                
+
                 // Exclude the user themselves
                 return $isMatch && $faculty->id != $user->id;
             });
-            
+
             // Remove duplicate faculty entries (one faculty might have multiple progCodes)
             $uniqueFaculties = $filteredFaculties->unique('id');
-            
+
             if ($uniqueFaculties->isNotEmpty()) {
                 // Create title based on available filters
                 $title = 'Faculties';
@@ -675,7 +675,7 @@ class GradingFacultyServicesController extends Controller
                 } else {
                     $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
                 }
-                
+
                 $sections[] = [
                     'title' => $title,
                     'data' => $uniqueFaculties,
@@ -687,7 +687,7 @@ class GradingFacultyServicesController extends Controller
                     'department' => $userDept,
                     'major' => $userMajor
                 ];
-            }   
+            }
         }
 
         // ============================================================
@@ -781,7 +781,7 @@ class GradingFacultyServicesController extends Controller
             // Check if Dean is from CAS
             $deanCollege = $collegedean->facCollege ?? $userCollege;
             $isCAS = ($deanCollege == 'CAS');
-            
+
             if ($isCAS) {
                 // For CAS: Show Division Chairs (Dean evaluates them)
                 $divisionChairsInCollege = $allFacultyWithDesignations->filter(function($faculty) use ($deanCollege, $user) {
@@ -830,27 +830,27 @@ class GradingFacultyServicesController extends Controller
                     $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
                         // Split progCode by '-' to get parts
                         $progParts = explode('-', $faculty->progcodename);
-                        
+
                         // Get college, dept, major from progCode
                         $progCollege = $progParts[0] ?? '';
                         $progDept = $progParts[1] ?? '';
                         $progMajor = $progParts[2] ?? '';
-                        
+
                         // Base condition: match college and department
                         $isMatch = $progCollege == $userCollege && $progDept == $userDept;
-                        
+
                         // If user has a major specified, also match the major
                         if (!empty($userMajor)) {
                             $isMatch = $isMatch && $progMajor == $userMajor;
                         }
-                        
+
                         // Exclude the user themselves
                         return $isMatch && $faculty->id != $user->id;
                     });
-                    
+
                     // Remove duplicate faculty entries (one faculty might have multiple progCodes)
                     $uniqueFaculties = $filteredFaculties->unique('id');
-                    
+
                     if ($uniqueFaculties->isNotEmpty()) {
                         // Create title based on available filters
                         $title = 'Faculties';
@@ -859,7 +859,7 @@ class GradingFacultyServicesController extends Controller
                         } else {
                             $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
                         }
-                        
+
                         $sections[] = [
                             'title' => $title,
                             'data' => $uniqueFaculties,
@@ -871,7 +871,7 @@ class GradingFacultyServicesController extends Controller
                             'department' => $userDept,
                             'major' => $userMajor
                         ];
-                    }   
+                    }
                 }
             }
         }
@@ -948,27 +948,27 @@ class GradingFacultyServicesController extends Controller
             $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
                 // Split progCode by '-' to get parts
                 $progParts = explode('-', $faculty->progcodename);
-                
+
                 // Get college, dept, major from progCode
                 $progCollege = $progParts[0] ?? '';
                 $progDept = $progParts[1] ?? '';
                 $progMajor = $progParts[2] ?? '';
-                
+
                 // Base condition: match college and department
                 $isMatch = $progCollege == $userCollege && $progDept == $userDept;
-                
+
                 // If user has a major specified, also match the major
                 if (!empty($userMajor)) {
                     $isMatch = $isMatch && $progMajor == $userMajor;
                 }
-                
+
                 // Exclude the user themselves
                 return $isMatch && $faculty->id != $user->id;
             });
-            
+
             // Remove duplicate faculty entries (one faculty might have multiple progCodes)
             $uniqueFaculties = $filteredFaculties->unique('id');
-            
+
             if ($uniqueFaculties->isNotEmpty()) {
                 // Create title based on available filters
                 $title = 'Faculties';
@@ -977,7 +977,7 @@ class GradingFacultyServicesController extends Controller
                 } else {
                     $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
                 }
-                
+
                 $sections[] = [
                     'title' => $title,
                     'data' => $uniqueFaculties,
@@ -989,7 +989,7 @@ class GradingFacultyServicesController extends Controller
                     'department' => $userDept,
                     'major' => $userMajor
                 ];
-            }   
+            }
         }
 
         // ============================================================
@@ -1019,27 +1019,27 @@ class GradingFacultyServicesController extends Controller
             $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
                 // Split progCode by '-' to get parts
                 $progParts = explode('-', $faculty->progcodename);
-                
+
                 // Get college, dept, major from progCode
                 $progCollege = $progParts[0] ?? '';
                 $progDept = $progParts[1] ?? '';
                 $progMajor = $progParts[2] ?? '';
-                
+
                 // Base condition: match college and department
                 $isMatch = $progCollege == $userCollege && $progDept == $userDept;
-                
+
                 // If user has a major specified, also match the major
                 if (!empty($userMajor)) {
                     $isMatch = $isMatch && $progMajor == $userMajor;
                 }
-                
+
                 // Exclude the user themselves
                 return $isMatch && $faculty->id != $user->id;
             });
-            
+
             // Remove duplicate faculty entries (one faculty might have multiple progCodes)
             $uniqueFaculties = $filteredFaculties->unique('id');
-            
+
             if ($uniqueFaculties->isNotEmpty()) {
                 // Create title based on available filters
                 $title = 'Faculties';
@@ -1048,7 +1048,7 @@ class GradingFacultyServicesController extends Controller
                 } else {
                     $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
                 }
-                
+
                 $sections[] = [
                     'title' => $title,
                     'data' => $uniqueFaculties,
@@ -1060,7 +1060,7 @@ class GradingFacultyServicesController extends Controller
                     'department' => $userDept,
                     'major' => $userMajor
                 ];
-            }   
+            }
         }
 
         // ============================================================
@@ -1092,7 +1092,7 @@ class GradingFacultyServicesController extends Controller
                             $faculty->facdept == $userDept &&
                             $faculty->id != $user->id;
                     return $match;
-                });  
+                });
 
                 if ($facultiesInCollege->isNotEmpty()) {
                     $sections[] = [
@@ -1104,7 +1104,7 @@ class GradingFacultyServicesController extends Controller
                         'role' => 'Division Chair'
                     ];
                 }
-            }   
+            }
         }
 
         // ============================================================
@@ -1114,29 +1114,36 @@ class GradingFacultyServicesController extends Controller
         if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair && empty($user->deptmajor)) {
 
             $filteredFaculties = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
+                $isHomeServiceFaculty = ($faculty->faccollege == $userCollege && $faculty->facdept == $userDept);
                 // Split progCode by '-' to get parts
                 $progParts = explode('-', $faculty->progcodename);
-                
+
                 // Get college, dept, major from progCode
                 $progCollege = $progParts[0] ?? '';
                 $progDept = $progParts[1] ?? '';
                 $progMajor = $progParts[2] ?? '';
-                
+
                 // Base condition: match college and department
-                $isMatch = $progCollege == $userCollege && $progDept == $userDept;
-                
+                //$isMatch = $progCollege == $userCollege && $progDept == $userDept;
+
                 // If user has a major specified, also match the major
+                // if (!empty($userMajor)) {
+                //     $isMatch = $isMatch && $progMajor == $userMajor;
+                // }
+
+                $isTeachingInMyProgram = ($progCollege == $userCollege && $progDept == $userDept);
                 if (!empty($userMajor)) {
-                    $isMatch = $isMatch && $progMajor == $userMajor;
+                    $isTeachingInMyProgram = $isTeachingInMyProgram && ($progMajor == $userMajor);
                 }
-                
+                $isMatch = $isHomeServiceFaculty || $isTeachingInMyProgram;
+
                 // Exclude the user themselves
                 return $isMatch && $faculty->id != $user->id;
             });
-            
+
             // Remove duplicate faculty entries (one faculty might have multiple progCodes)
             $uniqueFaculties = $filteredFaculties->unique('id');
-            
+
             if ($uniqueFaculties->isNotEmpty()) {
                 // Create title based on available filters
                 $title = 'Faculties';
@@ -1145,7 +1152,7 @@ class GradingFacultyServicesController extends Controller
                 } else {
                     $title .= ' (' . $userDept . ' Department - ' . $userCollege . ' College)';
                 }
-                
+
                 $sections[] = [
                     'title' => $title,
                     'data' => $uniqueFaculties,
@@ -1157,7 +1164,7 @@ class GradingFacultyServicesController extends Controller
                     'department' => $userDept,
                     'major' => $userMajor
                 ];
-            }   
+            }
         }
 
         // ============================================================
@@ -1165,7 +1172,7 @@ class GradingFacultyServicesController extends Controller
         // Display all Faculty in their college/department and same major
         // ============================================================
         if ($hasProgramHead && !$hasDeanInstruction && !$hasDean && !$hasDivisionChair && !empty($user->deptmajor)) {
-            
+
             // Get faculties in the Program Head's college, department, and major (excluding self)
             $facultiesMajorInCollege = $regularFaculties->filter(function($faculty) use ($userCollege, $userDept, $userMajor, $user) {
                 return $faculty->faccollege == $userCollege &&
@@ -1185,7 +1192,7 @@ class GradingFacultyServicesController extends Controller
                 ];
             }
         }
-        
+
         // ============================================================
         // SCENARIO 9: DEANS WITH NO PROGRAM HEAD AND NO DEAN OF INSTRUCTION
         // VP evaluates Dean when there is NO Program Head in their college
@@ -1198,19 +1205,19 @@ class GradingFacultyServicesController extends Controller
                     if (!in_array('Dean', $faculty->designations)) {
                         return false;
                     }
-                    
+
                     // Exclude current user
                     if ($faculty->id == $user->id) {
                         return false;
                     }
-                    
+
                     $deanCampus = $faculty->campus ?? '';
                     $deanCollege = $faculty->facCollege ?? $faculty->faccollege ?? '';
-                    
+
                     if (empty($deanCampus)) {
                         return false;
                     }
-                    
+
                     // STEP 1: Check if this Dean's college has ANY Program Head (different person)
                     $collegeHasProgramHead = $allFacultyWithDesignations->filter(function($f) use ($deanCollege, $faculty) {
                         if (!in_array('Program Head', $f->designations)) {
@@ -1222,12 +1229,12 @@ class GradingFacultyServicesController extends Controller
                         $fCollege = $f->facCollege ?? $f->faccollege ?? '';
                         return strtolower($fCollege) == strtolower($deanCollege);
                     })->isNotEmpty();
-                    
+
                     // If Program Head exists, they evaluate the Dean (NO VP)
                     if ($collegeHasProgramHead) {
                         return false;
                     }
-                    
+
                     // STEP 2: If NO Program Head, check if campus has Dean of Instruction
                     $campusHasDeanInstruction = $allFacultyWithDesignations->filter(function($f) use ($deanCampus, $faculty) {
                         if (!in_array('Dean of Instruction', $f->designations)) {
@@ -1238,12 +1245,12 @@ class GradingFacultyServicesController extends Controller
                         }
                         return $f->campus == $deanCampus;
                     })->isNotEmpty();
-                    
+
                     // If Dean of Instruction exists, they evaluate the Dean (NO VP)
                     if ($campusHasDeanInstruction) {
                         return false;
                     }
-                    
+
                     // ONLY show if NO Program Head AND NO Dean of Instruction
                     return true;
                 })
@@ -1255,12 +1262,12 @@ class GradingFacultyServicesController extends Controller
 
             if ($deansWithoutEvaluator->isNotEmpty()) {
                 $groupedByCampus = $deansWithoutEvaluator->groupBy('campus');
-                
+
                 foreach ($groupedByCampus as $campus => $deans) {
                     $collegeNames = $deans->map(function($dean) {
                         return $dean->facCollege ?? $dean->faccollege ?? 'N/A';
                     })->unique()->implode(', ');
-                    
+
                     $sections[] = [
                         'title' => 'Deans (No Program Head & No DOI - ' . $campus . ' Campus)',
                         'data' => $deans,
@@ -1290,19 +1297,19 @@ class GradingFacultyServicesController extends Controller
                     if (!in_array('Dean of Instruction', $faculty->designations)) {
                         return false;
                     }
-                    
+
                     // Exclude current user
                     if ($faculty->id == $user->id) {
                         return false;
                     }
-                    
+
                     // Get the DOI's teaching college
                     $facultyCollege = $faculty->facCollege ?? $faculty->faccollege ?? '';
-                    
+
                     if (empty($facultyCollege)) {
                         return true;
                     }
-                    
+
                     // Check if this SAME college has ANY Program Head (different person)
                     $collegeHasProgramHead = $allFacultyWithAllCampusDesignations->filter(function($f) use ($facultyCollege, $faculty) {
                         if (!in_array('Program Head', $f->designations)) {
@@ -1314,7 +1321,7 @@ class GradingFacultyServicesController extends Controller
                         $fCollege = $f->facCollege ?? $f->faccollege ?? '';
                         return strtolower($fCollege) == strtolower($facultyCollege);
                     })->isNotEmpty();
-                    
+
                     // ONLY show if NO Program Head exists in their teaching college
                     return !$collegeHasProgramHead;
                 })
@@ -1326,12 +1333,12 @@ class GradingFacultyServicesController extends Controller
 
             if ($doiWithoutProgramHead->isNotEmpty()) {
                 $groupedByCampus = $doiWithoutProgramHead->groupBy('campus');
-                
+
                 foreach ($groupedByCampus as $campus => $facultyList) {
                     $collegeNames = $facultyList->map(function($f) {
                         return $f->facCollege ?? $f->faccollege ?? 'N/A';
                     })->unique()->implode(', ');
-                    
+
                     $sections[] = [
                         'title' => 'Dean of Instruction (No Program Head - ' . $campus . ' Campus)',
                         'data' => $facultyList,
@@ -1361,17 +1368,17 @@ class GradingFacultyServicesController extends Controller
                     if (!in_array('Program Head', $faculty->designations)) {
                         return false;
                     }
-                    
+
                     // Exclude current user
                     if ($faculty->id == $user->id) {
                         return false;
                     }
-                    
+
                     $programHeadCampus = $faculty->campus ?? '';
                     if (empty($programHeadCampus)) {
                         return false;
                     }
-                    
+
                     // STEP 1: Check if this campus has ANY Dean (different person)
                     $campusHasDean = $allFacultyWithAllCampusDesignations->filter(function($f) use ($programHeadCampus, $faculty) {
                         if (!in_array('Dean', $f->designations)) {
@@ -1382,12 +1389,12 @@ class GradingFacultyServicesController extends Controller
                         }
                         return $f->campus == $programHeadCampus;
                     })->isNotEmpty();
-                    
+
                     // If Dean exists, they evaluate the Program Head (NO VP)
                     if ($campusHasDean) {
                         return false;
                     }
-                    
+
                     // STEP 2: If NO Dean, check if campus has Dean of Instruction
                     $campusHasDeanInstruction = $allFacultyWithAllCampusDesignations->filter(function($f) use ($programHeadCampus, $faculty) {
                         if (!in_array('Dean of Instruction', $f->designations)) {
@@ -1398,15 +1405,15 @@ class GradingFacultyServicesController extends Controller
                         }
                         return $f->campus == $programHeadCampus;
                     })->isNotEmpty();
-                    
+
                     // If Dean of Instruction exists, they evaluate the Program Head (NO VP)
                     if ($campusHasDeanInstruction) {
                         return false;
                     }
-                    
+
                     // STEP 3: If NO Dean and NO DOI, check if campus has Campus Admin
                     $campusHasCampusAdmin = $allFacultyWithAllCampusDesignations->filter(function($f) use ($programHeadCampus, $faculty) {
-                        $hasCampusAdmin = in_array('CampusAdmin', $f->designations) || 
+                        $hasCampusAdmin = in_array('CampusAdmin', $f->designations) ||
                                           in_array('Campus Administrator', $f->designations);
                         if (!$hasCampusAdmin) {
                             return false;
@@ -1416,12 +1423,12 @@ class GradingFacultyServicesController extends Controller
                         }
                         return $f->campus == $programHeadCampus;
                     })->isNotEmpty();
-                    
+
                     // If Campus Admin exists, they evaluate the Program Head (NO VP)
                     if ($campusHasCampusAdmin) {
                         return false;
                     }
-                    
+
                     // ONLY show if NO Dean, NO Dean of Instruction, NO Campus Admin
                     return true;
                 })
@@ -1444,17 +1451,17 @@ class GradingFacultyServicesController extends Controller
                     if ($faculty->id == $user->id) {
                         return false;
                     }
-                    
+
                     $designations = $faculty->designations;
-                    
+
                     // Check for self-conflict combinations
                     $hasDeanInstruction = in_array('Dean of Instruction', $designations);
                     $hasDean = in_array('Dean', $designations);
                     $hasProgramHead = in_array('Program Head', $designations);
-                    $hasCampusAdmin = in_array('CampusAdmin', $designations) || 
+                    $hasCampusAdmin = in_array('CampusAdmin', $designations) ||
                                       in_array('Campus Administrator', $designations);
                     $hasDivisionChair = in_array('Division Chair', $designations);
-                    
+
                     // Check for self-conflict combinations
                     $conflict1 = $hasDeanInstruction && $hasProgramHead;
                     $conflict2 = $hasDean && $hasProgramHead;
@@ -1462,11 +1469,11 @@ class GradingFacultyServicesController extends Controller
                     $conflict4 = $hasDeanInstruction && $hasDean;
                     $conflict5 = $hasCampusAdmin && $hasDean;
                     $conflict6 = $hasCampusAdmin && $hasDeanInstruction;
-                    
+
                     // Any 3+ roles is a conflict
                     $roleCount = count(array_filter([$hasDeanInstruction, $hasDean, $hasProgramHead, $hasCampusAdmin, $hasDivisionChair]));
                     $conflict7 = $roleCount >= 3;
-                    
+
                     return $conflict1 || $conflict2 || $conflict3 || $conflict4 || $conflict5 || $conflict6 || $conflict7;
                 })
                 ->groupBy('id')
@@ -1477,14 +1484,14 @@ class GradingFacultyServicesController extends Controller
 
             if ($facultyWithSelfConflict->isNotEmpty()) {
                 $groupedByCampus = $facultyWithSelfConflict->groupBy('campus');
-                
+
                 foreach ($groupedByCampus as $campus => $facultyList) {
                     $roleDescriptions = $facultyList->map(function($f) {
                         $roles = implode(' + ', $f->designations);
                         $college = $f->facCollege ?? $f->faccollege ?? 'N/A';
                         return $f->fname . ' ' . $f->lname . ' (' . $roles . ') - College: ' . $college;
                     })->implode(' | ');
-                    
+
                     $sections[] = [
                         'title' => 'Self-Conflict: Multiple Roles (' . $campus . ' Campus)',
                         'data' => $facultyList,
@@ -1507,7 +1514,7 @@ class GradingFacultyServicesController extends Controller
         if ($hasVicePresident) {
             $userSelfConflict = false;
             $conflictReason = '';
-            
+
             // Get current user's designations from the user object
             if ($hasDeanInstruction && $hasProgramHead) {
                 $userSelfConflict = true;
@@ -1540,7 +1547,7 @@ class GradingFacultyServicesController extends Controller
                     $fCollege = $f->facCollege ?? $f->faccollege ?? '';
                     return strtolower($fCollege) == strtolower($vpCollege);
                 })->isNotEmpty();
-                
+
                 if (!$hasProgramHeadInCollege) {
                     $userSelfConflict = true;
                     $conflictReason = 'You are Dean of Instruction with no Program Head in your college';
@@ -1558,7 +1565,7 @@ class GradingFacultyServicesController extends Controller
                     $fCollege = $f->facCollege ?? $f->faccollege ?? '';
                     return strtolower($fCollege) == strtolower($vpCollege);
                 })->isNotEmpty();
-                
+
                 // Check if VP's campus has Dean of Instruction
                 $vpCampus = $user->campus ?? '';
                 $campusHasDOI = $allFacultyWithAllCampusDesignations->filter(function($f) use ($vpCampus, $user) {
@@ -1570,18 +1577,18 @@ class GradingFacultyServicesController extends Controller
                     }
                     return $f->campus == $vpCampus;
                 })->isNotEmpty();
-                
+
                 if (!$hasProgramHeadInCollege && !$campusHasDOI) {
                     $userSelfConflict = true;
                     $conflictReason = 'You are Dean with no Program Head and no Dean of Instruction in your campus';
                 }
             }
-            
+
             if ($userSelfConflict) {
                 $userAsFaculty = $allFacultyWithAllCampusDesignations->filter(function($faculty) use ($user) {
                     return $faculty->id == $user->id;
                 });
-                
+
                 if ($userAsFaculty->isNotEmpty()) {
                     $sections[] = [
                         'title' => 'Your Evaluation (Self-Conflict - VP)',
@@ -1610,12 +1617,12 @@ class GradingFacultyServicesController extends Controller
         $encryptedFacID = $request->query('qcefacID');
         $qcefacname = $request->query('qcefacname'); // NOT encrypted - plain text
         $encryptedEvaluator = $request->query('qceevaluator');
-        
+
         // DECRYPT all encrypted values
         $subjsIDselected = EncryptionHelper::decryptUrl($encryptedId);
         $qcefacID = EncryptionHelper::decryptUrl($encryptedFacID);
         $qceevaluator = EncryptionHelper::decryptUrl($encryptedEvaluator);
-        
+
         // If decryption fails, use the encrypted value as fallback or redirect with error
         if (!$subjsIDselected || !$qcefacID || !$qceevaluator) {
             return redirect()->route('supfaceval')->with('error', 'Invalid or tampered URL parameters.');
@@ -1638,11 +1645,11 @@ class GradingFacultyServicesController extends Controller
                 ->select('qcecategory.catName', 'qcequestion.id', 'qcequestion.questiontext')
                 ->where('qcecategory.catstatus', 2)
                 ->where('qcequestion.questcat', 2)
-                ->orderBy('qcecategory.catName') 
-                ->orderBy('qcequestion.id') 
+                ->orderBy('qcecategory.catName')
+                ->orderBy('qcequestion.id')
                 ->get()
                 ->groupBy('catName');
-        
+
         $facdetail = Faculty::where('id', $qcefacID)->first();
 
         $facDesignateRole = FacDesignation::where('fac_id', Auth::guard('faculty')->user()->id)
@@ -1660,7 +1667,7 @@ class GradingFacultyServicesController extends Controller
             ->where('campus', Auth::guard('faculty')->user()->campus)
             ->pluck('designation')
             ->toArray();
-    
+
         return view('grading.gradesheet.faculty.services.viewfaceval.subslistevalrate', compact('inst', 'ratingscale',  'currsem', 'question', 'facdetail', 'facDesignateRole', 'authfacdesig', 'qceevaluator', 'userDesignations', 'subjsIDselected'));
     }
 
@@ -1670,7 +1677,7 @@ class GradingFacultyServicesController extends Controller
             $request->validate([
                 'question_rate' => 'required|array',
             ]);
-            
+
             try {
                 $existingSurvey = QCEfevalrate::where('campus', $request->input('campus'))
                         ->where('semester', $request->input('semester'))
