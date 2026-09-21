@@ -11,7 +11,7 @@ CISS V.1.0 || Kiosk Admin
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,23 +24,32 @@ CISS V.1.0 || Kiosk Admin
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Student Kiosk Bulk Registration Overview</h1>
+                        <p class="text-muted small mb-0">Overview of daily transaction logs for registered students only.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-users"></i> List of students registered in kiosk
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Bulk Generation Kiosk Account</h4>
-                                </div>
                                 <div class="row p-2">
                                     <div class="col-md-12">
                                         <form method="GET" action="{{ route('adminbulkkioskShow') }}" id="bulkKiosk">
-                                            @csrf   
+                                            @csrf
 
                                             <div class="form-group">
-                                                <div class="row">
+                                                <div class="row g-3">
                                                     @if(Auth::guard('web')->user()->role == '0' || Auth::guard('web')->user()->lname == 'Arlos')
                                                     <div class="col-md-2">
-                                                        <label>Campus: <span class="text-danger">*</span></label>
+                                                        <label class="form-label fw-semibold">Campus: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="campus" id="campus">
                                                             <option value="MC">Main</option>
                                                             <option value="VC">Victorias</option>
@@ -56,7 +65,7 @@ CISS V.1.0 || Kiosk Admin
                                                     </div>
                                                     @endif
                                                     <div class="col-md-3">
-                                                        <label>Academic Year: <span class="text-danger">*</span></label>
+                                                        <label class="form-label fw-semibold">Academic Year: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="schlyear">
                                                             @foreach($sy as $datasy)
                                                                 <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
@@ -65,7 +74,7 @@ CISS V.1.0 || Kiosk Admin
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label>Semester: <span class="text-danger">*</span></label>
+                                                        <label class="form-label fw-semibold">Semester: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="semester">
                                                             <option disabled selected>Select</option>
                                                             <option value="1">First Semester</option>
@@ -74,9 +83,11 @@ CISS V.1.0 || Kiosk Admin
                                                         </select>
                                                     </div>
 
-                                                    <div class="col-md-3">
-                                                        <label>&nbsp;</label>
-                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                                    <div class="col-md-2">
+                                                        <div class="d-flex flex-column h-100">
+                                                            <label class="form-label fw-semibold opacity-0 d-none d-md-block">Action</label>
+                                                            <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,7 +120,7 @@ CISS V.1.0 || Kiosk Admin
                                                                     <td>{{ $claEn->studYear }}-{{ $claEn->studSec }}</td>
                                                                     <td><strong>{{ $claEn->studentCount }}</strong></td>
                                                                     <td>{{ $claEn->maleCount }}</td>
-                                                                    <td>{{ $claEn->femaleCount }}</td> 
+                                                                    <td>{{ $claEn->femaleCount }}</td>
                                                                 </tr>
                                                             @endforeach --}}
                                                         </tbody>
@@ -155,7 +166,7 @@ CISS V.1.0 || Kiosk Admin
                     </ul>
                     <div class="tab-content mt-1" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab" tabindex="0">
-                            
+
                             <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
                             <div class="mt-3">
