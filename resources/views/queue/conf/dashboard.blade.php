@@ -95,7 +95,7 @@ CISS V.1.0 || Queueing Dashboard
                                                                 <span class="badge bg-light text-secondary border fw-normal mb-2 text-truncate max-w-100">
                                                                     {{ $counter->category }}
                                                                 </span>
-                                                                
+
                                                                 <!-- Call ID Display Box -->
                                                                 <div class="bg-light rounded-3 py-2 border border-1 my-1">
                                                                     <small class="text-uppercase text-warning fw-semibold d-block style-label">Serving No.</small>
@@ -200,36 +200,30 @@ CISS V.1.0 || Queueing Dashboard
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
+                                            <table class="table table-hover align-middle mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Queue Number</th>
+                                                        <th>Counter</th>
                                                         <th>Category</th>
-                                                        <th>Campus</th>
-                                                        <th>Status</th>
-                                                        <th>Time</th>
+                                                        <th>Name</th>
+                                                        <th>No. Catered</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="activityTableBody">
-                                                    @forelse($customers as $customer)
+                                                <tbody id="activityLogBody">
+                                                    @forelse($counters as $counter)
                                                         <tr>
-                                                            <td><span class="fw-bold text-dark">{{ $customer->queue_number }}</span></td>
-                                                            <td>{{ $customer->catname }}</td>
-                                                            <td>{{ $customer->campus }}</td>
+                                                            <td class="fw-bold text-primary">{{ $counter->windowname }}</td>
+                                                            <td><span class="badge bg-light text-dark border">{{ $counter->category }}</span></td>
+                                                            <td class="fw-semibold">{{ $counter->user_lname }}</td>
                                                             <td>
-                                                                @if($customer->status === 'serving')
-                                                                    <span class="badge bg-success">Serving</span>
-                                                                @elseif($customer->status === 'waiting')
-                                                                    <span class="badge bg-warning text-dark">Waiting</span>
-                                                                @else
-                                                                    <span class="badge bg-secondary">{{ ucfirst($customer->status) }}</span>
-                                                                @endif
+                                                                <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1">
+                                                                    {{ $counter->catered_today_count }} Served
+                                                                </span>
                                                             </td>
-                                                            <td>{{ $customer->created_at ? $customer->created_at->format('h:i A') : 'N/A' }}</td>
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td colspan="5" class="text-center text-muted py-4">No recent activity.</td>
+                                                            <td colspan="6" class="text-center text-muted py-4">No recent activity.</td>
                                                         </tr>
                                                     @endforelse
                                                 </tbody>
@@ -251,98 +245,115 @@ CISS V.1.0 || Queueing Dashboard
                 .then(response => response.json())
                 .then(data => {
                     // 1. Update Metrics
-                    document.getElementById('statWaiting').innerText = data.totalWaiting;
-                    document.getElementById('statServing').innerText = data.totalServing;
-                    document.getElementById('statCounters').innerText = data.totalCounters;
-                    document.getElementById('statCompleted').innerText = data.totalCompleted;
+                    const setEl = (id, val) => {
+                        const el = document.getElementById(id);
+                        if (el) el.innerText = val ?? 0;
+                    };
+
+                    setEl('statWaiting', data.totalWaiting);
+                    setEl('statServing', data.totalServing);
+                    setEl('statCounters', data.totalCounters);
+                    setEl('statCompleted', data.totalCompleted);
 
                     // 2. Update Counter Cards
-                    let countersHtml = '';
-                    if (data.counters.length > 0) {
-                        data.counters.forEach(counter => {
-                            let ticket = data.customerTickets[counter.currentid] || data.customerTickets[counter.callid] || '---';
-                            let userName = counter.user_info ? counter.user_info.lname : 'N/A';
-                            countersHtml += `
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="card h-100 shadow-sm rounded-3 overflow-hidden">
-                                        <div class="card-header bg-light d-flex justify-content-between align-items-center py-2 px-3">
-                                            <span class="fw-bold small text-truncate"><i class="ti ti-app-window"></i> ${counter.windowname ?? ''}</span>
-                                            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill small">
-                                                <i class="fas fa-circle me-1 style-dot blink-dot"></i>Live
-                                            </span>
-                                        </div>
-                                        <div class="card-body p-3 text-center d-flex flex-column justify-content-between">
-                                            <div>
-                                                <span class="badge bg-light text-secondary border fw-normal mb-2 text-truncate max-w-100">
-                                                    ${counter.category ?? ''}
+                    const countersContainer = document.getElementById('countersContainer');
+                    if (countersContainer && Array.isArray(data.counters)) {
+                        let countersHtml = '';
+                        if (data.counters.length > 0) {
+                            data.counters.forEach(counter => {
+                                let ticket = (data.customerTickets && (data.customerTickets[counter.currentid] || data.customerTickets[counter.callid])) || '---';
+                                let userName = counter.user_info ? counter.user_info.lname : (counter.user_lname ?? 'N/A');
+
+                                countersHtml += `
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="card h-100 shadow-sm rounded-3 overflow-hidden">
+                                            <div class="card-header bg-light d-flex justify-content-between align-items-center py-2 px-3">
+                                                <span class="fw-bold small text-truncate"><i class="ti ti-app-window"></i> ${counter.windowname ?? ''}</span>
+                                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill small">
+                                                    <i class="fas fa-circle me-1 style-dot blink-dot"></i>Live
                                                 </span>
-                                                <div class="bg-light rounded-3 py-2 border border-1 my-1">
-                                                    <small class="text-uppercase text-warning fw-semibold d-block style-label">Serving No.</small>
-                                                    <h5 class="fw-bolder text-dark mb-0 lh-1 tracking-tight">${ticket}</h5>
+                                            </div>
+                                            <div class="card-body p-3 text-center d-flex flex-column justify-content-between">
+                                                <div>
+                                                    <span class="badge bg-light text-secondary border fw-normal mb-2 text-truncate max-w-100">
+                                                        ${counter.category ?? ''}
+                                                    </span>
+                                                    <div class="bg-light rounded-3 py-2 border border-1 my-1">
+                                                        <small class="text-uppercase text-warning fw-semibold d-block style-label">Serving No.</small>
+                                                        <h5 class="fw-bolder text-dark mb-0 lh-1 tracking-tight">${ticket}</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="pt-2 mt-2 border-top d-flex justify-content-between align-items-center text-muted" style="font-size: 0.75rem;">
+                                                    <span><i class="fas fa-building me-1 opacity-50"></i>${counter.campus ?? ''}</span>
+                                                    <span><i class="fas fa-user-circle me-1 opacity-50"></i> ${userName}</span>
                                                 </div>
                                             </div>
-                                            <div class="pt-2 mt-2 border-top d-flex justify-content-between align-items-center text-muted" style="font-size: 0.75rem;">
-                                                <span><i class="fas fa-building me-1 opacity-50"></i>${counter.campus ?? ''}</span>
-                                                <span><i class="fas fa-user-circle me-1 opacity-50"></i> ${userName}</span>
-                                            </div>
                                         </div>
-                                    </div>
+                                    </div>`;
+                            });
+                        } else {
+                            countersHtml = `
+                                <div class="col-12 text-center py-4 text-muted">
+                                    <i class="fas fa-desktop mb-2 fs-3 d-block opacity-25"></i>
+                                    No active counters found.
                                 </div>`;
-                        });
-                    } else {
-                        countersHtml = `
-                            <div class="col-12 text-center py-4 text-muted">
-                                <i class="fas fa-desktop mb-2 fs-3 d-block opacity-25"></i>
-                                No active counters found.
-                            </div>`;
+                        }
+                        countersContainer.innerHTML = countersHtml;
                     }
-                    document.getElementById('countersContainer').innerHTML = countersHtml;
 
                     // 3. Update Waiting List
-                    let waitingHtml = '';
-                    if (data.waitingCustomers && Object.keys(data.waitingCustomers).length > 0) {
-                        waitingHtml += '<ul class="list-group list-group-flush">';
-                        for (const [categoryName, customer] of Object.entries(data.waitingCustomers)) {
-                            waitingHtml += `
-                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2">
-                                    <div>
-                                        <strong class="text-dark">${customer.queue_number}</strong>
-                                        <br><small class="text-muted">${categoryName}</small>
-                                    </div>
-                                    <span class="badge bg-warning text-dark">Next</span>
-                                </li>`;
-                        }
-                        waitingHtml += '</ul>';
-                    } else {
-                        waitingHtml = '<div class="text-center text-muted py-3">No customers waiting</div>';
-                    }
-
-                    document.getElementById('waitingListContainer').innerHTML = waitingHtml;
-
-                    // 4. Update Activity Table
-                    let tableHtml = '';
-                    if (data.customers.length > 0) {
-                        data.customers.forEach(customer => {
-                            let statusBadge = '<span class="badge bg-secondary">' + customer.status + '</span>';
-                            if (customer.status === 'serving') {
-                                statusBadge = '<span class="badge bg-success">Serving</span>';
-                            } else if (customer.status === 'waiting') {
-                                statusBadge = '<span class="badge bg-warning text-dark">Waiting</span>';
+                    const waitingListContainer = document.getElementById('waitingListContainer');
+                    if (waitingListContainer) {
+                        let waitingHtml = '';
+                        if (data.waitingCustomers && Object.keys(data.waitingCustomers).length > 0) {
+                            waitingHtml += '<ul class="list-group list-group-flush">';
+                            for (const [categoryName, customer] of Object.entries(data.waitingCustomers)) {
+                                waitingHtml += `
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2">
+                                        <div>
+                                            <strong class="text-dark">${customer.queue_number}</strong>
+                                            <br><small class="text-muted">${categoryName}</small>
+                                        </div>
+                                        <span class="badge bg-warning text-dark">Next</span>
+                                    </li>`;
                             }
-
-                            tableHtml += `
-                                <tr>
-                                    <td><span class="fw-bold text-primary">${customer.queue_number}</span></td>
-                                    <td>${customer.catname}</td>
-                                    <td>${customer.campus}</td>
-                                    <td>${statusBadge}</td>
-                                    <td>${customer.formatted_time}</td>
-                                </tr>`;
-                        });
-                    } else {
-                        tableHtml = '<tr><td colspan="5" class="text-center text-muted py-4">No recent activity.</td></tr>';
+                            waitingHtml += '</ul>';
+                        } else {
+                            waitingHtml = '<div class="text-center text-muted py-3">No customers waiting</div>';
+                        }
+                        waitingListContainer.innerHTML = waitingHtml;
                     }
-                    document.getElementById('activityTableBody').innerHTML = tableHtml;
+
+                    // 4. Update Recent Queue Activity Log Table
+                    const activityLogBody = document.getElementById('activityLogBody') || document.getElementById('activityTableBody');
+                    if (activityLogBody && Array.isArray(data.counters)) {
+                        let activityHtml = '';
+
+                        if (data.counters.length > 0) {
+                            data.counters.forEach(counter => {
+
+                                let staffName = counter.user_lname || (counter.user_info ? counter.user_info.lname : 'Unassigned');
+                                let cateredCount = counter.catered_today_count ?? 0;
+
+                                activityHtml += `
+                                    <tr>
+                                        <td class="fw-bold text-primary">${counter.windowname ?? ''}</td>
+                                        <td><span class="badge bg-light text-dark border">${counter.category ?? ''}</span></td>
+                                        <td class="fw-semibold">${staffName}</td>
+                                        <td>
+                                            <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1">
+                                                ${cateredCount} Served
+                                            </span>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        } else {
+                            activityHtml = '<tr><td colspan="5" class="text-center text-muted py-4">No recent activity.</td></tr>';
+                        }
+
+                        activityLogBody.innerHTML = activityHtml;
+                    }
                 })
                 .catch(error => console.error('Error fetching live queue data:', error));
         }
@@ -356,6 +367,8 @@ CISS V.1.0 || Queueing Dashboard
             const icon = document.getElementById('zoomIcon');
             const text = document.getElementById('zoomText');
 
+            if (!element) return;
+
             if (!document.fullscreenElement) {
                 if (element.requestFullscreen) {
                     element.requestFullscreen();
@@ -364,8 +377,8 @@ CISS V.1.0 || Queueing Dashboard
                 } else if (element.msRequestFullscreen) {
                     element.msRequestFullscreen();
                 }
-                icon.className = 'fas fa-compress me-1';
-                text.innerText = 'Exit Zoom';
+                if (icon) icon.className = 'fas fa-compress me-1';
+                if (text) text.innerText = 'Exit Zoom';
             } else {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
@@ -374,8 +387,8 @@ CISS V.1.0 || Queueing Dashboard
                 } else if (document.msExitFullscreen) {
                     document.msExitFullscreen();
                 }
-                icon.className = 'fas fa-expand me-1';
-                text.innerText = 'Zoom / Fullscreen';
+                if (icon) icon.className = 'fas fa-expand me-1';
+                if (text) text.innerText = 'Zoom / Fullscreen';
             }
         }
 
@@ -383,8 +396,8 @@ CISS V.1.0 || Queueing Dashboard
             const icon = document.getElementById('zoomIcon');
             const text = document.getElementById('zoomText');
             if (!document.fullscreenElement) {
-                icon.className = 'fas fa-expand me-1';
-                text.innerText = 'Zoom / Fullscreen';
+                if (icon) icon.className = 'fas fa-expand me-1';
+                if (text) text.innerText = 'Zoom / Fullscreen';
             }
         });
     </script>

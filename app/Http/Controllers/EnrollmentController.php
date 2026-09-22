@@ -55,7 +55,7 @@ use App\Models\SettingDB\QueueMode;
 class EnrollmentController extends Controller
 {
     public function index()
-    {   
+    {
         $grdCode = GradeCode::all();
         $currentYear = Carbon::now()->year;
         $previousYear = Carbon::now()->year;
@@ -69,7 +69,7 @@ class EnrollmentController extends Controller
             return back()->with('error', 'No active school year found.');
         }
         $activeConfigId = $activeConfig->id;
-        
+
         $previousConfig = Cache::remember("previous_config_{$activeConfigId}", 1000, function () use ($activeConfigId) {
             return ConfigureCurrent::where('id', '<', $activeConfigId)
                 ->orderBy('id', 'desc')
@@ -82,7 +82,7 @@ class EnrollmentController extends Controller
         $prevsemesteractive = $previousConfig->semester;
 
         $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
-        
+
         $cacheKeyPrefix = "dashboard_{$userCampus}_{$schlyearactive}_{$semesteractive}_";
 
         if (!$previousSchlyearYear) {
@@ -232,7 +232,7 @@ class EnrollmentController extends Controller
                                 ->whereIn('program_en_history.status', [2, 3])
                                 ->count();
             });
-            
+
             $enrlstudcountReturning = Cache::remember($cacheKeyPrefix . 'returning_counts', 1000, function () use ($userCampus, $schlyearactive, $semesteractive) {
                             return StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
                                 ->where('program_en_history.schlyear', '=', $schlyearactive)
@@ -510,7 +510,7 @@ class EnrollmentController extends Controller
             return back()->with('error', 'No active school year found.');
         }
         $activeConfigId = $activeConfig->id;
-        
+
         $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
             ->orderBy('id', 'desc') // Get the most recent one
             ->first();
@@ -555,7 +555,7 @@ class EnrollmentController extends Controller
             return back()->with('error', 'No active school year found.');
         }
         $activeConfigId = $activeConfig->id;
-        
+
         $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
             ->orderBy('id', 'desc') // Get the most recent one
             ->first();
@@ -600,7 +600,7 @@ class EnrollmentController extends Controller
             return back()->with('error', 'No active school year found.');
         }
         $activeConfigId = $activeConfig->id;
-        
+
         $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
             ->orderBy('id', 'desc') // Get the most recent one
             ->first();
@@ -631,7 +631,7 @@ class EnrollmentController extends Controller
 
         return $pdf->stream('transferee-students.pdf');
     }
-    
+
     public function returneeStudentsPDF(Request $request)
     {
         $currentYear = Carbon::now()->year;
@@ -645,7 +645,7 @@ class EnrollmentController extends Controller
             return back()->with('error', 'No active school year found.');
         }
         $activeConfigId = $activeConfig->id;
-        
+
         $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
             ->orderBy('id', 'desc') // Get the most recent one
             ->first();
@@ -678,7 +678,7 @@ class EnrollmentController extends Controller
     }
 
     public function searchStud()
-    {   
+    {
         $sy = ConfigureCurrent::select('id', 'schlyear', 'semester')
             ->whereIn('id', function($query) {
                 $query->select(DB::raw('MAX(id)'))
@@ -764,7 +764,7 @@ class EnrollmentController extends Controller
 
     public function searchStudEnroll(Request $request)
     {
-        if(Auth::guard('web')->user()->role == 15) 
+        if(Auth::guard('web')->user()->role == 15)
         {
             $studlvl = StudentLevel::whereIn('id', ['80', '90'])->get();
         } else {
@@ -813,7 +813,7 @@ class EnrollmentController extends Controller
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> is already enrolled in this semester.');
         }
 
-        if(Auth::guard('web')->user()->role == 15) 
+        if(Auth::guard('web')->user()->role == 15)
         {
             $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                     ->join('coasv2_db_enrollment.yearlevel', function($join) {
@@ -827,7 +827,7 @@ class EnrollmentController extends Controller
                     ->orderBy('programs.progAcronym', 'ASC')
                     ->orderBy('class_enroll.classSection', 'ASC')
                     ->get();
-        } else { 
+        } else {
                 $classEnrolls = ClassEnroll::join('programs', 'class_enroll.progCode', '=', 'programs.progCod')
                     ->join('coasv2_db_enrollment.yearlevel', function($join) {
                         $join->on(\DB::raw('SUBSTRING_INDEX(class_enroll.classSection, "-", 1)'), '=', 'coasv2_db_enrollment.yearlevel.yearsection');
@@ -840,7 +840,7 @@ class EnrollmentController extends Controller
                     ->orderBy('class_enroll.classSection', 'ASC')
                     ->get();
         }
-        
+
         $subjOffer = SubjectOffered::join('subjects', 'sub_offered.subCode', 'subjects.sub_code')
                         ->select('subjects.*', 'sub_offered.*',)
                         ->where('schlyear', $schlyear)
@@ -849,13 +849,13 @@ class EnrollmentController extends Controller
                         ->orderBy('subjects.sub_name', 'ASC')
                         ->orderBy('sub_offered.subSec', 'ASC')
                         ->get();
-                        
+
         $subjectCount = $subjOffer->count();
 
         $selectedScholar = StudEnrolmentHistory::where('studentID', $stud_id)
             ->orderBy('id', 'desc')
             ->value('studSch');
-    
+
         return view('enrollment.studenroll.enrollStudent', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedScholar'));
     }
 
@@ -945,7 +945,7 @@ class EnrollmentController extends Controller
         return response()->json($data);
     }
 
-    public function studEnrollmentCreate(Request $request) 
+    public function studEnrollmentCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -971,7 +971,7 @@ class EnrollmentController extends Controller
 
             if (empty($studentID)) {
                 return response()->json(['error' => true, 'message' => 'Student ID is required'], 400);
-            }   
+            }
 
             $schlyear = $request->input('schlyear');
             $semester = $request->input('semester');
@@ -1098,9 +1098,9 @@ class EnrollmentController extends Controller
                         'schlyear' => $request->input('schlyear'),
                         'campus' => Auth::guard('web')->user()->campus,
                         'fundID' => $fndCode,
-                        'account' => $accntNames[$key], 
+                        'account' => $accntNames[$key],
                         'dateAssess' => $request->input('postedDate'),
-                        'amount' => $amntFees[$key], 
+                        'amount' => $amntFees[$key],
                         'postedBy' => $request->input('postedBy'),
                     ]);
                 }
@@ -1156,7 +1156,7 @@ class EnrollmentController extends Controller
                     }
                 })
                 ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
-                ->first(); 
+                ->first();
         $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
 
 
@@ -1196,13 +1196,13 @@ class EnrollmentController extends Controller
             'studor' => $studor,
             'selectedpostedby' => $selectedpostedby,
         ];
-        
+
         $pdf = PDF::loadView('enrollment.studenroll.pdfrf.studRF', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
     }
 
     public function editsearchStud()
-    {   
+    {
         $userId = Auth::guard('web')->user()->id;
         $userCampus = Auth::guard('web')->user()->campus;
         if (in_array($userCampus, ['MC', 'VC', 'HinC', 'CC', 'CA', 'SCC', 'MP', 'SC', 'HC', 'SC', 'IC'])) {
@@ -1212,17 +1212,17 @@ class EnrollmentController extends Controller
                 ->orderBy('id', 'DESC')
                 ->get()
                 ->unique('schlyear');
-            
+
             // Check if the user has custom schlyraccess
             $access = ButtonAccess::where('user_id', $userId)->first();
-        
+
             if ($access && is_array($access->schlyraccess) && count($access->schlyraccess) > 0) {
                 $customSy = ConfigureCurrent::select('id', 'schlyear')
                     ->whereIn('schlyear', $access->schlyraccess)
                     ->orderBy('id', 'DESC')
                     ->get()
                     ->unique('schlyear');
-        
+
                 // Merge and remove duplicates
                 $sy = $sy->merge($customSy)->unique('schlyear')->values();
             }
@@ -1230,7 +1230,7 @@ class EnrollmentController extends Controller
 
         $queueMode = QueueMode::first();
         $queueUser = QueueCounter::where('useridlog', Auth::guard('web')->user()->id)->first();
-            
+
         return view('enrollment.studenroll.editenroll', compact('sy', 'queueMode', 'queueUser'));
     }
 
@@ -1305,7 +1305,7 @@ class EnrollmentController extends Controller
         if (!$programEnHistory) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> not enrolled at this term or school year.');
         }
-                
+
         $selectedProgValue = $programEnHistory->progCod . ' '. $programEnHistory->studYear . '-' . $programEnHistory->studSec;
 
         $selectedProgStudLevel = $programEnHistory->studLevel;
@@ -1421,13 +1421,13 @@ class EnrollmentController extends Controller
                     ->where('campus', $campus)
                     ->orderBy('subjects.sub_name', 'ASC')
                     ->get();
-                        
+
         $subjectCount = $subjOffer->count();
-    
+
         return view('enrollment.studenroll.editenroll_searchview', compact( 'studlvl', 'studscholar', 'student', 'semester', 'schlyear', 'program', 'preassessenrollreg', 'classEnrolls', 'mamisub', 'subjOffer', 'subjectCount', 'studstat', 'studtype', 'shiftrans', 'selectedProgValue', 'selectedProgStudLevel', 'selectedStudSch', 'selectedStudMajor', 'selectedStudMinor', 'selectedStudStatus', 'selectedStudType', 'selectedStudTransferee', 'selectedStudFourPs', 'selectedpostedby', 'subjectsEn', 'subOfferedIds', 'studEditfees', 'programEnHistory', 'studsubenrollIds', 'studsubenrollIdsprimID' ,'studsubenrollIdsprimIDitfee', 'studsubenrollIdslog', 'studsubenrollIdsprimIDlog', 'subOfferedIdslog'));
     }
 
-    public function studEnrollmentUpdate(Request $request) 
+    public function studEnrollmentUpdate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -1454,7 +1454,7 @@ class EnrollmentController extends Controller
 
             if (empty($studentID)) {
                 return response()->json(['error' => true, 'message' => 'Student ID is required'], 400);
-            }   
+            }
 
             $schlyear = $request->input('schlyear');
             $semester = $request->input('semester');
@@ -1588,7 +1588,7 @@ class EnrollmentController extends Controller
                     //         'compstat' => $request->input('compstat')[$index] ?? '',
                     //         'postedBy' => $request->input('postedBy'),
                     //     ]);
-                    // } 
+                    // }
 
                     if ($grade) {
                         // Get existing values
@@ -1695,7 +1695,7 @@ class EnrollmentController extends Controller
                 //         }
                 //     }
                 // }
-                
+
                 // if ($fndCodes && $accntNames && $amntFees) {
                 //     foreach ($fndCodes as $index => $fndCode) {
                 //         $account = $accntNames[$index];
@@ -1744,10 +1744,10 @@ class EnrollmentController extends Controller
         $programEnHistoryId = $request->input('programEnHistoryId');
         $studentAppraisalIds = explode(',', $request->input('studentAppraisalIds'));
         $stuGradesIds = explode(',', $request->input('stuGradesIds'));
-        
+
         if ($programEnHistoryId) {
             $enrollmentHistory = StudEnrolmentHistory::find($programEnHistoryId);
-            
+
             if ($enrollmentHistory) {
                 DeleteEnrollmentLogs::create([
                     'delstudentID' => $enrollmentHistory->studentID,
@@ -1774,7 +1774,7 @@ class EnrollmentController extends Controller
     public function getNextQueue(Request $request)
     {
         $counterId = $request->input('counter_id');
-
+        $counterIDwindow = QueueCounter::where('useridlog', '=', Auth::guard('web')->user()->id)->value('windowname');
         $counter = QueueCounter::where('useridlog', '=', Auth::guard('web')->user()->id)->first();
 
         if (!$counter) {
@@ -1785,13 +1785,16 @@ class EnrollmentController extends Controller
         }
 
         $queueNumber = QueueCustomer::where('status', 'waiting')
-            ->where('catname', $counter->category) 
-            ->where('campus', Auth::guard('web')->user()->campus) 
+            ->where('catname', $counter->category)
+            ->where('campus', Auth::guard('web')->user()->campus)
             ->orderBy('id', 'ASC')
             ->first();
 
         if ($queueNumber) {
-            $queueNumber->update(['status' => 'serving']);
+            $queueNumber->update([
+                'status' => 'serving',
+                'counter_id' => $counterIDwindow
+            ]);
 
             $counter->update([
                 'activeidnumber' => $queueNumber->id,
@@ -1801,7 +1804,7 @@ class EnrollmentController extends Controller
             return response()->json([
                 'success' => true,
                 'queue_number' => $queueNumber->queue_number,
-                'counter_window' => $counter->windowname, 
+                'counter_window' => $counter->windowname,
             ]);
         }
 
@@ -1814,7 +1817,7 @@ class EnrollmentController extends Controller
 
     public function getCallQueue(Request $request)
     {
-        $counterId = $request->input('counter_id'); 
+        $counterId = $request->input('counter_id');
 
 
         $queue = QueueCustomer::join('counters', 'customers.id', '=', 'counters.activeidnumber')
@@ -1855,7 +1858,7 @@ class EnrollmentController extends Controller
         ]);
     }
 
-    public function donePrint(Request $request) 
+    public function donePrint(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -1867,7 +1870,7 @@ class EnrollmentController extends Controller
 
             if (empty($studentID)) {
                 return response()->json(['error' => true, 'message' => 'Student ID is required'], 400);
-            }   
+            }
 
             $schlyear = $request->input('schlyear');
             $semester = $request->input('semester');

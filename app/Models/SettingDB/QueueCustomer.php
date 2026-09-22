@@ -13,14 +13,15 @@ class QueueCustomer extends Model
     protected $table = 'customers';
 
     protected $fillable = [
-        'queue_number', 
-        'catname', 
+        'queue_number',
+        'catname',
         'status',
-        'campus'
+        'campus',
+        'counter_id'
     ];
 
     public function counter()
     {
-        return $this->belongsTo(Counter::class);
+        return $this->belongsTo(QueueCounter::class, 'counter_id');
     }
 }

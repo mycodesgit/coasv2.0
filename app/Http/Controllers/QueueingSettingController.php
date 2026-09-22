@@ -45,23 +45,47 @@ class QueueingSettingController extends Controller
 
     private function getQueueMetrics()
     {
-        // 1. Fetch all counters
-        $counters = QueueCounter::all();
-        // 2. Extract unique user IDs logged into the counters
+        // 1. Fetch ALL counters with today's total catered tickets
+        $counters = QueueCounter::withCount(['customers as catered_today_count' => function ($subQuery) {
+                $subQuery->whereDate('updated_at', Carbon::today())
+                        ->whereIn('status', ['serving', 'completed']);
+            }])
+            ->get();
+
+        // Key counters for quick lookup in customer transformation
+        $countersById = $counters->keyBy('id');
+        $countersByCategory = $counters->groupBy('category');
+
+        // 2. Fetch staff members logged into counters
         $userIds = $counters->pluck('useridlog')->filter()->unique();
-        // 3. Query users from their database connection and key by ID
         $users = User::whereIn('id', $userIds)->get()->keyBy('id');
-        // 4. Attach the user object manually to each counter
+
+        // 3. Map staff info onto counters (Setting BOTH user_info object and user_lname string)
         $counters->transform(function ($counter) use ($users) {
-            $counter->user_info = $users->get($counter->useridlog);
+            // Preserves your blade syntax: {{ $counter->user_info->lname ?? 'N/A' }}
+            $counter->user_info = $counter->useridlog ? $users->get($counter->useridlog) : null;
+            $counter->user_lname = $counter->user_info->lname ?? 'Unassigned';
+
+            // Check active customer for this counter
+            $currentCustomer = QueueCustomer::where('counter_id', $counter->id)
+                ->where('status', 'serving')
+                ->latest('updated_at')
+                ->first();
+
+            if ($currentCustomer) {
+                $counter->status = 'serving';
+                $counter->formatted_time = $currentCustomer->updated_at ? $currentCustomer->updated_at->format('h:i A') : 'N/A';
+            } else {
+                $counter->status = $counter->useridlog ? 'idle' : 'offline';
+                $counter->formatted_time = '-';
+            }
+
             return $counter;
         });
 
-        $customerTickets = QueueCustomer::pluck('queue_number', 'id');
-        $activeCounters = QueueCounter::whereNotNull('activeidnumber')->get();
+        // 4. Fetch "Next in Line" waiting customers for active counters
         $waitingCustomers = [];
-        foreach ($activeCounters as $counter) {
-            // Find the next waiting customer for this category whose ID is greater than activeidnumber
+        foreach ($counters->whereNotNull('activeidnumber') as $counter) {
             $nextCustomer = QueueCustomer::where('catname', $counter->category)
                 ->where('status', 'waiting')
                 ->where('id', '>', $counter->activeidnumber)
@@ -73,25 +97,48 @@ class QueueingSettingController extends Controller
             }
         }
 
-        $customers = QueueCustomer::latest()->take(10)->get();
-        // Standardize timestamps for JSON response
-        $customers->transform(function ($customer) {
+        // 5. Fetch Recent Activity Logs (serving or completed tickets)
+        $customers = QueueCustomer::whereIn('status', ['serving', 'completed'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        // 6. Transform Recent Activity Rows
+        $customers->transform(function ($customer) use ($countersById, $countersByCategory, $users) {
             $customer->formatted_time = $customer->created_at ? $customer->created_at->format('h:i A') : 'N/A';
+
+            $counter = null;
+
+            // Match by counter_id or fallback to category
+            if ($customer->counter_id && $countersById->has($customer->counter_id)) {
+                $counter = $countersById->get($customer->counter_id);
+            } elseif ($customer->catname && $countersByCategory->has($customer->catname)) {
+                $counter = $countersByCategory->get($customer->catname)->first();
+            }
+
+            if ($counter) {
+                $customer->counter_name = $counter->windowname ?? 'N/A';
+                $customer->catered_today = $counter->catered_today_count ?? 0;
+
+                $staffUser = $counter->useridlog ? $users->get($counter->useridlog) : null;
+                $customer->user_lname = $staffUser->lname ?? 'N/A';
+            } else {
+                $customer->counter_name = 'Unassigned';
+                $customer->catered_today = 0;
+                $customer->user_lname = '-';
+            }
+
             return $customer;
         });
 
-        $totalWaiting = QueueCustomer::where('status', 'waiting')->count();
-        $totalServing = QueueCustomer::where('status', 'serving')->count();
-        $totalCompleted = QueueCustomer::where('status', 'completed')->count();
-
         return [
             'counters' => $counters,
-            'customerTickets' => $customerTickets,
+            'customerTickets' => QueueCustomer::pluck('queue_number', 'id'),
             'waitingCustomers' => $waitingCustomers,
             'customers' => $customers,
-            'totalWaiting' => $totalWaiting,
-            'totalServing' => $totalServing,
-            'totalCompleted' => $totalCompleted,
+            'totalWaiting' => QueueCustomer::where('status', 'waiting')->count(),
+            'totalServing' => QueueCustomer::where('status', 'serving')->count(),
+            'totalCompleted' => QueueCustomer::where('status', 'completed')->count(),
             'totalCounters' => $counters->count(),
         ];
     }

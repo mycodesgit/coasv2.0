@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('queue_number')->unique(); 
-            $table->string('catname')->nullable(); 
+            $table->string('queue_number')->unique();
+            $table->string('catname')->nullable();
             $table->enum('status', ['waiting', 'serving', 'served', 'calling'])->default('waiting');
             $table->string('campus');
+            $table->integer('counter_id')->nullable();
             $table->timestamps();
 
         });

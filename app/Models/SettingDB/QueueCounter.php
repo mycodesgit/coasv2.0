@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\SettingDb;
+namespace App\Models\SettingDB;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,7 @@ class QueueCounter extends Model
     protected $table = 'counters';
 
     protected $fillable = [
-        'windowname', 
+        'windowname',
         'category',
         'useridlog',
         'activeidnumber',
@@ -26,7 +26,7 @@ class QueueCounter extends Model
 
     public function customers()
     {
-        return $this->hasMany(QueueCustomer::class);
+        return $this->hasMany(QueueCustomer::class, 'counter_id');
     }
 
     public function users()
