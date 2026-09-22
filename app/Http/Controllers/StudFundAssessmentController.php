@@ -28,132 +28,109 @@ class StudFundAssessmentController extends Controller
 {
     use PendingAppraisalAssessmentCountTrait;
 
-    public function index() 
+    public function index()
     {
         $pendCount = $this->getPendingAllCount();
 
-        $data = [
-            'pendCount' => $pendCount, 
-        ];
-
         if (request()->ajax()) {
-            return response()->json([
-                'pendCount' => $pendCount, 
-            ]);
+            return response()->json(['pendCount' => $pendCount]);
         }
 
-        $currentYear = Carbon::now()->year;
-        $previousYear = Carbon::now()->year;
-        $userCampus = Auth::guard('web')->user()->campus;
+        $authUser = Auth::guard('web')->user();
+        $userCampus = $authUser->campus;
 
+        // Fetch active configuration
         $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
         if (!$activeConfig) {
             return back()->with('error', 'No active school year found.');
         }
-        $activeConfigId = $activeConfig->id;
-        
-        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
-            ->orderBy('id', 'desc') // Get the most recent one
+
+        // Fetch previous configuration safely
+        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfig->id)
+            ->orderBy('id', 'desc')
             ->first();
 
-        $schlyearactiveYear = $activeConfig->schlyear;
-        $schlyearactive = $activeConfig->schlyear;
-        $semesteractive = $activeConfig->semester;
-        $prevsemesteractive = $previousConfig->semester;
-
-        $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
-
-        if (!$previousSchlyearYear) {
+        if (!$previousConfig) {
             return back()->with('error', 'No previous school year found.');
         }
 
-        $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function($join) {
-                            $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
-                        })
-                        ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
-                        ->where(function ($query) use ($userCampus) {
-                            $campuses = explode(', ', $userCampus);
-                            foreach ($campuses as $campus) {
-                                $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
-                            }
-                        })
-                        ->where('coasv2_db_enrollment.program_en_history.semester', '=', $prevsemesteractive)
-                        ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
-                        ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
-                        ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
-                        ->orderBy('college_name', 'ASC')
-                        ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
-                        ->groupBy('college.id')
-                        ->get();
+        $schlyearactive = $activeConfig->schlyear;
+        $semesteractive = $activeConfig->semester;
+        $previousSchlyearYear = $previousConfig->schlyear;
+        $prevsemesteractive = $previousConfig->semester;
 
-        $collegesSecondSemester = College::join('coasv2_db_enrollment.program_en_history', function($join) {
-                            $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
-                        })
-                        ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
-                        ->where(function ($query) use ($userCampus) {
-                            $campuses = explode(', ', $userCampus);
-                            foreach ($campuses as $campus) {
-                                $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
-                            }
-                        })
-                        ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
-                        ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
-                        ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
-                        ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
-                        ->orderBy('college_name', 'ASC')
-                        ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
-                        ->groupBy('college.id')
-                        ->get();
-        // $upSetschlyearConf = ConfigureCurrent::where('set_status', 2)->value('schlyear');
-        // $upSetsemesterConf = ConfigureCurrent::where('set_status', 2)->value('semester');
+        // Prepare campus filter closure for reusability
+        $campusFilter = function ($query) use ($userCampus) {
+            $campuses = array_map('trim', explode(',', $userCampus));
+            foreach ($campuses as $campus) {
+                $query->orWhere('college.campus', 'LIKE', "%{$campus}%");
+            }
+        };
 
-        // $encod = StudentFee::join('coasv2_db_schedule.programs', 'student_fee.prog_Code', '=', 'coasv2_db_schedule.programs.progCod')
-        //         ->join('coasv2_db_schedule.class_enroll', 'coasv2_db_schedule.programs.progCod', '=', 'coasv2_db_schedule.class_enroll.progCode')
-        //         ->select('coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.class_enroll.classSection')
-        //         ->where('student_fee.schlyear', $upSetschlyearConf)
-        //         ->where('student_fee.semester', $upSetsemesterConf)
-        //         ->where('student_fee.campus', Auth::guard('web')->user()->campus)
-        //         ->groupBy('student_fee.prog_Code', 'student_fee.yrlevel', 'coasv2_db_schedule.programs.progAcronym', 'student_fee.schlyear', 'student_fee.semester', 'coasv2_db_schedule.class_enroll.classSection')
-        //         ->get();
+        // Query First Semester Colleges
+        $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+                $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+            })
+            ->whereIn('college.id', range(2, 8))
+            ->where($campusFilter)
+            ->where('coasv2_db_enrollment.program_en_history.semester', $prevsemesteractive)
+            ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
+            ->where('coasv2_db_enrollment.program_en_history.campus', $userCampus)
+            ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
+            ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+            ->groupBy('college.id')
+            ->orderBy('college_name', 'ASC')
+            ->get();
 
-        $enrlstudcountfirst = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '1')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
+        // Query Second Semester Colleges
+        $collegesSecondSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+                $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
+            })
+            ->whereIn('college.id', range(2, 8))
+            ->where($campusFilter)
+            ->where('coasv2_db_enrollment.program_en_history.semester', $semesteractive)
+            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactive)
+            ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
+            ->where('coasv2_db_enrollment.program_en_history.campus', $userCampus)
+            ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
+            ->groupBy('college.id')
+            ->orderBy('college_name', 'ASC')
+            ->get();
 
+        // Combined Year-level Student Counts (Replaces 4 separate queries with 1)
+        $enrolmentCounts = StudEnrolmentHistory::where('studentID', 'NOT LIKE', '%-G%')
+            ->where('schlyear', $schlyearactive)
+            ->where('semester', $semesteractive)
+            ->where('campus', $userCampus)
+            ->whereIn('status', [2, 3])
+            ->whereIn('studYear', ['1', '2', '3', '4'])
+            ->selectRaw("
+                COUNT(CASE WHEN studYear = '1' THEN 1 END) as year_1,
+                COUNT(CASE WHEN studYear = '2' THEN 1 END) as year_2,
+                COUNT(CASE WHEN studYear = '3' THEN 1 END) as year_3,
+                COUNT(CASE WHEN studYear = '4' THEN 1 END) as year_4
+            ")
+            ->first();
 
-        $enrlstudcountsecond = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '2')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
-
-        $enrlstudcountthird = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '3')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
-
-        $enrlstudcountfourth = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '4')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
-
-        return view('assessment.index', compact('data', 'collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
+        return view('assessment.index', [
+            'data' => ['pendCount' => $pendCount],
+            'collegesFirstSemester' => $collegesFirstSemester,
+            'collegesSecondSemester' => $collegesSecondSemester,
+            'schlyearactive' => $schlyearactive,
+            'schlyearactiveYear' => $schlyearactive,
+            'previousYear' => Carbon::now()->year,
+            'semesteractive' => $semesteractive,
+            'previousSchlyearYear' => $previousSchlyearYear,
+            'prevsemesteractive' => $prevsemesteractive,
+            'enrlstudcountfirst' => $enrolmentCounts->year_1 ?? 0,
+            'enrlstudcountsecond' => $enrolmentCounts->year_2 ?? 0,
+            'enrlstudcountthird' => $enrolmentCounts->year_3 ?? 0,
+            'enrlstudcountfourth' => $enrolmentCounts->year_4 ?? 0,
+        ]);
     }
 
     public function encodedAppRead()
-    {   
+    {
         $campus = Auth::guard('web')->user()->campus;
         $upSetschlyearConf = ConfigureCurrent::where('set_status', 2)->value('schlyear');
         $upSetsemesterConf = ConfigureCurrent::where('set_status', 2)->value('semester');
@@ -186,37 +163,37 @@ class StudFundAssessmentController extends Controller
     }
 
     public function fundsRead()
-    {   
+    {
         $pendCount = $this->getPendingAllCount();
 
         $data = [
-            'pendCount' => $pendCount, 
+            'pendCount' => $pendCount,
         ];
 
         if (request()->ajax()) {
             return response()->json([
-                'pendCount' => $pendCount, 
+                'pendCount' => $pendCount,
             ]);
         }
 
         return view('assessment.studentfund.list_fund', compact('data'));
     }
 
-    public function getfundsRead() 
+    public function getfundsRead()
     {
         $data = Funds::orderBy('id', 'ASC')->get();
 
         return response()->json(['data' => $data]);
     }
 
-    public function fundCreate(Request $request) 
+    public function fundCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
                 'fund_name' => 'required',
             ]);
 
-            $fundsName = $request->input('fund_name'); 
+            $fundsName = $request->input('fund_name');
             $existingFunds = Funds::where('fund_name', $fundsName)->first();
 
             if ($existingFunds) {
@@ -236,7 +213,7 @@ class StudFundAssessmentController extends Controller
         }
     }
 
-    public function fundUpdate(Request $request) 
+    public function fundUpdate(Request $request)
     {
         $request->validate([
             'id' => 'required',
@@ -261,7 +238,7 @@ class StudFundAssessmentController extends Controller
         }
     }
 
-    public function fundDelete($id) 
+    public function fundDelete($id)
     {
         $fund = Funds::find($id);
         $fund->delete();
@@ -270,30 +247,30 @@ class StudFundAssessmentController extends Controller
     }
 
     public function accountCOARead()
-    {   
+    {
         $pendCount = $this->getPendingAllCount();
 
         $data = [
-            'pendCount' => $pendCount, 
+            'pendCount' => $pendCount,
         ];
 
         if (request()->ajax()) {
             return response()->json([
-                'pendCount' => $pendCount, 
+                'pendCount' => $pendCount,
             ]);
         }
 
         return view('assessment.studentfund.list_accountcoa', compact('data'));
     }
 
-    public function getaccountCOARead() 
+    public function getaccountCOARead()
     {
         $data = AccountCoa::orderBy('id', 'ASC')->get();
 
         return response()->json(['data' => $data]);
     }
 
-    public function accountCOACreate(Request $request) 
+    public function accountCOACreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -301,8 +278,8 @@ class StudFundAssessmentController extends Controller
                 'accountcoa_name' => 'required',
             ]);
 
-            $coaCode = $request->input('accountcoa_code'); 
-            $coaName = $request->input('accountcoa_name'); 
+            $coaCode = $request->input('accountcoa_code');
+            $coaName = $request->input('accountcoa_name');
             $existingCOA = AccountCoa::where('accountcoa_code', $coaCode)->where('accountcoa_name', $coaName)->first();
 
             if ($existingCOA) {
@@ -323,7 +300,7 @@ class StudFundAssessmentController extends Controller
         }
     }
 
-    public function accountCOAUpdate(Request $request) 
+    public function accountCOAUpdate(Request $request)
     {
         $request->validate([
             'id' => 'required',
@@ -332,8 +309,8 @@ class StudFundAssessmentController extends Controller
         ]);
 
         try {
-            $coaCode = $request->input('accountcoa_code'); 
-            $coaName = $request->input('accountcoa_name'); 
+            $coaCode = $request->input('accountcoa_code');
+            $coaName = $request->input('accountcoa_name');
             $existingCOA = AccountCoa::where('accountcoa_code', $coaCode)->where('accountcoa_name', $coaName)->where('id', '!=', $request->input('id'))->first();
 
             if ($existingCOA) {
@@ -351,7 +328,7 @@ class StudFundAssessmentController extends Controller
         }
     }
 
-    public function accountCOADelete($id) 
+    public function accountCOADelete($id)
     {
         $coaAccnt = AccountCoa::find($id);
         $coaAccnt->delete();
@@ -360,16 +337,16 @@ class StudFundAssessmentController extends Controller
     }
 
     public function accountAppraisalRead()
-    {   
+    {
         $pendCount = $this->getPendingAllCount();
 
         $data = [
-            'pendCount' => $pendCount, 
+            'pendCount' => $pendCount,
         ];
 
         if (request()->ajax()) {
             return response()->json([
-                'pendCount' => $pendCount, 
+                'pendCount' => $pendCount,
             ]);
         }
 
@@ -379,7 +356,7 @@ class StudFundAssessmentController extends Controller
         return view('assessment.studentfund.list_accounts', compact('data', 'funds', 'accntsCOA'));
     }
 
-    public function getaccountAppraisalRead() 
+    public function getaccountAppraisalRead()
     {
         $data = AccountAppraisal::leftJoin('coa_accounts', 'accounts.coa_id', '=', 'coa_accounts.accountcoa_code')
                 ->select('accounts.id as acntid', 'accounts.*', 'coa_accounts.*')
@@ -389,7 +366,7 @@ class StudFundAssessmentController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function accountAppraisalCreate(Request $request) 
+    public function accountAppraisalCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -397,9 +374,9 @@ class StudFundAssessmentController extends Controller
                 'account_name' => 'required',
             ]);
 
-            $fundidName = $request->input('fund_id'); 
-            $accntappName = $request->input('account_name'); 
-            $coaidName = $request->input('coa_id'); 
+            $fundidName = $request->input('fund_id');
+            $accntappName = $request->input('account_name');
+            $coaidName = $request->input('coa_id');
             $existingAccntApp = AccountAppraisal::where('fund_id', $fundidName)->where('account_name', $accntappName)->first();
 
             if ($existingAccntApp) {
@@ -421,7 +398,7 @@ class StudFundAssessmentController extends Controller
         }
     }
 
-    public function accountAppraisalUpdate(Request $request) 
+    public function accountAppraisalUpdate(Request $request)
     {
         $request->validate([
             'id' => 'required',
@@ -430,8 +407,8 @@ class StudFundAssessmentController extends Controller
         ]);
 
         try {
-            $fundidName = $request->input('fund_id'); 
-            $accntappName = $request->input('account_name'); 
+            $fundidName = $request->input('fund_id');
+            $accntappName = $request->input('account_name');
             $coaidName = $request->input('coa_id');
             $existingAccntApp = AccountAppraisal::where('fund_id', $fundidName)->where('account_name', $accntappName)->where('coa_id', $coaidName)->where('id', '!=', $request->input('id'))->first();
 
@@ -451,7 +428,7 @@ class StudFundAssessmentController extends Controller
         }
     }
 
-    public function accountAppraisalDelete($id) 
+    public function accountAppraisalDelete($id)
     {
         $accntsApp = AccountAppraisal::find($id);
         $accntsApp->delete();
