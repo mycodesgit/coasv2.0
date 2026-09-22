@@ -32,9 +32,9 @@ CISS V.1.0 || Enrollment
                                     <h4>Edit Student Enrollment</h4>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-9"> 
+                                    <div class="col-md-9">
                                         <form method="GET" action="{{ route('editsearchStudRead') }}" id="enrollStud" class="mb-3">
-                                            @csrf   
+                                            @csrf
 
                                             <div class="form-group mt-2">
                                                 <div class="row">
@@ -89,7 +89,7 @@ CISS V.1.0 || Enrollment
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            
+
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -108,8 +108,8 @@ CISS V.1.0 || Enrollment
                                                             <div class="card-body">
                                                                 <center><label>Current No.</label></center>
                                                                 <input type="text" id="queueNumber" class="form-control text-bold" readonly style="border: none; font-size: 20pt; text-align: center;">
-                                                                <button id="nextButton" class="btn btn-success mt-3" data-counter-id="1">Next</button> 
-                                                                <button id="callButton" class="btn btn-outline-danger mt-3">Call</button>  
+                                                                <button id="nextButton" class="btn btn-success mt-3" data-counter-id="1">Next</button>
+                                                                <button id="callButton" class="btn btn-outline-danger mt-3">Call</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -132,7 +132,7 @@ CISS V.1.0 || Enrollment
                                                                         <option value="Evaluation" {{ (isset($queueUser) && $queueUser->category == 'Evaluation') ? 'selected' : '' }}>Evaluation</option>
                                                                         <option value="Printing" {{ (isset($queueUser) && $queueUser->category == 'Printing') ? 'selected' : '' }}>Printing</option>
                                                                     </select>
-                                                                    <button type="submit" class="btn btn-outline-success mt-3">Save</button> 
+                                                                    <button type="submit" class="btn btn-outline-success mt-3">Save</button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -153,7 +153,7 @@ CISS V.1.0 || Enrollment
     <script>
         function formatInput(input) {
             let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-            
+
             if (cleaned.length > 0) {
                 let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
                 input.value = formatted;

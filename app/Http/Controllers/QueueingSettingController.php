@@ -138,7 +138,7 @@ class QueueingSettingController extends Controller
             'customers' => $customers,
             'totalWaiting' => QueueCustomer::where('status', 'waiting')->count(),
             'totalServing' => QueueCustomer::where('status', 'serving')->count(),
-            'totalCompleted' => QueueCustomer::where('status', 'completed')->count(),
+            'totalCompleted' => QueueCustomer::where('status', 'serving')->count(),
             'totalCounters' => $counters->count(),
         ];
     }

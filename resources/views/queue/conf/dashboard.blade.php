@@ -358,8 +358,8 @@ CISS V.1.0 || Queueing Dashboard
                 .catch(error => console.error('Error fetching live queue data:', error));
         }
 
-        // Poll every 3 seconds (3000 ms)
-        setInterval(updateDashboard, 3000);
+        // Poll every 3 seconds (5000 ms)
+        setInterval(updateDashboard, 5000);
 
         // Zoom Functions
         function toggleZoomDisplay() {
