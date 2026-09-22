@@ -1105,7 +1105,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
     Route::prefix('conf/queue/settings')->group(function () {
 
-        Route::get('/', [QueueingSettingController::class, 'index'])->name('queue-index');
+        Route::get('/dash', [QueueingSettingController::class, 'dash'])->name('queue-dash');
+        Route::get('/queue/live-data', [QueueingSettingController::class, 'fetchLiveData'])->name('queue.live-data');
+
+        Route::get('/counters', [QueueingSettingController::class, 'index'])->name('queue-index');
         Route::get('/getcounterajax', [QueueingSettingController::class, 'getcounterRead'])->name('getcounterRead');
         Route::post('/counter/add', [QueueingSettingController::class, 'counterCreate'])->name('counterCreate');
         Route::post('/counter/update', [QueueingSettingController::class, 'counterUpdate'])->name('counterUpdate');

@@ -21,6 +21,12 @@ use App\Models\SettingDB\QueueMode;
 
 class QueueingSettingController extends Controller
 {
+    public function dash()
+    {
+        $data = $this->getQueueMetrics();
+        return view('queue.conf.dashboard', $data);
+    }
+
     public function index()
     {
         $user = User::where(function ($query) {
@@ -28,6 +34,66 @@ class QueueingSettingController extends Controller
               ->orWhere('dept', '=', 'Graduate School Registrar');
         })->where('campus', '=', Auth::guard('web')->user()->campus)->get();
         return view('queue.conf.list_counter', compact('user'));
+    }
+
+    // Endpoint for AJAX polling
+    public function fetchLiveData()
+    {
+        $data = $this->getQueueMetrics();
+        return response()->json($data);
+    }
+
+    private function getQueueMetrics()
+    {
+        // 1. Fetch all counters
+        $counters = QueueCounter::all();
+        // 2. Extract unique user IDs logged into the counters
+        $userIds = $counters->pluck('useridlog')->filter()->unique();
+        // 3. Query users from their database connection and key by ID
+        $users = User::whereIn('id', $userIds)->get()->keyBy('id');
+        // 4. Attach the user object manually to each counter
+        $counters->transform(function ($counter) use ($users) {
+            $counter->user_info = $users->get($counter->useridlog);
+            return $counter;
+        });
+
+        $customerTickets = QueueCustomer::pluck('queue_number', 'id');
+        $activeCounters = QueueCounter::whereNotNull('activeidnumber')->get();
+        $waitingCustomers = [];
+        foreach ($activeCounters as $counter) {
+            // Find the next waiting customer for this category whose ID is greater than activeidnumber
+            $nextCustomer = QueueCustomer::where('catname', $counter->category)
+                ->where('status', 'waiting')
+                ->where('id', '>', $counter->activeidnumber)
+                ->orderBy('id', 'asc')
+                ->first();
+
+            if ($nextCustomer) {
+                $waitingCustomers[$counter->category] = $nextCustomer;
+            }
+        }
+
+        $customers = QueueCustomer::latest()->take(10)->get();
+        // Standardize timestamps for JSON response
+        $customers->transform(function ($customer) {
+            $customer->formatted_time = $customer->created_at ? $customer->created_at->format('h:i A') : 'N/A';
+            return $customer;
+        });
+
+        $totalWaiting = QueueCustomer::where('status', 'waiting')->count();
+        $totalServing = QueueCustomer::where('status', 'serving')->count();
+        $totalCompleted = QueueCustomer::where('status', 'completed')->count();
+
+        return [
+            'counters' => $counters,
+            'customerTickets' => $customerTickets,
+            'waitingCustomers' => $waitingCustomers,
+            'customers' => $customers,
+            'totalWaiting' => $totalWaiting,
+            'totalServing' => $totalServing,
+            'totalCompleted' => $totalCompleted,
+            'totalCounters' => $counters->count(),
+        ];
     }
 
     public function getcounterRead()
@@ -41,14 +107,14 @@ class QueueingSettingController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function counterCreate(Request $request) 
+    public function counterCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
                 'windowname' => 'required',
             ]);
 
-            $counterName = $request->input('windowname'); 
+            $counterName = $request->input('windowname');
             $existingCounter = QueueCounter::where('windowname', $counterName)->where('campus', '=', Auth::guard('web')->user()->campus)->first();
 
             if ($existingCounter) {
@@ -69,8 +135,8 @@ class QueueingSettingController extends Controller
             }
         }
     }
-    
-    public function counterUpdate(Request $request) 
+
+    public function counterUpdate(Request $request)
     {
         $request->validate([
             'id' => 'required',
@@ -181,13 +247,13 @@ class QueueingSettingController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => $queueMode->statusqueue === 'On' 
-                ? ' enabled' 
+            'message' => $queueMode->statusqueue === 'On'
+                ? ' enabled'
                 : ' disabled',
         ]);
     }
 
-    public function resetQueue(Request $request) 
+    public function resetQueue(Request $request)
     {
         try {
             QueueCustomer::query()->update(['status' => 'waiting']);
@@ -199,7 +265,7 @@ class QueueingSettingController extends Controller
         }
     }
 
-    public function counterUserUpdate(Request $request) 
+    public function counterUserUpdate(Request $request)
     {
         $request->validate([
             'id' => 'required',

@@ -4,14 +4,12 @@
 CISS V.1.0 || Queueing
 @endsection
 
-@yield('sidemenu')
-
 @section('workspace')
     <div class="row">
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,15 +22,24 @@ CISS V.1.0 || Queueing
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Settings</h1>
+                        <p class="text-muted small mb-0">Manage queueing, on/off and reset queueing numbers in every window.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-settings"></i> Queueing Settings Section
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Settings</h4>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 mt-3">
+                                <div class="row g-3">
+                                    <div class="col-md-12">
                                         <form method="post" action="{{ route('toggle.queue') }}" id="queueForm">
                                             @csrf
 
@@ -53,10 +60,11 @@ CISS V.1.0 || Queueing
                                                 </div>
                                             </div>
                                         </form>
-
+                                    </div>
+                                    <div class="col-md-12">
                                         <form method="post" action="{{ route('queue.reset') }}" id="queueReset">
                                             @csrf
-                                            <div class="card mt-3">
+                                            <div class="card">
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-8">
@@ -112,6 +120,6 @@ CISS V.1.0 || Queueing
             .catch(error => console.error('Error:', error));
         });
 
-        
+
     </script>
 @endsection

@@ -331,7 +331,7 @@
         var gradingRoute = "{{ route('grading-index') }}";
         var yearbookRoute = "{{ route('yearbook-index') }}";
         var kioskRoute = "{{ route('kioskReport') }}";
-        var queueRoute = "{{ route('queue-index') }}";
+        var queueRoute = "{{ route('queue-dash') }}";
         var nstpRoute = "{{ route('nstp-index') }}";
         var ossaRoute = "{{ route('ossa-index') }}";
         var requestRoute = "{{ route('request-index') }}";

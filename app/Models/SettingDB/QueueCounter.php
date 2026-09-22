@@ -5,6 +5,8 @@ namespace App\Models\SettingDb;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\AdmissionDB\User;
+
 class QueueCounter extends Model
 {
     use HasFactory;
@@ -25,5 +27,10 @@ class QueueCounter extends Model
     public function customers()
     {
         return $this->hasMany(QueueCustomer::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'useridlog');
     }
 }
