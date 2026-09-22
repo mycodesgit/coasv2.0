@@ -11,7 +11,7 @@ CISS V.1.0 || Assessment
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,203 +24,211 @@ CISS V.1.0 || Assessment
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">HE Billing Details</h1>
+                        <p class="text-muted small mb-0">Generate and export HE billing per academic year and semester in.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-search"></i> Search to show data
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Student HE Education Billing</h4>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row mt-3">
-                                            <div class="col-md-12">
-                                                <form method="GET" action="{{ route('hebillingRead_search') }}" id="studstatesum">
-                                                    @csrf
+                                <form method="GET" action="{{ route('hebillingRead_search') }}" id="studstatesum">
+                                    @csrf
 
-                                                    <div class="form-group">
-                                                        <div class="row g-3">
-                                                            <div class="col-md-2">
-                                                                <label>Academic Year: <span class="text-danger">*</span></label>
-                                                                <select class="form-control form-control-sm" name="schlyear">
-                                                                    @foreach($sy as $datasy)
-                                                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
+                                    <div class="form-group">
+                                        <div class="row g-3">
+                                            <div class="col-md-2">
+                                                <label class="form-label fw-semibold">Academic Year: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm" name="schlyear">
+                                                    @foreach($sy as $datasy)
+                                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
-                                                            <div class="col-md-2">
-                                                                <label>Campus: <span class="text-danger">*</span></label>
-                                                                <select class="form-control form-control-sm" name="campus" id="campus">
-                                                                    <option value="{{Auth::user()->campus}}">
-                                                                        @if (Auth::user()->campus == 'MC') Main 
-                                                                            @elseif(Auth::user()->campus == 'VC') Victorias 
-                                                                            @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                                                            @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                                                            @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                                                            @elseif(Auth::user()->campus == 'IC') Ilog 
-                                                                            @elseif(Auth::user()->campus == 'CA') Candoni 
-                                                                            @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                                                            @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                                                            @elseif(Auth::user()->campus == 'VE') Valladolid 
-                                                                        @endif
-                                                                    </option>
-                                                                    @if(Auth::user()->role == 0 || Auth::user()->id == 23)
-                                                                        <option value="MC">Main</option>
-                                                                        <option value="VC">Victorias</option>
-                                                                        <option value="SCC">San Carlos</option>
-                                                                        <option value="HC">Hinigaran</option>
-                                                                        <option value="MP">Moises Padilla</option>
-                                                                        <option value="IC">Ilog</option>
-                                                                        <option value="CA">Candoni</option>
-                                                                        <option value="CC">Cauayan</option>
-                                                                        <option value="SC">Sipalay</option>
-                                                                        <option value="HinC">Hinobaan</option>
-                                                                        <option value="VE">Valladolid</option>
-                                                                    @else
-                                                                    @endif
-                                                                </select>
-                                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label fw-semibold">Campus: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm" name="campus" id="campus">
+                                                    <option value="{{Auth::user()->campus}}">
+                                                        @if (Auth::user()->campus == 'MC') Main
+                                                            @elseif(Auth::user()->campus == 'VC') Victorias
+                                                            @elseif(Auth::user()->campus == 'SCC') San Carlos
+                                                            @elseif(Auth::user()->campus == 'HC') Hinigaran
+                                                            @elseif(Auth::user()->campus == 'MP') Moises Padilla
+                                                            @elseif(Auth::user()->campus == 'IC') Ilog
+                                                            @elseif(Auth::user()->campus == 'CA') Candoni
+                                                            @elseif(Auth::user()->campus == 'CC') Cauayan
+                                                            @elseif(Auth::user()->campus == 'SC') Sipalay
+                                                            @elseif(Auth::user()->campus == 'HinC') Hinobaan
+                                                            @elseif(Auth::user()->campus == 'VE') Valladolid
+                                                        @endif
+                                                    </option>
+                                                    @if(Auth::user()->role == 0 || Auth::user()->id == 23)
+                                                        <option value="MC">Main</option>
+                                                        <option value="VC">Victorias</option>
+                                                        <option value="SCC">San Carlos</option>
+                                                        <option value="HC">Hinigaran</option>
+                                                        <option value="MP">Moises Padilla</option>
+                                                        <option value="IC">Ilog</option>
+                                                        <option value="CA">Candoni</option>
+                                                        <option value="CC">Cauayan</option>
+                                                        <option value="SC">Sipalay</option>
+                                                        <option value="HinC">Hinobaan</option>
+                                                        <option value="VE">Valladolid</option>
+                                                    @else
+                                                    @endif
+                                                </select>
+                                            </div>
 
-                                                            <div class="col-md-4">
-                                                                <label>Semester: <span class="text-danger">*</span></label>
-                                                                <select class="form-control  form-control-sm" name="semester">
-                                                                    <option disabled selected>---Select---</option>
-                                                                    <option value="1">First Semester</option>
-                                                                    <option value="2">Second Semester</option>
-                                                                    <option value="3">Summer</option>
-                                                                </select>
-                                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-semibold">Semester: <span class="text-danger">*</span></label>
+                                                <select class="form-control  form-control-sm" name="semester">
+                                                    <option disabled selected>---Select---</option>
+                                                    <option value="1">First Semester</option>
+                                                    <option value="2">Second Semester</option>
+                                                    <option value="3">Summer</option>
+                                                </select>
+                                            </div>
 
-                                                            <div class="col-md-2">
-                                                                <label>&nbsp;</label>
-                                                                <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-
-                                                <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
-
-                                                <div class="row">
-                                                    <div class="col-md-12 mt-3">
-                                                        <div class="table-responsive p-2">
-                                                            <table id="hebilling" class="table table-hover">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>StudID</th>
-                                                                        <th>Status</th>
-                                                                        <th>Last</th>
-                                                                        <th>Given</th>
-                                                                        <th>Middle</th>
-                                                                        <th>Degree</th>
-                                                                        <th>Level</th>
-                                                                        <th>Sex</th>
-                                                                        <th>Email</th>
-                                                                        <th>Phone</th>
-                                                                        <th>Lab Unit</th>
-                                                                        <th>Total Units</th>
-                                                                        <th>NSTP Unit</th>
-                                                                        <th>Tuition</th>
-                                                                        <th>NSTP</th>
-                                                                        <th>Athletic</th>
-                                                                        <th>Computer</th>
-                                                                        <th>Cultural</th>
-                                                                        <th>Development</th>
-                                                                        <th>Entrance</th>
-                                                                        <th>Guidance</th>
-                                                                        <th>IT Fee</th>
-                                                                        <th>Handbook</th>
-                                                                        <th>Laboratory</th>
-                                                                        <th>Library</th>
-                                                                        <th>Medical</th>
-                                                                        <th>Registration</th>
-                                                                        <th>SchoolID</th>
-                                                                        <th>Total</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @php
-                                                                        $students = [];
-                                                                        foreach ($studfeesbill as $datastudfeesbill) {
-                                                                            $studentID = $datastudfeesbill->studentID;
-                                                                            if (!isset($students[$studentID])) {
-                                                                                $students[$studentID] = [
-                                                                                    'studentID' => $datastudfeesbill->studentID,
-                                                                                    'studStatus' => $datastudfeesbill->studStatus == 1 ? 'Regular' : ($datastudfeesbill->studStatus == 2 ? 'Irregular' : 'Underpro'),
-                                                                                    'lname' => $datastudfeesbill->lname,
-                                                                                    'fname' => $datastudfeesbill->fname,
-                                                                                    'mname' => substr($datastudfeesbill->mname, 0, 1) . '.',
-                                                                                    'progAcronym' => $datastudfeesbill->progAcronym,
-                                                                                    'studYear' => $datastudfeesbill->studYear,
-                                                                                    'gender' => $datastudfeesbill->gender == 'Male' ? 'M' : ($datastudfeesbill->gender == 'Female' ? 'F' : ''),
-                                                                                    'email' => $datastudfeesbill->email,
-                                                                                    'contact' => $datastudfeesbill->contact,
-                                                                                    'studUnit' => $datastudfeesbill->studUnit,
-                                                                                    'fees' => []
-                                                                                ];
-                                                                            }
-                                                                            $students[$studentID]['fees'][$datastudfeesbill->account] = $datastudfeesbill->amount;
-                                                                        }
-                                                                        $studentsCollection = collect($students)->sortBy('lname')->values()->all();
-                                                                    @endphp
-                                                                    @foreach($studentsCollection as $student)
-                                                                        @php
-                                                                            // Calculate the total of all fees
-                                                                            $totalFee = 0;
-                                                                            foreach ($student['fees'] as $feeType => $amount) {
-                                                                                $totalFee += $amount;
-                                                                            }
-                                                                        @endphp
-                                                                        <tr>
-                                                                            <td>{{ $student['studentID'] }}</td>
-                                                                            <td>{{ $student['studStatus'] }}</td>
-                                                                            <td>{{ $student['lname'] }}</td>
-                                                                            <td>{{ $student['fname'] }}</td>
-                                                                            <td>{{ $student['mname'] }}</td>
-                                                                            <td>{{ $student['progAcronym'] }}</td>
-                                                                            <td>{{ $student['studYear'] }}</td>
-                                                                            <td>{{ $student['gender'] }}</td>
-                                                                            <td>{{ $student['email'] }}</td>
-                                                                            <td>{{ $student['contact'] }}</td>
-                                                                            <td></td>
-                                                                            <td>{{ $student['studUnit'] }}</td>
-                                                                            <td></td>
-                                                                            @php
-                                                                                $tuitionFee = 0;
-                                                                                foreach ($student['fees'] as $feeType => $amount) {
-                                                                                    if (strpos($feeType, 'TUITION -') === 0) {
-                                                                                        $tuitionFee += $amount;
-                                                                                    }
-                                                                                }
-                                                                            @endphp
-                                                                            <td>{{ $tuitionFee > 0 ? number_format($tuitionFee, 2) : '0.00' }}</td>
-                                                                            <td></td>
-                                                                            <td>{{ $student['fees']['ATHLETIC FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['COMPUTER LAB FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['CULTURAL FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['DEVELOPMENTAL FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['ENTRANCE FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['GUIDANCE FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['IT FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['HANDBOOK FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['LAB FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['LIBRARY FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['MEDICAL/DENTAL FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['REGISTRATION FEE'] ?? '' }}</td>
-                                                                            <td>{{ $student['fees']['SCHOOL ID FEE'] ?? '' }}</td>
-                                                                            <td>{{ number_format($totalFee, 2) }}</td>
-                                                                        </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                                            <div class="col-md-2">
+                                                <div class="d-flex flex-column h-100">
+                                                    <label class="form-label fw-semibold opacity-0 d-none d-md-block">Action</label>
+                                                    <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </form>
+                                <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-book"></i> List of HE Billing
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive p-2">
+                                    <table id="hebilling" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>StudID</th>
+                                                <th>Status</th>
+                                                <th>Last</th>
+                                                <th>Given</th>
+                                                <th>Middle</th>
+                                                <th>Degree</th>
+                                                <th>Level</th>
+                                                <th>Sex</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Lab Unit</th>
+                                                <th>Total Units</th>
+                                                <th>NSTP Unit</th>
+                                                <th>Tuition</th>
+                                                <th>NSTP</th>
+                                                <th>Athletic</th>
+                                                <th>Computer</th>
+                                                <th>Cultural</th>
+                                                <th>Development</th>
+                                                <th>Entrance</th>
+                                                <th>Guidance</th>
+                                                <th>IT Fee</th>
+                                                <th>Handbook</th>
+                                                <th>Laboratory</th>
+                                                <th>Library</th>
+                                                <th>Medical</th>
+                                                <th>Registration</th>
+                                                <th>SchoolID</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $students = [];
+                                                foreach ($studfeesbill as $datastudfeesbill) {
+                                                    $studentID = $datastudfeesbill->studentID;
+                                                    if (!isset($students[$studentID])) {
+                                                        $students[$studentID] = [
+                                                            'studentID' => $datastudfeesbill->studentID,
+                                                            'studStatus' => $datastudfeesbill->studStatus == 1 ? 'Regular' : ($datastudfeesbill->studStatus == 2 ? 'Irregular' : 'Underpro'),
+                                                            'lname' => $datastudfeesbill->lname,
+                                                            'fname' => $datastudfeesbill->fname,
+                                                            'mname' => substr($datastudfeesbill->mname, 0, 1) . '.',
+                                                            'progAcronym' => $datastudfeesbill->progAcronym,
+                                                            'studYear' => $datastudfeesbill->studYear,
+                                                            'gender' => $datastudfeesbill->gender == 'Male' ? 'M' : ($datastudfeesbill->gender == 'Female' ? 'F' : ''),
+                                                            'email' => $datastudfeesbill->email,
+                                                            'contact' => $datastudfeesbill->contact,
+                                                            'studUnit' => $datastudfeesbill->studUnit,
+                                                            'fees' => []
+                                                        ];
+                                                    }
+                                                    $students[$studentID]['fees'][$datastudfeesbill->account] = $datastudfeesbill->amount;
+                                                }
+                                                $studentsCollection = collect($students)->sortBy('lname')->values()->all();
+                                            @endphp
+                                            @foreach($studentsCollection as $student)
+                                                @php
+                                                    // Calculate the total of all fees
+                                                    $totalFee = 0;
+                                                    foreach ($student['fees'] as $feeType => $amount) {
+                                                        $totalFee += $amount;
+                                                    }
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $student['studentID'] }}</td>
+                                                    <td>{{ $student['studStatus'] }}</td>
+                                                    <td>{{ $student['lname'] }}</td>
+                                                    <td>{{ $student['fname'] }}</td>
+                                                    <td>{{ $student['mname'] }}</td>
+                                                    <td>{{ $student['progAcronym'] }}</td>
+                                                    <td>{{ $student['studYear'] }}</td>
+                                                    <td>{{ $student['gender'] }}</td>
+                                                    <td>{{ $student['email'] }}</td>
+                                                    <td>{{ $student['contact'] }}</td>
+                                                    <td></td>
+                                                    <td>{{ $student['studUnit'] }}</td>
+                                                    <td></td>
+                                                    @php
+                                                        $tuitionFee = 0;
+                                                        foreach ($student['fees'] as $feeType => $amount) {
+                                                            if (strpos($feeType, 'TUITION -') === 0) {
+                                                                $tuitionFee += $amount;
+                                                            }
+                                                        }
+                                                    @endphp
+                                                    <td>{{ $tuitionFee > 0 ? number_format($tuitionFee, 2) : '0.00' }}</td>
+                                                    <td></td>
+                                                    <td>{{ $student['fees']['ATHLETIC FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['COMPUTER LAB FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['CULTURAL FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['DEVELOPMENTAL FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['ENTRANCE FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['GUIDANCE FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['IT FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['HANDBOOK FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['LAB FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['LIBRARY FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['MEDICAL/DENTAL FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['REGISTRATION FEE'] ?? '' }}</td>
+                                                    <td>{{ $student['fees']['SCHOOL ID FEE'] ?? '' }}</td>
+                                                    <td>{{ number_format($totalFee, 2) }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

@@ -47,17 +47,20 @@ CISS V.1.0 || Assessment
 
                                             <div class="form-group">
                                                 <div class="row g-3">
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-12">
                                                         <label class="form-label fw-semibold">Course: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm select2bs4" name="prog_Code">
                                                             <option disabled selected> ---Select---</option>
                                                             @foreach($programsEn as $prog)
-                                                                <option value="{{ $prog->progCod }}">{{ $prog->progAcronym }}</option>
+                                                                <option value="{{ $prog->progCod }}">{{ $prog->progAcronym }} - {{ $prog->progName }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-
-                                                    <div class="col-md-2">
+                                                </div>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <div class="row g-3">
+                                                    <div class="col-md-3">
                                                         <label class="form-label fw-semibold">Year Level: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="yrlevel">
                                                             <option disabled selected>---Select---</option>
@@ -69,7 +72,7 @@ CISS V.1.0 || Assessment
                                                         </select>
                                                     </div>
 
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-3">
                                                         <label class="form-label fw-semibold">Academic Year: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="schlyear">
                                                             @foreach($sy as $datasy)
@@ -78,7 +81,7 @@ CISS V.1.0 || Assessment
                                                         </select>
                                                     </div>
 
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-3">
                                                         <label class="form-label fw-semibold">Semester: <span class="text-danger">*</span></label>
                                                         <select class="form-control  form-control-sm" name="semester">
                                                             <option disabled selected>---Select---</option>
@@ -88,7 +91,7 @@ CISS V.1.0 || Assessment
                                                         </select>
                                                     </div>
 
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-3">
                                                         <div class="d-flex flex-column h-100">
                                                             <label class="form-label fw-semibold opacity-0 d-none d-md-block">Action</label>
                                                             <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">Search</button>
