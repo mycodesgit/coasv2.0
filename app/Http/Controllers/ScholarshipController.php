@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 
 use PDF;
@@ -36,154 +37,135 @@ class ScholarshipController extends Controller
 {
     public function index()
     {
-        $currentYear = Carbon::now()->year;
-        $previousYear = Carbon::now()->year;
-        $userCampus = Auth::guard('web')->user()->campus;
+        $user = Auth::guard('web')->user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
 
-        // Fetch the active configuration with set_status = 2
-        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        $currentYear = Carbon::now()->year;
+        $previousYear = $currentYear;
+        $userCampus = $user->campus;
+
+        // 1. Fetch Active Configuration
+        $activeConfig = Cache::remember("active_config", 1000, function () {
+            return ConfigureCurrent::where('set_status', 2)->first();
+        });
+
         if (!$activeConfig) {
             return back()->with('error', 'No active school year found.');
         }
+
         $activeConfigId = $activeConfig->id;
-        
-        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
-            ->orderBy('id', 'desc') // Get the most recent one
-            ->first();
 
-        $schlyearactiveYear = $activeConfig->schlyear;
-        $schlyearactive = $activeConfig->schlyear;
-        $semesteractive = $activeConfig->semester;
-        $prevsemesteractive = $previousConfig->semester;
+        // 2. Fetch Previous Configuration
+        $previousConfig = Cache::remember("previous_config_{$activeConfigId}", 1000, function () use ($activeConfigId) {
+            return ConfigureCurrent::where('id', '<', $activeConfigId)
+                ->orderBy('id', 'desc')
+                ->first();
+        });
 
-        $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
-
-        if (!$previousSchlyearYear) {
+        if (!$previousConfig) {
             return back()->with('error', 'No previous school year found.');
         }
 
-        // Query for the previous school year's first semester
-        $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+        $schlyearactiveYear   = $activeConfig->schlyear;
+        $schlyearactive       = $activeConfig->schlyear;
+        $semesteractive       = $activeConfig->semester;
+        $prevsemesteractive   = $previousConfig->semester;
+        $previousSchlyearYear = $previousConfig->schlyear;
+
+        $cacheKeyPrefix = "scholar_dash_{$userCampus}_{$schlyearactive}_{$semesteractive}_";
+
+        // Helper Closure for College Queries
+        $getCollegeData = function ($schlyear, $semester) use ($user, $userCampus) {
+            return College::join('coasv2_db_enrollment.program_en_history', function ($join) {
                 $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
             })
             ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
             ->where(function ($query) use ($userCampus) {
-                $campuses = explode(', ', $userCampus);
-                foreach ($campuses as $campus) {
+                foreach (explode(', ', $userCampus) as $campus) {
                     $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
                 }
             })
-            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $prevsemesteractive)
-            ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
+            ->where('coasv2_db_enrollment.program_en_history.semester', $semester)
+            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyear)
             ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
-            ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
-            ->orderBy('college_name', 'ASC')
+            ->where('coasv2_db_enrollment.program_en_history.campus', $user->campus)
             ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
             ->groupBy('college.id')
-            ->get();
-
-
-        // Query for the current active school year's second semester
-        $collegesSecondSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
-                $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
-            })
-            ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
-            ->where(function ($query) use ($userCampus) {
-                $campuses = explode(', ', $userCampus);
-                foreach ($campuses as $campus) {
-                    $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
-                }
-            })
-            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
-            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
-            ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
-            ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
             ->orderBy('college_name', 'ASC')
-            ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
-            ->groupBy('college.id')
             ->get();
+        };
 
-        $enrlstudcountfirst = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '1')
-                            ->whereIn('program_en_history.status', [2, 3])
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->count();
+        // 3. College Queries (Previous & Current)
+        $collegesFirstSemester = Cache::remember($cacheKeyPrefix . 'prev_colleges', 1000, function () use ($getCollegeData, $previousSchlyearYear, $prevsemesteractive) {
+            return $getCollegeData($previousSchlyearYear, $prevsemesteractive);
+        });
 
+        $collegesSecondSemester = Cache::remember($cacheKeyPrefix . 'curr_colleges', 1000, function () use ($getCollegeData, $schlyearactiveYear, $semesteractive) {
+            return $getCollegeData($schlyearactiveYear, $semesteractive);
+        });
 
-        $enrlstudcountsecond = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '2')
-                            ->whereIn('program_en_history.status', [2, 3])
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->count();
+        // 4. Aggregated Year Counts (Optimized 4 queries into 1)
+        $yearStats = Cache::remember($cacheKeyPrefix . 'year_counts_aggregated', 1000, function () use ($schlyearactive, $semesteractive, $userCampus) {
+            return StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                ->where('program_en_history.schlyear', $schlyearactive)
+                ->where('program_en_history.semester', $semesteractive)
+                ->whereIn('program_en_history.status', [2, 3])
+                ->where('program_en_history.campus', $userCampus)
+                ->selectRaw("
+                    SUM(CASE WHEN studYear = '1' THEN 1 ELSE 0 END) as year1,
+                    SUM(CASE WHEN studYear = '2' THEN 1 ELSE 0 END) as year2,
+                    SUM(CASE WHEN studYear = '3' THEN 1 ELSE 0 END) as year3,
+                    SUM(CASE WHEN studYear = '4' THEN 1 ELSE 0 END) as year4
+                ")->first();
+        });
 
-        $enrlstudcountthird = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '3')
-                            ->whereIn('program_en_history.status', [2, 3])
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->count();
+        $enrlstudcountfirst  = $yearStats->year1 ?? 0;
+        $enrlstudcountsecond = $yearStats->year2 ?? 0;
+        $enrlstudcountthird  = $yearStats->year3 ?? 0;
+        $enrlstudcountfourth = $yearStats->year4 ?? 0;
 
-        $enrlstudcountfourth = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '4')
-                            ->whereIn('program_en_history.status', [2, 3])
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->count();
+        // 5. Program Breakdown
+        $programs = Cache::remember($cacheKeyPrefix . 'underprogram_counts', 1000, function () use ($schlyearactive, $semesteractive, $userCampus) {
+            return StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
+                ->where('program_en_history.studentID', 'NOT LIKE', '%G%')
+                ->where('program_en_history.studentID', 'NOT LIKE', '%N%')
+                ->where('program_en_history.schlyear', $schlyearactive)
+                ->where('program_en_history.semester', $semesteractive)
+                ->where('program_en_history.campus', $userCampus)
+                ->whereIn('program_en_history.status', [2, 3])
+                ->select('coasv2_db_schedule.programs.progAcronym', DB::raw('COUNT(*) as count'))
+                ->groupBy('coasv2_db_schedule.programs.progAcronym')
+                ->get();
+        });
 
-        $currunderprogramenrolmentCounts = [];
-        $underprogramAcronyms = [];
+        $underprogramAcronyms = $programs->pluck('progAcronym')->toArray();
+        $currunderprogramenrolmentCounts = $programs->pluck('count')->toArray();
 
-        // Retrieve the count of students for each program acronym
-        $programs = StudEnrolmentHistory::join('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
-            ->whereNot(function ($query) {
-                $query->where('program_en_history.studentID', 'LIKE', '%G%')
-                      ->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-            })
-            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-            ->where('program_en_history.campus', '=', $userCampus)
-            ->whereIn('program_en_history.status', [2, 3])
-            //->where('coasv2_db_schedule.programs.progDep', 'LIKE', '%GSS%')
-            ->select('coasv2_db_schedule.programs.progAcronym', DB::raw('COUNT(*) as count'))
-            ->groupBy('coasv2_db_schedule.programs.progAcronym')
-            ->get();
+        // 6. Scholarship Breakdown
+        $progScholar = Cache::remember($cacheKeyPrefix . 'scholarship_counts', 1000, function () use ($schlyearactive, $semesteractive, $userCampus) {
+            return StudEnrolmentHistory::join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
+                ->where('program_en_history.studentID', 'NOT LIKE', '%G%')
+                ->where('program_en_history.studentID', 'NOT LIKE', '%N%')
+                ->where('program_en_history.schlyear', $schlyearactive)
+                ->where('program_en_history.semester', $semesteractive)
+                ->where('program_en_history.campus', $userCampus)
+                ->select('coasv2_db_scholarship.scholarship.scholar_name', DB::raw('COUNT(*) as count'))
+                ->groupBy('coasv2_db_scholarship.scholarship.scholar_name')
+                ->get();
+        });
 
-        // Populate the labels and data arrays
-        foreach ($programs as $program) {
-            $underprogramAcronyms[] = $program->progAcronym;
-            $currunderprogramenrolmentCounts[] = $program->count;
-        }
+        $underprogramScholar = $progScholar->pluck('scholar_name')->toArray();
+        $currunderprogramenrolmentScholarCounts = $progScholar->pluck('count')->toArray();
 
-        $currunderprogramenrolmentScholarCounts = [];
-        $underprogramScholar = [];
-
-        // Retrieve the count of students for each program acronym
-        $progScholar = StudEnrolmentHistory::join('coasv2_db_scholarship.scholarship', 'program_en_history.studSch', '=', 'coasv2_db_scholarship.scholarship.id')
-            ->whereNot(function ($query) {
-                $query->where('program_en_history.studentID', 'LIKE', '%G%')
-                      ->orWhere('program_en_history.studentID', 'LIKE', '%N%');
-            })
-            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-            ->where('program_en_history.campus', '=', $userCampus)
-            //->where('coasv2_db_scholarship.scholarship.progDep', 'LIKE', '%GSS%')
-            ->select('coasv2_db_scholarship.scholarship.scholar_name', DB::raw('COUNT(*) as count'))
-            ->groupBy('coasv2_db_scholarship.scholarship.scholar_name')
-            ->get();
-
-        // Populate the labels and data arrays
-        foreach ($progScholar as $program) {
-            $underprogramScholar[] = $program->scholar_name;
-            $currunderprogramenrolmentScholarCounts[] = $program->count;
-        }
-
-        return view('scholar.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear', 'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive', 'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth', 'currunderprogramenrolmentCounts', 'underprogramAcronyms', 'underprogramScholar', 'currunderprogramenrolmentScholarCounts'));
+        return view('scholar.index', compact(
+            'collegesFirstSemester', 'collegesSecondSemester', 'schlyearactive', 'previousYear',
+            'semesteractive', 'schlyearactiveYear', 'previousSchlyearYear', 'prevsemesteractive',
+            'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth',
+            'currunderprogramenrolmentCounts', 'underprogramAcronyms', 'underprogramScholar',
+            'currunderprogramenrolmentScholarCounts'
+        ));
     }
 
     public function chedscholarlist()
@@ -199,7 +181,7 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function chedscholarCreate(Request $request) 
+    public function chedscholarCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -217,10 +199,10 @@ class ScholarshipController extends Controller
         }
     }
 
-    public function chedscholarUpdate(Request $request) 
+    public function chedscholarUpdate(Request $request)
     {
         $chedsch = ChedSch::find($request->id);
-        
+
         $request->validate([
             'id' => 'required',
             'chedsch_name' => 'required',
@@ -244,7 +226,7 @@ class ScholarshipController extends Controller
         }
     }
 
-    public function chedscholarDelete($id) 
+    public function chedscholarDelete($id)
     {
         $chedsch = ChedSch::find($id);
         $chedsch->delete();
@@ -266,7 +248,7 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function unischolarCreate(Request $request) 
+    public function unischolarCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -284,10 +266,10 @@ class ScholarshipController extends Controller
         }
     }
 
-    public function unischolarUpdate(Request $request) 
+    public function unischolarUpdate(Request $request)
     {
         $unisch = UniSch::find($request->id);
-        
+
         $request->validate([
             'id' => 'required',
             'unisch_name' => 'required',
@@ -311,7 +293,7 @@ class ScholarshipController extends Controller
         }
     }
 
-    public function unischolarDelete($id) 
+    public function unischolarDelete($id)
     {
         $unisch = UniSch::find($id);
         $unisch->delete();
@@ -340,7 +322,7 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function allscholarCreate(Request $request) 
+    public function allscholarCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -373,8 +355,8 @@ class ScholarshipController extends Controller
         }
     }
 
-    public function allscholarUpdate(Request $request) 
-    {   
+    public function allscholarUpdate(Request $request)
+    {
         $request->validate([
             'id' => 'required',
             'scholar_name' => 'required',
@@ -478,23 +460,23 @@ class ScholarshipController extends Controller
                 ->where('coasv2_db_assessment.student_appraisal.schlyear', $schlyear)
                 ->where('coasv2_db_assessment.student_appraisal.semester', $semester)
                 ->where('coasv2_db_assessment.student_appraisal.campus', $campus)
-                ->select('coasv2_db_schedule.programs.progCod', 
-                        'coasv2_db_schedule.programs.progName', 
-                        'coasv2_db_schedule.programs.progAcronym', 
-                        'program_en_history.studYear', 
-                        'program_en_history.studYear', 
-                        'program_en_history.studSec', 
+                ->select('coasv2_db_schedule.programs.progCod',
+                        'coasv2_db_schedule.programs.progName',
+                        'coasv2_db_schedule.programs.progAcronym',
+                        'program_en_history.studYear',
+                        'program_en_history.studYear',
+                        'program_en_history.studSec',
                         'program_en_history.studentID',
-                        'program_en_history.id', 
-                        'students.lname', 
-                        'students.fname', 
-                        'program_en_history.studYear', 
-                        'program_en_history.studSec', 
+                        'program_en_history.id',
+                        'students.lname',
+                        'students.fname',
+                        'program_en_history.studYear',
+                        'program_en_history.studSec',
                         'coasv2_db_scholarship.scholarship.id as schid',
-                        'coasv2_db_scholarship.scholarship.scholar_name', 
-                        'coasv2_db_scholarship.scholarship.scholar_sponsor', 
-                        'coasv2_db_scholarship.chedscholarship.chedsch_name', 
-                        'coasv2_db_scholarship.universityscholar.unisch_name', 
+                        'coasv2_db_scholarship.scholarship.scholar_name',
+                        'coasv2_db_scholarship.scholarship.scholar_sponsor',
+                        'coasv2_db_scholarship.chedscholarship.chedsch_name',
+                        'coasv2_db_scholarship.universityscholar.unisch_name',
                         'coasv2_db_assessment.student_appraisal.amount'
                     )
                 ->orderBy('students.lname', 'ASC')
@@ -505,8 +487,8 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function studscholarUpdate(Request $request) 
-    {   
+    public function studscholarUpdate(Request $request)
+    {
         $request->validate([
             'id' => 'required',
             'studSch' => 'required',
@@ -524,14 +506,14 @@ class ScholarshipController extends Controller
         }
     }
 
-    public function studEnHistory() 
+    public function studEnHistory()
     {
         return view('scholar.enrolhis.list_enrhis');
     }
 
-    public function viewsearchStudHistory(Request $request) 
+    public function viewsearchStudHistory(Request $request)
     {
-        $query = $request->input('query'); 
+        $query = $request->input('query');
         $campus = Auth::guard('web')->user()->campus;
 
         $results = Student::where(function ($subQuery) use ($query) {
@@ -541,7 +523,7 @@ class ScholarshipController extends Controller
                     ->where('campus', $campus)
                     ->get();
 
-        if (count($results) > 0) {    
+        if (count($results) > 0) {
             return view('scholar.enrolhis.listsearch_enrhis', compact('results'));
         }
         return redirect()->route('studEnHistory')->with('error', 'No results found for the search.');
@@ -549,7 +531,7 @@ class ScholarshipController extends Controller
 
     public function searchStudHistory(Request $request)
     {
-        $query = $request->input('query'); 
+        $query = $request->input('query');
         $campus = Auth::guard('web')->user()->campus;
 
         $results = Student::where(function ($subQuery) use ($query) {
@@ -587,7 +569,7 @@ class ScholarshipController extends Controller
         return view('scholar.numenroll.studreport', compact('sy'));
     }
 
-    public function studenscholarreport_searchRead(Request $request) 
+    public function studenscholarreport_searchRead(Request $request)
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
@@ -605,7 +587,7 @@ class ScholarshipController extends Controller
         return view('scholar.numenroll.studreport_search', compact('sy'));
     }
 
-    public function getStudScholarReportRead(Request $request) 
+    public function getStudScholarReportRead(Request $request)
     {
         $campus = Auth::guard('web')->user()->campus;
         $schlyear = $request->query('schlyear');
@@ -617,20 +599,20 @@ class ScholarshipController extends Controller
                 ->where('program_en_history.schlyear', $schlyear)
                 ->where('program_en_history.semester', $semester)
                 ->where('program_en_history.campus', $campus)
-                ->select('coasv2_db_schedule.programs.progCod', 
-                        'coasv2_db_schedule.programs.progName', 
-                        'coasv2_db_schedule.programs.progAcronym', 
-                        'program_en_history.studYear', 
-                        'program_en_history.studYear', 
-                        'program_en_history.studSec', 
+                ->select('coasv2_db_schedule.programs.progCod',
+                        'coasv2_db_schedule.programs.progName',
+                        'coasv2_db_schedule.programs.progAcronym',
+                        'program_en_history.studYear',
+                        'program_en_history.studYear',
+                        'program_en_history.studSec',
                         'program_en_history.studentID',
                         'program_en_history.id',
-                        'program_en_history.course as pehcourse', 
-                        'students.*', 
-                        'program_en_history.studYear', 
-                        'program_en_history.studSec', 
+                        'program_en_history.course as pehcourse',
+                        'students.*',
+                        'program_en_history.studYear',
+                        'program_en_history.studSec',
                         'coasv2_db_scholarship.scholarship.id as schid',
-                        'coasv2_db_scholarship.scholarship.scholar_name', 
+                        'coasv2_db_scholarship.scholarship.scholar_name',
                     )
                 ->orderBy('students.lname', 'ASC')
                 ->get();
@@ -638,7 +620,7 @@ class ScholarshipController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function countstudnoenrollee() 
+    public function countstudnoenrollee()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
             ->whereIn('id', function($query) {
@@ -689,7 +671,7 @@ class ScholarshipController extends Controller
         $programEnHistory = StudEnrolmentHistory::where('studentID', $stud_id)
                 ->where('schlyear', $schlyear)
                 ->where('semester', '=', $semester)
-                ->first(); 
+                ->first();
 
         if (!$programEnHistory) {
             return redirect()->back()->with('error', 'Student ID Number <strong>' . $stud_id . '</strong> not enrolled at this term or school year.');
@@ -767,7 +749,7 @@ class ScholarshipController extends Controller
                     }
                 })
                 ->select('program_en_history.*', 'coasv2_db_admission.users.lname', 'coasv2_db_admission.users.fname', 'coasv2_db_admission.users.id as uid')
-                ->first(); 
+                ->first();
         $selectedpostedby = $programEnHistory->fname . ' ' . $programEnHistory->lname;
 
         $studsub = Grade::leftJoin('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
