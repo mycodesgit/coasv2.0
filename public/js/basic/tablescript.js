@@ -1,7 +1,7 @@
 $(function () {
     $("#example1").DataTable({
         "responsive": true,
-        "lengthChange": true, 
+        "lengthChange": true,
         "autoWidth": true,
         //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
 
@@ -9,7 +9,7 @@ $(function () {
 
     $("#studhis").DataTable({
         "responsive": true,
-        "lengthChange": false, 
+        "lengthChange": false,
         "autoWidth": true,
         "searching": false,
         //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
@@ -18,7 +18,7 @@ $(function () {
 
     $("#studgradeid").DataTable({
         "responsive": false,
-        "lengthChange": true, 
+        "lengthChange": true,
         "autoWidth": true,
         //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
 
@@ -26,28 +26,28 @@ $(function () {
 
     $("#strand").DataTable({
         "responsive": false,
-        "lengthChange": true, 
+        "lengthChange": true,
         "autoWidth": true,
 
     }).buttons().container().appendTo('#strand_wrapper .col-md-6:eq(0)');
 
     $("#adDate").DataTable({
         "responsive": false,
-        "lengthChange": true, 
+        "lengthChange": true,
         "autoWidth": true,
 
     }).buttons().container().appendTo('#adDate_wrapper .col-md-6:eq(0)');
 
     $("#adTime").DataTable({
         "responsive": false,
-        "lengthChange": true, 
+        "lengthChange": true,
         "autoWidth": true,
 
     }).buttons().container().appendTo('#adTime_wrapper .col-md-6:eq(0)');
 
     $("#adVenue").DataTable({
         "responsive": false,
-        "lengthChange": true, 
+        "lengthChange": true,
         "autoWidth": true,
 
     }).buttons().container().appendTo('#adVenue_wrapper .col-md-6:eq(0)');
@@ -55,7 +55,7 @@ $(function () {
 
     $("#example3").DataTable({
         "responsive": true,
-        "lengthChange": true, 
+        "lengthChange": true,
         "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
         "order": [[0, 'desc']]
@@ -64,7 +64,7 @@ $(function () {
 
     $("#example3studrecord").DataTable({
         "responsive": true,
-        "lengthChange": false, 
+        "lengthChange": false,
         "autoWidth": false,
         "paging": false,
         "searching": false,
@@ -74,7 +74,7 @@ $(function () {
 
     $("#report").DataTable({
         "responsive": true,
-        "lengthChange": false, 
+        "lengthChange": false,
         "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "colvis"]
 

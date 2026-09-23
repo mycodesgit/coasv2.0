@@ -11,7 +11,7 @@ CISS V.1.0 || Scholarship
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,35 +24,42 @@ CISS V.1.0 || Scholarship
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">All Scholarship</h1>
+                        <p class="text-muted small mb-0">Manage All Scholarship.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-list"></i> List of CPSU Scholarship
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>All Scholarship</h4>
-                                </div>
-                                <div class="row">
-                                    <div class="table-responsive p-3 mt-3">
-                                        <button type="button" class="btn btn-success btn-sm mb-4 text-light" data-bs-toggle="modal" data-bs-target="#modal-allsch">
-                                            <i class="fas fa-plus"></i> Add New
-                                        </button>
-                                        @include('modal.allschAdd')
-                                        <table id="allschTable" class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Scholarship Name</th>
-                                                    <th width="20%">Sponsor</th>
-                                                    <th>CHED Cat</th>
-                                                    <th>CPSU Cat</th>
-                                                    <th>FS</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                <div class="table-responsive p-3">
+                                    <button type="button" class="btn btn-success btn-sm mb-4 text-light" data-bs-toggle="modal" data-bs-target="#modal-allsch">
+                                        <i class="fas fa-plus"></i> Add New
+                                    </button>
 
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <table id="allschTable" class="table table-hover" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Scholarship Name</th>
+                                                <th width="20%">Sponsor</th>
+                                                <th>CHED Cat</th>
+                                                <th>CPSU Cat</th>
+                                                <th>FS</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -62,26 +69,28 @@ CISS V.1.0 || Scholarship
         </div>
     </div>
 
+    @include('modal.allschAdd')
+
     <div class="modal fade mt-6" id="editAllSchModal" role="dialog" aria-labelledby="editAllSchModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editAllSchModalLabel">Edit</h5>
+                    <h5 class="modal-title" id="editAllSchModalLabel"><i class="ti ti-pencil"></i> Edit Scholarship</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editAllSchForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="editSchChoiceId">
-                        <div class="form-group mt-3">
-                            <label for="editSchChoiceName">Scholarship</label>
+                        <div class="form-group">
+                            <label class="form-label fw-semibold" for="editSchChoiceName">Scholarship: <span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" name="scholar_name" id="editSchChoiceName">
                         </div>
                         <div class="form-group mt-3">
-                            <label for="editSchSponChoiceName">Scholarship</label>
+                            <label class="form-label fw-semibold" for="editSchSponChoiceName">Scholarship: <span class="text-danger">*</span></label>
                             <textarea class="form-control form-control-sm" name="scholar_sponsor" id="editSchSponChoiceName" rows="3"></textarea>
                         </div>
                         <div class="form-group mt-3">
-                            <label for="editSchchedChoiceName">CHED Scholarship Category</label>
+                            <label class="form-label fw-semibold" for="editSchchedChoiceName">CHED Scholarship Category: <span class="text-danger">*</span></label>
                             <select class="form-control form-control-sm" name="chedcategory" id="edichedChoiceName">
                                 <option disabled selected>--Select--</option>
                                 @foreach($ched as $datached)
@@ -90,7 +99,7 @@ CISS V.1.0 || Scholarship
                             </select>
                         </div>
                         <div class="form-group mt-3">
-                            <label for="editSchuniChoiceName">CPSU Scholarship Category</label>
+                            <label class="form-label fw-semibold" for="editSchuniChoiceName">CPSU Scholarship Category: <span class="text-danger">*</span></label>
                             <select class="form-control form-control-sm" name="unicategory" id="ediuniChoiceName">
                                 <option disabled selected>--Select--</option>
                                 @foreach($uni as $datauni)
@@ -99,7 +108,7 @@ CISS V.1.0 || Scholarship
                             </select>
                         </div>
                         <div class="form-group mt-3">
-                            <label for="editSchfsChoiceName">Funding Source</label>
+                            <label class="form-label fw-semibold" for="editSchfsChoiceName">Funding Source: <span class="text-danger">*</span></label>
                             <select class="form-control form-control-sm" name="fund_source" id="edifsChoiceName">
                                 <option disabled selected>--Select--</option>
                                 @foreach($fs as $datafs)
@@ -108,9 +117,9 @@ CISS V.1.0 || Scholarship
                             </select>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save changes</button>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="ti ti-restore"></i> Close</button>
+                        <button type="button" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save changes</button>
                     </div>
                 </form>
             </div>

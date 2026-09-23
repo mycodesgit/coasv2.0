@@ -25,7 +25,7 @@ CISS V.1.0 || Assessment
                     </div>
                 </div>
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom"">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
                     <div>
                         <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Assessment Dashboard Overview</h1>
                         <p class="text-muted small mb-0">Student fees, accounts, and billings every academic year.</p>
