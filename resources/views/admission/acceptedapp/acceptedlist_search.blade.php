@@ -51,17 +51,17 @@ CISS V.1.0 || Admission
                                                         <label>Campus: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="campus" id="campus">
                                                             <option value="{{Auth::user()->campus}}">
-                                                                @if (Auth::user()->campus == 'MC') Main 
-                                                                    @elseif(Auth::user()->campus == 'VC') Victorias 
-                                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                                                    @elseif(Auth::user()->campus == 'IC') Ilog 
-                                                                    @elseif(Auth::user()->campus == 'CA') Candoni 
-                                                                    @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                                                    @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                                                    @elseif(Auth::user()->campus == 'VE') Valladolid 
+                                                                @if (Auth::user()->campus == 'MC') Main
+                                                                    @elseif(Auth::user()->campus == 'VC') Victorias
+                                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos
+                                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran
+                                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla
+                                                                    @elseif(Auth::user()->campus == 'IC') Ilog
+                                                                    @elseif(Auth::user()->campus == 'CA') Candoni
+                                                                    @elseif(Auth::user()->campus == 'CC') Cauayan
+                                                                    @elseif(Auth::user()->campus == 'SC') Sipalay
+                                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan
+                                                                    @elseif(Auth::user()->campus == 'VE') Valladolid
                                                                 @endif
                                                             </option>
                                                             @if(Auth::user()->role == 0 || (Auth::user()->campus == 'MC' && Auth::user()->role == 1))

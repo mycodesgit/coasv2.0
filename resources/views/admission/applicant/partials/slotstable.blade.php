@@ -1,11 +1,16 @@
 @php use Carbon\Carbon; @endphp
 
 @foreach ($groupedSlots as $date => $slots)
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-light">
-            <h5>Admission Date: {{ Carbon::parse($date)->format('F d, Y') }}</h5>
+<div class="col-12 col-md-4">
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center pt-3">
+            <h6 class="card-title">
+                <i class="ti ti-calendar"></i> Admission Date: {{ Carbon::parse($date)->format('F d, Y') }}
+            </h6>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill small">
+                <i class="ti ti-circle-filled me-1 style-dot blink-dot"></i>Live
+            </span>
         </div>
-
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
@@ -39,9 +44,9 @@
                         <tr>
                             <td>{{ Carbon::parse($slot->time)->format('h:i A') }}</td>
                             <td>
-                                <span class="badge bg-success">{{ $booked }}</span>
-                                /
-                                <span class="badge bg-secondary">{{ $slot->slots }}</span>
+                                <span class="badge bg-success-subtle text-success">{{ $booked }}</span>
+                                |
+                                <span class="badge bg-info-subtle text-info">{{ $slot->slots }}</span>
                                 <small>({{ $remaining }} left)</small>
                             </td>
                             <td>
@@ -53,4 +58,5 @@
             </table>
         </div>
     </div>
+</div>
 @endforeach
