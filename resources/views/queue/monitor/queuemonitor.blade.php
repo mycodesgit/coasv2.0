@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - CPSU Queueing System</title>
@@ -26,6 +26,12 @@
             --cpsu-gold: #f59e0b;
             --badge-blue: #90caf9;
             --badge-gray: #b0bec5;
+            --header-height: clamp(65px, 8vh, 90px);
+            --footer-height: clamp(45px, 6vh, 60px);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
 
         html, body {
@@ -67,38 +73,23 @@
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: clamp(0.5rem, 1.5vw, 1.25rem);
             z-index: 2;
         }
 
         .header-logo {
-            width: 58px;
-            height: 58px;
+            width: clamp(38px, 4.5vw, 58px);
+            height: clamp(38px, 4.5vw, 58px);
             object-fit: contain;
         }
 
         .brand-title {
-            font-size: 1.5rem;
+            font-size: clamp(1.1rem, 2vw, 1.6rem);
             font-weight: 900;
             letter-spacing: 0.5px;
             line-height: 1.1;
             margin: 0;
             text-transform: uppercase;
-        }
-
-        .brand-subtitle {
-            font-size: 1.15rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            margin: 0;
-            color: #e2e8f0;
-        }
-
-        .brand-motto {
-            font-size: 0.8rem;
-            font-style: italic;
-            opacity: 0.85;
-            margin-top: 2px;
         }
 
         .header-datetime {
@@ -107,13 +98,13 @@
         }
 
         .header-date {
-            font-size: 1.05rem;
+            font-size: clamp(0.75rem, 1.1vw, 1.05rem);
             font-weight: 600;
             opacity: 0.9;
         }
 
         .header-time {
-            font-size: 2.1rem;
+            font-size: clamp(1.2rem, 2.2vw, 2.1rem);
             font-weight: 900;
             line-height: 1;
             font-variant-numeric: tabular-nums;
@@ -121,18 +112,18 @@
 
         /* MAIN LAYOUT CONTAINER */
         .main-viewport {
-            height: calc(100vh - 145px);
-            padding: 1rem 1.5rem;
+            min-height: calc(100vh - var(--header-height) - var(--footer-height));
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
             display: grid;
             grid-template-columns: 1.2fr 1fr;
-            gap: 1.25rem;
+            gap: clamp(0.75rem, 1.5vw, 1.25rem);
         }
 
         /* LEFT DISPLAY PANEL */
         .left-display-container {
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
+            gap: clamp(0.5rem, 1vw, 0.85rem);
             height: 100%;
         }
 
@@ -141,7 +132,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
+            gap: clamp(0.5rem, 1vw, 0.85rem);
         }
 
         /* CARD BASE */
@@ -154,14 +145,14 @@
             display: flex;
             flex-direction: column;
             box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+            will-change: transform;
         }
 
-        /* NOW SERVING CARD HEADER */
-        .header-serving {
-            background-color: var(--cpsu-mid-green);
+        /* HEADERS */
+        .header-serving, .header-calling {
             color: #ffffff;
-            padding: 0.5rem 1.25rem;
-            font-size: 1.15rem;
+            padding: clamp(0.4rem, 0.8vw, 0.65rem) clamp(0.75rem, 1.5vw, 1.25rem);
+            font-size: clamp(0.85rem, 1.3vw, 1.15rem);
             font-weight: 800;
             letter-spacing: 1px;
             display: flex;
@@ -170,19 +161,8 @@
             text-transform: uppercase;
         }
 
-        /* CALLING NEXT CARD HEADER */
-        .header-calling {
-            background-color: var(--cpsu-gold);
-            color: #ffffff;
-            padding: 0.5rem 1.25rem;
-            font-size: 1.15rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-transform: uppercase;
-        }
+        .header-serving { background-color: var(--cpsu-mid-green); }
+        .header-calling { background-color: var(--cpsu-gold); }
 
         .card-inner-body {
             background-color: var(--cpsu-card-mint);
@@ -191,12 +171,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1rem;
+            padding: clamp(0.5rem, 1vw, 1rem);
             text-align: center;
         }
 
         .token-num-serving {
-            font-size: clamp(4.5rem, 5vw, 5.8rem);
+            font-size: clamp(3rem, 6vw, 5.8rem);
             font-weight: 900;
             color: var(--cpsu-dark-green);
             line-height: 0.95;
@@ -204,7 +184,7 @@
         }
 
         .token-num-calling {
-            font-size: clamp(4.5rem, 5vw, 5.8rem);
+            font-size: clamp(3rem, 6vw, 5.8rem);
             font-weight: 900;
             color: #d97706;
             line-height: 0.95;
@@ -212,19 +192,19 @@
         }
 
         .sub-instruction {
-            font-size: 2.15rem;
+            font-size: clamp(1.1rem, 2.2vw, 2.15rem);
             font-weight: 700;
             color: #334155;
             margin-top: 0.25rem;
             margin-bottom: 0;
         }
 
-        /* ACTIVE COUNTER GRID BELOW */
+        /* ACTIVE COUNTER GRID */
         .counter-cards-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0.85rem;
-            height: 105px;
+            gap: clamp(0.5rem, 1vw, 0.85rem);
+            min-height: clamp(80px, 11vh, 105px);
         }
 
         .mini-counter-card {
@@ -241,20 +221,20 @@
         }
 
         .mini-counter-card .counter-icon {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 1.2vw, 1rem);
             color: var(--cpsu-dark-green);
             margin-bottom: 0.1rem;
         }
 
         .mini-counter-card .counter-title {
-            font-size: 0.75rem;
+            font-size: clamp(0.65rem, 0.9vw, 0.75rem);
             font-weight: 800;
             color: var(--cpsu-dark-green);
             text-transform: uppercase;
         }
 
         .mini-counter-card .counter-token {
-            font-size: 1.6rem;
+            font-size: clamp(1.1rem, 1.8vw, 1.6rem);
             font-weight: 900;
             color: var(--cpsu-dark-green);
             line-height: 1;
@@ -271,11 +251,13 @@
             flex-direction: column;
             box-shadow: 0 4px 8px rgba(0,0,0,0.04);
             height: 100%;
+            max-height: calc(100vh - var(--header-height) - var(--footer-height) - 2.5rem);
         }
 
         .queue-table-container {
             flex: 1;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .queue-table {
@@ -286,10 +268,10 @@
         .queue-table th {
             background-color: var(--cpsu-card-mint);
             color: var(--cpsu-dark-green);
-            font-size: 0.85rem;
+            font-size: clamp(0.7rem, 0.9vw, 0.85rem);
             font-weight: 800;
             text-transform: uppercase;
-            padding: 0.75rem 1rem;
+            padding: clamp(0.5rem, 1vw, 0.75rem);
             text-align: center;
             position: sticky;
             top: 0;
@@ -297,12 +279,13 @@
         }
 
         .queue-table td {
-            padding: 0.65rem 1rem;
+            padding: clamp(0.4rem, 0.8vw, 0.65rem);
             text-align: center;
             font-weight: 900;
-            font-size: 2rem;
+            font-size: clamp(1.1rem, 2vw, 2rem);
             color: #2d3748;
             border-bottom: 1px solid #edf2f7;
+            content-visibility: auto;
         }
 
         .queue-table tr:nth-child(even) {
@@ -312,40 +295,25 @@
         /* STATUS BADGES */
         .status-badge {
             display: inline-block;
-            padding: 0.3rem 0.85rem;
+            padding: 0.25rem 0.5rem;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: clamp(0.65rem, 0.8vw, 0.75rem);
             font-weight: 800;
             text-transform: uppercase;
-            width: 120px;
+            width: clamp(80px, 100%, 120px);
         }
 
-        .badge-now-serving {
-            background-color: var(--cpsu-dark-green);
-            color: #ffffff;
-        }
-
-        .badge-calling-next {
-            background-color: var(--cpsu-gold);
-            color: #ffffff;
-        }
-
-        .badge-next {
-            background-color: var(--badge-blue);
-            color: #0d47a1;
-        }
-
-        .badge-waiting {
-            background-color: var(--badge-gray);
-            color: #ffffff;
-        }
+        .badge-now-serving { background-color: var(--cpsu-dark-green); color: #ffffff; }
+        .badge-calling-next { background-color: var(--cpsu-gold); color: #ffffff; }
+        .badge-next { background-color: var(--badge-blue); color: #0d47a1; }
+        .badge-waiting { background-color: var(--badge-gray); color: #ffffff; }
 
         /* FOOTER BANNER */
         .app-footer {
-            height: 60px;
+            height: var(--footer-height);
             background-color: var(--cpsu-dark-green);
             color: #ffffff;
-            padding: 0 2rem;
+            padding: 0 clamp(1rem, 2vw, 2rem);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -355,42 +323,42 @@
         .footer-left {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: 1rem;
         }
 
         .footer-icon {
-            font-size: 1.8rem;
+            font-size: clamp(1.2rem, 1.8vw, 1.8rem);
             transform: rotate(-15deg);
         }
 
         .footer-divider {
             width: 2px;
-            height: 30px;
+            height: 25px;
             background-color: rgba(255,255,255,0.3);
         }
 
         .footer-msg-title {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 1vw, 1rem);
             font-weight: 800;
             margin: 0;
             line-height: 1.2;
         }
 
         .footer-msg-sub {
-            font-size: 0.8rem;
+            font-size: clamp(0.65rem, 0.8vw, 0.8rem);
             margin: 0;
             opacity: 0.85;
         }
 
         .footer-brand-signature {
             font-family: 'Georgia', serif;
-            font-size: 1.3rem;
+            font-size: clamp(0.9rem, 1.3vw, 1.3rem);
             font-style: italic;
             font-weight: bold;
             color: #ffffff;
         }
 
-        /* PULSE ANIMATION FOR CALLING NEXT */
+        /* PULSE ANIMATION */
         @keyframes soft-pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(0.99); }
@@ -398,6 +366,57 @@
 
         .pulse-card {
             animation: soft-pulse 2s infinite ease-in-out;
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+
+        /* TV & Large Monitors (1600px+) */
+        @media screen and (min-width: 1600px) {
+            .main-viewport {
+                max-width: 1920px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Tablets & Small Desktops (<= 992px) */
+        @media screen and (max-width: 992px) {
+            html, body {
+                overflow-y: auto;
+            }
+
+            .main-viewport {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: auto;
+            }
+
+            .right-queue-panel {
+                max-height: 500px;
+            }
+        }
+
+        /* Mobile Devices (<= 576px) */
+        @media screen and (max-width: 576px) {
+            .app-header {
+                padding: 0 0.75rem;
+            }
+
+            .brand-title {
+                font-size: 1.1rem;
+            }
+
+            .counter-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            .right-queue-panel {
+                max-height: 400px;
+            }
+
+            .footer-msg-sub, .footer-divider {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -487,7 +506,7 @@
                         <tr>
                             <th style="width: 35%;">TRANSACTION</th>
                             <th style="width: 25%;">COUNTER</th>
-                            <th style="width: 30%;">STATUS</th>
+                            <th style="width: 40%;">STATUS</th>
                         </tr>
                     </thead>
                     <tbody id="queueTableBody">
@@ -512,7 +531,7 @@
             </div>
         </div>
         <div class="footer-brand-signature">
-            CPSU <span style="font-size: 0.9em; font-weight: normal;">Always for you</span>
+            CPSU
         </div>
     </footer>
 
@@ -524,24 +543,49 @@
     @if(request()->routeIs('queue-monitor'))
         <!-- Startup Modal -->
         <div id="interactionModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(3, 69, 39, 0.92); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999;">
-            <button id="initInteraction" class="btn btn-warning btn-lg px-5 py-3 font-weight-bold shadow-lg" style="border-radius: 50px; font-size: 1.25rem; background-color: #f59e0b; border: none; color: #ffffff;">
+            <button id="initInteraction" class="btn btn-warning btn-lg px-5 py-3 font-weight-bold shadow-lg" style="border-radius: 50px; font-size: 1.25rem; background-color: #f59e0b; border: none; color: #ffffff; cursor: pointer;">
                 <i class="fas fa-play mr-2"></i> Launch Queue Monitor
             </button>
         </div>
 
         <script>
-            $(document).ready(function () {
-                var sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+            let lastQueueNumbercall = null;
+            let lastWindowNumbercall = null;
+            let previousData = [];
+            let isFirstLoad = true; // Flag to silence initial table load announcements
 
-                $('#initInteraction').on('click', function () {
+            // 1. GENERIC VOICE ANNOUNCEMENT FUNCTION
+            function announceVoice(message) {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel(); // Clear any pending speech queue
+                    const speech = new SpeechSynthesisUtterance(message);
+                    speech.lang = 'en-US';
+                    speech.volume = 1;
+                    speech.rate = 0.9;
+                    speech.pitch = 1;
+                    window.speechSynthesis.speak(speech);
+                }
+            }
+
+            // 2. SEPARATE WELCOME ANNOUNCEMENT FUNCTION
+            function announceWelcome() {
+                const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+                sound.play().then(() => {
+                    setTimeout(() => {
+                        announceVoice("Welcome to Central Philippines State University.");
+                    }, 600);
+                }).catch(e => console.warn('Audio play restricted:', e));
+            }
+
+            $(document).ready(function () {$('#initInteraction').on('click', function () {
                     $('#interactionModal').fadeOut();
-                    sound.play();
 
-                    var previousData = [];
+                    // TRIGGER WELCOME ONLY ONCE UPON LAUNCH
+                    announceWelcome();
 
                     function renderWindowCardsAndTable(data) {
-                        var grid = $('#windowGridContainer');
-                        var tableBody = $('#queueTableBody');
+                        const grid = $('#windowGridContainer');
+                        const tableBody = $('#queueTableBody');
 
                         grid.empty();
                         tableBody.empty();
@@ -553,50 +597,56 @@
                         }
 
                         // Render Active Counter Cards (First 4)
-                        var activeCounters = data.slice(0, 4);
+                        const activeCounters = data.slice(0, 4);
+                        let gridFragment = '';
                         activeCounters.forEach(function(item) {
-                            var windowLabel = item.window ? `COUNTER ${item.window}` : 'COUNTER --';
-                            var numberLabel = item.number || '---';
+                            const windowLabel = item.window ? `COUNTER ${item.window}` : 'COUNTER --';
+                            const numberLabel = item.number || '---';
 
-                            var cardHtml = `
+                            gridFragment += `
                                 <div class="mini-counter-card">
                                     <i class="ti ti-user counter-icon"></i>
                                     <div class="counter-title">${windowLabel}</div>
                                     <div class="counter-token">${numberLabel}</div>
                                 </div>
                             `;
-                            grid.append(cardHtml);
                         });
+                        grid.append(gridFragment);
 
                         // Render Queue List Table
-                        data.forEach(function(item, index) {
-                            var windowLabel = item.window || '-';
-                            var numberLabel = item.number || '';
+                        let tableFragment = '';
+                        data.forEach(function(item) {
+                            const windowLabel = item.window || '-';
+                            const numberLabel = item.number || '';
+                            let statusText = '';
+                            let statusClass = '';
 
-                            var statusText = '';
-                            var statusClass = '';
-
-                            // Direct DB Status evaluation logic with fallbacks
                             if (item.status) {
-                                var dbStatusUpper = item.status.toString().toUpperCase().trim();
-                                if (dbStatusUpper === 'NOW SERVING' || dbStatusUpper === 'SERVING') {
-                                    statusText = 'NOW SERVING';
-                                    statusClass = 'badge-now-serving';
-                                } else if (dbStatusUpper === 'CALLING' || dbStatusUpper === 'CALLING NEXT') {
-                                    statusText = 'CALLING';
-                                    statusClass = 'badge-calling-next';
-                                } else if (dbStatusUpper === 'NEXT') {
-                                    statusText = 'NEXT';
-                                    statusClass = 'badge-next';
-                                } else if (dbStatusUpper === 'WAITING') {
-                                    statusText = 'WAITING';
-                                    statusClass = 'badge-waiting';
-                                } else {
-                                    statusText = dbStatusUpper;
-                                    statusClass = 'badge-waiting';
+                                const dbStatusUpper = item.status.toString().toUpperCase().trim();
+                                switch(dbStatusUpper) {
+                                    case 'NOW SERVING':
+                                    case 'SERVING':
+                                        statusText = 'NOW SERVING';
+                                        statusClass = 'badge-now-serving';
+                                        break;
+                                    case 'CALLING':
+                                    case 'CALLING NEXT':
+                                        statusText = 'CALLING';
+                                        statusClass = 'badge-calling-next';
+                                        break;
+                                    case 'NEXT':
+                                        statusText = 'NEXT';
+                                        statusClass = 'badge-next';
+                                        break;
+                                    case 'WAITING':
+                                        statusText = 'WAITING';
+                                        statusClass = 'badge-waiting';
+                                        break;
+                                    default:
+                                        statusText = dbStatusUpper;
+                                        statusClass = 'badge-waiting';
                                 }
                             } else {
-                                // Fallback: Has transaction number = NOW SERVING, empty = WAITING
                                 if (numberLabel && numberLabel !== '---' && numberLabel.trim() !== '') {
                                     statusText = 'NOW SERVING';
                                     statusClass = 'badge-now-serving';
@@ -606,17 +656,17 @@
                                 }
                             }
 
-                            var displayToken = (numberLabel && numberLabel.trim() !== '') ? numberLabel : '---';
+                            const displayToken = (numberLabel && numberLabel.trim() !== '') ? numberLabel : '---';
 
-                            var rowHtml = `
+                            tableFragment += `
                                 <tr>
                                     <td class="font-weight-bold" style="color: var(--cpsu-dark-green);">${displayToken}</td>
                                     <td>${windowLabel}</td>
                                     <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                                 </tr>
                             `;
-                            tableBody.append(rowHtml);
                         });
+                        tableBody.append(tableFragment);
                     }
 
                     function fetchQueueData() {
@@ -624,26 +674,26 @@
                             url: "{{ route('queue.stream') }}",
                             method: 'GET',
                             success: function (response) {
+                                if (!response || !response.data) return;
+
                                 renderWindowCardsAndTable(response.data);
 
-                                response.data.forEach(function(queueData, index) {
-                                    if (previousData[index]?.number !== queueData.number || previousData[index]?.window !== queueData.window) {
-                                        sound.play().catch(e => console.warn('Audio playback issue:', e));
+                                // Speak ONLY when data changes AFTER initial load
+                                if (!isFirstLoad) {
+                                    response.data.forEach(function(queueData, index) {
+                                        if (previousData[index]?.number !== queueData.number || previousData[index]?.window !== queueData.window) {
+                                            const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+                                            sound.play().catch(e => console.warn('Audio playback issue:', e));
 
-                                        const queueNumber = queueData.number || 'No queue number';
-                                        const windowNumber = queueData.window || 'N/A';
-                                        const message = `Queue number ${queueNumber}. Please proceed to counter ${windowNumber}.`;
-
-                                        const speech = new SpeechSynthesisUtterance(message);
-                                        speech.lang = 'en-US';
-                                        speech.volume = 1;
-                                        speech.rate = 1;
-                                        speech.pitch = 1;
-                                        window.speechSynthesis.speak(speech);
-                                    }
-                                });
+                                            const queueNumber = queueData.number || 'No queue number';
+                                            const windowNumber = queueData.window || 'N/A';
+                                            announceVoice(`Queue number ${queueNumber}. Please proceed to counter ${windowNumber}.`);
+                                        }
+                                    });
+                                }
 
                                 previousData = response.data;
+                                isFirstLoad = false; // Initial sync completed
                             },
                             error: function () {
                                 console.error("Error fetching queue data.");
@@ -655,10 +705,10 @@
                     setInterval(fetchQueueData, 2000);
                 });
             });
-        </script>
 
-        <script>
-            function fetchQueueStatusCurr() {
+            // 3. SEPARATE LIVE STREAM CALL TRACKER
+            function fetchLiveStatuses() {
+                // Fetch Current Status
                 $.ajax({
                     url: "{{ route('queue.stream.current') }}",
                     method: "GET",
@@ -670,22 +720,10 @@
                             $('#queue-numbercurr').text('-');
                             $('#window-numbercurr').text('Counter --');
                         }
-                    },
-                    error: function() {
-                        console.error('Failed to fetch current queue status.');
                     }
                 });
-            }
 
-            setInterval(fetchQueueStatusCurr, 2000);
-            fetchQueueStatusCurr();
-        </script>
-
-        <script>
-            let lastQueueNumbercall = null;
-            let lastWindowNumbercall = null;
-
-            function fetchQueueStatusCall() {
+                // Fetch Call Status
                 $.ajax({
                     url: "{{ route('queue.stream.call') }}",
                     method: "GET",
@@ -697,17 +735,19 @@
                             const queueNumber = data.number;
                             const windowNumber = data.window || 'N/A';
 
+                            // Save baseline call on launch so it doesn't speak existing data immediately
+                            if (lastQueueNumbercall === null && lastWindowNumbercall === null) {
+                                lastQueueNumbercall = queueNumber;
+                                lastWindowNumbercall = windowNumber;
+                                return;
+                            }
+
+                            // TRIGGER ANNOUNCEMENT ONLY IF A CHANGE DETECTED AT WINDOW/COUNTER
                             if (queueNumber !== lastQueueNumbercall || windowNumber !== lastWindowNumbercall) {
                                 const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
                                 sound.play().catch(e => console.warn('Audio playback issue:', e));
 
-                                const message = `Queue number ${queueNumber}. Please proceed to counter ${windowNumber}.`;
-                                const speech = new SpeechSynthesisUtterance(message);
-                                speech.lang = 'en-US';
-                                speech.volume = 1;
-                                speech.rate = 1;
-                                speech.pitch = 1;
-                                window.speechSynthesis.speak(speech);
+                                announceVoice(`Queue number ${queueNumber}. Please proceed to counter ${windowNumber}.`);
 
                                 lastQueueNumbercall = queueNumber;
                                 lastWindowNumbercall = windowNumber;
@@ -716,15 +756,12 @@
                             $('#queue-number').text('-');
                             $('#window-number').text('Proceed to Counter --');
                         }
-                    },
-                    error: function() {
-                        console.error('Failed to fetch call queue status.');
                     }
                 });
             }
 
-            setInterval(fetchQueueStatusCall, 2000);
-            fetchQueueStatusCall();
+            setInterval(fetchLiveStatuses, 2000);
+            fetchLiveStatuses();
         </script>
     @endif
 
