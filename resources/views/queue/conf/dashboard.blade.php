@@ -97,9 +97,9 @@ CISS V.1.0 || Queueing Dashboard
                                                                 </span>
 
                                                                 <!-- Call ID Display Box -->
-                                                                <div class="bg-light rounded-3 py-2 border border-1 my-1">
+                                                                <div class="card-header rounded-3 py-2 border border-1 my-1">
                                                                     <small class="text-uppercase text-warning fw-semibold d-block style-label">Serving No.</small>
-                                                                    <h5 class="fw-bolder text-dark mb-0 lh-1 tracking-tight">
+                                                                    <h5 class="fw-bolder mb-0 lh-1 tracking-tight">
                                                                         {{ $customerTickets[$counter->currentid] ?? $customerTickets[$counter->callid] ?? '---' }}
                                                                     </h5>
                                                                 </div>
@@ -131,9 +131,9 @@ CISS V.1.0 || Queueing Dashboard
                                                     @if(!empty($waitingCustomers) && count($waitingCustomers) > 0)
                                                         <ul class="list-group list-group-flush">
                                                             @foreach($waitingCustomers as $categoryName => $customer)
-                                                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2">
+                                                                <li class="card-header rounded-3 list-group-item d-flex justify-content-between align-items-center p-2">
                                                                     <div>
-                                                                        <strong class="text-dark">{{ $customer->queue_number }}</strong>
+                                                                        <strong class="">{{ $customer->queue_number }}</strong>
                                                                         <br><small class="text-muted">{{ $categoryName }}</small>
                                                                     </div>
                                                                     <span class="badge bg-warning text-dark">Next</span>
@@ -278,9 +278,9 @@ CISS V.1.0 || Queueing Dashboard
                                                     <span class="badge bg-light text-secondary border fw-normal mb-2 text-truncate max-w-100">
                                                         ${counter.category ?? ''}
                                                     </span>
-                                                    <div class="bg-light rounded-3 py-2 border border-1 my-1">
+                                                    <div class="card-header rounded-3 py-2 border border-1 my-1">
                                                         <small class="text-uppercase text-warning fw-semibold d-block style-label">Serving No.</small>
-                                                        <h5 class="fw-bolder text-dark mb-0 lh-1 tracking-tight">${ticket}</h5>
+                                                        <h5 class="fw-bolder mb-0 lh-1 tracking-tight">${ticket}</h5>
                                                     </div>
                                                 </div>
                                                 <div class="pt-2 mt-2 border-top d-flex justify-content-between align-items-center text-muted" style="font-size: 0.75rem;">
@@ -309,12 +309,12 @@ CISS V.1.0 || Queueing Dashboard
                             waitingHtml += '<ul class="list-group list-group-flush">';
                             for (const [categoryName, customer] of Object.entries(data.waitingCustomers)) {
                                 waitingHtml += `
-                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2">
+                                    <li class="card-header rounded-3 list-group-item d-flex justify-content-between align-items-center p-2">
                                         <div>
-                                            <strong class="text-dark">${customer.queue_number}</strong>
+                                            <strong class="">${customer.queue_number}</strong>
                                             <br><small class="text-muted">${categoryName}</small>
                                         </div>
-                                        <span class="badge bg-warning text-dark">Next</span>
+                                        <span class="badge bg-warning">Next</span>
                                     </li>`;
                             }
                             waitingHtml += '</ul>';

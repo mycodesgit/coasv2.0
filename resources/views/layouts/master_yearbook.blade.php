@@ -30,7 +30,14 @@
     <!-- fullCalendar -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fullcalendar/fullcalendar.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
-    </style>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        })();
+    </script>
 </head>
 
 <body>
@@ -66,10 +73,20 @@
                 <button id="mobileBtn" class="btn btn-outline-light btn-icon btn-sm d-lg-none me-2">
                     <i class="fas fa-bars"></i>
                 </button>
+                <li>
+                    <label class="theme-switch" for="themeToggle">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider">
+                            <span class="slider-content">
+                                <i id="themeIcon" class="ti ti-moon"></i>
+                                <span id="themeLabel">Dark</span>
+                            </span>
+                        </span>
+                    </label>
+                </li>
                 <!-- Dropdown -->
                 <li class="ms-3 dropdown d-none d-md-block">
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
-                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                 Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} -
@@ -90,7 +107,6 @@
                 </li>
                 <li class="ms-3 dropdown d-md-none">
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
-                        <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
                                 @if (Auth::guard('web')->user()->campus == 'MC') Main
@@ -172,9 +188,10 @@
     <!-- Validation JS -->
     <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
     <!-- Basic -->
     <script src="{{ asset('js/basic/tablescript.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
+    <script src="{{ asset('js/basic/themejs.js') }}"></script>
 
     @if(request()->routeIs('showStudent', 'showStudentResult'))
         <script src="{{ asset('js/validation/yerbok/studentValidation.js') }}"></script>
