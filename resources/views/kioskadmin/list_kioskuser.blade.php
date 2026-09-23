@@ -45,8 +45,6 @@ CISS V.1.0 || Kiosk Admin
                                         <button type="button" class="btn btn-success btn-sm mb-4 text-light" data-bs-toggle="modal" data-bs-target="#modal-kioskuser">
                                             <i class="fas fa-user-plus"></i> Add New
                                         </button>
-
-                                        @include('modal.kioskuserAdd')
                                         <table id="kioskuser" class="table table-striped" style="width: 100%">
                                             <thead>
                                                 <tr>
@@ -72,8 +70,10 @@ CISS V.1.0 || Kiosk Admin
         </div>
     </div>
 
+    @include('modal.kioskuserAdd')
+
     <div class="modal fade mt-6" id="editKioskUserModal" tabindex="-1" role="dialog" aria-labelledby="editKioskUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editKioskUserModalLabel">Edit</h5>
@@ -82,13 +82,15 @@ CISS V.1.0 || Kiosk Admin
                 <form id="editKioskUserForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="editKioskUserId">
-                        <div class="form-group">
-                            <label for="editKioskStudID">Student ID Number</label>
-                            <input type="text" class="form-control" id="editKioskStudID" name="studid" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
-                        </div>
-                        <div class="form-group mt-6">
-                            <label for="editpasswordInput">Password</label>
-                            <input type="text" class="form-control" name="password" id="editpasswordInput" oninput="this.value = this.value.toUpperCase()">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold" for="editKioskStudID">Student ID Number: <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editKioskStudID" name="studid" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold" for="editpasswordInput">Password: <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="password" id="editpasswordInput" oninput="this.value = this.value.toUpperCase()">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
