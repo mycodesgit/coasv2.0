@@ -65,7 +65,7 @@ CISS V.1.0 || Assessment
                                             <div class="card-body pr-2 pl-2 pt-2">
                                                 <form method="POST" action="{{ route('studEnrollmentCreate') }}" id="AddenrollStud">
                                                     @csrf
-                                                    
+
                                                     <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
                                                     <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
                                                     <input type="hidden" value="{{ $student->stud_id }}" name="studentID" id="studentID" readonly>
@@ -334,7 +334,7 @@ CISS V.1.0 || Assessment
                                                             Dev Fee: <input type="text" id="totalDevFeeInput" class="form-control form-control-sm" value="{{ $totaldevFee }}" readonly>
                                                         </div>
                                                     </div>
-                                                </div>      
+                                                </div>
                                                 <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly value="{{ $subOfferedIds }}">
                                                 <input type="hidden" id="subjprimIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIds }}">
                                                 <input type="hidden" id="primaryIDsInput" name="id" class="form-control form-control-sm" readonly value="{{ $studsubenrollIdsprimID }}">
@@ -377,7 +377,7 @@ CISS V.1.0 || Assessment
                     </h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
+
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-row">
@@ -387,11 +387,11 @@ CISS V.1.0 || Assessment
                                     <option disabled selected> --Select-- </option>
                                     @foreach($subjOffer as $subs)
                                         <option value="{{ $subs->sub_name }} {{ $subs->subSec }}"
-                                                data-subp-sid="{{ $subs->id }}" 
+                                                data-subp-sid="{{ $subs->id }}"
                                                 data-sub-code="{{ $subs->sub_code }}"
-                                                data-sub-title="{{ $subs->sub_title }}" 
-                                                data-sub-unit="{{ $subs->subUnit }}" 
-                                                data-lec-fee="{{ $subs->lecFee }}" 
+                                                data-sub-title="{{ $subs->sub_title }}"
+                                                data-sub-unit="{{ $subs->subUnit }}"
+                                                data-lec-fee="{{ $subs->lecFee }}"
                                                 data-lab-fee="{{ $subs->labFee }}"
                                                 data-dev-fee="{{ $subs->devFee }}"
                                                 data-it-fee="{{ $subs->itfee }}">
@@ -401,8 +401,8 @@ CISS V.1.0 || Assessment
                                 </select>
                             </div>
                         </div>
-                    </div>  
-                    
+                    </div>
+
                     <div class="form-group">
                         <input type="hidden" class="form-control form-control-sm" id="subjecID" readonly>
                     </div>
@@ -427,7 +427,7 @@ CISS V.1.0 || Assessment
                     <div class="form-group">
                         <input type="hidden" class="form-control form-control-sm" id="itfee" readonly>
                     </div>
-                    
+
                     <button type="button" class="btn btn-success mt-3" id="addSubjectBtn">
                         <i class="fas fa-save"></i> Add
                     </button>

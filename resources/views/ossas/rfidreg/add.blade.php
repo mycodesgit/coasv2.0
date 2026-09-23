@@ -65,7 +65,7 @@
             margin-left: 1px;
             width: 86px;
             height: 106px;
-            border: 1px solid #eff317;        
+            border: 1px solid #eff317;
             box-shadow: 0 0 0 2px #116e36;
             border-radius: 6px;
             overflow: hidden;
@@ -162,7 +162,7 @@
             margin-top: -5px;
         }
         .back-col:last-child {
-            flex: 1; 
+            flex: 1;
             margin-top: -5px;
         }
         .back-grid-second {
@@ -182,7 +182,7 @@
         }
 
         .back-col-second:last-child {
-            flex: 1; 
+            flex: 1;
             margin-top: -5px;
         }
         .back-col label {
@@ -259,7 +259,7 @@
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -272,308 +272,304 @@
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
-                    <div class="col-md-12">
-                        <div class="card">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Student ID Card Registration</h1>
+                        <p class="text-muted small mb-0">Manage students ID card registration.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-user-plus"></i> Register New Student
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Student RFID Registration</h4>
+                                <form id="adRFIDstud" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row g-2">
+                                        <div class="col-md-12">
+                                            <label for="stdntID" class="form-label"> Student ID No.:</label>
+                                            <input type="text" name="stdntid" id="stdntID" class="form-control form-control-sm"
+                                                oninput="formatInput(this); this.value = this.value.toUpperCase(); fetchStudentName(this.value);">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="studentName" class="form-label"> Name:</label>
+                                            <input type="text" id="studentName" class="form-control form-control-sm" readonly>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="studentCourse" class="form-label"> Course Year&Section:</label>
+                                            <input type="text" id="studentCourse" class="form-control form-control-sm" readonly>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="studentCivilStatus" class="form-label"> Civil Status</label>
+                                            <input type="text" id="studentCivilStatus" class="form-control form-control-sm" readonly>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="studentAddress" class="form-label"> Address:</label>
+                                            <textarea rows="3" id="studentAddress" class="form-control form-control-sm"></textarea>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="studentContactPerson" class="form-label"> Contact Person:</label>
+                                            <input type="text" id="studentContactPerson" class="form-control form-control-sm" name="contactperson">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="studentContactPersonNo" class="form-label"> Contact Person No.:</label>
+                                            <input type="text" id="studentContactPersonNo" class="form-control form-control-sm" name="contactpersonno">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="studentUniqueRFID" class="form-label"> RFID:</label>
+                                            <input type="text" id="studentUniqueRFID" name="stdntrfid" class="form-control form-control-sm" readonly>
+                                            <input type="text" id="rfidScanner" style="opacity:0; position:absolute;">
+                                        </div>
+                                        <div class="col-md-12">
+                                            {{-- <label for="studPhoto" class="form-label"> Image:</label> --}}
+                                            <input type="hidden" id="studPhoto" name="studphoto" class="form-control form-control-sm" readonly>
+                                        </div>
+                                        <div class="col-md-12">
+                                            {{-- <label for="studSignature" class="form-label"> Image:</label> --}}
+                                            <input type="hidden" id="studSignature" name="studsignature" class="form-control form-control-sm" readonly>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-success text-light">
+                                                <i class="fas fa-save"></i> Save changes
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-none d-md-block">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-address-book"></i> Student ID Front Template
+                                </h6>
+                            </div>
+                            <div class="card-body" style="background-color: #e3eee4">
+                                <div class="table-responsive">
+                                    <div class="id-frontcard" style="background-image: url('{{ asset('uilibs/images/studentidimage/IDfontframe.webp') }}');
+                                        background-size: cover;
+                                        background-position: center;
+                                        background-repeat: no-repeat;">
+                                        <div class="id-header">
+                                            <div style="height: 35px">
+                                                <h6 style="margin-left: 100px; margin-top: 10px">
+                                                    <img src="{{ asset('uilibs/images/studentidimage/headerlogo.webp') }}" alt="logo" width="95%">
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <div class="id-body">
+                                            <div class="photo-wrapper">
+                                                <div class="student-photo">
+                                                    <img id="photo" class="pic">
+                                                </div>
+                                                <div class="signature-icon">
+                                                    {{-- <span id="studentCardSignature"><i class="ti ti-signature"></i></span> --}}
+                                                    <img id="studentCardSignature" style="width:60px; height: 25px; display:block; margin-top: 10px" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="student-name" id="studentCardName">NAME</div>
+                                                <label class="id-label">ID No.:</label>
+                                                <div class="student-id" id="studentCardNo"></div>
+                                                <label class="program-label">Program:</label>
+                                                <div class="student-course" id="studentCardCourse"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="">
+                                            <div id="qrcode"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row mt-3 g-3">
-                                    <div class="col-md-3">
-                                        <div class="card">
-                                            <div class="card-header pt-3">
-                                                <h6 class="card-title">
-                                                    <i class="ti ti-user-plus"></i> Register New Student
-                                                </h6>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-address-book"></i> Student ID Back Template
+                                </h6>
+                            </div>
+                            <div class="card-body" style="background-color: #e3eee4">
+                                <div class="table-responsive">
+                                    <div class="id-backcard" style="
+                                        width: 85.6mm;
+                                        height: 54mm;
+                                        background-image: url('{{ asset('uilibs/images/studentidimage/IDback.webp') }}');
+                                        background-size: cover;
+                                        background-position: center;
+                                        background-repeat: no-repeat;
+                                        border-radius: 14px;
+                                        overflow: hidden;
+                                        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+                                        position: relative;
+                                        margin: 0 auto;">
+                                        <div class="id-body-back">
+                                            <!-- Emergency Contact Person -->
+                                            <div style="position: absolute; top: 38px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
+                                                <span id="studentCardContactPerson" style="font-weight: 400;">&nbsp;</span>
                                             </div>
-                                            <div class="card-body">
-                                                <form id="adRFIDstud" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="row g-2">
-                                                        <div class="col-md-12">
-                                                            <label for="stdntID" class="form-label"> Student ID No.:</label>
-                                                            <input type="text" name="stdntid" id="stdntID" class="form-control form-control-sm"
-                                                                oninput="formatInput(this); this.value = this.value.toUpperCase(); fetchStudentName(this.value);">
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label for="studentName" class="form-label"> Name:</label>
-                                                            <input type="text" id="studentName" class="form-control form-control-sm" readonly>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label for="studentCourse" class="form-label"> Course Year&Section:</label>
-                                                            <input type="text" id="studentCourse" class="form-control form-control-sm" readonly>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label for="studentCivilStatus" class="form-label"> Civil Status</label>
-                                                            <input type="text" id="studentCivilStatus" class="form-control form-control-sm" readonly>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label for="studentAddress" class="form-label"> Address:</label>
-                                                            <textarea rows="3" id="studentAddress" class="form-control form-control-sm"></textarea>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label for="studentContactPerson" class="form-label"> Contact Person:</label>
-                                                            <input type="text" id="studentContactPerson" class="form-control form-control-sm" name="contactperson">
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label for="studentContactPersonNo" class="form-label"> Contact Person No.:</label>
-                                                            <input type="text" id="studentContactPersonNo" class="form-control form-control-sm" name="contactpersonno">
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label for="studentUniqueRFID" class="form-label"> RFID:</label>
-                                                            <input type="text" id="studentUniqueRFID" name="stdntrfid" class="form-control form-control-sm" readonly>
-                                                            <input type="text" id="rfidScanner" style="opacity:0; position:absolute;">
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            {{-- <label for="studPhoto" class="form-label"> Image:</label> --}}
-                                                            <input type="hidden" id="studPhoto" name="studphoto" class="form-control form-control-sm" readonly>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            {{-- <label for="studSignature" class="form-label"> Image:</label> --}}
-                                                            <input type="hidden" id="studSignature" name="studsignature" class="form-control form-control-sm" readonly>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <button type="submit" class="btn btn-success text-light">
-                                                                <i class="fas fa-save"></i> Save changes
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+
+                                            <!-- Emergency Contact Number -->
+                                            <div style="position: absolute; top: 38px; left: 250px; font-size: 8px; font-weight: 600; color: #333;">
+                                                <span id="studentCardContactNumber" style="font-weight: 400;">&nbsp;</span>
+                                            </div>
+
+                                            <!-- Birthday -->
+                                            <div style="position: absolute; top: 68px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
+                                                <span id="studentCardBirthday" style="font-weight: 400;">&nbsp;</span>
+                                            </div>
+
+                                            <!-- Blood Type -->
+                                            <div style="position: absolute; top: 65px; left: 260px; font-size: 8px; font-weight: 600; color: #333;">
+                                                <span id="studentCardBloodTypeDisplay" style="font-weight: 400;">&nbsp;</span>
+                                            </div>
+
+                                            <!-- Contact No (second one) -->
+                                            <div style="position: absolute; top: 68px; left: 250px; font-size: 8px; font-weight: 600; color: #333;">
+                                                <span id="studentCardContact" style="font-weight: 400;">&nbsp;</span>
+                                            </div>
+
+                                            <!-- Address -->
+                                            <div style="position: absolute; top: 90px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
+                                                <span id="studentCardAddress" style="font-weight: 400;">&nbsp;</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 d-none d-md-block">
-                                        <div class="card">
-                                            <div class="card-header pt-3">
-                                                <h6 class="card-title">
-                                                    <i class="ti ti-address-book"></i> Student ID Front Template
-                                                </h6>
-                                            </div>
-                                            <div class="card-body" style="background-color: #e3eee4">
-                                                <div class="table-responsive">
-                                                    <div class="id-frontcard" style="background-image: url('{{ asset('uilibs/images/studentidimage/IDfontframe.webp') }}'); 
-                                                        background-size: cover;
-                                                        background-position: center;
-                                                        background-repeat: no-repeat;">
-                                                        <div class="id-header">
-                                                            <div style="height: 35px">
-                                                                <h6 style="margin-left: 100px; margin-top: 10px">
-                                                                    <img src="{{ asset('uilibs/images/studentidimage/headerlogo.webp') }}" alt="logo" width="95%">
-                                                                </h6>
-                                                            </div>
-                                                        </div>
-                                                        <div class="id-body">
-                                                            <div class="photo-wrapper">
-                                                                <div class="student-photo">
-                                                                    <img id="photo" class="pic">
-                                                                </div>
-                                                                <div class="signature-icon">
-                                                                    {{-- <span id="studentCardSignature"><i class="ti ti-signature"></i></span> --}}
-                                                                    <img id="studentCardSignature" style="width:60px; height: 25px; display:block; margin-top: 10px" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="student-name" id="studentCardName">NAME</div>
-                                                                <label class="id-label">ID No.:</label>
-                                                                <div class="student-id" id="studentCardNo"></div>
-                                                                <label class="program-label">Program:</label>
-                                                                <div class="student-course" id="studentCardCourse"></div>
-                                                            </div>
-                                                        </div>
-        
-                                                        <div class="">
-                                                            <div id="qrcode"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-none d-md-block">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-photo"></i> Capture Image
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="id-camera text-center">
+                                        <div id="cameraPlaceholder" style="display:flex; justify-content:center; align-items:center; height:200px; background:#f1f1f1; border-radius:8px;">
+                                            <i class="ti ti-camera" style="font-size:48px; color:#888;"></i>
                                         </div>
-                                        <br>
-                                        <div class="card">
-                                            <div class="card-header pt-3">
-                                                <h6 class="card-title">
-                                                    <i class="ti ti-address-book"></i> Student ID Back Template
-                                                </h6>
-                                            </div>
-                                            <div class="card-body" style="background-color: #e3eee4">
-                                                <div class="table-responsive">
-                                                    <div class="id-backcard" style="
-                                                        width: 85.6mm; 
-                                                        height: 54mm; 
-                                                        background-image: url('{{ asset('uilibs/images/studentidimage/IDback.webp') }}'); 
-                                                        background-size: cover;
-                                                        background-position: center;
-                                                        background-repeat: no-repeat;
-                                                        border-radius: 14px;
-                                                        overflow: hidden;
-                                                        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-                                                        position: relative;
-                                                        margin: 0 auto;">
-                                                        <div class="id-body-back">
-                                                            <!-- Emergency Contact Person -->
-                                                            <div style="position: absolute; top: 38px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardContactPerson" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
 
-                                                            <!-- Emergency Contact Number -->
-                                                            <div style="position: absolute; top: 38px; left: 250px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardContactNumber" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
+                                        <video id="webcam" autoplay playsinline width="100%" style="border-radius:8px; display:none;"></video>
 
-                                                            <!-- Birthday -->
-                                                            <div style="position: absolute; top: 68px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardBirthday" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
+                                        <div class="mt-2">
+                                            <button type="button" class="btn btn-success text-light" onclick="startCamera()" id="btnStart">
+                                                <i class="ti ti-camera me-1"></i>Turn On Camera
+                                            </button>
 
-                                                            <!-- Blood Type -->
-                                                            <div style="position: absolute; top: 65px; left: 260px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardBloodTypeDisplay" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
+                                            <button type="button" class="btn btn-danger text-light" onclick="stopCamera()" id="btnStop" style="display: none">
+                                                <i class="ti ti-camera-off"></i> Turn Off Camera
+                                            </button>
 
-                                                            <!-- Contact No (second one) -->
-                                                            <div style="position: absolute; top: 68px; left: 250px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardContact" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
-
-                                                            <!-- Address -->
-                                                            <div style="position: absolute; top: 90px; left: 15px; font-size: 8px; font-weight: 600; color: #333;">
-                                                                <span id="studentCardAddress" style="font-weight: 400;">&nbsp;</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <button type="button" class="btn btn-success text-light" onclick="capturePhoto()" id="btnCapture" style="display: none">
+                                                <i class="ti ti-camera"></i> Capture
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 d-none d-md-block">
-                                        <div class="card">
-                                            <div class="card-header pt-3">
-                                                <h6 class="card-title">
-                                                    <i class="ti ti-photo"></i> Capture Image
-                                                </h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <div class="id-camera text-center">
-                                                        <div id="cameraPlaceholder" style="display:flex; justify-content:center; align-items:center; height:200px; background:#f1f1f1; border-radius:8px;">
-                                                            <i class="ti ti-camera" style="font-size:48px; color:#888;"></i>
-                                                        </div>
-
-                                                        <video id="webcam" autoplay playsinline width="100%" style="border-radius:8px; display:none;"></video>
-
-                                                        <div class="mt-2">
-                                                            <button type="button" class="btn btn-success text-light" onclick="startCamera()" id="btnStart">
-                                                                <i class="ti ti-camera me-1"></i>Turn On Camera
-                                                            </button>
-
-                                                            <button type="button" class="btn btn-danger text-light" onclick="stopCamera()" id="btnStop" style="display: none">
-                                                                <i class="ti ti-camera-off"></i> Turn Off Camera
-                                                            </button>
-
-                                                            <button type="button" class="btn btn-success text-light" onclick="capturePhoto()" id="btnCapture" style="display: none">
-                                                                <i class="ti ti-camera"></i> Capture
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-photo"></i> eSignature Capture
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="id-signature text-center">
+                                        <!-- Canvas -->
+                                        <div id="sigwebCanvasWrap" style="background: #f8f9fa; border-radius: 8px; padding: 10px;">
+                                            <canvas id="sigwebCanvas"
+                                                width="500"
+                                                height="200"
+                                                style="
+                                                    background: #ffffff;
+                                                    width: 100%;
+                                                    height: 200px;
+                                                    border-radius: 8px;
+                                                    border: 2px dashed #5bc486;
+                                                    touch-action: none;
+                                                    display: block;
+                                                    cursor: crosshair;
+                                                "></canvas>
                                         </div>
-                                        <br>
-                                        <div class="card">
-                                            <div class="card-header pt-3">
-                                                <h6 class="card-title">
-                                                    <i class="ti ti-photo"></i> eSignature Capture
-                                                </h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <div class="id-signature text-center">
-                                                        <!-- Canvas -->
-                                                        <div id="sigwebCanvasWrap" style="background: #f8f9fa; border-radius: 8px; padding: 10px;">
-                                                            <canvas id="sigwebCanvas" 
-                                                                width="500" 
-                                                                height="200"
-                                                                style="
-                                                                    background: #ffffff; 
-                                                                    width: 100%; 
-                                                                    height: 200px; 
-                                                                    border-radius: 8px;
-                                                                    border: 2px dashed #5bc486;
-                                                                    touch-action: none;
-                                                                    display: block;
-                                                                    cursor: crosshair;
-                                                                "></canvas>
-                                                        </div>
-                                                        
-                                                        <!-- Status indicators -->
-                                                        <div class="mt-2">
-                                                            <span class="badge bg-secondary" id="sigwebDeviceStatus">
-                                                                <i class="ti ti-device-tablet"></i> Device: Checking...
-                                                            </span>
-                                                            <span class="badge bg-secondary" id="sigwebSdkStatus">
-                                                                <i class="ti ti-code"></i> SDK: Checking...
-                                                            </span>
-                                                        </div>
-                                                        
-                                                        <!-- Warning -->
-                                                        <div id="sigwebWarning" class="alert alert-warning mt-2 d-none">
-                                                            <i class="ti ti-alert-triangle"></i> 
-                                                            No Topaz signature pad detected. Please connect your Topaz tablet.
-                                                        </div>
-                                                        
-                                                        <!-- Error -->
-                                                        <div id="sigwebError" class="alert alert-danger mt-2 d-none"></div>
-                                                        
-                                                        <!-- Hint -->
-                                                        <div id="sigwebHint" class="text-muted small mt-1">
-                                                            <i class="ti ti-info-circle"></i> Sign on the Topaz tablet to capture your signature
-                                                        </div>
-                                                        
-                                                        <!-- Buttons -->
-                                                        <div class="mt-2">
-                                                            <button type="button" class="btn btn-outline-warning" id="sigwebClearBtn">
-                                                                <i class="ti ti-refresh me-1"></i>Reset Signature
-                                                            </button>
 
-                                                            <button type="button" class="btn btn-success text-light" id="sigwebSaveBtn">
-                                                                <i class="ti ti-signature"></i> Capture
-                                                            </button>
-                                                            
-                                                            <span id="sigwebSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <!-- Status indicators -->
+                                        <div class="mt-2">
+                                            <span class="badge bg-secondary" id="sigwebDeviceStatus">
+                                                <i class="ti ti-device-tablet"></i> Device: Checking...
+                                            </span>
+                                            <span class="badge bg-secondary" id="sigwebSdkStatus">
+                                                <i class="ti ti-code"></i> SDK: Checking...
+                                            </span>
+                                        </div>
+
+                                        <!-- Warning -->
+                                        <div id="sigwebWarning" class="alert alert-warning mt-2 d-none">
+                                            <i class="ti ti-alert-triangle"></i>
+                                            No Topaz signature pad detected. Please connect your Topaz tablet.
+                                        </div>
+
+                                        <!-- Error -->
+                                        <div id="sigwebError" class="alert alert-danger mt-2 d-none"></div>
+
+                                        <!-- Hint -->
+                                        <div id="sigwebHint" class="text-muted small mt-1">
+                                            <i class="ti ti-info-circle"></i> Sign on the Topaz tablet to capture your signature
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="mt-2">
+                                            <button type="button" class="btn btn-outline-warning" id="sigwebClearBtn">
+                                                <i class="ti ti-refresh me-1"></i>Reset Signature
+                                            </button>
+
+                                            <button type="button" class="btn btn-success text-light" id="sigwebSaveBtn">
+                                                <i class="ti ti-signature"></i> Capture
+                                            </button>
+
+                                            <span id="sigwebSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="card">
-                                            <div class="card-header pt-3">
-                                                <h6 class="card-title">
-                                                    <i class="ti ti-printer"></i> Print Student ID Card
-                                                </h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="mb-2">
-                                                        <button onclick="printFrontIDonly()" class="btn btn-outline-warning btn-block">
-                                                            <i class="fas fa-print"></i> Print
-                                                        </button>
-                                                    </div>
-                                                    {{-- <div class="mb-2">
-                                                        <button onclick="printOnlyID()" class="btn btn-secondary btn-sm btn-block">
-                                                            Print Back Student ID
-                                                        </button>
-                                                    </div> --}}
-                                                    <div class="mb-2">
-                                                        <button class="btn btn-success text-light btn-block" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#idPreviewModal">
-                                                            <i class="fas fa-eye"></i> Preview
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-printer"></i> Print Student ID Card
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="mb-2">
+                                        <button onclick="printFrontIDonly()" class="btn btn-outline-warning btn-block">
+                                            <i class="fas fa-print"></i> Print
+                                        </button>
+                                    </div>
+                                    {{-- <div class="mb-2">
+                                        <button onclick="printOnlyID()" class="btn btn-secondary btn-sm btn-block">
+                                            Print Back Student ID
+                                        </button>
+                                    </div> --}}
+                                    <div class="mb-2">
+                                        <button class="btn btn-success text-light btn-block" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#idPreviewModal">
+                                            <i class="fas fa-eye"></i> Preview
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -595,7 +591,7 @@
                     <div class="id-frontcard" style="
                             transform: scale(1.5);
                             transform-origin: top center;
-                            background-image: url('{{ asset('uilibs/images/studentidimage/IDfontframe.webp') }}'); 
+                            background-image: url('{{ asset('uilibs/images/studentidimage/IDfontframe.webp') }}');
                             background-size: cover;
                             background-position: center;
                             background-repeat: no-repeat;
@@ -619,7 +615,7 @@
                                     margin-left: -1px;
                                     width: 88px;
                                     height: 106px;
-                                    border: 1px solid #eff317;        
+                                    border: 1px solid #eff317;
                                     box-shadow: 0 0 0 2px #116e36;
                                     border-radius: 6px;
                                     overflow: hidden;
@@ -656,7 +652,7 @@
                                             font-weight: bold;
                                             top: 120px;
                                             left: 110px;
-                                            font-size: 7pt;" 
+                                            font-size: 7pt;"
                                     id="previewId">
                                 </div>
                                 <label style="position: absolute; font-family: 'Poppins', sans-serif !important; font-weight: bold; top: 135px; left: 110px; font-size: 8pt;">PROGRAM:</label>
@@ -665,7 +661,7 @@
                                             font-weight: bold;
                                             top: 145px;
                                             left: 110px;
-                                            font-size: 7pt;" 
+                                            font-size: 7pt;"
                                     id="previewCourse">
                                 </div>
                             </div>
@@ -678,7 +674,7 @@
                                         position: absolute;
                                         bottom: 10px !important;
                                         right: 15px !important;
-                                        border: 1px solid #ffffff;" 
+                                        border: 1px solid #ffffff;"
                                 id="previewQr">
                             </div>
                         </div>
@@ -690,7 +686,7 @@
                             <p class="emergency-text" style="margin-bottom: 10px">
                                 In case of emergency, please contact:
                             </p>
-                            
+
                             <div class="back-grid">
                                 <div class="back-col">
                                     <label class="form-labelbold">Person:</label>
@@ -721,7 +717,7 @@
                                     <div class="line"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="back-col-full">
                                 <label class="form-labelbold">Address:</label>
                                 <div class="linedata" id="studentCardAddressPreview">&nbsp;</div>
@@ -731,7 +727,7 @@
                             {{-- <div class="green-line"></div> --}}
 
                             <p class="note-text">
-                                The bearer is a bonafide of the Central Philippines State University Kabankalan City, Negros Occidental. 
+                                The bearer is a bonafide of the Central Philippines State University Kabankalan City, Negros Occidental.
                                 This card is non-transferable and available only on the semester period.
                                 <br>
                                 Report loss to the <b>OFFICE OF STUDENT SERVICES AND AFFAIRS.</b>
@@ -757,5 +753,5 @@
         var rfidstudentCreateRoute = "{{ route('rfid.create') }}";
     </script>
 
-    
+
 @endsection

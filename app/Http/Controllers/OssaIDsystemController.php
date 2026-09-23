@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -58,105 +59,98 @@ class OssaIDsystemController extends Controller
 {
     public function index()
     {
-        $userCampus = Auth::guard('web')->user()->campus;
+        $user = Auth::guard('web')->user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
 
-        // Fetch the active configuration with set_status = 2
-        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        $userCampus = $user->campus;
+
+        // 1. Retrieve Active Configuration (Cached)
+        $activeConfig = Cache::remember("active_config", 1000, function () {
+            return ConfigureCurrent::where('set_status', 2)->first();
+        });
+
         if (!$activeConfig) {
             return back()->with('error', 'No active school year found.');
         }
+
         $activeConfigId = $activeConfig->id;
-        
-        $previousConfig = ConfigureCurrent::where('id', '<', $activeConfigId) // Ensure it's before the current active one
-            ->orderBy('id', 'desc') // Get the most recent one
-            ->first();
 
-        $schlyearactiveYear = $activeConfig->schlyear;
-        $schlyearactive = $activeConfig->schlyear;
-        $semesteractive = $activeConfig->semester;
-        $prevsemesteractive = $previousConfig->semester;
+        // 2. Retrieve Previous Configuration (Cached)
+        $previousConfig = Cache::remember("previous_config_{$activeConfigId}", 1000, function () use ($activeConfigId) {
+            return ConfigureCurrent::where('id', '<', $activeConfigId)
+                ->orderBy('id', 'desc')
+                ->first();
+        });
 
-        $previousSchlyearYear = $previousConfig ? $previousConfig->schlyear : null;
-
-        if (!$previousSchlyearYear) {
+        if (!$previousConfig) {
             return back()->with('error', 'No previous school year found.');
         }
 
-        // Query for the previous school year's first semester
-        $collegesFirstSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
+        $schlyearactiveYear   = $activeConfig->schlyear;
+        $schlyearactive       = $activeConfig->schlyear;
+        $semesteractive       = $activeConfig->semester;
+        $prevsemesteractive   = $previousConfig->semester;
+        $previousSchlyearYear = $previousConfig->schlyear;
+
+        $cacheKeyPrefix = "ossas_dash_{$userCampus}_{$schlyearactive}_{$semesteractive}_";
+
+        // Reusable Helper Closure for College Queries
+        $getCollegeData = function ($schlyear, $semester) use ($user, $userCampus) {
+            return College::join('coasv2_db_enrollment.program_en_history', function ($join) {
                 $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
             })
             ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
             ->where(function ($query) use ($userCampus) {
-                $campuses = explode(', ', $userCampus);
-                foreach ($campuses as $campus) {
+                foreach (explode(', ', $userCampus) as $campus) {
                     $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
                 }
             })
-            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $prevsemesteractive)
-            ->where('coasv2_db_enrollment.program_en_history.schlyear', $previousSchlyearYear)
+            ->where('coasv2_db_enrollment.program_en_history.semester', $semester)
+            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyear)
             ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
-            ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
-            ->orderBy('college_name', 'ASC')
+            ->where('coasv2_db_enrollment.program_en_history.campus', $user->campus)
             ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
             ->groupBy('college.id')
-            ->get();
-
-
-        // Query for the current active school year's second semester
-        $collegesSecondSemester = College::join('coasv2_db_enrollment.program_en_history', function ($join) {
-                $join->on(DB::raw("SUBSTRING_INDEX(coasv2_db_enrollment.program_en_history.progCod, '-', 1)"), '=', 'college.college_abbr');
-            })
-            ->whereIn('college.id', [2, 3, 4, 5, 6, 7, 8])
-            ->where(function ($query) use ($userCampus) {
-                $campuses = explode(', ', $userCampus);
-                foreach ($campuses as $campus) {
-                    $query->orWhere('college.campus', 'LIKE', '%' . $campus . '%');
-                }
-            })
-            ->where('coasv2_db_enrollment.program_en_history.semester', '=', $semesteractive)
-            ->where('coasv2_db_enrollment.program_en_history.schlyear', $schlyearactiveYear)
-            ->whereIn('coasv2_db_enrollment.program_en_history.status', [2, 3])
-            ->where('coasv2_db_enrollment.program_en_history.campus', Auth::guard('web')->user()->campus)
             ->orderBy('college_name', 'ASC')
-            ->select('college.*', 'coasv2_db_enrollment.program_en_history.semester', DB::raw('COUNT(DISTINCT coasv2_db_enrollment.program_en_history.studentID) as college_count'))
-            ->groupBy('college.id')
             ->get();
+        };
 
-        $enrlstudcountfirst = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '1')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
+        // 3. Query Previous and Current Semester Colleges
+        $collegesFirstSemester = Cache::remember($cacheKeyPrefix . 'prev_colleges', 1000, function () use ($getCollegeData, $previousSchlyearYear, $prevsemesteractive) {
+            return $getCollegeData($previousSchlyearYear, $prevsemesteractive);
+        });
 
+        $collegesSecondSemester = Cache::remember($cacheKeyPrefix . 'curr_colleges', 1000, function () use ($getCollegeData, $schlyearactiveYear, $semesteractive) {
+            return $getCollegeData($schlyearactiveYear, $semesteractive);
+        });
 
-        $enrlstudcountsecond = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '2')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
+        // 4. Aggregated Year Level Counts (Optimized 4 queries into 1)
+        $yearStats = Cache::remember($cacheKeyPrefix . 'year_counts_aggregated', 1000, function () use ($schlyearactive, $semesteractive, $userCampus) {
+            return StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
+                ->where('program_en_history.schlyear', $schlyearactive)
+                ->where('program_en_history.semester', $semesteractive)
+                ->where('program_en_history.campus', $userCampus)
+                ->whereIn('program_en_history.status', [2, 3])
+                ->selectRaw("
+                    SUM(CASE WHEN studYear = '1' THEN 1 ELSE 0 END) as year1,
+                    SUM(CASE WHEN studYear = '2' THEN 1 ELSE 0 END) as year2,
+                    SUM(CASE WHEN studYear = '3' THEN 1 ELSE 0 END) as year3,
+                    SUM(CASE WHEN studYear = '4' THEN 1 ELSE 0 END) as year4
+                ")->first();
+        });
 
-        $enrlstudcountthird = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '3')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
+        $enrlstudcountfirst  = $yearStats->year1 ?? 0;
+        $enrlstudcountsecond = $yearStats->year2 ?? 0;
+        $enrlstudcountthird  = $yearStats->year3 ?? 0;
+        $enrlstudcountfourth = $yearStats->year4 ?? 0;
 
-        $enrlstudcountfourth = StudEnrolmentHistory::where('program_en_history.studentID', 'NOT LIKE', '%-G%')
-                            ->where('program_en_history.schlyear', 'LIKE', $schlyearactive)
-                            ->where('program_en_history.semester', 'LIKE', $semesteractive)
-                            ->where('program_en_history.studYear', '=', '4')
-                            ->where('program_en_history.campus', '=', $userCampus)
-                            ->whereIn('program_en_history.status',  [2, 3])
-                            ->count();
-
-        return view('ossas.index', compact('collegesFirstSemester', 'collegesSecondSemester', 'semesteractive', 'prevsemesteractive', 'schlyearactiveYear', 'previousSchlyearYear',  'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'));
+        return view('ossas.index', compact(
+            'collegesFirstSemester', 'collegesSecondSemester', 'semesteractive',
+            'prevsemesteractive', 'schlyearactiveYear', 'previousSchlyearYear',
+            'enrlstudcountfirst', 'enrlstudcountsecond', 'enrlstudcountthird', 'enrlstudcountfourth'
+        ));
     }
 
     public function store()
@@ -180,7 +174,7 @@ class OssaIDsystemController extends Controller
     {
         $campus = Auth::guard('web')->user()->campus;
         $campusArray = array_map('trim', explode(',', $campus));
-        
+
         $student = Student::join('program_en_history', 'students.stud_id', '=', 'program_en_history.studentID')
             ->leftJoin('coasv2_db_schedule.programs', 'program_en_history.progCod', '=', 'coasv2_db_schedule.programs.progCod')
             ->where('students.stud_id', $id)
@@ -213,7 +207,7 @@ class OssaIDsystemController extends Controller
         }
     }
 
-    public function create(Request $request) 
+    public function create(Request $request)
     {
         if ($request->isMethod('post')) {
 
@@ -222,16 +216,16 @@ class OssaIDsystemController extends Controller
                 //'stdntrfid' => 'required',
             ]);
 
-            $studidName = $request->input('stdntid'); 
+            $studidName = $request->input('stdntid');
             //$studidRFID = $request->input('stdntrfid');
-            $base64Image = $request->input('studphoto'); 
+            $base64Image = $request->input('studphoto');
             $base64Signature = $request->input('studsignature');
             //$encryptedRFID = Hash::make($studidRFID);
 
             $existingStudentID = StudentRFID::where('stdntid', $studidName)->first();
             if ($existingStudentID) {
                 return response()->json([
-                    'error' => true, 
+                    'error' => true,
                     'message' => 'This Student ID already exist.'
                 ], 409);
             }
@@ -291,7 +285,7 @@ class OssaIDsystemController extends Controller
                 StudentRFID::create([
                     'stdntid' => $studidName,
                     //'stdntrfid' => $encryptedRFID,
-                    'studphoto' => $imagePath, 
+                    'studphoto' => $imagePath,
                     'studsignature' => $signaturePath,
                     'contactperson' => $request->input('contactperson'),
                     'contactpersonno' => $request->input('contactpersonno'),
@@ -319,7 +313,7 @@ class OssaIDsystemController extends Controller
     {
         return view('ossas.rfidreg.verifyrfid');
     }
-    
+
     public function verifyByRFID(Request $request)
     {
         $plainRfid = trim($request->input('stdntrfid', ''));
@@ -382,7 +376,7 @@ class OssaIDsystemController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Database error occurred',
-                'error'   => $e->getMessage() 
+                'error'   => $e->getMessage()
             ], 500);
 
         //} catch (\Exception $e) {

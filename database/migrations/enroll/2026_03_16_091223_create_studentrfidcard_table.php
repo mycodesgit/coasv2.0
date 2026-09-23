@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('stdntrfid')->unique();
             $table->string('studphoto')->nullable();
             $table->string('studsignature')->nullable();
+            $table->string('contactperson')->nullable();
+            $table->string('contactpersonno')->nullable();
             $table->string('campus');
             $table->string('schlyear')->nullable();
             $table->string('semester')->nullable();
