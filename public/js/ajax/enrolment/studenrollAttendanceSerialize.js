@@ -1,14 +1,14 @@
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
-    var schlyear = urlParams.get('schlyear') || ''; 
+    var schlyear = urlParams.get('schlyear') || '';
     var semester = urlParams.get('semester') || '';
-    var campus = urlParams.get('campus') || ''; 
+    var campus = urlParams.get('campus') || '';
 
     var dataTable = $('#attendanceTable').DataTable({
         "ajax": {
             "url": attendanceReadRoute,
             "type": "GET",
-            "data": { 
+            "data": {
                 "schlyear": schlyear,
                 "semester": semester,
                 "campus": campus
@@ -35,7 +35,7 @@ $(document).ready(function() {
             },
             {data: 'sub_title'},
             {data: 'subSec'},
-            // {data: 'countstud'},
+            {data: 'countstud'},
             {
                 data: 'sid',
                 render: function(data, type, row) {
@@ -64,7 +64,7 @@ $(document).ready(function() {
             },
         ],
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.id); 
+            $(row).attr('id', 'tr-' + data.id);
         },
         dom: 'Bfrtip'
     });

@@ -32,9 +32,9 @@ CISS V.1.0 || Enrollment
                                     <h4>Student Class Attendance Per Subject</h4>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12"> 
+                                    <div class="col-md-12">
                                         <form method="GET" action="{{ route('listsearch_studsubjectsRead') }}" id="enrollStud">
-                                            @csrf   
+                                            @csrf
 
                                             <div class="form-group mt-2">
                                                 <div class="row g-3">
@@ -74,7 +74,7 @@ CISS V.1.0 || Enrollment
                                                         <th>Subject</th>
                                                         <th>Descriptive</th>
                                                         <th>Course Yr&Section</th>
-                                                        {{-- <th>No of Stud</th> --}}
+                                                        <th>No of Stud</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -89,13 +89,13 @@ CISS V.1.0 || Enrollment
                                                                 <a href="{{ route('listsearchview_studsubjectsRead', ['id' => $datasubstudnow->sid, 'schlyear'  => request('schlyear'), 'semester'  => request('semester')]) }}" class="btn btn-primary btn-sm">
                                                                     <i class="fas fa-eye"></i>
                                                                 </a>
-                                                            </td> 
+                                                            </td>
                                                         </tr>
                                                     @endforeach --}}
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
                             </div>
                         </div>
