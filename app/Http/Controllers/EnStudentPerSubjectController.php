@@ -113,9 +113,9 @@ class EnStudentPerSubjectController extends Controller
             ->groupBy('subjID');
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-            // ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
-            //     $join->on('sub_offered.id', '=', 'studgrades.subjID');
-            // })
+            ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
+                $join->on('sub_offered.id', '=', 'studgrades.subjID');
+            })
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
