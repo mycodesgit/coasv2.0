@@ -366,10 +366,10 @@ CISS V.1.0 || Class Scheduler
     </div>
 
     <div class="modal fade mt-6" id="editStudSubOfferModal">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editFundModalLabel">Edit</h5>
+                    <h5 class="modal-title" id="editFundModalLabel"><i class="ti ti-pencil"></i> Edit Subject Offer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editStudSubOfferForm" action="{{ route('subjectsOfferedUpdate') }}" method="POST">
@@ -381,7 +381,7 @@ CISS V.1.0 || Class Scheduler
                             <div class="form-group">
                                 <div class="row g-3">
                                     <div class="col-md-8">
-                                        <label>Select New Subject here: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Select New Subject here: <span class="text-danger">*</span></label>
                                         <select class="form-control form-control-sm select2" id="subCodeEdit">
                                             <option disabled selected>---Select---</option>
                                             @foreach($subjects as $sub)
@@ -391,38 +391,38 @@ CISS V.1.0 || Class Scheduler
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label>Subject Code: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Subject Code: <span class="text-danger">*</span></label>
                                         <input type="text" name="subCode" id="subcodeEdit" class="form-control form-control-sm" readonly>
                                     </div>
 
                                     <div class="col-md-4 mt-2">
-                                        <label>Subject Name: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Subject Name: <span class="text-danger">*</span></label>
                                         <input type="text" id="subnameEdit"  class="form-control form-control-sm" readonly>
                                     </div>
 
 
                                     <div class="col-md-8 mt-2">
-                                        <label>Subject Title: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Subject Title: <span class="text-danger">*</span></label>
                                         <input type="text" id="subtitleEdit" class="form-control form-control-sm" readonly>
                                     </div>
 
                                     <div class="col-md-4 mt-2">
-                                        <label>Lecture Credit: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Lecture Credit: <span class="text-danger">*</span></label>
                                         <input type="number" name="lecUnit" id="lecUnitEdit" class="form-control form-control-sm" readonly>
                                     </div>
 
                                     <div class="col-md-4 mt-2">
-                                        <label>Laboratory Credit: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Laboratory Credit: <span class="text-danger">*</span></label>
                                         <input type="number" name="labUnit" id="labUnitEdit" class="form-control form-control-sm" readonly>
                                     </div>
 
                                     <div class="col-md-4 mt-2">
-                                        <label>Total Credit: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Total Credit: <span class="text-danger">*</span></label>
                                         <input type="number" name="subUnit" id="subUnitEdit" class="form-control form-control-sm" readonly>
                                     </div>
 
                                     <div class="col-md-4 mt-2">
-                                        <label>Subject Year&Section: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Subject Year&Section: <span class="text-danger">*</span></label>
                                         <select class="form-control form-control-sm select2" name="subSec" id="subsecEdit">
                                             <option disabled selected>---Select---</option>
                                             @foreach($class as $classes)
@@ -432,27 +432,27 @@ CISS V.1.0 || Class Scheduler
                                     </div>
 
                                     <div class="col-md-2 mt-2">
-                                        <label>Lecture Fee: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Lecture Fee: <span class="text-danger">*</span></label>
                                         <input type="number" name="lecFee" id="editlecfee" class="form-control form-control-sm" value="0" min="0">
                                     </div>
 
                                     <div class="col-md-2 mt-2">
-                                        <label>Laboratory Fee: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Laboratory Fee: <span class="text-danger">*</span></label>
                                         <input type="number" name="labFee" id="editlabfee" class="form-control form-control-sm" value="0" min="0">
                                     </div>
 
                                     <div class="col-md-4 mt-2">
-                                        <label>Developmental Fee: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Developmental Fee: <span class="text-danger">*</span></label>
                                         <input type="number" name="devFee" id="editdevfee" class="form-control form-control-sm" value="0" min="0">
                                     </div>
 
                                     <div class="col-md-2 mt-2">
-                                        <label>Max Student: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Max Student: <span class="text-danger">*</span></label>
                                         <input type="number" name="maxstud" id="editmaxstud" class="form-control form-control-sm" value="0" min="0">
                                     </div>
 
                                     <div class="col-md-2 mt-2">
-                                        <label>Template: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Template: <span class="text-danger">*</span></label>
                                         <select class="form-control form-control-sm" name="isTemp" id="isTempSelect">
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
@@ -460,7 +460,7 @@ CISS V.1.0 || Class Scheduler
                                     </div>
 
                                     <div class="col-md-2 mt-2">
-                                        <label>OJT/Thesis: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">OJT/Thesis: <span class="text-danger">*</span></label>
                                         <select class="form-control form-control-sm" name="isOJT" id="isOJTSelect">
                                             <option value="No">No</option>
                                             @if(request('semester') == '3')
@@ -472,7 +472,7 @@ CISS V.1.0 || Class Scheduler
                                     </div>
 
                                     <div class="col-md-2 mt-2">
-                                        <label>Type: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Type: <span class="text-danger">*</span></label>
                                         <select class="form-control form-control-sm" name="isType" id="isTypeSelect">
                                             <option value="No">No</option>
                                             <option value="Special">Special Class</option>
@@ -487,7 +487,7 @@ CISS V.1.0 || Class Scheduler
                                     </div>
 
                                     <div class="col-md-2 mt-2">
-                                        <label>Fund: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Fund: <span class="text-danger">*</span></label>
                                         <select class="form-control form-control-sm" id="fundSelectEdit">
                                             <option disabled selected> --Select-- </option>
                                             <option value="" id="noAccountOption">No Account</option>
@@ -498,7 +498,7 @@ CISS V.1.0 || Class Scheduler
                                     </div>
 
                                     <div class="col-md-2 mt-2">
-                                        <label>IT Subject: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">IT Subject: <span class="text-danger">*</span></label>
                                         <select class="form-control form-control-sm" name="itfee" id="itFeeSelect">
                                             <option value="No">No</option>
                                             <option value="Yes">Yes</option>
@@ -520,9 +520,9 @@ CISS V.1.0 || Class Scheduler
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save changes</button>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="ti ti-restore"></i> Close</button>
+                        <button type="button" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save changes</button>
                     </div>
                 </form>
             </div>

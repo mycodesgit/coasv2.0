@@ -41,7 +41,7 @@ CISS V.1.0 || YearBook
                             </div>
                             <div class="card-body">
                                 <form method="GET" action="{{ route('showReleaseResult') }}" id="enrollStud">
-                                    @csrf   
+                                    @csrf
 
                                     <div class="form-group">
                                         <div class="row g-3">
@@ -93,7 +93,7 @@ CISS V.1.0 || YearBook
                                         </div>
                                     </div>
                                 </form>
-                                
+
                                 <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;"></div>
 
                                 <div class="row">
@@ -140,7 +140,7 @@ CISS V.1.0 || YearBook
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" name="student_id" id="modalStudID">
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-bold">Student ID / Name:</label>
                             <input type="text" id="modalStudentName" class="form-control form-control-sm" readonly>
