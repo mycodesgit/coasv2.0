@@ -4,14 +4,12 @@
 CISS V.1.0 || Enrollment
 @endsection
 
-@yield('sidemenu')
-
 @section('workspace')
     <div class="row">
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card mb-4" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -25,7 +23,7 @@ CISS V.1.0 || Enrollment
                     </div>
                 </div>
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
                     <div>
                         <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Enrollment Dashboard Overview</h1>
                         <p class="text-muted small mb-0">System metrics, student enrollment data and daily activity logs.</p>
@@ -212,15 +210,15 @@ CISS V.1.0 || Enrollment
                                     <div class="position-relative mb-4">
                                         <canvas id="enrlmntpercamp-chart"
                                                 data-main="{!! $MainEnrollmentCount !!}"
-                                                data-victorias="{!! $VcEnrollmentCount !!}" 
-                                                data-sancarlos="{!! $SccEnrollmentCount !!}"  
-                                                data-hinigaran="{!! $HcEnrollmentCount !!}"  
-                                                data-moises="{!! $MpEnrollmentCount !!}"  
-                                                data-ilog="{!! $IcEnrollmentCount !!}"  
-                                                data-candoni="{!! $CaEnrollmentCount !!}"  
-                                                data-cauayan="{!! $CcEnrollmentCount !!}"  
-                                                data-siplay="{!! $ScEnrollmentCount !!}"  
-                                                data-hinobaan="{!! $HinCEnrollmentCount !!}"  
+                                                data-victorias="{!! $VcEnrollmentCount !!}"
+                                                data-sancarlos="{!! $SccEnrollmentCount !!}"
+                                                data-hinigaran="{!! $HcEnrollmentCount !!}"
+                                                data-moises="{!! $MpEnrollmentCount !!}"
+                                                data-ilog="{!! $IcEnrollmentCount !!}"
+                                                data-candoni="{!! $CaEnrollmentCount !!}"
+                                                data-cauayan="{!! $CcEnrollmentCount !!}"
+                                                data-siplay="{!! $ScEnrollmentCount !!}"
+                                                data-hinobaan="{!! $HinCEnrollmentCount !!}"
                                                 height="200">
                                         </canvas>
                                     </div>

@@ -40218,4 +40218,11 @@ html.theme-transitioning *:after {
     color: #ffffff !important;
 }
 
+.card-body-bg-color {
+    background-color: #e9ecef !important;
+}
+
+[data-bs-theme="dark"] .card-body-bg-color {
+    background-color: #2b3035 !important;
+}
 
