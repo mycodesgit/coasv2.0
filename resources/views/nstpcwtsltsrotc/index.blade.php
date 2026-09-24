@@ -11,7 +11,7 @@ CISS V.1.0 || NSTP
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,9 +24,16 @@ CISS V.1.0 || NSTP
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">NSTP Dashboard Overview</h1>
+                        <p class="text-muted small mb-0">Overview of student enrolled in NSTP Subjects.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-lg-4 col-12">
-                        <div class="card mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -41,7 +48,7 @@ CISS V.1.0 || NSTP
                         </div>
                     </div>
                     <div class="col-lg-4 col-12">
-                        <div class="card mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -56,7 +63,7 @@ CISS V.1.0 || NSTP
                         </div>
                     </div>
                     <div class="col-lg-4 col-12">
-                        <div class="card mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>

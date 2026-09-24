@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use App\Rules\UniqueStudentID;
 use Illuminate\Support\Facades\Log;
@@ -58,47 +59,80 @@ class NstpController extends Controller
             return 'faculty';
         }
     }
-    
+
     public function index()
     {
-        $activeConfig = ConfigureCurrent::where('set_status', 2)->first();
+        // 1. Safe Auth Resolution
+        $user = Auth::guard('web')->user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $campus = $user->campus;
+
+        // 2. Cache Active Config (avoids hitting DB on every single request)
+        $activeConfig = Cache::remember('active_config_status_2', 3600, function () {
+            return ConfigureCurrent::where('set_status', 2)->first();
+        });
+
+        if (!$activeConfig) {
+            return back()->with('error', 'Active school year/semester configuration not found.');
+        }
+
         $schlyearactive = $activeConfig->schlyear;
         $semesteractive = $activeConfig->semester;
-        $campus = Auth::guard('web')->user()->campus;
 
-        $cwtscodes = ["KAB-SER-076", "KAB-SER-144", "KAB-SER-147"];
-        $ltscodes = ["KAB-SER-145", "KAB-SER-148"];
-        $rotccodes = ["KAB-SER-146", "KAB-SER-149", "KAB-SER-077"];
+        // 3. Define groups mapping
+        $groups = [
+            'cwtscount' => ["KAB-SER-076", "KAB-SER-144", "KAB-SER-147"],
+            'ltscount'  => ["KAB-SER-145", "KAB-SER-148"],
+            'rotccount' => ["KAB-SER-146", "KAB-SER-149", "KAB-SER-077"],
+        ];
 
-        // ⚡ Fast counts
-        $cwtscount = $this->countNSTPStudentsFast($cwtscodes, $schlyearactive, $semesteractive, $campus);
-        $ltscount  = $this->countNSTPStudentsFast($ltscodes,  $schlyearactive, $semesteractive, $campus);
-        $rotccount = $this->countNSTPStudentsFast($rotccodes, $schlyearactive, $semesteractive, $campus);
+        // 4. Run a single optimized query instead of 3 separate DB calls
+        $counts = $this->countAllNSTPStudentsFast($groups, $schlyearactive, $semesteractive, $campus);
 
-        return view('nstpcwtsltsrotc.index', compact('schlyearactive', 'semesteractive', 'cwtscount', 'ltscount', 'rotccount'));
+        return view('nstpcwtsltsrotc.index', array_merge([
+            'schlyearactive' => $schlyearactive,
+            'semesteractive' => $semesteractive,
+        ], $counts));
     }
 
-    private function countNSTPStudentsFast(array $subjectCodes, $schlyear, $semester, $campus)
+    /**
+     * Executes a single aggregated query for CWTS, LTS, and ROTC.
+     */
+    private function countAllNSTPStudentsFast(array $groups, string $schlyear, string $semester, string $campus): array
     {
-        return Grade::whereIn('subjID', function ($query) use ($subjectCodes, $schlyear, $semester, $campus) {
-                $query->select('coasv2_db_schedule.sub_offered.id')
-                    ->from('coasv2_db_schedule.sub_offered')
-                    ->join('coasv2_db_schedule.subjects', 'coasv2_db_schedule.sub_offered.subCode', '=', 'coasv2_db_schedule.subjects.sub_code')
-                    ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
-                    ->where('coasv2_db_schedule.sub_offered.semester', $semester)
-                    ->where('coasv2_db_schedule.sub_offered.campus', $campus)
-                    ->whereIn('coasv2_db_schedule.sub_offered.subCode', $subjectCodes);
-            })
+        // Combine all subject codes into one array
+        $allCodes = array_merge(...array_values($groups));
+
+        // Join Grade directly to sub_offered to fetch the actual subCode in 1 query
+        $results = Grade::query()
+            ->join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
+            ->whereIn('coasv2_db_schedule.sub_offered.subCode', $allCodes)
+            ->where('coasv2_db_schedule.sub_offered.schlyear', $schlyear)
+            ->where('coasv2_db_schedule.sub_offered.semester', $semester)
+            ->where('coasv2_db_schedule.sub_offered.campus', $campus)
             ->whereExists(function ($q) use ($schlyear, $semester) {
                 $q->selectRaw(1)
-                ->from('program_en_history')
-                ->whereColumn('program_en_history.studentID', 'studgrades.studID')
-                ->where('program_en_history.schlyear', $schlyear)
-                ->where('program_en_history.semester', $semester);
+                    ->from('program_en_history')
+                    ->whereColumn('program_en_history.studentID', 'studgrades.studID')
+                    ->where('program_en_history.schlyear', $schlyear)
+                    ->where('program_en_history.semester', $semester);
             })
-            ->count();
+            ->select('coasv2_db_schedule.sub_offered.subCode', DB::raw('COUNT(studgrades.id) as total'))
+            ->groupBy('coasv2_db_schedule.sub_offered.subCode')
+            ->pluck('total', 'subCode');
+
+        // Map query totals back to CWTS, LTS, and ROTC categories
+        $counts = [];
+        foreach ($groups as $key => $codes) {
+            $counts[$key] = collect($codes)->sum(fn($code) => $results[$code] ?? 0);
+        }
+
+        return $counts;
     }
-    
+
     public function cwts_nstp()
     {
         $sy = ConfigureCurrent::select('id', 'schlyear')
@@ -123,13 +157,13 @@ class NstpController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
-        
+
         $cwtscodes = [
             "KAB-SER-076", "KAB-SER-144"
         ];
 
         $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');   
+        $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -148,11 +182,11 @@ class NstpController extends Controller
         $subjectIDs = $data->pluck('sid')->toArray();
 
         $substudnowviewpdf = Grade::select(
-                'so.*', 
-                'studgrades.*', 
-                'studgrades.id as sgid', 
-                'studgrades.status as gstat', 
-                'students.*', 
+                'so.*',
+                'studgrades.*',
+                'studgrades.id as sgid',
+                'studgrades.status as gstat',
+                'students.*',
                 's.*'
             )
             ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
@@ -179,13 +213,13 @@ class NstpController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
-        
+
         $cwtscodes = [
             "KAB-SER-076", "KAB-SER-144", "KAB-SER-147"
         ];
 
         $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');   
+        $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -204,25 +238,25 @@ class NstpController extends Controller
         $subjectIDs = $data->pluck('sid')->toArray();
 
         $data = Grade::select(
-                'so.*', 
-                'studgrades.*', 
-                'studgrades.studID', 
-                'studgrades.id as sgid', 
-                'studgrades.status as gstat', 
-                'students.lname', 
-                'students.fname', 
-                'students.ext', 
-                'students.mname', 
-                'students.mname', 
-                'students.bday', 
-                'students.gender', 
-                'students.region', 
-                'students.brgy', 
-                'students.city', 
-                'students.province', 
-                'students.course', 
-                'students.email', 
-                'students.contact', 
+                'so.*',
+                'studgrades.*',
+                'studgrades.studID',
+                'studgrades.id as sgid',
+                'studgrades.status as gstat',
+                'students.lname',
+                'students.fname',
+                'students.ext',
+                'students.mname',
+                'students.mname',
+                'students.bday',
+                'students.gender',
+                'students.region',
+                'students.brgy',
+                'students.city',
+                'students.province',
+                'students.course',
+                'students.email',
+                'students.contact',
                 's.*',
                 'coasv2_db_schedule.programs.progAcronym',
                 'coasv2_db_schedule.programs.progName'
@@ -284,13 +318,13 @@ class NstpController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
-        
+
         $ltscodes = [
             "KAB-SER-145", 'KAB-SER-148'
         ];
 
         $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');   
+        $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -309,25 +343,25 @@ class NstpController extends Controller
         $subjectIDs = $data->pluck('sid')->toArray();
 
         $data = Grade::select(
-                'so.*', 
-                'studgrades.*', 
-                'studgrades.studID', 
-                'studgrades.id as sgid', 
-                'studgrades.status as gstat', 
-                'students.lname', 
-                'students.fname', 
-                'students.ext', 
-                'students.mname', 
-                'students.mname', 
-                'students.bday', 
-                'students.gender', 
-                'students.region', 
-                'students.brgy', 
-                'students.city', 
-                'students.province', 
-                'students.course', 
-                'students.email', 
-                'students.contact', 
+                'so.*',
+                'studgrades.*',
+                'studgrades.studID',
+                'studgrades.id as sgid',
+                'studgrades.status as gstat',
+                'students.lname',
+                'students.fname',
+                'students.ext',
+                'students.mname',
+                'students.mname',
+                'students.bday',
+                'students.gender',
+                'students.region',
+                'students.brgy',
+                'students.city',
+                'students.province',
+                'students.course',
+                'students.email',
+                'students.contact',
                 's.*',
                 'coasv2_db_schedule.programs.progAcronym',
                 'coasv2_db_schedule.programs.progName'
@@ -389,13 +423,13 @@ class NstpController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
-        
+
         $rotccodes = [
             "KAB-SER-146", 'KAB-SER-149', 'KAB-SER-077'
         ];
 
         $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');   
+        $semester = $request->query('semester');
         $campus = Auth::guard('web')->user()->campus;
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
@@ -414,25 +448,25 @@ class NstpController extends Controller
         $subjectIDs = $data->pluck('sid')->toArray();
 
         $data = Grade::select(
-                'so.*', 
-                'studgrades.*', 
-                'studgrades.studID', 
-                'studgrades.id as sgid', 
-                'studgrades.status as gstat', 
-                'students.lname', 
-                'students.fname', 
-                'students.ext', 
-                'students.mname', 
-                'students.mname', 
-                'students.bday', 
-                'students.gender', 
-                'students.region', 
-                'students.brgy', 
-                'students.city', 
-                'students.province', 
-                'students.course', 
-                'students.email', 
-                'students.contact', 
+                'so.*',
+                'studgrades.*',
+                'studgrades.studID',
+                'studgrades.id as sgid',
+                'studgrades.status as gstat',
+                'students.lname',
+                'students.fname',
+                'students.ext',
+                'students.mname',
+                'students.mname',
+                'students.bday',
+                'students.gender',
+                'students.region',
+                'students.brgy',
+                'students.city',
+                'students.province',
+                'students.course',
+                'students.email',
+                'students.contact',
                 's.*',
                 'coasv2_db_schedule.programs.progAcronym',
                 'coasv2_db_schedule.programs.progName'
@@ -481,9 +515,9 @@ class NstpController extends Controller
             ->get();
 
         $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');   
+        $semester = $request->query('semester');
         if(Auth::guard('web')->user()->role == 0 || Auth::guard('web')->user()->lname == 'Arlos') {
-            $campus = $request->query('campus');    
+            $campus = $request->query('campus');
         } else {
             $campus = Auth::guard('web')->user()->campus;
         }
@@ -515,24 +549,24 @@ class NstpController extends Controller
                 })
                 ->where('program_en_history.status', 2)
                 ->select(
-                    'program_en_history.studentID', 
-                    'students.lname', 
-                    'students.fname', 
-                    'students.ext', 
-                    'students.mname', 
-                    'students.mname', 
-                    'students.bday', 
-                    'students.gender', 
-                    'students.region', 
-                    'students.brgy', 
-                    'students.city', 
-                    'students.province', 
-                    'program_en_history.studlevel', 
-                    'students.course', 
-                    'students.email', 
-                    'students.contact', 
-                    'program_en_history.id', 
-                    'program_en_history.schlyear', 
+                    'program_en_history.studentID',
+                    'students.lname',
+                    'students.fname',
+                    'students.ext',
+                    'students.mname',
+                    'students.mname',
+                    'students.bday',
+                    'students.gender',
+                    'students.region',
+                    'students.brgy',
+                    'students.city',
+                    'students.province',
+                    'program_en_history.studlevel',
+                    'students.course',
+                    'students.email',
+                    'students.contact',
+                    'program_en_history.id',
+                    'program_en_history.schlyear',
                     'program_en_history.semester',
                     'coasv2_db_schedule.subjects.sub_name')
                 ->limit(10)
@@ -544,9 +578,9 @@ class NstpController extends Controller
     public function getreportsnstpresult(Request $request)
     {
         $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');   
+        $semester = $request->query('semester');
         if(Auth::guard('web')->user()->role == 0) {
-            $campus = $request->query('campus');    
+            $campus = $request->query('campus');
         } else {
             $campus = Auth::guard('web')->user()->campus;
         }
@@ -578,24 +612,24 @@ class NstpController extends Controller
                 })
                 ->where('program_en_history.status', 2)
                 ->select(
-                    'program_en_history.studentID', 
-                    'students.lname', 
-                    'students.fname', 
-                    'students.ext', 
-                    'students.mname', 
-                    'students.mname', 
-                    'students.bday', 
-                    'students.gender', 
-                    'students.region', 
-                    'students.brgy', 
-                    'students.city', 
-                    'students.province', 
-                    'program_en_history.studlevel', 
-                    'students.course', 
-                    'students.email', 
-                    'students.contact', 
-                    'program_en_history.id', 
-                    'program_en_history.schlyear', 
+                    'program_en_history.studentID',
+                    'students.lname',
+                    'students.fname',
+                    'students.ext',
+                    'students.mname',
+                    'students.mname',
+                    'students.bday',
+                    'students.gender',
+                    'students.region',
+                    'students.brgy',
+                    'students.city',
+                    'students.province',
+                    'program_en_history.studlevel',
+                    'students.course',
+                    'students.email',
+                    'students.contact',
+                    'program_en_history.id',
+                    'program_en_history.schlyear',
                     'program_en_history.semester',
                     'coasv2_db_schedule.subjects.sub_name')
                 // ->limit(10)
@@ -718,7 +752,7 @@ class NstpController extends Controller
         } elseif (Auth::guard('web')->user()->campus == 'MC' && in_array(Auth::guard('web')->user()->role, [0, 3, 4])) {
             $grdpercentage = array_merge([2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 31, 32], range(44, 80));
         } else {
-            $grdpercentage = range(44, 80); 
+            $grdpercentage = range(44, 80);
         }
         $grdCode = GradeCode::whereIn('id', $grdpercentage)
                 ->orderByRaw('CASE WHEN id BETWEEN 44 AND 74 THEN id END DESC, id DESC')
@@ -765,11 +799,11 @@ class NstpController extends Controller
                 ->count();
 
             EncodedGrade::create([
-                'grdeprimID' => $gradecheck->id, 
-                'studsID' => $gradecheck->studID, 
+                'grdeprimID' => $gradecheck->id,
+                'studsID' => $gradecheck->studID,
                 'subjctsID' => $gradecheck->subjID,
-                'datefgrade' => \Carbon\Carbon::now(), 
-                'campus' => $gradecheck->campus, 
+                'datefgrade' => \Carbon\Carbon::now(),
+                'campus' => $gradecheck->campus,
                 'fgrade' => $grade,
                 'encodedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
             ]);
@@ -802,10 +836,10 @@ class NstpController extends Controller
 
             EncodedGrade::where('grdeprimID', $gradecheck->id)
             ->update([
-                'studsID' => $gradecheck->studID, 
+                'studsID' => $gradecheck->studID,
                 'subjctsID' => $gradecheck->subjID,
-                'datecgrade' => \Carbon\Carbon::now(), 
-                'campus' => $gradecheck->campus, 
+                'datecgrade' => \Carbon\Carbon::now(),
+                'campus' => $gradecheck->campus,
                 'cgrade' => $grade,
                 'encodedBy' => Auth::guard('web')->user()->fname . ' ' . Auth::guard('web')->user()->lname,
             ]);
