@@ -11,7 +11,7 @@ CISS V.1.0 || Admission
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,411 +24,449 @@ CISS V.1.0 || Admission
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Configure Admission</h1>
+                        <p class="text-muted small mb-0">View, manage admission statuses across all programs.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Configure Admission</h4>
+                        <ul class="nav nav-pills bg-light p-2 rounded-2 d-inline-flex mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-one-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-one" type="button" role="tab"
+                                    aria-controls="pills-one" aria-selected="true">
+                                    Programs
+                                </button>
+                            </li>
+                            &nbsp;
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-two-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-two" type="button" role="tab"
+                                    aria-controls="pills-two" aria-selected="false" tabindex="-1">
+                                    Strand
+                                </button>
+                            </li>
+                            &nbsp;
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-three-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-three" type="button" role="tab"
+                                    aria-controls="pills-three" aria-selected="false" tabindex="-1">
+                                    Admission Date
+                                </button>
+                            </li>
+                            &nbsp;
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-four-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-four" type="button" role="tab"
+                                    aria-controls="pills-four" aria-selected="false" tabindex="-1">
+                                    Time Schedule
+                                </button>
+                            </li>
+                            &nbsp;
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-five-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-five" type="button" role="tab"
+                                    aria-controls="pills-five" aria-selected="false" tabindex="-1">
+                                    Venue
+                                </button>
+                            </li>
+                            &nbsp;
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-six-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-six" type="button" role="tab"
+                                    aria-controls="pills-six" aria-selected="false" tabindex="-1">
+                                    Year
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content mt-3" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab" tabindex="0">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div class="card card-animate">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-plus"></i> Add Programs
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <form method="post" action="{{ route('add_Program') }}" id="adProg">
+                                                    @csrf
+
+                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
+
+                                                    <div class="form-group">
+                                                        <div class="row g-3">
+                                                            <div class="col-md-12">
+                                                                <label class="form-label fw-semibold">Program Code: <span class="text-danger">*</span></label>
+                                                                <input type="text" name="code" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <label class="form-label fw-semibold">Program Name: <span class="text-danger">*</span></label>
+                                                                <input type="text" name="program" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <label>&nbsp;</label>
+                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card card-animate">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-list"></i> List of Programs
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive mt-1 p-2">
+                                                    <table id="confprog" class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Code</th>
+                                                                <th>Program</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <ul class="nav nav-pills bg-light p-2 rounded-2 d-inline-flex mt-3" id="pills-tab" role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="pills-one-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-one" type="button" role="tab"
-                                                    aria-controls="pills-one" aria-selected="true">
-                                                    Programs
-                                                </button>
-                                            </li>
-                                            &nbsp;
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-two-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-two" type="button" role="tab"
-                                                    aria-controls="pills-two" aria-selected="false" tabindex="-1">
-                                                    Strand
-                                                </button>
-                                            </li>
-                                            &nbsp;
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-three-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-three" type="button" role="tab"
-                                                    aria-controls="pills-three" aria-selected="false" tabindex="-1">
-                                                    Admission Date
-                                                </button>
-                                            </li>
-                                            &nbsp;
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-four-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-four" type="button" role="tab"
-                                                    aria-controls="pills-four" aria-selected="false" tabindex="-1">
-                                                    Schedule Time
-                                                </button>
-                                            </li>
-                                            &nbsp;
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-five-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-five" type="button" role="tab"
-                                                    aria-controls="pills-five" aria-selected="false" tabindex="-1">
-                                                    Venue
-                                                </button>
-                                            </li>
-                                            &nbsp;
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-six-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-six" type="button" role="tab"
-                                                    aria-controls="pills-six" aria-selected="false" tabindex="-1">
-                                                    Year
-                                                </button>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content mt-3" id="pills-tabContent">
-                                            <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab" tabindex="0">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <form method="post" action="{{ route('add_Program') }}" id="adProg">
-                                                                    @csrf
-                                                                    <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                                                        <h5>Add Programs</h5>
-                                                                    </div>
+                            </div>
 
-                                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
+                            <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab" tabindex="0">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-plus"></i> Add Strand
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <form method="post" action="{{ route('add_Strand') }}" id="adStrand">
+                                                    @csrf
 
-                                                                    <div class="form-group">
-                                                                        <div class="form-row">
-                                                                            <div class="mt-3 col-md-12">
-                                                                                <label>Program Code: <span class="text-danger">*</span></label>
-                                                                                <input type="text" name="code" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
-                                                                            </div>
+                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
 
-                                                                            <div class="mt-3 col-md-12">
-                                                                                <label>Program Name: <span class="text-danger">*</span></label>
-                                                                                <input type="text" name="program" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
-                                                                            </div>
+                                                    <div class="form-group">
+                                                        <div class="row g-2">
+                                                            <div class="col-md-12">
+                                                                <label class="form-label fw-semibold">Strand Code: <span class="text-danger">*</span></label>
+                                                                <input type="text" name="code" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                                            </div>
 
-                                                                            <div class="col-md-12">
-                                                                                <label>&nbsp;</label>
-                                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                            <div class="col-md-12">
+                                                                <label class="form-label fw-semibold">Strand Name: <span class="text-danger">*</span></label>
+                                                                <input type="text" name="strand" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <label>&nbsp;</label>
+                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-9">
-                                                        <div class="table-responsive mt-1 p-2">
-                                                            <table id="confprog" class="table table-hover">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Code</th>
-                                                                        <th>Program</th>
-                                                                        <th>Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {{-- @foreach ($program as $programs)
-                                                                        <tr style="">
-                                                                        <td>{{ $programs->code }}</td>
-                                                                        <td>{{ $programs->program }}</td>
-                                                                        <td style="text-align:center;">
-                                                                            <div class="btn-group">
-                                                                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                                                                                <span class="sr-only">Toggle Dropdown</span>
-                                                                                </button>
-                                                                                <div class="dropdown-menu" role="menu" style="">
-                                                                                    @php
-                                                                                        $allowedCampuses = ['MC', 'VC', 'SCC', 'MP', 'HC', 'IC', 'CA', 'CC', 'SC', 'HinC']; 
-                                                                                    @endphp
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-list"></i> List of Strand
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive mt-1 p-2">
+                                                    <table id="confstrand" class="table table-hover" style="width: 100% !important">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Code</th>
+                                                                <th>Strand</th>
+                                                                <th style="text-align: center !important;">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
 
-                                                                                    @if(in_array($programs->campus, $allowedCampuses) && $programs->campus == Auth::user()->campus)
-                                                                                        <a class="dropdown-item" href="{{ route('edit_program', ['id' => encrypt($programs->id)]) }}">
-                                                                                            <i class="fas fa-pen"></i> Edit
-                                                                                        </a>
-                                                                                    
-                                                                                        <a class="dropdown-item" href="{{ route('programDelete', ['id' => $programs->id]) }}">
-                                                                                            <i class="fas fa-trash"></i> Delete
-                                                                                        </a>
-                                                                                    @else
-                                                                                        <a href="#" class="dropdown-item">You don't have permission.</a>
-                                                                                    @endif
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endforeach --}}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab" tabindex="0">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <form method="post" action="{{ route('add_Strand') }}" id="adStrand">
-                                                                    @csrf
-                                                                    <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                                                        <h5>Add Strands</h5>
-                                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
+                            <div class="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab" tabindex="0">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-plus"></i> Add Admission Date
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <form method="post" action="{{ route('add_admission_date') }}" id="adDateCon">
+                                                    @csrf
 
-                                                                    <div class="form-group">
-                                                                        <div class="row g-2">
-                                                                            <div class="mt-3 col-md-12">
-                                                                                <label>Strand Code: <span class="text-danger">*</span></label>
-                                                                                <input type="text" name="code" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
-                                                                            </div>
+                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
 
-                                                                            <div class="mt-3 col-md-12">
-                                                                                <label>Strand Name: <span class="text-danger">*</span></label>
-                                                                                <input type="text" name="strand" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
-                                                                            </div>
+                                                    <div class="form-group">
+                                                        <div class="form-row">
+                                                            <div class="col-md-12">
+                                                                <label class="form-label fw-semibold">Admission Date: <span class="text-danger">*</span></label>
+                                                                <input type="date" name="date" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                                            </div>
 
-                                                                            <div class="col-md-12">
-                                                                                <label>&nbsp;</label>
-                                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                            <div class="col-md-12">
+                                                                <label>&nbsp;</label>
+                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-9">
-                                                        <div class="table-responsive mt-1 p-2">
-                                                            <table id="confstrand" class="table table-hover" style="width: 100% !important">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Code</th>
-                                                                        <th>Strand</th>
-                                                                        <th style="text-align: center !important;">Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-list"></i> List of Admission Date
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive mt-1 p-2">
+                                                    <table id="adDate" class="table table-hover" style="width: 100% !important">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Campus</th>
+                                                                <th>Date</th>
+                                                                <th style="text-align: center !important;">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab" tabindex="0">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <form method="post" action="{{ route('add_admission_date') }}" id="adDateCon">
-                                                                    @csrf
-                                                                    <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                                                        <h5>Add Admission Date</h5>
-                                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
+                            <div class="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab" tabindex="0">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-plus"></i> Add Time Schedule
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <form method="post" action="{{ route('add_admission_time') }}" id="adTimeCon">
+                                                    @csrf
 
-                                                                    <div class="form-group">
-                                                                        <div class="form-row">
-                                                                            <div class="mt-2 col-md-12">
-                                                                                <label>Admission Date: <span class="text-danger">*</span></label>
-                                                                                <input type="date" name="date" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
-                                                                            </div>
+                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
 
-                                                                            <div class="col-md-12">
-                                                                                <label>&nbsp;</label>
-                                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                    <div class="form-group">
+                                                        <div class="row g-3">
+                                                            <div class="col-md-12" data-refresh="dateDropdown">
+                                                                <label class="form-label fw-semibold">Date: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="date" id="dateDropdown" style="text-transform: uppercase;">
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="mt-3 col-md-12">
+                                                                <label class="form-label fw-semibold">Time: <span class="text-danger">*</span></label>
+                                                                <input type="time" name="time" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                                            </div>
+
+                                                            <div class="mt-3 col-md-12">
+                                                                <label class="form-label fw-semibold">Slots: <span class="text-danger">*</span></label>
+                                                                <input type="number" name="slots" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <label>&nbsp;</label>
+                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-9">
-                                                        <div class="table-responsive mt-1 p-2">
-                                                            <table id="adDate" class="table table-hover" style="width: 100% !important">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Campus</th>
-                                                                        <th>Date</th>
-                                                                        <th style="text-align: center !important;">Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-list"></i> List of Time Schedule
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive mt-1 p-2">
+                                                    <table id="adTime" class="table table-hover" style="width: 100% !important">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Campus</th>
+                                                                <th>Date</th>
+                                                                <th>Time</th>
+                                                                <th>Slots</th>
+                                                                <th style="text-align: center !important;">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
 
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab" tabindex="0">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <form method="post" action="{{ route('add_admission_time') }}" id="adTimeCon">
-                                                                    @csrf
-                                                                    <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                                                        <h5>Add Admission Time</h5>
-                                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
+                            <div class="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab" tabindex="0">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-plus"></i> Add Venue
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <form method="post" action="{{ route('add_admission_venue') }}" id="adVenueCon">
+                                                    @csrf
 
-                                                                    <div class="form-group">
-                                                                        <div class="row g-3">
-                                                                            <div class="mt-4 col-md-12" data-refresh="dateDropdown">
-                                                                                <label>Date: <span class="text-danger">*</span></label>
-                                                                                <select class="form-control form-control-sm" name="date" id="dateDropdown" style="text-transform: uppercase;">
-                                                                                    
-                                                                                </select>
-                                                                            </div>
+                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
 
-                                                                            <div class="mt-3 col-md-12">
-                                                                                <label>Time: <span class="text-danger">*</span></label>
-                                                                                <input type="time" name="time" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
-                                                                            </div>
+                                                    <div class="form-group">
+                                                        <div class="row g-3">
+                                                            <div class="col-md-12">
+                                                                <label class="form-label fw-semibold">Admission Year: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="adyear">
+                                                                    @foreach($curryear as $datacurryear)
+                                                                        <option>{{ $datacurryear->adyear }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
 
-                                                                            <div class="mt-3 col-md-12">
-                                                                                <label>Slots: <span class="text-danger">*</span></label>
-                                                                                <input type="number" name="slots" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
-                                                                            </div>
+                                                            <div class="mt-3 col-md-12">
+                                                                <label class="form-label fw-semibold">Admission Venue: <span class="text-danger">*</span></label>
+                                                                <input type="text" name="venue" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
+                                                            </div>
 
-                                                                            <div class="col-md-12">
-                                                                                <label>&nbsp;</label>
-                                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                            <div class="col-md-12">
+                                                                <label>&nbsp;</label>
+                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-9">
-                                                        <div class="table-responsive mt-1 p-2">
-                                                            <table id="adTime" class="table table-hover" style="width: 100% !important">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Campus</th>
-                                                                        <th>Date</th>
-                                                                        <th>Time</th>
-                                                                        <th>Slots</th>
-                                                                        <th style="text-align: center !important;">Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-list"></i> List of Venue
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive mt-1 p-2">
+                                                    <table id="adVenue" class="table table-hover" style="width: 100% !important">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Campus</th>
+                                                                <th>Venue</th>
+                                                                <th style="text-align: center !important;">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab" tabindex="0">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <form method="post" action="{{ route('add_admission_venue') }}" id="adVenueCon">
-                                                                    @csrf
-                                                                    <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                                                        <h5>Add Venue</h5>
-                                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
-
-                                                                    <div class="form-group mt-1">
-                                                                        <div class="row g-3">
-                                                                            <div class="mt-4 col-md-12">
-                                                                                <label>Admission Year: <span class="text-danger">*</span></label>
-                                                                                <select class="form-control form-control-sm" name="adyear">
-                                                                                    @foreach($curryear as $datacurryear)
-                                                                                        <option>{{ $datacurryear->adyear }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="mt-3 col-md-12">
-                                                                                <label>Admission Venue: <span class="text-danger">*</span></label>
-                                                                                <input type="text" name="venue" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
-                                                                            </div>
-
-                                                                            <div class="col-md-12">
-                                                                                <label>&nbsp;</label>
-                                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="table-responsive mt-1 p-2">
-                                                            <table id="adVenue" class="table table-hover" style="width: 100% !important">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Campus</th>
-                                                                        <th>Venue</th>
-                                                                        <th style="text-align: center !important;">Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                            <div class="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab" tabindex="0">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-plus"></i> Add Year
+                                                </h6>
                                             </div>
-                                            <div class="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab" tabindex="0">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <form method="post" action="{{ route('add_admission_venue') }}" id="adYearCon">
-                                                                    @csrf
-                                                                    <div class="page-header mt-1" style="border-bottom: 1px solid #04401f;">
-                                                                        <h5>Add Year</h5>
-                                                                    </div>
+                                            <div class="card-body">
+                                                <form method="post" action="{{ route('add_admission_venue') }}" id="adYearCon">
+                                                    @csrf
 
-                                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
+                                                    <input type="hidden" name="campus" class="form-control  form-control-sm" value="{{ request('campus') }}">
 
-                                                                    <div class="form-group">
-                                                                        <div class="form-row">
-                                                                            <div class="mt-3 col-md-12">
-                                                                                <label>Admission Year: <span class="text-danger">*</span></label>
-                                                                                <input type="number" name="adyear" class="form-control form-control-sm">
-                                                                            </div>
+                                                    <div class="form-group">
+                                                        <div class="form-row">
+                                                            <div class="col-md-12">
+                                                                <label class="form-label fw-semibold">Admission Year: <span class="text-danger">*</span></label>
+                                                                <input type="number" name="adyear" class="form-control form-control-sm">
+                                                            </div>
 
-                                                                            <div class="col-md-12">
-                                                                                <label>&nbsp;</label>
-                                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                            <div class="col-md-12">
+                                                                <label>&nbsp;</label>
+                                                                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-9">
-                                                        <div class="table-responsive mt-1 p-2">
-                                                            <table id="adYear" class="table table-hover" style="width: 100% !important">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Year</th>
-                                                                        <th>Status</th>
-                                                                        <th style="text-align: center !important;">Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-list"></i> List of Year
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive mt-1 p-2">
+                                                    <table id="adYear" class="table table-hover" style="width: 100% !important">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Year</th>
+                                                                <th>Status</th>
+                                                                <th style="text-align: center !important;">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>

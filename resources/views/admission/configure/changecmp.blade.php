@@ -11,7 +11,7 @@ CISS V.1.0 || Admission
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,22 +24,31 @@ CISS V.1.0 || Admission
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Change Campus</h1>
+                        <p class="text-muted small mb-0">View, manage, and process applicants requesting a change of campus admission status.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-search"></i> Search to show data
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Change Campus</h4>
-                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <form method="GET" action="{{ route('alllistappRead_search') }}">
                                             @csrf
 
-                                            <div class="form-group mt-3">
+                                            <div class="form-group">
                                                 <div class="row g-3">
                                                     <div class="col-md-2">
-                                                        <label>Year: <span class="text-danger">*</span></label>
+                                                        <label class="form-label fw-semibold">Year: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" id="year" name="year">
                                                             @foreach($curryear as $datacurryear)
                                                                 <option>{{ $datacurryear->adyear }}</option>
@@ -48,20 +57,20 @@ CISS V.1.0 || Admission
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label>Campus: <span class="text-danger">*</span></label>
+                                                        <label class="form-label fw-semibold">Campus: <span class="text-danger">*</span></label>
                                                         <select class="form-control form-control-sm" name="campus" id="campus">
                                                             <option value="{{Auth::user()->campus}}">
-                                                                @if (Auth::user()->campus == 'MC') Main 
-                                                                    @elseif(Auth::user()->campus == 'VC') Victorias 
-                                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                                                    @elseif(Auth::user()->campus == 'IC') Ilog 
-                                                                    @elseif(Auth::user()->campus == 'CA') Candoni 
-                                                                    @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                                                    @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                                                    @elseif(Auth::user()->campus == 'VE') Valladolid 
+                                                                @if (Auth::user()->campus == 'MC') Main
+                                                                    @elseif(Auth::user()->campus == 'VC') Victorias
+                                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos
+                                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran
+                                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla
+                                                                    @elseif(Auth::user()->campus == 'IC') Ilog
+                                                                    @elseif(Auth::user()->campus == 'CA') Candoni
+                                                                    @elseif(Auth::user()->campus == 'CC') Cauayan
+                                                                    @elseif(Auth::user()->campus == 'SC') Sipalay
+                                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan
+                                                                    @elseif(Auth::user()->campus == 'VE') Valladolid
                                                                 @endif
                                                             </option>
                                                             @php
@@ -86,7 +95,7 @@ CISS V.1.0 || Admission
                                                     </div>
 
                                                     <div class="col-md-4">
-                                                        <label>Strand: <span class="text-danger">*</span></label>
+                                                        <label class="form-label fw-semibold">Strand: <span class="text-danger">*</span></label>
                                                         <select class="form-control  form-control-sm" name="strand">
                                                             <option value=""> --Select-- </option>
                                                             @foreach($strand as $datastrand)
@@ -96,8 +105,10 @@ CISS V.1.0 || Admission
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <label>&nbsp;</label>
-                                                        <button type="submit" class="btn btn-success btn-sm btn-block">Search</button>
+                                                        <div class="d-flex flex-column h-100">
+                                                            <label class="form-label fw-semibold opacity-0 d-none d-md-block">Action</label>
+                                                            <button type="submit" class="btn btn-success btn-sm btn-block">Search</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
