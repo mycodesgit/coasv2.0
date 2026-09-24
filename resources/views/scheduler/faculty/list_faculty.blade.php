@@ -4,8 +4,6 @@
 CISS V.1.0 || Class Scheduler
 @endsection
 
-@yield('sidemenu')
-
 @section('workspace')
     <div class="row">
         <div class="col-12">
@@ -28,7 +26,7 @@ CISS V.1.0 || Class Scheduler
                 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
                     <div>
                         <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Faculty List</h1>
-                        <p class="text-muted small mb-0">Manage Faculties every academic year.</p>
+                        <p class="text-muted small mb-0">Manage faculties every academic year.</p>
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
