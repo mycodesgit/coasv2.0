@@ -11,7 +11,7 @@ CISS V.1.0 || Class Scheduler
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,20 +24,29 @@ CISS V.1.0 || Class Scheduler
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Rooms</h1>
+                        <p class="text-muted small mb-0">Manage Rooms</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-server"></i> List of Rooms
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Rooms</h4>
-                                </div>
                                 <div class="row">
-                                    <div class="table-responsive p-3 mt-3">
+                                    <div class="table-responsive p-3">
                                         <button type="button" class="btn btn-success btn-sm mb-4 text-light" data-bs-toggle="modal" data-bs-target="#modal-room">
                                             <i class="fas fa-user-plus"></i> Add New
                                         </button>
 
-                                        <table id="classRooms" class="table table-hover">
+                                        <table id="classRooms" class="table table-hover" style="width: 100%">
                                             <thead>
                                                 <tr>
                                                     <th>College</th>
@@ -49,7 +58,7 @@ CISS V.1.0 || Class Scheduler
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -69,14 +78,13 @@ CISS V.1.0 || Class Scheduler
                     <h5 class="modal-title" id="modal-roomLabel">Add New Room</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" action="{{ route('roomsCreate') }}" method="post" id="addRoom">  
-                        @csrf
-
+                <form class="form-horizontal" action="{{ route('roomsCreate') }}" method="post" id="addRoom">
+                    @csrf
+                    <div class="modal-body">
                         <div class="form-group">
                             <div class="row g-3">
-                                <div class="mt-2 col-md-12">
-                                    <label>Belongs to: <span class="text-danger">*</span></label>
+                                <div class="col-md-12">
+                                    <label class="form-label fw-semibold">Belongs to: <span class="text-danger">*</span></label>
                                     <select class="form-control form-control-sm" name="college_room">
                                         <option disabled selected> ---Select---</option>
                                         @foreach($collegelist as $datacollegelist)
@@ -84,73 +92,66 @@ CISS V.1.0 || Class Scheduler
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="mt-2 col-md-12">
-                                    <label>Room name: <span class="text-danger">*</span></label>
+                                <div class="col-md-12">
+                                    <label class="form-label fw-semibold">Room name: <span class="text-danger">*</span></label>
                                     <input type="text" name="room_name" class="form-control form-control-sm">
                                 </div>
-                                <div class="mt-2 col-md-12">
-                                    <label>Room Capacity: <span class="text-danger">*</span></label>
+                                <div class="col-md-12">
+                                    <label class="form-label fw-semibold">Room Capacity: <span class="text-danger">*</span></label>
                                     <input type="number" name="room_capacity" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group mt-5">
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                        Close
-                                    </button>
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="fas fa-save"></i> Save
-                                    </button>
-                                </div>
-                            </div>
-                        </div>   
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="ti ti-restore"></i> Close</button>
+                        <button type="submit" class="btn btn-success"><i class="ti ti-device-floppy"></i> Save changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <div class="modal fade mt-6" id="editRoomModal" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editFundModalLabel"><i class="fas fa-pen"></i> Edit</h5>
+                    <h5 class="modal-title" id="editFundModalLabel"><i class="ti ti-pencil"></i> Edit Room</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editRoomForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="editRoomId">
-                        <div class="form-group">
-                            <label>College: <span class="text-danger">*</span></label>
-                            <select id="college_room" class="form-control form-control-sm" id="editRoomCollege" name="college_room">
-                                <option disabled selected> ---Select---</option>
-                                @foreach($collegelist as $datacollegelist)
-                                    <option value="{{ $datacollegelist->id }}">{{ $datacollegelist->college_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="editRoomName">Room: <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" id="editRoomName" name="room_name">
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="editRoomCapacity">Capacity: <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control form-control-sm" id="editRoomCapacity" name="room_capacity">
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="editRoomStatus">Status: <span class="text-danger">*</span></label>
-                            <select class="form-control form-control-sm" id="editRoomStatus" name="status">
-                                <option value="1">Active</option>
-                                <option value="2">Inactive</option>
-                            </select>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold">College: <span class="text-danger">*</span></label>
+                                <select id="college_room" class="form-control form-control-sm" id="editRoomCollege" name="college_room">
+                                    <option disabled selected> ---Select---</option>
+                                    @foreach($collegelist as $datacollegelist)
+                                        <option value="{{ $datacollegelist->id }}">{{ $datacollegelist->college_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold" for="editRoomName">Room: <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-sm" id="editRoomName" name="room_name">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold" for="editRoomCapacity">Capacity: <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-sm" id="editRoomCapacity" name="room_capacity">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold" for="editRoomStatus">Status: <span class="text-danger">*</span></label>
+                                <select class="form-control form-control-sm" id="editRoomStatus" name="status">
+                                    <option value="1">Active</option>
+                                    <option value="2">Inactive</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save changes</button>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="ti ti-restore"></i> Close</button>
+                        <button type="submit" class="btn btn-success"><i class="ti ti-device-floppy"></i> Save changes</button>
                     </div>
                 </form>
             </div>

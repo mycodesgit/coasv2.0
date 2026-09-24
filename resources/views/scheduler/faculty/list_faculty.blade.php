@@ -11,7 +11,7 @@ CISS V.1.0 || Class Scheduler
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,196 +24,199 @@ CISS V.1.0 || Class Scheduler
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
-                    <div class="col-md-12">
-                        <div class="card">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Faculty List</h1>
+                        <p class="text-muted small mb-0">Manage Faculties every academic year.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-plus"></i> Add New
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Faculty List</h4>
+                                <div class="col-md-12 mb-4">
+                                    <label class="form-label fw-semibold">Is Newly Hired? <span class="text-danger">*</span></label>
+                                    <select class="form-control form-control-sm" id="isNew">
+                                        <option disabled selected>-- Select --</option>
+                                        <option value="yes">Newly Hired</option>
+                                        <option value="no">Existing Faculty</option>
+                                    </select>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row mt-3 p-2">
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div class="page-header mt-3" style="border-bottom: 1px solid #04401f;">
-                                                            <h5>Add</h5>
-                                                        </div>
 
-                                                        <div class="mt-2 col-md-12">
-                                                            <label>Is Newly Hired? <span class="text-danger">*</span></label>
-                                                            <select class="form-control form-control-sm" id="isNew">
-                                                                <option disabled selected>-- Select --</option>
-                                                                <option value="yes">Newly Hired</option>
-                                                                <option value="no">Existing Faculty</option>
-                                                            </select>
-                                                        </div>
-                                                        
-                                                        <div id="newFacultyForm" style="display:none;">
-                                                            <form method="post" action="{{ route('facultyCreate') }}" id="adFac">
-                                                                @csrf
-                                                                <div class="form-group mt-3">
-                                                                    <div class="row g-3">
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>College: <span class="text-danger">*</span></label>
-                                                                            <select class="form-control form-control-sm" name="faccollege" id="college">
-                                                                                <option disabled selected> ---Select---</option>
-                                                                                @foreach($collegelist as $datacollegelist)
-                                                                                    <option value="{{ $datacollegelist->college_abbr }}">
-                                                                                        {{ $datacollegelist->college_name }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
+                                <div id="newFacultyForm" style="display:none;">
+                                    <form method="post" action="{{ route('facultyCreate') }}" id="adFac">
+                                        @csrf
+                                        <div class="form-group">
+                                            <div class="row g-3">
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">College: <span class="text-danger">*</span></label>
+                                                    <select class="form-control form-control-sm" name="faccollege" id="college">
+                                                        <option disabled selected> ---Select---</option>
+                                                        @foreach($collegelist as $datacollegelist)
+                                                            <option value="{{ $datacollegelist->college_abbr }}">
+                                                                {{ $datacollegelist->college_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>Department: <span class="text-danger">*</span></label>
-                                                                            <select class="form-control form-control-sm" name="facdept" id="department">
-                                                                                <option disabled selected> ---Select---</option>
-                                                                            </select>
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">Department: <span class="text-danger">*</span></label>
+                                                    <select class="form-control form-control-sm" name="facdept" id="department">
+                                                        <option disabled selected> ---Select---</option>
+                                                    </select>
+                                                </div>
 
-                                                                        <div class="mt-2 col-md-12" id="deptDropdownContainer" style="display: none; margin-top: 10px;">
-                                                                            <label for="deptprogmajor">Major: <span class="text-danger">*</span></label>
-                                                                            <select class="form-control form-control-sm" id="deptprogmajor" name="deptmajor">
-                                                                                <option value=""> --Select Major-- </option>
-                                                                                <option value="English">English</option>
-                                                                                <option value="Filipino">Filipino</option>
-                                                                                <option value="Math">Math</option>
-                                                                                <option value="Science">Science</option>
-                                                                            </select>
-                                                                        </div>
+                                                <div class="col-md-12" id="deptDropdownContainer" style="display: none; margin-top: 10px;">
+                                                    <label for="deptprogmajor">Major: <span class="text-danger">*</span></label>
+                                                    <select class="form-control form-control-sm" id="deptprogmajor" name="deptmajor">
+                                                        <option value=""> --Select Major-- </option>
+                                                        <option value="English">English</option>
+                                                        <option value="Filipino">Filipino</option>
+                                                        <option value="Math">Math</option>
+                                                        <option value="Science">Science</option>
+                                                    </select>
+                                                </div>
 
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>Lastname: <span class="text-danger">*</span></label>
-                                                                            <input type="text" name="lname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">Lastname: <span class="text-danger">*</span></label>
+                                                    <input type="text" name="lname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
+                                                </div>
 
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>Firstname: <span class="text-danger">*</span></label>
-                                                                            <input type="text" name="fname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">Firstname: <span class="text-danger">*</span></label>
+                                                    <input type="text" name="fname" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" class="form-control form-control-sm">
+                                                </div>
 
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>Middle initial: </label>
-                                                                            <input type="text" name="mname" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">Middle initial: </label>
+                                                    <input type="text" name="mname" class="form-control form-control-sm" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');">
+                                                </div>
 
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>Ext: </label>
-                                                                            <input type="text" name="ext" class="form-control form-control-sm">
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">Ext: </label>
+                                                    <input type="text" name="ext" class="form-control form-control-sm">
+                                                </div>
 
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>Prefix:</label>
-                                                                            <select class="form-control form-control-sm" name="prefix">
-                                                                                <option disabled selected> --Select-- </option>
-                                                                                @foreach($adr as $dataadr)
-                                                                                    <option value="{{ $dataadr->id }}">{{ $dataadr->adrDesc }}</option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
-                                                                        
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>Suffix:</label>
-                                                                            <select class="form-control form-control-sm" name="suffix">
-                                                                                <option disabled selected> --Select-- </option>
-                                                                                <option value="">Select Suffix</option>
-                                                                                <option value="Ph.D.">Ph.D.</option>
-                                                                                <option value="Ed.D.">Ed.D.</option>
-                                                                                <option value="MIT">MIT</option>
-                                                                                <option value="MSIT">MSIT</option>
-                                                                                <option value="MA">MA</option>
-                                                                                <option value="MBA">MBA</option>
-                                                                                <option value="CPA">CPA</option>
-                                                                                <option value="MEd">MEd</option>
-                                                                            </select>
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">Prefix:</label>
+                                                    <select class="form-control form-control-sm" name="prefix">
+                                                        <option disabled selected> --Select-- </option>
+                                                        @foreach($adr as $dataadr)
+                                                            <option value="{{ $dataadr->id }}">{{ $dataadr->adrDesc }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                                                        <div class="mt-2 col-md-12">
-                                                                            <label>Email: <span class="text-danger">*</span></label>
-                                                                            <input type="email" name="email" class="form-control form-control-sm">
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">Suffix:</label>
+                                                    <select class="form-control form-control-sm" name="suffix">
+                                                        <option disabled selected> --Select-- </option>
+                                                        <option value="">Select Suffix</option>
+                                                        <option value="Ph.D.">Ph.D.</option>
+                                                        <option value="Ed.D.">Ed.D.</option>
+                                                        <option value="MIT">MIT</option>
+                                                        <option value="MSIT">MSIT</option>
+                                                        <option value="MA">MA</option>
+                                                        <option value="MBA">MBA</option>
+                                                        <option value="CPA">CPA</option>
+                                                        <option value="MEd">MEd</option>
+                                                    </select>
+                                                </div>
 
-                                                                        <div class="col-md-12">
-                                                                            <label>&nbsp;</label>
-                                                                            <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-semibold">Email: <span class="text-danger">*</span></label>
+                                                    <input type="email" name="email" class="form-control form-control-sm">
+                                                </div>
 
-                                                        <div id="existingFaculty" style="display:none;" class="mt-3">
-                                                            <form id="updateCampusForm">
-                                                                @csrf
-
-                                                                <div class="row g-3">
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Select Faculty:</label>
-                                                                        <select class="form-control form-control-sm"
-                                                                                id="facultySelect"
-                                                                                name="faculty_id">
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="mt-2 col-md-12">
-                                                                        <label>Transfer/Assign to Campus:</label>
-                                                                        <!-- Hidden input for actual value -->
-                                                                        <input type="hidden" name="campus" id="campusHidden" value="{{ Auth::guard('web')->user()->campus }}">
-                                                                        <input type="hidden" name="campactive" id="campactiveHidden" value="{{ Auth::guard('web')->user()->campus }}">
-                                                                        <!-- Visible input for display -->
-                                                                        @php
-                                                                            $campuses = [
-                                                                                'MC'   => 'Main',
-                                                                                'VC'   => 'Victorias',
-                                                                                'SCC'  => 'San Carlos',
-                                                                                'HC'   => 'Hinigaran',
-                                                                                'MP'   => 'Moise Padilla',
-                                                                                'IC'   => 'Ilog',
-                                                                                'CA'   => 'Candoni',
-                                                                                'CC'   => 'Cauayan',
-                                                                                'SC'   => 'Sipalay',
-                                                                                'HinC' => 'Hinobaan',
-                                                                            ];
-
-                                                                            $userCampus = Auth::guard('web')->user()->campus;
-                                                                            $campusName = $campuses[$userCampus] ?? '';
-                                                                        @endphp
-                                                                        <input type="text" id="campusInput" class="form-control form-control-sm" value="{{ $campusName }}" readonly>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <label>&nbsp;</label>
-                                                                        <button type="submit" id="saveCampusBtn" class="btn btn-success btn-sm btn-block">Save</button>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
+                                                <div class="col-md-12">
+                                                    <label>&nbsp;</label>
+                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </form>
+                                </div>
 
-                                            <div class="col-md-9 mt-3">
-                                                <table id="facltyTable" class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Name</th>
-                                                            <th>Salutation</th>
-                                                            <th>College</th>
-                                                            <th>Dept</th>
-                                                            <th>Rank</th>
-                                                            <th>Campus</th>
-                                                            <th>Active Campus</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        
-                                                    </tbody>
-                                                </table>
+                                <div id="existingFaculty" style="display:none;" class="mt-3">
+                                    <form id="updateCampusForm">
+                                        @csrf
+
+                                        <div class="row g-3">
+                                            <div class="col-md-12">
+                                                <label class="form-label fw-semibold">Select Faculty:</label>
+                                                <select class="form-control form-control-sm"
+                                                        id="facultySelect"
+                                                        name="faculty_id">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label class="form-label fw-semibold">Transfer/Assign to Campus:</label>
+                                                <!-- Hidden input for actual value -->
+                                                <input type="hidden" name="campus" id="campusHidden" value="{{ Auth::guard('web')->user()->campus }}">
+                                                <input type="hidden" name="campactive" id="campactiveHidden" value="{{ Auth::guard('web')->user()->campus }}">
+                                                <!-- Visible input for display -->
+                                                @php
+                                                    $campuses = [
+                                                        'MC'   => 'Main',
+                                                        'VC'   => 'Victorias',
+                                                        'SCC'  => 'San Carlos',
+                                                        'HC'   => 'Hinigaran',
+                                                        'MP'   => 'Moise Padilla',
+                                                        'IC'   => 'Ilog',
+                                                        'CA'   => 'Candoni',
+                                                        'CC'   => 'Cauayan',
+                                                        'SC'   => 'Sipalay',
+                                                        'HinC' => 'Hinobaan',
+                                                    ];
+
+                                                    $userCampus = Auth::guard('web')->user()->campus;
+                                                    $campusName = $campuses[$userCampus] ?? '';
+                                                @endphp
+                                                <input type="text" id="campusInput" class="form-control form-control-sm" value="{{ $campusName }}" readonly>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>&nbsp;</label>
+                                                <button type="submit" id="saveCampusBtn" class="btn btn-success btn-sm btn-block">Save</button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-users"></i> List of Faculty Section
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive p-2">
+                                    <table id="facltyTable" class="table table-hover" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Salutation</th>
+                                                <th>College</th>
+                                                <th>Dept</th>
+                                                <th>Rank</th>
+                                                <th>Campus</th>
+                                                <th>Active Campus</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

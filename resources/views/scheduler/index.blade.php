@@ -25,15 +25,15 @@ CISS V.1.0 || Class Scheduler
                     </div>
                 </div>
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
                     <div>
                         <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Scheduler Dashboard Overview</h1>
                         <p class="text-muted small mb-0">Subject offering, plotting of student, faculty, room schedule</p>
                     </div>
                 </div>
-                <div class="row g-3">
+                <div class="row g-3 mb-3">
                     <div class="col-lg-3 col-12">
-                        <div class="card card-animate mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -48,7 +48,7 @@ CISS V.1.0 || Class Scheduler
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
-                        <div class="card card-animate mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -63,7 +63,7 @@ CISS V.1.0 || Class Scheduler
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
-                        <div class="card card-animate mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -78,7 +78,7 @@ CISS V.1.0 || Class Scheduler
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
-                        <div class="card card-animate mb-3">
+                        <div class="card card-animate">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>
@@ -115,7 +115,7 @@ CISS V.1.0 || Class Scheduler
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>
