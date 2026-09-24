@@ -81,9 +81,9 @@ class EnStudentPerSubjectController extends Controller
         // Join with subjects and the aggregated student count.
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
             // Left join ensures that even if a subject has no enrolled students, it is still returned.
-            // ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
-            //     $join->on('sub_offered.id', '=', 'studgrades.subjID');
-            // })
+            ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
+                $join->on('sub_offered.id', '=', 'studgrades.subjID');
+            })
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
@@ -94,7 +94,7 @@ class EnStudentPerSubjectController extends Controller
                 'sub_offered.*',
                 'sub_offered.id as sid',
                 // Use COALESCE to return 0 when there are no matching studgrades.
-                //DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
+                DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
             )
             ->get();
 
@@ -113,9 +113,9 @@ class EnStudentPerSubjectController extends Controller
             ->groupBy('subjID');
 
         $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-            ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
-                $join->on('sub_offered.id', '=', 'studgrades.subjID');
-            })
+            // ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
+            //     $join->on('sub_offered.id', '=', 'studgrades.subjID');
+            // })
             ->where('sub_offered.schlyear', $schlyear)
             ->where('sub_offered.semester', $semester)
             ->where('sub_offered.campus', $campus)
@@ -125,9 +125,9 @@ class EnStudentPerSubjectController extends Controller
                 'subjects.sub_title',
                 'sub_offered.*',
                 'sub_offered.id as sid',
-                DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud'),
-                DB::raw('COALESCE(studgrades.countstud, 0) as countstud'),
-                DB::raw('COALESCE(studgrades.countstud, 0) as countstud'),
+                //DB::raw('COUNT(coasv2_db_enrollment.studgrades.subjID) as countstud')
+                DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
+                //DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
             )
             ->get();
 
