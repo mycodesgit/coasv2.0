@@ -47,7 +47,7 @@ CISS V.1.0 || Enrollment
                                                 <label class="form-label fw-semibold">School Year : <span class="text-danger">*</span></label>
                                                 <select class="form-control form-control-sm" name="schlyear">
                                                     @foreach($sy as $datasy)
-                                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                        <option value="{{ $datasy->schlyear }}" {{ request('schlyear') == $datasy->schlyear ? 'selected' : '' }}>{{ $datasy->schlyear }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -56,9 +56,9 @@ CISS V.1.0 || Enrollment
                                                 <label class="form-label fw-semibold">Semester : <span class="text-danger">*</span></label>
                                                 <select class="form-control form-control-sm" name="semester">
                                                     <option disabled selected>Select</option>
-                                                    <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
-                                                    <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
-                                                    <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
+                                                    <option value="1" {{ request('semester') == '1' ? 'selected' : '' }}>First Semester</option>
+                                                    <option value="2" {{ request('semester') == '2' ? 'selected' : '' }}>Second Semester</option>
+                                                    <option value="3" {{ request('semester') == '3' ? 'selected' : '' }}>Summer</option>
                                                 </select>
                                             </div>
 
