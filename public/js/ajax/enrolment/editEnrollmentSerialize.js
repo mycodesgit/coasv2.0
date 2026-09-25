@@ -10,7 +10,7 @@ toastr.options = {
 //         event.preventDefault();
 //         var formData = $('#AddenrollStud').serialize();
 
-//         var studentID = $('#studentID').val(); 
+//         var studentID = $('#studentID').val();
 
 //         var subjIDs = [];
 //         $('input[name="subjIDs"]').each(function() {
@@ -23,7 +23,7 @@ toastr.options = {
 //         var subjIDsArray = subjIDsString.split(',');
 
 //         subjIDsArray.forEach(function(subjID) {
-//             formData += '&subjIDs[]=' + subjID.trim(); 
+//             formData += '&subjIDs[]=' + subjID.trim();
 //         });
 
 //         var subjprimIDsString = $('#subjprimIDsInput').val();
@@ -47,7 +47,7 @@ toastr.options = {
 //         var fndCodesArray = fndCodesString.split(',');
 
 //         fndCodesArray.forEach(function(fundID) {
-//             formData += '&fndCodes[]=' + fundID.trim(); 
+//             formData += '&fndCodes[]=' + fundID.trim();
 //         });
 
 //         var accntNames = [];
@@ -59,7 +59,7 @@ toastr.options = {
 //         var accntNamesArray = accntNamesString.split(',');
 
 //         accntNamesArray.forEach(function(accntNames) {
-//             formData += '&accntNames[]=' + accntNames.trim(); 
+//             formData += '&accntNames[]=' + accntNames.trim();
 //         });
 
 //         var amntFees = [];
@@ -71,7 +71,7 @@ toastr.options = {
 //         var amntFeesArray = amntFeesString.split(',');
 
 //         amntFeesArray.forEach(function(amntFees) {
-//             formData += '&amntFees[]=' + amntFees.trim(); 
+//             formData += '&amntFees[]=' + amntFees.trim();
 //         });
 
 //         $.ajax({
@@ -80,7 +80,7 @@ toastr.options = {
 //             headers: {
 //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 //             },
-//             data: formData, 
+//             data: formData,
 //             success: function(response) {
 //                 if(response.success) {
 //                     toastr.success(response.message);
@@ -119,14 +119,14 @@ toastr.options = {
 $(document).ready(function() {
     $('#submitButton').click(function(event) {
         event.preventDefault();
-        
+
         var formData = $('#AddenrollStud').serialize();
-        
+
         // Collecting existing input values
-        var studentID = $('#studentID').val(); 
+        var studentID = $('#studentID').val();
         var totalLecFee = $('#totalLecFeeInput').val();
         var totalLabFee = $('#totalLabFeeInput').val();
-        
+
         formData += '&studentID=' + studentID;
         formData += '&totalLecFee=' + totalLecFee;
         formData += '&totalLabFee=' + totalLabFee;
@@ -168,7 +168,7 @@ $(document).ready(function() {
         var fndCodesString = $('#fundnameCodeInput').val();
         var fndCodesArray = fndCodesString.split(',');
         fndCodesArray.forEach(function(fundID) {
-            formData += '&fndCodes[]=' + fundID.trim(); 
+            formData += '&fndCodes[]=' + fundID.trim();
         });
 
         // Collecting accntNames
@@ -180,7 +180,7 @@ $(document).ready(function() {
         var accntNamesString = $('#accountNameInput').val();
         var accntNamesArray = accntNamesString.split(',');
         accntNamesArray.forEach(function(accntName) {
-            formData += '&accntNames[]=' + accntName.trim(); 
+            formData += '&accntNames[]=' + accntName.trim();
         });
 
         // Collecting amntFees
@@ -192,7 +192,7 @@ $(document).ready(function() {
         var amntFeesString = $('#amountFeeInput').val();
         var amntFeesArray = amntFeesString.split(',');
         amntFeesArray.forEach(function(amntFee) {
-            formData += '&amntFees[]=' + amntFee.trim(); 
+            formData += '&amntFees[]=' + amntFee.trim();
         });
 
         // AJAX request
@@ -259,7 +259,7 @@ $(document).ready(function() {
     }
 
     var selectedOption = $('#programNameEditSelect').find('option:selected');
-    
+
     updateInputFields(selectedOption);
 
     $('#programNameEditSelect').on('change', function() {
@@ -268,7 +268,7 @@ $(document).ready(function() {
     });
 });
 
-//for Selecting subject manually in modal 
+//for Selecting subject manually in modal
 $(document).ready(function() {
     $('#subjectSelect').change(function() {
         var selectedOption = $(this).find(':selected');
@@ -349,8 +349,8 @@ function updateTotalsAndIDs(subjIDToDelete = null) {
 //for Selecting Course from option to generate subject offer using template
 document.getElementById('programNameEditSelect').addEventListener('change', function() {
     var selectedCourse = this.value;
-    var schlyear = document.getElementById('schlyearInput').value; 
-    var semester = document.getElementById('semesterInput').value; 
+    var schlyear = document.getElementById('schlyearInput').value;
+    var semester = document.getElementById('semesterInput').value;
 
     if (selectedCourse === '--Select--') {
         return;
@@ -430,7 +430,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
     }
 
     var selectedSubjectText = selectedSubjectOption.textContent;
-    var sub_name = selectedSubjectText; 
+    var sub_name = selectedSubjectText;
 
     var selectedSubjectPkeyText = document.getElementById('subjecID').value;
     var selectedSubjectCodeText = document.getElementById('sub_code').value;
@@ -442,17 +442,17 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
     var selectedSubjectitFeeText = document.getElementById('itfee').value;
 
     var subjIDInput = document.getElementById('subjIDsInput');
-    var existingIDs = subjIDInput.value.trim(); 
-    var newID = selectedSubjectPkeyText || ''; 
-    var updatedIDs = existingIDs ? existingIDs + ',' + newID : newID; 
-    subjIDInput.value = updatedIDs; 
+    var existingIDs = subjIDInput.value.trim();
+    var newID = selectedSubjectPkeyText || '';
+    var updatedIDs = existingIDs ? existingIDs + ',' + newID : newID;
+    subjIDInput.value = updatedIDs;
 
 
     var subjIDInput = document.getElementById('subjIDsInputlog');
-    var existingIDs = subjIDInput.value.trim(); 
-    var newID = selectedSubjectPkeyText || ''; 
-    var updatedIDs = existingIDs ? existingIDs + ',' + newID : newID; 
-    subjIDInput.value = updatedIDs; 
+    var existingIDs = subjIDInput.value.trim();
+    var newID = selectedSubjectPkeyText || '';
+    var updatedIDs = existingIDs ? existingIDs + ',' + newID : newID;
+    subjIDInput.value = updatedIDs;
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', getfetchSubjectRoute + '?dd=' + encodeURIComponent(selectedSubjectText), true);
@@ -460,8 +460,8 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 var subjectDetails = JSON.parse(xhr.responseText);
-                var id = subjectDetails.id; 
-                var subCode = subjectDetails.subCode; 
+                var id = subjectDetails.id;
+                var subCode = subjectDetails.subCode;
                 var sub_title = subjectDetails.sub_title;
                 var subUnit = subjectDetails.subUnit;
                 var lecFee = subjectDetails.lecFee;
@@ -472,7 +472,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 var tableBody = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
                 var row = tableBody.insertRow();
                 row.insertCell(0).textContent = id || selectedSubjectPkeyText;
-                row.insertCell(1).textContent = subCode || selectedSubjectCodeText; 
+                row.insertCell(1).textContent = subCode || selectedSubjectCodeText;
                 row.insertCell(2).textContent = sub_name;
                 row.insertCell(3).textContent = sub_title || selectedSubjectTitleText;
                 row.insertCell(4).textContent = subUnit || selectedSubjectUnitText;
@@ -518,18 +518,18 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
 
                 // var totalUnits = parseInt(selectedSubjectUnitText) || 0;
                 // var rows = tableBody.getElementsByTagName('tr');
-                // for (var i = 0; i < rows.length - 1; i++) { 
+                // for (var i = 0; i < rows.length - 1; i++) {
                 //     var cell = rows[i].getElementsByTagName('td')[3];
                 //     if (cell) {
                 //         totalUnits += parseInt(cell.textContent) || 0;
                 //     }
                 // }
-                
+
                 // var totalUnitsInput = document.getElementById('totalunitInput');
                 // var currentTotalUnits = parseInt(totalUnitsInput.value) || 0;
                 // var previousUnits = 0;
                 // var rows = tableBody.getElementsByTagName('tr');
-                // for (var i = 0; i < rows.length - 1; i++) { 
+                // for (var i = 0; i < rows.length - 1; i++) {
                 //     var cell = rows[i].getElementsByTagName('td')[4];
                 //     if (cell) {
                 //         previousUnits += parseInt(cell.textContent) || 0;
@@ -550,7 +550,7 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
                 // var totalLabFeeInputs = document.querySelectorAll('#totalLabFeeInput');
                 // totalLabFeeInputs.forEach(function(input) {
                 //     var previousValue = parseFloat(input.value) || 0;
-                //     var currentFee = parseFloat(selectedSubjectlabFeeText) || 0; 
+                //     var currentFee = parseFloat(selectedSubjectlabFeeText) || 0;
                 //     var newTotal = previousValue + currentFee;
                 //     input.value = isNaN(newTotal) ? 0 : newTotal.toFixed();
                 // });
@@ -565,13 +565,13 @@ document.getElementById('addSubjectBtn').addEventListener('click', function() {
 });
 
 //for Assess the fees of subjects
-document.getElementById('assessButton').addEventListener('click', function() {   
+document.getElementById('assessButton').addEventListener('click', function() {
     var schlyear = document.getElementById('schlyearInput').value;
     var semester = document.getElementById('semesterInput').value;
     var campus = document.getElementById('campusInput').value;
     var programCode = document.getElementById('editprogramCodeInput').value;
-    var numericPart = document.getElementById('editnumericPart').value;
-    var totalLecFee = 0; 
+    var inputNumericPart = document.getElementById('editnumericPart').value;
+    var totalLecFee = 0;
     var totalLabFee = 0;
     // Get the transferee/shiftee value
     var transShiftValue = document.getElementById('assesstranshift').value;
@@ -579,7 +579,6 @@ document.getElementById('assessButton').addEventListener('click', function() {
     var studStatusValue = document.getElementById('assessIreggular').value;
     // Get the student Type value (e.g., 1 for New Student)
     var studTypeValue = document.getElementById('assessNewType').value;
-
     // Get values needed for logic for student id LIKE -G
     var studentId = document.getElementById('student_id').value;
 
@@ -595,7 +594,7 @@ document.getElementById('assessButton').addEventListener('click', function() {
     }
 
     if (!programCode || !numericPartToSend || !schlyear || !semester || !campus) {
-         Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: 'Please fill in all fields.',
@@ -647,8 +646,8 @@ document.getElementById('assessButton').addEventListener('click', function() {
                     if (transShiftValue == '2') {
                         // If studTypeValue is NOT '1', exclude ADMISSION FEE along with ENTRANCE FEE and SCHOOL ID FEE.
                         // If studTypeValue IS '1', keep ADMISSION FEE and only exclude ENTRANCE FEE and SCHOOL ID FEE.
-                        var excludedFees = (studTypeValue != '1') 
-                            ? ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE'] 
+                        var excludedFees = (studTypeValue != '1')
+                            ? ['ADMISSION FEE', 'ENTRANCE FEE', 'SCHOOL ID FEE']
                             : ['ENTRANCE FEE', 'SCHOOL ID FEE'];
                         if (excludedFees.includes(item.accountName.toUpperCase())) {
                             return; // Skip this item, don't display it
@@ -672,12 +671,12 @@ document.getElementById('assessButton').addEventListener('click', function() {
                         }
                     }
 
-                    var amount = item.amountFee === '0' 
+                    var amount = item.amountFee === '0'
                         ? (item.accountName.startsWith('TUITION') ? totalLecFeeInput.value
                         : (item.accountName === 'LAB FEE' ? totalLabFeeInput.value
                         : (item.accountName === 'IT FEE' && itFeeCondition ? '500' : '0')))
                         : item.amountFee;
-                                              
+
                     // If item is DEVELOPMENTAL FEE, add the extra dev fee
                     if (item.accountName === 'DEVELOPMENTAL FEE') {
                         amount = (parseFloat(amount) || 0) + devFeeExtra;
@@ -745,8 +744,8 @@ document.getElementById('assessButton').addEventListener('click', function() {
 $(document).on('click', '.delete-row', function(e) {
     var deleteButton = $(this);
     var row = deleteButton.closest('tr');
-    var subjIDToDelete = row.find('td:eq(0)').text(); 
-    
+    var subjIDToDelete = row.find('td:eq(0)').text();
+
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to recover this!",
@@ -758,7 +757,7 @@ $(document).on('click', '.delete-row', function(e) {
     }).then((result) => {
         if (result.isConfirmed) {
             row.remove();
-            updateTotalsAndIDs(subjIDToDelete); 
+            updateTotalsAndIDs(subjIDToDelete);
             Swal.fire(
                 'Deleted!',
                 'The subject has been removed.',
@@ -779,8 +778,8 @@ $(document).on('click', '.delete-row', function(e) {
 //         totalUnits += parseInt(cells.eq(4).text());
 //         totalLecFee += parseFloat(cells.eq(5).text());
 //         totalLabFee += parseFloat(cells.eq(6).text());
-//         var subjID = cells.eq(0).text(); 
-//         if (subjID !== subjIDToDelete) { 
+//         var subjID = cells.eq(0).text();
+//         if (subjID !== subjIDToDelete) {
 //             subjIDs.push(subjID);
 //         }
 //     });
@@ -789,7 +788,7 @@ $(document).on('click', '.delete-row', function(e) {
 //     //$('#totalLecFeeInput').val(totalLecFee.toFixed());
 //     //$('#totalLabFeeInput').val(totalLabFee.toFixed());
 //     var subjIDString = subjIDs.join(',');
-//     $('#subjIDsInput').val(subjIDString); 
+//     $('#subjIDsInput').val(subjIDString);
 // }
 
 // Disable save button initially
@@ -846,7 +845,7 @@ $(document).on('click', '.delete-row', function(e) {
 $(document).on('click', '#doneprintButton', function() {
     // Get the form
     var form = $(this).closest('form');
-    
+
     // Get form data
     var formData = {
         id: form.find('input[name="id"]').val(),
@@ -902,7 +901,7 @@ $(document).on('click', '#doneprintButton', function() {
         },
         error: function(xhr) {
             let errorMessage = 'Failed to process enrollment';
-            
+
             if (xhr.responseJSON && xhr.responseJSON.message) {
                 errorMessage = xhr.responseJSON.message;
             } else if (xhr.status === 400) {
@@ -910,7 +909,7 @@ $(document).on('click', '#doneprintButton', function() {
             } else if (xhr.status === 404) {
                 errorMessage = 'Enrollment for this Student ID No. already exists this semester';
             }
-            
+
             Swal.fire({
                 icon: 'error',
                 title: 'Error!',

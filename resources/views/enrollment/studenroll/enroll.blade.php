@@ -133,13 +133,11 @@ CISS V.1.0 || Enrollment
                                                 </h6>
                                             </div>
                                             <div class="card-body p-3 text-center">
-                                                <div class="">
-                                                    <input type="text"
-                                                        id="queueNumber"
-                                                        class="form-control-plaintext text-dark fw-bolder display-6 text-center rounded-3"
-                                                        readonly
-                                                        value="--">
-                                                </div>
+                                                <input type="text"
+                                                    id="queueNumber"
+                                                    class="form-control-plaintext text-dark fw-bolder display-6 text-center rounded-3"
+                                                    readonly
+                                                    value="--">
 
                                                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-3">
                                                     <button id="nextButton" class="btn btn-success fw-bold shadow-sm" data-counter-id="1">

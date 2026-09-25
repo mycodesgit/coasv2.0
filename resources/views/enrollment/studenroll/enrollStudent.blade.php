@@ -30,7 +30,7 @@ CISS V.1.0 || Enrollment
                     </div>
                     <div class="d-flex gap-2">
                         <div class="btn btn-light">
-                            <i class="ti ti-circle-filled text-success me-1"></i> Selected:
+                            <i class="ti ti-circle-filled text-success"></i> Selected:
                             <i class="ti ti-calendar"></i>
                             {{ request('schlyear') }} -
                             {{ match ((int) request('semester')) {
