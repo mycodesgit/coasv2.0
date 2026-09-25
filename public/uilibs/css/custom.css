@@ -101,7 +101,7 @@
     bottom: 90px;
     left: 50%;
     transform: translateX(-50%) scale(.8);
-    
+
     background: rgba(37, 37, 37, 0);
     backdrop-filter: blur(3px);
     color: #377858;
