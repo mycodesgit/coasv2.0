@@ -11,7 +11,7 @@ CISS V.1.0 || Enrollment
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,318 +24,348 @@ CISS V.1.0 || Enrollment
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Evaluated Student</h1>
+                        <p class="text-muted small mb-0">Students who have completed their evaluation.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-search"></i> Search to show data
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Student Evaluation</h4>
+                                <form method="GET" action="{{ route('loadstudsub_searchview') }}" id="enrollStud" class="mb-4">
+                                    @csrf
+
+                                    <div class="form-group">
+                                        <div class="row g-3">
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-semibold">Student ID Number: <span class="text-danger">*</span></label>
+                                                <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-semibold">School Year: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm" name="schlyear">
+                                                    @foreach($sy as $datasy)
+                                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                    @endforeach
+                                                    {{-- <option value="2025-2026">2025-2026</option>
+                                                    <option value="2022-2023">2022-2023</option> --}}
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-semibold">Semester: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm" name="semester">
+                                                    <option disabled selected>Select</option>
+                                                    <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
+                                                    <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
+                                                    <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="d-flex flex-column h-100">
+                                                    <label class="form-label fw-semibold opacity-0 d-none d-md-block">Action</label>
+                                                    <button type="submit" class="btn btn-success btn-sm">OK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <ul class="nav nav-pills mb-3 bg-light p-2 rounded-2 d-inline-flex" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-one-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-one" type="button" role="tab"
+                                    aria-controls="pills-one" aria-selected="true">
+                                    Student Record
+                                </button>
+                            </li>
+                            &nbsp;
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-supeval-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-supeval" type="button" role="tab"
+                                    aria-controls="pills-supeval" aria-selected="false" tabindex="-1">
+                                    Load Student Subjects
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab" tabindex="0">
+                                <div class="card card-animate">
+                                    <div class="card-header pt-3">
+                                        <h6 class="card-title">
+                                            <i class="ti ti-server"></i> Student Record Section
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <iframe src="{{ route('studevalRead_listsearchpdf', ['stud_id' => request('stud_id')]) }}" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12"> 
-                                        <form method="GET" action="{{ route('loadstudsub_searchview') }}" id="enrollStud" class="mb-4">
-                                            @csrf 
-
-                                            <div class="form-group mt-2" style="padding: 10px">
+                            </div>
+                            <div class="tab-pane fade" id="pills-supeval" role="tabpanel" aria-labelledby="pills-supeval-tab" tabindex="0">
+                                <div class="row g-3">
+                                    <div class="col-md-10 scrolling-column">
+                                        <div class="card mb-3">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-user"></i> Student Personal Information Section
+                                                </h6>
+                                            </div>
+                                            <div class="card-body card-body-bg-color">
                                                 <div class="row g-3">
-                                                    <div class="col-md-3">
-                                                        <label>Student ID Number: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label fw-semibold">Student ID: <span class="text-danger">*</span></label>
+                                                        <input type="text" name="" class="form-control form-control-sm" value="{{ $student->stud_id }}" readonly>
                                                     </div>
-
                                                     <div class="col-md-3">
-                                                        <label>School Year: <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm" name="schlyear">
-                                                            @foreach($sy as $datasy)
-                                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                            @endforeach
-                                                            {{-- <option value="2025-2026">2025-2026</option>
-                                                            <option value="2022-2023">2022-2023</option> --}}
-                                                        </select>
+                                                        <label class="form-label fw-semibold">Last Name: <span class="text-danger">*</span></label>
+                                                        <input type="text" name="" class="form-control form-control-sm" value="{{ $student->lname }}" readonly>
                                                     </div>
-
                                                     <div class="col-md-3">
-                                                        <label>Semester: <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm" name="semester">
-                                                            <option disabled selected>Select</option>
-                                                            <option value="1" @if (old('type') == 1) {{ 'selected' }} @endif>First Semester</option>
-                                                            <option value="2" @if (old('type') == 2) {{ 'selected' }} @endif>Second Semester</option>
-                                                            <option value="3" @if (old('type') == 3) {{ 'selected' }} @endif>Summer</option>
-                                                        </select>
+                                                        <label class="form-label fw-semibold">First Name: <span class="text-danger">*</span></label>
+                                                        <input type="text" name="" class="form-control form-control-sm" value="{{ $student->fname }}" readonly>
                                                     </div>
-
                                                     <div class="col-md-3">
-                                                        <label>&nbsp;</label>
-                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
+                                                        <label class="form-label fw-semibold">Middle Name: <span class="text-danger">*</span></label>
+                                                        <input type="text" name="" class="form-control form-control-sm" value="{{ $student->mname }}" readonly>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label fw-semibold">Ext. Name: <span class="text-danger">*</span></label>
+                                                        <input type="text" name="" class="form-control form-control-sm" value="{{ $student->ext }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
-
-                                        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-
-                                        <ul class="nav nav-pills mt-3 mb-3 bg-light p-2 rounded-2 d-inline-flex" id="pills-tab" role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="pills-one-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-one" type="button" role="tab"
-                                                    aria-controls="pills-one" aria-selected="true">
-                                                    Student Record
-                                                </button>
-                                            </li>
-                                            &nbsp;
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-supeval-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-supeval" type="button" role="tab"
-                                                    aria-controls="pills-supeval" aria-selected="false" tabindex="-1">
-                                                    Load Student Subjects
-                                                </button>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content mt-1" id="pills-tabContent">
-                                            <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab" tabindex="0">
-                                                <div class="bg-light p-2 rounded-2">
-                                                    <iframe src="{{ route('studevalRead_listsearchpdf', ['stud_id' => request('stud_id')]) }}" style="width: 100%; height: 600px;" frameborder="0" class="mt-3"></iframe>
-                                                </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-school"></i> Student Course Section
+                                                </h6>
                                             </div>
-                                            <div class="tab-pane fade" id="pills-supeval" role="tabpanel" aria-labelledby="pills-supeval-tab" tabindex="0">
-                                                <div class="row">
-                                                    <div class="col-md-10 scrolling-column">
-                                                        <div class="card mt-2" style="background-color: #e9ecef">
-                                                            <div class="card-body pr-2 pl-2 pt-2 pb-2">
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-2">
-                                                                            <label>Student ID</label>
-                                                                            <input type="text" name="" class="form-control form-control-sm" value="{{ $student->stud_id }}" readonly>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <label>Last Name</label>
-                                                                            <input type="text" name="" class="form-control form-control-sm" value="{{ $student->lname }}" readonly>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <label>First Name</label>
-                                                                            <input type="text" name="" class="form-control form-control-sm" value="{{ $student->fname }}" readonly>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <label>Middle Name</label>
-                                                                            <input type="text" name="" class="form-control form-control-sm" value="{{ $student->mname }}" readonly>
-                                                                        </div>
-                                                                        <div class="col-md-1">
-                                                                            <label>Ext. Name</label>
-                                                                            <input type="text" name="" class="form-control form-control-sm" value="{{ $student->ext }}" readonly>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                            <div class="card-body card-body-bg-color">
+                                                <form method="POST" action="{{ route('studEvalEnrollmentCreate') }}" id="AddenrollStud">
+                                                    @csrf
+
+                                                    <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
+                                                    <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
+                                                    <input type="hidden" value="{{ $student->stud_id }}" name="studentID" id="studentID" readonly>
+                                                    <input type="hidden" value="{{ $student->campus }}" name="campus" id="campusInput" readonly>
+                                                    <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
+                                                    <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
+
+                                                    <div class="form-group">
+                                                        <div class="row g-3">
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">Course Year&Section: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="course" id="programNameSelect">
+                                                                    <option disabled selected> --Select --</option>
+                                                                    @foreach ($classEnrolls as $class)
+                                                                    @php
+                                                                        $yearsection = preg_replace('/\D/', '', $class->classSection);
+                                                                    @endphp
+                                                                    <option value="{{ $class->progAcronym }} {{ $class->classSection }}" data-pkey="{{ $class->subjID}}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}">
+                                                                        {{ $class->progAcronym }} {{ $class->classSection }}
+                                                                    </option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
-                                                        </div>
-                                                        <div class="card mt-2" style="background-color: #e9ecef">
-                                                            <div class="card-body pr-2 pl-2 pt-2 pb-2">
-                                                                <form method="POST" action="{{ route('studEvalEnrollmentCreate') }}" id="AddenrollStud">
-                                                                    @csrf
-                                                                    
-                                                                    <input type="hidden" value="{{ request('schlyear') }}" name="schlyear" id="schlyearInput" readonly>
-                                                                    <input type="hidden" value="{{ request('semester') }}" name="semester" id="semesterInput" readonly>
-                                                                    <input type="hidden" value="{{ $student->stud_id }}" name="studentID" id="studentID" readonly>
-                                                                    <input type="hidden" value="{{ $student->campus }}" name="campus" id="campusInput" readonly>
-                                                                    <input type="hidden" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="postedDate" readonly>
-                                                                    <input type="hidden" value="{{ Auth::guard('web')->user()->id }}" name="postedBy" readonly>
 
-                                                                    <div class="form-group">
-                                                                        <div class="row">
-                                                                            <div class="col-md-3">
-                                                                                <label>Course Year&Section</label>
-                                                                                <select class="form-control form-control-sm" name="course" id="programNameSelect">
-                                                                                    <option disabled selected> --Select --</option>
-                                                                                    @foreach ($classEnrolls as $class)
-                                                                                    @php
-                                                                                        $yearsection = preg_replace('/\D/', '', $class->classSection);
-                                                                                    @endphp
-                                                                                    <option value="{{ $class->progAcronym }} {{ $class->classSection }}" data-pkey="{{ $class->subjID}}" data-section="{{ $class->classSection }}"  data-program-code="{{ $class->progCode }}" data-program-classid="{{ $class->clid }}" data-program-name="{{ $class->progName }}" data-year-section="{{ $class->yearleveldesc }}">
-                                                                                        {{ $class->progAcronym }} {{ $class->classSection }}
-                                                                                    </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
+                                                            <input type="hidden" id="programIDInput" name="studClassID" class="form-control form-control-sm" readonly>
+                                                            <input type="hidden" id="programCodeInput" name="progCod" class="form-control form-control-sm" readonly>
+                                                            <input type="hidden" id="numericPart" name="studYear" placeholder="Numeric Part">
+                                                            <input type="hidden" id="alphabeticalPart" name="studSec" placeholder="Alphabetical Part">
 
-                                                                            <input type="hidden" id="programIDInput" name="studClassID" class="form-control form-control-sm" readonly>
-                                                                            <input type="hidden" id="programCodeInput" name="progCod" class="form-control form-control-sm" readonly>
-                                                                            <input type="hidden" id="numericPart" name="studYear" placeholder="Numeric Part">
-                                                                            <input type="hidden" id="alphabeticalPart" name="studSec" placeholder="Alphabetical Part">
-
-                                                                            <div class="col-md-7">
-                                                                                <label>Program Name</label>
-                                                                                <input type="text" id="programNameInput" name="" class="form-control form-control-sm" readonly>
-                                                                            </div>
-
-                                                                            <div class="col-md-2">
-                                                                                <label>Total Units</label>
-                                                                                <input type="text" id="totalunitInput" name="studUnit" class="form-control form-control-sm" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-md-6">
-                                                                                <label>Student Level</label>
-                                                                                <select class="form-control form-control-sm" name="studLevel" id="studLevel">
-                                                                                    @foreach ($studlvl as $data)
-                                                                                        <option value="{{ $data->id }}">{{ $data->studLevel }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <label>Year Level</label>
-                                                                                <input type="text" id="yearsectionInput" name="" class="form-control form-control-sm" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-md-6">
-                                                                                <label>Scholarship</label>
-                                                                                <select class="form-control form-control-sm" name="studSch">
-                                                                                    {{-- <option disabled selected> --SELECT SCHOLARSHIP-- </option>
-                                                                                    @foreach ($studscholar as $data)
-                                                                                        <option value="{{ $data->id }}">{{ $data->scholar_name }}</option>
-                                                                                    @endforeach --}}
-                                                                                    <option disabled {{ empty($selectedScholar) ? 'selected' : '' }}> --SELECT SCHOLARSHIP-- </option>
-                                                                                    @foreach ($studscholar as $data)
-                                                                                        <option value="{{ $data->id }}" {{ $selectedScholar == $data->id ? 'selected' : '' }}>
-                                                                                            {{ $data->scholar_name }}
-                                                                                        </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="col-md-3">
-                                                                                <label>Major</label>
-                                                                                <select class="form-control form-control-sm" name="studMajor">
-                                                                                    <option disabled selected> --Select--</option>
-                                                                                    @foreach ($mamisub as $mamisubjects)
-                                                                                        <option value="{{ $mamisubjects->submamiID }}">{{ $mamisubjects->submamiName }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="col-md-3">
-                                                                                <label>Minor</label>
-                                                                                <select class="form-control form-control-sm" name="studMinor">
-                                                                                    <option disabled selected> --Select--</option>
-                                                                                    @foreach ($mamisub as $mamisubjects)
-                                                                                        <option value="{{ $mamisubjects->submamiID }}">{{ $mamisubjects->submamiName }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-md-3">
-                                                                                <label>Status</label>
-                                                                                <select class="form-control form-control-sm" name="studStatus">
-                                                                                    @foreach ($studstat as $data)
-                                                                                        <option value="{{ $data->id }}">{{ $data->studentStatName }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="col-md-3">
-                                                                                <label>Type</label>
-                                                                                <select class="form-control form-control-sm" name="studType">
-                                                                                    <option disabled selected> --Select--</option>
-                                                                                    @foreach ($studtype as $data)
-                                                                                        <option value="{{ $data->id }}">{{ $data->studentTypeName }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="col-md-3">
-                                                                                <label>Transferee/Shiftee</label>
-                                                                                <select class="form-control form-control-sm" name="transferee">
-                                                                                    <option disabled selected> --Select--</option>
-                                                                                    @foreach ($shiftrans as $data)
-                                                                                        <option value="{{ $data->id }}">{{ $data->studentShiftTransDesc }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="col-md-3">
-                                                                                <label>4P's Beneficiaries</label>
-                                                                                <select class="form-control form-control-sm" name="fourPs">
-                                                                                    <option disabled selected> --Select--</option>
-                                                                                    <option value="0">NO</option>
-                                                                                    <option value="1">YES</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                            <div class="col-md-7">
+                                                                <label class="form-label fw-semibold">Program Name</label>
+                                                                <input type="text" id="programNameInput" name="" class="form-control form-control-sm" readonly>
                                                             </div>
-                                                        </div>
 
-                                                        <div class="card mt-2" style="background-color: #e9ecef">
-                                                            <div class="card-body pr-2 pl-2 pt-2 pb-2">
-                                                                <div class="table-responsive">
-                                                                    <table id="subjectTable" class="table">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>ID</th>
-                                                                                <th>Subj Code</th>
-                                                                                <th>Subject Name</th>
-                                                                                <th>Descriptive Title</th>
-                                                                                <th>Credit</th>
-                                                                                <th>LecFee</th>
-                                                                                <th>LabFee</th>
-                                                                                <th>DevFee</th>
-                                                                                <th>ITSubj</th>
-                                                                                <th>#</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
+                                                            <div class="col-md-2">
+                                                                <label class="form-label fw-semibold">Total Units</label>
+                                                                <input type="text" id="totalunitInput" name="studUnit" class="form-control form-control-sm" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-2 sticky-column">
-                                                        <div class="card mt-2" style="background-color: #e9ecef">
-                                                            <div class="card-body">
-                                                                <a href="{{ route('loadstudsub') }}" class="col-md-12 btn btn-success btn-sm">New</a>
-                                                                <a href="" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-bs-toggle="modal" data-bs-target="#modal-addSub">Add Subject</a>
-                                                                <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="assessButton" style="display: none;">Assess</button>
-                                                                <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="submitEvalButton">Save</button>
+                                                    <div class="form-group mt-3">
+                                                        <div class="row g-3">
+                                                            <div class="col-md-6">
+                                                                <label class="form-label fw-semibold">Student Level: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="studLevel" id="studLevel">
+                                                                    @foreach ($studlvl as $data)
+                                                                        <option value="{{ $data->id }}">{{ $data->studLevel }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-label fw-semibold">Year Level</label>
+                                                                <input type="text" id="yearsectionInput" name="" class="form-control form-control-sm" readonly>
                                                             </div>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="card mt-2" style="background-color: #e9ecef">
-                                                            <div class="card-body">
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-6">
-                                                                            Tuition: <input type="text" id="totalLecFeeInput" class="form-control form-control-sm" readonly>
-                                                                        </div>
-                                                                        <div class="col-md-6">
-                                                                            Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" readonly>
-                                                                        </div>
-                                                                        <div class="col-md12">
-                                                                            Dev Fee: <input type="text" id="totalDevFeeInput" class="form-control form-control-sm" readonly>
-                                                                        </div>
-                                                                        <div class="col-md-12 mt-1">
-                                                                            <input type="text" id="itsubjInput" class="form-control form-control-sm" readonly>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>      
-                                                                <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
+                                                    <div class="form-group">
+                                                        <div class="row mt-3">
+                                                            <div class="col-md-6">
+                                                                <label class="form-label fw-semibold">Scholarship: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="studSch">
+                                                                    {{-- <option disabled selected> --SELECT SCHOLARSHIP-- </option>
+                                                                    @foreach ($studscholar as $data)
+                                                                        <option value="{{ $data->id }}">{{ $data->scholar_name }}</option>
+                                                                    @endforeach --}}
+                                                                    <option disabled {{ empty($selectedScholar) ? 'selected' : '' }}> --SELECT SCHOLARSHIP-- </option>
+                                                                    @foreach ($studscholar as $data)
+                                                                        <option value="{{ $data->id }}" {{ $selectedScholar == $data->id ? 'selected' : '' }}>
+                                                                            {{ $data->scholar_name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
+
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">Major: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="studMajor">
+                                                                    <option disabled selected> --Select--</option>
+                                                                    @foreach ($mamisub as $mamisubjects)
+                                                                        <option value="{{ $mamisubjects->submamiID }}">{{ $mamisubjects->submamiName }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">Minor: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="studMinor">
+                                                                    <option disabled selected> --Select--</option>
+                                                                    @foreach ($mamisub as $mamisubjects)
+                                                                        <option value="{{ $mamisubjects->submamiID }}">{{ $mamisubjects->submamiName }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mt-3">
+                                                        <div class="row g-3">
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">Status: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="studStatus">
+                                                                    @foreach ($studstat as $data)
+                                                                        <option value="{{ $data->id }}">{{ $data->studentStatName }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">Type: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="studType">
+                                                                    <option disabled selected> --Select--</option>
+                                                                    @foreach ($studtype as $data)
+                                                                        <option value="{{ $data->id }}">{{ $data->studentTypeName }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">Transferee/Shiftee: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="transferee">
+                                                                    <option disabled selected> --Select--</option>
+                                                                    @foreach ($shiftrans as $data)
+                                                                        <option value="{{ $data->id }}">{{ $data->studentShiftTransDesc }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-semibold">4P's Beneficiaries: <span class="text-danger">*</span></label>
+                                                                <select class="form-control form-control-sm" name="fourPs">
+                                                                    <option disabled selected> --Select--</option>
+                                                                    <option value="0">NO</option>
+                                                                    <option value="1">YES</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-book"></i> Student Subjects Section
+                                                </h6>
+                                            </div>
+                                            <div class="card-body card-body-bg-color table-responsive">
+                                                <table id="subjectTable" class="table table-striped" style="width: 100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Subj Code</th>
+                                                            <th>Subject Name</th>
+                                                            <th>Descriptive Title</th>
+                                                            <th>Credit</th>
+                                                            <th>LecFee</th>
+                                                            <th>LabFee</th>
+                                                            <th>DevFee</th>
+                                                            <th>ITSubj</th>
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 sticky-column">
+                                        <div class="card">
+                                            <div class="card-header pt-3">
+                                                <h6 class="card-title">
+                                                    <i class="ti ti-settings"></i> Enrollment Action Buttons
+                                                </h6>
+                                            </div>
+                                            <div class="card-body card-body-bg-color">
+                                                <a href="{{ route('loadstudsub') }}" class="col-md-12 btn btn-success btn-sm">New</a>
+                                                <a href="" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="addSubjectModalBtn" data-bs-toggle="modal" data-bs-target="#modal-addSub">Add Subject</a>
+                                                <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="assessButton" style="display: none;">Assess</button>
+                                                <button type="button" class="col-md-12 btn btn-success btn-sm mt-2 btnprim" id="submitEvalButton">Save</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="card mt-3">
+                                            <div class="card-body card-body-bg-color">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            Tuition: <input type="text" id="totalLecFeeInput" class="form-control form-control-sm" readonly>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            Lab Fee: <input type="text" id="totalLabFeeInput" class="form-control form-control-sm" readonly>
+                                                        </div>
+                                                        <div class="col-md12">
+                                                            Dev Fee: <input type="text" id="totalDevFeeInput" class="form-control form-control-sm" readonly>
+                                                        </div>
+                                                        <div class="col-md-12 mt-1">
+                                                            <input type="text" id="itsubjInput" class="form-control form-control-sm" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <input type="hidden" id="subjIDsInput" name="subjIDs" class="form-control form-control-sm" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -357,7 +387,7 @@ CISS V.1.0 || Enrollment
                     </h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
+
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-row">
@@ -367,11 +397,11 @@ CISS V.1.0 || Enrollment
                                     <option disabled selected> --Select-- </option>
                                     @foreach($subjOffer as $subs)
                                         <option value="{{ $subs->sub_name }} {{ $subs->subSec }}"
-                                                data-subp-sid="{{ $subs->id }}" 
+                                                data-subp-sid="{{ $subs->id }}"
                                                 data-sub-code="{{ $subs->sub_code }}"
-                                                data-sub-title="{{ $subs->sub_title }}" 
-                                                data-sub-unit="{{ $subs->subUnit }}" 
-                                                data-lec-fee="{{ $subs->lecFee }}" 
+                                                data-sub-title="{{ $subs->sub_title }}"
+                                                data-sub-unit="{{ $subs->subUnit }}"
+                                                data-lec-fee="{{ $subs->lecFee }}"
                                                 data-lab-fee="{{ $subs->labFee }}"
                                                 data-dev-fee="{{ $subs->devFee }}"
                                                 data-it-fee="{{ $subs->itfee }}">
@@ -381,8 +411,8 @@ CISS V.1.0 || Enrollment
                                 </select>
                             </div>
                         </div>
-                    </div>  
-                    
+                    </div>
+
                     <div class="form-group">
                         <input type="hidden" class="form-control form-control-sm" id="subjecID" readonly>
                     </div>
@@ -407,7 +437,7 @@ CISS V.1.0 || Enrollment
                     <div class="form-group">
                         <input type="hidden" class="form-control form-control-sm" id="itfee" readonly>
                     </div>
-                    
+
                     <button type="button" class="btn btn-success mt-2" id="addSubjectBtn">
                         <i class="fas fa-save"></i> Add
                     </button>

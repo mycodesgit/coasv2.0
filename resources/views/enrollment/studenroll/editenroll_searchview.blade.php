@@ -30,6 +30,19 @@ CISS V.1.0 || Enrollment
                         <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Edit Enrollment</h1>
                         <p class="text-muted small mb-0">Complete the form below to edit student enrollment.</p>
                     </div>
+                    <div class="d-flex gap-2">
+                        <div class="btn btn-light">
+                            <i class="ti ti-circle-filled text-success"></i> Selected:
+                            <i class="ti ti-calendar"></i>
+                            {{ request('schlyear') }} -
+                            {{ match ((int) request('semester')) {
+                                1 => '1st Sem',
+                                2 => '2nd Sem',
+                                3 => 'Summer',
+                                default => '',
+                            } }}
+                        </div>
+                    </div>
                 </div>
                 <div class="row g-3 mb-3">
                     <div class="col-md-10 scrolling-column">

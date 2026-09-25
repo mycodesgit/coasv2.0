@@ -11,7 +11,7 @@ CISS V.1.0 || Enrollment
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                <div class="card mb-3" style=" background-color: #e9ecef; margin-top: -10px">
                     <div class="card-body">
                         <ol class="breadcrumb" style="margin-bottom: -3px;">
                             <li class="breadcrumb-item">
@@ -24,80 +24,97 @@ CISS V.1.0 || Enrollment
                         </ol>
                     </div>
                 </div>
-                <div class="row g-3 mb-3 mt-3">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h1 class="h4 fw-bold mb-1" style="letter-spacing: -0.02em;">Evaluated Student</h1>
+                        <p class="text-muted small mb-0">Students who have completed their evaluation.</p>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-search"></i> Search to show data
+                                </h6>
+                            </div>
                             <div class="card-body">
-                                <div class="page-header" style="border-bottom: 1px solid #04401f;">
-                                    <h4>Student Evaluation</h4>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12"> 
-                                        <form method="GET" action="{{ route('loadstudsub_searchview') }}" id="enrollStud" class="mb-3">
-                                            @csrf 
+                                <form method="GET" action="{{ route('loadstudsub_searchview') }}" id="enrollStud" class="mb-3">
+                                    @csrf
 
-                                            <div class="form-group mt-2">
-                                                <div class="row g-3">
-                                                    <div class="col-md-3">
-                                                        <label>Student ID Number: <span class="text-danger">*</span></label>
-                                                        <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
-                                                    </div>
+                                    <div class="form-group mt-2">
+                                        <div class="row g-3">
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-semibold">Student ID Number: <span class="text-danger">*</span></label>
+                                                <input type="text" name="stud_id" class="form-control form-control-sm" oninput="formatInput(this); this.value = this.value.toUpperCase()" autofocus>
+                                            </div>
 
-                                                    <div class="col-md-3">
-                                                        <label>School Year: <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm" name="schlyear">
-                                                            @foreach($sy as $datasy)
-                                                                <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
-                                                            @endforeach
-                                                            {{-- <option value="2025-2026">2025-2026</option>
-                                                            <option value="2022-2023">2022-2023</option> --}}
-                                                        </select>
-                                                    </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-semibold">School Year: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm" name="schlyear">
+                                                    @foreach($sy as $datasy)
+                                                        <option value="{{ $datasy->schlyear }}">{{ $datasy->schlyear }}</option>
+                                                    @endforeach
+                                                    {{-- <option value="2025-2026">2025-2026</option>
+                                                    <option value="2022-2023">2022-2023</option> --}}
+                                                </select>
+                                            </div>
 
-                                                    <div class="col-md-3">
-                                                        <label>Semester: <span class="text-danger">*</span></label>
-                                                        <select class="form-control form-control-sm" name="semester">
-                                                            @foreach($sy as $datasy)
-                                                                <option value="{{ $datasy->semester }}">{{ $datasy->semester == 1 ? '1st Semester' : ($datasy->semester == 2 ? '2nd Semester' : 'Summer') }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-semibold">Semester: <span class="text-danger">*</span></label>
+                                                <select class="form-control form-control-sm" name="semester">
+                                                    @foreach($sy as $datasy)
+                                                        <option value="{{ $datasy->semester }}">{{ $datasy->semester == 1 ? '1st Semester' : ($datasy->semester == 2 ? '2nd Semester' : 'Summer') }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
-                                                    <div class="col-md-3">
-                                                        <label>&nbsp;</label>
-                                                        <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
-                                                    </div>
+                                            <div class="col-md-3">
+                                                <div class="d-flex flex-column h-100">
+                                                    <label class="form-label fw-semibold opacity-0 d-none d-md-block">Action</label>
+                                                    <button type="submit" class="form-control form-control-sm btn btn-success btn-sm">OK</button>
                                                 </div>
                                             </div>
-                                        </form>
-                                        <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
-                                        @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
-                                            @if($queueMode->statusqueue === 'Off')
-
-                                            @else
-                                                <div class="mt-5">
-                                                    <h4>List of Pre-Enrolled Students</h4>
-                                                    <table id="holdTable" class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Date</th>
-                                                                <th>Student ID No.</th>
-                                                                <th>Fullname</th>
-                                                                <th>Course Yr&Section</th>
-                                                                <th>Campus</th>
-                                                                <th>Status</th>
-                                                                <th width="10%">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            @endif
-                                        @endif
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
+                                <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card card-animate">
+                            <div class="card-header pt-3">
+                                <h6 class="card-title">
+                                    <i class="ti ti-server"></i> List of Pre-Enrolled Evaluated Student
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
+                                    @if($queueMode->statusqueue === 'Off')
+
+                                    @else
+                                        <div class="table-responsive p-2">
+                                            <table id="holdTable" class="table table-hover" style="width: 100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Student ID No.</th>
+                                                        <th>Fullname</th>
+                                                        <th>Course Yr&Section</th>
+                                                        <th>Campus</th>
+                                                        <th>Status</th>
+                                                        <th width="10%">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -108,7 +125,7 @@ CISS V.1.0 || Enrollment
     <script>
         function formatInput(input) {
             let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-            
+
             if (cleaned.length > 0) {
                 let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
                 input.value = formatted;
@@ -125,7 +142,7 @@ CISS V.1.0 || Enrollment
                 formatInput(input);
             }
         }
-        
+
         var preenrollistReadRoute = "{{ route('searchstudsubfetch') }}";
         var preenrollistShowRoute  = "{{ route('loadstudsubpreenrol_searchview') }}";
     </script>
