@@ -1,771 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
+<head>
+    <meta charset="UTF-8" />
     <title>@yield('title') - CPSU Queueing System</title>
 
-    <link rel="shortcut icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
 
-    <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}">
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('uilibs/css/main.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/css/custom.css') }}?v={{ time() }}">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/fontawesome-free-V6/css/all.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <!-- DataTables  -->
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uilibs/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
     <style>
-        :root {
-            --cpsu-dark-green: #034527;
-            --cpsu-mid-green: #005a33;
-            --cpsu-mint-bg: #e8f5e9;
-            --cpsu-light-mint: #f1f8f5;
-            --cpsu-card-mint: #e2f1e7;
-            --cpsu-gray-bg: #eef2f1;
-            --cpsu-gold: #f59e0b;
-            --badge-blue: #90caf9;
-            --badge-gray: #b0bec5;
-            --header-height: clamp(65px, 8vh, 90px);
-            --footer-height: clamp(45px, 6vh, 60px);
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        html, body {
+        body {
+            font-family: 'Poppins', sans-serif !important;
+            background-color: #f8fafc;
             height: 100vh;
-            width: 100vw;
-            margin: 0;
-            padding: 0;
             overflow: hidden;
-            background-color: var(--cpsu-gray-bg);
-            font-family: "Poppins", sans-serif, system-ui, -apple-system, Roboto;
-            color: #1a202c;
         }
 
-        /* HEADER BANNER */
-        .app-header {
-            height: 85px;
-            background: linear-gradient(135deg, var(--cpsu-dark-green) 0%, var(--cpsu-mid-green) 65%, #086b3e 100%);
-            color: #ffffff;
-            padding: 0 2rem;
+        #content {
+            height: calc(100vh - 60px);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: space-between;
-            position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            overflow: hidden;
         }
 
-        .app-header::after {
-            content: '';
-            position: absolute;
-            right: 280px;
-            top: -20px;
-            width: 120px;
-            height: 140px;
-            background: rgba(255, 255, 255, 0.08);
-            transform: skewX(-25deg);
-        }
-
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: clamp(0.5rem, 1.5vw, 1.25rem);
-            z-index: 2;
-        }
-
-        .header-logo {
-            width: clamp(38px, 4.5vw, 58px);
-            height: clamp(38px, 4.5vw, 58px);
-            object-fit: contain;
-        }
-
-        .brand-title {
-            font-size: clamp(1.1rem, 2vw, 1.6rem);
-            font-weight: 900;
-            letter-spacing: 0.5px;
-            line-height: 1.1;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .header-datetime {
-            text-align: right;
-            z-index: 2;
-        }
-
-        .header-date {
-            font-size: clamp(0.75rem, 1.1vw, 1.05rem);
-            font-weight: 600;
-            opacity: 0.9;
-        }
-
-        .header-time {
-            font-size: clamp(1.2rem, 2.2vw, 2.1rem);
-            font-weight: 900;
-            line-height: 1;
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* MAIN LAYOUT CONTAINER */
-        .main-viewport {
-            min-height: calc(100vh - var(--header-height) - var(--footer-height));
-            padding: clamp(0.75rem, 1.5vw, 1.25rem);
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: clamp(0.75rem, 1.5vw, 1.25rem);
-        }
-
-        /* LEFT DISPLAY PANEL */
-        .left-display-container {
+        /* Vertical single column scrollable list for counters */
+        .counter-vertical-list {
             display: flex;
             flex-direction: column;
-            gap: clamp(0.5rem, 1vw, 0.85rem);
-            height: 100%;
-        }
-
-        /* TWO STACKED CARDS WRAPPER */
-        .stacked-cards-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: clamp(0.5rem, 1vw, 0.85rem);
-        }
-
-        /* CARD BASE */
-        .status-hero-card {
-            background-color: var(--cpsu-light-mint);
-            border-radius: 12px;
-            border: 1px solid #d0e3d5;
-            overflow: hidden;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
-            will-change: transform;
-        }
-
-        /* HEADERS */
-        .header-serving, .header-calling {
-            color: #ffffff;
-            padding: clamp(0.4rem, 0.8vw, 0.65rem) clamp(0.75rem, 1.5vw, 1.25rem);
-            font-size: clamp(0.85rem, 1.3vw, 1.15rem);
-            font-weight: 800;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-transform: uppercase;
-        }
-
-        .header-serving { background-color: var(--cpsu-mid-green); }
-        .header-calling { background-color: var(--cpsu-gold); }
-
-        .card-inner-body {
-            background-color: var(--cpsu-card-mint);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: clamp(0.5rem, 1vw, 1rem);
-            text-align: center;
-        }
-
-        .token-num-serving {
-            font-size: clamp(3rem, 6vw, 5.8rem);
-            font-weight: 900;
-            color: var(--cpsu-dark-green);
-            line-height: 0.95;
-            letter-spacing: -1px;
-        }
-
-        .token-num-calling {
-            font-size: clamp(3rem, 6vw, 5.8rem);
-            font-weight: 900;
-            color: #d97706;
-            line-height: 0.95;
-            letter-spacing: -1px;
-        }
-
-        .sub-instruction {
-            font-size: clamp(1.1rem, 2.2vw, 2.15rem);
-            font-weight: 700;
-            color: #334155;
-            margin-top: 0.25rem;
-            margin-bottom: 0;
-        }
-
-        /* ACTIVE COUNTER GRID */
-        .counter-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: clamp(0.5rem, 1vw, 0.85rem);
-            min-height: clamp(80px, 11vh, 105px);
-        }
-
-        .mini-counter-card {
-            background-color: var(--cpsu-card-mint);
-            border: 1px solid #c3decb;
-            border-radius: 10px;
-            padding: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-        }
-
-        .mini-counter-card .counter-icon {
-            font-size: clamp(0.8rem, 1.2vw, 1rem);
-            color: var(--cpsu-dark-green);
-            margin-bottom: 0.1rem;
-        }
-
-        .mini-counter-card .counter-title {
-            font-size: clamp(0.65rem, 0.9vw, 0.75rem);
-            font-weight: 800;
-            color: var(--cpsu-dark-green);
-            text-transform: uppercase;
-        }
-
-        .mini-counter-card .counter-token {
-            font-size: clamp(1.1rem, 1.8vw, 1.6rem);
-            font-weight: 900;
-            color: var(--cpsu-dark-green);
-            line-height: 1;
-            margin-top: 0.15rem;
-        }
-
-        /* RIGHT PANEL: QUEUE LIST */
-        .right-queue-panel {
-            background-color: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #d0e3d5;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.04);
-            height: 100%;
-            max-height: calc(100vh - var(--header-height) - var(--footer-height) - 2.5rem);
-        }
-
-        .queue-table-container {
-            flex: 1;
+            gap: 0.50rem;
+            max-height: calc(100vh - 220px);
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            padding-right: 6px;
         }
 
-        .queue-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .queue-table th {
-            background-color: var(--cpsu-card-mint);
-            color: var(--cpsu-dark-green);
-            font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+        /* Text sizes for left side display */
+        .display-serving-number {
+            font-size: 6.5rem;
             font-weight: 800;
-            text-transform: uppercase;
-            padding: clamp(0.5rem, 1vw, 0.75rem);
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            line-height: 1;
         }
 
-        .queue-table td {
-            padding: clamp(0.4rem, 0.8vw, 0.65rem);
-            text-align: center;
-            font-weight: 900;
-            font-size: clamp(1.1rem, 2vw, 2rem);
-            color: #2d3748;
-            border-bottom: 1px solid #edf2f7;
-            content-visibility: auto;
+        .display-calling-number {
+            font-size: 6.5rem;
+            font-weight: 800;
+            line-height: 1;
         }
 
-        .queue-table tr:nth-child(even) {
-            background-color: #fcfdfe;
-        }
-
-        /* STATUS BADGES */
         .status-badge {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 20px;
-            font-size: clamp(0.65rem, 0.8vw, 0.75rem);
-            font-weight: 800;
+            padding: 0.25rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
-            width: clamp(80px, 100%, 120px);
         }
 
-        .badge-now-serving { background-color: var(--cpsu-dark-green); color: #ffffff; }
-        .badge-calling-next { background-color: var(--cpsu-gold); color: #ffffff; }
-        .badge-next { background-color: var(--badge-blue); color: #0d47a1; }
-        .badge-waiting { background-color: var(--badge-gray); color: #ffffff; }
+        .badge-now-serving { background-color: #d1fae5; color: #065f46; }
+        .badge-calling-next { background-color: #fef3c7; color: #92400e; }
+        .badge-next { background-color: #dbeafe; color: #1e40af; }
+        .badge-waiting { background-color: #f1f5f9; color: #475569; }
+        .marquee-wrapper {
+            max-height: 800px; /* Adjust according to your container layout height */
+            overflow: hidden;
+            position: relative;
+            /* Hardware acceleration & smooth clipping */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+        }
 
-        /* FOOTER BANNER */
-        .app-footer {
-            height: var(--footer-height);
-            background-color: var(--cpsu-dark-green);
-            color: #ffffff;
-            padding: 0 clamp(1rem, 2vw, 2rem);
+        .marquee-content {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-top: 3px solid var(--cpsu-mid-green);
+            flex-direction: column;
+            animation: scrollContinuous 15s linear infinite;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
 
-        .footer-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        /* Pause scroll when mouse hovers so operators can inspect counter cards */
+        .marquee-wrapper:hover .marquee-content {
+            animation-play-state: paused;
         }
 
-        .footer-icon {
-            font-size: clamp(1.2rem, 1.8vw, 1.8rem);
-            transform: rotate(-15deg);
-        }
-
-        .footer-divider {
-            width: 2px;
-            height: 25px;
-            background-color: rgba(255,255,255,0.3);
-        }
-
-        .footer-msg-title {
-            font-size: clamp(0.8rem, 1vw, 1rem);
-            font-weight: 800;
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .footer-msg-sub {
-            font-size: clamp(0.65rem, 0.8vw, 0.8rem);
-            margin: 0;
-            opacity: 0.85;
-        }
-
-        .footer-brand-signature {
-            font-family: 'Georgia', serif;
-            font-size: clamp(0.9rem, 1.3vw, 1.3rem);
-            font-style: italic;
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        /* PULSE ANIMATION */
-        @keyframes soft-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(0.99); }
-        }
-
-        .pulse-card {
-            animation: soft-pulse 2s infinite ease-in-out;
-        }
-
-        /* RESPONSIVE BREAKPOINTS */
-
-        /* TV & Large Monitors (1600px+) */
-        @media screen and (min-width: 1600px) {
-            .main-viewport {
-                max-width: 1920px;
-                margin: 0 auto;
+        @keyframes scrollContinuous {
+            0% {
+                transform: translateY(0);
             }
-        }
-
-        /* Tablets & Small Desktops (<= 992px) */
-        @media screen and (max-width: 992px) {
-            html, body {
-                overflow-y: auto;
-            }
-
-            .main-viewport {
-                grid-template-columns: 1fr;
-                height: auto;
-                min-height: auto;
-            }
-
-            .right-queue-panel {
-                max-height: 500px;
-            }
-        }
-
-        /* Mobile Devices (<= 576px) */
-        @media screen and (max-width: 576px) {
-            .app-header {
-                padding: 0 0.75rem;
-            }
-
-            .brand-title {
-                font-size: 1.1rem;
-            }
-
-            .counter-cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.5rem;
-            }
-
-            .right-queue-panel {
-                max-height: 400px;
-            }
-
-            .footer-msg-sub, .footer-divider {
-                display: none;
+            100% {
+                transform: translateY(-50%); /* Moves exactly half way down (first copy) before repeating */
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- HEADER NAVBAR -->
-    <header class="app-header">
-        <div class="header-brand">
-            <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="CPSU Logo" class="header-logo">
-            <div>
-                <h1 class="brand-title">CISS</h1>
+    <div id="overlay" class="overlay"></div>
+
+    <!-- TOPBAR -->
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top topbar full px-3 justify-content-between">
+        <div class="d-flex align-items-center">
+            <span class="fw-bold fs-5 text-dark">CPSU Queueing System</span>
+        </div>
+        <div class="d-flex align-items-center gap-4">
+            <!-- Connection Indicator -->
+            <div class="d-flex align-items-center gap-2">
+                <span class="p-1 rounded-circle bg-success d-inline-block" style="width: 8px; height: 8px;"></span>
+                <span class="small fw-semibold text-muted">Live Sync</span>
+            </div>
+
+            <!-- Date & Time Display -->
+            <div class="text-end border-start ps-3">
+                <div id="time" class="fw-bold text-dark leading-tight" style="font-size: 1.1rem;">--:-- --</div>
+                <div id="date" class="text-muted" style="font-size: 0.75rem;">Loading date...</div>
             </div>
         </div>
-        <div class="header-datetime">
-            <div id="date" class="header-date">Loading date...</div>
-            <div id="time" class="header-time">--:-- --</div>
-        </div>
-    </header>
+    </nav>
 
-    <!-- MAIN VIEWPORT -->
-    <main class="main-viewport">
-
-        <!-- LEFT PANEL -->
-        <div class="left-display-container">
-
-            <!-- STACKED CARDS (NOW SERVING & CALLING NEXT) -->
-            <div class="stacked-cards-wrapper">
-
-                <!-- NOW SERVING CARD -->
-                <div class="status-hero-card">
-                    <div class="header-serving">
-                        <i class="fas fa-user-check"></i> NOW SERVING
-                    </div>
-                    <div class="card-inner-body">
-                        <div id="queue-numbercurr" class="token-num-serving">-</div>
-                        <p id="window-numbercurr" class="sub-instruction">Proceed to Counter --</p>
-                    </div>
-                </div>
-
-                <!-- CALLING NEXT CARD -->
-                <div class="status-hero-card pulse-card">
-                    <div class="header-calling">
-                        <i class="fas fa-bullhorn"></i> CALLING NEXT
-                    </div>
-                    <div class="card-inner-body">
-                        <div id="queue-number" class="token-num-calling">-</div>
-                        <p id="window-number" class="sub-instruction">Proceed to Counter --</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- ACTIVE COUNTER GRID AT THE BOTTOM -->
-            <div id="windowGridContainer" class="counter-cards-grid">
-                <div class="mini-counter-card">
-                    <i class="ti ti-user counter-icon"></i>
-                    <div class="counter-title">COUNTER 1</div>
-                    <div class="counter-token">---</div>
-                </div>
-                <div class="mini-counter-card">
-                    <i class="ti ti-user counter-icon"></i>
-                    <div class="counter-title">COUNTER 2</div>
-                    <div class="counter-token">---</div>
-                </div>
-                <div class="mini-counter-card">
-                    <i class="ti ti-user counter-icon"></i>
-                    <div class="counter-title">COUNTER 3</div>
-                    <div class="counter-token">---</div>
-                </div>
-                <div class="mini-counter-card">
-                    <i class="ti ti-user counter-icon"></i>
-                    <div class="counter-title">COUNTER 4</div>
-                    <div class="counter-token">---</div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- RIGHT PANEL: QUEUE LIST -->
-        <div class="right-queue-panel">
-            <div class="header-serving" style="background-color: var(--cpsu-mid-green);">
-                <i class="fas fa-clock"></i> QUEUE LIST
-            </div>
-            <div class="queue-table-container">
-                <table class="table table-striped queue-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 35%;">TRANSACTION</th>
-                            <th style="width: 25%;">COUNTER</th>
-                            <th style="width: 40%;">STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody id="queueTableBody">
-                        <tr>
-                            <td colspan="3" class="text-center py-4 text-muted">Loading queue data...</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar collapsed">
+        <div class="logo-area">
+            <div class="d-inline-flex">
+                <img src="{{ asset('uilibs/images/cpsulogov4.png') }}" alt="logo" width="24">
+                <span class="logo-text ms-2" style="font-weight: bold"></span>
             </div>
         </div>
+    </aside>
 
+    <!-- MAIN CONTENT -->
+    <main id="content" class="content py-10 full">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-4">
+
+                        <div class="row g-3">
+                            <div class="card-body d-flex flex-column justify-content-between w-100">
+                                <div class="row g-3 align-items-center">
+
+                                    <!-- Left Column: Main Serving Window (Free-standing, no card) -->
+                                    <div class="col-md-7 border-end pe-4">
+                                        <!-- Top: Current No. -->
+                                        <div class="text-center">
+                                            <span id="window-numbercurr" class="badge bg-success-subtle text-success mb-2 px-4 py-2 fs-2 fw-bold">Counter --</span>
+                                            <h2 id="queue-numbercurr" class="display-serving-number my-2 text-success">-</h2>
+                                            <p class="text-muted fs-6 mb-0 mt-2 fw-bold uppercase" style="letter-spacing: 1px;">NOW SERVING TICKET</p>
+                                        </div>
+                                        <br><br><br><br><br>
+                                        <hr class="my-3">
+                                        <br><br><br><br><br>
+                                        <!-- Bottom: Calling No. -->
+                                        <div class="text-center py-4">
+                                            <span class="badge bg-warning-subtle text-warning-subtle text-warning mb-2 px-4 py-2 fs-2 fw-bold">CALLING NEXT</span>
+                                            <h2 id="queue-number" class="display-calling-number my-2 text-dark">-</h2>
+                                            <p id="window-number" class="text-muted fs-6 mb-0 fw-semibold">Proceed to Counter --</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right Column: List of Counter Cards Vertically Aligned in One Column -->
+                                    <div class="col-5 ps-4">
+                                        <div id="counterCardsGrid" class="counter-vertical-list">
+
+                                            <!-- Default Card Template -->
+                                            <div class="card rounded-3">
+                                                <div class="card-body">
+                                                    <i class="ti ti-user counter-icon"></i>
+                                                    <div class="counter-title font-weight-bold text-muted small">COUNTER 1</div>
+                                                    <div class="counter-token fs-2 font-weight-bold text-dark">---</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="row">
+                <div class="col-12">
+                    <footer class="text-center py-2 mt-4 text-secondary fixed-bottom bg-white border-top" style="z-index: 99">
+                        <p class="mb-0 small">Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
+                    </footer>
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <!-- FOOTER BANNER -->
-    <footer class="app-footer">
-        <div class="footer-left">
-            <i class="fas fa-bullhorn footer-icon"></i>
-            <div class="footer-divider"></div>
-            <div>
-                <p class="footer-msg-title">Thank you for your patience!</p>
-                <p class="footer-msg-sub">We are committed to serve you better.</p>
-            </div>
-        </div>
-        <div class="footer-brand-signature">
-            CPSU
-        </div>
-    </footer>
+    <!-- STARTUP INTERACTION MODAL -->
+    <div id="interactionModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999;">
+        <button id="initInteraction" class="btn btn-warning btn-lg px-5 py-3 font-weight-bold" style="border-radius: 50px; font-size: 1.25rem; background-color: #f59e0b; border: none; color: #ffffff; cursor: pointer;">
+            <i class="fas fa-play me-2"></i> Launch Queue Monitor
+        </button>
+    </div>
 
-    <!-- JS SCRIPTS -->
-    <script src="{{ asset('uilibs/js/main.js') }}"></script>
+    <!-- Bootstrap JS & Vendor Plugins -->
+    <script type="text/javascript" src="{{ asset('uilibs/js/main.js') }}"></script>
     <script src="{{ asset('uilibs/plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/basic/contextmenucoas.js') }}"></script>
 
-    @if(request()->routeIs('queue-monitor'))
-        <!-- Startup Modal -->
-        <div id="interactionModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(3, 69, 39, 0.92); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999;">
-            <button id="initInteraction" class="btn btn-warning btn-lg px-5 py-3 font-weight-bold shadow-lg" style="border-radius: 50px; font-size: 1.25rem; background-color: #f59e0b; border: none; color: #ffffff; cursor: pointer;">
-                <i class="fas fa-play mr-2"></i> Launch Queue Monitor
-            </button>
-        </div>
+    <!-- DataTables & Plugins -->
+    <script src="{{ asset('uilibs/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('uilibs/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- Validation JS -->
+    <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-        <script>
-            let lastQueueNumbercall = null;
-            let lastWindowNumbercall = null;
-            let previousData = [];
-            let isFirstLoad = true; // Flag to silence initial table load announcements
+    <!-- QUEUE MONITOR FUNCTIONALITY SCRIPT -->
+    <script>
+        let lastQueueNumbercall = null;
+        let lastWindowNumbercall = null;
+        let previousData = [];
+        let isFirstLoad = true;
 
-            // 1. GENERIC VOICE ANNOUNCEMENT FUNCTION
-            function announceVoice(message) {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel(); // Clear any pending speech queue
-                    const speech = new SpeechSynthesisUtterance(message);
-                    speech.lang = 'en-US';
-                    speech.volume = 1;
-                    speech.rate = 0.9;
-                    speech.pitch = 1;
-                    window.speechSynthesis.speak(speech);
+        // Text-to-Speech Voice Announcement
+        function announceVoice(message) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const speech = new SpeechSynthesisUtterance(message);
+                speech.lang = 'en-US';
+                speech.volume = 1;
+                speech.rate = 0.9;
+                speech.pitch = 1;
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        // Welcome Sound Alert & Voice Announcement
+        function announceWelcome() {
+            const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+            sound.play().then(() => {
+                setTimeout(() => {
+                    announceVoice("Welcome to Central Philippines State University.");
+                }, 600);
+            }).catch(e => console.warn('Audio playback restricted:', e));
+        }
+
+        $(document).ready(function () {
+            // Launch Monitor
+            $('#initInteraction').on('click', function () {
+                $('#interactionModal').fadeOut();
+                announceWelcome();
+
+                // Sort helper for counters (Counter 1 to highest)
+                function parseCounterNumber(windowVal) {
+                    if (!windowVal) return 999;
+                    const match = windowVal.toString().match(/\d+/);
+                    return match ? parseInt(match[0], 10) : 999;
                 }
+
+                // Render dynamic cards vertically inside card and card-body
+                // Keep track of total item count to avoid unnecessarily resetting the CSS animation
+let previousCardCount = 0;
+
+function renderCounterCards(data) {
+    const gridContainer = $('#counterCardsGrid');
+
+    if (!data || data.length === 0) {
+        gridContainer.html('<div class="text-center py-4 text-muted">No active counter records found</div>');
+        previousCardCount = 0;
+        return;
+    }
+
+    // Sort Data from Counter 1 to highest
+    const sortedData = [...data].sort((a, b) => {
+        return parseCounterNumber(a.window) - parseCounterNumber(b.window);
+    });
+
+    let cardsHTML = '';
+    sortedData.forEach(function(item) {
+        const rawWindow = item.window ? item.window.toString().trim() : '';
+        const windowLabel = rawWindow.toUpperCase().includes('COUNTER')
+            ? rawWindow.toUpperCase()
+            : `COUNTER ${rawWindow || '--'}`;
+
+        const numberLabel = (item.number && item.number.trim() !== '') ? item.number : '---';
+
+        let statusText = '';
+        let statusClass = '';
+
+        if (item.status) {
+            const dbStatusUpper = item.status.toString().toUpperCase().trim();
+            switch(dbStatusUpper) {
+                case 'NOW SERVING':
+                case 'SERVING':
+                    statusText = 'NOW SERVING';
+                    statusClass = 'badge-now-serving';
+                    break;
+                case 'CALLING':
+                case 'CALLING NEXT':
+                    statusText = 'CALLING';
+                    statusClass = 'badge-calling-next';
+                    break;
+                case 'NEXT':
+                    statusText = 'NEXT';
+                    statusClass = 'badge-next';
+                    break;
+                case 'WAITING':
+                    statusText = 'WAITING';
+                    statusClass = 'badge-waiting';
+                    break;
+                default:
+                    statusText = dbStatusUpper;
+                    statusClass = 'badge-waiting';
             }
-
-            // 2. SEPARATE WELCOME ANNOUNCEMENT FUNCTION
-            function announceWelcome() {
-                const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
-                sound.play().then(() => {
-                    setTimeout(() => {
-                        announceVoice("Welcome to Central Philippines State University.");
-                    }, 600);
-                }).catch(e => console.warn('Audio play restricted:', e));
+        } else {
+            if (numberLabel !== '---') {
+                statusText = 'NOW SERVING';
+                statusClass = 'badge-now-serving';
+            } else {
+                statusText = 'WAITING';
+                statusClass = 'badge-waiting';
             }
+        }
 
-            $(document).ready(function () {$('#initInteraction').on('click', function () {
-                    $('#interactionModal').fadeOut();
+        cardsHTML += `
+            <div class="card bg-light shadow-sm rounded-4 mb-2">
+                <div class="card-body d-flex justify-content-between align-items-center py-3">
+                    <div>
+                        <i class="ti ti-device-laptop counter-icon fs-2 text-success me-1"></i>
+                        <span class="counter-title fs-3 font-weight-bold text-muted">${windowLabel}</span>
+                        <div class="mt-1">
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                    </div>
+                    <div class="counter-token fs-1 font-weight-bold text-dark">${numberLabel}</div>
+                </div>
+            </div>
+        `;
+    });
 
-                    // TRIGGER WELCOME ONLY ONCE UPON LAUNCH
-                    announceWelcome();
+    const isScrollingNeeded = sortedData.length >= 7;
 
-                    function renderWindowCardsAndTable(data) {
-                        const grid = $('#windowGridContainer');
-                        const tableBody = $('#queueTableBody');
+    if (isScrollingNeeded) {
+        // Calculate duration based on card count to keep scroll speed steady (3.5 seconds per card)
+        const duration = Math.max(12, sortedData.length * 3.5);
 
-                        grid.empty();
-                        tableBody.empty();
+        const activeMarquee = gridContainer.find('.marquee-content');
 
-                        if (!data || data.length === 0) {
-                            grid.html('<div class="text-center w-100 py-3 text-muted">No active counters</div>');
-                            tableBody.html('<tr><td colspan="3" class="text-center py-4 text-muted">No queue records found</td></tr>');
+        // If marquee already exists and card count hasn't changed, update inner content to prevent scroll jumping
+        if (activeMarquee.length > 0 && previousCardCount === sortedData.length) {
+            activeMarquee.html(cardsHTML + cardsHTML);
+        } else {
+            // Re-render container when scrolling starts or list length changes
+            const marqueeMarkup = `
+                <div class="marquee-wrapper">
+                    <div class="marquee-content" style="animation-duration: ${duration}s;">
+                        ${cardsHTML}
+                        ${cardsHTML}
+                    </div>
+                </div>
+            `;
+            gridContainer.html(marqueeMarkup);
+        }
+    } else {
+        gridContainer.html(cardsHTML);
+    }
+
+    previousCardCount = sortedData.length;
+}
+
+                // Polling for Queue Data Stream
+                function fetchQueueData() {
+                    $.ajax({
+                        url: "{{ route('queue.stream') }}",
+                        method: 'GET',
+                        success: function (response) {
+                            if (!response || !response.data) return;
+
+                            renderCounterCards(response.data);
+
+                            if (!isFirstLoad) {
+                                response.data.forEach(function(queueData, index) {
+                                    if (previousData[index]?.number !== queueData.number || previousData[index]?.window !== queueData.window) {
+                                        const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+                                        sound.play().catch(e => console.warn('Audio play issue:', e));
+
+                                        const queueNumber = queueData.number || 'No queue number';
+                                        const windowNumber = queueData.window || 'N/A';
+                                        announceVoice(`Queue number ${queueNumber}. Please proceed to counter ${windowNumber}.`);
+                                    }
+                                });
+                            }
+
+                            previousData = response.data;
+                            isFirstLoad = false;
+                        },
+                        error: function () {
+                            console.error("Error fetching queue stream data.");
+                        }
+                    });
+                }
+
+                fetchQueueData();
+                setInterval(fetchQueueData, 2000);
+            });
+        });
+
+        // Polling for Current Serving and Calling Next Panels
+        function fetchLiveStatuses() {
+            // Stream Current Ticket
+            $.ajax({
+                url: "{{ route('queue.stream.current') }}",
+                method: "GET",
+                success: function(data) {
+                    if (data && data.number) {
+                        $('#queue-numbercurr').text(data.number);
+                        $('#window-numbercurr').text('Counter ' + (data.window || '--'));
+                    } else {
+                        $('#queue-numbercurr').text('-');
+                        $('#window-numbercurr').text('Counter --');
+                    }
+                }
+            });
+
+            // Stream Calling Next Ticket
+            $.ajax({
+                url: "{{ route('queue.stream.call') }}",
+                method: "GET",
+                success: function(data) {
+                    if (data && data.number) {
+                        $('#queue-number').text(data.number);
+                        $('#window-number').text('Proceed to Counter ' + (data.window || '--'));
+
+                        const queueNumber = data.number;
+                        const windowNumber = data.window || 'N/A';
+
+                        if (lastQueueNumbercall === null && lastWindowNumbercall === null) {
+                            lastQueueNumbercall = queueNumber;
+                            lastWindowNumbercall = windowNumber;
                             return;
                         }
 
-                        // Render Active Counter Cards (First 4)
-                        const activeCounters = data.slice(0, 4);
-                        let gridFragment = '';
-                        activeCounters.forEach(function(item) {
-                            const windowLabel = item.window ? `COUNTER ${item.window}` : 'COUNTER --';
-                            const numberLabel = item.number || '---';
+                        if (queueNumber !== lastQueueNumbercall || windowNumber !== lastWindowNumbercall) {
+                            const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
+                            sound.play().catch(e => console.warn('Audio playback issue:', e));
 
-                            gridFragment += `
-                                <div class="mini-counter-card">
-                                    <i class="ti ti-user counter-icon"></i>
-                                    <div class="counter-title">${windowLabel}</div>
-                                    <div class="counter-token">${numberLabel}</div>
-                                </div>
-                            `;
-                        });
-                        grid.append(gridFragment);
+                            announceVoice(`Queue number ${queueNumber}. Please proceed to counter ${windowNumber}.`);
 
-                        // Render Queue List Table
-                        let tableFragment = '';
-                        data.forEach(function(item) {
-                            const windowLabel = item.window || '-';
-                            const numberLabel = item.number || '';
-                            let statusText = '';
-                            let statusClass = '';
-
-                            if (item.status) {
-                                const dbStatusUpper = item.status.toString().toUpperCase().trim();
-                                switch(dbStatusUpper) {
-                                    case 'NOW SERVING':
-                                    case 'SERVING':
-                                        statusText = 'NOW SERVING';
-                                        statusClass = 'badge-now-serving';
-                                        break;
-                                    case 'CALLING':
-                                    case 'CALLING NEXT':
-                                        statusText = 'CALLING';
-                                        statusClass = 'badge-calling-next';
-                                        break;
-                                    case 'NEXT':
-                                        statusText = 'NEXT';
-                                        statusClass = 'badge-next';
-                                        break;
-                                    case 'WAITING':
-                                        statusText = 'WAITING';
-                                        statusClass = 'badge-waiting';
-                                        break;
-                                    default:
-                                        statusText = dbStatusUpper;
-                                        statusClass = 'badge-waiting';
-                                }
-                            } else {
-                                if (numberLabel && numberLabel !== '---' && numberLabel.trim() !== '') {
-                                    statusText = 'NOW SERVING';
-                                    statusClass = 'badge-now-serving';
-                                } else {
-                                    statusText = 'WAITING';
-                                    statusClass = 'badge-waiting';
-                                }
-                            }
-
-                            const displayToken = (numberLabel && numberLabel.trim() !== '') ? numberLabel : '---';
-
-                            tableFragment += `
-                                <tr>
-                                    <td class="font-weight-bold" style="color: var(--cpsu-dark-green);">${displayToken}</td>
-                                    <td>${windowLabel}</td>
-                                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                                </tr>
-                            `;
-                        });
-                        tableBody.append(tableFragment);
+                            lastQueueNumbercall = queueNumber;
+                            lastWindowNumbercall = windowNumber;
+                        }
+                    } else {
+                        $('#queue-number').text('-');
+                        $('#window-number').text('Proceed to Counter --');
                     }
-
-                    function fetchQueueData() {
-                        $.ajax({
-                            url: "{{ route('queue.stream') }}",
-                            method: 'GET',
-                            success: function (response) {
-                                if (!response || !response.data) return;
-
-                                renderWindowCardsAndTable(response.data);
-
-                                // Speak ONLY when data changes AFTER initial load
-                                if (!isFirstLoad) {
-                                    response.data.forEach(function(queueData, index) {
-                                        if (previousData[index]?.number !== queueData.number || previousData[index]?.window !== queueData.window) {
-                                            const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
-                                            sound.play().catch(e => console.warn('Audio playback issue:', e));
-
-                                            const queueNumber = queueData.number || 'No queue number';
-                                            const windowNumber = queueData.window || 'N/A';
-                                            announceVoice(`Queue number ${queueNumber}. Please proceed to counter ${windowNumber}.`);
-                                        }
-                                    });
-                                }
-
-                                previousData = response.data;
-                                isFirstLoad = false; // Initial sync completed
-                            },
-                            error: function () {
-                                console.error("Error fetching queue data.");
-                            }
-                        });
-                    }
-
-                    fetchQueueData();
-                    setInterval(fetchQueueData, 2000);
-                });
+                }
             });
+        }
 
-            // 3. SEPARATE LIVE STREAM CALL TRACKER
-            function fetchLiveStatuses() {
-                // Fetch Current Status
-                $.ajax({
-                    url: "{{ route('queue.stream.current') }}",
-                    method: "GET",
-                    success: function(data) {
-                        if (data && data.number) {
-                            $('#queue-numbercurr').text(data.number);
-                            $('#window-numbercurr').text('Proceed to Counter ' + (data.window || '--'));
-                        } else {
-                            $('#queue-numbercurr').text('-');
-                            $('#window-numbercurr').text('Counter --');
-                        }
-                    }
-                });
+        setInterval(fetchLiveStatuses, 2000);
+        fetchLiveStatuses();
 
-                // Fetch Call Status
-                $.ajax({
-                    url: "{{ route('queue.stream.call') }}",
-                    method: "GET",
-                    success: function(data) {
-                        if (data && data.number) {
-                            $('#queue-number').text(data.number);
-                            $('#window-number').text('Proceed to Counter ' + (data.window || '--'));
-
-                            const queueNumber = data.number;
-                            const windowNumber = data.window || 'N/A';
-
-                            // Save baseline call on launch so it doesn't speak existing data immediately
-                            if (lastQueueNumbercall === null && lastWindowNumbercall === null) {
-                                lastQueueNumbercall = queueNumber;
-                                lastWindowNumbercall = windowNumber;
-                                return;
-                            }
-
-                            // TRIGGER ANNOUNCEMENT ONLY IF A CHANGE DETECTED AT WINDOW/COUNTER
-                            if (queueNumber !== lastQueueNumbercall || windowNumber !== lastWindowNumbercall) {
-                                const sound = new Audio("{{ asset('template/sound/announcement-sound-effect.wav') }}");
-                                sound.play().catch(e => console.warn('Audio playback issue:', e));
-
-                                announceVoice(`Queue number ${queueNumber}. Please proceed to counter ${windowNumber}.`);
-
-                                lastQueueNumbercall = queueNumber;
-                                lastWindowNumbercall = windowNumber;
-                            }
-                        } else {
-                            $('#queue-number').text('-');
-                            $('#window-number').text('Proceed to Counter --');
-                        }
-                    }
-                });
-            }
-
-            setInterval(fetchLiveStatuses, 2000);
-            fetchLiveStatuses();
-        </script>
-    @endif
-
-    <script>
+        // Clock and Date Updater
         function updateTime() {
             const now = new Date();
             const hours = now.getHours();
