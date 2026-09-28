@@ -30,8 +30,8 @@ CISS V.1.0 || Enrollment
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
-                    <div class="col-md-12">
-                        <div class="card card-animate">
+                    <div class="col-md-9">
+                        <div class="card card-animate mb-3">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
                                     <i class="ti ti-search"></i> Search to show data
@@ -81,8 +81,6 @@ CISS V.1.0 || Enrollment
                                 <div class="page-header" style="border-bottom: 1px solid #04401f;"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-9">
                         <div class="card card-animate">
                             <div class="card-header pt-3">
                                 <h6 class="card-title">
@@ -123,7 +121,7 @@ CISS V.1.0 || Enrollment
                         @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
                             @if($queueMode->statusqueue === 'Off')
                             @else
-                                <div class="row g-4 justify-content-center">
+                                <div class="row g-3 justify-content-center">
                                     <!-- Queue Control Card -->
                                     <div class="col-md-12">
                                         <div class="card card-animate">
