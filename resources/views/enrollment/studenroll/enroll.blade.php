@@ -120,67 +120,110 @@ CISS V.1.0 || Enrollment
                     <div class="col-md-3">
                         @if(in_array(Auth::guard('web')->user()->campus, ['MC']))
                             @if($queueMode->statusqueue === 'Off')
+                                <!-- Queue system is globally off -->
                             @else
                                 <div class="row g-3 justify-content-center">
-                                    <!-- Queue Control Card -->
+                                    <!-- Counter Status Switcher Card -->
                                     <div class="col-md-12">
                                         <div class="card card-animate">
                                             <div class="card-header pt-3">
                                                 <h6 class="card-title">
-                                                    <i class="ti ti-server"></i> Current Serving
+                                                    <i class="ti ti-settings"></i> Queue Control Status
                                                 </h6>
                                             </div>
-                                            <div class="card-body p-3 text-center">
-                                                <input type="text"
-                                                    id="queueNumber"
-                                                    class="form-control-plaintext text-dark fw-bolder display-6 text-center rounded-3"
-                                                    readonly
-                                                    value="--">
-
-                                                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-3">
-                                                    <button id="nextButton" class="btn btn-success fw-bold shadow-sm" data-counter-id="1">
-                                                        <i class="ti ti-player-track-next me-1"></i> Next
-                                                    </button>
-                                                    <button id="callButton" class="btn btn-outline-danger fw-bold">
-                                                        <i class="ti ti-phone-call me-1"></i> Call
-                                                    </button>
+                                            <div class="card-body p-3">
+                                                <input type="hidden" id="queueUserId" value="{{ $queueUser->id ?? '' }}">
+                                                <div class="mb-2">
+                                                    <label for="counterStatusSelect" class="form-label fw-bold text-muted small">Change Control Status</label>
+                                                    <select id="counterStatusSelect" class="form-select">
+                                                        <option value="1" {{ (isset($queueUser) && $queueUser->counterstatus == 1) ? 'selected' : '' }}>Closed</option>
+                                                        <option value="2" {{ (isset($queueUser) && $queueUser->counterstatus == 2) ? 'selected' : '' }}>Open</option>
+                                                        <option value="3" {{ (isset($queueUser) && $queueUser->counterstatus == 3) ? 'selected' : '' }}>Hold</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- Transaction Category Card -->
-                                    <div class="col-md-12">
-                                        <div class="card card-animate">
-                                            <div class="card-header pt-3">
-                                                <h6 class="card-title">
-                                                    <i class="ti ti-server"></i> Select Transaction
-                                                </h6>
+                                    <!-- CLOSED STATE (1) -->
+                                    <div class="col-md-12 status-container" id="status-closed" style="{{ (isset($queueUser) && $queueUser->counterstatus == 1) ? '' : 'display: none;' }}">
+                                        <div class="alert alert-danger text-center fw-bold mb-0 shadow-sm" role="alert">
+                                            <i class="ti ti-lock me-1"></i> Queueing Control is Closed
+                                        </div>
+                                    </div>
+
+                                    <!-- PAUSED / WAITING STATE (3) -->
+                                    <div class="col-md-12 status-container" id="status-paused" style="{{ (isset($queueUser) && $queueUser->counterstatus == 3) ? '' : 'display: none;' }}">
+                                        <div class="alert alert-warning text-center fw-bold mb-0 shadow-sm" role="alert">
+                                            <i class="ti ti-player-pause me-1"></i> Queueing Control is Paused/Waiting
+                                        </div>
+                                    </div>
+
+                                    <!-- OPEN STATE (2) -->
+                                    <div class="col-md-12 status-container" id="status-open" style="{{ (isset($queueUser) && $queueUser->counterstatus == 2) ? '' : 'display: none;' }}">
+                                        <div class="row g-3">
+                                            <!-- Queue Control Card -->
+                                            <div class="col-md-12">
+                                                <div class="card card-animate">
+                                                    <div class="card-header pt-3">
+                                                        <h6 class="card-title">
+                                                            <i class="ti ti-server"></i> Current Serving
+                                                        </h6>
+                                                    </div>
+                                                    <div class="card-body p-3 text-center">
+                                                        <input type="text"
+                                                            id="queueNumber"
+                                                            class="form-control-plaintext text-dark fw-bolder display-6 text-center rounded-3"
+                                                            readonly
+                                                            value="--">
+
+                                                        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-3">
+                                                            <button id="nextButton" class="btn btn-success fw-bold shadow-sm" data-counter-id="1">
+                                                                <i class="ti ti-player-track-next me-1"></i> Next
+                                                            </button>
+                                                            <button id="callButton" class="btn btn-outline-danger fw-bold">
+                                                                <i class="ti ti-phone-call me-1"></i> Call
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="card-body p-4">
-                                                <form action="{{ route('counterUserUpdate') }}" method="POST" id="transacCategory">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{ $queueUser->id ?? '' }}">
 
-                                                    <div class="mb-3">
-                                                        <select name="category" class="form-select form-select-md text-secondary fw-semibold" id="tranCategory">
-                                                            <option value="Enrollment" {{ (isset($queueUser) && $queueUser->category == 'Enrollment') ? 'selected' : '' }}>Enrollment</option>
-                                                            <option value="Processing" {{ (isset($queueUser) && $queueUser->category == 'Processing') ? 'selected' : '' }}>Processing</option>
-                                                            <option value="Pre-register" {{ (isset($queueUser) && $queueUser->category == 'Pre-register') ? 'selected' : '' }}>Pre-register</option>
-                                                            <option value="Evaluation" {{ (isset($queueUser) && $queueUser->category == 'Evaluation') ? 'selected' : '' }}>Evaluation</option>
-                                                            <option value="Printing" {{ (isset($queueUser) && $queueUser->category == 'Printing') ? 'selected' : '' }}>Printing</option>
-                                                        </select>
+                                            <!-- Transaction Category Card -->
+                                            <div class="col-md-12">
+                                                <div class="card card-animate">
+                                                    <div class="card-header pt-3">
+                                                        <h6 class="card-title">
+                                                            <i class="ti ti-server"></i> Select Transaction
+                                                        </h6>
                                                     </div>
+                                                    <div class="card-body p-4">
+                                                        <form action="{{ route('counterUserUpdate') }}" method="POST" id="transacCategory">
+                                                            @csrf
+                                                            <input type="hidden" name="id" value="{{ $queueUser->id ?? '' }}">
 
-                                                    <div class="d-grid">
-                                                        <button type="submit" class="btn btn-success fw-bold shadow-sm">
-                                                            Save Transaction
-                                                        </button>
+                                                            <div class="mb-3">
+                                                                <select name="category" class="form-select form-select-md text-secondary fw-semibold" id="tranCategory">
+                                                                    <option value="Enrollment" {{ (isset($queueUser) && $queueUser->category == 'Enrollment') ? 'selected' : '' }}>Enrollment</option>
+                                                                    <option value="Processing" {{ (isset($queueUser) && $queueUser->category == 'Processing') ? 'selected' : '' }}>Processing</option>
+                                                                    <option value="Pre-register" {{ (isset($queueUser) && $queueUser->category == 'Pre-register') ? 'selected' : '' }}>Pre-register</option>
+                                                                    <option value="Evaluation" {{ (isset($queueUser) && $queueUser->category == 'Evaluation') ? 'selected' : '' }}>Evaluation</option>
+                                                                    <option value="Printing" {{ (isset($queueUser) && $queueUser->category == 'Printing') ? 'selected' : '' }}>Printing</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="d-grid">
+                                                                <button type="submit" class="btn btn-success fw-bold shadow-sm">
+                                                                    Save Transaction
+                                                                </button>
+                                                            </div>
+                                                        </form>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             @endif
                         @endif
@@ -211,6 +254,7 @@ CISS V.1.0 || Enrollment
         }
 
         var selectQueueCatRoute  = "{{ route('counterUserUpdate') }}";
+        var selectQueueStatRoute  = "{{ route('updateCounterStatus') }}";
         var studqueuelistReadRoute = "{{ route('studqueuefetch') }}";
         var studqueuelistShowReadRoute = "{{ route('editsearchStudRead') }}";
     </script>

@@ -336,4 +336,20 @@ class QueueingSettingController extends Controller
             return response()->json(['error' => true, 'message' => 'Failed to Update Counter'], 404);
         }
     }
+    public function updateCounterStatus(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'counterstatus' => 'required|in:1,2,3',
+        ]);
+
+        QueueCounter::where('id', $request->id)->update([
+            'counterstatus' => $request->counterstatus,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated successfully.'
+        ]);
+    }
 }

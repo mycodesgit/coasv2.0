@@ -1113,6 +1113,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
         Route::post('/counter/add', [QueueingSettingController::class, 'counterCreate'])->name('counterCreate');
         Route::post('/counter/update', [QueueingSettingController::class, 'counterUpdate'])->name('counterUpdate');
         Route::post('/counter/update/user', [QueueingSettingController::class, 'counterUserUpdate'])->name('counterUserUpdate');
+        Route::post('/update-counter-status', [QueueingSettingController::class, 'updateCounterStatus'])->name('updateCounterStatus');
 
         Route::get('/numbers', [QueueingSettingController::class, 'numberRead'])->name('numberRead');
         Route::get('/getnumberajax', [QueueingSettingController::class, 'getnumberRead'])->name('getnumberRead');

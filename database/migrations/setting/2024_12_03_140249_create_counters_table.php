@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('currentid')->default('0')->nullable();
             $table->integer('callid')->default('0')->nullable();
             $table->string('campus');
+            $table->enum('counterstatus', [1, 2, 3])->default(1);
             $table->timestamps();
         });
     }

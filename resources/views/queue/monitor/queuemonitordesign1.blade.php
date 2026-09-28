@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>@yield('title') - CPSU Queueing System</title>
+    <title>@yield('title', 'CPSU Queueing System')</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,20 +38,8 @@
         }
 
         #content {
-            height: calc(100vh - 60px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        /* Vertical single column scrollable list for counters */
-        .counter-vertical-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.50rem;
-            max-height: calc(100vh - 220px);
-            overflow-y: auto;
-            padding-right: 6px;
+            height: calc(100vh - 100px);
+            margin-top: 60px;
         }
 
         /* Text sizes for left side display */
@@ -83,28 +71,23 @@
         .badge-close { background-color: #e2655c; color: #f1f5f9; }
         .badge-hold { background-color: #475569; color: #f1f5f9; }
         .badge-open { background-color: #d1fae5; color: #065f46; }
-        
-        .marquee-wrapper {
-            max-height: 800px; /* Adjust according to your container layout height */
-            overflow: hidden;
-            position: relative;
-            /* Hardware acceleration & smooth clipping */
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+
+        /* Container for 2-column grid listing on right */
+        .counter-grid-list {
+            max-height: calc(100vh - 180px);
+            overflow-y: auto;
+            padding-right: 6px;
         }
 
-        .marquee-content {
-            display: flex;
-            flex-direction: column;
-            animation: scrollContinuous 15s linear infinite;
-            will-change: transform;
-            backface-visibility: hidden;
-            transform: translateZ(0);
-        }
-
-        /* Pause scroll when mouse hovers so operators can inspect counter cards */
-        .marquee-wrapper:hover .marquee-content {
-            animation-play-state: paused;
+        /* Next in Line section styling */
+        .next-queue-pill {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1e293b;
         }
 
         /* Bottom Ticker Styling */
@@ -127,15 +110,6 @@
         @keyframes marquee {
             0% { transform: translate(0, 0); }
             100% { transform: translate(-100%, 0); }
-        }
-
-        @keyframes scrollContinuous {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-50%); /* Moves exactly half way down (first copy) before repeating */
-            }
         }
     </style>
 </head>
@@ -174,85 +148,82 @@
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main id="content" class="content py-10 full">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="mb-4">
+    <main id="content" class="content py-2 full">
+        <div class="container-fluid h-100">
+            <div class="row h-100 align-items-stretch">
 
-                        <div class="row g-3">
-                            <div class="card-body d-flex flex-column justify-content-between w-100">
-                                <div class="row g-3 align-items-center">
+                <!-- LEFT COLUMN: CALLOUTS & UPCOMING QUEUE (6 Cols) -->
+                <div class="col-md-6 border-end pe-4 d-flex flex-column justify-content-between py-2">
+                    &nbsp;
+                    <!-- Top: NOW CALLING -->
+                    <div class="text-center">
+                        <span id="window-number" class="badge bg-warning-subtle text-dark mb-2 px-4 py-2 fs-3 fw-bold">Proceed to Counter --</span>
+                        <h2 id="queue-number" class="display-calling-number my-1 text-dark">-</h2>
+                        <p class="text-muted fs-6 mb-0 fw-bold text-uppercase" style="letter-spacing: 1px;">NOW CALLING TICKET</p>
+                    </div>
 
-                                    <!-- Left Column: Main Serving Window (Free-standing, no card) -->
-                                    <div class="col-md-7 border-end pe-4">
-                                        <!-- Top: Current No. -->
-                                        <div class="text-center">
-                                            <span id="window-numbercurr" class="badge bg-success-subtle rounded-3 text-dark mb-2 px-4 py-2 fs-2 fw-bold">Proceed to Counter --</span>
-                                            <h2 id="queue-numbercurr" class="display-serving-number my-2 text-success">-</h2>
-                                            <p class="text-muted fs-6 mb-0 mt-2 fw-bold uppercase" style="letter-spacing: 1px;">NOW SERVING TICKET</p>
-                                        </div>
-                                        <br><br><br><br><br>
-                                        <hr class="my-3">
-                                        <br><br><br><br><br>
-                                        <!-- Bottom: Calling No. -->
-                                        <div class="text-center py-4">
-                                            <span id="window-number" class="badge bg-warning-subtle text-warning-subtle text-dark mb-2 px-4 py-2 fs-2 fw-bold">Proceed to Counter --</span>
-                                            <h2 id="queue-number" class="display-calling-number my-2 text-dark">-</h2>
-                                            <p class="text-muted fs-6 mb-0 fw-semibold">CALLING SERVING TICKET</p>
-                                        </div>
-                                    </div>
+                    <hr class="my-2">
 
-                                    <!-- Right Column: List of Counter Cards Vertically Aligned in One Column -->
-                                    <div class="col-5 ps-4">
-                                        <div id="counterCardsGrid" class="counter-vertical-list">
+                    <!-- Middle: NOW SERVING -->
+                    <div class="text-center">
+                        <span id="window-numbercurr" class="badge bg-success-subtle rounded-3 text-dark mb-2 px-4 py-2 fs-3 fw-bold">Proceed to Counter --</span>
+                        <h2 id="queue-numbercurr" class="display-serving-number my-1 text-success">-</h2>
+                        <p class="text-muted fs-6 mb-0 fw-bold text-uppercase" style="letter-spacing: 1px;">NOW SERVING TICKET</p>
+                    </div>
 
-                                            <!-- Default Card Template -->
-                                            <div class="card rounded-3">
-                                                <div class="card-body">
-                                                    <i class="ti ti-user counter-icon"></i>
-                                                    <div class="counter-title font-weight-bold text-muted small">COUNTER 1</div>
-                                                    <div class="counter-token fs-2 font-weight-bold text-dark">---</div>
-                                                </div>
+                    <hr class="my-2">
+
+                    <!-- Bottom: NEXT IN LINE PREVIEW -->
+                    <div class="bg-light p-3 rounded-4 border">
+                        <div class="fw-bold text-muted small text-uppercase mb-2"><i class="fas fa-users me-1"></i> Upcoming / Next In Line</div>
+                        <div id="nextInLineContainer" class="d-flex gap-2 flex-wrap">
+                            <span class="next-queue-pill">---</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN: 2-COLUMN GRID OF COUNTERS (6 Cols) -->
+                <div class="col-md-6 ps-4 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="fw-bold text-muted text-uppercase small"><i class="ti ti-layout-grid me-1"></i> All Counters Overview</span>
+                    </div>
+
+                    <div class="counter-grid-list flex-fill">
+                        <!-- 2-Column Grid Wrapper -->
+                        <div id="counterCardsGrid" class="row row-cols-2 g-2">
+                            <!-- Default Card Template using your card layout -->
+                            <div class="col">
+                                <div class="card bg-light shadow-sm rounded-4 h-100">
+                                    <div class="card-body d-flex justify-content-between align-items-center py-2 px-3">
+                                        <div>
+                                            <i class="ti ti-device-laptop counter-icon fs-4 text-success me-1"></i>
+                                            <span class="counter-title fs-5 font-weight-bold text-muted">COUNTER 1</span>
+                                            <div class="mt-1">
+                                                <span class="status-badge badge-waiting">WAITING</span>
                                             </div>
-
                                         </div>
+                                        <div class="counter-token text-dark" style="font-weight: bolder !important; font-size: 24pt; font-family: 'Poppins', sans-serif !important;">---</div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-            <!-- FOOTER -->
-            <!-- TICKER & FOOTER CONTAINER -->
-            <div class="fixed-bottom bg-white border-top" style="z-index: 99">
-                <!-- Scrolling Announcement Ticker -->
-                <div class="ticker-bar">
-                    <div class="ticker-text">
-                        <i class="fas fa-bullhorn text-warning me-2"></i> Announcement: Please make sure to have your student ID and evaluation forms ready when your queue number is called.
-                    </div>
-                </div>
-                <!-- Footer -->
-                {{-- <footer class="text-center py-1 text-secondary">
-                    <p class="mb-0" style="font-size: 0.99rem;">Maintained and Managed by Management Information System Office (MISO) under the Leadership of Dr. Aladino C. Moraca.</p>
-                </footer> --}}
             </div>
-            {{-- <div class="row">
-                <div class="col-12">
-                    <footer class="text-center py-2 mt-4 text-secondary fixed-bottom bg-white border-top" style="z-index: 99">
-                        <p class="mb-0 font-weight-bold">
-                            <i class="fas fa-bullhorn text-warning me-2"></i> Announcement: Please make sure to have your student ID and evaluation forms ready when your queue number is called.
-                        </p>
-                    </footer>
-                </div>
-            </div> --}}
-
         </div>
     </main>
+
+    <!-- TICKER & FOOTER CONTAINER -->
+    <div class="fixed-bottom bg-white border-top" style="z-index: 99">
+        <!-- Scrolling Announcement Ticker -->
+        <div class="ticker-bar">
+            <div class="ticker-text">
+                <i class="fas fa-bullhorn text-warning me-2"></i> Announcement: Please make sure to have your student ID and evaluation forms ready when your queue number is called.
+            </div>
+        </div>
+    </div>
 
     <!-- STARTUP INTERACTION MODAL -->
     <div id="interactionModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999;">
@@ -289,9 +260,6 @@
     <script src="{{ asset('uilibs/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('uilibs/plugins/toastr/toastr.min.js') }}"></script>
-    <!-- Validation JS -->
-    <script src="{{ asset('uilibs/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('uilibs/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
     <!-- QUEUE MONITOR FUNCTIONALITY SCRIPT -->
     <script>
@@ -323,23 +291,18 @@
             }).catch(e => console.warn('Audio playback restricted:', e));
         }
 
-        $(document).ready(function () {
-            // Launch Monitor
-            $('#initInteraction').on('click', function () {
+        $(document).ready(function () {$('#initInteraction').on('click', function () {
                 $('#interactionModal').fadeOut();
                 announceWelcome();
 
-                // Sort helper for counters (Counter 1 to highest)
                 function parseCounterNumber(windowVal) {
                     if (!windowVal) return 999;
                     const match = windowVal.toString().match(/\d+/);
                     return match ? parseInt(match[0], 10) : 999;
                 }
 
-                // Render dynamic cards vertically inside card and card-body
-                // Keep track of total item count to avoid unnecessarily resetting the CSS animation
+                // State tracking variables for sound announcements
                 let previousCardCount = 0;
-                // Track previous counter window statuses to detect status changes
                 let previousCounterStatuses = {};
                 let isFirstRender = true;
 
@@ -347,7 +310,7 @@
                     const gridContainer = $('#counterCardsGrid');
 
                     if (!data || data.length === 0) {
-                        gridContainer.html('<div class="text-center py-4 text-muted">No active counter records found</div>');
+                        gridContainer.html('<div class="col-12 text-center py-4 text-muted">No active counter records found</div>');
                         previousCardCount = 0;
                         previousCounterStatuses = {};
                         return;
@@ -359,6 +322,8 @@
                     });
 
                     let cardsHTML = '';
+                    let waitingTickets = [];
+
                     sortedData.forEach(function(item) {
                         const rawWindow = item.window ? item.window.toString().trim() : '';
                         const windowLabel = rawWindow.toUpperCase().includes('COUNTER')
@@ -371,7 +336,7 @@
                         // -------------------------------------------------------------
                         // DETECT STATUS CHANGES & PLAY VOICE ANNOUNCEMENT
                         // -------------------------------------------------------------
-                        if (!isFirstRender && previousCounterStatuses[rawWindow] !== undefined) {
+                        if (previousCounterStatuses[rawWindow] !== undefined) {
                             const oldStatus = previousCounterStatuses[rawWindow];
 
                             if (oldStatus !== wincounterstatus) {
@@ -398,7 +363,6 @@
                         }
                         // Save current status for next check iteration
                         previousCounterStatuses[rawWindow] = wincounterstatus;
-                        // -------------------------------------------------------------
 
                         let statusText = '';
                         let statusClass = '';
@@ -463,50 +427,35 @@
                             }
                         }
 
+                        // Preserved YOUR exact card design inside Bootstrap grid column
                         cardsHTML += `
-                            <div class="card bg-light shadow-sm rounded-4 mb-2">
-                                <div class="card-body d-flex justify-content-between align-items-center py-3">
-                                    <div>
-                                        <i class="ti ti-device-laptop counter-icon fs-2 text-success me-1"></i>
-                                        <span class="counter-title fs-3 font-weight-bold text-muted">${windowLabel}</span>
-                                        <div class="mt-1">
-                                            <span class="status-badge ${statusClass}">${statusText}</span>
+                            <div class="col">
+                                <div class="card bg-light shadow-sm rounded-4 h-100">
+                                    <div class="card-body d-flex justify-content-between align-items-center py-2 px-3">
+                                        <div>
+                                            <i class="ti ti-device-laptop counter-icon fs-4 text-success me-1"></i>
+                                            <span class="counter-title fs-4 font-weight-bold text-muted">${windowLabel}</span>
+                                            <div class="mt-1">
+                                                <span class="status-badge ${statusClass}">${statusText}</span>
+                                            </div>
                                         </div>
+                                        <div class="counter-token text-dark" style="font-weight: bolder !important; font-size: 26pt; font-family: 'Poppins', sans-serif !important;">${numberLabel}</div>
                                     </div>
-                                    <div class="counter-token text-dark" style="font-weight: bolder !important; font-size: 35pt; font-family: 'Poppins', sans-serif !important;">${numberLabel}</div>
                                 </div>
                             </div>
                         `;
                     });
 
-                    const isScrollingNeeded = sortedData.length >= 7;
+                    gridContainer.html(cardsHTML);
 
-                    if (isScrollingNeeded) {
-                        // Calculate duration based on card count to keep scroll speed steady (3.5 seconds per card)
-                        const duration = Math.max(12, sortedData.length * 3.5);
-
-                        const activeMarquee = gridContainer.find('.marquee-content');
-
-                        // If marquee already exists and card count hasn't changed, update inner content to prevent scroll jumping
-                        if (activeMarquee.length > 0 && previousCardCount === sortedData.length) {
-                            activeMarquee.html(cardsHTML + cardsHTML);
-                        } else {
-                            // Re-render container when scrolling starts or list length changes
-                            const marqueeMarkup = `
-                                <div class="marquee-wrapper">
-                                    <div class="marquee-content" style="animation-duration: ${duration}s;">
-                                        ${cardsHTML}
-                                        ${cardsHTML}
-                                    </div>
-                                </div>
-                            `;
-                            gridContainer.html(marqueeMarkup);
-                        }
+                    // Render Next In Line Preview
+                    if (waitingTickets.length > 0) {
+                        const nextHTML = waitingTickets.slice(0, 4).map(t => `<span class="next-queue-pill">${t}</span>`).join('');
+                        $('#nextInLineContainer').html(nextHTML);
                     } else {
-                        gridContainer.html(cardsHTML);
+                        $('#nextInLineContainer').html('<span class="text-muted small">No tickets currently waiting</span>');
                     }
-
-                    previousCardCount = sortedData.length;
+                    // Disable initial render flag so audio alerts run on subsequent stream updates
                     isFirstRender = false;
                 }
 

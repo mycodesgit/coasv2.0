@@ -50,6 +50,7 @@ class QueueingMonitorController extends Controller
             $countersArray[] = [
                 'window' => $count->windowname,
                 'number' => $numbers ? $numbers->queue_number : null,
+                'windowstatus' => $count->counterstatus,
                 'updated_at' => $count->updated_at,
             ];
         }

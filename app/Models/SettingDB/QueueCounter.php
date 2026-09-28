@@ -21,7 +21,8 @@ class QueueCounter extends Model
         'activeidnumber',
         'currentid',
         'callid',
-        'campus'
+        'campus',
+        'counterstatus'
     ];
 
     public function customers()
