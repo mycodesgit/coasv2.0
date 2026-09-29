@@ -76,6 +76,7 @@ use App\Http\Controllers\StudStateAccntAssessmentController;
 use App\Http\Controllers\StudHEBillingController;
 
 use App\Http\Controllers\CashieringORController;
+use App\Http\Controllers\CashieringCollectionReportController;
 
 use App\Http\Controllers\ScholarshipController;
 
@@ -973,6 +974,10 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/receipt/per/month/search/ajax', [CashieringORController::class, 'getlistsearch_orpermonthRead'])->name('getlistsearch_orpermonthRead');
 
             Route::get('/receipt/all/or/list/ajaxorstudfee', [CashieringORController::class, 'getlistallorRead'])->name('getlistallorRead');
+
+            Route::get('/receipt/monthly/search', [CashieringCollectionReportController::class, 'index'])->name('collectionrep.index');
+            Route::get('/receipt/monthly/search/result', [CashieringCollectionReportController::class, 'store'])->name('collectionrep.store');
+            Route::get('/receipt/monthly/search/fetch', [CashieringCollectionReportController::class, 'show'])->name('collectionrep.show');
         });
     });
 

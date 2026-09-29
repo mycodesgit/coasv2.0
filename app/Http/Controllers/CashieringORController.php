@@ -112,17 +112,17 @@ class CashieringORController extends Controller
         return view('cashier.officialreceipt.listsearch_or', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR'));
     }
 
-    public function getorpaymentRead(Request $request) 
+    public function getorpaymentRead(Request $request)
     {
         $orno = $request->query('orno');
-    
+
         $data = StudPayment::where('orno', '=', $orno)
                 ->get();
 
         return response()->json(['data' => $data]);
     }
 
-    public function orCreate(Request $request) 
+    public function orCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -143,7 +143,7 @@ class CashieringORController extends Controller
             $campus = $request->input('campus');
             $datepaid = $request->input('datepaid');
 
-            // $studaccount = $request->input('account'); 
+            // $studaccount = $request->input('account');
             // $existingStudFeeOR = StudPayment::where('orno', $orno)
             //                 // ->where('campus', $campus)
             //                 // ->where('schlyear', $schlyear)
@@ -175,7 +175,7 @@ class CashieringORController extends Controller
         }
     }
 
-    public function orCommentsCreate(Request $request) 
+    public function orCommentsCreate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -195,7 +195,7 @@ class CashieringORController extends Controller
             $campus = $request->input('campus');
             $datepaid = $request->input('datepaid');
 
-            $studaccountcomments = $request->input('comments'); 
+            $studaccountcomments = $request->input('comments');
             $existingStudFeeORcomment = ORComments::where('comments', $studaccountcomments)
                             ->where('studID', $studID)
                             ->where('campus', $campus)
@@ -227,7 +227,7 @@ class CashieringORController extends Controller
         }
     }
 
-    public function orUpdate(Request $request) 
+    public function orUpdate(Request $request)
     {
         $request->validate([
             'id' => 'required',
@@ -267,7 +267,7 @@ class CashieringORController extends Controller
         }
     }
 
-    public function orDelete($id) 
+    public function orDelete($id)
     {
         $studorfee = StudPayment::find($id);
         $studorfee->delete();
@@ -294,7 +294,7 @@ class CashieringORController extends Controller
         $data = [
             'studor' => $studor
         ];
-        
+
         $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper('A5', 'portrait');
         return $pdf->stream();
     }
@@ -318,7 +318,7 @@ class CashieringORController extends Controller
         $data = [
             'studor' => $studor
         ];
-        
+
         $pdf = PDF::loadView('cashier.officialreceipt.pdf.ortemplate', $data)->setPaper('A5', 'portrait');
         return $pdf->stream();
     }
@@ -373,7 +373,7 @@ class CashieringORController extends Controller
         return view('cashier.officialreceipt.listsearch_oredit', compact('orstud', 'studfund', 'studAccntap', 'dataprimidOR', 'datacommentOR', 'dataprimidORdataget'));
     }
 
-    public function orCommentsUpdate(Request $request) 
+    public function orCommentsUpdate(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
@@ -390,13 +390,13 @@ class CashieringORController extends Controller
             $commentId = $request->input('id');
 
             try {
-                $studaccountcomments = $request->input('comments'); 
+                $studaccountcomments = $request->input('comments');
                 $existingStudFeeORcomment = ORComments::where('comments', $studaccountcomments)
                                 ->where('studID', $studID)
                                 ->where('campus', $campus)
                                 ->where('schlyear', $schlyear)
                                 ->where('semester', $semester)
-                                ->where('studpayID', '!=', $commentId)  
+                                ->where('studpayID', '!=', $commentId)
                                 ->first();
 
                 if ($existingStudFeeORcomment) {
@@ -475,7 +475,7 @@ class CashieringORController extends Controller
     {
         $datepaid = $request->query('datepaid');
         $campus = Auth::guard('web')->user()->campus;
-    
+
         $data = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                 ->leftJoin('coasv2_db_admission.users', 'studpayment.postedBy', '=', 'coasv2_db_admission.users.id')
                 ->where('studpayment.campus', '=', $campus)
@@ -537,13 +537,13 @@ class CashieringORController extends Controller
     }
 
 
-    public function getlistsearch_orpermonthRead(Request $request) 
+    public function getlistsearch_orpermonthRead(Request $request)
     {
         $datepaid = $request->query('datepaid');
         $campus = Auth::guard('web')->user()->campus;
 
         [$startDate, $endDate] = explode(' - ', $datepaid);
-    
+
         // Parse the dates to Carbon instances
         $startDate = Carbon::parse($startDate)->startOfDay();
         $endDate = Carbon::parse($endDate)->endOfDay();
@@ -579,25 +579,25 @@ class CashieringORController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function getlistallorRead() 
+    public function getlistallorRead()
     {
         $campus = Auth::guard('web')->user()->campus;
-    
+
         $data = StudPayment::join('coasv2_db_enrollment.students', 'studpayment.studID', '=', 'coasv2_db_enrollment.students.stud_id')
                 ->where('studpayment.campus', '=', $campus)
                 ->select(
-                'coasv2_db_enrollment.students.lname', 
-                'coasv2_db_enrollment.students.fname', 
-                'coasv2_db_enrollment.students.mname', 
-                'studpayment.orno', 
-                'studpayment.studID', 
+                'coasv2_db_enrollment.students.lname',
+                'coasv2_db_enrollment.students.fname',
+                'coasv2_db_enrollment.students.mname',
+                'studpayment.orno',
+                'studpayment.studID',
                 DB::raw('SUM(studpayment.amountpaid) as total_amount')
             )
             ->groupBy(
-                'coasv2_db_enrollment.students.lname', 
-                'coasv2_db_enrollment.students.fname', 
-                'coasv2_db_enrollment.students.mname', 
-                'studpayment.orno', 
+                'coasv2_db_enrollment.students.lname',
+                'coasv2_db_enrollment.students.fname',
+                'coasv2_db_enrollment.students.mname',
+                'studpayment.orno',
                 'studpayment.studID'
             )
                 ->limit('100')

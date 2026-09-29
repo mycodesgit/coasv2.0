@@ -6,17 +6,17 @@ toastr.options = {
 
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
-    var year = urlParams.get('year') || ''; 
-    var campus = urlParams.get('campus') || ''; 
-    var strand = urlParams.get('strand') || ''; 
+    var year = urlParams.get('year') || '';
+    var campus = urlParams.get('campus') || '';
+    var strand = urlParams.get('strand') || '';
 
     function toggleActionColumn() {
         if (isCampus === requestedCampus) {
-            $('#actionColumnHeader').show(); 
+            $('#actionColumnHeader').show();
             $('#applistTable td.action-column').show();
         } else {
-            $('#actionColumnHeader').hide(); 
-            $('#applistTable td.action-column').hide(); 
+            $('#actionColumnHeader').hide();
+            $('#applistTable td.action-column').hide();
         }
     }
 
@@ -24,7 +24,7 @@ $(document).ready(function() {
         "ajax": {
             "url": allApplicantRoute,
             "type": "GET",
-            "data": { 
+            "data": {
                 "year": year,
                 "campus": campus,
                 "strand": strand
@@ -36,7 +36,7 @@ $(document).ready(function() {
         paging: true,
         "columns": [
             {data: 'admission_id'},
-            { 
+            {
                 data: null,
                 render: function(data, type, row) {
                     var firstname = data.fname;
@@ -47,7 +47,7 @@ $(document).ready(function() {
                     return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                 }
             },
-            { 
+            {
                 data: null,
                 render: function(data, type, row) {
                     if (data.type == 1) {
@@ -106,7 +106,7 @@ $(document).ready(function() {
                                 '<a href="#" class="dropdown-item btn-image" data-id="' + row.adid + '" data-image="' + row.studiddoc_image + '">' +
                                 '<i class="fas fa-id-card-clip"></i> School ID' +
                                 '</a>' +
-                                '<a href="#" class="dropdown-item btn-imagereportcardtor" data-id="' + row.adid + '" data-uploadreportcard="' + 
+                                '<a href="#" class="dropdown-item btn-imagereportcardtor" data-id="' + row.adid + '" data-uploadreportcard="' +
                                     (row.grade12File || row.shsFile || row.transfereeFile || row.alsFile || row.lifelongFile || '') + '">' +
                                 '<i class="fas fa-file-lines"></i> Report Card/TOR' +
                                 '</a>' +
@@ -126,7 +126,7 @@ $(document).ready(function() {
                             dropdown += '<span class="dropdown-item disabled"><i class="fas fa-eye"></i> View</span>' +
                                 '<span class="dropdown-item disabled"><i class="fas fa-trash"></i> Delete</span>';
                         }
-                        
+
                         dropdown += '</div>' +
                             '</div>';
                         return dropdown;
@@ -137,7 +137,7 @@ $(document).ready(function() {
             }
         ],
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.adid); 
+            $(row).attr('id', 'tr-' + data.adid);
         }
     });
     toggleActionColumn();
@@ -228,7 +228,7 @@ $(document).on('click', '.btn-viewappdata', function() {
     $('#viewdataresultexamCP2').val(cp2);
 
     $('#viewdataresultexamModal').modal('show');
-    
+
     $.ajax({
         url: appidEncryptRoute,
         type: "POST",
@@ -237,11 +237,11 @@ $(document).on('click', '.btn-viewappdata', function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
-            //alert(response); 
+            //alert(response);
             $('#viewdataresultexamId').val(response)
         },
         error: function(xhr, status, error) {
-            alert('Error: ' + error); 
+            alert('Error: ' + error);
         }
     });
 });
@@ -275,7 +275,7 @@ $('#editAppDataPersonalinfoForm').submit(function(event) {
 
 $(document).on('click', '.btn-reupload', function() {
     var id = $(this).data('id');
-    
+
     $('#editReUploadId').val(id);
 
     $('input[name="reuploadallow[]"]').prop('checked', false);
@@ -292,41 +292,41 @@ $(document).on('click', '.btn-reupload', function() {
             $('#editReUploadModal').modal('show');
         },
         error: function(xhr) {
-            console.error(xhr.responseText); 
+            console.error(xhr.responseText);
         }
     });
 });
 
 $('#editReUploadAccessForm').submit(function(event) {
-    event.preventDefault(); 
-    
-    var formData = $(this).serialize(); 
+    event.preventDefault();
 
-    var id = $('#editReUploadId').val(); 
+    var formData = $(this).serialize();
+
+    var id = $('#editReUploadId').val();
     var selectedReuploadaccess = [];
 
     $('input[name="reuploadallow[]"]:checked').each(function() {
-        selectedReuploadaccess.push($(this).val()); 
+        selectedReuploadaccess.push($(this).val());
     });
 
     $.ajax({
-        url: appSaveAccessRoute.replace(':id', id), 
+        url: appSaveAccessRoute.replace(':id', id),
         type: "POST",
         data: {
             reuploadallow: selectedReuploadaccess,
-            _token: $('meta[name="csrf-token"]').attr('content') 
+            _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
             if(response.success) {
                 toastr.success(response.message);
-                $('#editReUploadModal').modal('hide'); 
-                $(document).trigger('schedExamUpdated'); 
+                $('#editReUploadModal').modal('hide');
+                $(document).trigger('schedExamUpdated');
             } else {
                 toastr.error(response.message);
             }
         },
         error: function(xhr) {
-            console.error(xhr.responseText); 
+            console.error(xhr.responseText);
             toastr.error('An error occurred while saving the applicant access.');
         }
     });
@@ -335,7 +335,7 @@ $('#editReUploadAccessForm').submit(function(event) {
 $(document).on('click', '.btn-image', function() {
     var id = $(this).data('id');
     var image = $(this).data('image');
-    
+
     $('#editUploadPhotoId').val(id);
     $('#editUploadPhotoDoc').val(image);
 
@@ -359,11 +359,11 @@ $(document).on('click', '.btn-image', function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
-            //alert(response); 
+            //alert(response);
             $('#editUploadPhotoId').val(response)
         },
         error: function(xhr, status, error) {
-            alert('Error: ' + error); 
+            alert('Error: ' + error);
         }
     });
 });
@@ -371,7 +371,7 @@ $(document).on('click', '.btn-image', function() {
 $(document).on('click', '.btn-imagereportcardtor', function() {
     var id = $(this).data('id');
     var imagereportcard = $(this).data('uploadreportcard');
-    
+
     $('#editUploadReportCardId').val(id);
     $('#editUploadReportCardDoc').val(imagereportcard);
 
@@ -395,11 +395,11 @@ $(document).on('click', '.btn-imagereportcardtor', function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
-            //alert(response); 
+            //alert(response);
             $('#editUploadReportCardId').val(response)
         },
         error: function(xhr, status, error) {
-            alert('Error: ' + error); 
+            alert('Error: ' + error);
         }
     });
 });
@@ -408,7 +408,7 @@ $(document).on('click', '.btn-imageproof', function() {
     var id = $(this).data('id');
     var imageproof = $(this).data('imageproof');
     var typeproof = $(this).data('proof');
-    
+
     $('#editUploadPhotoProofId').val(id);
     $('#editUploadPhotoProofDoc').val(imageproof);
     $('#uploadedTypeProof').val(typeproof);
@@ -433,11 +433,11 @@ $(document).on('click', '.btn-imageproof', function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
-            //alert(response); 
+            //alert(response);
             $('#editUploadPhotoProofId').val(response)
         },
         error: function(xhr, status, error) {
-            alert('Error: ' + error); 
+            alert('Error: ' + error);
         }
     });
 });
@@ -472,7 +472,7 @@ $(document).on('click', '.btn-assignsched', function() {
     } else {
         $('#schedTime').val('No schedule time');
     }
-    
+
     if (venueSched) {
         $('#schedVenue').val(venueSched);
     } else {
@@ -503,11 +503,11 @@ $(document).on('click', '.btn-assignsched', function() {
     //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     //     },
     //     success: function(response) {
-    //         //alert(response); 
+    //         //alert(response);
     //         $('#editAssignSchedId').val(response)
     //     },
     //     error: function(xhr, status, error) {
-    //         alert('Error: ' + error); 
+    //         alert('Error: ' + error);
     //     }
     // });
 });
@@ -546,7 +546,7 @@ $(document).on('click', '.btn-pushtoexam', function() {
     $('#pushtoexamId').val(id);
     $('#pushtoexamEmail').val(email);
     $('#pushtoexamModal').modal('show');
-    
+
     // $.ajax({
     //     url: appidEncryptRoute,
     //     type: "POST",
@@ -555,11 +555,11 @@ $(document).on('click', '.btn-pushtoexam', function() {
     //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     //     },
     //     success: function(response) {
-    //         //alert(response); 
+    //         //alert(response);
     //         $('#pushtoexamId').val(response)
     //     },
     //     error: function(xhr, status, error) {
-    //         alert('Error: ' + error); 
+    //         alert('Error: ' + error);
     //     }
     // });
 });
@@ -595,13 +595,13 @@ $('#pushtoexamForm').submit(function(event) {
 $(document).on('click', '.examinee-delete', function(e) {
     var id = $(this).val();
     // alert(id);
-    
+
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    
+
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to recover this!",
@@ -615,7 +615,7 @@ $(document).on('click', '.examinee-delete', function(e) {
             $.ajax({
                 type: "POST",
                 url: allAppDeleteRoute.replace(':id', id),
-                success: function (response) {  
+                success: function (response) {
                     $("#tr-" + id).delay(1000).fadeOut();
                     Swal.fire({
                         title: 'Deleted!',

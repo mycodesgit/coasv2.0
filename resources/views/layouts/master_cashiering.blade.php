@@ -220,16 +220,28 @@
 
     <script>
         $(function () {
-            //Date range picker
-            $('#reservation').daterangepicker({
+            let dateRange = @json(request('datesearch'));
+
+            let options = {
                 opens: 'right',
-                autoApply: false,
+                autoApply: true,
+                autoUpdateInput: true,
                 locale: {
                     format: 'YYYY-MM-DD'
                 }
-            });
-        })
+            };
+
+            if (dateRange) {
+                let dates = dateRange.split(' - ');
+
+                options.startDate = dates[0];
+                options.endDate = dates[1];
+            }
+
+            $('#reservation').daterangepicker(options);
+        });
     </script>
+
 
     <!-- Ajax -->
     @if(request()->routeIs('cashiering-index'))
@@ -275,7 +287,7 @@
         </script>
     @endif
     @if(request()->routeIs('listall_orRead'))
-        <script src="{{ asset('js/ajax/cash/orallSerialize.js') }}"></script>
+        <script src="{{ asset('js/ajax/cash/orallSerialize.js') }}?v={{ time() }}"></script>
     @endif
 
     @if(request()->routeIs('listsearchedit_orRead'))
@@ -343,6 +355,9 @@
 
     @if(request()->routeIs('listsearch_orpermonthRead'))
         <script src="{{ asset('js/ajax/cash/orMonthSerialize.js') }}"></script>
+    @endif
+    @if(request()->routeIs('collectionrep.store'))
+        <script src="{{ asset('js/ajax/cash/orcollection.js') }}?v={{ time() }}"></script>
     @endif
 
     <script>
