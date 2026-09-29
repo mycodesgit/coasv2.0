@@ -17,9 +17,12 @@ $(document).ready(function() {
         },
         info: false,
         responsive: false,
-        lengthChange: false,
-        searching: false,
-        paging: false,
+        lengthChange: true,
+        searching: true,
+        paging: true,
+        buttons: [
+                'excel'
+            ],
         "columns": [
             {
                 data: 'datepaid',
@@ -184,8 +187,9 @@ $(document).ready(function() {
         ],
         "createdRow": function (row, data, index) {
             $(row).attr('id', 'tr-' + data.id);
-        }
-    });
+        },
+        dom: 'Bfrtip'
+    }).buttons().container().appendTo('#orcollectiontable_wrapper .col-md-6:eq(0)');
     $(document).on('studOrAdded', function() {
         dataTable.ajax.reload();
     });
