@@ -4,8 +4,6 @@
 CISS V.1.0 || Admission
 @endsection
 
-@yield('sidemenu')
-
 @section('workspace')
     <div class="row">
         <div class="col-12">
