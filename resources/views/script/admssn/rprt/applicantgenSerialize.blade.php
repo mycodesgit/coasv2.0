@@ -1,21 +1,21 @@
 <script>
     $(document).ready(function() {
         var urlParams = new URLSearchParams(window.location.search);
-        var year = urlParams.get('year') || ''; 
-        var campus = urlParams.get('campus') || ''; 
-        var strand = urlParams.get('strand') || ''; 
+        var year = urlParams.get('year') || '';
+        var campus = urlParams.get('campus') || '';
+        var strand = urlParams.get('strand') || '';
 
         // Build route URL with current URL query parameters
-        var bulkDownloadUrl = "{{ route('applicants.reports.bulkDownloadPdf') }}" + 
-            "?year=" + encodeURIComponent(year) + 
-            "&campus=" + encodeURIComponent(campus) + 
+        var bulkDownloadUrl = "{{ route('applicants.reports.bulkDownloadPdf') }}" +
+            "?year=" + encodeURIComponent(year) +
+            "&campus=" + encodeURIComponent(campus) +
             "&strand=" + encodeURIComponent(strand);
 
         var dataTable = $('#appsreplistTable').DataTable({
             "ajax": {
                 "url": allApplicantRoute,
                 "type": "GET",
-                "data": { 
+                "data": {
                     "year": year,
                     "campus": campus,
                     "strand": strand
@@ -45,7 +45,7 @@
                         for (var offset = 0; offset < totalRecords; offset += chunkSize) {
                             var start = offset + 1;
                             var end = Math.min(offset + chunkSize, totalRecords);
-                            
+
                             var downloadUrl = "{{ route('applicants.reports.bulkDownloadPdf') }}" +
                                 "?year=" + encodeURIComponent(year) +
                                 "&campus=" + encodeURIComponent(campus) +
@@ -55,7 +55,7 @@
 
                             var btnHtml = '<a href="' + downloadUrl + '" class="btn btn-outline-primary m-1">' +
                                 'Records ' + start + ' - ' + end + '</a>';
-                            
+
                             container.append(btnHtml);
                         }
 
@@ -64,7 +64,7 @@
                 }
             ],
             "columns": [
-                { 
+                {
                     data: null,
                     render: function (data, type, row, meta) {
                         return meta.row + 1;
@@ -72,7 +72,7 @@
                     //title: '#'
                 },
                 {data: 'admission_id'},
-                { 
+                {
                     data: null,
                     render: function(data, type, row) {
                         var firstname = data.fname;
@@ -81,7 +81,7 @@
                         return firstname + ' ' + middleInitial + ' ' + lastNameWithExt;
                     }
                 },
-                { 
+                {
                     data: null,
                     render: function(data, type, row) {
                         if (data.type == 1) {
@@ -99,7 +99,7 @@
                 {data: 'email'},
                 {data: 'contact'},
                 {data: 'campus'},
-                { 
+                {
                     data: null,
                     render: function(data, type, row) {
                         return data.lstsch_attended ? data.lstsch_attended : data.suc_lst_attended;
@@ -118,7 +118,7 @@
                 },
             ],
             "createdRow": function (row, data, index) {
-                $(row).attr('id', 'tr-' + data.id); 
+                $(row).attr('id', 'tr-' + data.id);
             },
             dom: 'Bfrtip'
         }).buttons().container().appendTo('#appsreplistTable_wrapper .col-md-6:eq(0)');

@@ -21,12 +21,12 @@ CISS V.1.0 || Applicant Edit
             </li>
             <li class="breadcrumb-item mt-1">Admission</li>
             <li class="breadcrumb-item mt-1">{{ $applicant->admission_id }}</li>
-            <li class="breadcrumb-item mt-1" style="text-transform: uppercase;">{{$applicant->fname}} 
-                @if($applicant->mname == null) 
+            <li class="breadcrumb-item mt-1" style="text-transform: uppercase;">{{$applicant->fname}}
+                @if($applicant->mname == null)
                     @else {{ substr($applicant->mname,0,1) }}.
-                @endif {{$applicant->lname}} 
-                 
-                @if($applicant->ext == 'N/A') 
+                @endif {{$applicant->lname}}
+
+                @if($applicant->ext == 'N/A')
                     @else{{$applicant->ext}}
                 @endif</a></li>
             <li class="breadcrumb-item active mt-1">Edit Data</li>
@@ -39,7 +39,7 @@ CISS V.1.0 || Applicant Edit
             @if(Session::has('success'))
                 <div class="alert alert-success" id="alert">{{ Session::get('success')}}</div>
             @elseif (Session::has('fail'))
-                <div class="alert alert-danger" id="alert">{{Session::get('fail')}}</div>  
+                <div class="alert alert-danger" id="alert">{{Session::get('fail')}}</div>
             @endif
         </p>
 
@@ -76,17 +76,17 @@ CISS V.1.0 || Applicant Edit
                                         <label><span class="badge badge-secondary">Preffered Campus</span></label>
                                         <select class="form-control form-control-sm" name="campus">
                                             <option value="{{Auth::user()->campus}}">
-                                                @if (Auth::user()->campus == 'MC') Main 
-                                                    @elseif(Auth::user()->campus == 'VC') Victorias 
-                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos 
-                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran 
-                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla 
-                                                    @elseif(Auth::user()->campus == 'IC') Ilog 
-                                                    @elseif(Auth::user()->campus == 'CA') Candoni 
-                                                    @elseif(Auth::user()->campus == 'CC') Cauayan 
-                                                    @elseif(Auth::user()->campus == 'SC') Sipalay 
-                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan 
-                                                    @elseif(Auth::user()->campus == 'VE') Valladolid 
+                                                @if (Auth::user()->campus == 'MC') Main
+                                                    @elseif(Auth::user()->campus == 'VC') Victorias
+                                                    @elseif(Auth::user()->campus == 'SCC') San Carlos
+                                                    @elseif(Auth::user()->campus == 'HC') Hinigaran
+                                                    @elseif(Auth::user()->campus == 'MP') Moises Padilla
+                                                    @elseif(Auth::user()->campus == 'IC') Ilog
+                                                    @elseif(Auth::user()->campus == 'CA') Candoni
+                                                    @elseif(Auth::user()->campus == 'CC') Cauayan
+                                                    @elseif(Auth::user()->campus == 'SC') Sipalay
+                                                    @elseif(Auth::user()->campus == 'HinC') Hinobaan
+                                                    @elseif(Auth::user()->campus == 'VE') Valladolid
                                                 @endif
                                             </option>
                                         </select>
@@ -459,7 +459,7 @@ CISS V.1.0 || Applicant Edit
                                     <div class="form-row">
                                         <div class="col-md-5">
                                             <a href="{{ route('examinee_confirm', $applicant->id) }}" type="button" class="btn btn-primary btn-lg">
-                                                <i class="fas fa-check"></i> 
+                                                <i class="fas fa-check"></i>
                                             </a> <span style="font-size: 20pt" class="mt-2">Push to Result</span>
                                         </div>
                                     </div>
@@ -494,7 +494,7 @@ CISS V.1.0 || Applicant Edit
 </div>
 
 
-<script src="{{asset('js/webcam/webcam.min.js')}}"></script>   
+<script src="{{asset('js/webcam/webcam.min.js')}}"></script>
 <script language="JavaScript">
     Webcam.set({
         width: 320,

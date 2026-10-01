@@ -105,9 +105,25 @@ CISS V.1.0 || Enrollment
         </div>
     </div>
 
+    <!-- Batch Selector Modal -->
+    <div class="modal fade" id="batchDownloadModal" tabindex="-1" role="dialog" aria-labelledby="batchDownloadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="batchDownloadModalLabel">Select Download Batch</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted">To prevent timeouts, select a batch of records to download (100 classes per file):</p>
+                    <div id="batchButtonsContainer" class="d-flex flex-wrap gap-2 justify-content-center p-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var attendanceReadRoute = "{{ Auth::guard('web')->user()->role == 15 ? route('gradschoolgetlistsearch_studsubjectsRead') : route('getlistsearch_studsubjectsRead') }}";
-
+        var bulkAttendancePdfRoute = "{{ route('attendance.bulkDownloadPdf') }}";
         var schlyear = "{{ request('schlyear') }}";
         var semester = "{{ request('semester') }}";
         var routeTemplate = "{{ route('studsubjectsReadPDF', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";

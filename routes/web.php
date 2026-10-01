@@ -681,6 +681,7 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
             Route::get('/info/students/subjects/search/grad/ajax', [EnStudentPerSubjectController::class, 'gradschoolgetlistsearch_studsubjectsRead'])->name('gradschoolgetlistsearch_studsubjectsRead');
             Route::get('/info/students/subjects/search/view/{id}', [EnStudentPerSubjectController::class, 'listsearchview_studsubjectsRead'])->name('listsearchview_studsubjectsRead');
             Route::get('/info/students/subjects/search/view/pdf/{id}', [EnStudentPerSubjectController::class, 'studsubjectsReadPDF'])->name('studsubjectsReadPDF');
+            Route::get('/info/students/subjects/search/view/pdf/attendance/bulk-pdf', [EnStudentPerSubjectController::class, 'bulkDownloadPdf'])->name('attendance.bulkDownloadPdf');
 
             Route::get('/info/stud/view/stud/grades', [EnStudGrdeViewController::class, 'studviewgradeRead'])->name('studviewgradeRead');
             Route::get('/info/stud/view/stud/grades/search', [EnStudGrdeViewController::class, 'search_studviewgradeRead'])->name('search_studviewgradeRead');
