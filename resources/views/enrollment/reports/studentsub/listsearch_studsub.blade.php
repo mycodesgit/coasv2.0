@@ -113,9 +113,20 @@ CISS V.1.0 || Enrollment
                     <h5 class="modal-title" id="batchDownloadModalLabel">Select Download Batch</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <p class="text-muted">To prevent timeouts, select a batch of records to download (100 classes per file):</p>
-                    <div id="batchButtonsContainer" class="d-flex flex-wrap gap-2 justify-content-center p-2"></div>
+                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                    <div class="form-group mb-3">
+                        <label for="chunkSizeSelect" class="form-label fw-bold">Records per batch / ZIP:</label>
+                        <select id="chunkSizeSelect" class="form-select form-control">
+                            <option value="10">10 per batch (Recommended to prevent 504 Timeout)</option>
+                            <option value="20">20 per batch</option>
+                            <option value="50">50 per batch</option>
+                            <option value="100">100 per batch</option>
+                        </select>
+                        <small class="form-text text-muted">If you experience server timeouts, select a smaller batch size (e.g., 10 or 20).</small>
+                    </div>
+
+                    <label class="form-label fw-bold">Available Batches:</label>
+                    <div id="batchButtonsContainer" class="d-flex flex-wrap gap-2 justify-content-center p-2 border rounded bg-light"></div>
                 </div>
             </div>
         </div>

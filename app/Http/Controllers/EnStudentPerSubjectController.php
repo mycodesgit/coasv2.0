@@ -187,13 +187,16 @@ class EnStudentPerSubjectController extends Controller
 
     public function bulkDownloadPdf(Request $request)
     {
+        // Prevent PHP timeouts and memory limits during DOMPDF rendering
+        set_time_limit(300); // 5 minutes execution limit
+        ini_set('memory_limit', '512M'); // Increase PHP memory limit
+
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
         $campus   = $request->query('campus') ?: Auth::guard('web')->user()->campus;
         $offset   = (int) $request->query('offset', 0);
-        $limit    = (int) $request->query('limit', 100);
+        $limit    = (int) $request->query('limit', 10); // Default to smaller limit (10)
 
-        // 1. Fetch distinct offered subjects using correct table column aliases
         $offeredSubjects = Grade::select(
                 'so.id as subj_id',
                 'so.subSec',
@@ -217,7 +220,6 @@ class EnStudentPerSubjectController extends Controller
             return back()->with('error', 'No records found to generate PDFs.');
         }
 
-        // 2. Setup Zip File response
         $zipFileName = 'Bulk_Attendance_' . time() . '.zip';
         $zipPath = storage_path('app/public/' . $zipFileName);
 
@@ -225,7 +227,6 @@ class EnStudentPerSubjectController extends Controller
 
         if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
             foreach ($offeredSubjects as $subject) {
-                // Fetch students for each class matching your existing studsubjectsReadPDF logic
                 $substudnowviewpdf = Grade::select('so.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
                     ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
                     ->join('students', 'studgrades.studID', '=', 'students.stud_id')
@@ -242,24 +243,23 @@ class EnStudentPerSubjectController extends Controller
                     'substudnowviewpdf' => $substudnowviewpdf,
                 ];
 
-                // Render single attendance sheet PDF
                 $pdf = Pdf::loadView('enrollment.reports.studentsub.pdf.attendancestud', $data)
                     ->setPaper('Legal', 'portrait');
 
-                // Sanitize file names inside zip archive
                 $cleanSubName = preg_replace('/[^A-Za-z0-9\-]/', '_', $subject->sub_name ?? 'Subject');
                 $cleanSubSec  = preg_replace('/[^A-Za-z0-9\-]/', '_', $subject->subSec ?? 'Section');
 
-                $singleFileName = 'Attendance_' . $cleanSubName . '_' . $cleanSubSec . '.pdf';
+                $singleFileName = 'Attendance_' . $cleanSubName . '_' . $cleanSubSec . '_' . $subject->subj_id . '.pdf';
 
-                // Add raw PDF content to ZIP
                 $zip->addFromString($singleFileName, $pdf->output());
+
+                // Clear variables inside loop to free memory per PDF render
+                unset($pdf, $substudnowviewpdf, $data);
             }
 
             $zip->close();
         }
 
-        // Returns ZIP file for automatic browser download
         return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 }
