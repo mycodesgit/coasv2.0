@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 use PDF;
 use Storage;
 use Carbon\Carbon;
-use ZipArchive;
 
 use App\Models\EnrollmentDB\Student;
 use App\Models\EnrollmentDB\StudentLevel;
@@ -183,83 +182,5 @@ class EnStudentPerSubjectController extends Controller
 
         $pdf = PDF::loadView('enrollment.reports.studentsub.pdf.attendancestud', $data)->setPaper('Legal', 'portrait');
         return $pdf->stream();
-    }
-
-    public function bulkDownloadPdf(Request $request)
-    {
-        // Prevent PHP timeouts and memory limits during DOMPDF rendering
-        set_time_limit(300); // 5 minutes execution limit
-        ini_set('memory_limit', '512M'); // Increase PHP memory limit
-
-        $schlyear = $request->query('schlyear');
-        $semester = $request->query('semester');
-        $campus   = $request->query('campus') ?: Auth::guard('web')->user()->campus;
-        $offset   = (int) $request->query('offset', 0);
-        $limit    = (int) $request->query('limit', 10); // Default to smaller limit (10)
-
-        $offeredSubjects = Grade::select(
-                'so.id as subj_id',
-                'so.subSec',
-                'so.schlyear',
-                'so.semester',
-                'so.isType',
-                's.sub_name',
-                's.sub_title'
-            )
-            ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
-            ->leftJoin('coasv2_db_schedule.subjects as s', 'so.subCode', '=', 's.sub_code')
-            ->when($schlyear, fn($q) => $q->where('so.schlyear', $schlyear))
-            ->when($semester, fn($q) => $q->where('so.semester', $semester))
-            ->when($campus, fn($q) => $q->where('so.campus', $campus))
-            ->groupBy('so.id', 'so.subSec', 'so.schlyear', 'so.semester', 'so.isType', 's.sub_name', 's.sub_title')
-            ->skip($offset)
-            ->take($limit)
-            ->get();
-
-        if ($offeredSubjects->isEmpty()) {
-            return back()->with('error', 'No records found to generate PDFs.');
-        }
-
-        $zipFileName = 'Bulk_Attendance_' . time() . '.zip';
-        $zipPath = storage_path('app/public/' . $zipFileName);
-
-        $zip = new ZipArchive;
-
-        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
-            foreach ($offeredSubjects as $subject) {
-                $substudnowviewpdf = Grade::select('so.*', 'studgrades.*', 'studgrades.id as sgid', 'studgrades.status as gstat', 'students.*', 's.*')
-                    ->join('coasv2_db_schedule.sub_offered as so', 'studgrades.subjID', '=', 'so.id')
-                    ->join('students', 'studgrades.studID', '=', 'students.stud_id')
-                    ->leftJoin('coasv2_db_schedule.sub_offered as so2', 'studgrades.subjID', '=', 'so2.id')
-                    ->leftJoin('coasv2_db_schedule.subjects as s', 'so2.subCode', '=', 's.sub_code')
-                    ->where('so.schlyear', $subject->schlyear)
-                    ->where('so.semester', $subject->semester)
-                    ->where('studgrades.subjID', $subject->subj_id)
-                    ->orderBy('students.lname', 'ASC')
-                    ->orderBy('students.fname', 'ASC')
-                    ->get();
-
-                $data = [
-                    'substudnowviewpdf' => $substudnowviewpdf,
-                ];
-
-                $pdf = Pdf::loadView('enrollment.reports.studentsub.pdf.attendancestud', $data)
-                    ->setPaper('Legal', 'portrait');
-
-                $cleanSubName = preg_replace('/[^A-Za-z0-9\-]/', '_', $subject->sub_name ?? 'Subject');
-                $cleanSubSec  = preg_replace('/[^A-Za-z0-9\-]/', '_', $subject->subSec ?? 'Section');
-
-                $singleFileName = 'Attendance_' . $cleanSubName . '_' . $cleanSubSec . '_' . $subject->subj_id . '.pdf';
-
-                $zip->addFromString($singleFileName, $pdf->output());
-
-                // Clear variables inside loop to free memory per PDF render
-                unset($pdf, $substudnowviewpdf, $data);
-            }
-
-            $zip->close();
-        }
-
-        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 }

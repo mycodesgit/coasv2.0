@@ -105,36 +105,9 @@ CISS V.1.0 || Enrollment
         </div>
     </div>
 
-    <!-- Batch Selector Modal -->
-    <div class="modal fade" id="batchDownloadModal" tabindex="-1" role="dialog" aria-labelledby="batchDownloadModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="batchDownloadModalLabel">Select Download Batch</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
-                    <div class="form-group mb-3">
-                        <label for="chunkSizeSelect" class="form-label fw-bold">Records per batch / ZIP:</label>
-                        <select id="chunkSizeSelect" class="form-select form-control">
-                            <option value="10">10 per batch (Recommended to prevent 504 Timeout)</option>
-                            <option value="20">20 per batch</option>
-                            <option value="50">50 per batch</option>
-                            <option value="100">100 per batch</option>
-                        </select>
-                        <small class="form-text text-muted">If you experience server timeouts, select a smaller batch size (e.g., 10 or 20).</small>
-                    </div>
-
-                    <label class="form-label fw-bold">Available Batches:</label>
-                    <div id="batchButtonsContainer" class="d-flex flex-wrap gap-2 justify-content-center p-2 border rounded bg-light"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         var attendanceReadRoute = "{{ Auth::guard('web')->user()->role == 15 ? route('gradschoolgetlistsearch_studsubjectsRead') : route('getlistsearch_studsubjectsRead') }}";
-        var bulkAttendancePdfRoute = "{{ route('attendance.bulkDownloadPdf') }}";
+
         var schlyear = "{{ request('schlyear') }}";
         var semester = "{{ request('semester') }}";
         var routeTemplate = "{{ route('studsubjectsReadPDF', ['id' => ':id', 'schlyear' => ':schlyear', 'semester' => ':semester']) }}";
