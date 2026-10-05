@@ -151,7 +151,7 @@ class StudentFacultyEvaluationController extends Controller
         $ratingscale = QCEratingscale::orderBy('inst_scale', 'DESC')->where('instratingscalestat', 2)->get();
         $inst = QCEinstruction::where('instructcat', 1)->get();
         $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
-        $currsem = QCEsemester::where('qcesemstat', 3)
+        $currsem = QCEsemester::where('qcesemstat', 2)
             ->get([
                 'qceschlyear',
                 'qcesemester',
