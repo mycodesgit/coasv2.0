@@ -122,8 +122,8 @@ class StudentFacultyEvaluationController extends Controller
                             'coasv2_db_schedule.faculty.lname',
                             'coasv2_db_schedule.faculty.id',
                         )
-                        ->where('coasv2_db_schedule.sub_offered.semester', 1)
-                        ->where('coasv2_db_schedule.sub_offered.schlyear', '=', '2025-2026')
+                        ->where('coasv2_db_schedule.sub_offered.semester', $sy->semester)
+                        ->where('coasv2_db_schedule.sub_offered.schlyear', $sy->schlyear)
                         ->where('studgrades.studID', $studauth->stud_id)
                         ->groupBy('studgrades.subjID')
                         ->get();
@@ -164,11 +164,11 @@ class StudentFacultyEvaluationController extends Controller
                 ->select('qcecategory.catName', 'qcequestion.id', 'qcequestion.questiontext')
                 ->where('qcecategory.catstatus', 1)
                 ->where('qcequestion.questcat', 1)
-                ->orderBy('qcecategory.catName') 
-                ->orderBy('qcequestion.id') 
+                ->orderBy('qcecategory.catName')
+                ->orderBy('qcequestion.id')
                 ->get()
                 ->groupBy('catName');
-        
+
         $facdetail = Faculty::where('id', $qcefacID)->get();
 
         $mysubjstarteval = Grade::join('coasv2_db_schedule.sub_offered', 'studgrades.subjID', '=', 'coasv2_db_schedule.sub_offered.id')
@@ -216,7 +216,7 @@ class StudentFacultyEvaluationController extends Controller
                 //     }
                 // ],
             ]);
-            
+
             try {
                 $existingSurvey = QCEfevalrate::where('campus', $request->input('campus'))
                         ->where('semester', $request->input('semester'))

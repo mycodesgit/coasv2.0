@@ -54,7 +54,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
                                                     <div class="text-muted">
-                                                        <span class="text-success">{{ $sy->first()->schlyear ?? 'N/A' }}</span>, 
+                                                        <span class="text-success">{{ $sy->first()->schlyear ?? 'N/A' }}</span>,
                                                         <span class="text-dark">
                                                             {{ $sy->first()->semester == 1 ? '1st Sem' : ($sy->first()->semester == 2 ? '2nd Sem' : ($sy->first()->semester == 3 ? 'Summer' : 'N/A')) }}
                                                         </span>
@@ -78,7 +78,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center small">
-                                                    <div class="text-muted"><span class="text-success">2025-2026</span>, <span class="text-dark">1st Sem</span></div>
+                                                    <div class="text-muted"><span class="text-success">2026-2027</span>, <span class="text-dark">1st Sem</span></div>
                                                     {{-- <div><a href="{{ route('index.evaluation') }}" class="link-defalt text-decoration-underline">Start Evaluation</a></div> --}}
                                                     <div><a href="{{ route('index.evaluation') }}" class="link-defalt text-decoration-underline">Start Evaluation</a></div>
                                                 </div>
