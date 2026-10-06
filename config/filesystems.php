@@ -54,8 +54,17 @@ return [
         ],
 
         'cpsu_storage' => [
-            'driver' => 'local',
+            'driver' => env('CPSU_STORAGE_DRIVER', 'local'), // Default to 'local' for dev
+
+            // SFTP configuration (used when CPSU_STORAGE_DRIVER=sftp)
+            'host' => env('CPSU_STORAGE_HOST', '127.0.0.1'),
+            'username' => env('CPSU_STORAGE_USERNAME', 'root'),
+            'password' => env('CPSU_STORAGE_PASSWORD'),
+            'port' => (int) env('CPSU_STORAGE_PORT', 22),
+
+            // Common root directory path
             'root' => env('CPSU_STORAGE_PATH', '/var/www/storage'),
+            'timeout' => 30,
             'throw' => false,
         ],
 
