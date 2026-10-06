@@ -418,45 +418,16 @@
                 var canvas = document.createElement('canvas');
                 canvas.setAttribute('id', 'canvas');
                 canvasDiv.appendChild(canvas);
-                $("#canvas").attr('height', $("#canvasDiv").outerHeight());
-                $("#canvas").attr('width', $("#canvasDiv").width());
-                if (typeof G_vmlCanvasManager != 'undefined') {
-                    canvas = G_vmlCanvasManager.initElement(canvas);
-                }
 
-                context = canvas.getContext("2d");
-                $('#canvas').mousedown(function(e) {
-                    var offset = $(this).offset()
-                    var mouseX = e.pageX - this.offsetLeft;
-                    var mouseY = e.pageY - this.offsetTop;
+                // Set high-DPI canvas resolution for clear rendering on mobile
+                canvas.width = canvasDiv.clientWidth;
+                canvas.height = canvasDiv.clientHeight;
 
-                    paint = true;
-                    addClick(e.pageX - offset.left, e.pageY - offset.top);
-                    redraw();
-                });
-
-                $('#canvas').mousemove(function(e) {
-                    if (paint) {
-                        var offset = $(this).offset()
-                        //addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-                        addClick(e.pageX - offset.left, e.pageY - offset.top, true);
-                        console.log(e.pageX, offset.left, e.pageY, offset.top);
-                        redraw();
-                    }
-                });
-
-                $('#canvas').mouseup(function(e) {
-                    paint = false;
-                });
-
-                $('#canvas').mouseleave(function(e) {
-                    paint = false;
-                });
-
-                var clickX = new Array();
-                var clickY = new Array();
-                var clickDrag = new Array();
-                var paint;
+                var context = canvas.getContext("2d");
+                var paint = false;
+                var clickX = [];
+                var clickY = [];
+                var clickDrag = [];
 
                 function addClick(x, y, dragging) {
                     clickX.push(x);
@@ -464,84 +435,61 @@
                     clickDrag.push(dragging);
                 }
 
-                $("#reset-btn").click(function() {
-                    context.clearRect(0, 0, window.innerWidth, window.innerWidth);
-                    clickX = [];
-                    clickY = [];
-                    clickDrag = [];
-                });
-
-                $(document).on('click', '#btn-save', function() {
-                    var mycanvas = document.getElementById('canvas');
-                    var img = mycanvas.toDataURL("image/png");
-                    anchor = $("#signature");
-                    anchor.val(img);
-                    $("#signatureform").submit();
-                });
-
-                var drawing = false;
-                var mousePos = {
-                    x: 0,
-                    y: 0
-                };
-                var lastPos = mousePos;
-
-                canvas.addEventListener("touchstart", function(e) {
-                    mousePos = getTouchPos(canvas, e);
-                    var touch = e.touches[0];
-                    var mouseEvent = new MouseEvent("mousedown", {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    });
-                    canvas.dispatchEvent(mouseEvent);
-                }, false);
-
-
-                canvas.addEventListener("touchend", function(e) {
-                    var mouseEvent = new MouseEvent("mouseup", {});
-                    canvas.dispatchEvent(mouseEvent);
-                }, false);
-
-
-                canvas.addEventListener("touchmove", function(e) {
-
-                    var touch = e.touches[0];
-                    var offset = $('#canvas').offset();
-                    var mouseEvent = new MouseEvent("mousemove", {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    });
-                    canvas.dispatchEvent(mouseEvent);
-                }, false);
-
-
-
-                // Get the position of a touch relative to the canvas
-                function getTouchPos(canvasDiv, touchEvent) {
-                    var rect = canvasDiv.getBoundingClientRect();
+                function getCanvasCoordinates(e) {
+                    var rect = canvas.getBoundingClientRect();
+                    var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    var clientY = e.touches ? e.touches[0].clientY : e.clientY;
                     return {
-                        x: touchEvent.touches[0].clientX - rect.left,
-                        y: touchEvent.touches[0].clientY - rect.top
+                        x: clientX - rect.left,
+                        y: clientY - rect.top
                     };
                 }
 
-
-                var elem = document.getElementById("canvas");
-
-                var defaultPrevent = function(e) {
-                    e.preventDefault();
+                function startDrawing(e) {
+                    paint = true;
+                    var pos = getCanvasCoordinates(e);
+                    addClick(pos.x, pos.y, false);
+                    redraw();
                 }
-                elem.addEventListener("touchstart", defaultPrevent);
-                elem.addEventListener("touchmove", defaultPrevent);
 
+                function draw(e) {
+                    if (!paint) return;
+                    var pos = getCanvasCoordinates(e);
+                    addClick(pos.x, pos.y, true);
+                    redraw();
+                }
+
+                function stopDrawing() {
+                    paint = false;
+                    toggleSaveButton();
+                }
+
+                // Mouse Events
+                $(canvas).on('mousedown', startDrawing);
+                $(canvas).on('mousemove', draw);
+                $(canvas).on('mouseup mouseleave', stopDrawing);
+
+                // Touch Events (native bindings with { passive: false } to properly prevent scrolling)
+                canvas.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    startDrawing(e);
+                }, { passive: false });
+
+                canvas.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                    draw(e);
+                }, { passive: false });
+
+                canvas.addEventListener('touchend', function(e) {
+                    stopDrawing();
+                }, { passive: false });
 
                 function redraw() {
-                    context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before redrawing
-                    context.lineJoin = "round"; // Smooth curves
-                    context.lineWidth = 5; // Increase the thickness (Adjust as needed)
-                    context.strokeStyle = "#000"; // Set color to black
-                    //
-                    lastPos = mousePos;
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    context.lineJoin = "round";
+                    context.lineWidth = 4;
+                    context.strokeStyle = "#000";
+
                     for (var i = 0; i < clickX.length; i++) {
                         context.beginPath();
                         if (clickDrag[i] && i) {
@@ -554,8 +502,33 @@
                         context.stroke();
                     }
                 }
-            })
 
+                // Reset Button
+                $("#reset-btn").click(function() {
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    clickX = [];
+                    clickY = [];
+                    clickDrag = [];
+                    toggleSaveButton();
+                });
+
+                // Save Button Handling
+                $(document).on('click', '#btn-save', function() {
+                    var img = canvas.toDataURL("image/png");
+                    $("#signature").val(img);
+                    $("#signatureform").submit();
+                });
+
+                // Save Button Enable/Disable Check
+                function toggleSaveButton() {
+                    var isBlank = clickX.length === 0;
+                    var isChecked = $('#checkboxPrimaryAgree1').is(':checked');
+                    $('#btn-save').prop('disabled', !(isChecked && !isBlank));
+                }
+
+                $('#checkboxPrimaryAgree1').change(toggleSaveButton);
+                $('#btn-save').prop('disabled', true);
+            });
         </script>
 
         <script>

@@ -17,6 +17,9 @@
             cursor: crosshair;
             transition: all 0.2s ease;
         }
+        .signature-canvas canvas {
+            touch-action: none;
+        }
 
         .signature-canvas:hover {
             border-color: #218838;
