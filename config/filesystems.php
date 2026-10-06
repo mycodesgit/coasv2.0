@@ -60,7 +60,7 @@ return [
 
             'cpsu_storage' => [
                 'driver' => 'local',
-                'root' => '/var/www/storage',
+                'root' => '/mnt/storage',
                 'throw' => false,
             ],
 
