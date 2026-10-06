@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Helpers\EncryptionHelper;
 
 use PDF;
+use Storage;
 use Carbon\Carbon;
 
 use App\Models\AdmissionDB\User;
@@ -97,38 +96,35 @@ class StudentFacultyEvaluationController extends Controller
     }
 
     public function storeSignature(Request $request)
-{
-    $request->validate([
-        'signature' => 'required',
-        'studIDno'  => 'required',
-        'camp'      => 'required',
-    ]);
+    {
+        $request->validate([
+            'signature' => 'required',
+            'studIDno' => 'required',
+            'camp' => 'required',
+        ]);
 
-    $signatureData = $request->input('signature');
-    $imageName = 'ciss/signatures/' . $request->input('studIDno') . '_' . uniqid() . '.png';
+        $signatureData = $request->input('signature');
 
-    // Sends base64 directly to Server 2 over standard HTTP
-    $response = Http::withHeaders([
-        'X-Signature-Key' => env('SERVER_2_API_KEY', 'cpsu_secret_key_2026'),
-    ])->post(env('SERVER_2_URL', 'http://172.16.56.27') . '/api/receive-signature', [
-        'signature' => $signatureData,
-        'filename'  => $imageName,
-    ]);
+        $image = str_replace('data:image/png;base64,', '', $signatureData);
+        $image = str_replace(' ', '+', $image);
 
-    if ($response->failed()) {
-        return back()->withErrors(['signature' => 'Failed to reach Server 2: ' . $response->body()]);
+        $imageName = 'signatures/' . $request->input('studIDno') . '_' . uniqid() . '.png';
+
+        Storage::disk('public')->put(
+            $imageName,
+            base64_decode($image)
+        );
+
+        StudeSig::create([
+            'studIDno' => $request->input('studIDno'),
+            'camp' => $request->input('camp'),
+            'studesig' => $imageName,
+        ]);
+
+        return redirect()
+            ->route('index.evaluation')
+            ->with('success', 'Signature uploaded successfully!');
     }
-
-    StudeSig::create([
-        'studIDno' => $request->input('studIDno'),
-        'camp'     => $request->input('camp'),
-        'studesig' => $imageName,
-    ]);
-
-    return redirect()
-        ->route('index.evaluation')
-        ->with('success', 'Signature uploaded successfully!');
-}
 
     public function index()
     {
