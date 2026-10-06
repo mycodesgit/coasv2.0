@@ -97,35 +97,38 @@ class StudentFacultyEvaluationController extends Controller
     }
 
     public function storeSignature(Request $request)
-    {
-        $request->validate([
-            'signature' => 'required',
-            'studIDno' => 'required',
-            'camp' => 'required',
-        ]);
+{
+    $request->validate([
+        'signature' => 'required',
+        'studIDno'  => 'required',
+        'camp'      => 'required',
+    ]);
 
-        $signatureData = $request->input('signature');
+    $signatureData = $request->input('signature');
+    $imageName = 'ciss/signatures/' . $request->input('studIDno') . '_' . uniqid() . '.png';
 
-        $image = str_replace('data:image/png;base64,', '', $signatureData);
-        $image = str_replace(' ', '+', $image);
+    // Sends base64 directly to Server 2 over standard HTTP
+    $response = Http::withHeaders([
+        'X-Signature-Key' => env('SERVER_2_API_KEY', 'cpsu_secret_key_2026'),
+    ])->post(env('SERVER_2_URL', 'http://172.16.56.27') . '/api/receive-signature', [
+        'signature' => $signatureData,
+        'filename'  => $imageName,
+    ]);
 
-        $imageName = 'ciss/signatures/' . $request->input('studIDno') . '_' . uniqid() . '.png';
-
-        Storage::disk('cpsu_storage')->put(
-            $imageName,
-            base64_decode($image)
-        );
-
-        StudeSig::create([
-            'studIDno' => $request->input('studIDno'),
-            'camp' => $request->input('camp'),
-            'studesig' => $imageName,
-        ]);
-
-        return redirect()
-            ->route('index.evaluation')
-            ->with('success', 'Signature uploaded successfully!');
+    if ($response->failed()) {
+        return back()->withErrors(['signature' => 'Failed to reach Server 2: ' . $response->body()]);
     }
+
+    StudeSig::create([
+        'studIDno' => $request->input('studIDno'),
+        'camp'     => $request->input('camp'),
+        'studesig' => $imageName,
+    ]);
+
+    return redirect()
+        ->route('index.evaluation')
+        ->with('success', 'Signature uploaded successfully!');
+}
 
     public function index()
     {
