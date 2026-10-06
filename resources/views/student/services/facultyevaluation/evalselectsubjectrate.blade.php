@@ -20,7 +20,7 @@
                 font-size: 12pt;
                 font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial,
                 sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
-            } 
+            }
             #table th {
                 font-size: 13pt;
                 border: 1px solid #000;
@@ -42,7 +42,7 @@
             <div class="mb-6">
                 <h1 class="fs-5 mb-4 d-none d-md-block">
                     <a href="{{ route('index.evaluation') }}">
-                        <i class="ti ti-arrow-left"></i> Services 
+                        <i class="ti ti-arrow-left"></i> Services
                     </a>
                     <span class="text-muted">/ Faculty Evaluation</span>
                 </h1>

@@ -59,6 +59,7 @@ use App\Models\EvaluationDB\QCEsubquestion;
 use App\Models\EvaluationDB\QCEsemester;
 use App\Models\EvaluationDB\QCEfevalrate;
 use App\Models\EvaluationDB\QCEsetting;
+use App\Models\EvaluationDB\StudeSig;
 
 class StudentFacultyEvaluationController extends Controller
 {
@@ -94,6 +95,37 @@ class StudentFacultyEvaluationController extends Controller
         return view('student.services.facultyevaluation.evalselectschlyearsem', compact('guard', 'studentowner', 'studauth', 'setevalmode', 'enrollmentHistory'));
     }
 
+    public function storeSignature(Request $request)
+    {
+        $request->validate([
+            'signature' => 'required',
+            'studIDno' => 'required',
+            'camp' => 'required',
+        ]);
+
+        $signatureData = $request->input('signature');
+
+        $image = str_replace('data:image/png;base64,', '', $signatureData);
+        $image = str_replace(' ', '+', $image);
+
+        $imageName = 'signatures/' . $request->input('studIDno') . '_' . uniqid() . '.png';
+
+        Storage::disk('cpsu_storage')->put(
+            $imageName,
+            base64_decode($image)
+        );
+
+        StudeSig::create([
+            'studIDno' => $request->input('studIDno'),
+            'camp' => $request->input('camp'),
+            'studesig' => $imageName,
+        ]);
+
+        return redirect()
+            ->route('index.evaluation')
+            ->with('success', 'Signature uploaded successfully!');
+    }
+
     public function index()
     {
         $guard= $this->getGuard();
@@ -101,6 +133,8 @@ class StudentFacultyEvaluationController extends Controller
         $studauth = Student::where('stud_id', '=', $studentowner)->first();
 
         $setevalmode = QCEsetting::first();
+
+        $signature = StudeSig::where('studIDno', $studentowner)->first();
 
         $sy = ConfigureCurrent::where('set_status', 2)->first(['schlyear', 'semester']);
 
@@ -132,7 +166,7 @@ class StudentFacultyEvaluationController extends Controller
                         ->whereIn('qceformevalrate.statprint', [1,2])
                         ->get();
 
-        return view('student.services.facultyevaluation.evalselectsubject', compact('guard', 'studentowner', 'studauth', 'mysubj', 'disabledsubj', 'setevalmode'));
+        return view('student.services.facultyevaluation.evalselectsubject', compact('guard', 'studentowner', 'studauth', 'mysubj', 'disabledsubj', 'setevalmode', 'signature'));
     }
 
     public function show(Request $request)
