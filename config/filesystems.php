@@ -52,18 +52,11 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
-        'disks' => [
-            'local' => [
-                'driver' => 'local',
-                'root' => storage_path('app'),
-            ],
 
-            'cpsu_storage' => [
-                'driver' => 'local',
-                'root' => '/mnt/storage',
-                'throw' => false,
-            ],
-
+        'cpsu_storage' => [
+            'driver' => 'local',
+            'root' => env('CPSU_STORAGE_PATH', '/var/www/storage'),
+            'throw' => false,
         ],
 
     ],
