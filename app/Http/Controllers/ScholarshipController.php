@@ -489,20 +489,33 @@ class ScholarshipController extends Controller
 
     public function studscholarUpdate(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'id' => 'required',
             'studSch' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()], 422);
+        }
+
         try {
             $decryptedId = Crypt::decrypt($request->input('id'));
             $studsch = StudEnrolmentHistory::find($decryptedId);
+
+            if (!$studsch) {
+                return response()->json(['success' => false, 'message' => 'Student enrollment record not found!'], 404);
+            }
+
+            if (!Scholar::find($request->input('studSch'))) {
+                return response()->json(['success' => false, 'message' => 'Selected scholarship does not exist!'], 422);
+            }
+
             $studsch->update([
                 'studSch' => $request->input('studSch'),
             ]);
             return response()->json(['success' => true, 'message' => 'Student Scholarship Updated Successfully'], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => true, 'message' => 'Failed to update Student Scholarship!'], 404);
+            return response()->json(['success' => false, 'message' => 'Failed to update Student Scholarship!'], 500);
         }
     }
 

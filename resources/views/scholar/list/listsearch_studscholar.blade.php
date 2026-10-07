@@ -146,7 +146,7 @@ CISS V.1.0 || Scholarship
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="ti ti-restore"></i> Close</button>
-                        <button type="button" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save changes</button>
+                        <button type="submit" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save changes</button>
                     </div>
                 </form>
             </div>
@@ -155,7 +155,7 @@ CISS V.1.0 || Scholarship
 
     <script>
         var studschReadRoute = "{{ route('getstudscholarSearchRead') }}";
-        var studschUpdateRoute = "{{ route('studscholarUpdate', ['id' => ':id']) }}";
+        var studschUpdateRoute = "{{ route('studscholarUpdate') }}";
         var idStudSchEncryptRoute = "{{ route('idcrypt') }}";
     </script>
 @endsection

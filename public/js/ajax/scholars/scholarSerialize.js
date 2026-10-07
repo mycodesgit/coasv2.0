@@ -5,7 +5,7 @@ toastr.options = {
 };
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
-    var schlyear = urlParams.get('schlyear') || ''; 
+    var schlyear = urlParams.get('schlyear') || '';
     var semester = urlParams.get('semester') || '';
     var campus = urlParams.get('campus') || '';
 
@@ -13,7 +13,7 @@ $(document).ready(function() {
         "ajax": {
             "url": studschReadRoute,
             "type": "GET",
-            "data": { 
+            "data": {
                 "schlyear": schlyear,
                 "semester": semester,
                 "campus": campus
@@ -69,31 +69,15 @@ $(document).on('click', '.btn-studSchEn', function() {
     var studID = $(this).data('studentid');
     var studName = $(this).data('studentname');
     var studSCH = $(this).data('sch');
-    
+
     $('#editstudSchEnId').val(id);
     $('#editstudSchEnStudID').val(studID);
     $('#editstudSchEnStudName').val(studName);
     $('#editstudSchEnSch').val(studSCH);
     $('#editstudSchEnModal').modal('show');
-
-    $.ajax({
-        url: idStudSchEncryptRoute,
-        type: "POST",
-        data: { data: $('#editstudSchEnId').val() },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            //alert(response); 
-            $('#editstudSchEnId').val(response)
-        },
-        error: function(xhr, status, error) {
-            alert('Error: ' + error); 
-        }
-    });
 });
 
-$('#editstudSchEnForm').submit(function(event) {
+$(document).on('submit', '#editstudSchEnForm', function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
 
@@ -110,11 +94,20 @@ $('#editstudSchEnForm').submit(function(event) {
                 $('#editstudSchEnModal').modal('hide');
                 $(document).trigger('schstudAdded');
             } else {
-                toastr.error(response.message);
+                toastr.error(response.message || 'Update failed');
             }
         },
-        error: function(xhr, status, error, message) {
-            var errorMessage = xhr.responseText ? JSON.parse(xhr.responseText).message : 'An error occurred';
+        error: function(xhr) {
+            var errorMessage = 'An error occurred';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            } else if (xhr.responseText) {
+                try {
+                    errorMessage = JSON.parse(xhr.responseText).message || errorMessage;
+                } catch (e) {
+                    errorMessage = 'Request failed (HTTP ' + xhr.status + ')';
+                }
+            }
             toastr.error(errorMessage);
         }
     });
