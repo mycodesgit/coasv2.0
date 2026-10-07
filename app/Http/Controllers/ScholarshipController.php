@@ -499,8 +499,7 @@ class ScholarshipController extends Controller
         }
 
         try {
-            $decryptedId = Crypt::decrypt($request->input('id'));
-            $studsch = StudEnrolmentHistory::find($decryptedId);
+            $studsch = StudEnrolmentHistory::find($request->input('id'));
 
             if (!$studsch) {
                 return response()->json(['success' => false, 'message' => 'Student enrollment record not found!'], 404);

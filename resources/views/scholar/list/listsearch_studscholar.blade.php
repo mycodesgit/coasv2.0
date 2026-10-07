@@ -156,6 +156,6 @@ CISS V.1.0 || Scholarship
     <script>
         var studschReadRoute = "{{ route('getstudscholarSearchRead') }}";
         var studschUpdateRoute = "{{ route('studscholarUpdate') }}";
-        var idStudSchEncryptRoute = "{{ route('idcrypt') }}";
+        // var idStudSchEncryptRoute = "{{ route('idcrypt') }}";
     </script>
 @endsection
