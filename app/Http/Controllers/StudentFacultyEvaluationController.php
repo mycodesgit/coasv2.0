@@ -197,7 +197,7 @@ class StudentFacultyEvaluationController extends Controller
         $question = QCEquestion::join('qcecategory', 'qcequestion.catName_id', '=', 'qcecategory.id')
                 ->select('qcecategory.catName', 'qcequestion.id', 'qcequestion.questiontext')
                 ->where('qcecategory.catstatus', 2)
-                ->where('qcequestion.questcat', 2)
+                ->where('qcequestion.questcat', 1)
                 ->orderBy('qcecategory.catName')
                 ->orderBy('qcequestion.id')
                 ->get()
