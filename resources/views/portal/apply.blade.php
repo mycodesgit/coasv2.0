@@ -789,25 +789,39 @@ CISS V.1.0 || Apply Admission
                                         </div>
                                     </div>
 
-                                    <div class="progress-section d-flex align-items-center justify-content-between mt-3">
-                                        <button type="button" class="btn btn-light" id="back-btn" onclick="prevCard(currentCard - 1)" style="display: none;">
-                                            <i class="ti ti-arrow-back"></i> Back
-                                        </button>
-                                        <button type="button" class="btn btn-success" id="next-btn" onclick="nextCard(currentCard + 1)" style="display: none;" disabled>
-                                            <i class="ti ti-player-track-next"></i>  Next
-                                        </button>
+                                    <div class="progress-section d-flex flex-wrap align-items-center justify-content-between gap-3 mt-3">
+                                        {{-- Navigation & Submit Actions Group --}}
+                                        <div class="d-flex align-items-center gap-2">
+                                            <button type="button" class="btn btn-light" id="back-btn" onclick="prevCard(currentCard - 1)" style="display: none;">
+                                                <i class="ti ti-arrow-back me-1"></i> Back
+                                            </button>
 
-                                        {{-- <button type="button" class="btn btn-info" id="ok-btn">OK</button> --}}
-                                        <button type="submit" class="btn btn-primary" id="submit-btn" style="display: none;">Submit</button>
+                                            <button type="button" class="btn btn-success" id="next-btn" onclick="nextCard(currentCard + 1)" style="display: none;" disabled>
+                                                Next <i class="ti ti-player-track-next ms-1"></i>
+                                            </button>
 
-                                        <div class="progress-container d-flex align-items-center">
-                                            <div class="progress" style="width: 60%; margin-right: 10px; background-color: gray; border-radius: 20px;">
-                                                <div id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <span id="progress-text">Page 1 of <span id="total-pages"></span></span>
+                                            {{-- <button type="button" class="btn btn-info" id="ok-btn">OK</button> --}}
+
+                                            <button type="submit" class="btn btn-success" id="submit-btn" style="display: none;">
+                                                <i class="ti ti-check me-1"></i> Submit
+                                            </button>
                                         </div>
 
-                                        <a href="#" onclick="clearForm()" class="btn btn-default" style="color: #5e5df0; text-decoration: underline;">Clear form</a>
+                                        {{-- Progress Indicator & Clear Form Group --}}
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="progress-container d-flex align-items-center gap-2">
+                                                <div class="progress" style="width: 120px; height: 10px; background-color: #e9ecef; border-radius: 20px;">
+                                                    <div id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%; border-radius: 20px;" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <small class="text-muted text-nowrap fw-semibold" id="progress-text">
+                                                    Page 1 of <span id="total-pages"></span>
+                                                </small>
+                                            </div>
+
+                                            <button type="button" onclick="clearForm()" class="btn btn-link text-decoration-underline p-0 border-0" style="color: #5e5df0;">
+                                                Clear form
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             @endif
