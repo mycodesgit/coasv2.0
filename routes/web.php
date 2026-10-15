@@ -147,9 +147,9 @@ Route::group(['middleware'=>['guest', 'kiosk.session.expired', 'restrict.access'
         Route::get('/track',[PortalController::class,'admission_track'])->name('admission_track');
         Route::post('/admission-status', [PortalController::class, 'admission_track_status'])->name('admission_track_status');
 
-        Route::get('/portal/provinces/{region_id}', [PortalController::class, 'getPortalProvinces'])->name('getPortalProvinces');
-        Route::get('/portal/cities/{province_id}', [PortalController::class, 'getPortalCities'])->name('getPortalCities');
-        Route::get('/portal/barangays/{city_id}', [PortalController::class, 'getPortalBarangays'])->name('getPortalBarangays');
+        Route::get('/provinces/{region_id}', [PortalController::class, 'getPortalProvinces'])->name('getPortalProvinces');
+        Route::get('/cities/{province_id}', [PortalController::class, 'getPortalCities'])->name('getPortalCities');
+        Route::get('/barangays/{city_id}', [PortalController::class, 'getPortalBarangays'])->name('getPortalBarangays');
 
         Route::get('/xYcmd/upload.documents',[AdReuploadController::class,'repup'])->name('repup');
         Route::post('/xYcmd/upload.documents/search', [AdReuploadController::class, 'searchApplicant'])->name('searchApplicant');
@@ -399,9 +399,9 @@ Route::group(['middleware'=>['login_auth', 'CheckMaintenanceMode']],function(){
 
             Route::get('/{id}/confirm', [AdExamineeController::class, 'examinee_confirm'])->name('examinee_confirm');
 
-            Route::get('/portal/provinces/{region_id}', [PortalController::class, 'getPortalProvinces'])->name('getPortalProvinces');
-            Route::get('/portal/cities/{province_id}', [PortalController::class, 'getPortalCities'])->name('getPortalCities');
-            Route::get('/portal/barangays/{city_id}', [PortalController::class, 'getPortalBarangays'])->name('getPortalBarangays');
+            Route::get('/portal/provinces/{region_id}', [PortalController::class, 'getPortalProvinces'])->name('getEmpPortalProvinces');
+            Route::get('/portal/cities/{province_id}', [PortalController::class, 'getPortalCities'])->name('getEmpPortalCities');
+            Route::get('/portal/barangays/{city_id}', [PortalController::class, 'getPortalBarangays'])->name('getEmpPortalBarangays');
 
 
             Route::get('/list/printPreEnrolment/srch/{id}', [AdPrntController::class, 'pre_enrolment_print_srch'])->name('pre_enrolment_print_srch');

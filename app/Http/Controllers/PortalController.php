@@ -43,12 +43,13 @@ class PortalController extends Controller
         $program = Programs::orderBy('id', 'asc')->get();
         $strand = Strands::orderBy('code', 'asc')->get();
         $time = Time::whereYear('date', '2026')->get();
+        $campuses = \App\Models\SettingDB\Campus::all();
 
         //$todayRegistrations = Applicant::whereDate('created_at', today())->count();
         $regions = Region::all();
         $admissionmode = AdmissionMode::first();
 
-        return view('portal.apply', compact('admissionid','program', 'strand', 'time', 'regions', 'admissionmode'));
+        return view('portal.apply', compact('admissionid','program', 'strand', 'time', 'campuses', 'regions', 'admissionmode'));
         //->with('todayRegistrations', $todayRegistrations);
     }
 
