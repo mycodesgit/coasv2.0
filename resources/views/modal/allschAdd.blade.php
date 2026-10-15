@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form class="form-horizontal" action="{{ route('allscholarCreate') }}" method="post" id="addScholar">
+            <form class="form-horizontal" method="post" id="addScholar">
                  @csrf
                 <div class="modal-body">
 
@@ -54,7 +54,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="ti ti-restore"></i> Close</button>
-                    <button type="button" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save changes</button>
+                    <button type="submit" class="btn btn-success"><i class="ti ti-device-floppy"></i>  Save changes</button>
                 </div>
             </form>
 

@@ -70,7 +70,7 @@ $(document).ready(function() {
                             dropdown += '<span class="dropdown-item disabled"><i class="fas fa-pen"></i> Edit</span>' +
                                 '<span class="dropdown-item disabled"><i class="fas fa-trash"></i> Delete</span>';
                         }
-                        
+
                         dropdown += '</div>' +
                             '</div>';
                         return dropdown;
@@ -81,7 +81,7 @@ $(document).ready(function() {
             }
         ],
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.id); 
+            $(row).attr('id', 'tr-' + data.id);
         }
     });
     $(document).on('allschcatAdded', function() {
@@ -96,7 +96,7 @@ $(document).on('click', '.btn-allschcat', function() {
     var allschedName = $(this).data('allschchedname');
     var allsuniName = $(this).data('allschuniname');
     var allsfsName = $(this).data('allschfsname');
-    
+
     $('#editSchChoiceId').val(id);
     $('#editSchChoiceName').val(allschName);
     $('#editSchSponChoiceName').val(allsponName);
@@ -113,11 +113,11 @@ $(document).on('click', '.btn-allschcat', function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(response) {
-            //alert(response); 
+            //alert(response);
             $('#editSchChoiceId').val(response)
         },
         error: function(xhr, status, error) {
-            alert('Error: ' + error); 
+            alert('Error: ' + error);
         }
     });
 });
