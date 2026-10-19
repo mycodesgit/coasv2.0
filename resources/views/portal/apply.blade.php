@@ -22,7 +22,7 @@ CISS V.1.0 || Apply Admission
                             </ol>
                         </div>
                     </div>
-                    <div class="card shadow-sm rounded-4 my-4 overflow-hidden">
+                    <div class="card card-animate shadow-sm rounded-4 my-4 overflow-hidden">
                         <div class="card-body p-4 text-center">
                             <!-- Status Icon -->
                             <div class="d-inline-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning rounded-circle mb-3 p-3" style="width: 64px; height: 64px;">
