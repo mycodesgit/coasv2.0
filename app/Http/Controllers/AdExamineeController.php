@@ -38,8 +38,8 @@ class AdExamineeController extends Controller
     }
 
     public function srchexamineeList(Request $request)
-    {   
-        
+    {
+
         $year = $request->query('year');
         $campus = $request->query('campus');
         $strand = Strands::all();
@@ -70,29 +70,58 @@ class AdExamineeController extends Controller
     }
 
     public function getsrchexamineeList(Request $request)
-    {   
-        
+    {
+
         $year = $request->query('year');
         $campus = $request->query('campus');
         $strand = $request->query('strand');
 
-        $query = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
+        // Only select the columns actually rendered by the DataTable (examineeSerialize.js).
+        $data = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
                         ->leftJoin('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
-                        ->where('p_status', '=', 2)
-                        ->select(
-                            'ad_applicant_admission.*', 
-                            'ad_applicant_admission.id as adid', 
-                            'ad_applicant_admission.strand as appstrand', 
-                            'ad_examinee_result.*', 
-                            'ad_applicant_docs.*'
-                        );
-        if ($strand) {
-            $query->where('ad_applicant_admission.strand', $strand);
-        }
-
-        $data = $query->get();
+                        ->where('ad_applicant_admission.p_status', '=', 2)
+                        ->when($strand, function ($query) use ($strand) {
+                            $query->where('ad_applicant_admission.strand', $strand);
+                        })
+                        ->get([
+                            'ad_applicant_admission.id as adid',
+                            'ad_applicant_admission.admission_id',
+                            'ad_applicant_admission.type',
+                            'ad_applicant_admission.lname',
+                            'ad_applicant_admission.fname',
+                            'ad_applicant_admission.mname',
+                            'ad_applicant_admission.ext',
+                            'ad_applicant_admission.gender',
+                            'ad_applicant_admission.bday',
+                            'ad_applicant_admission.civil_status',
+                            'ad_applicant_admission.contact',
+                            'ad_applicant_admission.email',
+                            'ad_applicant_admission.address',
+                            'ad_applicant_admission.lstsch_attended',
+                            'ad_applicant_admission.strand',
+                            'ad_applicant_admission.strand as appstrand',
+                            'ad_applicant_admission.suc_lst_attended',
+                            'ad_applicant_admission.course',
+                            'ad_applicant_admission.preference_1',
+                            'ad_applicant_admission.preference_2',
+                            'ad_applicant_admission.dateID',
+                            'ad_applicant_admission.d_admission',
+                            'ad_applicant_admission.time',
+                            'ad_applicant_admission.venue',
+                            'ad_applicant_admission.campus',
+                            'ad_examinee_result.raw_score',
+                            'ad_examinee_result.percentile',
+                            'ad_applicant_docs.studiddoc_image',
+                            'ad_applicant_docs.proofdoc_image',
+                            'ad_applicant_docs.typefileproofupload',
+                            'ad_applicant_docs.grade12File',
+                            'ad_applicant_docs.shsFile',
+                            'ad_applicant_docs.transfereeFile',
+                            'ad_applicant_docs.alsFile',
+                            'ad_applicant_docs.lifelongFile',
+                        ]);
 
         // Encrypt adid
         $data->transform(function ($item) {
@@ -103,8 +132,8 @@ class AdExamineeController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function examinee_resultmod_save(Request $request) 
-    {   
+    public function examinee_resultmod_save(Request $request)
+    {
         $request->validate([
             'id' => 'required',
             'raw_score' => 'required|numeric',
@@ -126,10 +155,10 @@ class AdExamineeController extends Controller
         }
     }
 
-    public function examinee_confirmajax(Request $request) 
+    public function examinee_confirmajax(Request $request)
     {
         $decryptedId = Crypt::decryptString($request->input('id'));
-        
+
         $applicantsWithoutResult = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
             ->where('ad_applicant_admission.p_status', 2)
             ->where('ad_applicant_admission.id', $decryptedId)
@@ -142,7 +171,7 @@ class AdExamineeController extends Controller
         if ($applicantsWithoutResult) {
             return response()->json(['error' => true, 'message' => 'Please assign result before pushing to examination results list.'], 422);
         }
-        
+
         $affectedRows = Applicant::where('p_status', 2)
             ->where('id', $decryptedId)
             ->update(['p_status' => 3]);
@@ -171,7 +200,7 @@ class AdExamineeController extends Controller
     }
 
     public function getsrchexamineeResultList(Request $request)
-    {   
+    {
         $year = $request->query('year');
         $campus = $request->query('campus');
         $strand =$request->query('strand');
@@ -181,19 +210,19 @@ class AdExamineeController extends Controller
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
                         ->where('p_status', '=', 3);
-        
+
         if ($strand) {
             $query->where('ad_applicant_admission.strand', $strand);
         }
 
         $data = $query->get();
-        
+
         // Encrypt adid
         $data->transform(function ($item) {
             $item->adid = Crypt::encryptString($item->adid);
             return $item;
         });
-        
+
         return response()->json(['data' => $data]);
     }
 
@@ -326,14 +355,14 @@ class AdExamineeController extends Controller
         $examinee = Applicant::findOrFail($id);
         $assign = ExamineeResult::where('admission_id', $examinee->admission_id)
         ->update([
-            'raw_score' => $request->input('raw_score'), 
+            'raw_score' => $request->input('raw_score'),
             'percentile' => $request->input('percentile'),
         ]);
         return Redirect::route('assignresult', $id)->with('success','The examinee result has been saved');
         }
     }
 
-    
+
 
     public function examinee_result_save_nd(Request $request, $id)
     {
@@ -341,7 +370,7 @@ class AdExamineeController extends Controller
             'raw_score' => 'required|numeric',
             'percentile' => 'required',
         ]);
-        
+
         if($validator->fails())
         {
             //return Redirect::back()->withErrors($validator)->withInput()->with('fail', 'Error in saving data. Please check the inputs!');
@@ -352,16 +381,16 @@ class AdExamineeController extends Controller
             $examinee = Applicant::findOrFail($id);
             $assign = ExamineeResult::where('app_id', $examinee->id)
             ->update([
-                'raw_score' => $request->input('raw_score'), 
+                'raw_score' => $request->input('raw_score'),
                 'percentile' => $request->input('percentile'),
             ]);
             //return Redirect::back()->with('success','The examinee result has been updated');
             return response()->json(['success' => true, 'message' => 'The examinee saved Successfully'], 200);
-            
+
         }
     }
 
-    
+
 
 
     public function examinee_confirm($id)
@@ -374,18 +403,18 @@ class AdExamineeController extends Controller
         else
         {
             $examinee->p_status = 3;
-            $dt = Carbon::now();  
+            $dt = Carbon::now();
             $examinee->updated_at = $dt;
             $examinee->update();
-            return Redirect::back()->with('success','Examinee has been push to Examination Results'); 
+            return Redirect::back()->with('success','Examinee has been push to Examination Results');
         }
     }
 
-    
 
-    
 
-    
+
+
+
 
     public function confirmResult($id)
     {
@@ -400,17 +429,17 @@ class AdExamineeController extends Controller
     {
         $applicant = Applicant::findOrFail($id);
         $applicant->p_status = 4;
-        $dt = Carbon::now();  
+        $dt = Carbon::now();
         $applicant->updated_at = $dt;
         $applicant->update();
         return back()->with('success', 'Applicant was officially confirmed for Pre-Enrolment');
     }
 
-    public function examinee_confirmPreEnrolmentajax(Request $request) 
+    public function examinee_confirmPreEnrolmentajax(Request $request)
     {
         //$decryptedId = Crypt::decrypt($request->input('id'));
         $decryptedId = Crypt::decryptString($request->input('id'));
-        
+
         $applicantsWithoutResult = Applicant::leftJoin('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
             ->where('ad_applicant_admission.p_status', 2)
             ->where('ad_applicant_admission.id', $decryptedId)
@@ -423,7 +452,7 @@ class AdExamineeController extends Controller
         if ($applicantsWithoutResult) {
             return response()->json(['error' => true, 'message' => 'Please assign result before pushing to Confirm Applicant list.'], 422);
         }
-        
+
         $affectedRows = Applicant::where('p_status', 3)
             ->where('id', $decryptedId)
             ->update(['p_status' => 4]);

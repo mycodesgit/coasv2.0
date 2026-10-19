@@ -449,20 +449,22 @@ CISS V.1.0 || Admission
                         <input type="hidden" name="id" id="editAssignSchedId">
                         <div class="form-group">
                             <center><label style="text-align: center; font-size: 15pt;"><span class="badge badge-primary">Date and Venue for Admission Test</span></label></center>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center; font-size: 13pt;">Scheduled Date</th>
-                                        <th style="text-align: center; font-size: 13pt;">Scheduled Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="text" id="schedDate" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" readonly></td>
-                                        <td><input type="text" id="schedTime" style="border: none; background-color: #fff !important; text-align: center;" class="text-bold" readonly></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 13pt;">Scheduled Date</th>
+                                            <th style="font-size: 13pt;">Scheduled Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" id="schedDate" style="border: none;" class="text-bold" readonly></td>
+                                            <td><input type="text" id="schedTime" style="border: none;" class="text-bold" readonly></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -471,7 +473,7 @@ CISS V.1.0 || Admission
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type="text" id="schedVenue" style="border: none; background-color: #fff !important; text-align: center !important;" class="text-bold" disabled></td>
+                                        <td><input type="text" id="schedVenue" style="border: none; text-align: center !important;" class="text-bold" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>

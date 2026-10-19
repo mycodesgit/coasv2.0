@@ -38,11 +38,11 @@ class AdAdmissionAppController extends Controller
     }
 
     public function srchappList(Request $request)
-    {   
+    {
         $year = $request->query('year');
         $campus = $request->query('campus');
         $strand = $request->query('strand');
-        
+
         $curryear = Year::orderBy('adyear', 'DESC')->get();
         $currentYear = Year::where('status', 'On')->value('adyear');
 
@@ -70,24 +70,53 @@ class AdAdmissionAppController extends Controller
     }
 
     public function getsrchappList(Request $request)
-    {   
-        
+    {
+
         $year = $request->query('year');
         $campus = $request->query('campus');
         $strand = $request->query('strand');
 
-        $query  = Applicant::join('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
-                        ->leftJoin('ad_reupload', 'ad_applicant_admission.id', '=', 'ad_reupload.appid')
-                        ->select('ad_applicant_admission.*', 'ad_applicant_admission.id as adid', 'ad_applicant_admission.strand as appstrand', 'ad_applicant_docs.*', 'ad_reupload.*')
+        // Only select the columns actually rendered by the DataTable (applicantSerialize.js).
+        // The ad_reupload join was removed: its data is never shown here (fetched via getReuploadAccess).
+        $data = Applicant::join('ad_applicant_docs', 'ad_applicant_admission.id', '=', 'ad_applicant_docs.app_id')
                         ->where('ad_applicant_admission.year', $year)
                         ->where('ad_applicant_admission.campus', $campus)
-                        ->where('p_status', '=', 1);
-
-        if ($strand) {
-            $query->where('ad_applicant_admission.strand', $strand);
-        }
-
-        $data = $query->get();
+                        ->where('ad_applicant_admission.p_status', '=', 1)
+                        ->when($strand, function ($query) use ($strand) {
+                            $query->where('ad_applicant_admission.strand', $strand);
+                        })
+                        ->get([
+                            'ad_applicant_admission.id as adid',
+                            'ad_applicant_admission.admission_id',
+                            'ad_applicant_admission.type',
+                            'ad_applicant_admission.lname',
+                            'ad_applicant_admission.fname',
+                            'ad_applicant_admission.mname',
+                            'ad_applicant_admission.ext',
+                            'ad_applicant_admission.gender',
+                            'ad_applicant_admission.bday',
+                            'ad_applicant_admission.civil_status',
+                            'ad_applicant_admission.contact',
+                            'ad_applicant_admission.email',
+                            'ad_applicant_admission.address',
+                            'ad_applicant_admission.lstsch_attended',
+                            'ad_applicant_admission.strand',
+                            'ad_applicant_admission.strand as appstrand',
+                            'ad_applicant_admission.suc_lst_attended',
+                            'ad_applicant_admission.course',
+                            'ad_applicant_admission.preference_1',
+                            'ad_applicant_admission.preference_2',
+                            'ad_applicant_admission.dateID',
+                            'ad_applicant_admission.d_admission',
+                            'ad_applicant_admission.time',
+                            'ad_applicant_admission.venue',
+                            'ad_applicant_admission.campus',
+                            'ad_applicant_admission.status',
+                            'ad_applicant_admission.created_at',
+                            'ad_applicant_docs.studiddoc_image',
+                            'ad_applicant_docs.proofdoc_image',
+                            'ad_applicant_docs.typefileproofupload',
+                        ]);
 
         $data->transform(function ($item) {
             $item->adid = Crypt::encryptString($item->adid);
@@ -101,23 +130,23 @@ class AdAdmissionAppController extends Controller
     {
         $decryptedId = Crypt::decryptString($id);
         $access = AdReupload::where('appid', $decryptedId)->first();
-        
+
         if ($access) {
             return response()->json([
                 'reuploadallow' => $access->reuploadallow
             ]);
         }
-        
+
         return response()->json([
-            'reuploadallow' => [] 
+            'reuploadallow' => []
         ]);
     }
 
     public function saveAppUploadAccess(Request $request, $id)
     {
         $decryptedId = Crypt::decryptString($id);
-        $reuploadallow = $request->input('reuploadallow', []); 
-        
+        $reuploadallow = $request->input('reuploadallow', []);
+
         AdReupload::updateOrCreate(
             ['appid' => $decryptedId],
             [
@@ -125,14 +154,14 @@ class AdAdmissionAppController extends Controller
                 'status' => '2'
             ],
         );
-        
+
         return response()->json([
             'success' => true,
             'message' => 'Applicant re-upload access updated successfully.'
         ]);
     }
 
-    public function applicantUpdate(Request $request) 
+    public function applicantUpdate(Request $request)
     {
         $request->validate([
             'id' => 'required',
@@ -169,12 +198,12 @@ class AdAdmissionAppController extends Controller
         try {
             $decryptedId = Crypt::decryptString($id);
             $applicant = Applicant::find($decryptedId);
-            
+
             if ($applicant) {
                 $applicant->update(['p_status' => 7]);
 
                 return response()->json([
-                    'success' => true, 
+                    'success' => true,
                     'message' => 'Status updated to 7 successfully',
                 ]);
             } else {
@@ -192,8 +221,8 @@ class AdAdmissionAppController extends Controller
         }
     }
 
-    public function applicant_schedulemod_save(Request $request) 
-    {   
+    public function applicant_schedulemod_save(Request $request)
+    {
         $request->validate([
             'id' => 'required',
             'dateID' => 'required',
@@ -217,7 +246,7 @@ class AdAdmissionAppController extends Controller
         }
     }
 
-    public function applicant_confirmajax(Request $request) 
+    public function applicant_confirmajax(Request $request)
     {
         $decryptedId = Crypt::decryptString($request->input('id'));
         $applicantsWithoutSchedule = Applicant::where('p_status', 1)
@@ -249,13 +278,13 @@ class AdAdmissionAppController extends Controller
         if ($affectedRows > 0) {
             $applicant = Applicant::find($decryptedId);
             $formattedDate = \Carbon\Carbon::parse($applicant->d_admission)->format('F d, Y');
-            $formattedTime = \Carbon\Carbon::parse($applicant->time)->format('h:i A');         
+            $formattedTime = \Carbon\Carbon::parse($applicant->time)->format('h:i A');
 
             // Prepare email data
             $emailData = [
                 'date' => $formattedDate,
                 'time' => $formattedTime,
-                'venue' => $applicant->venue, 
+                'venue' => $applicant->venue,
                 'applicant_name' => $applicant->fname . ' ' . $applicant->lname,
             ];
 
