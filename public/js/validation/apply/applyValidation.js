@@ -508,30 +508,30 @@ $(function () {
 });
 
 // applicantType / upload sections handling (kept from original external file)
-const applicantType = document.getElementById('applicantType');
-const sections = document.querySelectorAll('.upload-section');
+// const applicantType = document.getElementById('applicantType');
+// const sections = document.querySelectorAll('.upload-section');
 
-if (applicantType) {
-    applicantType.addEventListener('change', function () {
-        sections.forEach(section => {
-            const input = section.querySelector('.file-input');
+// if (applicantType) {
+//     applicantType.addEventListener('change', function () {
+//         sections.forEach(section => {
+//             const input = section.querySelector('.file-input');
 
-            // Always clear the file input when switching
-            if (input) input.value = "";
+//             // Always clear the file input when switching
+//             if (input) input.value = "";
 
-            if (section.id === this.value) {
-                section.style.display = 'block';
-                if (input) input.setAttribute('required', true);
-            } else {
-                section.style.display = 'none';
-                if (input) input.removeAttribute('required');
-            }
-        });
+//             if (section.id === this.value) {
+//                 section.style.display = 'block';
+//                 if (input) input.setAttribute('required', true);
+//             } else {
+//                 section.style.display = 'none';
+//                 if (input) input.removeAttribute('required');
+//             }
+//         });
 
-        // After switching, check again so submit button updates
-        checkLastCardCompletion();
-    });
-}
+//         // After switching, check again so submit button updates
+//         checkLastCardCompletion();
+//     });
+// }
 
 // Also check again when user uploads a new file
 document.querySelectorAll('.file-input').forEach(input => {

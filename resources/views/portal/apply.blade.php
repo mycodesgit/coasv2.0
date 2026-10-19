@@ -554,7 +554,7 @@ CISS V.1.0 || Apply Admission
                                             </div>
                                         </div>
 
-                                        <div class="card rounded-4 mb-3">
+                                        {{-- <div class="card rounded-4 mb-3">
                                             <div class="card-body">
                                                 <div class="page-header" style="border-bottom: 1px solid #04401f;">
                                                     <h4>Application Requirement <span style="font-size: 12pt;color:#ff0000;"></span></h4>
@@ -599,7 +599,7 @@ CISS V.1.0 || Apply Admission
                                                     <input type="file" name="lifelongFile" class="form-control form-control-sm rounded-2 file-input" accept="image/*">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="card rounded-4 mb-4">
                                             <div class="card-body p-4">

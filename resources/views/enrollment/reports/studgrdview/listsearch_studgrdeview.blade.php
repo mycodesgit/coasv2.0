@@ -32,9 +32,9 @@ CISS V.1.0 || Enrollment
                                     <h4>View Student Grades</h4>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12"> 
+                                    <div class="col-md-12">
                                         <form method="GET" action="{{ Auth::guard('web')->user()->role == 15 ? route('searchgradschool_studviewgradeRead') : route('search_studviewgradeRead') }}" id="viewstudgrd">
-                                            @csrf   
+                                            @csrf
 
                                             <div class="form-group mt-2">
                                                 <div class="row g-3">
@@ -130,7 +130,7 @@ CISS V.1.0 || Enrollment
                                                             }
                                                             return $grade;
                                                         }
-                                                        
+
                                                         @endphp
                                                     @php
                                                         $stid = request()->get('stud_id');
@@ -187,7 +187,7 @@ CISS V.1.0 || Enrollment
     <script>
         function formatInput(input) {
             let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-            
+
             if (cleaned.length > 0) {
                 let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
                 input.value = formatted;
