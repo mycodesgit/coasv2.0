@@ -28,6 +28,7 @@ use App\Models\SettingDB\Province;
 use App\Models\SettingDB\City;
 use App\Models\SettingDB\Barangay;
 use App\Models\SettingDB\AdmissionMode;
+use App\Models\SettingDB\Campus;
 
 class PortalController extends Controller
 {
@@ -44,13 +45,16 @@ class PortalController extends Controller
         $program = Programs::orderBy('id', 'asc')->get();
         $strand = Strands::orderBy('code', 'asc')->get();
         $time = Time::whereYear('date', '2026')->get();
-        $campuses = \App\Models\SettingDB\Campus::all();
+        $campuses = Campus::all();
+
 
         //$todayRegistrations = Applicant::whereDate('created_at', today())->count();
         $regions = Region::all();
         $admissionmode = AdmissionMode::first();
 
-        return view('portal.apply', compact('admissionid','program', 'strand', 'time', 'campuses', 'regions', 'admissionmode'));
+        $todayCount = Applicant::whereDate('created_at', Carbon::today())->count();
+
+        return view('portal.apply', compact('admissionid','program', 'strand', 'time', 'campuses', 'regions', 'admissionmode', 'todayCount'));
         //->with('todayRegistrations', $todayRegistrations);
     }
 

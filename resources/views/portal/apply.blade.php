@@ -9,7 +9,41 @@ CISS V.1.0 || Apply Admission
         <div class="col-12">
             <div class="mb-6">
                 {{-- <h1 class="fs-5 mb-4 d-none d-md-block">Dashboard</h1> --}}
-                @if ($admissionmode->statusadmission == 'On')
+                @if ($todayCount >= 3000)
+                    <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
+                        <div class="card-body">
+                            <ol class="breadcrumb" style="margin-bottom: -3px;">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('admission-portal') }}" class="btn btn-success btn-sm text-light">
+                                        <i class="fas fa-home"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active mt-1">Apply Admission</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm rounded-4 my-4 overflow-hidden">
+                        <div class="card-body p-4 text-center">
+                            <!-- Status Icon -->
+                            <div class="d-inline-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning rounded-circle mb-3 p-3" style="width: 64px; height: 64px;">
+                                <i class="fas fa-exclamation-triangle fa-2x"></i>
+                            </div>
+
+                            <!-- Headline -->
+                            <h4 class="fw-bold text-dark mb-2">Daily Limit Reached</h4>
+
+                            <!-- Detailed Text -->
+                            <p class="text-muted mb-3 mx-auto" style="max-width: 480px;">
+                                We have reached the maximum limit of <strong>3,000 registrations</strong> for today. Please check back tomorrow to submit your application.
+                            </p>
+
+                            <!-- Status Badge -->
+                            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-semibold">
+                                <i class="fas fa-clock me-1"></i> Registration Opens Tomorrow
+                            </span>
+                        </div>
+                    </div>
+                @elseif ($admissionmode->statusadmission == 'On')
                     <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
                         <div class="card-body">
                             <ol class="breadcrumb" style="margin-bottom: -3px;">

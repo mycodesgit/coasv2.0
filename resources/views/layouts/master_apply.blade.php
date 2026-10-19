@@ -112,7 +112,8 @@
     </script>
 
     @if(request()->routeIs('admission-apply'))
-        @if ($admissionmode->statusadmission == 'On')
+        @if ($todayCount >= 3000)
+        @elseif ($admissionmode->statusadmission == 'On')
             @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
             @else
                 <!-- Moment -->
