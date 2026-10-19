@@ -401,24 +401,6 @@ CISS V.1.0 || Apply Admission
                                             </div>
                                         </div>
 
-                                        <div class="card rounded-4 mb-3">
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label class="form-label fw-semibold">Admission Testing Date: <span class="text-danger">*</span></label>
-                                                            <select class="form-control form-control-sm rounded-2" name="d_admissionselect">
-                                                                <option value="">Select</option>
-                                                            </select>
-                                                            <input type="hidden" id="selectedDate" name="d_admission" placeholder="Selected Date">
-                                                            <input type="hidden" id="selectedTime" name="time" placeholder="Selected Time">
-                                                            <input type="hidden" id="selectedDateTimeID" name="dateID" placeholder="Selected Date Time ID">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <div class="new-returnee-form" id="newReturneeForm" style="display: ;">
                                             <div class="card rounded-4 mb-3">
                                                 <div class="card-body">
@@ -514,6 +496,24 @@ CISS V.1.0 || Apply Admission
                                                             <select class="form-control form-control-sm" name="preference_2" style="text-transform: uppercase;">
                                                                 <option value="">Select Course Preference</option>
                                                             </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card rounded-4 mb-3">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label class="form-label fw-semibold">Admission Testing Date: <span class="text-danger">*</span></label>
+                                                            <select class="form-control form-control-sm rounded-2" name="d_admissionselect">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                            <input type="hidden" id="selectedDate" name="d_admission" placeholder="Selected Date">
+                                                            <input type="hidden" id="selectedTime" name="time" placeholder="Selected Time">
+                                                            <input type="hidden" id="selectedDateTimeID" name="dateID" placeholder="Selected Date Time ID">
                                                         </div>
                                                     </div>
                                                 </div>

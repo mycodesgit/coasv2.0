@@ -84,8 +84,11 @@ function updateOptions(selectName, options) {
 
 function updateSchedOptions(selectName, options) {
     const select = $('select[name=' + selectName + ']');
+    const currentSelectedId = select.find('option:selected').data('primdatetimeid');
     select.empty();
     select.append('<option disabled selected> --Select Testing Schedule-- </option>');
+
+    let hasRestored = false;
     $.each(options, function (key, value) {
         const formattedDate = (typeof moment !== 'undefined') ? moment(value.date).format('MMMM DD, YYYY') : value.date;
         const formattedTime = (typeof moment !== 'undefined') ? moment(value.time, 'HH:mm').format('hh:mm A') : value.time;
@@ -95,9 +98,20 @@ function updateSchedOptions(selectName, options) {
         if (slots === 0) {
             select.append('<option disabled>' + formattedDate + ' ' + formattedTime + ' (Slots is Full)</option>');
         } else {
-            select.append('<option value="' + value.date + '" data-primdatetimeid="' + primDateTimeID + '">' + formattedDate + ' ' + formattedTime + ' (Available Slots: ' + slots + ')</option>');
+            const $opt = $('<option value="' + value.date + '" data-primdatetimeid="' + primDateTimeID + '">' + formattedDate + ' ' + formattedTime + ' (Available Slots: ' + slots + ')</option>');
+            // Restore selection if this is the previously selected slot and still available
+            if (currentSelectedId && String(currentSelectedId) === String(primDateTimeID)) {
+                $opt.prop('selected', true);
+                hasRestored = true;
+            }
+            select.append($opt);
         }
     });
+
+    // If we restored a selection, trigger change to repopulate hidden fields
+    if (hasRestored) {
+        select.trigger('change');
+    }
 }
 
 function clearForm() {
