@@ -36,18 +36,6 @@ CISS V.1.0 || Apply Admission
                             @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
                                 <img src="{{ asset('uilibs/images/limit-has-been-reached.jpg') }}" width="100%" class="img-responsive">
                             @elseif ($todayCount >= 3000)
-                                <div class="card" style=" background-color: #e9ecef; margin-top: -10px">
-                                    <div class="card-body">
-                                        <ol class="breadcrumb" style="margin-bottom: -3px;">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('admission-portal') }}" class="btn btn-success btn-sm text-light">
-                                                    <i class="fas fa-home"></i>
-                                                </a>
-                                            </li>
-                                            <li class="breadcrumb-item active mt-1">Apply Admission</li>
-                                        </ol>
-                                    </div>
-                                </div>
                                 <div class="card card-animate shadow-sm rounded-4 my-4 overflow-hidden">
                                     <div class="card-body p-4 text-center">
                                         <!-- Status Icon -->

@@ -112,9 +112,9 @@
     </script>
 
     @if(request()->routeIs('admission-apply'))
-        @if ($todayCount >= 3000)
-        @elseif ($admissionmode->statusadmission == 'On')
+        @if ($admissionmode->statusadmission == 'On')
             @if(!$now->isWeekday() || $now->lt($startTime) || $now->gte($endTime))
+            @elseif ($todayCount >= 3000)
             @else
                 <!-- Moment -->
                 <script src="{{ asset('uilibs/plugins/moment/moment.min.js') }}"></script>
