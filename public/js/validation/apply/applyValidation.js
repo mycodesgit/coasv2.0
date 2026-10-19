@@ -402,10 +402,37 @@ $(function () {
     });
 
     // Campus / course prefs / exam schedule
+    let scheduleRefreshInterval;
+    function startScheduleRefresh() {
+        if (scheduleRefreshInterval) clearInterval(scheduleRefreshInterval);
+        scheduleRefreshInterval = setInterval(() => {
+            const selectedCampus = $('#campus').val();
+            if (selectedCampus) {
+                updateExamSchedule(selectedCampus);
+            }
+        }, 5000);
+    }
+    function stopScheduleRefresh() {
+        if (scheduleRefreshInterval) clearInterval(scheduleRefreshInterval);
+    }
+
     $('#campus').change(function () {
         const selectedCampus = $(this).val();
         updateCoursePreferences(selectedCampus);
         updateExamSchedule(selectedCampus);
+        stopScheduleRefresh();
+        if (selectedCampus) {
+            startScheduleRefresh();
+        }
+    });
+
+    $(window).on('blur', stopScheduleRefresh);
+    $(window).on('focus', function () {
+        const selectedCampus = $('#campus').val();
+        if (selectedCampus) {
+            updateExamSchedule(selectedCampus);
+            startScheduleRefresh();
+        }
     });
 
     $(document).on('scheduleUpdated', function () {

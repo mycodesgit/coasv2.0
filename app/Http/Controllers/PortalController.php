@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 use Carbon\Carbon;
@@ -72,8 +73,7 @@ class PortalController extends Controller
                     ->get(['date', 'time', 'slots', 'id'])
                     ->map(function ($sched) {
                     // Count applicants with the same date and time
-                    $applicantCount = Applicant::where('d_admission', $sched->date)
-                        ->where('time', $sched->time)
+                    $applicantCount = Applicant::where('dateID', $sched->id)
                         ->where('p_status', '!=', 7) // Exclude cancelled applicants
                         ->count();
 
@@ -222,6 +222,24 @@ class PortalController extends Controller
             return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Daily registration limit reached!');
         }
 
+        // Check slot availability if dateID/time is provided
+        $dateId = $request->input('dateID');
+        if ($dateId) {
+            $remainingSlots = 0;
+            DB::transaction(function () use ($dateId, &$remainingSlots) {
+                $timeSlot = Time::lockForUpdate()->find($dateId);
+                if ($timeSlot) {
+                    $applicantCount = Applicant::where('dateID', $timeSlot->id)
+                        ->where('p_status', '!=', 7)
+                        ->count();
+                    $remainingSlots = max($timeSlot->slots - $applicantCount, 0);
+                }
+            });
+            if ($remainingSlots <= 0) {
+                return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Selected exam schedule is no longer available. Please choose another schedule.');
+            }
+        }
+
         // $campus = $request->input('campus');
         // $year = Year::where('status', 'On')->value('adyear');
         // $admissionid = '';
@@ -305,10 +323,9 @@ class PortalController extends Controller
         $applicant->time = $request->input('time');
         $dt = Carbon::now();
         $applicant->created_at = $dt;
-        $applicant->save();
-
-        if ($applicant->save())
-        {
+        DB::beginTransaction();
+        try {
+            $applicant->save();
             $appid = $applicant->id;
             $camp = $applicant->campus;
 
@@ -412,10 +429,12 @@ class PortalController extends Controller
             $examinee->camp = $camp;
             $examinee->save();
 
+            DB::commit();
             return Redirect::route('submitsucapply')->withInput()->with('success', 'Application was successfully submitted. Check status in the (Track) Admission Page.')->with('admission_id' ,$admissionid)->with('email', $applicant->email);
         }
-        else{
-            return Redirect::route('admission-apply')->withErrors($validator)->withInput();
+        catch (\Exception $e) {
+            DB::rollBack();
+            return Redirect::route('admission-apply')->withErrors($validator)->withInput()->with('fail', 'Error: Could not process your application. Please try again.');
         }
     }
 
