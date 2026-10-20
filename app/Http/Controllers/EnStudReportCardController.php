@@ -67,7 +67,7 @@ class EnStudReportCardController extends Controller
             })
             ->orderBy('id', 'DESC')
             ->get();
-            
+
         $stud_id = $request->stud_id;
         $schlyear = $request->query('schlyear');
         $semester = $request->query('semester');
@@ -96,7 +96,7 @@ class EnStudReportCardController extends Controller
                     })
                     ->where('program_en_history.studentID', $stud_id)
                     ->first();
-                    
+
         if (!$studenthis) {
             return redirect()->back()->with('error', 'Student ID Numer <strong>' . $stud_id . '</strong> was not enrolled this' .$semester.' semester and '.$schlyear.' ');
         }
@@ -298,7 +298,7 @@ class EnStudReportCardController extends Controller
 
     public function studevalRead_listsearch(Request $request)
     {
-            
+
         $stud_id = $request->stud_id;
         $campus = Auth::guard('web')->user()->campus;
 
@@ -329,7 +329,7 @@ class EnStudReportCardController extends Controller
 
     public function studevalReadgradschool_listsearch(Request $request)
     {
-            
+
         $stud_id = $request->stud_id;
         $campus = Auth::guard('web')->user()->campus;
 

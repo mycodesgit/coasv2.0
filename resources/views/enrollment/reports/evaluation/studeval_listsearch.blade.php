@@ -32,9 +32,9 @@ CISS V.1.0 || Enrollment
                                     <h4>Student Record</h4>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12"> 
+                                    <div class="col-md-12">
                                         <form method="GET" action="{{ Auth::guard('web')->user()->role == 15 ? route('studevalReadgradschool_listsearch') : route('studevalRead_listsearch') }}" id="enrollStud">
-                                            @csrf   
+                                            @csrf
 
                                             <div class="form-group mt-2">
                                                 <div class="row g-3">
@@ -154,10 +154,10 @@ CISS V.1.0 || Enrollment
                                                                                 if ($grade >= 70) return ['gpa' => '4.00', 'status' => 'Conditional'];
                                                                                 return ['gpa' => '5.00', 'status' => 'Failure'];
                                                                             }
-                                                                        } 
-                                                                            
+                                                                        }
+
                                                                         //$isOldSystem = Str::contains($studsub->first()->subSec ?? '', '4-');
-                                                                        
+
                                                                         function displayGrade($grade, $isOldSystem = false) {
                                                                             if (is_numeric($grade) && strpos($grade, '.') === false) {
                                                                                 $equivalent = getEquivalentGPA($grade, $isOldSystem);
@@ -306,10 +306,10 @@ CISS V.1.0 || Enrollment
                                                                                 if ($grade >= 70) return ['gpa' => '4.00', 'status' => 'Conditional'];
                                                                                 return ['gpa' => '5.00', 'status' => 'Failure'];
                                                                             }
-                                                                        } 
-                                                                            
+                                                                        }
+
                                                                         //$isOldSystem = Str::contains($studsub->first()->subSec ?? '', '4-');
-                                                                        
+
                                                                         function displayGrade($grade, $isOldSystem = false) {
                                                                             if (is_numeric($grade) && strpos($grade, '.') === false) {
                                                                                 $equivalent = getEquivalentGPA($grade, $isOldSystem);
@@ -437,7 +437,7 @@ CISS V.1.0 || Enrollment
     <script>
         function formatInput(input) {
             let cleaned = input.value.replace(/[^A-Za-z0-9]/g, '');
-            
+
             if (cleaned.length > 0) {
                 let formatted = cleaned.substring(0, 4) + '-' + cleaned.substring(4, 8) + '-' + cleaned.substring(8, 9);
                 input.value = formatted;

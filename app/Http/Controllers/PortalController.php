@@ -500,13 +500,13 @@ class PortalController extends Controller
             return Redirect::route('admission_track')->withErrors($validator)->withInput()->with('error', 'Please check the inputs! Lastname and Firstname is required');}
         else
         {
-
+            $year = Year::where('status', 'On')->value('adyear');
             $data = Applicant::join('ad_examinee_result', 'ad_applicant_admission.id', '=', 'ad_examinee_result.app_id')
                 ->join('ad_applicant_dept_rating', 'ad_applicant_admission.id', '=', 'ad_applicant_dept_rating.app_id')
                 ->where('ad_applicant_admission.lname', $request->lname)
                 ->where('ad_applicant_admission.fname', $request->fname)
                 ->where('ad_applicant_admission.p_status', '!=', 7)
-                ->where('ad_applicant_admission.year', '=', '2026')
+                ->where('ad_applicant_admission.year', $year)
                 ->select(
                     'ad_applicant_admission.admission_id',
                     'ad_applicant_admission.p_status',
