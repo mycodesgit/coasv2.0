@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 
 <head>
     <meta charset="UTF-8" />
@@ -19,9 +19,13 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/toastr/toastr.min.css') }}">
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+            // Light is the default. Only a saved user choice can enable dark.
+            var theme = 'light';
+            try {
+                theme = localStorage.getItem('theme') || 'light';
+            } catch (e) {
+                theme = 'light';
+            }
             document.documentElement.setAttribute('data-bs-theme', theme);
         })();
     </script>
@@ -92,14 +96,14 @@
                                 <div>
                                     <h4 class="mb-0 small">{{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }}</h4>
                                     <p class="mb-0 small text-success">
-                                        @if (Auth::guard('web')->user()->role == 0) Administrator 
-                                            @elseif(Auth::guard('web')->user()->role == 1) Guidance Officer 
-                                            @elseif(Auth::guard('web')->user()->role == 2) Guidance Staff 
-                                            @elseif(Auth::guard('web')->user()->role == 3) Registrar 
-                                            @elseif(Auth::guard('web')->user()->role == 4) Registrar Staff 
-                                            @elseif(Auth::guard('web')->user()->role == 5) College Dean 
-                                            @elseif(Auth::guard('web')->user()->role == 6) Program Head 
-                                            @elseif(Auth::guard('web')->user()->role == 7) College Staff 
+                                        @if (Auth::guard('web')->user()->role == 0) Administrator
+                                            @elseif(Auth::guard('web')->user()->role == 1) Guidance Officer
+                                            @elseif(Auth::guard('web')->user()->role == 2) Guidance Staff
+                                            @elseif(Auth::guard('web')->user()->role == 3) Registrar
+                                            @elseif(Auth::guard('web')->user()->role == 4) Registrar Staff
+                                            @elseif(Auth::guard('web')->user()->role == 5) College Dean
+                                            @elseif(Auth::guard('web')->user()->role == 6) Program Head
+                                            @elseif(Auth::guard('web')->user()->role == 7) College Staff
                                             @elseif(Auth::guard('web')->user()->role == 8) Scholarship Head
                                             @elseif(Auth::guard('web')->user()->role == 9) Scholarship Staff
                                             @elseif(Auth::guard('web')->user()->role == 10) Assessment Head
@@ -283,7 +287,7 @@
     <script>
         var previousSchlyearYear = {!! json_encode($previousSchlyearYear) !!};
         var semesteractive = {!! json_encode($semesteractive) !!};
-        var collbar1Route = {!! json_encode($collegesCurrentSemester) !!}; 
+        var collbar1Route = {!! json_encode($collegesCurrentSemester) !!};
         var groupedCollegeData = {!! json_encode($collegesCurrentSemester) !!};
         var schlyearActive = {!! json_encode($schlyearactiveYear) !!};
     </script>
@@ -298,7 +302,7 @@
             toastr.error("{{ session('error') }}")
         @endif
     </script>
-    
+
     <script>
         const btn = document.getElementById("servicesBtn");
         const menu = document.getElementById("servicesMenu");

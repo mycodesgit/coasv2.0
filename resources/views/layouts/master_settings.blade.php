@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>@yield('title')</title>
 
     <link rel="shortcut icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
@@ -33,9 +33,13 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+            // Light is the default. Only a saved user choice can enable dark.
+            var theme = 'light';
+            try {
+                theme = localStorage.getItem('theme') || 'light';
+            } catch (e) {
+                theme = 'light';
+            }
             document.documentElement.setAttribute('data-bs-theme', theme);
         })();
     </script>
@@ -74,7 +78,7 @@
     <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9995">
 
         <div id="s" class="text-light">
-            CISS v.1.0 
+            CISS v.1.0
         </div>
 
         <div class="d-md-none">
@@ -106,17 +110,17 @@
                         <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
-                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
-                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} -
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan
                                 @endif
                             @endif
                         @endauth
@@ -127,16 +131,16 @@
                         <img src="{{ asset('uilibs/images/usergreen.png') }}" alt="" class="avatar avatar-sm rounded-circle" />
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
-                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan
                                 @endif
                             @endif
                         @endauth
@@ -220,7 +224,7 @@
     @if(request()->routeIs('accountRead'))
         @include('script.settings.changeaccountpass')
     @endif
-    
+
     @if(request()->routeIs('usersRead'))
         <script src="{{ asset('js/ajax/settngs/useraccountSerialize.js') }}"></script>
     @endif

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>@yield('title')</title>
 
     <link rel="shortcut icon" sizes="180x180" href="{{ asset('uilibs/images/cpsulogov4.png') }}">
@@ -31,9 +31,13 @@
     <link rel="stylesheet" href="{{ asset('template/dist/css/sched-style.css') }}">
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+            // Light is the default. Only a saved user choice can enable dark.
+            var theme = 'light';
+            try {
+                theme = localStorage.getItem('theme') || 'light';
+            } catch (e) {
+                theme = 'light';
+            }
             document.documentElement.setAttribute('data-bs-theme', theme);
         })();
     </script>
@@ -72,7 +76,7 @@
     <nav id="topbar" class="navbar bg-white border-bottom fixed-top px-3" style="background-color: #04401f !important; z-index: 9995">
 
         <div id="s" class="text-light">
-            CISS v.1.0 
+            CISS v.1.0
         </div>
 
         <div class="d-md-none">
@@ -103,17 +107,17 @@
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
-                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} - 
-                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                Logged as: {{ Auth::guard('web')->user()->fname }} {{ Auth::guard('web')->user()->lname }} -
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan
                                 @endif
                             @endif
                         @endauth
@@ -123,16 +127,16 @@
                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
                         @auth('web')
                             @if(in_array(Auth::guard('web')->user()->role, range(0, 21)))
-                                @if (Auth::guard('web')->user()->campus == 'MC') Main 
-                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos 
-                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran 
-                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla 
-                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni 
-                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan 
-                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay  
-                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan 
+                                @if (Auth::guard('web')->user()->campus == 'MC') Main
+                                    @elseif (Auth::guard('web')->user()->campus == 'VC') Victorias
+                                    @elseif (Auth::guard('web')->user()->campus == 'SCC') San Carlos
+                                    @elseif (Auth::guard('web')->user()->campus == 'HC') Hinigaran
+                                    @elseif (Auth::guard('web')->user()->campus == 'MP') Moises Padilla
+                                    @elseif (Auth::guard('web')->user()->campus == 'IC') Ilog
+                                    @elseif (Auth::guard('web')->user()->campus == 'CA') Candoni
+                                    @elseif (Auth::guard('web')->user()->campus == 'CC') Cauayan
+                                    @elseif (Auth::guard('web')->user()->campus == 'SC') Sipalay
+                                    @elseif (Auth::guard('web')->user()->campus == 'HinC') Hinobaan
                                 @endif
                             @endif
                         @endauth
@@ -216,9 +220,9 @@
     @if(request()->routeIs('assessment-index'))
         <script src="{{ asset('js/chart/enbarchart.js') }}?v={{ time() }}"></script>
         <script src="{{ asset('js/ajax/settngs/setconfEncodedAppraisalSerialize.js') }}?v={{ time() }}"></script>
-        <script> 
-            var collbar1Route = {!! json_encode($collegesFirstSemester) !!}; 
-            var collbar2Route = {!! json_encode($collegesSecondSemester) !!}; 
+        <script>
+            var collbar1Route = {!! json_encode($collegesFirstSemester) !!};
+            var collbar2Route = {!! json_encode($collegesSecondSemester) !!};
             var semesteractive = {!! json_encode($semesteractive) !!};
             var prevsemesteractive = {!! json_encode($prevsemesteractive) !!};
             var schlyearActive = {!! json_encode($schlyearactiveYear) !!}; // Current active school year
@@ -242,17 +246,17 @@
             $(document).ready(function () {
                 $('#studFeeShowAssess').on('submit', function (e) {
                     e.preventDefault();
-                    var progCode = new URLSearchParams(window.location.search).get('prog_Code'); 
+                    var progCode = new URLSearchParams(window.location.search).get('prog_Code');
 
                     var routeUrl;
                     if (progCode && progCode.includes('GSS')) {
-                        routeUrl = "{{ route('fetch-student-fees-grad') }}"; 
+                        routeUrl = "{{ route('fetch-student-fees-grad') }}";
                     } else {
-                        routeUrl = "{{ route('fetch-student-fees') }}"; 
+                        routeUrl = "{{ route('fetch-student-fees') }}";
                     }
 
                     $.ajax({
-                        url: routeUrl, 
+                        url: routeUrl,
                         method: "GET",
                         data: $(this).serialize(),
                         success: function (response) {

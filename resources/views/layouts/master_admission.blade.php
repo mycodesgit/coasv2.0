@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +30,13 @@
     <link rel="stylesheet" href="{{ asset('uilibs/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+            // Light is the default. Only a saved user choice can enable dark.
+            var theme = 'light';
+            try {
+                theme = localStorage.getItem('theme') || 'light';
+            } catch (e) {
+                theme = 'light';
+            }
             document.documentElement.setAttribute('data-bs-theme', theme);
         })();
     </script>
