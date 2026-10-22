@@ -16,11 +16,16 @@ use App\Models\AdmissionDB\ApplicantDocs;
 use App\Models\AdmissionDB\AdReupload;
 use App\Models\AdmissionDB\Year;
 
+use App\Models\SettingDB\AdmissionMode;
+use App\Models\SettingDB\Campus;
+
 class AdReuploadController extends Controller
 {
     public function repup()
     {
-        return view('portal.reuploadfile');
+        $admissionmode = AdmissionMode::first();
+
+        return view('portal.reuploadfile', compact('admissionmode'));
     }
 
     public function searchApplicant(Request $request)
@@ -49,7 +54,7 @@ class AdReuploadController extends Controller
                     'lname' => $applicant->lname,
                     'fname' => $applicant->fname,
                     'primaryid' => $applicant->id,
-                    'reuploadallow' => $applicant->reuploadallow, 
+                    'reuploadallow' => $applicant->reuploadallow,
                 ]
             ]);
         } else {
@@ -62,14 +67,14 @@ class AdReuploadController extends Controller
 
     public function uploadDocuments(Request $request)
     {
-        
+
         $year = Year::where('status', 'On')->value('adyear');
 
         $app_id = $request->input('id');
         $admissionid = $request->input('admissionid');
         $lname = $request->input('lname');
         $fname = $request->input('fname');
-        
+
         $applicant = ApplicantDocs::where('app_id', $app_id)->first();
         $reupload = AdReupload::where('appid', $app_id)->first();
 
@@ -150,6 +155,9 @@ class AdReuploadController extends Controller
 
     public function repupredirectexpire()
     {
-        return view('portal.uploadsuccesspage');
+        $year = Year::where('status', 'On')->value('adyear');
+        $email = session('email');
+
+        return view('portal.uploadsuccesspage', compact('email', 'year'));
     }
 }
