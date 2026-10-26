@@ -66,48 +66,83 @@ class EnStudentPerSubjectController extends Controller
         return view('enrollment.reports.studentsub.listsearch_studsub', compact('sy'));
     }
 
+    // public function getlistsearch_studsubjectsRead(Request $request)
+    // {
+    //     $schlyear = $request->query('schlyear');
+    //     $semester = $request->query('semester');
+    //     $campus = Auth::guard('web')->user()->campus;
+
+    //     // Prepare a subquery that aggregates the student count per subject.
+    //     $studCountSubquery = DB::table('coasv2_db_enrollment.studgrades')
+    //         ->select('subjID', DB::raw('COUNT(subjID) as countstud'))
+    //         ->where('campus', $campus)
+    //         ->groupBy('subjID');
+
+    //     // Join with subjects and the aggregated student count.
+    //     $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+    //         // Left join ensures that even if a subject has no enrolled students, it is still returned.
+    //         // ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
+    //         //     $join->on('sub_offered.id', '=', 'studgrades.subjID');
+    //         // })
+    //         ->where('sub_offered.schlyear', $schlyear)
+    //         ->where('sub_offered.semester', $semester)
+    //         ->where('sub_offered.campus', $campus)
+    //         ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
+    //         ->select(
+    //             'subjects.sub_name',
+    //             'subjects.sub_title',
+    //             'sub_offered.*',
+    //             'sub_offered.id as sid',
+    //             // Use COALESCE to return 0 when there are no matching studgrades.
+    //             //DB::raw('COALESCE(studgrades.countstud, 0) as countstud')
+    //         )
+    //         ->get();
+
+    //     return response()->json(['data' => $data]);
+    // }
+
     public function getlistsearch_studsubjectsRead(Request $request)
-{
-    $schlyear = $request->query('schlyear');
-    $semester = $request->query('semester');
-    $campus = Auth::guard('web')->user()->campus;
+    {
+        $schlyear = $request->query('schlyear');
+        $semester = $request->query('semester');
+        $campus = Auth::guard('web')->user()->campus;
 
-    // Prepare a subquery that aggregates student count, male count, and female count per subject.
-    $studCountSubquery = DB::table('coasv2_db_enrollment.studgrades')
-        ->join('coasv2_db_enrollment.students', 'studgrades.studID', '=', 'students.stud_id')
-        ->select(
-            'studgrades.subjID',
-            DB::raw('COUNT(studgrades.subjID) as countstud'),
-            DB::raw("SUM(CASE WHEN students.gender = 'Male' THEN 1 ELSE 0 END) as male_count"),
-            DB::raw("SUM(CASE WHEN students.gender = 'Female' THEN 1 ELSE 0 END) as female_count")
-        )
-        ->where('studgrades.campus', $campus)
-        ->groupBy('studgrades.subjID');
+        // Prepare a subquery that aggregates student count, male count, and female count per subject.
+        $studCountSubquery = DB::table('coasv2_db_enrollment.studgrades')
+            ->join('coasv2_db_enrollment.students', 'studgrades.studID', '=', 'students.stud_id')
+            ->select(
+                'studgrades.subjID',
+                DB::raw('COUNT(studgrades.subjID) as countstud'),
+                DB::raw("SUM(CASE WHEN students.gender = 'Male' THEN 1 ELSE 0 END) as male_count"),
+                DB::raw("SUM(CASE WHEN students.gender = 'Female' THEN 1 ELSE 0 END) as female_count")
+            )
+            ->where('studgrades.campus', $campus)
+            ->groupBy('studgrades.subjID');
 
-    // Join with subjects and the aggregated student counts.
-    $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
-        ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
-            $join->on('sub_offered.id', '=', 'studgrades.subjID');
-        })
-        ->where('sub_offered.schlyear', $schlyear)
-        ->where('sub_offered.semester', $semester)
-        ->where('sub_offered.campus', $campus)
-        ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
-        // Optional: If you want to hardcode or filter a specific subCode like KAB-NMS=130 during testing:
-        // ->where('sub_offered.subCode', 'KAB-NMS=130')
-        ->select(
-            'subjects.sub_name',
-            'subjects.sub_title',
-            'sub_offered.*',
-            'sub_offered.id as sid',
-            DB::raw('COALESCE(studgrades.countstud, 0) as countstud'),
-            DB::raw('COALESCE(studgrades.male_count, 0) as male_count'),
-            DB::raw('COALESCE(studgrades.female_count, 0) as female_count')
-        )
-        ->get();
+        // Join with subjects and the aggregated student counts.
+        $data = SubjectOffered::join('subjects', 'sub_offered.subCode', '=', 'subjects.sub_code')
+            ->leftJoinSub($studCountSubquery, 'studgrades', function ($join) {
+                $join->on('sub_offered.id', '=', 'studgrades.subjID');
+            })
+            ->where('sub_offered.schlyear', $schlyear)
+            ->where('sub_offered.semester', $semester)
+            ->where('sub_offered.campus', $campus)
+            ->where('sub_offered.subCode', 'NOT LIKE', '%-GSS-%')
+            // Optional: If you want to hardcode or filter a specific subCode like KAB-NMS=130 during testing:
+            // ->where('sub_offered.subCode', 'KAB-NMS=130')
+            ->select(
+                'subjects.sub_name',
+                'subjects.sub_title',
+                'sub_offered.*',
+                'sub_offered.id as sid',
+                DB::raw('COALESCE(studgrades.countstud, 0) as countstud'),
+                DB::raw('COALESCE(studgrades.male_count, 0) as male_count'),
+                DB::raw('COALESCE(studgrades.female_count, 0) as female_count')
+            )
+            ->get();
 
-        return response()->json(['data' => $data]);
-}
+            return response()->json(['data' => $data]);
+    }
 
     public function gradschoolgetlistsearch_studsubjectsRead(Request $request)
     {
