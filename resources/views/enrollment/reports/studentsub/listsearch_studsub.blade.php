@@ -74,7 +74,9 @@ CISS V.1.0 || Enrollment
                                                         <th>Subject</th>
                                                         <th>Descriptive</th>
                                                         <th>Course Yr&Section</th>
-                                                        {{-- <th>No of Stud</th> --}}
+                                                        <th>No of Stud</th>
+                                                        <th>M</th>
+                                                        <th>F</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
