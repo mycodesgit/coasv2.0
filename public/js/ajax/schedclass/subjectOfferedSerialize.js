@@ -30,7 +30,7 @@ $(document).ready(function() {
     });
 
     var urlParams = new URLSearchParams(window.location.search);
-    var schlyear = urlParams.get('schlyear') || ''; 
+    var schlyear = urlParams.get('schlyear') || '';
     var semester = urlParams.get('semester') || '';
     var campus = '';
     if (isuserRole) {
@@ -41,7 +41,7 @@ $(document).ready(function() {
         "ajax": {
             "url": subOfferedReadRoute,
             "type": "GET",
-            "data": function(d) { 
+            "data": function(d) {
                 d.schlyear = schlyear;
                 d.semester = semester;
                 if (isuserRole) {
@@ -110,7 +110,7 @@ $(document).ready(function() {
 
         ],
         "createdRow": function (row, data, index) {
-            $(row).attr('id', 'tr-' + data.soid); 
+            $(row).attr('id', 'tr-' + data.soid);
         }
     });
     $(document).on('subjOffAdded', function() {
@@ -124,7 +124,7 @@ $(document).ready(function() {
 //         var subcode = selectedOption.data('sub-code');
 //         var lecUnit = selectedOption.data('lec-unit');
 //         var labUnit = selectedOption.data('lab-unit');
-        
+
 //         $('#subcode').val(subcode);
 //         $('#lecUnit').val(lecUnit);
 //         $('#labUnit').val(labUnit);
@@ -218,7 +218,7 @@ $(document).ready(function() {
 
         $('#fundSelect').trigger('change');
     }
-    
+
     $('#isOJT').on('change', function () {
         let isOJT = $(this).val();
         let subUnit = parseFloat($('#subUnit').val()) || 0;
@@ -274,7 +274,7 @@ $(document).ready(function() {
         var lecUnitEdit = selectedOption.data('lec-unitedit');
         var labUnitEdit = selectedOption.data('lab-unitedit');
         var subUnitEdit = lecUnitEdit + labUnitEdit;
-        
+
         $('#subcodeEdit').val(subcodeEdit);
         $('#lecUnitEdit').val(lecUnitEdit);
         $('#labUnitEdit').val(labUnitEdit);
@@ -335,7 +335,7 @@ $(document).ready(function() {
         var selectedOption = $(this).find('option:selected');
         var fundId = selectedOption.val();
         var accountName = selectedOption.data('account-name');
-        
+
         $('#fundIdInput').val(fundId);
         $('#accountNameInput').val(accountName);
     });
@@ -346,7 +346,7 @@ $(document).ready(function() {
         var selectedOption = $(this).find('option:selected');
         var fundIdEdit = selectedOption.val();
         var accountNameEdit = selectedOption.data('account-nameedit');
-        
+
         $('#fundIdInputEdit').val(fundIdEdit);
         $('#accountNameInputEdit').val(accountNameEdit);
     });
@@ -391,7 +391,7 @@ $(document).on('click', '.btn-studSubOffer', function() {
     $('#itFeeSelect').val(itfee);
 
     $.ajax({
-        url: subOfferedNameReadRoute, 
+        url: subOfferedNameReadRoute,
         method: 'GET',
         data: { subCode: subofferCode },
         success: function(response) {

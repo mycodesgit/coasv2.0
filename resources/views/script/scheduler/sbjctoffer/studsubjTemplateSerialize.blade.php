@@ -1,3 +1,9 @@
+<style>
+    /* Keep SweetAlert in front of #subjectsModal */
+    .swal-above-subjects-modal {
+        z-index: 20000 !important;
+    }
+</style>
 <script>
     $(document).ready(function() {
         // Ensure Select2 is initialized (add this if not already present elsewhere)
@@ -11,7 +17,7 @@
                 var progAcronym = selectedOption.data('prog-acronym');
                 var section = selectedOption.data('section');
                 var year = selectedOption.data('year');
-                
+
                 if (progAcronym && section && year) {
                     $('#hiddenProgYear').val(progAcronym + ' ' + year);
                     $('#hiddenProgYearSection').val(progAcronym + ' ' + section);
@@ -118,7 +124,8 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Warning',
-                    text: 'No subjects to save.'
+                    text: 'No subjects to save.',
+                    customClass: { container: 'swal-above-subjects-modal' }
                 });
                 return;
             }
@@ -172,7 +179,8 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
-                            text: 'Subjects saved successfully! ' + response.savedCount + ' records created.'
+                            text: 'Subjects saved successfully! ' + response.savedCount + ' records created.',
+                            customClass: { container: 'swal-above-subjects-modal' }
                         }).then(() => {
                             $(document).trigger('subjOffAdded');
                             $('#subjectsModal').modal('hide'); // Close modal
@@ -181,7 +189,8 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Error: ' + (response.message || 'Failed to save.')
+                            text: 'Error: ' + (response.message || 'Failed to save.'),
+                            customClass: { container: 'swal-above-subjects-modal' }
                         });
                     }
                 },
@@ -190,7 +199,8 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Error saving subjects: ' + error
+                        text: 'Error saving subjects: ' + error,
+                        customClass: { container: 'swal-above-subjects-modal' }
                     });
                 }
             });
